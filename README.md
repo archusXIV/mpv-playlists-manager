@@ -10,6 +10,15 @@ we choose webm links, ffmpeg will convert them in mp3/320kbps.
 
 I'm open to requests and contributions, have fun.
 
+# dependencies
+
+ffmpeg
+jq
+mpv
+ranger
+youtube-dl
+yt-dlp
+
 # installation
 
 Just run the install.sh script, by default /usr/local/bin /usr/local/lib are the
