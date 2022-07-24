@@ -1,0 +1,96 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_ViewUrlInfo() {
+    # Normaly in Bash nested functions use parentheses instead of curly braces,
+    # but here it won't work because of the case statment right parentheses...
+    # They will close the block before it finishes.
+    prompt=( "[B]ack to menu," "[A]dd more audio links," "[A]dd more video links," \
+            "[D]ownload," "[P]lay," "[S]ave as," "[R]emove." "[V]iew title(s):" )
+    
+    __audio() {
+        sed -i -n \
+        'G; s/\n/&&/; /^\([ -~]*\n\).*\n\1/d; s/\n//; h; P' \
+        "$AUDIO_INFO" "$tmp_dir"/AudioTitles.txt 2>/dev/null
+        echo -e "$(sed '1d' "$AUDIO_INFO" | cat -n) \n"
+        _GetMediaTitle $(sed '1d' "$AUDIO_INFO") | cat -n
+        echo ""
+        unset {prompt[2],prompt[7]}
+        echo ${green} "${prompt[*]}" ${nocolor}
+        read -rsn 1 opt
+        case "$opt" in
+            a|A)    echo ""; _CopyAudio ;;
+            d|D)    _GetAudio ;;
+            b|B)    _Menu ;;
+            p|P)    _CheckCode -a && _LoadAudio -a ;;
+            r|R)    _Remove -a ;;
+            s|S)    _Save -a ;;
+        esac
+    }
+    
+    __video() {
+        sed -i -n \
+        'G; s/\n/&&/; /^\([ -~]*\n\).*\n\1/d; s/\n//; h; P' \
+        "$VIDEO_INFO" "$tmp_dir"/VideoTitles.txt 2>/dev/null
+        echo -e "$(sed '1d' "$VIDEO_INFO" | cat -n) \n"
+        _GetMediaTitle $(sed '1d' "$VIDEO_INFO") | cat -n
+        echo ""
+        unset {prompt[1],prompt[7]}
+        echo ${green} "${prompt[*]}" ${nocolor}
+        read -rsn 1 opt
+        case "$opt" in
+            a|A)    echo ""; _CopyVideo ;;
+            d|D)    _GetVideo ;;
+            b|B)    _Menu ;;
+            p|P)    _GetQualityCodes -v &
+                    _CheckCode -v && _LoadVideo ;;
+            r|R)    _Remove -v ;;
+            s|S)    _Save -v ;;
+        esac
+    }
+    
+    __queue() {
+        if (( $(grep -c '^https' "$QUEUE") > 0 )); then
+            echo " ${green}order |  Default playlist link(s)${nocolor}"
+            echo -e " ${green}______________________________________________________${nocolor}\n"
+            sed '1d' "$QUEUE" | cat -n
+            echo ""
+            unset {prompt[1],prompt[2]}
+            echo ${green} "${prompt[*]}" ${nocolor}
+            read -rsn 1 opt
+            case "$opt" in
+                b|B)    _Menu ;;
+                d|D)    echo ""; read -rsn 1 -p ${green}' Download [A]udio, [V]ideo:'${nocolor} get
+                        case "$get" in
+                            a|A)    _GetAudio ;;
+                            v|V)    _GetVideo ;;
+                        esac ;;
+                p|P)    echo ""; _GetQualityCodes -q &
+                        _CheckCode -q 
+                        _LoadVideo ;;
+                r|R)    _Remove -q ;;
+                s|S)    _Save -q ;;
+                v|V)    echo ""
+                        mapfile -t TITLE < <(grep '^https' "$QUEUE")
+                        for url in "${TITLE[@]}"; do
+                            _GetMediaTitle "$url" \
+                            | cat -n \
+                            | sed 's/[[:digit:]]//'
+                        done
+                        echo ""
+                        read -rsn 1 -p ${green}' Press any key for main menu.'${nocolor} menu
+                        case "$menu" in *) clear; _Menu ;; esac ;;
+            esac
+        else
+            echo " ${red}There is nothing to do, Default playlist is empty...${nocolor}"
+            sleep 3
+        fi
+    }
+    
+    case "$1" in
+        -a) __audio ;;
+        -v) __video ;;
+        -q) __queue ;;
+    esac
+}
+

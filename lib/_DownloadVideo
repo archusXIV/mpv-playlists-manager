@@ -1,0 +1,47 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_DownloadVideo() {
+    
+    cd "$videos_dir"
+    clear
+    cp -f "$list" "$list"_origin
+    _CheckCode -l
+    
+    for url in $(grep -e 'https' "$list"); do
+    
+        if (( $(grep "" -c "$list") < 3 )); then
+            echo ""
+            echo " ${green}There is $(_GetLinesList) video file left to download.${nocolor}"
+        else
+            echo ""
+            echo " ${green}There are $(_GetLinesList) video files left to download.${nocolor}"
+        fi
+        
+        youtube-dl -F "$url" | sed '/^sb/d'
+        echo ""
+        echo -e " ${green}Choose a format code. \n eg: 137+251 for merging, hls-1080p, 22 for single:${nocolor}"
+        read -r code
+        sleep 0.5
+        clear
+        
+        if [[ "$code" =~ '+' ]]; then
+            echo " ${green}Please be patient while downloading and merging formats for:"
+            echo " ${red}$(_GetMediaTitle $url).${nocolor}"
+            youtube-dl -f "$code" --merge-output-format mp4 --progress "$url"
+        else
+            echo " ${green}Please be patient while downloading:"
+            echo " ${red}$(_GetMediaTitle $url).${nocolor}"
+            youtube-dl -f "$code" --progress "$url"
+        fi
+        
+        sed -i '2d' "$list"
+        clear
+    
+    done
+    
+    echo " ${green}All done${nocolor}"
+    sleep 2
+    _DownloadCompleted
+
+}

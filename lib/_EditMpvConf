@@ -1,0 +1,13 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_EditMpvConf() {
+
+    $EDITOR "$XDG_CONFIG_HOME"/mpv/mpv.conf
+    echo " ${green}mpv.conf saved.${nocolor}"
+    sleep 2
+    clear
+    _Menu
+
+}
+

@@ -1,0 +1,77 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_LoadPlaylist() {
+
+    prompt=( "[B]ack to main menu," \
+             "Load [D]efault," \
+             "(down)Load [F]rom collection:" )
+             
+    if (( $(grep -c '^https' "$QUEUE") > 0 )); then    
+        echo ${green} "${prompt[@]}" ${nocolor}
+        echo ""
+    else
+        unset prompt[1]
+        echo ${green} "${prompt[*]}" ${nocolor}
+        echo ""
+    fi
+    
+    read -rsn 1 choice
+    case "$choice" in
+        b|B)    _Menu
+        ;;
+        d|D)    read -rsn 1 -p ${green}' [A]udio only, [V]ideo?:'${nocolor} load
+                clear
+                case "$load" in
+                    a|A)    _LoadAudio -q ;;
+                    v|V)    _GetQualityCodes -q &
+                            _CheckCode -q
+                            _LoadVideo ;;
+                esac
+        ;;
+        f|F)    echo ""
+                echo -e " ${green}Select a playlist to load (Press 'q' to quit mpv):\n${nocolor}"
+                PS3=" "
+                select list in $(find "$playlists_dir" -name "*.m3u" -o -name "*_origin" \
+                    | sort -d | sed 's,.*/,,'); do
+                    list="$playlists_dir"/"$list"
+                    if ! grep -q -e '^https' "$list"; then
+                        echo " ${red}$list is empty...${nocolor}"
+                        sleep 3
+                        break
+                    fi
+                    
+                    mapfile -t MEDIATITLE < <(grep '^https' "$list")
+                    
+                    echo -e " ${green}Getting videos titles...please wait.${nocolor}\n"
+                    for line in "${MEDIATITLE[@]}"; {
+                        _GetMediaTitle $line \
+                        | cat -n \
+                        | sed 's/[[:digit:]]//'
+                    }
+                    
+                    echo ""
+                    echo " ${green}[L]oad from site, [A]udio download or [V]ideo download"
+                    echo " (Press '^C' to quit youtube-dl):${nocolor}"
+                    read -rsn 1 letter
+                    case "$letter" in
+                        a|A)    _DownloadAudio ;;
+                        l|L)    echo ""
+                                read -rsn 1 -p ${green}' [A]udio only, [V]ideo?:'${nocolor} load
+                                clear
+                                case "$load" in
+                                    a|A)    _CheckCode -l
+                                            _LoadAudio -l ;;
+                                    v|V)    _GetQualityCodes -l &
+                                            _CheckCode -l
+                                            _LoadVideo ;;
+                                esac
+                                break ;;
+                        v|V)    _DownloadVideo ;;
+                    esac
+                done
+        ;;
+    esac
+
+}
+

@@ -1,0 +1,50 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_CopyVideo() {
+
+    while (( $(grep "" -c "$QUEUE") > 0 )); do
+        echo "### VIDEO(S) LINK(s) ###" >> "$VIDEO_INFO"
+        if [[ -f $AUDIO_INFO ]]; then
+            echo -e " ${red}Audio links have been added earlier...${nocolor}\n"
+        fi
+        echo ""
+        echo -e " Paste an url to fill the ${green}video${nocolor} playlist:\n"
+        read -r url
+        echo "$url" | tee -a "$QUEUE" >> "$VIDEO_INFO"
+        
+        [[ $url =~ 'playlist?list=' ]] && _GetYoutubePlaylistUrls -v
+        
+        _RemoveCrap
+        clear
+        _ListsCount
+        
+        echo ""
+        echo -e "                                          ${red}::video options::${nocolor}"
+        echo -e "                    ┌────────────────────────────────────────────────────────────┐"
+        echo -e "                    │     1) Add more video links      4) Play current list      │"
+        echo -e "                    │     2) Download current list     5) View current list      │"
+        echo -e "                    │     3) Save playlist as          6) Back to main menu      │"
+        echo -e "                    └────────────────────────────────────────────────────────────┘"
+        echo -e "                                          ${green}Select an item${nocolor}"
+        echo ""
+        read -rsn 1 options
+        case "$options" in
+            1)  continue
+                echo "" ;;
+            2)  _GetVideo
+                break
+                echo "" ;;
+            3)  _Save -v
+                echo "" ;;
+            4)  _GetQualityCodes -v &
+                _CheckCode -v && _LoadVideo
+                echo "" ;;
+            5)  _ViewUrlInfo -v
+                echo "" ;;
+            6)  _Menu
+                echo "" ;;
+        esac
+    done
+}
+

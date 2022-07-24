@@ -1,0 +1,34 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_DownloadCompleted() {
+    cd "$main_dir"
+    
+    if [[ -n $(find . -name "*.part") ]]; then
+        echo -e " Incomplete files in audio/video dir:\n${nocolor}"
+        find . -name "*.part" | sort -d | sed 's,.*/,,' | cat -n
+        echo ""
+        echo " ${green}Keep them in if you want to resume downloads,"
+        echo " by using '.m3u_origin' files in section: 4) Load a playlist,"
+        echo -e " in this session or later.${nocolor}\n"
+        sleep 15
+        return 0
+    else
+        echo -e " ${green}Downloads are completed, do you want to delete\n $list? [N/y]: ${nocolor}"
+        read -rsn 1 REPLY
+        case "$REPLY" in
+            N|n)    mv --force "$list"_origin "$list" && _Menu ;;
+            y|Y)    if [[ -f "$QUEUE"_origin ]]; then
+                        rm -f {"$QUEUE"_origin,"$tmp_dir"/*.txt} 2>/dev/null
+                        # _Menu
+                        return 0
+                    else
+                        rm {"$list","$list"_origin,"$tmp_dir"/*.txt} 2>/dev/null
+                        # _Menu
+                        return 0
+                    fi ;;
+        esac
+    fi
+
+}
+

@@ -1,0 +1,27 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_EditPlaylist() {
+
+    cd "$playlists_dir"
+    
+    PS3=${green}' Choose a playlist to edit: '${nocolor}
+    
+    select list in $(find . -name "*.m3u" -o -name "*.m3u_origin" \
+        | sort -d | sed 's,.*/,,'); do
+        echo ""
+        $EDITOR "$list"
+        echo -e " ${green}$list saved${nocolor}\n"
+        sleep 2
+        read -rsn 1 -p ${green}' [C]ontinue editing, [B]ack to menu.'${nocolor} edit
+        case "$edit" in
+            c|C)    echo ""
+                    continue
+                    echo "" ;;
+            b|B)    _Menu ;;
+        esac
+        
+    done
+
+}
+

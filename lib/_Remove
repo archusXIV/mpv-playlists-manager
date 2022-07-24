@@ -1,0 +1,23 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_Remove() {
+
+    case "$1" in
+        -a) rm "$AUDIO_INFO"
+            echo ""
+            echo " ${red}Audio list removed...${nocolor}"
+            sleep 3s
+            _Menu ;;
+        -q) sed -i '/^https/d' "$QUEUE"
+            echo ""
+            echo " ${red}Default list cleared...${nocolor}"
+            sleep 3s ;;
+        -v) rm "$VIDEO_INFO"
+            echo ""
+            echo " ${red}Video list removed...${nocolor}"
+            sleep 3s
+            _Menu ;;
+    esac
+}
+

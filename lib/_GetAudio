@@ -1,0 +1,67 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_GetAudio() {
+
+    cd "$audios_dir"
+    __NestedGetAudio() (
+    
+        for url in $(grep '^https' "$AUDIO_LINKS"); do
+            echo ""
+            youtube-dl -F "$url" |  awk '/audio only/{print $0}'
+            echo ""
+            echo " ${green}Choose a format code: ${nocolor}"
+            read -r code
+            
+            clear
+            
+            if (( $(grep "" -c "$AUDIO_LINKS") < 3 )); then
+                echo ""
+                echo " ${green}There is $(grep -c '^https' "$AUDIO_LINKS") audio file left to download.${nocolor}"
+            else
+                echo ""
+                echo " ${green}There are $(grep -c '^https' "$AUDIO_LINKS") audio files left to download.${nocolor}"
+            fi
+            
+            echo " ${green}Please be patient while downloading..."
+            echo " ${red}$(_GetMediaTitle $url).${nocolor}"
+            sleep 2
+            youtube-dl -f "$code" --progress "$url"
+            sed -i '2d' "$AUDIO_LINKS"
+            clear
+        
+        done
+        
+        echo -e " ${green}Done\n${nocolor}"
+        
+        if [[ -n $(find . -iname "*.webm") ]]; then
+            echo " ${green}Please be patient while ffmpeg is working...${nocolor}"
+            find . -iname "*.webm" -exec \
+            bash -c 'FILE="$1"; \
+            ffmpeg -i "${FILE}" \
+            -vn -ab 320k -ar 48000 \
+            -y "${FILE%.webm}.mp3";' _ '{}' \; 2>"$FFOP"
+        
+            echo " ${green}Done${nocolor}"
+            sleep 2
+            rm ./*.webm
+            _GetCompleted
+        else
+            _GetCompleted
+        fi
+    )
+    
+    if [[ -f $AUDIO_INFO ]]; then
+        cp "$AUDIO_INFO" "$AUDIO_INFO"_origin
+        AUDIO_LINKS="$AUDIO_INFO"
+        _CheckCode -a
+        __NestedGetAudio
+    else
+        cp -f "$QUEUE" "$QUEUE"_origin
+        AUDIO_LINKS="$QUEUE"
+        _CheckCode -q
+        __NestedGetAudio
+    fi
+
+}
+

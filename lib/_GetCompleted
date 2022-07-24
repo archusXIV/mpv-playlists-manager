@@ -1,0 +1,28 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_GetCompleted() {
+    cd "$main_dir"
+    
+    if [[ -n $(find . -name "*.part") ]]; then
+        mv {"$AUDIO_INFO"_origin,"$VIDEO_INFO"_origin} "$playlists_dir" 2>/dev/null
+        echo " ${red}Temporary playlists have been moved in $playlists_dir."
+        echo -e " Incomplete files in audio/video dir:\n${nocolor}"
+        find . -name "*.part" | sort -d | sed 's,.*/,,' | cat -n
+        echo ""
+        echo " ${green}Keep them in if you want to resume downloads,"
+        echo " by using '.m3u_origin' files in section: 4) Load a playlist,"
+        echo " in this session or later.${nocolor}"
+        sleep 15
+        return 0
+    else
+        echo -e " ${green}Downloads completed, keep downloaded playlist? [N/y]: ${nocolor}\n"
+        read -rsn 1 REPLY
+        case "$REPLY" in
+            N|n)    rm "$tmp_dir"/{*.m3u_origin,*.txt} 2>/dev/null && return 0 ;;
+            *  )    return 0 ;;
+        esac
+    fi
+
+}
+

@@ -1,0 +1,5 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_GetMediaTitle() { youtube-dl --skip-download --get-title "$@"; }
+

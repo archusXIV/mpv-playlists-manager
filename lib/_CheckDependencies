@@ -1,0 +1,29 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_CheckDependencies() {
+    ## Checking dependencies: softwares, directories and files.
+    declare -a deps=( "ffmpeg" "jq" "mpv" "ranger" "youtube-dl" )
+    
+    for item in "${deps[@]}"; do
+        [[ -z $(command -v "$item") ]] && {
+            echo " ${red}$i isn 't installed, bye..."
+            return 127
+        }
+    done
+    
+    if [[ ! -d $main_dir ]]; then
+        mkdir --parents {"$audios_dir","$playlists_dir","$tmp_dir","$videos_dir"}
+    else
+        [[ ! -d $audios_dir ]] && mkdir "$audios_dir"
+        [[ ! -d $playlists_dir ]] && mkdir "$playlists_dir"
+        [[ ! -d $tmp_dir ]] && mkdir "$tmp_dir"
+        [[ ! -d $videos_dir ]] && mkdir "$videos_dir"
+    fi
+    
+    [[ ! -f $QUEUE ]] && echo "#EXTM3U" > "$QUEUE"
+    
+    _Menu
+
+}
+

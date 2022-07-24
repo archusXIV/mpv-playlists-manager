@@ -1,0 +1,59 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_GetVideo() {
+
+    cd "$videos_dir"
+    __NestedGetVideo() (
+    
+        for url in $(grep '^https' "$VIDEO_LINKS"); do
+            echo ""
+            youtube-dl -F "$url" | sed '/^sb/d'
+            echo ""
+            echo -e " ${green}Choose a format code. \n eg: 137+251 for merging, hls-1080p, 22 for single:${nocolor}"
+            read -r code
+            
+            clear
+            
+            if (( $(grep "" -c "$VIDEO_LINKS") < 3 )); then
+                echo ""
+                echo " ${green}There is $(grep -c '^https' "$VIDEO_LINKS") video file left to download.${nocolor}"
+            else
+                echo ""
+                echo " ${green}There are $(grep -c '^https' "$VIDEO_LINKS") video files left to download.${nocolor}"
+            fi
+            
+            if [[ "$code" =~ '+' ]]; then
+                echo " ${green}Please be patient while downloading and merging formats for:"
+                echo " ${red}$(_GetMediaTitle ${url}).${nocolor}"
+                youtube-dl -f "$code" --merge-output-format mp4 --progress "$url"
+            else
+                echo " ${green}Please be patient while downloading:"
+                echo " ${red}$(_GetMediaTitle ${url}).${nocolor}"
+                youtube-dl -f "$code" --progress "$url"
+            fi
+            sed -i '2d' "$VIDEO_LINKS"
+            clear
+        
+        done
+        
+        echo -e " ${green}Done.\n${nocolor}"
+        sleep 2
+        _GetCompleted
+    
+    )
+    
+    if [[ -f $VIDEO_INFO ]]; then
+        cp -f "$VIDEO_INFO" "$VIDEO_INFO"_origin
+        VIDEO_LINKS="$VIDEO_INFO"
+        _CheckCode -v
+        __NestedGetVideo
+    else
+        cp -f "$QUEUE" "$QUEUE"_origin
+        VIDEO_LINKS="$QUEUE"
+        _CheckCode -q
+        __NestedGetVideo
+    fi
+
+}
+

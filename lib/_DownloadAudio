@@ -1,0 +1,59 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_DownloadAudio() {
+
+    cd "$audios_dir"
+    clear
+    cp -f "$list" "$list"_origin
+    _CheckCode -l
+    
+    for url in $(grep '^https' "$list"); do
+        # We compare if the content of $list is less than 3 because:
+        # 1) we have expression #EXTM3U at the top.
+        # 2) the uniq url we've enter...if that's the case.
+        if (( $(grep "" -c "$list") < 3 )); then
+            echo ""
+            echo " ${green}There is $(_GetLinesList) audio file left to download.${nocolor}"
+        else
+            echo ""
+            echo " ${green}There are $(_GetLinesList) audio files left to download.${nocolor}"
+        fi
+        
+        echo ""
+        youtube-dl -F "$url" | sed -n '/audio only/p'
+        echo ""
+        echo " ${green}Choose a format code: ${nocolor}"
+        read -r code
+        clear
+        echo " ${green}Downloading ${red}$(_GetMediaTitle $url)...${nocolor}"
+        youtube-dl -f "$code" --progress "$url"
+        sed -i '2d' "$list"
+        clear
+        
+    done
+    
+    echo -e " ${green}Done${nocolor}\n"
+    
+    if [[ -n $(find . -iname "*.webm") ]]; then
+        
+        echo " ${green}Please be patient while ffmpeg is working...${nocolor}"
+        find . -iname "*.webm" -exec \
+        bash -c 'FILE="$1"; \
+        ffmpeg -i "${FILE}" \
+        -vn -ab 320k -ar 48000 \
+        -y "${FILE%.webm}.mp3";' _ '{}' \; 2>"$FFOP"
+        
+        echo " ${green}All done${nocolor}"
+        sleep 2
+        rm ./*.webm
+        _DownloadCompleted
+        
+    elif [[ -n $(find . -iname "*.*") ]]; then
+        echo " ${green}Please check out for none mp3 files in $playlists_dir${nocolor}"
+        sleep 5
+        _DownloadCompleted
+    fi
+
+}
+

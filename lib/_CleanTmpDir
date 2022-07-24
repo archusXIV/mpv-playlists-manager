@@ -1,0 +1,7 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+# This function is called multiple times across this program,
+# but let's ensure temporary files are removed before we exit out. 
+_CleanTmpDir() { rm -f "$tmp_dir"/* >/dev/null 2>&1; }
+

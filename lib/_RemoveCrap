@@ -1,0 +1,19 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_RemoveCrap() {
+    # After some tests it appears that a single link copied from a youtube playlist
+    # causes the download of the entire playlist.
+    # So with sed we cleanup the link to get the direct link to the desired video.
+    # Note that this behavior does not appear during a simple viewing/listening.
+    declare -a files=( "$QUEUE" "$VIDEO_INFO" "$AUDIO_INFO" )
+    
+    for i in "${files[@]}"; do
+        sed -i 's/&.*//; /^\s*$/d' "$i" 2>/dev/null
+        sed -i -n \
+        'G; s/\n/&&/; /^\([ -~]*\n\).*\n\1/d; s/\n//; h; P' \
+        "$i" 2>/dev/null
+    done
+
+}
+

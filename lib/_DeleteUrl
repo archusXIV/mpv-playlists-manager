@@ -1,0 +1,25 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_DeleteUrl() {
+
+    if (( $(grep -c '^https' "$QUEUE") == 0 )); then
+        if [[ -n $(find "$tmp_dir" -name "*.m3u") ]]; then
+            _CleanTmpDir
+            echo " ${red}All tmp lists removed.${nocolor}"
+            sleep 3
+        else
+            echo " ${red}There is nothing to do, no existing tmp lists...${nocolor}"
+            sleep 3
+            _Menu
+        fi
+    else
+        echo ""
+        sed -i '/^https/d' "$QUEUE"
+        _CleanTmpDir
+        echo " ${red}All temporary lists cleared...${nocolor}"
+        sleep 3
+        _Menu
+    fi
+}
+

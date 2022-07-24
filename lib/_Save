@@ -1,0 +1,49 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_Save() {
+
+    cd "$playlists_dir"
+    __NestedSave() {
+        echo -e " ${green}Available playlists:\n${nocolor}"
+        find . -name "*.m3u" -o -name "*.m3u_origin" \
+        | sort -d \
+        | sed 's,.*/,,;' \
+        | cat -n
+        
+        echo ""
+        echo -e " ${green}Save playlist as:\n${nocolor}"
+        read -r list
+        list="$list.m3u"
+        if [[ $(find . -name "${list}") ]]; then
+            echo -e " ${red}This playlist already exists!\n Overwrite $list? [y/N]:${nocolor}"
+            read -r overwrite
+            case "$overwrite" in
+                y|Y)    cp -f "$CURRENT" "$list"
+                        sed -i 's/^###.*/#EXTM3U/' "$list"
+                        echo " ${green}$list saved ${nocolor}"
+                        sleep 3s
+                        _Menu ;;
+                N|n)    _Menu ;;
+                *  )    _Menu ;;
+            esac
+        else
+            cp "$CURRENT" "$list"
+            sed -i 's/^###.*/#EXTM3U/' "$list"
+            echo " ${green}$list saved ${nocolor}"
+            sleep 2s
+            _Menu
+        fi
+    }
+    
+    case "$1" in
+        -a)    CURRENT="$AUDIO_INFO"
+                __NestedSave ;;
+        -q)    CURRENT="$QUEUE"
+                __NestedSave ;;
+        -v)    CURRENT="$VIDEO_INFO"
+                __NestedSave ;;
+    esac
+
+}
+

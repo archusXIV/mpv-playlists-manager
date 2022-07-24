@@ -1,0 +1,66 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_LoadLocal() {
+
+    local AUDIOS="$HOME/Music/" VIDEOS="$HOME/Videos/"
+
+    read -rsn 1 -p ${green}' Do you want to load [A]udio or [V]ideo ?: '${nocolor} choice
+    case "$choice" in
+        a|A)    echo ""
+                echo -e " ${green}What would you like to load, a directory [D] or file(s) [F] ?: ${nocolor}\n"
+                read -rsn 1 audio
+                case "$audio" in
+                    d|D)    PS3=" Select a directory to queue in mpv: "
+                            select dir in $(find "$AUDIOS" -maxdepth 1 | sed 's,.*/,,'); do
+                                if [[ $(find "$AUDIOS"/"$dir" -type d -empty) ]]; then
+                                    echo " ${red}$dir is empty. Wait and try again...${nocolor}"
+                                    sleep 3
+                                    break
+                                else
+                                    # checking for content in linked directories.
+                                    if [[ -z $(command ls "$AUDIOS"/"$dir") ]]; then
+                                        echo " ${red}This symlink points to an empty directory!"
+                                        echo " Wait and try again...${nocolor}"
+                                        sleep 3
+                                        break
+                                    fi
+                                    echo ""
+                                    mpv --no-video "$AUDIOS"/"$dir"/*
+                                    break
+                                fi
+                            done
+                            _Menu ;;
+                    f|F)    ranger "$AUDIOS"; _Menu ;;
+                esac
+        ;;
+        v|V)    echo ""
+                echo -e " ${green}What would you like to load, a directory [D] or file(s) [F] ?: ${nocolor}\n"
+                read -rsn 1 video
+                case "$video" in
+                    d|D)    PS3=" Select a directory to queue in mpv: "
+                            select dir in $(find "$VIDEOS" -maxdepth 1 | sed 's,.*/,,'); do
+                                if [[ $(find "$VIDEOS"/"$dir" -type d -empty) ]]; then
+                                    echo " ${red}$dir is empty. Wait and try again...${nocolor}"
+                                    sleep 3
+                                    break
+                                else
+                                    if [[ -z $(command ls "$VIDEOS"/"$dir") ]]; then
+                                        echo " ${red}This symlink points to an empty directory!"
+                                        echo " Wait and try again...${nocolor}"
+                                        sleep 3
+                                        break
+                                    fi
+                                    echo ""
+                                    mpv "$VIDEOS"/"$dir"/*
+                                    break
+                                fi
+                            done
+                            _Menu ;;
+                    f|F)    ranger "$VIDEOS"; _Menu ;;
+                esac
+        ;;
+    esac
+
+}
+

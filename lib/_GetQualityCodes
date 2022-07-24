@@ -1,0 +1,40 @@
+#!/bin/bash
+## This is a part of main script: mpv-menu.
+
+_GetQualityCodes() {
+    # we want to play the best quality first...
+    local M3UFILE=""
+    __NestedGetQualityCodes() (
+        mapfile -t QUALITY < <(grep '^https' "$M3UFILE")
+    
+        for line in "${QUALITY[@]}"; {
+            youtube-dl -F $line > "$YTOP"
+            if grep -q '^299' "$YTOP"; then
+                echo $line >> "$HIGHEST"
+            elif grep -q '^137' "$YTOP"; then
+                echo $line >> "$HIGH"
+            elif grep -q '^22' "$YTOP"; then
+                echo $line >> "$MEDIUM"
+            elif grep -q '^135' "$YTOP"; then
+                echo $line >> "$LOW"
+            else
+                echo $line >> "$ELSE"
+            fi
+        }
+    
+        sed -i -n \
+        'G; s/\n/&&/; /^\([ -~]*\n\).*\n\1/d; s/\n//; h; P' \
+        "$HIGHEST" "$HIGH" "$MEDIUM" "$LOW" >/dev/null 2>&1
+    )
+    
+    case "$1" in
+        -v) M3UFILE="$VIDEO_INFO"
+            __NestedGetQualityCodes ;;
+        -q) M3UFILE="$QUEUE"
+            __NestedGetQualityCodes ;;
+        -l) M3UFILE="$list"
+            __NestedGetQualityCodes ;;
+    esac
+
+}
+
