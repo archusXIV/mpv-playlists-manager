@@ -15,11 +15,12 @@ I'm open to requests and contributions, have fun.
 ffmpeg
 jq
 mpv
-ranger
+ranger (see the help  option for details)
+vim (set as the EDITOR)
 youtube-dl
 yt-dlp
 
 # installation
 
-Just run the install.sh script, by default /usr/local/bin /usr/local/lib are the
+Just run the install.sh script as root, by default /usr/local/bin /usr/local/lib are the
 respective used locations, feel free to change them.
