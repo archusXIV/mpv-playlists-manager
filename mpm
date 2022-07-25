@@ -17,7 +17,7 @@
 ##    or find a better cache parameter.
 
 ## First source our functions.
-for func in $(find "$HOME"/Documents/apps/mpm -name "_*"); do
+for func in $(find /usr/local/lib/mpm -name "_*"); do
     source "$func"
 done
 
