@@ -3,7 +3,9 @@
 
 _LoadLocal() {
 
-    local AUDIOS="$HOME/Music/" VIDEOS="$HOME/Videos/"
+    local AUDIOS VIDEOS
+    AUDIOS="$HOME/Music/"
+    VIDEOS="$HOME/Videos/"
 
     read -rsn 1 -p ${green}' Do you want to load [A]udio or [V]ideo ?: '${nocolor} choice
     case "$choice" in
