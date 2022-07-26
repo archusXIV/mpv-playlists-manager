@@ -1,6 +1,6 @@
 #!/bin/bash
 
-##    Author: Barret E (2020-21) <archus@protonmail.com>
+##    Author: Barret E (2021-22) <archus@protonmail.com>
 ##    https://github.com/archusXIV/dotfiles
 ##    Dependencies: ffmpeg, jq, mpv, ranger (optional), youtube-dl.
 ##
