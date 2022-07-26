@@ -60,7 +60,7 @@ case "$1" in -h|--help) cat << EOF
 # MPV-PLAYLISTS-MANAGER usage:
 #
 #  !!! YOU CAN CHANGE MPV-MENU'S DIRECTORIES BY EDITING THE VARIABLES IN THE SCRIPT!!!
-#  By default "$HOME"/Documents/mpv-menu/
+#  By default "$HOME"/Documents/mpv-playlists-manager/
 #
 # I) Main menu:
 #
