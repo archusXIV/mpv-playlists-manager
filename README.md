@@ -1,5 +1,12 @@
 # mpv-playlists-manager
-manage playlists for mpv
+Manage playlists for mpv from your terminal.
+```
+user@linux ~ $
+mpm --help
+```
+
+
+![This is an image](https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshot.png)
 
 This program is just a personal project, it can be written in a better way,
 in another language but the goal is simply to manage playlists that mpv can read
@@ -24,3 +31,8 @@ yt-dlp
 
 Just run the install.sh script as root, by default /usr/local/bin /usr/local/lib are the
 respective used locations, feel free to change them.
+```
+git clone https://github.com/archusXIV/mpv-playlists-manager.git
+cd mpv-playlists-manager
+sudo ./install.sh
+```
