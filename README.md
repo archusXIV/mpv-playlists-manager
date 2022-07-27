@@ -6,8 +6,6 @@ mpm --help
 ```
 
 
-
-
 This program is just a personal project, it can be written in a better way,
 in another language but the goal is simply to manage playlists that mpv can read
 either online or from local files/directories.
