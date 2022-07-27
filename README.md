@@ -6,7 +6,7 @@ mpm --help
 ```
 
 
-![This is an image](https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshot.png)
+
 
 This program is just a personal project, it can be written in a better way,
 in another language but the goal is simply to manage playlists that mpv can read
