@@ -13,7 +13,7 @@ _Menu() {
         echo -e "                    │   1) Create/Add video playlist   6) View default playlist   │"
         echo -e "                    │   2) Create/Add audio playlist   7) Clear all tmp lists     │"
         echo -e "                    │   3) Save tmp/Del collection     8) Edit a playlist         │"
-        echo -e "                    │   4) Play/Download a playlist    9) Edit mpv.conf/Usage     │"
+        echo -e "                    │   4) Play/Download a playlist    9) Edit mpv.conf           │"
         echo -e "                    │   5) Load local dir/files        X) Exit                    │"
         echo -e "                    └─────────────────────────────────────────────────────────────┘"
         echo -e "                                           ${green}Select an item${nocolor}"
