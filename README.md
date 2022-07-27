@@ -5,6 +5,8 @@ user@linux ~ $
 mpm --help
 ```
 
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm.png)
+
 
 This program is just a personal project, it can be written in a better way,
 in another language but the goal is simply to manage playlists that mpv can read
