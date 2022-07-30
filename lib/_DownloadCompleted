@@ -1,5 +1,5 @@
 #!/bin/bash
-## This is a part of main script: mpv-menu.
+## This is a part of main script: mpm.
 
 _DownloadCompleted() {
     cd "$main_dir"
@@ -31,4 +31,3 @@ _DownloadCompleted() {
     fi
 
 }
-
