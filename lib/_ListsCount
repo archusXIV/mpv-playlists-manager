@@ -1,4 +1,5 @@
 #!/bin/bash
+## This is a part of main script: mpm.
 
 _ListsCount() {
     echo ""
@@ -8,4 +9,3 @@ _ListsCount() {
     [[ -f "$VIDEO_INFO" ]] && \
         echo " ${green}Video list:   $(grep -c '^https' "$VIDEO_INFO") url(s).${nocolor}"
 }
-
