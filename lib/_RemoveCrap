@@ -1,5 +1,5 @@
 #!/bin/bash
-## This is a part of main script: mpv-menu.
+## This is a part of main script: mpm.
 
 _RemoveCrap() {
     # After some tests it appears that a single link copied from a youtube playlist
@@ -16,4 +16,3 @@ _RemoveCrap() {
     done
 
 }
-
