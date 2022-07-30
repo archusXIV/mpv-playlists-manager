@@ -1,5 +1,5 @@
 #!/bin/bash
-## This is a part of main script: mpv-menu.
+## This is a part of main script: mpm.
 
 _ViewUrlInfo() {
     # Normaly in Bash nested functions use parentheses instead of curly braces,
@@ -93,4 +93,3 @@ _ViewUrlInfo() {
         -q) __queue ;;
     esac
 }
-
