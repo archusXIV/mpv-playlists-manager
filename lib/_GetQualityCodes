@@ -24,7 +24,7 @@ _GetQualityCodes() {
     
         sed -i -n \
         'G; s/\n/&&/; /^\([ -~]*\n\).*\n\1/d; s/\n//; h; P' \
-        "$HIGHEST" "$HIGH" "$MEDIUM" "$LOW" >/dev/null 2>&1
+        "$HIGHEST" "$HIGH" "$MEDIUM" "$LOW" "$ELSE" >/dev/null 2>&1
     )
     
     case "$1" in
