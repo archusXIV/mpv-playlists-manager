@@ -12,7 +12,7 @@ _LoadVideo() {
     [[ -f $HIGHEST ]] && mpv --ytdl-format=299+251 "$HIGHEST"
     [[ -f $HIGH ]] && mpv --ytdl-format=137+251 "$HIGH"
     [[ -f $MEDIUM ]] && mpv --ytdl-format=22 "$MEDIUM"
-    [[ -f $LOW ]] && mpv "$LOW"
+    [[ -f $LOW ]] && mpv --ytdl-format=135+251 "$LOW"
     [[ -f $ELSE ]] && mpv "$ELSE"
     
     [[ -f "$VIDEO_INFO" ]] && {
