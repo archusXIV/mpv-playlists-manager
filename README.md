@@ -1,5 +1,6 @@
 # mpv-playlists-manager
 Manage playlists for mpv from your terminal.
+Video link: https://www.youtube.com/watch?v=7OWO1vRL77A
 ```
 user@linux ~ $
 mpm --help
