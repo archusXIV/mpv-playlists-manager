@@ -8,40 +8,66 @@ _DownloadVideo() {
     cp -f "$list" "$list"_origin
     _CheckCode -l
     
-    for url in $(grep -e 'https' "$list"); do
+    echo " ${green}Tip: direct download will always pick the best format,"
+    echo -e " on Youtube webm may be the best one but we'll merge files in mp4.\n"
+    echo -e " Choose [S]pecific codes or [D]irect download?:\n${nocolor}"
+    read -rsn 1 choice
     
-        if (( $(grep "" -c "$list") < 3 )); then
-            echo ""
-            echo " ${green}There is $(_GetLinesList) video file left to download.${nocolor}"
-        else
-            echo ""
-            echo " ${green}There are $(_GetLinesList) video files left to download.${nocolor}"
-        fi
-        
-        youtube-dl -F "$url" | sed '/^sb/d'
-        echo ""
-        echo -e " ${green}Choose a format code. \n eg: 137+251 for merging, hls-1080p, 22 for single:${nocolor}"
-        read -r code
-        sleep 0.5
-        clear
-        
-        if [[ "$code" =~ '+' ]]; then
-            echo " ${green}Please be patient while downloading and merging formats for:"
-            echo " ${red}$(_GetMediaTitle $url).${nocolor}"
-            youtube-dl -f "$code" --merge-output-format mp4 --progress "$url"
-        else
-            echo " ${green}Please be patient while downloading:"
-            echo " ${red}$(_GetMediaTitle $url).${nocolor}"
-            youtube-dl -f "$code" --progress "$url"
-        fi
-        
-        sed -i '2d' "$list"
-        clear
+    case "$choice" in
+        d|D)    mapfile -t < <(cat "$list" | sed '1d')
+
+                for line in "${MAPFILE[@]}"; do
+                    if [[ $line =~ 'youtube.com' ]]; then
+                        youtube-dl --merge-output-format mp4 "$line"
+                        sed -i '2d' "$list"
+                        clear
+                    else
+                        youtube-dl "$line"
+                        sed -i '2d' "$list"
+                        clear
+                    fi
+                done
+                
+                echo " ${green}All done${nocolor}"
+                sleep 2
+                _DownloadCompleted
+        ;;
+        s|S)    for url in $(grep -e 'https' "$list"); do
     
-    done
+                    if (( $(grep "" -c "$list") < 3 )); then
+                        echo ""
+                        echo " ${green}There is $(_GetLinesList) video file left to download.${nocolor}"
+                    else
+                        echo ""
+                        echo " ${green}There are $(_GetLinesList) video files left to download.${nocolor}"
+                    fi
+        
+                    youtube-dl -F "$url" | sed '/^sb/d'
+                    echo ""
+                    echo -e " ${green}Choose a format code. \n eg: 137+251 for merging, hls-1080p, 22 for single:${nocolor}"
+                    read -r code
+                    sleep 0.5
+                    clear
+                    
+                    if [[ "$code" =~ '+' ]]; then
+                        echo " ${green}Please be patient while downloading and merging formats for:"
+                        echo " ${red}$(_GetMediaTitle $url).${nocolor}"
+                        youtube-dl -f "$code" --merge-output-format mp4 --progress "$url"
+                    else
+                        echo " ${green}Please be patient while downloading:"
+                        echo " ${red}$(_GetMediaTitle $url).${nocolor}"
+                        youtube-dl -f "$code" --progress "$url"
+                    fi
+                    
+                    sed -i '2d' "$list"
+                    clear
     
-    echo " ${green}All done${nocolor}"
-    sleep 2
-    _DownloadCompleted
+                done
+    
+                echo " ${green}All done${nocolor}"
+                sleep 2
+                _DownloadCompleted
+        ;;
+    esac
 
 }
