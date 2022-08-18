@@ -7,7 +7,7 @@ _DownloadVideo() {
     clear
     cp -f "$list" "$list"_origin
     _CheckCode -l
-    
+    echo ""
     echo " ${green}Tip: direct download will always pick the best format,"
     echo -e " on Youtube webm may be the best one but we'll merge files in mp4.\n"
     echo -e " Choose [S]pecific codes or [D]irect download?:\n${nocolor}"
