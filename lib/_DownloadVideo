@@ -14,7 +14,7 @@ _DownloadVideo() {
     read -rsn 1 choice
     
     case "$choice" in
-        d|D)    mapfile -t < <(cat "$list" | sed '1d')
+        d|D)    mapfile -t < <(grep -v '#EXTM3U' "$list")
 
                 for line in "${MAPFILE[@]}"; do
                     if [[ $line =~ 'youtube.com' ]]; then
