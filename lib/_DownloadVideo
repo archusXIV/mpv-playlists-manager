@@ -2,7 +2,7 @@
 ## This is a part of main script: mpm.
 
 _DownloadVideo() {
-    
+
     cd "$videos_dir"
     clear
     cp -f "$list" "$list"_origin
@@ -12,9 +12,9 @@ _DownloadVideo() {
     echo -e " on Youtube webm may be the best one but we'll merge files in mp4.\n"
     echo -e " Choose [S]pecific codes or [D]irect download?:\n${nocolor}"
     read -rsn 1 choice
-    
+
     case "$choice" in
-        d|D)    mapfile -t < <(grep -v '#EXTM3U' "$list")
+        d|D)    mapfile -t < <(grep '^https' "$list")
 
                 for line in "${MAPFILE[@]}"; do
                     if [[ $line =~ 'youtube.com' ]]; then
@@ -27,13 +27,13 @@ _DownloadVideo() {
                         clear
                     fi
                 done
-                
+
                 echo " ${green}All done${nocolor}"
                 sleep 2
                 _DownloadCompleted
         ;;
         s|S)    for url in $(grep -e 'https' "$list"); do
-    
+
                     if (( $(grep "" -c "$list") < 3 )); then
                         echo ""
                         echo " ${green}There is $(_GetLinesList) video file left to download.${nocolor}"
@@ -41,14 +41,14 @@ _DownloadVideo() {
                         echo ""
                         echo " ${green}There are $(_GetLinesList) video files left to download.${nocolor}"
                     fi
-        
+
                     youtube-dl -F "$url" | sed '/^sb/d'
                     echo ""
                     echo -e " ${green}Choose a format code. \n eg: 137+251 for merging, hls-1080p, 22 for single:${nocolor}"
                     read -r code
                     sleep 0.5
                     clear
-                    
+
                     if [[ "$code" =~ '+' ]]; then
                         echo " ${green}Please be patient while downloading and merging formats for:"
                         echo " ${red}$(_GetMediaTitle $url).${nocolor}"
@@ -58,12 +58,12 @@ _DownloadVideo() {
                         echo " ${red}$(_GetMediaTitle $url).${nocolor}"
                         youtube-dl -f "$code" --progress "$url"
                     fi
-                    
+
                     sed -i '2d' "$list"
                     clear
-    
+
                 done
-    
+
                 echo " ${green}All done${nocolor}"
                 sleep 2
                 _DownloadCompleted
