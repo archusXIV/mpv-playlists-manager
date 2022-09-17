@@ -1,0 +1,41 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_ConvertAudio() {
+    cd "$audios_dir"
+    
+    read -rn1 -p ${green}' Select an output format [1 = mp3] [2 = flac] [3 = wav] [4 = ogg]: '${nocolor} conv
+    echo ""
+    case "$conv" in
+        1)  echo " ${green}Converting downloaded files in mp3...${nocolor}"
+            find . -iname "*.webm" -exec \
+            bash -c 'FILE="$1"; \
+            ffmpeg -i "${FILE}" \
+            -vn -ab 320k -ar 48000 \
+            -y "${FILE%.webm}.mp3";' _ '{}' \; 2>"$FFOP"  ;;
+        2)  echo " ${green}Converting downloaded files in flac...${nocolor}"
+            find . -iname "*.webm" -exec \
+            bash -c 'FILE="$1"; \
+            ffmpeg -i "${FILE}" \
+            -af aformat=s32:48000 \
+            -y "${FILE%.webm}.flac";' _ '{}' \; 2>"$FFOP" ;;
+        3)  echo " ${green}Converting downloaded files in wav...${nocolor}"
+            find . -iname "*.webm" -exec \
+            bash -c 'FILE="$1"; \
+            ffmpeg -i "${FILE}" \
+            -acodec pcm_s32le -ar 48000 \
+            -y "${FILE%.webm}.wav";' _ '{}' \; 2>"$FFOP" ;;
+        4)  echo " ${green}Converting downloaded files in ogg...${nocolor}"
+            find . -iname "*.webm" -exec \
+            bash -c 'FILE="$1"; \
+            ffmpeg -i "${FILE}" \
+            -acodec libvorbis -ar 48000 -ab 320k \
+            -y "${FILE%.webm}.ogg";' _ '{}' \; 2>"$FFOP" ;;
+        *) echo " ${red}UNKNOWN FORMAT !!! Try again.${color_off}"
+            sleep 3s
+            clear
+            _Menu
+        ;;
+    esac
+    
+}
