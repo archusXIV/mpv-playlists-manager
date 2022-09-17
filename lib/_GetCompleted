@@ -14,13 +14,21 @@ _GetCompleted() {
         echo " by using '.m3u_origin' files in section: 4) Load a playlist,"
         echo " in this session or later.${nocolor}"
         sleep 15
-        return 0
+        _Menu
     else
-        echo -e " ${green}Downloads completed, keep downloaded playlist? [N/y]: ${nocolor}\n"
-        read -rsn 1 REPLY
-        case "$REPLY" in
-            N|n)    rm "$tmp_dir"/{*.m3u_origin,*.txt} 2>/dev/null && return 0 ;;
-            *  )    return 0 ;;
+        echo -e " ${green}Downloads completed, KEEP downloaded playlist? [N/y]: ${nocolor}\n"
+        read -rsn 1 keep
+        case "$keep" in
+            N|n)    rm "$AUDIO_INFO" "$VIDEO_INFO" "$tmp_dir"/{*.m3u_origin,*.txt} 2>/dev/null
+                    [[ -f "$QUEUE"_origin ]] && {
+                        _Remove -q
+                        rm "$QUEUE"_origin
+                    }
+                    _Menu ;;
+            *  )    cp -f "$AUDIO_INFO"_origin "$AUDIO_INFO" 2>/dev/null
+                    cp -f "$VIDEO_INFO"_origin "$VIDEO_INFO" 2>/dev/null
+                    rm "$tmp_dir"/{*.m3u_origin,*.txt} 2>/dev/null
+                    _Menu ;;
         esac
     fi
 
