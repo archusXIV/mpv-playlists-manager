@@ -2,10 +2,11 @@
 ## This is a part of main script: mpm.
 
 _DownloadAudio() {
-
+    
     cd "$audios_dir"
     clear
-    cp -f "$list" "$list"_origin
+    cp -f "$list" "$list"_origin 2>/dev/null
+    
     _CheckCode -l
     
     for url in $(grep '^https' "$list"); do
@@ -21,6 +22,7 @@ _DownloadAudio() {
         fi
         
         echo ""
+        echo -e " ${green}Codes for: $(_GetMediaTitle $url).${nocolor}\n"
         youtube-dl -F "$url" | sed -n '/audio only/p'
         echo ""
         echo " ${green}Choose a format code: ${nocolor}"
@@ -36,24 +38,22 @@ _DownloadAudio() {
     echo -e " ${green}Done${nocolor}\n"
     
     if [[ -n $(find . -iname "*.webm") ]]; then
+        echo -e " ${red}Advisory: IF YOU CHOOSE CONVERSION, ALL FILES WILL BE IN THE CHOSEN FORMAT.${nocolor}\n"
+        find . -iname "*.webm" | sed 's,.*/,,'
+        echo ""
+        echo -e " ${green}Do you wish to convert them? [Y/n]: ${nocolor}\n"
+        read -rsn 1 answer
         
-        echo " ${green}Please be patient while ffmpeg is working...${nocolor}"
-        find . -iname "*.webm" -exec \
-        bash -c 'FILE="$1"; \
-        ffmpeg -i "${FILE}" \
-        -vn -ab 320k -ar 48000 \
-        -y "${FILE%.webm}.mp3";' _ '{}' \; 2>"$FFOP"
+        case "$answer" in
+            Y|y)    _ConvertAudio && rm ./*.webm ;;
+            n|N)    _DownloadCompleted ;;
+        esac
         
-        echo " ${green}All done${nocolor}"
+        echo " ${green}Conversion done.${nocolor}"
         sleep 2
-        rm ./*.webm
         _DownloadCompleted
-        
-    elif [[ -n $(find . -iname "*.*") ]]; then
-        echo " ${green}Please check out for none mp3 files in $playlists_dir${nocolor}"
-        sleep 5
+    else
         _DownloadCompleted
     fi
 
 }
-
