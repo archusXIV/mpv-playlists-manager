@@ -14,7 +14,8 @@ in another language but the goal is simply to manage playlists that mpv can read
 either online or from local files/directories.
 
 youtube-dl/yp-dlp is used to download videos or just audio and in that case if
-we choose webm links, ffmpeg will convert them in mp3/320kbps.
+we choose webm links, ffmpeg will convert them in four different formats,
+mp3, flac, ogg, or wav.
 
 I'm open to requests and contributions, have fun.
 
