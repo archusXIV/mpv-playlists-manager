@@ -5,7 +5,8 @@ _DownloadVideo() {
 
     cd "$videos_dir"
     clear
-    cp -f "$list" "$list"_origin
+    cp -f "$list" "$list"_origin 2>/dev/null
+    
     _CheckCode -l
     echo ""
     echo " ${green}Tip: direct download will always pick the best format,"
@@ -24,7 +25,6 @@ _DownloadVideo() {
                         youtube-dl "$line"
                         clear
                     fi
-                    sed -i '2d' "$list"
                 done
 
                 echo " ${green}All done${nocolor}"
@@ -40,8 +40,17 @@ _DownloadVideo() {
                         echo ""
                         echo " ${green}There are $(_GetLinesList) video files left to download.${nocolor}"
                     fi
-
-                    youtube-dl -F "$url" | sed '/^sb/d'
+                    
+                    echo ""
+                    echo -e " ${green}Codes for: $(_GetMediaTitle $url).${nocolor}\n"
+                    
+                    if [[ "$url" =~ 'youtube.com' ]]; then
+                        youtube-dl -F "$url" | sed '1,5d;8,10d'
+                    else
+                        youtube-dl -F "$url"
+                    fi
+                    
+                    # perl -i -ne 'print if $. == 1..8 <filename>
                     echo ""
                     echo -e " ${green}Choose a format code. \n eg: 137+251 for merging, hls-1080p, 22 for single:${nocolor}"
                     read -r code
