@@ -4,11 +4,19 @@
 _GetVideo() {
 
     cd "$videos_dir"
+    
     __NestedGetVideo() (
     
         for url in $(grep '^https' "$VIDEO_LINKS"); do
             echo ""
-            youtube-dl -F "$url" | sed '/^sb/d'
+            echo -e " ${green}Codes for: $(_GetMediaTitle $url).${nocolor}\n"
+            
+            if [[ "$url" =~ 'youtube.com' ]]; then
+                youtube-dl -F "$url" | sed '1,5d;8,10d'
+            else
+                youtube-dl -F "$url"
+            fi
+            
             echo ""
             echo -e " ${green}Choose a format code. \n eg: 137+251 for merging, hls-1080p, 22 for single:${nocolor}"
             read -r code
