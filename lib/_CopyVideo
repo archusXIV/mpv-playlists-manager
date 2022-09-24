@@ -3,16 +3,16 @@
 
 _CopyVideo() {
 
+    local VideoClip=$(xclip -out -selection clipboard)
     touch "$tmp_dir"/blank
     
     while (( $(grep "" -c "$QUEUE") > 0 )); do
         echo "### VIDEO(S) LINK(s) ###" >> "$VIDEO_INFO"
-        url=$(xclip -out -selection clipboard)
-        echo "$url" | tee -a "$QUEUE" >> "$VIDEO_INFO"
+        echo "$VideoClip" | tee -a "$QUEUE" >> "$VIDEO_INFO"
+        
+        [[ $VideoClip =~ 'playlist?list=' ]] && _GetYoutubePlaylistUrls -v
         
         xclip -selection clipboard "$tmp_dir"/blank
-        
-        [[ $url =~ 'playlist?list=' ]] && _GetYoutubePlaylistUrls -v
         
         _RemoveCrap
         clear
