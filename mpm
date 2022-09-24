@@ -85,7 +85,7 @@ case "$1" in -h|--help) cat << EOF
 #
 #    2) Create/Add audio playlist:
 #       Same as above but for audio only, for example after downloading, ffmpeg will
-#       convert all .webm files into .mp3/320kbps.
+#       convert all .webm files into mp3, flac, ogg or wav.
 #   
 #    3) Save default/Del collection:
 #       Here we can save the default playlist as a new one wich contains all temporary links
