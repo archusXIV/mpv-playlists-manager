@@ -72,6 +72,9 @@ case "$1" in -h|--help) cat << EOF
 #                 │  5) Load local dir/files          X) Exit                   │
 #                 └─────────────────────────────────────────────────────────────┘
 #
+#    Important: first copy your link and then select option 1 or 2
+#    xclip is used to grab what's in the clipboard...
+#
 #    1) Create/Add video playlist:
 #       Links saved here and in audio section too are not permanent, they will be erased
 #       when closing the program... So be carefull and saved them before it's too late.
