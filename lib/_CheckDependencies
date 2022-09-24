@@ -6,7 +6,7 @@ _CheckDependencies() {
     
     for item in "${deps[@]}"; do
         [[ -z $(command -v "$item") ]] && {
-            echo " ${red}$i isn 't installed, bye..."
+            echo " ${red}$item isn 't installed, bye..."
             return 127
         }
     done
