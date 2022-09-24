@@ -8,7 +8,7 @@ _Save() {
         echo -e " ${green}Available playlists:\n${nocolor}"
         find . -name "*.m3u" -o -name "*.m3u_origin" \
         | sort -d \
-        | sed 's,.*/,,;' \
+        | sed 's,.*/,,' \
         | cat -n
         
         echo ""
