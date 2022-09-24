@@ -2,7 +2,7 @@
 ## This is a part of main script: mpm.
 _CheckDependencies() {
     ## Checking dependencies: softwares, directories and files.
-    declare -a deps=( "ffmpeg" "jq" "mpv" "ranger" "youtube-dl" )
+    declare -a deps=( "ffmpeg" "jq" "mpv" "ranger" "xclip" "youtube-dl" )
     
     for item in "${deps[@]}"; do
         [[ -z $(command -v "$item") ]] && {
