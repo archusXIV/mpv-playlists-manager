@@ -26,6 +26,7 @@ jq
 mpv
 ranger (see the help  option for details)
 vim (set as the EDITOR)
+xclip
 youtube-dl
 yt-dlp
 
