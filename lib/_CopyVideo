@@ -3,15 +3,14 @@
 
 _CopyVideo() {
 
+    touch "$tmp_dir"/blank
+    
     while (( $(grep "" -c "$QUEUE") > 0 )); do
         echo "### VIDEO(S) LINK(s) ###" >> "$VIDEO_INFO"
-        if [[ -f $AUDIO_INFO ]]; then
-            echo -e " ${red}Audio links have been added earlier...${nocolor}\n"
-        fi
-        echo ""
-        echo -e " Paste an url to fill the ${green}video${nocolor} playlist:\n"
-        read -r url
+        url=$(xclip -out -selection clipboard)
         echo "$url" | tee -a "$QUEUE" >> "$VIDEO_INFO"
+        
+        xclip -selection clipboard "$tmp_dir"/blank
         
         [[ $url =~ 'playlist?list=' ]] && _GetYoutubePlaylistUrls -v
         
@@ -47,4 +46,3 @@ _CopyVideo() {
         esac
     done
 }
-
