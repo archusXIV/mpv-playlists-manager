@@ -3,16 +3,16 @@
 
 _CopyAudio() {
 
+    local AudioClip=$(xclip -out -selection clipboard)
     touch "$tmp_dir"/blank
     
     while (( $(grep "" -c "$QUEUE") > 0 )); do
         echo "### AUDIO(S) LINK(s) ###" >> "$AUDIO_INFO"
-        url=$(xclip -out -selection clipboard)
-        echo "$url" | tee -a "$QUEUE" >> "$AUDIO_INFO"
+        echo "$AudioClip" | tee -a "$QUEUE" >> "$AUDIO_INFO"
+    
+        [[ $AudioClip =~ 'playlist?list=' ]] && _GetYoutubePlaylistUrls -a
         
         xclip -selection clipboard "$tmp_dir"/blank
-    
-        [[ $url =~ 'playlist?list=' ]] && _GetYoutubePlaylistUrls -a
         
         _RemoveCrap
         clear
