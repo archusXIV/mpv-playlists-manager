@@ -3,29 +3,30 @@
 
 _CopyVideo() {
 
-    local VideoClip=$(xclip -out -selection clipboard)
-    touch "$tmp_dir"/blank
-    
     while (( $(grep "" -c "$QUEUE") > 0 )); do
         echo "### VIDEO(S) LINK(s) ###" >> "$VIDEO_INFO"
-        echo "$VideoClip" | tee -a "$QUEUE" >> "$VIDEO_INFO"
+        if [[ -f $AUDIO_INFO ]]; then
+            echo -e " ${red}Audio links have been added earlier...${nocolor}\n"
+        fi
+        echo ""
+        echo -e " Paste an url to fill the ${green}video${nocolor} playlist:\n"
+        read -r url
+        echo "$url" | tee -a "$QUEUE" >> "$VIDEO_INFO"
         
-        [[ $VideoClip =~ 'playlist?list=' ]] && _GetYoutubePlaylistUrls -v
-        
-        xclip -selection clipboard "$tmp_dir"/blank
+        [[ $url =~ 'playlist?list=' ]] && _GetYoutubePlaylistUrls -v
         
         _RemoveCrap
         clear
         _ListsCount
         
         echo ""
-        echo -e "                                          ${red}::video options::${nocolor}"
-        echo -e "                    ┌────────────────────────────────────────────────────────────┐"
-        echo -e "                    │     1) Add more video links      4) Play current list      │"
-        echo -e "                    │     2) Download current list     5) View current list      │"
-        echo -e "                    │     3) Save playlist as          6) Back to main menu      │"
-        echo -e "                    └────────────────────────────────────────────────────────────┘"
-        echo -e "                                          ${green}Select an item${nocolor}"
+        echo -e "                                                    ${red}::video options::${nocolor}"
+        echo -e "                              ┌────────────────────────────────────────────────────────────┐"
+        echo -e "                              │     1) Add more video links      4) Play current list      │"
+        echo -e "                              │     2) Download current list     5) View current list      │"
+        echo -e "                              │     3) Save playlist as          6) Back to main menu      │"
+        echo -e "                              └────────────────────────────────────────────────────────────┘"
+        echo -e "                                                    ${green}Select an item${nocolor}"
         echo ""
         read -rsn 1 options
         case "$options" in
