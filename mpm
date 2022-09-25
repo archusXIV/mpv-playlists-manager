@@ -61,7 +61,7 @@ case "$1" in -h|--help) cat << EOF
 #
 #  !!! YOU CAN CHANGE MPM'S DIRECTORIES BY EDITING THE VARIABLES IN THE SCRIPT!!!
 #  By default "$HOME"/Documents/mpv-playlists-manager/
-#  Dependencies: ffmpeg, jq, mpv, ranger (optional), xclip, youtube-dl, yt-dlp (for better results).
+#  Dependencies: ffmpeg, jq, mpv, ranger (optional), youtube-dl, yt-dlp (for better results).
 #
 # I) Main menu:
 #
@@ -73,8 +73,6 @@ case "$1" in -h|--help) cat << EOF
 #                 │  5) Load local dir/files          X) Exit                   │
 #                 └─────────────────────────────────────────────────────────────┘
 #
-#    Important: first copy your link and then select option 1 or 2
-#    xclip is used to grab what's in the clipboard...
 #
 #    1) Create/Add video playlist:
 #       Links saved here and in audio section too are not permanent, they will be erased
