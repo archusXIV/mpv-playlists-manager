@@ -38,4 +38,5 @@ git clone https://github.com/archusXIV/mpv-playlists-manager.git
 cd mpv-playlists-manager
 chmod +x install.sh
 sudo ./install.sh
+Re-run the install script to uninstall.
 ```
