@@ -10,9 +10,6 @@ _RemoveCrap() {
     
     for i in "${files[@]}"; do
         sed -i 's/&.*//; /^\s*$/d' "$i" 2>/dev/null
-        sed -i \
-        '/https\|#EXTM3U\|### AUDIO(S) LINK(s) ###\|### VIDEO(S) LINK(s) ###/!d' \
-        "$i" 2>/dev/null
         sed -i -n \
         'G; s/\n/&&/; /^\([ -~]*\n\).*\n\1/d; s/\n//; h; P' \
         "$i" 2>/dev/null
