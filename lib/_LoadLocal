@@ -6,7 +6,10 @@ _LoadLocal() {
     local AUDIOS VIDEOS
     AUDIOS="$HOME/Music/"
     VIDEOS="$HOME/Videos/"
-
+    # for french env
+    # AUDIOS="$HOME/Musique/"
+    # VIDEOS="$HOME/Vidéos/"
+    
     read -rsn 1 -p ${green}' Do you want to load [A]udio or [V]ideo ?: '${nocolor} choice
     case "$choice" in
         a|A)    echo ""
