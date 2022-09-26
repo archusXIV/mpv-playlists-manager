@@ -31,7 +31,8 @@ yt-dlp
 
 # installation
 
-Just run the install.sh script as root, by default /usr/local/bin /usr/local/lib are the
+Before installing, please check paths variables in function /lib/_LoadLoacal
+and then run the install.sh script as root, by default /usr/local/bin /usr/local/lib are the
 respective used locations, feel free to change them.
 ```
 git clone https://github.com/archusXIV/mpv-playlists-manager.git
