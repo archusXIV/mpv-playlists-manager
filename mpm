@@ -55,7 +55,7 @@ MEDIUM="$tmp_dir/quality_medium.m3u"
 LOW="$tmp_dir/quality_low.m3u"
 ELSE="$tmp_dir/else.m3u"
 
-case "$1" in -h|--help) cat << EOF
+case "$1" in -h|--help) cat | less << EOF
 
 # MPV-PLAYLISTS-MANAGER usage:
 #
@@ -116,7 +116,7 @@ case "$1" in -h|--help) cat << EOF
 #   
 #    8) Edit a playlist:
 #       Here is the place where by editing our collection we can add or remove links
-#       directly or afterward.
+#       directly or afterward. Vim is set as the EDITOR (change it if you will).
 #   
 #    9) Edit mpv.conf:
 #       we may want to edit this file for better results, quality and learning more about mpv.
