@@ -17,7 +17,7 @@ youtube-dl/yp-dlp is used to download videos or just audio and in that case if
 we choose webm links, ffmpeg will convert them in four different formats,
 mp3, flac, ogg, or wav.
 
-I'm open to requests and contributions, have fun.
+Requests and contributions are welcomed, have fun.
 
 # dependencies
 
