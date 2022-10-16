@@ -22,10 +22,13 @@ _DownloadCompleted() {
             N|n)    [[ -f "$QUEUE"_origin ]] && {
                         rm "$QUEUE"_origin
                         _Menu
-                    }
+                    } || {
                     rm "$list" "$list"_origin "$tmp_dir"/{*.m3u_origin,*.txt} 2>/dev/null
-                    _Menu ;;
-            Y|y)    mv --force "$list"_origin "$list" && _Menu ;;
+                    _Menu
+                    }
+            ;;
+            Y|y)    mv --force "$list"_origin "$list" && _Menu
+            ;;
         esac
     fi
 
