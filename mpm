@@ -38,7 +38,7 @@ green=$'\e[0;32m';
 EDITOR="vim"
 
 ## directories & files
-main_dir="$HOME/Documents/mpv--playlists-manager"
+main_dir="$HOME/Documents/mpv-playlists-manager"
 playlists_dir="$main_dir/playlists"
 audios_dir="$main_dir/audios"
 videos_dir="$main_dir/videos"
