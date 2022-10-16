@@ -95,6 +95,8 @@ case "$1" in -h|--help) cat | less << EOF
 #       If the default list is still filled with links we can stream audios or videos from it,
 #       if not the dedicated options will not appear.
 #       Now we still have the choice to play or download media links from the collection.
+#       Two downloading methods are offered here: one by choosing specidics format codes,
+#       and a direct download functionality which grabs the best format.
 #   
 #    5) Load local dir/files:
 #       The possibility of watching or listening media files from disk is done with ranger
@@ -139,8 +141,9 @@ case "$1" in -h|--help) cat | less << EOF
 #    
 #    Author: Barret E (2022) <archus@protonmail.com>
 #    https://github.com/archusXIV/mpv-playlists-manager
+#
+#    Press q to quit
 EOF
 exit ;; esac
 
 _CheckDependencies "${@}"
-
