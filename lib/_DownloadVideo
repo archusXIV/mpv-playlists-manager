@@ -15,16 +15,17 @@ _DownloadVideo() {
     read -rsn 1 choice
 
     case "$choice" in
-        d|D)    mapfile -t < <(grep -v '#EXTM3U' "$list")
-
-                for line in "${MAPFILE[@]}"; do
-                    if [[ $line =~ 'youtube.com' ]]; then
+        d|D)    mapfile -t DIRECT < <(grep -v '#EXTM3U' "$list")
+                
+                count=$(grep -v -c '#EXTM3U' "$list")
+                
+                for line in "${DIRECT[@]}"; do
+                    printf '%s\n' " ${green}Downloading $count file(s).${nocolor}"
+                    [[ $line =~ 'youtube.com' ]] && {
                         youtube-dl --merge-output-format mp4 "$line"
                         clear
-                    else
-                        youtube-dl "$line"
-                        clear
-                    fi
+                    } || youtube-dl "$line" && clear
+                    let "count--"
                 done
 
                 echo " ${green}All done${nocolor}"
@@ -45,12 +46,12 @@ _DownloadVideo() {
                     echo -e " ${green}Codes for: $(_GetMediaTitle $url).${nocolor}\n"
                     
                     if [[ "$url" =~ 'youtube.com' ]]; then
-                        youtube-dl -F "$url" | sed '1,5d;8,10d'
+                        youtube-dl -F "$url" | sed '1,5d;/^[sb]/d'
                     else
                         youtube-dl -F "$url"
                     fi
                     
-                    # perl -i -ne 'print if $. == 1..8 <filename>
+                    # awk 'NR>=2&&NR<=4;NR>=6&&NR<=9'
                     echo ""
                     echo -e " ${green}Choose a format code. \n eg: 137+251 for merging, hls-1080p, 22 for single:${nocolor}"
                     read -r code
