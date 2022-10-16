@@ -37,5 +37,8 @@ _ConvertAudio() {
             _Menu
         ;;
     esac
+    rm ./*.webm
+    echo " ${green}Conversion done.${nocolor}"
+    sleep 2
     
 }
