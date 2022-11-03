@@ -14,6 +14,7 @@ _CheckCode() {
             youtube-dl -F $(sed -n '$ p' "$M3UFILE") >"$YTOP"
             if [[ $? -eq 1 ]]; then
                 echo -e " ${red}No format code found!\n $lines removed${nocolor}"
+                echo -e " Please visit: https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md${nocolor}\n"
                 sed -i '$ d' "$M3UFILE"
                 sleep 2
                 if (( $(grep -c '^https' "$M3UFILE" ) == 0 )); then
