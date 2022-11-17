@@ -11,7 +11,7 @@ _CheckCode() {
         mapfile -t CHECKCODE < <(grep '^https' "$M3UFILE")
         for lines in "${CHECKCODE[@]}"; do
             # checking the last url we added.
-            youtube-dl -F $(sed -n '$ p' "$M3UFILE") >"$YTOP"
+            youtube-dl -F --no-warnings $(sed -n '$ p' "$M3UFILE") >"$YTOP"
             if [[ $? -eq 1 ]]; then
                 echo -e " ${red}No format code found!\n $lines removed${nocolor}"
                 echo -e " Please visit: https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md${nocolor}\n"
