@@ -22,9 +22,9 @@ _DownloadVideo() {
                 for line in "${DIRECT[@]}"; do
                     printf '%s\n' " ${green}Downloading $count file(s).${nocolor}"
                     [[ $line =~ 'youtube.com' ]] && {
-                        youtube-dl --merge-output-format mp4 "$line"
+                        youtube-dl --merge-output-format mp4 --progress "$line"
                         clear
-                    } || youtube-dl "$line" && clear
+                    } || youtube-dl --no-warnings --progress "$line" && clear
                     let "count--"
                 done
 
