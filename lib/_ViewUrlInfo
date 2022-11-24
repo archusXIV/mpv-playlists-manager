@@ -3,7 +3,7 @@
 
 _ViewUrlInfo() {
     # Normaly in Bash nested functions use parentheses instead of curly braces,
-    # but here it won't work because of the case statment right parentheses...
+    # but here it won't work because of the case statement right parentheses...
     # They will close the block before it finishes.
     prompt=( "[B]ack to menu," "[A]dd more audio links," "[A]dd more video links," \
             "[D]ownload," "[P]lay," "[S]ave as," "[R]emove." "[V]iew title(s):" )
