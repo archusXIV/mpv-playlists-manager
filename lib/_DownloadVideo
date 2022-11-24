@@ -24,7 +24,7 @@ _DownloadVideo() {
                     [[ $line =~ 'youtube.com' ]] && {
                         youtube-dl --merge-output-format mp4 --progress "$line"
                         clear
-                    } || youtube-dl --no-warnings --progress "$line" && clear
+                    } || youtube-dl --progress "$line" && clear
                     let "count--"
                 done
 
@@ -48,7 +48,7 @@ _DownloadVideo() {
                     if [[ "$url" =~ 'youtube.com' ]]; then
                         youtube-dl -F "$url" | sed '1,5d;/^[sb]/d'
                     else
-                        youtube-dl -F "$url"
+                        youtube-dl -F --no-warnings "$url"
                     fi
                     
                     # awk 'NR>=2&&NR<=4;NR>=6&&NR<=9'
