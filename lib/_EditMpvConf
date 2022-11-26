@@ -3,10 +3,19 @@
 
 _EditMpvConf() {
 
-    $EDITOR "$XDG_CONFIG_HOME"/mpv/mpv.conf
-    echo " ${green}mpv.conf saved.${nocolor}"
-    sleep 2
-    clear
-    _Menu
+    local mpvconf="$XDG_CONFIG_HOME/mpv/mpv.conf"
+    
+    if [[ -f $mpvconf ]]; then
+        $EDITOR "$mpvconf"
+        echo " ${green}mpv.conf saved.${nocolor}"
+        sleep 2
+        clear
+        _Menu
+    else
+        echo " ${red}$mpvconf doesn't exist...${nocolor}"
+        sleep 3
+        clear
+        _Menu
+    fi
 
 }
