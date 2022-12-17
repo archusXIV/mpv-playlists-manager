@@ -40,7 +40,7 @@ _GetVideo() {
                 echo " ${red}$(cat "$VIDEO_TITLE" | sed -n '1p').${nocolor}"
                 youtube-dl -f "$code" --progress "$url"
             fi
-            sed -i '1d' "$VIDEO_LINKS"; sed -i '1d' "$VIDEO_TITLE"
+            sed -i '1d' {"$VIDEO_LINKS","$VIDEO_TITLE"}
             clear
 
         done
