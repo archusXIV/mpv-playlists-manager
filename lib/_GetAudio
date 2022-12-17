@@ -4,19 +4,19 @@
 _GetAudio() {
 
     cd "$audios_dir"
-    
+
     __NestedGetAudio() {
-    
+
         for url in $(grep '^https' "$AUDIO_LINKS"); do
             echo ""
-            echo -e " ${green}Codes for: $(_GetMediaTitle $url).${nocolor}\n"
-            youtube-dl -F "$url" | sed -n '6,7p;/audio only/p'
+            echo -e " ${green}Codes for: $(cat "$AUDIO_TITLE" | sed -n '1p').${nocolor}\n"
+            youtube-dl -F "$url" | sed -n '6,7p;/audio only/p' 2>/dev/null
             echo ""
             echo " ${green}Choose a format code: ${nocolor}"
             read -r code
-            
+
             clear
-            
+
             if (( $(grep "" -c "$AUDIO_LINKS") < 3 )); then
                 echo ""
                 echo " ${green}There is $(grep -c '^https' "$AUDIO_LINKS") audio file left to download.${nocolor}"
@@ -24,18 +24,18 @@ _GetAudio() {
                 echo ""
                 echo " ${green}There are $(grep -c '^https' "$AUDIO_LINKS") audio files left to download.${nocolor}"
             fi
-            
+
             echo " ${green}Please be patient while downloading..."
-            echo " ${red}$(_GetMediaTitle $url).${nocolor}"
+            echo " ${red}$(cat "$AUDIO_TITLE" | sed -n '1p').${nocolor}"
             sleep 2
             youtube-dl -f "$code" --progress "$url"
-            sed -i '2d' "$AUDIO_LINKS"
+            sed -i '1d' "$AUDIO_LINKS"; sed -i '1d' "$AUDIO_TITLE"
             clear
-        
+
         done
-        
+
         echo -e " ${green}Done\n${nocolor}"
-        
+
         if [[ -n $(find . -iname "*.webm") ]]; then
             echo -e " ${red}Advisory: IF YOU CHOOSE CONVERSION, ALL FILES WILL BE IN THE CHOSEN FORMAT.${nocolor}\n"
             find . -iname "*.webm" | sed 's,.*/,,'
@@ -43,18 +43,15 @@ _GetAudio() {
             echo -e " ${green}Do you wish to convert them? [Y/n]: ${nocolor}\n"
             read -rsn 1 answer
             case "$answer" in
-                Y|y)    _ConvertAudio && rm ./*.webm ;;
-                n|N)    _GetCompleted ;;
+                Y|y)    _ConvertAudio ;;
+                n|N)    _GetCompleted -a ;;
             esac
-            
-            echo " ${green}Conversion done.${nocolor}"
-            sleep 2
-            _GetCompleted
+            _GetCompleted -a
         else
-            _GetCompleted
+            _GetCompleted -a
         fi
     }
-    
+
     if [[ -f $AUDIO_INFO ]]; then
         cp "$AUDIO_INFO" "$AUDIO_INFO"_origin
         AUDIO_LINKS="$AUDIO_INFO"
