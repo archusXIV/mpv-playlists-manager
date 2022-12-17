@@ -42,8 +42,8 @@ _LoadPlaylist() {
                     fi
 
                     echo -e " ${green}Getting videos titles...please wait.${nocolor}\n"
-                    _GetMediaTitle -l > "$VIDEO_TITLE"
-                    cat -n "$VIDEO_TITLE"
+                    _GetMediaTitle -l > "$tmp_dir"/download.txt
+                    cat -n "$tmp_dir"/download.txt
                     echo ""
                     echo " ${green}[L]oad from site, [A]udio download or [V]ideo download"
                     echo " (Press '^C' to quit youtube-dl):${nocolor}"
