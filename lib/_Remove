@@ -4,7 +4,7 @@
 _Remove() {
 
     case "$1" in
-        -a) rm "$AUDIO_INFO"
+        -a) rm "$AUDIO_INFO" "$AUDIO_TITLE"
             echo ""
             echo " ${red}Audio list removed...${nocolor}"
             sleep 3s
@@ -13,7 +13,7 @@ _Remove() {
             echo ""
             echo " ${red}Default list cleared...${nocolor}"
             sleep 3s ;;
-        -v) rm "$VIDEO_INFO"
+        -v) rm "$VIDEO_INFO" "$VIDEO_TITLE"
             echo ""
             echo " ${red}Video list removed...${nocolor}"
             sleep 3s
