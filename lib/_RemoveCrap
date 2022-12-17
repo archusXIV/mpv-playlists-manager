@@ -6,13 +6,12 @@ _RemoveCrap() {
     # causes the download of the entire playlist.
     # So with sed we cleanup the link to get the direct link to the desired video.
     # Note that this behavior does not appear during a simple viewing/listening.
-    declare -a files=( "$QUEUE" "$VIDEO_INFO" "$AUDIO_INFO" )
+
+    LISTS=( "$QUEUE" "$VIDEO_INFO" "$VIDEO_TITLE" "$AUDIO_INFO" "$AUDIO_TITLE" )
     
-    for i in "${files[@]}"; do
-        sed -i 's/&.*//; /^\s*$/d' "$i" 2>/dev/null
-        sed -i -n \
-        'G; s/\n/&&/; /^\([ -~]*\n\).*\n\1/d; s/\n//; h; P' \
-        "$i" 2>/dev/null
+    for file in "${LISTS[@]}"; do
+        sed -i 's/&list.*//;/^\s*$/d' "$file" 2>/dev/null
+        perl -i -ne 'print if ! $a{$_}++' "$file"
     done
 
 }
