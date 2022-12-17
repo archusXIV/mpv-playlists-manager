@@ -6,7 +6,7 @@ _LoadPlaylist() {
     prompt=( "[B]ack to main menu," \
              "Load [D]efault," \
              "(down)Load [F]rom collection:" )
-             
+
     if (( $(grep -c '^https' "$QUEUE") > 0 )); then    
         echo ${green} "${prompt[@]}" ${nocolor}
         echo ""
@@ -15,7 +15,7 @@ _LoadPlaylist() {
         echo ${green} "${prompt[*]}" ${nocolor}
         echo ""
     fi
-    
+
     read -rsn 1 choice
     case "$choice" in
         b|B)    _Menu
@@ -25,7 +25,7 @@ _LoadPlaylist() {
                 case "$load" in
                     a|A)    _LoadAudio -q ;;
                     v|V)    _GetQualityCodes -q &
-                            _CheckCode -q
+                            _CheckCode -q 2>/dev/null
                             _LoadVideo ;;
                 esac
         ;;
@@ -40,16 +40,12 @@ _LoadPlaylist() {
                         sleep 3
                         break
                     fi
-                    
-                    mapfile -t MEDIATITLE < <(grep '^https' "$list")
-                    
+
+                    # mapfile -t MEDIATITLE < <(grep '^https' "$list")
+
                     echo -e " ${green}Getting videos titles...please wait.${nocolor}\n"
-                    for line in "${MEDIATITLE[@]}"; {
-                        _GetMediaTitle $line \
-                        | cat -n \
-                        | sed 's/[[:digit:]]//'
-                    }
-                    
+                    _GetMediaTitle -l | cat -n
+
                     echo ""
                     echo " ${green}[L]oad from site, [A]udio download or [V]ideo download"
                     echo " (Press '^C' to quit youtube-dl):${nocolor}"
@@ -60,10 +56,10 @@ _LoadPlaylist() {
                                 read -rsn 1 -p ${green}' [A]udio only, [V]ideo?:'${nocolor} load
                                 clear
                                 case "$load" in
-                                    a|A)    _CheckCode -l
+                                    a|A)    _CheckCode -l 2>/dev/null
                                             _LoadAudio -l ;;
                                     v|V)    _GetQualityCodes -l &
-                                            _CheckCode -l
+                                            _CheckCode -l 2>/dev/null
                                             _LoadVideo ;;
                                 esac
                                 break ;;
