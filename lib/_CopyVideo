@@ -10,8 +10,9 @@ _CopyVideo() {
         echo ""
         echo -e " Paste an url to fill the ${green}video${nocolor} playlist:\n"
         read -r url
-        echo "$url" | tee -a "$QUEUE" >> "$VIDEO_INFO"
         youtube-dl --get-title "$url" >> "$VIDEO_TITLE" 2>/dev/null
+        echo "$url" | tee -a "$QUEUE" >> "$VIDEO_INFO"
+        sleep 1s
         [[ $url =~ 'playlist?list=' ]] && _GetYoutubePlaylistUrls -v 2>/dev/null
 
         _RemoveCrap
