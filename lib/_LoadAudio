@@ -15,7 +15,7 @@ _LoadAudio() {
                 read -rsn 1 -p ${red}' Temporary audio list still exist, keep it? [Y/n]:'${nocolor} keep
                 case "$keep" in
                     y|Y)    _Menu ;;
-                    n|N)    rm "$AUDIO_INFO"
+                    n|N)    rm {"$AUDIO_INFO","$AUDIO_TITLE"}
                             _Menu ;;
                 esac
             } || _CleanTmpDir; _Menu ;;
