@@ -4,25 +4,25 @@
 _GetVideo() {
 
     cd "$videos_dir"
-    
+
     __NestedGetVideo() (
-    
+
         for url in $(grep '^https' "$VIDEO_LINKS"); do
             echo ""
-            echo -e " ${green}Codes for: $(_GetMediaTitle $url).${nocolor}\n"
-            
+            echo -e " ${green}Codes for: $(cat "$VIDEO_TITLE" | sed -n '1p').${nocolor}\n"
+
             if [[ "$url" =~ 'youtube.com' ]]; then
                 youtube-dl -F "$url" | sed '1,5d;/^[sb]/d'
             else
-                youtube-dl -F --no-warnings "$url"
+                youtube-dl -F "$url"
             fi
-            
+
             echo ""
             echo -e " ${green}Choose a format code. \n eg: 137+251 for merging, hls-1080p, 22 for single:${nocolor}"
             read -r code
-            
+
             clear
-            
+
             if (( $(grep "" -c "$VIDEO_LINKS") < 3 )); then
                 echo ""
                 echo " ${green}There is $(grep -c '^https' "$VIDEO_LINKS") video file left to download.${nocolor}"
@@ -30,27 +30,27 @@ _GetVideo() {
                 echo ""
                 echo " ${green}There are $(grep -c '^https' "$VIDEO_LINKS") video files left to download.${nocolor}"
             fi
-            
+
             if [[ "$code" =~ '+' ]]; then
                 echo " ${green}Please be patient while downloading and merging formats for:"
-                echo " ${red}$(_GetMediaTitle ${url}).${nocolor}"
+                echo " ${red}$(cat "$VIDEO_TITLE" | sed -n '1p').${nocolor}"
                 youtube-dl -f "$code" --merge-output-format mp4 --progress "$url"
             else
                 echo " ${green}Please be patient while downloading:"
-                echo " ${red}$(_GetMediaTitle ${url}).${nocolor}"
+                echo " ${red}$(cat "$VIDEO_TITLE" | sed -n '1p').${nocolor}"
                 youtube-dl -f "$code" --progress "$url"
             fi
-            sed -i '2d' "$VIDEO_LINKS"
+            sed -i '1d' "$VIDEO_LINKS"; sed -i '1d' "$VIDEO_TITLE"
             clear
-        
+
         done
-        
+
         echo -e " ${green}Done.\n${nocolor}"
         sleep 2
-        _GetCompleted
-    
+        _GetCompleted -v
+
     )
-    
+
     if [[ -f $VIDEO_INFO ]]; then
         cp -f "$VIDEO_INFO" "$VIDEO_INFO"_origin
         VIDEO_LINKS="$VIDEO_INFO"
