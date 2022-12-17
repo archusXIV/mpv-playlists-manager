@@ -4,7 +4,6 @@
 _CopyAudio() {
 
     while (( $(grep "" -c "$QUEUE") > 0 )); do
-        echo "### AUDIO(S) LINK(s) ###" >> "$AUDIO_INFO"
         if [[ -f $VIDEO_INFO ]]; then
             echo -e " ${red}Video links have been added earlier...${nocolor}\n"
         fi
@@ -12,13 +11,13 @@ _CopyAudio() {
         echo -e " Paste an url to fill the ${green}audio${nocolor} playlist:\n"
         read -r url
         echo "$url" | tee -a "$QUEUE" >> "$AUDIO_INFO"
-    
-        [[ $url =~ 'playlist?list=' ]] && _GetYoutubePlaylistUrls -a
-        
+        youtube-dl --get-title "$url" >> "$AUDIO_TITLE" 2>/dev/null
+        [[ $url =~ 'playlist?list=' ]] && _GetYoutubePlaylistUrls -a 2>/dev/null
+
         _RemoveCrap
         clear
         _ListsCount
-        
+
         echo ""
         echo -e "                                                    ${red}::audio options::${nocolor}"
         echo -e "                              ┌────────────────────────────────────────────────────────────┐"
