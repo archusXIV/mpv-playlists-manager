@@ -3,17 +3,16 @@
 
 _ViewUrlInfo() {
     # Normaly in Bash nested functions use parentheses instead of curly braces,
-    # but here it won't work because of the case statement right parentheses...
+    # but here it won't work because of the case statment right parentheses...
     # They will close the block before it finishes.
+
     prompt=( "[B]ack to menu," "[A]dd more audio links," "[A]dd more video links," \
             "[D]ownload," "[P]lay," "[S]ave as," "[R]emove." "[V]iew title(s):" )
-    
+
     __audio() {
-        sed -i -n \
-        'G; s/\n/&&/; /^\([ -~]*\n\).*\n\1/d; s/\n//; h; P' \
-        "$AUDIO_INFO" "$tmp_dir"/AudioTitles.txt 2>/dev/null
-        echo -e "$(sed '1d' "$AUDIO_INFO" | cat -n) \n"
-        _GetMediaTitle $(sed '1d' "$AUDIO_INFO") | cat -n
+        cat -n "$AUDIO_INFO"
+        echo ""
+        _GetMediaTitle -a | cat -n
         echo ""
         unset {prompt[2],prompt[7]}
         echo ${green} "${prompt[*]}" ${nocolor}
@@ -26,14 +25,13 @@ _ViewUrlInfo() {
             r|R)    _Remove -a ;;
             s|S)    _Save -a ;;
         esac
+        return 0
     }
-    
+
     __video() {
-        sed -i -n \
-        'G; s/\n/&&/; /^\([ -~]*\n\).*\n\1/d; s/\n//; h; P' \
-        "$VIDEO_INFO" "$tmp_dir"/VideoTitles.txt 2>/dev/null
-        echo -e "$(sed '1d' "$VIDEO_INFO" | cat -n) \n"
-        _GetMediaTitle $(sed '1d' "$VIDEO_INFO") | cat -n
+        cat -n "$VIDEO_INFO"
+        echo ""
+        _GetMediaTitle -v | cat -n
         echo ""
         unset {prompt[1],prompt[7]}
         echo ${green} "${prompt[*]}" ${nocolor}
@@ -47,8 +45,9 @@ _ViewUrlInfo() {
             r|R)    _Remove -v ;;
             s|S)    _Save -v ;;
         esac
+        return 0
     }
-    
+
     __queue() {
         if (( $(grep -c '^https' "$QUEUE") > 0 )); then
             echo " ${green}order |  Default playlist link(s)${nocolor}"
@@ -71,12 +70,7 @@ _ViewUrlInfo() {
                 r|R)    _Remove -q ;;
                 s|S)    _Save -q ;;
                 v|V)    echo ""
-                        mapfile -t TITLE < <(grep '^https' "$QUEUE")
-                        for url in "${TITLE[@]}"; do
-                            _GetMediaTitle "$url" \
-                            | cat -n \
-                            | sed 's/[[:digit:]]//'
-                        done
+                       _GetMediaTitle -q | cat -n
                         echo ""
                         read -rsn 1 -p ${green}' Press any key for main menu.'${nocolor} menu
                         case "$menu" in *) clear; _Menu ;; esac ;;
@@ -85,8 +79,9 @@ _ViewUrlInfo() {
             echo " ${red}There is nothing to do, Default playlist is empty...${nocolor}"
             sleep 3
         fi
+        return 0
     }
-    
+
     case "$1" in
         -a) __audio ;;
         -v) __video ;;
