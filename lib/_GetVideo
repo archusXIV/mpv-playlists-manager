@@ -4,63 +4,48 @@
 _GetVideo() {
 
     cd "$videos_dir"
+    cp -f "$VIDEO_INFO" "$VIDEO_INFO"_origin 2>/dev/null
+    
+    for url in $(grep '^https' "$VIDEO_INFO"); do
+        echo ""
+        echo -e " ${green}Codes for: $(_GetLinkTitle -v).${nocolor}\n"
 
-    __NestedGetVideo() (
+        if [[ "$url" =~ 'youtube.com' ]]; then
+            youtube-dl -F "$url" | sed '1,5d;/^[sb]/d'
+        else
+            youtube-dl -F "$url"
+        fi
 
-        for url in $(grep '^https' "$VIDEO_LINKS"); do
+        echo ""
+        echo -e " ${green}Choose a format code. \n eg: 137+251 for merging, hls-1080p, 22 for single:${nocolor}"
+        read -r code
+        clear
+        
+        if (( $(_GetLinesList -v) < 3 )); then
             echo ""
-            echo -e " ${green}Codes for: $(_GetLinkTitle -v).${nocolor}\n"
-
-            if [[ "$url" =~ 'youtube.com' ]]; then
-                youtube-dl -F "$url" | sed '1,5d;/^[sb]/d'
-            else
-                youtube-dl -F "$url"
-            fi
-
+            echo " ${green}There is $(_GetLinesList -v) video file left to download.${nocolor}"
+        else
             echo ""
-            echo -e " ${green}Choose a format code. \n eg: 137+251 for merging, hls-1080p, 22 for single:${nocolor}"
-            read -r code
+            echo " ${green}There are $(_GetLinesList -v) video files left to download.${nocolor}"
+        fi
 
-            clear
+        if [[ "$code" =~ '+' ]]; then
+            echo " ${green}Please be patient while downloading and merging formats for:"
+            echo " ${red}$(_GetLinkTitle -v).${nocolor}"
+            youtube-dl -f "$code" --merge-output-format mp4 --progress "$url"
+        else
+            echo " ${green}Please be patient while downloading:"
+            echo " ${red}$(_GetLinkTitle -v).${nocolor}"
+            youtube-dl -f "$code" --progress "$url"
+        fi
+        
+        sed -i '1d' {"$VIDEO_INFO","$VIDEO_TITLE"}
+        clear
 
-            if (( $(grep "" -c "$VIDEO_LINKS") < 3 )); then
-                echo ""
-                echo " ${green}There is $(grep -c '^https' "$VIDEO_LINKS") video file left to download.${nocolor}"
-            else
-                echo ""
-                echo " ${green}There are $(grep -c '^https' "$VIDEO_LINKS") video files left to download.${nocolor}"
-            fi
+    done
 
-            if [[ "$code" =~ '+' ]]; then
-                echo " ${green}Please be patient while downloading and merging formats for:"
-                echo " ${red}$(_GetLinkTitle -v).${nocolor}"
-                youtube-dl -f "$code" --merge-output-format mp4 --progress "$url"
-            else
-                echo " ${green}Please be patient while downloading:"
-                echo " ${red}$(_GetLinkTitle -v).${nocolor}"
-                youtube-dl -f "$code" --progress "$url"
-            fi
-            sed -i '1d' {"$VIDEO_LINKS","$VIDEO_TITLE"}
-            clear
-
-        done
-
-        echo -e " ${green}Done.\n${nocolor}"
-        sleep 2
-        _GetCompleted -v
-
-    )
-
-    if [[ -f $VIDEO_INFO ]]; then
-        cp -f "$VIDEO_INFO" "$VIDEO_INFO"_origin
-        VIDEO_LINKS="$VIDEO_INFO"
-        _CheckCode -v
-        __NestedGetVideo
-    else
-        cp -f "$QUEUE" "$QUEUE"_origin
-        VIDEO_LINKS="$QUEUE"
-        _CheckCode -q
-        __NestedGetVideo
-    fi
+    echo -e " ${green}Done.\n${nocolor}"
+    sleep 2
+    _GetCompleted -v
 
 }
