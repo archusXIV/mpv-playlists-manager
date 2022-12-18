@@ -43,7 +43,7 @@ _DownloadVideo() {
                     fi
 
                     echo ""
-                    echo -e " ${green}Codes for: $(cat "$tmp_dir"/download.txt | sed -n '1p').${nocolor}\n"
+                    echo -e " ${green}Codes for: $(_GetLinkTitle -d).${nocolor}\n"
 
                     if [[ $url =~ 'youtube.com' ]]; then
                         youtube-dl -F "$url" | sed '1,5d;/^[sb]/d'
@@ -60,11 +60,11 @@ _DownloadVideo() {
 
                     if [[ "$code" =~ '+' ]]; then
                         echo " ${green}Please be patient while downloading and merging formats for:"
-                        echo " ${red}$(cat "$tmp_dir"/download.txt | sed -n '1p').${nocolor}"
+                        echo " ${red}$(_GetLinkTitle -d).${nocolor}"
                         youtube-dl -f "$code" --merge-output-format mp4 --progress "$url"
                     else
                         echo " ${green}Please be patient while downloading:"
-                        echo " ${red}$(cat "$tmp_dir"/download.txt | sed -n '1p').${nocolor}"
+                        echo " ${red}$(_GetLinkTitle -d).${nocolor}"
                         youtube-dl -f "$code" --progress "$url"
                     fi
 
