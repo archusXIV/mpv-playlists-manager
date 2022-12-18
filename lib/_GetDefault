@@ -1,0 +1,101 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_GetDefault() {
+    case "$1" in
+        -a) echo " ${green}Getting titles...${nocolor}"
+            _GetMediaTitle -q > "$tmp_dir"/DefaultAudio.txt
+            cd "$audios_dir"
+            cp -f "$QUEUE" "$QUEUE"_origin 2>/dev/null
+            
+            for url in $(grep '^https' "$QUEUE"); do
+                echo ""
+                echo -e " ${green}Codes for: $(cat "$tmp_dir"/DefaultAudio.txt | sed -n '1p').${nocolor}\n"
+                youtube-dl -F "$url" | sed -n '6,7p;/audio only/p' 2>/dev/null
+                echo ""
+                echo " ${green}Choose a format code: ${nocolor}"
+                read -r code
+    
+                clear
+
+                if (( $(_GetLinesList -q) < 3 )); then
+                    echo ""
+                    echo " ${green}There is $(_GetLinesList -q) audio file left to download.${nocolor}"
+                else
+                    echo ""
+                    echo " ${green}There are $(_GetLinesList -q) audio files left to download.${nocolor}"
+                fi
+    
+                echo " ${green}Please be patient while downloading..."
+                echo -e " ${red}$(cat "$tmp_dir"/DefaultAudio.txt | sed -n '1p').${nocolor}\n"
+                youtube-dl -f "$code" --progress "$url"
+                sed -i '2d' "$QUEUE"; sed -i '1d' "$tmp_dir"/DefaultAudio.txt
+                clear
+    
+            done
+    
+            echo -e " ${green}Done\n${nocolor}"
+    
+            if [[ -n $(find . -iname "*.webm") ]]; then
+                echo -e " ${red}Advisory: IF YOU CHOOSE CONVERSION, ALL FILES WILL BE IN THE CHOSEN FORMAT.${nocolor}\n"
+                find . -iname "*.webm" | sed 's,.*/,,'
+                echo ""
+                echo -e " ${green}Do you wish to convert them? [Y/n]: ${nocolor}\n"
+                read -rsn 1 answer
+                case "$answer" in
+                    Y|y)    _ConvertAudio ;;
+                    n|N)    _GetCompleted -a ;;
+                esac
+                _GetCompleted -a
+            else
+                _GetCompleted -a
+            fi
+        ;;
+        -v) echo " ${green}Getting titles...${nocolor}"
+            _GetMediaTitle -q > "$tmp_dir"/DefaultVideo.txt
+            cd "$videos_dir"
+            cp -f "$QUEUE" "$QUEUE"_origin 2>/dev/null
+            for url in $(grep '^https' "$QUEUE"); do
+                echo ""
+                echo -e " ${green}Codes for: $(cat "$tmp_dir"/DefaultVideo.txt | sed -n '1p').${nocolor}\n"
+    
+                if [[ "$url" =~ 'youtube.com' ]]; then
+                    youtube-dl -F "$url" | sed '1,5d;/^[sb]/d'
+                else
+                    youtube-dl -F "$url"
+                fi
+    
+                echo ""
+                echo -e " ${green}Choose a format code. \n eg: 137+251 for merging, hls-1080p, 22 for single:${nocolor}"
+                read -r code
+    
+                clear
+    
+                if (( $(_GetLinesList -q) < 3 )); then
+                    echo ""
+                    echo " ${green}There is $(_GetLinesList -q) video file left to download.${nocolor}"
+                else
+                    echo ""
+                    echo " ${green}There are $(_GetLinesList -q) video files left to download.${nocolor}"
+                fi
+    
+                if [[ "$code" =~ '+' ]]; then
+                    echo " ${green}Please be patient while downloading and merging formats for:"
+                    echo " ${red}$(cat "$tmp_dir"/DefaultVideo.txt | sed -n '1p').${nocolor}"
+                    youtube-dl -f "$code" --merge-output-format mp4 --progress "$url"
+                else
+                    echo " ${green}Please be patient while downloading:"
+                    echo " ${red}$(cat "$tmp_dir"/DefaultVideo.txt | sed -n '1p').${nocolor}"
+                    youtube-dl -f "$code" --progress "$url"
+                fi
+                sed -i '2d' "$QUEUE"; sed -i '1d' "$tmp_dir"/DefaultVideo.txt
+                clear
+    
+            done
+    
+            echo -e " ${green}Done.\n${nocolor}"
+            sleep 2
+            _GetCompleted -v
+        ;;
+    esac
+}
