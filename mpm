@@ -70,7 +70,7 @@ case "$1" in -h|--help) cat | less << EOF
 #                 ┌─────────────────────────────────────────────────────────────┐
 #                 │  1) Create/Add video playlist     6) View default playlist  │
 #                 │  2) Create/Add audio playlist     7) Clear all tmp lists    │
-#                 │  3) Save default/Del collection   8) Edit a playlist        │
+#                 │  3) Save tmp/Del collection       8) Edit a playlist        │
 #                 │  4) Play/Download a playlist      9) Edit mpv.conf          │
 #                 │  5) Load local dir/files          X) Exit                   │
 #                 └─────────────────────────────────────────────────────────────┘
@@ -88,9 +88,9 @@ case "$1" in -h|--help) cat | less << EOF
 #       Same as above but for audio only, for example after downloading, ffmpeg will
 #       convert all .webm files into mp3, flac, ogg or wav.
 #   
-#    3) Save default/Del collection:
+#    3) Save tmp/Del collection:
 #       Here we can save the default playlist as a new one wich contains all temporary links
-#       from video/audio sections.
+#       from video/audio sections and save video/audio separetly.
 #       We can also delete existing playlists (.m3u files) from our collection.
 #       
 #    4) Play/Download a playlist:
