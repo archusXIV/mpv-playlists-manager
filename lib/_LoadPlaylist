@@ -7,7 +7,7 @@ _LoadPlaylist() {
              "Load [D]efault," \
              "(down)Load [F]rom collection:" )
 
-    if (( $(grep -c '^https' "$QUEUE") > 0 )); then    
+    if (( $(_GetLinesList -q) > 0 )); then    
         echo ${green} "${prompt[@]}" ${nocolor}
         echo ""
     else
