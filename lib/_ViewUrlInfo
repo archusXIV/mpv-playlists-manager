@@ -49,7 +49,7 @@ _ViewUrlInfo() {
     }
 
     __queue() {
-        if (( $(grep -c '^https' "$QUEUE") > 0 )); then
+        if (( $(_GetLinesList -q) > 0 )); then
             echo " ${green}order |  Default playlist link(s)${nocolor}"
             echo -e " ${green}______________________________________________________${nocolor}\n"
             sed '1d' "$QUEUE" | cat -n
@@ -60,9 +60,10 @@ _ViewUrlInfo() {
             case "$opt" in
                 b|B)    _Menu ;;
                 d|D)    echo ""; read -rsn 1 -p ${green}' Download [A]udio, [V]ideo:'${nocolor} get
+                        echo ""; clear
                         case "$get" in
-                            a|A)    _GetAudio ;;
-                            v|V)    _GetVideo ;;
+                            a|A)    _GetDefault -a ;;
+                            v|V)    _GetDefault -v ;;
                         esac ;;
                 p|P)    echo ""; _GetQualityCodes -q &
                         _CheckCode -q 
