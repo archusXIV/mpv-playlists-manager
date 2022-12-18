@@ -5,7 +5,7 @@ _GetLinkTitle() {
     case "$1" in
         -a) FILE="$AUDIO_TITLE" ;;
         -v) FILE="$VIDEO_TITLE" ;;
-        -d) FILE=""$tmp_dir"/download.txt" ;;
+        -d) FILE="$tmp_dir/download.txt" ;;
     esac
     cat "$FILE" | sed -n '1p'
 }
