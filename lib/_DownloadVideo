@@ -34,12 +34,12 @@ _DownloadVideo() {
         ;;
         s|S)    for url in $(grep -e 'https' "$list"); do
 
-                    if (( $(grep "" -c "$list") < 3 )); then
+                    if (( $(_GetLinesList -l) < 3 )); then
                         echo ""
-                        echo " ${green}There is $(_GetLinesList) video file left to download.${nocolor}"
+                        echo " ${green}There is $(_GetLinesList -l) video file left to download.${nocolor}"
                     else
                         echo ""
-                        echo " ${green}There are $(_GetLinesList) video files left to download.${nocolor}"
+                        echo " ${green}There are $(_GetLinesList -l) video files left to download.${nocolor}"
                     fi
 
                     echo ""
