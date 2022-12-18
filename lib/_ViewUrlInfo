@@ -12,7 +12,7 @@ _ViewUrlInfo() {
     __audio() {
         cat -n "$AUDIO_INFO"
         echo ""
-        _GetMediaTitle -a | cat -n
+        cat -n "$AUDIO_TITLE"
         echo ""
         unset {prompt[2],prompt[7]}
         echo ${green} "${prompt[*]}" ${nocolor}
@@ -31,7 +31,7 @@ _ViewUrlInfo() {
     __video() {
         cat -n "$VIDEO_INFO"
         echo ""
-        _GetMediaTitle -v | cat -n
+        cat -n "$VIDEO_TITLE"
         echo ""
         unset {prompt[1],prompt[7]}
         echo ${green} "${prompt[*]}" ${nocolor}
