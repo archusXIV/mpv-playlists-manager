@@ -3,9 +3,9 @@
 
 _ListsCount() {
     echo ""
-    echo " ${green}Default list: $(_GetLinesQueue) url(s).${nocolor}"
+    echo " ${green}Default list: $(_GetLinesList -q) url(s).${nocolor}"
     [[ -f "$AUDIO_INFO" ]] && \
-        echo " ${green}Audio list:   $(grep -c '^https' "$AUDIO_INFO") url(s).${nocolor}"
+        echo " ${green}Audio list:   $(_GetLinesList -a) url(s).${nocolor}"
     [[ -f "$VIDEO_INFO" ]] && \
-        echo " ${green}Video list:   $(grep -c '^https' "$VIDEO_INFO") url(s).${nocolor}"
+        echo " ${green}Video list:   $(_GetLinesList -v) url(s).${nocolor}"
 }
