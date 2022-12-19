@@ -21,7 +21,7 @@ _GetVideo() {
         read -r code
         clear
         
-        if (( $(_GetLinesList -v) < 3 )); then
+        if (( $(_GetLinesList -v) < 2 )); then
             echo ""
             echo " ${green}There is $(_GetLinesList -v) video file left to download.${nocolor}"
         else
