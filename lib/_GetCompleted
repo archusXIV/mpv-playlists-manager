@@ -21,13 +21,16 @@ _GetCompleted() {
             -a) echo -e " ${green}Audio Downloads completed, KEEP downloaded playlist? [N/y]: ${nocolor}\n"
                 read -rsn 1 keep
                 case "$keep" in
-                    N|n)    rm {"$AUDIO_INFO","$AUDIO_INFO"_origin,"$AUDIO_TITLE"} 2>/dev/null
-                            [[ -f "$QUEUE"_origin ]] && {
-                                _Remove -q
+                    N|n)    [[ -f "$QUEUE"_origin ]] && {
                                 rm "$QUEUE"_origin
                             }
+                            rm {"$AUDIO_INFO","$AUDIO_INFO"_origin,"$AUDIO_TITLE"} 2>/dev/null
                             _Menu ;;
-                    y|Y)    cp -f "$AUDIO_INFO"_origin "$AUDIO_INFO" 2>/dev/null
+                    y|Y)    [[ -f "$QUEUE"_origin ]] && {
+                                mv -f "$QUEUE"_origin "$QUEUE"
+                                rm "$QUEUE"_origin 2>/dev/null
+                            }
+                            cp -f "$AUDIO_INFO"_origin "$AUDIO_INFO" 2>/dev/null
                             rm {"$AUDIO_INFO"_origin,"$AUDIO_TITLE"} 2>/dev/null
                             _Menu ;;
                 esac
@@ -35,13 +38,16 @@ _GetCompleted() {
             -v) echo -e " ${green}Video Downloads completed, KEEP downloaded playlist? [N/y]: ${nocolor}\n"
                 read -rsn 1 keep
                 case "$keep" in
-                    N|n)    rm  {"$VIDEO_INFO","$VIDEO_INFO"_origin,"$VIDEO_TITLE"} 2>/dev/null
-                            [[ -f "$QUEUE"_origin ]] && {
-                                _Remove -q
+                    N|n)    [[ -f "$QUEUE"_origin ]] && {
                                 rm "$QUEUE"_origin
                             }
+                            rm  {"$VIDEO_INFO","$VIDEO_INFO"_origin,"$VIDEO_TITLE"} 2>/dev/null
                             _Menu ;;
-                    y|Y)    cp -f "$VIDEO_INFO"_origin "$VIDEO_INFO" 2>/dev/null
+                    y|Y)    [[ -f "$QUEUE"_origin ]] && {
+                                mv -f "$QUEUE"_origin "$QUEUE"
+                                rm "$QUEUE"_origin 2>/dev/null
+                            }
+                            cp -f "$VIDEO_INFO"_origin "$VIDEO_INFO" 2>/dev/null
                             rm {"$VIDEO_INFO"_origin,"$VIDEO_TITLE"} 2>/dev/null
                             _Menu ;;
                 esac
