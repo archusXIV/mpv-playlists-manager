@@ -18,7 +18,7 @@ _GetDefault() {
     
                 clear
 
-                if (( $(_GetLinesList -q) < 3 )); then
+                if (( $(_GetLinesList -q) < 2 )); then
                     echo ""
                     echo " ${green}There is $(_GetLinesList -q) audio file left to download.${nocolor}"
                 else
