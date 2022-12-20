@@ -26,10 +26,8 @@ _GetCompleted() {
                             }
                             rm {"$AUDIO_INFO","$AUDIO_INFO"_origin,"$AUDIO_TITLE"} 2>/dev/null
                             _Menu ;;
-                    y|Y)    [[ -f "$QUEUE"_origin ]] && {
+                    y|Y)    [[ -f "$QUEUE"_origin ]] && \
                                 mv -f "$QUEUE"_origin "$QUEUE"
-                                rm "$QUEUE"_origin 2>/dev/null
-                            }
                             cp -f "$AUDIO_INFO"_origin "$AUDIO_INFO" 2>/dev/null
                             rm {"$AUDIO_INFO"_origin,"$AUDIO_TITLE"} 2>/dev/null
                             _Menu ;;
@@ -43,10 +41,8 @@ _GetCompleted() {
                             }
                             rm  {"$VIDEO_INFO","$VIDEO_INFO"_origin,"$VIDEO_TITLE"} 2>/dev/null
                             _Menu ;;
-                    y|Y)    [[ -f "$QUEUE"_origin ]] && {
+                    y|Y)    [[ -f "$QUEUE"_origin ]] && \
                                 mv -f "$QUEUE"_origin "$QUEUE"
-                                rm "$QUEUE"_origin 2>/dev/null
-                            }
                             cp -f "$VIDEO_INFO"_origin "$VIDEO_INFO" 2>/dev/null
                             rm {"$VIDEO_INFO"_origin,"$VIDEO_TITLE"} 2>/dev/null
                             _Menu ;;
