@@ -10,12 +10,15 @@ _CopyAudio() {
         echo ""
         echo -e " Paste an url to fill the ${green}audio${nocolor} playlist:\n"
         read -r url
-        youtube-dl --get-title "$url" >> "$AUDIO_TITLE" 2>/dev/null
         echo "$url" | tee -a "$QUEUE" >> "$AUDIO_INFO"
-        sleep 1s
-        [[ $url =~ 'playlist?list=' ]] && _GetYoutubePlaylistUrls -a 2>/dev/null
+        _RemoveCrap 2>/dev/null
+        youtube-dl --get-title "$(sed -r -n '$ p' "$AUDIO_INFO")" >> "$AUDIO_TITLE"
+        
+        [[ $url =~ 'playlist?list=' ]] && {
+            _GetYoutubePlaylistUrls -a
+            _RemoveCrap 2>/dev/null
+        }
 
-        _RemoveCrap
         clear
         _ListsCount
 
