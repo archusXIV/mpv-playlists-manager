@@ -3,9 +3,9 @@
 
 _GetLinkTitle() {
     case "$1" in
-        -a) cat "$AUDIO_TITLE" | sed -n '1p' ;;
-        -v) cat "$VIDEO_TITLE" | sed -n '1p' ;;
-        -d) cat "$tmp_dir"/download.txt | sed -n '1p' ;;
-        -q) cat "$QUEUE" | sed -n '2p' ;;
+        -a) sed -n '1p' "$AUDIO_TITLE" ;;
+        -v) sed -n '1p' "$VIDEO_TITLE" ;;
+        -d) sed -n '1p' "$tmp_dir"/download.txt ;;
+        -q) sed -n '2p' "$QUEUE" ;;
     esac
 }
