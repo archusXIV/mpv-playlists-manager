@@ -25,7 +25,7 @@ _GetAudio() {
         fi
         
         echo " ${green}Please be patient while downloading..."
-        echo " ${red}$(_GetLinkTitle -a).${nocolor}"
+        echo -e " ${red}$(_GetLinkTitle -a).${nocolor}\n"
         sleep 2
         youtube-dl -f "$code" --progress "$url"
         sed -i '1d' {"$AUDIO_INFO","$AUDIO_TITLE"}
