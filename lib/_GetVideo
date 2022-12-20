@@ -31,11 +31,11 @@ _GetVideo() {
 
         if [[ "$code" =~ '+' ]]; then
             echo " ${green}Please be patient while downloading and merging formats for:"
-            echo " ${red}$(_GetLinkTitle -v).${nocolor}"
+            echo -e " ${red}$(_GetLinkTitle -v).${nocolor}\n"
             youtube-dl -f "$code" --merge-output-format mp4 --progress "$url"
         else
             echo " ${green}Please be patient while downloading:"
-            echo " ${red}$(_GetLinkTitle -v).${nocolor}"
+            echo -e " ${red}$(_GetLinkTitle -v).${nocolor}\n"
             youtube-dl -f "$code" --progress "$url"
         fi
         
