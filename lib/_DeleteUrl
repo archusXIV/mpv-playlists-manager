@@ -3,7 +3,7 @@
 
 _DeleteUrl() {
 
-    if (( $(grep -c '^https' "$QUEUE") == 0 )); then
+    if (( $(_GetLinesList -q) == 0 )); then
         if [[ -n $(find "$tmp_dir" -name "*.m3u") ]]; then
             _CleanTmpDir
             echo " ${red}All tmp lists removed.${nocolor}"
