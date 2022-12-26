@@ -4,13 +4,14 @@
 _Save() {
 
     cd "$playlists_dir"
+
     __NestedSave() {
         echo -e " ${green}Available playlists:\n${nocolor}"
         find . -name "*.m3u" -o -name "*.m3u_origin" \
         | sort -d \
         | sed 's,.*/,,' \
         | cat -n
-        
+
         echo ""
         echo -e " ${green}Save playlist as:\n${nocolor}"
         read -r list
@@ -19,8 +20,9 @@ _Save() {
             echo -e " ${red}This playlist already exists!\n Overwrite $list? [y/N]:${nocolor}"
             read -r overwrite
             case "$overwrite" in
-                y|Y)    cp -f "$CURRENT" "$list"
-                        sed -i 's/^###.*/#EXTM3U/' "$list"
+                y|Y)    sed -i '1d' "$QUEUE" # deleting "#EXTM3U"
+                        cp -f "$CURRENT" "$list"
+                        sed -i '1s/^/#EXTM3U\n/' "$list" "$QUEUE"
                         echo " ${green}$list saved ${nocolor}"
                         sleep 3s
                         _Menu ;;
@@ -29,13 +31,13 @@ _Save() {
             esac
         else
             cp "$CURRENT" "$list"
-            sed -i 's/^###.*/#EXTM3U/' "$list"
+            sed -i '1s/^/#EXTM3U\n/' "$list"
             echo " ${green}$list saved ${nocolor}"
             sleep 2s
             _Menu
         fi
     }
-    
+
     case "$1" in
         -a)    CURRENT="$AUDIO_INFO"
                 __NestedSave ;;
