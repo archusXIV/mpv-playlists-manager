@@ -1,8 +1,8 @@
 #!/bin/sh
 
-read -rn1 -p ' [I]nstall or [U]ninstall: ' respons
+read -rn1 -p ' [I]nstall or [U]ninstall: '
 echo ""
-case "$respons" in
+case "$REPLY" in
     i|I)    cp -f mpm /usr/local/bin/mpm
     
             mkdir -p /usr/local/lib/mpm && \
