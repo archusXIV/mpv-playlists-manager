@@ -16,6 +16,8 @@
 ##    It is recommanded to disable mpv cache for better results on direct streaming,
 ##    or find a better cache parameter.
 
+VERSION="v.0.9-4"
+
 ## First source our functions.
 for func in $(find /usr/local/lib/mpm -name "_*"); do
     source "$func"
@@ -59,92 +61,93 @@ ELSE="$tmp_dir/else.m3u"
 
 case "$1" in -h|--help) cat | less << EOF
 
-# MPV-PLAYLISTS-MANAGER usage:
-#
-#  !!! YOU CAN CHANGE MPM'S DIRECTORIES BY EDITING THE VARIABLES IN THE SCRIPT!!!
-#  By default "$HOME"/Documents/mpv-playlists-manager/
-#  Dependencies: ffmpeg, jq, mpv, ranger (optional), youtube-dl, yt-dlp (for better results).
-#
-# I) Main menu:
-#
-#                 ┌─────────────────────────────────────────────────────────────┐
-#                 │  1) Create/Add video playlist     6) View default playlist  │
-#                 │  2) Create/Add audio playlist     7) Clear all tmp lists    │
-#                 │  3) Save tmp/Del collection       8) Edit a playlist        │
-#                 │  4) Play/Download a playlist      9) Edit mpv.conf          │
-#                 │  5) Load local dir/files          X) Exit                   │
-#                 └─────────────────────────────────────────────────────────────┘
-#
-#
-#    1) Create/Add video playlist:
-#       Links saved here and in audio section too are not permanent, they will be erased
-#       when closing the program... So be carefull and saved them before it's too late.
-#       In this section we will be able to create a temporary video playlist by 'copy/paste'
-#       urls from Youtube.com or any other supported web site by youtube-dl/yt-dlp packages.
-#       After the first entry this will drop us into the 'video options' menu where we have
-#       six dedicated options. See II) audio/video files options:
-#
-#    2) Create/Add audio playlist:
-#       Same as above but for audio only, for example after downloading, ffmpeg will
-#       convert all .webm files into mp3, flac, ogg or wav.
-#   
-#    3) Save tmp/Del collection:
-#       Here we can save the default playlist as a new one wich contains all temporary links
-#       from video/audio sections and save video/audio separetly.
-#       We can also delete existing playlists (.m3u files) from our collection.
-#       
-#    4) Play/Download a playlist:
-#       If the default list is still filled with links we can stream audios or videos from it,
-#       if not the dedicated options will not appear.
-#       Now we still have the choice to play or download media links from the collection.
-#       Two downloading methods are offered here: one by choosing specidics format codes,
-#       and a direct download functionality which grabs the best format.
-#   
-#    5) Load local dir/files:
-#       The possibility of watching or listening media files from disk is done with ranger
-#       as a dependency. The default music and video directories are ~/Music & ~/Videos,
-#       Change the local variables in _LoadLocal function if needed.
-#       To use ranger in this function, just get mpvc script, and place it in your PATH.
-#       https://github.com/lwilletts/mpvc/blob/master/mpvc
-#       Than in $XDG_CONFIG_HOME/ranger/rifle.conf:    
-#       change lines (124-125) 124) mpvc add -- "$@" 125) mpvc add --fs -- "$@"
-#       Make sure that you've enabled; set preview_images_method ueberzug (has to be installed)
-#       if you don't use URxvt for example (w3m works fine for URxvt/xterm).
-#       
-#    6) View default playlist:
-#       All links we enter are added in this file (default.m3u), at least we can save it,
-#       download, play it and view titles in case we closed the program and forgot them.
-#   
-#    7) Clear all tmp lists:
-#       Sometimes it's preferable to clear everything and restart from the bottom ground.
-#   
-#    8) Edit a playlist:
-#       Here is the place where by editing our collection we can add or remove links
-#       directly or afterward. Vim is set as the EDITOR (change it if you will).
-#   
-#    9) Edit mpv.conf:
-#       we may want to edit this file for better results, quality and learning more about mpv.
-#
-# II) audio/video files options:
-#
-#                                       ::audio options::
-#                 ┌────────────────────────────────────────────────────────────┐
-#                 │     1) Add more audio links      4) Play current list      │
-#                 │     2) Download current list     5) View current list      │
-#                 │     3) Save playlist as          6) Back to main menu      │
-#                 └────────────────────────────────────────────────────────────┘
-#                                         Select an item
-#
-#    The same menu is also prensented in video section.
-#    Now in this menu it can't be simpler as it is, all options are applied
-#    to the specific temporary file and we act directly on it, by entering '5' we will get more
-#    infos (titles) about the links and a prompt will present the same options as in the menu,
-#    but now [R]emoving the specific file is available...
-#    
-#    Author: Barret E (2022) <archus@protonmail.com>
-#    https://github.com/archusXIV/mpv-playlists-manager
-#
-#    Press q to quit
+ MPV-PLAYLISTS-MANAGER usage:
+
+  !!! YOU CAN CHANGE MPM'S DIRECTORIES BY EDITING THE VARIABLES IN THE SCRIPT!!!
+  By default "$HOME"/Documents/mpv-playlists-manager/
+  Dependencies: ffmpeg, jq, mpv, ranger (optional), youtube-dl, yt-dlp (for better results).
+
+ I) Main menu:
+
+                 ┌─────────────────────────────────────────────────────────────┐
+                 │  1) Create/Add video playlist     6) View default playlist  │
+                 │  2) Create/Add audio playlist     7) Clear all tmp lists    │
+                 │  3) Save tmp/Del collection       8) Edit a playlist        │
+                 │  4) Play/Download a playlist      9) Edit mpv.conf          │
+                 │  5) Load local dir/files          X) Exit                   │
+                 └─────────────────────────────────────────────────────────────┘
+
+
+    1) Create/Add video playlist:
+       Links saved here and in audio section too are not permanent, they will be erased
+       when closing the program... So be carefull and saved them before it's too late.
+       In this section we will be able to create a temporary video playlist by 'copy/paste'
+       urls from Youtube.com or any other supported web site by youtube-dl/yt-dlp packages.
+       https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md
+       After the first entry this will drop us into the 'video options' menu where we have
+       six dedicated options. See II) audio/video files options:
+
+    2) Create/Add audio playlist:
+       Same as above but for audio only, for example after downloading, ffmpeg will
+       convert all .webm files into mp3, flac, ogg or wav.
+   
+    3) Save tmp/Del collection:
+       Here we can save the default playlist as a new one wich contains all temporary links
+       from video/audio sections and save video/audio separetly.
+       We can also delete existing playlists (.m3u files) from our collection.
+       
+    4) Play/Download a playlist:
+       If the default list is still filled with links we can stream audios or videos from it,
+       if not the dedicated options will not appear.
+       Now we still have the choice to play or download media links from the collection.
+       Two downloading methods are offered here: one by choosing specidics format codes,
+       and a direct download functionality which grabs the best format.
+   
+    5) Load local dir/files:
+       The possibility of watching or listening media files from disk is done with ranger
+       as a dependency. The default music and video directories are ~/Music & ~/Videos,
+       Change the local variables in _LoadLocal function if needed.
+       To use ranger in this function, just get mpvc script, and place it in your PATH.
+       https://github.com/lwilletts/mpvc/blob/master/mpvc
+       Than in $XDG_CONFIG_HOME/ranger/rifle.conf:    
+       change lines (124-125) 124) mpvc add -- "$@" 125) mpvc add --fs -- "$@"
+       Make sure that you've enabled; set preview_images_method ueberzug (has to be installed)
+       if you don't use URxvt for example (w3m works fine for URxvt/xterm).
+       
+    6) View default playlist:
+       All links we enter are added in this file (default.m3u), at least we can save it,
+       download, play it and view titles in case we closed the program and forgot them.
+   
+    7) Clear all tmp lists:
+       Sometimes it's preferable to clear everything and restart from the bottom ground.
+   
+    8) Edit a playlist:
+       Here is the place where by editing our collection we can add or remove links
+       directly or afterward. Vim is set as the EDITOR (change it if you will).
+   
+    9) Edit mpv.conf:
+       we may want to edit this file for better results, quality and learning more about mpv.
+
+ II) audio/video files options:
+
+                                       ::audio options::
+                 ┌────────────────────────────────────────────────────────────┐
+                 │     1) Add more audio links      4) Play current list      │
+                 │     2) Download current list     5) View current list      │
+                 │     3) Save playlist as          6) Back to main menu      │
+                 └────────────────────────────────────────────────────────────┘
+                                         Select an item
+
+    The same menu is also prensented in video section.
+    Now in this menu it can't be simpler as it is, all options are applied
+    to the specific temporary file and we act directly on it, by entering '5' we will get more
+    infos (titles) about the links and a prompt will present the same options as in the menu,
+    but now [R]emoving the specific file is available...
+
+    Author: Barret E (2022) <archus@protonmail.com>
+    https://github.com/archusXIV/mpv-playlists-manager
+
+    Press q to quit
 EOF
 exit ;; esac
 
