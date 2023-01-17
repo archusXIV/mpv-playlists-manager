@@ -2,21 +2,22 @@
 ## This is a part of main script: mpm.
 
 _Menu() {
-
+    # First copy url then select option 1 or 2,
+    # the link will be saved in an m3u file.
     while [[ -e $QUEUE ]]; do
         clear
         _ListsCount
-        echo ""
-        echo -e "                                   ${red}::MPV-PLAYLISTS-MANAGER OPTIONS::"
-        echo "                                      for usage type: mpm --help${nocolor}"
-        echo -e "                    ┌─────────────────────────────────────────────────────────────┐"
-        echo -e "                    │   1) Create/Add video playlist   6) View default playlist   │"
-        echo -e "                    │   2) Create/Add audio playlist   7) Clear all tmp lists     │"
-        echo -e "                    │   3) Save tmp/Del collection     8) Edit a playlist         │"
-        echo -e "                    │   4) Play/Download a playlist    9) Edit mpv.conf           │"
-        echo -e "                    │   5) Load local dir/files        X) Exit                    │"
-        echo -e "                    └─────────────────────────────────────────────────────────────┘"
-        echo -e "                                           ${green}Select an item${nocolor}"
+        echo " "
+        echo -e "                                           ${red}::MPV-PLAYLISTS-MANAGER OPTIONS::"
+        echo -e "                                             "$VERSION" For usage: mpm --help${nocolor}"
+        echo -e "                            ┌─────────────────────────────────────────────────────────────┐"
+        echo -e "                            │   1) Create/Add video playlist   6) View default playlist   │"
+        echo -e "                            │   2) Create/Add audio playlist   7) Clear all tmp lists     │"
+        echo -e "                            │   3) Save tmp/Del collection     8) Edit a playlist         │"
+        echo -e "                            │   4) Play/Download a playlist    9) Edit mpv.conf           │"
+        echo -e "                            │   5) Load local dir/files        X) Exit                    │"
+        echo -e "                            └─────────────────────────────────────────────────────────────┘"
+        echo -e "                                                   ${green}Select an item${nocolor}"
         echo ""
         read -rsn 1 action
         case "$action" in
