@@ -4,15 +4,15 @@
 _LoadLocal() {
 
     local AUDIOS VIDEOS
-    AUDIOS="$HOME/Music/"
-    VIDEOS="$HOME/Videos/"
+    AUDIOS="$HOME/Documents/Music/"
+    VIDEOS="$HOME/Documents/Videos/"
     # for french env
     # AUDIOS="$HOME/Musique/"
     # VIDEOS="$HOME/Vidéos/"
-    
+
     read -rsn 1 -p ${green}' Do you want to load [A]udio or [V]ideo ?: '${nocolor} choice
     case "$choice" in
-        a|A)    echo ""
+        a|A)    __
                 echo -e " ${green}What would you like to load, a directory [D] or file(s) [F] ?: ${nocolor}\n"
                 read -rsn 1 audio
                 case "$audio" in
@@ -30,7 +30,7 @@ _LoadLocal() {
                                         sleep 3
                                         break
                                     fi
-                                    echo ""
+                                    __
                                     mpv --no-video "$AUDIOS"/"$dir"/*
                                     break
                                 fi
@@ -39,7 +39,7 @@ _LoadLocal() {
                     f|F)    ranger "$AUDIOS"; _Menu ;;
                 esac
         ;;
-        v|V)    echo ""
+        v|V)    __
                 echo -e " ${green}What would you like to load, a directory [D] or file(s) [F] ?: ${nocolor}\n"
                 read -rsn 1 video
                 case "$video" in
@@ -56,7 +56,7 @@ _LoadLocal() {
                                         sleep 3
                                         break
                                     fi
-                                    echo ""
+                                    __
                                     mpv "$VIDEOS"/"$dir"/*
                                     break
                                 fi
