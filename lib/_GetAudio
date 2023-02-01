@@ -5,28 +5,27 @@ _GetAudio() {
 
     cd "$audios_dir"
     cp -f "$AUDIO_INFO" "$AUDIO_INFO"_origin 2>/dev/null
-    
+
     for url in $(grep '^https' "$AUDIO_INFO"); do
-        echo ""
+        __
         echo -e " ${green}Codes for: $(_GetLinkTitle -a).${nocolor}\n"
         youtube-dl -F "$url" | sed -n '6,7p;/audio only/p' 2>/dev/null
-        echo ""
+        __
         echo " ${green}Choose a format code: ${nocolor}"
         read -r code
 
         clear
 
         if (( $(_GetLinesList -a) < 2 )); then
-            echo ""
+            __
             echo " ${green}There is $(_GetLinesList -a) audio file left to download.${nocolor}"
         else
-            echo ""
+            __
             echo " ${green}There are $(_GetLinesList -a) audio files left to download.${nocolor}"
         fi
-        
+
         echo " ${green}Please be patient while downloading..."
         echo -e " ${red}$(_GetLinkTitle -a).${nocolor}\n"
-        sleep 2
         youtube-dl -f "$code" --progress "$url"
         sed -i '1d' {"$AUDIO_INFO","$AUDIO_TITLE"}
         clear
@@ -37,7 +36,7 @@ _GetAudio() {
     if [[ -n $(find . -iname "*.webm") ]]; then
         echo -e " ${red}Advisory: IF YOU CHOOSE CONVERSION, ALL FILES WILL BE IN THE CHOSEN FORMAT.${nocolor}\n"
         find . -iname "*.webm" | sed 's,.*/,,'
-        echo ""
+        __
         echo -e " ${green}Do you wish to convert them? [Y/n]: ${nocolor}\n"
         read -rsn 1 answer
         case "$answer" in
