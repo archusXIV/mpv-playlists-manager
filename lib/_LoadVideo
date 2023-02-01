@@ -4,11 +4,11 @@
 _LoadVideo() {
 
     clear
-    echo ""
+    __
     echo "${red}Tip: You may want to put this in your mpv.conf:"
     printf '%s\n' "term-playing-msg='Tiltle: \${media-title}'"
     echo "Otherwise press I in mpv for more infos.${nocolor}"
-    echo ""
+    __
 
     [[ -f $HIGHEST ]] && mpv --ytdl-format=299+251 "$HIGHEST"
     [[ -f $HIGH ]] && mpv --ytdl-format=137+251 "$HIGH"
