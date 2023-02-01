@@ -7,13 +7,13 @@ _LoadPlaylist() {
              "Load [D]efault," \
              "(down)Load [F]rom collection:" )
 
-    if (( $(_GetLinesList -q) > 0 )); then    
+    if (( $(_GetLinesList -q) > 0 )); then
         echo ${green} "${prompt[@]}" ${nocolor}
-        echo ""
+        __
     else
         unset prompt[1]
         echo ${green} "${prompt[*]}" ${nocolor}
-        echo ""
+        __
     fi
 
     read -rsn 1 choice
@@ -29,7 +29,7 @@ _LoadPlaylist() {
                             _LoadVideo ;;
                 esac
         ;;
-        f|F)    echo ""
+        f|F)    __
                 echo -e " ${green}Select a playlist to load (Press 'q' to quit mpv):\n${nocolor}"
                 PS3=" "
                 select list in $(find "$playlists_dir" -name "*.m3u" -o -name "*_origin" \
@@ -44,13 +44,13 @@ _LoadPlaylist() {
                     echo -e " ${green}Getting videos titles...please wait.${nocolor}\n"
                     _GetMediaTitle -l > "$tmp_dir"/download.txt
                     cat -n "$tmp_dir"/download.txt
-                    echo ""
+                    __
                     echo " ${green}[L]oad from site, [A]udio download or [V]ideo download"
                     echo " (Press '^C' to quit youtube-dl):${nocolor}"
                     read -rsn 1 letter
                     case "$letter" in
                         a|A)    _DownloadAudio ;;
-                        l|L)    echo ""
+                        l|L)    __
                                 read -rsn 1 -p ${green}' [A]udio only, [V]ideo?:'${nocolor} load
                                 clear
                                 case "$load" in
