@@ -5,9 +5,9 @@ _GetVideo() {
 
     cd "$videos_dir"
     cp -f "$VIDEO_INFO" "$VIDEO_INFO"_origin 2>/dev/null
-    
+
     for url in $(grep '^https' "$VIDEO_INFO"); do
-        echo ""
+        __
         echo -e " ${green}Codes for: $(_GetLinkTitle -v).${nocolor}\n"
 
         if [[ "$url" =~ 'youtube.com' ]]; then
@@ -16,16 +16,16 @@ _GetVideo() {
             youtube-dl -F "$url"
         fi
 
-        echo ""
+        __
         echo -e " ${green}Choose a format code. \n eg: 137+251 for merging, hls-1080p, 22 for single:${nocolor}"
         read -r code
         clear
-        
+
         if (( $(_GetLinesList -v) < 2 )); then
-            echo ""
+            __
             echo " ${green}There is $(_GetLinesList -v) video file left to download.${nocolor}"
         else
-            echo ""
+            __
             echo " ${green}There are $(_GetLinesList -v) video files left to download.${nocolor}"
         fi
 
@@ -38,7 +38,7 @@ _GetVideo() {
             echo -e " ${red}$(_GetLinkTitle -v).${nocolor}\n"
             youtube-dl -f "$code" --progress "$url"
         fi
-        
+
         sed -i '1d' {"$VIDEO_INFO","$VIDEO_TITLE"}
         clear
 
