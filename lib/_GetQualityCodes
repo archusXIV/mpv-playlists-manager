@@ -8,7 +8,7 @@ _GetQualityCodes() {
         mapfile -t QUALITY < <(grep '^https' "$M3UFILE")
     
         for line in "${QUALITY[@]}"; {
-            youtube-dl -F $line > "$YTOP"
+            youtube-dl --no-warnings -F $line > "$YTOP"
             if grep -q '^299' "$YTOP"; then
                 echo $line >> "$HIGHEST"
             elif grep -q '^137' "$YTOP"; then
