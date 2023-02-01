@@ -12,9 +12,8 @@ _Save() {
         | sed 's,.*/,,' \
         | cat -n
 
-        echo ""
-        echo -e " ${green}Save playlist as:\n${nocolor}"
-        read -r list
+        __
+        read -p ${green}' Save playlist as: '${nocolor} list
         list="$list.m3u"
         if [[ $(find . -name "${list}") ]]; then
             echo -e " ${red}This playlist already exists!\n Overwrite $list? [y/N]:${nocolor}"
