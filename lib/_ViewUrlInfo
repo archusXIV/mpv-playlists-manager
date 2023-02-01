@@ -11,14 +11,14 @@ _ViewUrlInfo() {
 
     __audio() {
         cat -n "$AUDIO_INFO"
-        echo ""
+        __
         cat -n "$AUDIO_TITLE"
-        echo ""
+        __
         unset {prompt[2],prompt[7]}
         echo ${green} "${prompt[*]}" ${nocolor}
         read -rsn 1 opt
         case "$opt" in
-            a|A)    echo ""; _CopyAudio ;;
+            a|A)    __; _CopyAudio ;;
             d|D)    _GetAudio ;;
             b|B)    _Menu ;;
             p|P)    _CheckCode -a && _LoadAudio -a ;;
@@ -30,14 +30,14 @@ _ViewUrlInfo() {
 
     __video() {
         cat -n "$VIDEO_INFO"
-        echo ""
+        __
         cat -n "$VIDEO_TITLE"
-        echo ""
+        __
         unset {prompt[1],prompt[7]}
         echo ${green} "${prompt[*]}" ${nocolor}
         read -rsn 1 opt
         case "$opt" in
-            a|A)    echo ""; _CopyVideo ;;
+            a|A)    __; _CopyVideo ;;
             d|D)    _GetVideo ;;
             b|B)    _Menu ;;
             p|P)    _GetQualityCodes -v &
@@ -53,26 +53,26 @@ _ViewUrlInfo() {
             echo " ${green}order |  Default playlist link(s)${nocolor}"
             echo -e " ${green}______________________________________________________${nocolor}\n"
             sed '1d' "$QUEUE" | cat -n
-            echo ""
+            __
             unset {prompt[1],prompt[2]}
             echo ${green} "${prompt[*]}" ${nocolor}
             read -rsn 1 opt
             case "$opt" in
                 b|B)    _Menu ;;
-                d|D)    echo ""; read -rsn 1 -p ${green}' Download [A]udio, [V]ideo:'${nocolor} get
-                        echo ""; clear
+                d|D)    __; read -rsn 1 -p ${green}' Download [A]udio, [V]ideo:'${nocolor} get
+                        __; clear
                         case "$get" in
                             a|A)    _GetDefault -a ;;
                             v|V)    _GetDefault -v ;;
                         esac ;;
-                p|P)    echo ""; _GetQualityCodes -q &
-                        _CheckCode -q 
+                p|P)    __; _GetQualityCodes -q &
+                        _CheckCode -q
                         _LoadVideo ;;
                 r|R)    _Remove -q ;;
                 s|S)    _Save -q ;;
-                v|V)    echo ""
+                v|V)    __
                        _GetMediaTitle -q | cat -n
-                        echo ""
+                        __
                         read -rsn 1 -p ${green}' Press any key for main menu.'${nocolor} menu
                         case "$menu" in *) clear; _Menu ;; esac ;;
             esac
