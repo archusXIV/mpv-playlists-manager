@@ -2,9 +2,9 @@
 ## This is a part of main script: mpm.
 
 _CheckCode() {
-    
+
     __NestedCheckCode() (
-        echo ""
+        __
         echo -e " ${green}Verifying media codes from selected file...be patient.${nocolor}\n"
         # mapfile in addition of a for loop is faster
         # than using while <condition>; do <command_2> done < <(command_1)
@@ -16,7 +16,7 @@ _CheckCode() {
                 echo -e " ${red}No format code found!\n $lines removed${nocolor}"
                 echo -e " Please visit: https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md${nocolor}\n"
                 sed -i '$ d' "$M3UFILE"
-                sleep 2
+                sleep 5
                 if (( $(grep -c '^https' "$M3UFILE" ) == 0 )); then
                     _Menu
                 else
@@ -27,7 +27,7 @@ _CheckCode() {
             sleep 1
         done
     )
-    
+
     case "$1" in
         -a) M3UFILE="$AUDIO_INFO"
             __NestedCheckCode ;;
