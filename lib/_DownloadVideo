@@ -8,7 +8,7 @@ _DownloadVideo() {
     cp -f "$list" "$list"_origin 2>/dev/null
     _CheckCode -l
 
-    echo ""
+    __
     echo " ${green}Tip: direct download will always pick the best format,"
     echo -e " on Youtube webm may be the best one but we'll merge files in mp4.\n"
     echo -e " Choose [S]pecific codes or [D]irect download?:\n${nocolor}"
@@ -35,14 +35,14 @@ _DownloadVideo() {
         s|S)    for url in $(grep -e 'https' "$list"); do
 
                     if (( $(_GetLinesList -l) < 3 )); then
-                        echo ""
+                        __
                         echo " ${green}There is $(_GetLinesList -l) video file left to download.${nocolor}"
                     else
-                        echo ""
+                        __
                         echo " ${green}There are $(_GetLinesList -l) video files left to download.${nocolor}"
                     fi
 
-                    echo ""
+                    __
                     echo -e " ${green}Codes for: $(_GetLinkTitle -d).${nocolor}\n"
 
                     if [[ $url =~ 'youtube.com' ]]; then
@@ -51,8 +51,7 @@ _DownloadVideo() {
                         youtube-dl -F "$url"
                     fi
 
-                    # perl -ne 'print if $. == 1..8 <filename>
-                    echo ""
+                    __
                     echo -e " ${green}Choose a format code. \n eg: 137+251 for merging, hls-1080p, 22 for single:${nocolor}"
                     read -r code
                     sleep 0.5
