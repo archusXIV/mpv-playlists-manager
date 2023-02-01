@@ -10,7 +10,7 @@ _GetYoutubePlaylistUrls() {
         ;;
     esac
 
-    youtube-dl -j "$(sed -n '$p' "$QUEUE")" \
+    youtube-dl --no-warnings -j "$(sed -n '$p' "$QUEUE")" \
     | jq '(.webpage_url)' | sed 's/"//g' \
     | tee -a "$QUEUE" >> "$URLS_INFO"
     sed -i '/playlist/d' "$QUEUE" "$URLS_INFO"
