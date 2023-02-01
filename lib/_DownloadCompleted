@@ -9,7 +9,7 @@ _DownloadCompleted() {
         echo " ${red}Temporary playlists have been moved in $playlists_dir."
         echo -e " Incomplete files in audio/video dir:\n${nocolor}"
         find . -name "*.part" | sort -d | sed 's,.*/,,' | cat -n
-        echo ""
+        __
         echo " ${green}Keep them in if you want to resume downloads,"
         echo " by using '.m3u_origin' files in section: 4) Load a playlist,"
         echo " in this session or later.${nocolor}"
@@ -19,7 +19,7 @@ _DownloadCompleted() {
         echo -e " ${green}Downloads are completed, do you want to KEEP:\n $list? [N/y]: ${nocolor}"
         read -rsn 1 keep
         case "$keep" in
-            N|n)    [[ -f "$QUEUE"_origin ]] && {
+            N|n)    [[ -f $QUEUE_origin ]] && {
                         rm "$QUEUE"_origin
                         _Menu
                     } || {
