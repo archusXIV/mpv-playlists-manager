@@ -3,8 +3,6 @@
 
 _GetYoutubePlaylistUrls() {
     __
-    echo -e " ${green}Checking youtube playlist availability...please wait.${nocolor}\n"
-
     case "$1" in
         -a) URLS_INFO="$AUDIO_INFO"
         ;;
