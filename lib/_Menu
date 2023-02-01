@@ -7,7 +7,7 @@ _Menu() {
     while [[ -e $QUEUE ]]; do
         clear
         _ListsCount
-        echo " "
+        __
         echo -e "                                           ${red}::MPV-PLAYLISTS-MANAGER OPTIONS::"
         echo -e "                                             "$VERSION" For usage: mpm --help${nocolor}"
         echo -e "                            ┌─────────────────────────────────────────────────────────────┐"
@@ -18,27 +18,27 @@ _Menu() {
         echo -e "                            │   5) Load local dir/files        X) Exit                    │"
         echo -e "                            └─────────────────────────────────────────────────────────────┘"
         echo -e "                                                   ${green}Select an item${nocolor}"
-        echo ""
+        __
         read -rsn 1 action
         case "$action" in
             1)  _CopyVideo
-                echo "" ;;
+                __ ;;
             2)  _CopyAudio
-                echo "" ;;
+                __ ;;
             3)  _SaveRemove
-                echo "" ;;
+                __ ;;
             4)  _LoadPlaylist
-                echo "" ;;
+                __ ;;
             5)  _LoadLocal
-                echo "" ;;
+                __ ;;
             6)  _ViewUrlInfo -q
-                echo "" ;;
+                __ ;;
             7)  _DeleteUrl
-                echo "" ;;
+                __ ;;
             8)  _EditPlaylist
-                echo "" ;;
+                __ ;;
             9)  _EditMpvConf
-                echo "" ;;
+                __ ;;
             x|X)  exit  ;;
         esac
     done
