@@ -2,10 +2,11 @@
 ## This is a part of main script: mpm.
 
 _ConvertAudio() {
+
     cd "$audios_dir"
-    
+
     read -rn1 -p ${green}' Select an output format [1 = mp3] [2 = flac] [3 = wav] [4 = ogg]: '${nocolor} conv
-    echo ""
+    __
     case "$conv" in
         1)  echo " ${green}Converting downloaded files in mp3...${nocolor}"
             find . -iname "*.webm" -exec \
@@ -40,5 +41,5 @@ _ConvertAudio() {
     rm ./*.webm
     echo " ${green}Conversion done.${nocolor}"
     sleep 2
-    
+
 }
