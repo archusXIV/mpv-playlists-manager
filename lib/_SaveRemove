@@ -2,47 +2,49 @@
 ## This is a part of main script: mpm.
 
 _SaveRemove() {
+
     cd "$playlists_dir"
+
     prompt=( "[B]ack to menu," "[S]ave default," "Save [A]udio," \
     "Save [V]ideo," "[R]emove a playlist." )
-    
+
     if [[ -f $AUDIO_INFO ]] && [[ -f $VIDEO_INFO ]]; then
-        if (( $(grep -c '^https' "$QUEUE") < 1 )); then
+        if (( $(_GetLinesList -q) < 1 )); then
             unset prompt[1]
             echo ${green} "${prompt[*]}" ${nocolor}
-            echo ""
+            __
         else
             echo ${green} "${prompt[@]}" ${nocolor}
-            echo ""
+            __
         fi
     elif [[ -f $AUDIO_INFO ]]; then
-        if (( $(grep -c '^https' "$QUEUE") < 1 )); then
+        if (( $(_GetLinesList -q) < 1 )); then
             unset {prompt[1],prompt[3]}
             echo ${green} "${prompt[*]}" ${nocolor}
         else
             unset prompt[3]
             echo ${green} "${prompt[*]}" ${nocolor}
-            echo ""
+            __
         fi
     elif [[ -f $VIDEO_INFO ]]; then
-        if (( $(grep -c '^https' "$QUEUE") < 1 )); then
+        if (( $(_GetLinesList -q) < 1 )); then
             unset {prompt[1],prompt[2]}
             echo ${green} "${prompt[*]}" ${nocolor}
         else
             unset prompt[2]
             echo ${green} "${prompt[*]}" ${nocolor}
-            echo ""
+            __
         fi
-    elif (( $(grep -c '^https' "$QUEUE") < 1 )); then
+    elif (( $(_GetLinesList -q) < 1 )); then
         echo -e " ${red}Nothing to save, maybe remove something?${nocolor}"
-        echo ""
+        __
         unset {prompt[1],prompt[2],prompt[3]}
         echo ${green} "${prompt[*]}" ${nocolor}
-        echo ""
+        __
     else
         unset {prompt[2],prompt[3]}
         echo ${green} "${prompt[*]}" ${nocolor}
-        echo ""
+        __
     fi
     read -rsn 1 opt
     case "$opt" in
@@ -53,16 +55,16 @@ _SaveRemove() {
                 | sort -d \
                 | sed 's,.*/,,' \
                 | cat -n
-                
-                echo ""
+
+                __
                 echo -e " ${green}Save default playlist as:\n${nocolor}"
                 read -r list
-                
+
                 list="$list.m3u"
                 if [[ $(find . -name "${list}") ]]; then
                     echo -e " ${red}This playlist already exists!\n Overwrite $list? [y/N]:${nocolor}"
                     read -r overwrite
-                    
+
                     case "$overwrite" in
                         y|Y)    cp -f "$QUEUE" "$list"
                                 echo " ${green}$list saved ${nocolor}"
@@ -70,18 +72,18 @@ _SaveRemove() {
                                 _Menu ;;
                         N|n)    _Menu ;;
                     esac
-                
+
                 else
                     cp "$QUEUE" "$list"
                     echo " ${green}$list saved ${nocolor}"
                     sleep 2
                     _Menu
                 fi
-        ;;    
+        ;;
         r|R)    PS3=${green}' Choose a playlist to remove: '${nocolor}
-                echo ""
+                __
                 select list in $(find . -name "*.m3u" -o -name "*.m3u_origin" | sort -d | sed 's,.*/,,'); do
-                    echo ""
+                    __
                     echo " ${red}Are you sure you want to remove $list? [y/N]:${nocolor}"
                     read -r del
                     case "$del" in
@@ -93,7 +95,6 @@ _SaveRemove() {
                         N|n)    _Menu
                         ;;
                     esac
-                
                 done
         ;;
         v|V)    _Save -v ;;
