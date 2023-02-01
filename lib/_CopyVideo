@@ -4,17 +4,20 @@
 _CopyVideo() {
 
     while (( $(grep "" -c "$QUEUE") > 0 )); do
-        [[ -f $AUDIO_INFO ]] && \
+        if [[ -f $AUDIO_INFO ]]; then
             echo -e " ${red}Audio links have been added earlier...${nocolor}\n"
-
+        fi
         __
         echo -e " Paste an url to fill the ${green}video${nocolor} playlist:\n"
         read -r url
         echo "$url" | tee -a "$QUEUE" >> "$VIDEO_INFO"
         _RemoveCrap 2>/dev/null
-        youtube-dl --get-title "$(sed -r -n '$ p' "$VIDEO_INFO")" >> "$VIDEO_TITLE"
+        __
+        echo -e " ${green}Getting titles...${nocolor}\n"
+        youtube-dl --get-title --no-warnings "$(sed -r -n '$ p' "$VIDEO_INFO")" >> "$VIDEO_TITLE"
 
         [[ $url =~ 'playlist?list=' ]] && {
+            echo -e " ${green}Checking youtube playlist availability...please wait.${nocolor}\n"
             _GetYoutubePlaylistUrls -v
             _RemoveCrap 2>/dev/null
         }
