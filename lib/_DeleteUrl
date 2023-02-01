@@ -14,7 +14,7 @@ _DeleteUrl() {
             _Menu
         fi
     else
-        echo ""
+        __
         sed -i '/^https/d' "$QUEUE"
         _CleanTmpDir
         echo " ${red}All temporary lists cleared...${nocolor}"
