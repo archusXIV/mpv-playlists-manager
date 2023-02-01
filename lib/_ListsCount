@@ -2,7 +2,7 @@
 ## This is a part of main script: mpm.
 
 _ListsCount() {
-    echo ""
+    __
     echo " ${green}Default list: $(_GetLinesList -q) url(s).${nocolor}"
     [[ -f "$AUDIO_INFO" ]] && \
         echo " ${green}Audio list:   $(_GetLinesList -a) url(s).${nocolor}"
