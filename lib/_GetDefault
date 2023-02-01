@@ -7,39 +7,39 @@ _GetDefault() {
             _GetMediaTitle -q > "$tmp_dir"/DefaultAudio.txt
             cd "$audios_dir"
             cp -f "$QUEUE" "$QUEUE"_origin 2>/dev/null
-            
+
             for url in $(grep '^https' "$QUEUE"); do
-                echo ""
+                __
                 echo -e " ${green}Codes for: $(sed -n '1p' "$tmp_dir"/DefaultAudio.txt).${nocolor}\n"
                 youtube-dl -F "$url" | sed -n '6,7p;/audio only/p' 2>/dev/null
-                echo ""
+                __
                 echo " ${green}Choose a format code: ${nocolor}"
                 read -r code
-    
+
                 clear
 
                 if (( $(_GetLinesList -q) < 2 )); then
-                    echo ""
+                    __
                     echo " ${green}There is $(_GetLinesList -q) audio file left to download.${nocolor}"
                 else
-                    echo ""
+                    __
                     echo " ${green}There are $(_GetLinesList -q) audio files left to download.${nocolor}"
                 fi
-    
+
                 echo " ${green}Please be patient while downloading..."
                 echo -e " ${red}$(sed -n '1p' "$tmp_dir"/DefaultAudio.txt).${nocolor}\n"
                 youtube-dl -f "$code" --progress "$url"
                 sed -i '2d' "$QUEUE"; sed -i '1d' "$tmp_dir"/DefaultAudio.txt
                 clear
-    
+
             done
-    
+
             echo -e " ${green}Done\n${nocolor}"
-    
+
             if [[ -n $(find . -iname "*.webm") ]]; then
                 echo -e " ${red}Advisory: IF YOU CHOOSE CONVERSION, ALL FILES WILL BE IN THE CHOSEN FORMAT.${nocolor}\n"
                 find . -iname "*.webm" | sed 's,.*/,,'
-                echo ""
+                __
                 echo -e " ${green}Do you wish to convert them? [Y/n]: ${nocolor}\n"
                 read -rsn 1 answer
                 case "$answer" in
@@ -56,29 +56,29 @@ _GetDefault() {
             cd "$videos_dir"
             cp -f "$QUEUE" "$QUEUE"_origin 2>/dev/null
             for url in $(grep '^https' "$QUEUE"); do
-                echo ""
+                __
                 echo -e " ${green}Codes for: $(sed -n '1p' "$tmp_dir"/DefaultVideo.txt).${nocolor}\n"
-    
+
                 if [[ "$url" =~ 'youtube.com' ]]; then
                     youtube-dl -F "$url" | sed '1,5d;/^[sb]/d'
                 else
                     youtube-dl -F "$url"
                 fi
-    
-                echo ""
+
+                __
                 echo -e " ${green}Choose a format code. \n eg: 137+251 for merging, hls-1080p, 22 for single:${nocolor}"
                 read -r code
-    
+
                 clear
-    
+
                 if (( $(_GetLinesList -q) < 3 )); then
-                    echo ""
+                    __
                     echo " ${green}There is $(_GetLinesList -q) video file left to download.${nocolor}"
                 else
-                    echo ""
+                    __
                     echo " ${green}There are $(_GetLinesList -q) video files left to download.${nocolor}"
                 fi
-    
+
                 if [[ "$code" =~ '+' ]]; then
                     echo " ${green}Please be patient while downloading and merging formats for:"
                     echo " ${red}$(sed -n '1p' "$tmp_dir"/DefaultVideo.txt).${nocolor}"
@@ -90,9 +90,9 @@ _GetDefault() {
                 fi
                 sed -i '2d' "$QUEUE"; sed -i '1d' "$tmp_dir"/DefaultVideo.txt
                 clear
-    
+
             done
-    
+
             echo -e " ${green}Done.\n${nocolor}"
             sleep 2
             _GetCompleted -v
