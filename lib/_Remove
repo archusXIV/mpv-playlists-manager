@@ -5,16 +5,16 @@ _Remove() {
 
     case "$1" in
         -a) rm "$AUDIO_INFO" "$AUDIO_TITLE"
-            echo ""
+            __
             echo " ${red}Audio list removed...${nocolor}"
             sleep 3s
             _Menu ;;
         -q) sed -i '/^https/d' "$QUEUE"
-            echo ""
+            __
             echo " ${red}Default list cleared...${nocolor}"
             sleep 3s ;;
         -v) rm "$VIDEO_INFO" "$VIDEO_TITLE"
-            echo ""
+            __
             echo " ${red}Video list removed...${nocolor}"
             sleep 3s
             _Menu ;;
