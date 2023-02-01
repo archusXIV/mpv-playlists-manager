@@ -4,16 +4,16 @@
 _CopyAudio() {
 
     while (( $(grep "" -c "$QUEUE") > 0 )); do
-        if [[ -f $VIDEO_INFO ]]; then
+        [[ -f $VIDEO_INFO ]] && \
             echo -e " ${red}Video links have been added earlier...${nocolor}\n"
-        fi
-        echo ""
+
+        __
         echo -e " Paste an url to fill the ${green}audio${nocolor} playlist:\n"
         read -r url
         echo "$url" | tee -a "$QUEUE" >> "$AUDIO_INFO"
         _RemoveCrap 2>/dev/null
         youtube-dl --get-title "$(sed -r -n '$ p' "$AUDIO_INFO")" >> "$AUDIO_TITLE"
-        
+
         [[ $url =~ 'playlist?list=' ]] && {
             _GetYoutubePlaylistUrls -a
             _RemoveCrap 2>/dev/null
@@ -22,7 +22,7 @@ _CopyAudio() {
         clear
         _ListsCount
 
-        echo ""
+        __
         echo -e "                                                    ${red}::audio options::${nocolor}"
         echo -e "                              ┌────────────────────────────────────────────────────────────┐"
         echo -e "                              │     1) Add more audio links      4) Play current list      │"
@@ -30,21 +30,21 @@ _CopyAudio() {
         echo -e "                              │     3) Save playlist as          6) Back to main menu      │"
         echo -e "                              └────────────────────────────────────────────────────────────┘"
         echo -e "                                                    ${green}Select an item${nocolor}"
-        echo ""
+        __
         read -rsn 1 options
         case "$options" in
             1)  continue
-                echo "" ;;
+                __ ;;
             2)  _GetAudio
                 break ;;
             3)  _Save -a
-                echo "" ;;
+                __ ;;
             4)  _LoadAudio -a
-                echo "" ;;
+                __ ;;
             5)  _ViewUrlInfo -a
-                echo "" ;;
+                __ ;;
             6)  _Menu
-                echo "" ;;
+                __ ;;
         esac
     done
 }
