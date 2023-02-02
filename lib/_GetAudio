@@ -9,7 +9,7 @@ _GetAudio() {
     for url in $(grep '^https' "$AUDIO_INFO"); do
         __
         echo -e " ${green}Codes for: $(_GetLinkTitle -a).${nocolor}\n"
-        youtube-dl -F "$url" | sed -n '6,7p;/audio only/p' 2>/dev/null
+        youtube-dl -F --no-warnings "$url" | sed -n '6,7p;/audio only/p' 2>/dev/null
         __
         echo " ${green}Choose a format code: ${nocolor}"
         read -r code
@@ -26,7 +26,7 @@ _GetAudio() {
 
         echo " ${green}Please be patient while downloading..."
         echo -e " ${red}$(_GetLinkTitle -a).${nocolor}\n"
-        youtube-dl -f "$code" --progress "$url"
+        youtube-dl -f --no-warnings "$code" --progress "$url"
         sed -i '1d' {"$AUDIO_INFO","$AUDIO_TITLE"}
         clear
     done
