@@ -10,6 +10,7 @@ _Menu() {
         __
         echo -e "                                           ${red}::MPV-PLAYLISTS-MANAGER OPTIONS::"
         echo -e "                                             "$VERSION" For usage: mpm --help${nocolor}"
+        echo -e "                               ${green}For a better display consider a terminal size of 1190x685${nocolor}"
         echo -e "                            ┌─────────────────────────────────────────────────────────────┐"
         echo -e "                            │   1) Create/Add video playlist   6) View default playlist   │"
         echo -e "                            │   2) Create/Add audio playlist   7) Clear all tmp lists     │"
