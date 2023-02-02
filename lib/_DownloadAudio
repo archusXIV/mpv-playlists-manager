@@ -22,13 +22,13 @@ _DownloadAudio() {
 
         __
         echo -e " ${green}Codes for: $(_GetLinkTitle -d).${nocolor}\n"
-        youtube-dl -F "$url" | sed -n '6,7p;/audio only/p'
+        youtube-dl -F --no-warnings "$url" | sed -n '6,7p;/audio only/p'
         __
         echo " ${green}Choose a format code: ${nocolor}"
         read -r code
         clear
-        echo " ${green}Downloading ${red}$(_GetLinkTitle -d)...${nocolor}"
-        youtube-dl -f "$code" --progress "$url"
+        echo -e " ${green}Downloading ${red}$(_GetLinkTitle -d)...${nocolor}\n"
+        youtube-dl -f --no-warnings "$code" --progress "$url"
         sed -i '2d' "$list"; sed -i '1d' "$tmp_dir"/download.txt
         clear
 
