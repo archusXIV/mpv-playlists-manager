@@ -11,9 +11,9 @@ _GetVideo() {
         echo -e " ${green}Codes for: $(_GetLinkTitle -v).${nocolor}\n"
 
         if [[ "$url" =~ 'youtube.com' ]]; then
-            youtube-dl -F "$url" | sed '1,5d;/^[sb]/d'
+            youtube-dl -F --no-warnings "$url" | sed '1,5d;/^[sb]/d'
         else
-            youtube-dl -F "$url"
+            youtube-dl -F --no-warnings "$url"
         fi
 
         __
@@ -32,11 +32,14 @@ _GetVideo() {
         if [[ "$code" =~ '+' ]]; then
             echo " ${green}Please be patient while downloading and merging formats for:"
             echo -e " ${red}$(_GetLinkTitle -v).${nocolor}\n"
-            youtube-dl -f "$code" --merge-output-format mp4 --progress "$url"
+            youtube-dl -f \
+            --no-warnings "$code" \
+            --merge-output-format mp4 \
+            --progress "$url"
         else
             echo " ${green}Please be patient while downloading:"
             echo -e " ${red}$(_GetLinkTitle -v).${nocolor}\n"
-            youtube-dl -f "$code" --progress "$url"
+            youtube-dl -f --no-warnings "$code" --progress "$url"
         fi
 
         sed -i '1d' {"$VIDEO_INFO","$VIDEO_TITLE"}
