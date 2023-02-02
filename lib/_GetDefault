@@ -11,7 +11,7 @@ _GetDefault() {
             for url in $(grep '^https' "$QUEUE"); do
                 __
                 echo -e " ${green}Codes for: $(sed -n '1p' "$tmp_dir"/DefaultAudio.txt).${nocolor}\n"
-                youtube-dl -F "$url" | sed -n '6,7p;/audio only/p' 2>/dev/null
+                youtube-dl -F --no-warnings "$url" | sed -n '1,4d;5,6p;/audio only/p' 2>/dev/null
                 __
                 echo " ${green}Choose a format code: ${nocolor}"
                 read -r code
@@ -28,7 +28,7 @@ _GetDefault() {
 
                 echo " ${green}Please be patient while downloading..."
                 echo -e " ${red}$(sed -n '1p' "$tmp_dir"/DefaultAudio.txt).${nocolor}\n"
-                youtube-dl -f "$code" --progress "$url"
+                youtube-dl -f --no-warnings "$code" --progress "$url"
                 sed -i '2d' "$QUEUE"; sed -i '1d' "$tmp_dir"/DefaultAudio.txt
                 clear
 
@@ -60,9 +60,9 @@ _GetDefault() {
                 echo -e " ${green}Codes for: $(sed -n '1p' "$tmp_dir"/DefaultVideo.txt).${nocolor}\n"
 
                 if [[ "$url" =~ 'youtube.com' ]]; then
-                    youtube-dl -F "$url" | sed '1,5d;/^[sb]/d'
+                    youtube-dl -F --no-warnings "$url" | sed '1,4d;/^[sb]/d'
                 else
-                    youtube-dl -F "$url"
+                    youtube-dl -F --no-warnings "$url"
                 fi
 
                 __
@@ -81,12 +81,16 @@ _GetDefault() {
 
                 if [[ "$code" =~ '+' ]]; then
                     echo " ${green}Please be patient while downloading and merging formats for:"
-                    echo " ${red}$(sed -n '1p' "$tmp_dir"/DefaultVideo.txt).${nocolor}"
-                    youtube-dl -f "$code" --merge-output-format mp4 --progress "$url"
+                    echo -e " ${red}$(sed -n '1p' "$tmp_dir"/DefaultVideo.txt).${nocolor}\n"
+                    youtube-dl \
+                    -f "$code" \
+                    --no-warnings \
+                    --merge-output-format mp4 \
+                    --progress "$url"
                 else
                     echo " ${green}Please be patient while downloading:"
-                    echo " ${red}$(sed -n '1p' "$tmp_dir"/DefaultVideo.txt).${nocolor}"
-                    youtube-dl -f "$code" --progress "$url"
+                    echo -e " ${red}$(sed -n '1p' "$tmp_dir"/DefaultVideo.txt).${nocolor}\n"
+                    youtube-dl -f --no-warnings "$code" --progress "$url"
                 fi
                 sed -i '2d' "$QUEUE"; sed -i '1d' "$tmp_dir"/DefaultVideo.txt
                 clear
