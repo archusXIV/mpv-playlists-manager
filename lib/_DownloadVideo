@@ -22,9 +22,9 @@ _DownloadVideo() {
                 for line in "${DIRECT[@]}"; do
                     printf '%s\n' " ${green}Downloading $count file(s).${nocolor}"
                     [[ $line =~ 'youtube.com' ]] && {
-                        youtube-dl --merge-output-format mp4 "$line"
+                        youtube-dl --no-warnings --merge-output-format mp4 "$line"
                         clear
-                    } || youtube-dl "$line" && clear
+                    } || youtube-dl --no-warnings "$line" && clear
                     let "count--"
                 done
 
@@ -42,13 +42,12 @@ _DownloadVideo() {
                         echo " ${green}There are $(_GetLinesList -l) video files left to download.${nocolor}"
                     fi
 
-                    __
                     echo -e " ${green}Codes for: $(_GetLinkTitle -d).${nocolor}\n"
 
                     if [[ $url =~ 'youtube.com' ]]; then
-                        youtube-dl -F "$url" | sed '1,5d;/^[sb]/d'
+                        youtube-dl -F --no-warnings "$url" | sed '1,5d;/^[sb]/d'
                     else
-                        youtube-dl -F "$url"
+                        youtube-dl -F --no-warnings "$url"
                     fi
 
                     __
@@ -59,12 +58,12 @@ _DownloadVideo() {
 
                     if [[ "$code" =~ '+' ]]; then
                         echo " ${green}Please be patient while downloading and merging formats for:"
-                        echo " ${red}$(_GetLinkTitle -d).${nocolor}"
-                        youtube-dl -f "$code" --merge-output-format mp4 --progress "$url"
+                        echo -e " ${red}$(_GetLinkTitle -d).${nocolor}\n"
+                        youtube-dl -f --no-warnings "$code" --merge-output-format mp4 --progress "$url"
                     else
                         echo " ${green}Please be patient while downloading:"
-                        echo " ${red}$(_GetLinkTitle -d).${nocolor}"
-                        youtube-dl -f "$code" --progress "$url"
+                        echo -e " ${red}$(_GetLinkTitle -d).${nocolor}\n"
+                        youtube-dl -f --no-warnings "$code" --progress "$url"
                     fi
 
                     sed -i '2d' "$list"; sed -i '1d' "$tmp_dir"/download.txt
