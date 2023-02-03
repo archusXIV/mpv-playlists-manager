@@ -22,6 +22,7 @@ _CopyAudio() {
             _RemoveCrap 2>/dev/null
         }
 
+        _ResizeWindow
         clear
         _ListsCount
 
