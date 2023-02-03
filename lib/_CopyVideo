@@ -5,19 +5,19 @@ _CopyVideo() {
 
     while (( $(grep "" -c "$QUEUE") > 0 )); do
         if [[ -f $AUDIO_INFO ]]; then
-            echo -e " ${red}Audio links have been added earlier...${nocolor}\n"
+            echo -e " ${r}Audio links have been added earlier...${nc}\n"
         fi
         __
-        echo -e " Paste an url to fill the ${green}video${nocolor} playlist:\n"
+        echo -e " Paste an url to fill the ${g}video${nc} playlist:\n"
         read -r url
         echo "$url" | tee -a "$QUEUE" >> "$VIDEO_INFO"
         _RemoveCrap 2>/dev/null
         __
-        echo -e " ${green}Getting titles...${nocolor}\n"
+        echo -e " ${g}Getting titles...${nc}\n"
         youtube-dl --get-title --no-warnings "$(sed -r -n '$ p' "$VIDEO_INFO")" >> "$VIDEO_TITLE"
 
         [[ $url =~ 'playlist?list=' ]] && {
-            echo -e " ${green}Checking youtube playlist availability...please wait.${nocolor}\n"
+            echo -e " ${g}Checking youtube playlist availability...please wait.${nc}\n"
             _GetYoutubePlaylistUrls -v
             _RemoveCrap 2>/dev/null
         }
@@ -26,13 +26,13 @@ _CopyVideo() {
         _ListsCount
 
         __
-        echo -e "                                                    ${red}::video options::${nocolor}"
+        echo -e "                                                    ${r}::video options::${nc}"
         echo -e "                              ┌────────────────────────────────────────────────────────────┐"
         echo -e "                              │     1) Add more video links      4) Play current list      │"
         echo -e "                              │     2) Download current list     5) View current list      │"
         echo -e "                              │     3) Save playlist as          6) Back to main menu      │"
         echo -e "                              └────────────────────────────────────────────────────────────┘"
-        echo -e "                                                    ${green}Select an item${nocolor}"
+        echo -e "                                                    ${g}${b}Select an item${nb}${nc}"
         __
         read -rsn 1 options
         case "$options" in
