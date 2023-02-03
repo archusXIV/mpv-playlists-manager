@@ -12,10 +12,12 @@ _CheckDependencies() {
         }
     done
     
-    if ! hash ranger wmctrl >/dev/null 2>&1; then
-        echo " ${green}For better experience consider installing ranger, wmctrl.${nocolor}"
-        sleep 3
-    fi
+    for optional in ranger wmctrl; do
+        [[ -z $(command -v "$optional") ]] && {
+            echo " ${green}For better experience consider installing $optional.${nocolor}"
+            sleep 3
+        }
+    done
     
     if [[ ! -d $main_dir ]]; then
         mkdir --parents {"$audios_dir","$playlists_dir","$tmp_dir","$videos_dir"}
