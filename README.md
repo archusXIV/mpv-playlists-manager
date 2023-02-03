@@ -20,13 +20,13 @@ mp3, flac, ogg, or wav.
 Requests and contributions are welcomed, have fun.
 
 # dependencies
-1.[ffmpeg](https://ffmpeg.org/)
-2.[jq](https://stedolan.github.io/jq/)
-3.[mpv](https://mpv.io/)
-4.[ranger](https://github.com/ranger/ranger) (see the help  option for details)
-5.[vim](https://www.vim.org/) (set as the EDITOR)
-6.[youtube-dl](https://youtube-dl.org/)
-7.[yt-dlp](https://github.com/yt-dlp/yt-dlp)
+- [ffmpeg](https://ffmpeg.org/)
+- [jq](https://stedolan.github.io/jq/)
+- [mpv](https://mpv.io/)
+- [ranger](https://github.com/ranger/ranger) (see the help  option for details)
+- [vim](https://www.vim.org/) (set as the EDITOR)
+- [youtube-dl](https://youtube-dl.org/)
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
 # installation
 
