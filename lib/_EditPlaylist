@@ -5,15 +5,15 @@ _EditPlaylist() {
 
     cd "$playlists_dir"
 
-    PS3=${green}' Choose a playlist to edit: '${nocolor}
+    PS3=${g}' Choose a playlist to edit: '${nc}
 
     select list in $(find . -name "*.m3u" -o -name "*.m3u_origin" \
         | sort -d | sed 's,.*/,,'); do
         __
         $EDITOR "$list"
-        echo -e " ${green}$list saved${nocolor}\n"
+        echo -e " ${g}$list saved${nc}\n"
         sleep 2
-        read -rsn 1 -p ${green}' [C]ontinue editing, [B]ack to menu.'${nocolor} edit
+        read -rsn 1 -p ${g}' [C]ontinue editing, [B]ack to menu.'${nc} edit
         case "$edit" in
             c|C)    __
                     continue
