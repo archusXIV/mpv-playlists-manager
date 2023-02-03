@@ -6,17 +6,17 @@ _DownloadCompleted() {
 
     if [[ -n $(find . -name "*.part") ]]; then
         mv {"$AUDIO_INFO"_origin,"$VIDEO_INFO"_origin} "$playlists_dir" 2>/dev/null
-        echo " ${red}Temporary playlists have been moved in $playlists_dir."
-        echo -e " Incomplete files in audio/video dir:\n${nocolor}"
+        echo " ${r}Temporary playlists have been moved in $playlists_dir."
+        echo -e " Incomplete files in audio/video dir:\n${nc}"
         find . -name "*.part" | sort -d | sed 's,.*/,,' | cat -n
         __
-        echo " ${green}Keep them in if you want to resume downloads,"
+        echo " ${g}Keep them in if you want to resume downloads,"
         echo " by using '.m3u_origin' files in section: 4) Load a playlist,"
-        echo " in this session or later.${nocolor}"
+        echo " in this session or later.${nc}"
         sleep 15
         _Menu
     else
-        echo -e " ${green}Downloads are completed, do you want to KEEP:\n $list? [N/y]: ${nocolor}"
+        echo -e " ${g}Downloads are completed, do you want to KEEP:\n $list? [N/y]: ${nc}"
         read -rsn 1 keep
         case "$keep" in
             N|n)    [[ -f $QUEUE_origin ]] && {
