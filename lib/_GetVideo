@@ -11,7 +11,7 @@ _GetVideo() {
         echo -e " ${green}Codes for: $(_GetLinkTitle -v).${nocolor}\n"
 
         if [[ "$url" =~ 'youtube.com' ]]; then
-            youtube-dl -F --no-warnings "$url" | sed '1,5d;/^[sb]/d'
+            youtube-dl -F --no-warnings "$url" | sed '1,4d;/^[sb]/d'
         else
             youtube-dl -F --no-warnings "$url"
         fi
