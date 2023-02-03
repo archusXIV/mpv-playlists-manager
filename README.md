@@ -1,5 +1,5 @@
 # mpv-playlists-manager
-Manage playlists for mpv from your terminal.
+## Manage playlists for mpv from your terminal.
 Video link: https://www.youtube.com/watch?v=7OWO1vRL77A
 ```
 user@linux ~ $
@@ -23,6 +23,7 @@ For a better experience I **recommend** a minimum terminal size of 1190x685 beca
 outputs that let you choose desired audio/video formats, if you want an automatic terminal
 resizing just install [wmctrl](http://tripie.sweb.cz/utils/wmctrl/) an the script will take care of
 that for you.
+If you're a tiling window manager user, make it float or give it more room in the stack.
 ```
 wmctrl -r :ACTIVE: -e 5,-1,-1,1190,685
         -----------   -- -- -- --- ---
@@ -33,7 +34,7 @@ wmctrl -r :ACTIVE: -e 5,-1,-1,1190,685
              |         |----------------> Gravity
              |--------------------------> Apply to the active window
 ```
-Requests and contributions are welcomed, have fun.
+Requests and contributions? Why not, have fun.
 
 # dependencies
 - [ffmpeg](https://ffmpeg.org/)
