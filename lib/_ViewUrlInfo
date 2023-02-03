@@ -3,7 +3,7 @@
 
 _ViewUrlInfo() {
     # Normaly in Bash nested functions use parentheses instead of curly braces,
-    # but here it won't work because of the case statment right parentheses...
+    # but here it won't work because of the case statment right parenthese...
     # They will close the block before it finishes.
 
     prompt=( "[B]ack to menu," "[A]dd more audio links," "[A]dd more video links," \
@@ -15,7 +15,7 @@ _ViewUrlInfo() {
         cat -n "$AUDIO_TITLE"
         __
         unset {prompt[2],prompt[7]}
-        echo ${green} "${prompt[*]}" ${nocolor}
+        echo ${g} "${prompt[*]}" ${nc}
         read -rsn 1 opt
         case "$opt" in
             a|A)    __; _CopyAudio ;;
@@ -34,7 +34,7 @@ _ViewUrlInfo() {
         cat -n "$VIDEO_TITLE"
         __
         unset {prompt[1],prompt[7]}
-        echo ${green} "${prompt[*]}" ${nocolor}
+        echo ${g} "${prompt[*]}" ${nc}
         read -rsn 1 opt
         case "$opt" in
             a|A)    __; _CopyVideo ;;
@@ -50,16 +50,16 @@ _ViewUrlInfo() {
 
     __queue() {
         if (( $(_GetLinesList -q) > 0 )); then
-            echo " ${green}order |  Default playlist link(s)${nocolor}"
-            echo -e " ${green}______________________________________________________${nocolor}\n"
+            echo " ${g}order |  Default playlist link(s)${nc}"
+            echo -e " ${g}______________________________________________________${nc}\n"
             sed '1d' "$QUEUE" | cat -n
             __
             unset {prompt[1],prompt[2]}
-            echo ${green} "${prompt[*]}" ${nocolor}
+            echo ${g} "${prompt[*]}" ${nc}
             read -rsn 1 opt
             case "$opt" in
                 b|B)    _Menu ;;
-                d|D)    __; read -rsn 1 -p ${green}' Download [A]udio, [V]ideo:'${nocolor} get
+                d|D)    __; read -rsn 1 -p ${g}' Download [A]udio, [V]ideo:'${nc} get
                         __; clear
                         case "$get" in
                             a|A)    _GetDefault -a ;;
@@ -73,11 +73,11 @@ _ViewUrlInfo() {
                 v|V)    __
                        _GetMediaTitle -q | cat -n
                         __
-                        read -rsn 1 -p ${green}' Press any key for main menu.'${nocolor} menu
+                        read -rsn 1 -p ${g}' Press any key for main menu.'${nc} menu
                         case "$menu" in *) clear; _Menu ;; esac ;;
             esac
         else
-            echo " ${red}There is nothing to do, Default playlist is empty...${nocolor}"
+            echo " ${r}There is nothing to do, Default playlist is empty...${nc}"
             sleep 3
         fi
         return 0
