@@ -19,8 +19,8 @@ MPV-PLAYLISTS-MANAGER usage:
         Links saved here and in audio section too are not permanent, they will be erased
         when closing the program... So be carefull and saved them before it's too late.
         In this section we will be able to create a temporary video playlist by 'copy/paste'
-        urls from Youtube.com or any other supported web site by youtube-dl/yt-dlp packages.
-        https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md
+        urls from Youtube.com or any other [supported web sites](https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md)
+        by youtube-dl/yt-dlp packages.
         After the first entry this will drop us into the 'video options' menu where we have
         six dedicated options. See II) audio/video files options:
 
