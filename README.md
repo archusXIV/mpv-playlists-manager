@@ -39,8 +39,9 @@ Requests and contributions are welcomed, have fun.
 - [ffmpeg](https://ffmpeg.org/)
 - [jq](https://stedolan.github.io/jq/)
 - [mpv](https://mpv.io/)
-- [ranger](https://github.com/ranger/ranger) (see the help  option for details)
+- [ranger](https://github.com/ranger/ranger) (optional, see the help  option for details)
 - [vim](https://www.vim.org/) (set as the EDITOR)
+- [wmctrl](https://www.freedesktop.org/wiki/Software/wmctrl/) (optional)
 - [youtube-dl](https://youtube-dl.org/)
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
