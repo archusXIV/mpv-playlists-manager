@@ -2,7 +2,8 @@ MPV-PLAYLISTS-MANAGER usage:
 
     !!! YOU CAN CHANGE MPM'S DIRECTORIES BY EDITING THE VARIABLES IN THE SCRIPT!!!
     By default "$HOME"/Documents/mpv-playlists-manager/
-    Dependencies: ffmpeg, jq, mpv, ranger (optional), youtube-dl, yt-dlp (for better results).
+    Dependencies: ffmpeg, jq, mpv, youtube-dl, yt-dlp (for better results).
+    Optionals: ranger, wmctrl
 
     I) Main menu:
 
@@ -19,8 +20,8 @@ MPV-PLAYLISTS-MANAGER usage:
         Links saved here and in audio section too are not permanent, they will be erased
         when closing the program... So be carefull and saved them before it's too late.
         In this section we will be able to create a temporary video playlist by 'copy/paste'
-        urls from Youtube.com or any other supported web sites by youtube-dl/yt-dlp packages.
-        (https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md)
+        urls from Youtube.com or any other supported web site by youtube-dl/yt-dlp packages.
+        https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md
         After the first entry this will drop us into the 'video options' menu where we have
         six dedicated options. See II) audio/video files options:
 
@@ -37,7 +38,7 @@ MPV-PLAYLISTS-MANAGER usage:
         If the default list is still filled with links we can stream audios or videos from it,
         if not the dedicated options will not appear.
         Now we still have the choice to play or download media links from the collection.
-        Two downloading methods are offered here: one by choosing specidics format codes,
+        Two downloading methods are offer here: one by choosing specidics format codes,
         and a direct download functionality which grabs the best format.
 
     5)  Load local dir/files:
