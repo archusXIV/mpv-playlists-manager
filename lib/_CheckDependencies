@@ -3,7 +3,7 @@
 
 _CheckDependencies() {
     ## softwares, directories and files.
-    declare -a deps=( "ffmpeg" "jq" "mpv" "ranger" "youtube-dl" "yt-dlp" )
+    declare -a deps=( "ffmpeg" "jq" "mpv" "youtube-dl" "yt-dlp" )
     
     for item in "${deps[@]}"; do
         [[ -z $(command -v "$item") ]] && {
@@ -11,6 +11,11 @@ _CheckDependencies() {
             exit 127
         }
     done
+    
+    if ! hash ranger wmctrl >/dev/null 2>&1; then
+        echo " ${green}For better experience consider installing ranger, wmctrl.${nocolor}"
+        sleep 3
+    fi
     
     if [[ ! -d $main_dir ]]; then
         mkdir --parents {"$audios_dir","$playlists_dir","$tmp_dir","$videos_dir"}
