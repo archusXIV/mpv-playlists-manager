@@ -4,6 +4,7 @@
 ##    https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
 ##    Dependencies: ffmpeg, jq, mpv, youtube-dl.
 ##    Optionals: ranger, wmctrl
+##
 ##    Youtube-dl is for now kind of unmaintained so install and make a symlink with
 ##    https://github.com/yt-dlp/yt-dlp/releases
 ##    sudo pacman -S yt-dlp youtube-dl
@@ -16,7 +17,15 @@
 ##    It is recommanded to disable mpv cache for better results on direct streaming,
 ##    or find a better cache parameter.
 
-VERSION="v.0.9-7"
+VERSION="v.0.9-8"
+
+## prompts & messages colors
+nc=$'\e[0m';
+r=$'\e[0;31m';
+g=$'\e[0;32m';
+c=$'\e[96m';
+b=$'\e[5m';
+nb=$'\e[25m'
 
 ## First source our functions.
 for func in $(find /usr/local/lib/mpm -name "_*"); do
@@ -31,13 +40,7 @@ pids=($(pidof -x $mpvmenu))
 
 [[ ${#pids[@]} -gt 1 ]] && exit
 
-## prompts & messages colors
-nocolor=$'\e[0m';
-red=$'\e[0;31m';
-green=$'\e[0;32m';
-
-# !!!!!!!!!!!!!!!! creates a blank line !!!!!!!!!!!!!!!!!!!
-# so do not delete these characters "__" in the code below.
+# creates a blank line
 __() { printf '%s\n'; }
 
 ## default editor
@@ -70,7 +73,7 @@ case "$1" in -h|--help) cat | less << EOF
     !!! YOU CAN CHANGE MPM'S DIRECTORIES BY EDITING THE VARIABLES IN THE SCRIPT!!!
     By default "$HOME"/Documents/mpv-playlists-manager/
     Dependencies: ffmpeg, jq, mpv, youtube-dl, yt-dlp (for better results).
-    Optionals: ranger, wmctrl.
+    Optionals: ranger, wmctrl
 
     I) Main menu:
 
@@ -105,7 +108,7 @@ case "$1" in -h|--help) cat | less << EOF
         If the default list is still filled with links we can stream audios or videos from it,
         if not the dedicated options will not appear.
         Now we still have the choice to play or download media links from the collection.
-        Two downloading methods are offered here: one by choosing specidics format codes,
+        Two downloading methods are offer here: one by choosing specidics format codes,
         and a direct download functionality which grabs the best format.
 
     5)  Load local dir/files:
@@ -156,6 +159,6 @@ case "$1" in -h|--help) cat | less << EOF
 EOF
 exit ;; esac
 
-wmctrl -r :ACTIVE: -e 5,-1,-1,1190,685
+wmctrl -r :ACTIVE: -e 5,-1,-1,1200,685
 
 _CheckDependencies "${@}"
