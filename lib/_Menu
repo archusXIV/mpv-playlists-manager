@@ -5,6 +5,7 @@ _Menu() {
     # First copy url then select option 1 or 2,
     # the link will be saved in an m3u file.
     while [[ -e $QUEUE ]]; do
+        _ResizeWindow
         clear
         _ListsCount
         __
