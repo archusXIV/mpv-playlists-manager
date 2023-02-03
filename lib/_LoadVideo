@@ -5,9 +5,9 @@ _LoadVideo() {
 
     clear
     __
-    echo "${red}Tip: You may want to put this in your mpv.conf:"
+    echo "${r}Tip: You may want to put this in your mpv.conf:"
     printf '%s\n' "term-playing-msg='Tiltle: \${media-title}'"
-    echo "Otherwise press I in mpv for more infos.${nocolor}"
+    echo "Otherwise press I in mpv for more infos.${nc}"
     __
 
     [[ -f $HIGHEST ]] && mpv --ytdl-format=299+251 "$HIGHEST"
@@ -20,7 +20,7 @@ _LoadVideo() {
         TMP=( "$VIDEO_INFO" "$VIDEO_TITLE" "$HIGHEST" "$HIGH" "$MEDIUM" "$LOW" \
             "$ELSE" "$YTOP" "$tmp_dir/CheckCode.txt" )
 
-        read -rsn 1 -p ${red}' Temporary video list still exist, keep it? [Y/n]:'${nocolor} keep
+        read -rsn 1 -p ${r}' Temporary video list still exist, keep it? [Y/n]:'${nc} keep
         case "$keep" in
             y|Y)    unset {TMP[0],TMP[1]}
                     rm -f "${TMP[@]}"
