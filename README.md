@@ -21,7 +21,16 @@ For a better experience I **recommend** a minimum terminal size of 1190x685 beca
 outputs that let you choose desired audio/video formats, if you want an automatic terminal
 resizing just install [wmctrl](http://tripie.sweb.cz/utils/wmctrl/) an the script will take care of
 that for you.
-
+```
+wmctrl -r :ACTIVE: -e 5,-1,-1,1190,685
+        -----------   -- -- -- --- ---
+             |         | |  |   |   |---> Window height
+             |         | |  |   |-------> Window width             
+             |         | |  |-----------> Window Y coordinates
+             |         | |--------------> Window X coordinates
+             |         |----------------> Gravity
+             |--------------------------> Apply to the active window
+```
 Requests and contributions are welcomed, have fun.
 
 # dependencies
