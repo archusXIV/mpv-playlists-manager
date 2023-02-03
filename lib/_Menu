@@ -8,9 +8,9 @@ _Menu() {
         clear
         _ListsCount
         __
-        echo -e "                                           ${red}::MPV-PLAYLISTS-MANAGER OPTIONS::"
-        echo -e "                                             "$VERSION" For usage: mpm --help${nocolor}"
-        echo -e "                               ${green}For a better display consider a terminal size of 1190x685${nocolor}"
+        echo -e "                                           ${g}::MPV-PLAYLISTS-MANAGER OPTIONS::"
+        echo -e "                                             ${r}$VERSION ${g}For usage: mpm --help"
+        echo -e "                               For a better display consider a terminal size of 1190x685${nc}"
         echo -e "                            ┌─────────────────────────────────────────────────────────────┐"
         echo -e "                            │   1) Create/Add video playlist   6) View default playlist   │"
         echo -e "                            │   2) Create/Add audio playlist   7) Clear all tmp lists     │"
@@ -18,7 +18,7 @@ _Menu() {
         echo -e "                            │   4) Play/Download a playlist    9) Edit mpv.conf           │"
         echo -e "                            │   5) Load local dir/files        X) Exit                    │"
         echo -e "                            └─────────────────────────────────────────────────────────────┘"
-        echo -e "                                                   ${green}Select an item${nocolor}"
+        echo -e "                                                   ${g}${b}Select an item${nb}${nc}"
         __
         read -rsn 1 action
         case "$action" in
