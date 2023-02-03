@@ -11,63 +11,63 @@ _SaveRemove() {
     if [[ -f $AUDIO_INFO ]] && [[ -f $VIDEO_INFO ]]; then
         if (( $(_GetLinesList -q) < 1 )); then
             unset prompt[1]
-            echo ${green} "${prompt[*]}" ${nocolor}
+            echo ${g} "${prompt[*]}" ${nc}
             __
         else
-            echo ${green} "${prompt[@]}" ${nocolor}
+            echo ${g} "${prompt[@]}" ${nc}
             __
         fi
     elif [[ -f $AUDIO_INFO ]]; then
         if (( $(_GetLinesList -q) < 1 )); then
             unset {prompt[1],prompt[3]}
-            echo ${green} "${prompt[*]}" ${nocolor}
+            echo ${g} "${prompt[*]}" ${nc}
         else
             unset prompt[3]
-            echo ${green} "${prompt[*]}" ${nocolor}
+            echo ${g} "${prompt[*]}" ${nc}
             __
         fi
     elif [[ -f $VIDEO_INFO ]]; then
         if (( $(_GetLinesList -q) < 1 )); then
             unset {prompt[1],prompt[2]}
-            echo ${green} "${prompt[*]}" ${nocolor}
+            echo ${g} "${prompt[*]}" ${nc}
         else
             unset prompt[2]
-            echo ${green} "${prompt[*]}" ${nocolor}
+            echo ${g} "${prompt[*]}" ${nc}
             __
         fi
     elif (( $(_GetLinesList -q) < 1 )); then
-        echo -e " ${red}Nothing to save, maybe remove something?${nocolor}"
+        echo -e " ${r}Nothing to save, maybe remove something?${nc}"
         __
         unset {prompt[1],prompt[2],prompt[3]}
-        echo ${green} "${prompt[*]}" ${nocolor}
+        echo ${g} "${prompt[*]}" ${nc}
         __
     else
         unset {prompt[2],prompt[3]}
-        echo ${green} "${prompt[*]}" ${nocolor}
+        echo ${g} "${prompt[*]}" ${nc}
         __
     fi
     read -rsn 1 opt
     case "$opt" in
         a|A)    _Save -a ;;
         b|B)    _Menu ;;
-        s|S)    echo -e " ${green}Available playlists:\n${nocolor}"
+        s|S)    echo -e " ${g}Available playlists:\n${nc}"
                 find . -name "*.m3u" -o -name "*.m3u_origin" \
                 | sort -d \
                 | sed 's,.*/,,' \
                 | cat -n
 
                 __
-                echo -e " ${green}Save default playlist as:\n${nocolor}"
+                echo -e " ${g}Save default playlist as:\n${nc}"
                 read -r list
 
                 list="$list.m3u"
                 if [[ $(find . -name "${list}") ]]; then
-                    echo -e " ${red}This playlist already exists!\n Overwrite $list? [y/N]:${nocolor}"
+                    echo -e " ${r}This playlist already exists!\n Overwrite $list? [y/N]:${nc}"
                     read -r overwrite
 
                     case "$overwrite" in
                         y|Y)    cp -f "$QUEUE" "$list"
-                                echo " ${green}$list saved ${nocolor}"
+                                echo " ${g}$list saved ${nc}"
                                 sleep 3
                                 _Menu ;;
                         N|n)    _Menu ;;
@@ -75,20 +75,20 @@ _SaveRemove() {
 
                 else
                     cp "$QUEUE" "$list"
-                    echo " ${green}$list saved ${nocolor}"
+                    echo " ${g}$list saved ${nc}"
                     sleep 2
                     _Menu
                 fi
         ;;
-        r|R)    PS3=${green}' Choose a playlist to remove: '${nocolor}
+        r|R)    PS3=${g}' Choose a playlist to remove: '${nc}
                 __
                 select list in $(find . -name "*.m3u" -o -name "*.m3u_origin" | sort -d | sed 's,.*/,,'); do
                     __
-                    echo " ${red}Are you sure you want to remove $list? [y/N]:${nocolor}"
+                    echo " ${r}Are you sure you want to remove $list? [y/N]:${nc}"
                     read -r del
                     case "$del" in
                         y|Y)    rm "$list"
-                                echo " ${red}$list removed.${nocolor}"
+                                echo " ${r}$list removed.${nc}"
                                 sleep 3
                                 _Menu
                         ;;
