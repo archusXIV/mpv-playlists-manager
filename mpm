@@ -2,8 +2,8 @@
 
 ##    Author: Barret E (2021-22) <archus@protonmail.com>
 ##    https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-##    Dependencies: ffmpeg, jq, mpv, ranger (optional), youtube-dl.
-##
+##    Dependencies: ffmpeg, jq, mpv, youtube-dl.
+##    Optionals: ranger, wmctrl
 ##    Youtube-dl is for now kind of unmaintained so install and make a symlink with
 ##    https://github.com/yt-dlp/yt-dlp/releases
 ##    sudo pacman -S yt-dlp youtube-dl
@@ -69,7 +69,8 @@ case "$1" in -h|--help) cat | less << EOF
 
     !!! YOU CAN CHANGE MPM'S DIRECTORIES BY EDITING THE VARIABLES IN THE SCRIPT!!!
     By default "$HOME"/Documents/mpv-playlists-manager/
-    Dependencies: ffmpeg, jq, mpv, ranger (optional), youtube-dl, yt-dlp (for better results).
+    Dependencies: ffmpeg, jq, mpv, youtube-dl, yt-dlp (for better results).
+    Optionals: ranger, wmctrl.
 
     I) Main menu:
 
