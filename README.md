@@ -6,7 +6,7 @@ user@linux ~ $
 mpm --help
 ```
 
-
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_v0.9-7.png)
 
 
 This program is just a personal project, it can be written in a better way,
