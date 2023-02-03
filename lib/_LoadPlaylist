@@ -8,11 +8,11 @@ _LoadPlaylist() {
              "(down)Load [F]rom collection:" )
 
     if (( $(_GetLinesList -q) > 0 )); then
-        echo ${green} "${prompt[@]}" ${nocolor}
+        echo ${g} "${prompt[@]}" ${nc}
         __
     else
         unset prompt[1]
-        echo ${green} "${prompt[*]}" ${nocolor}
+        echo ${g} "${prompt[*]}" ${nc}
         __
     fi
 
@@ -20,7 +20,7 @@ _LoadPlaylist() {
     case "$choice" in
         b|B)    _Menu
         ;;
-        d|D)    read -rsn 1 -p ${green}' [A]udio only, [V]ideo?:'${nocolor} load
+        d|D)    read -rsn 1 -p ${g}' [A]udio only, [V]ideo?:'${nc} load
                 clear
                 case "$load" in
                     a|A)    _LoadAudio -q ;;
@@ -30,28 +30,28 @@ _LoadPlaylist() {
                 esac
         ;;
         f|F)    __
-                echo -e " ${green}Select a playlist to load (Press 'q' to quit mpv):\n${nocolor}"
+                echo -e " ${g}Select a playlist to load (Press 'q' to quit mpv):\n${nc}"
                 PS3=" "
                 select list in $(find "$playlists_dir" -name "*.m3u" -o -name "*_origin" \
                     | sort -d | sed 's,.*/,,'); do
                     list="$playlists_dir"/"$list"
                     if ! grep -q -e '^https' "$list"; then
-                        echo " ${red}$list is empty...${nocolor}"
+                        echo " ${r}$list is empty...${nc}"
                         sleep 3
                         break
                     fi
 
-                    echo -e " ${green}Getting videos titles...please wait.${nocolor}\n"
+                    echo -e " ${g}Getting videos titles...please wait.${nc}\n"
                     _GetMediaTitle -l > "$tmp_dir"/download.txt
                     cat -n "$tmp_dir"/download.txt
                     __
-                    echo " ${green}[L]oad from site, [A]udio download or [V]ideo download"
-                    echo " (Press '^C' to quit youtube-dl):${nocolor}"
+                    echo " ${g}[L]oad from site, [A]udio download or [V]ideo download"
+                    echo " (Press '^C' to quit youtube-dl):${nc}"
                     read -rsn 1 letter
                     case "$letter" in
                         a|A)    _DownloadAudio ;;
                         l|L)    __
-                                read -rsn 1 -p ${green}' [A]udio only, [V]ideo?:'${nocolor} load
+                                read -rsn 1 -p ${g}' [A]udio only, [V]ideo?:'${nc} load
                                 clear
                                 case "$load" in
                                     a|A)    _CheckCode -l 2>/dev/null
