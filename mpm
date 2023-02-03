@@ -159,6 +159,6 @@ case "$1" in -h|--help) cat | less << EOF
 EOF
 exit ;; esac
 
-wmctrl -r :ACTIVE: -e 5,-1,-1,1200,685
+_ResizeWindow
 
 _CheckDependencies "${@}"
