@@ -11,7 +11,7 @@ _GetDefault() {
             for url in $(grep '^https' "$QUEUE"); do
                 __
                 echo -e " ${g}Codes for: $(sed -n '1p' "$tmp_dir"/DefaultAudio.txt).${nc}\n"
-                youtube-dl -F --no-warnings "$url" | sed -n '1,4d;5,6p;/audio only/p' 2>/dev/null
+                youtube-dl -F --no-warnings "$url" | sed -n '1,5d;6,7p;/audio only/p' 2>/dev/null
                 __
                 echo " ${g}Choose a format code: ${nc}"
                 read -r code
@@ -60,7 +60,7 @@ _GetDefault() {
                 echo -e " ${g}Codes for: $(sed -n '1p' "$tmp_dir"/DefaultVideo.txt).${nc}\n"
 
                 if [[ "$url" =~ 'youtube.com' ]]; then
-                    youtube-dl -F --no-warnings "$url" | sed '1,4d;/^[sb]/d'
+                    youtube-dl -F --no-warnings "$url" | sed '1,5d;/^[sb]/d'
                 else
                     youtube-dl -F --no-warnings "$url"
                 fi
