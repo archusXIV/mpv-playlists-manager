@@ -19,13 +19,13 @@ mp3, flac, ogg, or wav.
 
 [Supported websites](https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md).
 
-For a better experience I **recommend** a minimum terminal size of 1190x685 because of the youtube-dl
+For a better experience I **recommend** a minimum terminal size of 1210x685 because of the youtube-dl
 outputs that let you choose desired audio/video formats, if you want an automatic terminal
 resizing just install [wmctrl](http://tripie.sweb.cz/utils/wmctrl/) an the script will take care of
 that for you.
 If you're a tiling window manager user, make it float or give it more room in the stack.
 ```
-wmctrl -r :ACTIVE: -e 5,-1,-1,1190,685
+wmctrl -r :ACTIVE: -e 5,-1,-1,1210,685
         -----------   -- -- -- --- ---
              |         | |  |   |   |---> Window height
              |         | |  |   |-------> Window width             
