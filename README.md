@@ -17,6 +17,8 @@ youtube-dl/yp-dlp is used to download videos or just audio and in that case if
 we choose webm links, ffmpeg will convert them in four different formats,
 mp3, flac, ogg, or wav.
 
+[Supported websites](https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md).
+
 For a better experience I **recommend** a minimum terminal size of 1190x685 because of the youtube-dl
 outputs that let you choose desired audio/video formats, if you want an automatic terminal
 resizing just install [wmctrl](http://tripie.sweb.cz/utils/wmctrl/) an the script will take care of
