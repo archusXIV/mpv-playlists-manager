@@ -45,7 +45,7 @@ _DownloadVideo() {
                     echo -e " ${g}Codes for: $(_GetLinkTitle -d).${nc}\n"
 
                     if [[ $url =~ 'youtube.com' ]]; then
-                        youtube-dl -F --no-warnings "$url" | sed '1,4d;/^[sb]/d'
+                        youtube-dl -F --no-warnings "$url" | sed '1,5d;/^[sb]/d'
                     else
                         youtube-dl -F --no-warnings "$url"
                     fi
