@@ -5,7 +5,7 @@ _CheckCode() {
 
     __NestedCheckCode() (
         __
-        echo -e " ${green}Verifying media codes from selected file...be patient.${nocolor}\n"
+        echo -e " ${g}Verifying media codes from selected file...be patient.${nc}\n"
         # mapfile in addition of a for loop is faster
         # than using while <condition>; do <command_2> done < <(command_1)
         mapfile -t CHECKCODE < <(grep '^https' "$M3UFILE")
@@ -13,8 +13,8 @@ _CheckCode() {
             # checking the last url we added.
             youtube-dl -F --no-warnings $(sed -n '$ p' "$M3UFILE") >"$YTOP"
             if [[ $? -eq 1 ]]; then
-                echo -e " ${red}No format code found!\n $lines removed${nocolor}"
-                echo -e " Please visit: https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md${nocolor}\n"
+                echo -e " ${r}No format code found!\n $lines removed${nc}"
+                echo -e " Please visit: https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md${nc}\n"
                 sed -i '$ d' "$M3UFILE"
                 sleep 5
                 if (( $(grep -c '^https' "$M3UFILE" ) == 0 )); then
@@ -23,7 +23,7 @@ _CheckCode() {
                     continue
                 fi
             fi
-            echo " $lines ${green}ok${nocolor}" | tee -a "$tmp_dir"/CheckCode.txt
+            echo " $lines ${g}ok${nc}" | tee -a "$tmp_dir"/CheckCode.txt
             sleep 1
         done
     )
