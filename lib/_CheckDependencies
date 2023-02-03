@@ -4,21 +4,21 @@
 _CheckDependencies() {
     ## softwares, directories and files.
     declare -a deps=( "ffmpeg" "jq" "mpv" "youtube-dl" "yt-dlp" )
-    
+
     for item in "${deps[@]}"; do
         [[ -z $(command -v "$item") ]] && {
-            echo " ${red}$item isn 't installed, bye..."
+            echo " ${r}$item isn 't installed, bye..."
             exit 127
         }
     done
-    
+
     for optional in ranger wmctrl; do
         [[ -z $(command -v "$optional") ]] && {
-            echo " ${green}For better experience consider installing $optional.${nocolor}"
+            echo " ${g}For better experience consider installing $optional.${nc}"
             sleep 3
         }
     done
-    
+
     if [[ ! -d $main_dir ]]; then
         mkdir --parents {"$audios_dir","$playlists_dir","$tmp_dir","$videos_dir"}
     else
@@ -27,9 +27,9 @@ _CheckDependencies() {
         [[ ! -d $tmp_dir ]] && mkdir "$tmp_dir"
         [[ ! -d $videos_dir ]] && mkdir "$videos_dir"
     fi
-    
+
     [[ ! -f $QUEUE ]] && echo "#EXTM3U" > "$QUEUE"
-    
+
     _Menu
 
 }
