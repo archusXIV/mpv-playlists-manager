@@ -82,7 +82,8 @@ _SaveRemove() {
         ;;
         r|R)    PS3=${g}' Choose a playlist to remove: '${nc}
                 __
-                select list in $(find . -name "*.m3u" -o -name "*.m3u_origin" | sort -d | sed 's,.*/,,'); do
+                select list in $(find . -not -name "default.m3u" -name "*.m3u" -o -name "*.m3u_origin" \
+                    | sort -d | sed 's,.*/,,'); do
                     __
                     echo " ${r}Are you sure you want to remove $list? [y/N]:${nc}"
                     read -r del
