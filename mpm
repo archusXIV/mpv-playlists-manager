@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##    Author: Barret E (2021-22) <archus@protonmail.com>
-##    https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
+##    https://github.com/archusXIV/mpv-playlists-manager
 ##    Dependencies: ffmpeg, jq, mpv, youtube-dl.
 ##    Optionals: ranger, wmctrl
 ##
