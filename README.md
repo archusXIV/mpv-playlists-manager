@@ -2,8 +2,7 @@
 ## Manage playlists for mpv from your terminal.
 Video link: https://www.youtube.com/watch?v=7OWO1vRL77A
 ```
-user@linux ~ $
-mpm --help
+user@linux ~ $ mpm --help
 ```
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_ver0.9-8.png)
