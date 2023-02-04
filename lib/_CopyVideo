@@ -4,6 +4,7 @@
 _CopyVideo() {
 
     while (( $(grep "" -c "$QUEUE") > 0 )); do
+        rm "$tmp_dir"/1 2>/dev/null
         if [[ -f $AUDIO_INFO ]]; then
             echo -e " ${r}Audio links have been added earlier...${nc}\n"
         fi
