@@ -9,23 +9,26 @@ _CheckCode() {
         # mapfile in addition of a for loop is faster
         # than using while <condition>; do <command_2> done < <(command_1)
         mapfile -t CHECKCODE < <(grep '^https' "$M3UFILE")
-        for lines in "${CHECKCODE[@]}"; do
-            # checking the last url we added.
-            youtube-dl -F --no-warnings $(sed -n '$ p' "$M3UFILE") >"$YTOP"
+        for line in "${CHECKCODE[@]}"; do
+            youtube-dl -F --no-warnings "$line" >"$YTOP"
             if [[ $? -eq 1 ]]; then
-                echo -e " ${r}No format code found!\n $lines removed${nc}"
-                echo -e " Please visit: https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md${nc}\n"
-                sed -i '$ d' "$M3UFILE"
+                echo "$line" >> "$tmp_dir"/badurl
+                echo -e " ${r}${b}No format code found!${nb}\n $line will be removed."
+                echo -e " ${g}Please visit: https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md${nc}\n"
                 sleep 5
-                if (( $(grep -c '^https' "$M3UFILE" ) == 0 )); then
-                    _Menu
-                else
-                    continue
-                fi
+            else
+                echo " $line ${g}ok${nc}" | tee -a "$tmp_dir"/CheckCode.txt
+                sleep 1
             fi
-            echo " $lines ${g}ok${nc}" | tee -a "$tmp_dir"/CheckCode.txt
-            sleep 1
         done
+        
+        for bad in $(grep '^https' "$tmp_dir"/badurl); do
+            grep -v "${bad}" "$M3UFILE" >> "$tmp_dir"/goodurl
+        done
+        
+        mv -f "$tmp_dir"/goodurl "$M3UFILE"
+        rm "$tmp_dir"/badurl 2>/dev/null
+        
     )
 
     case "$1" in
