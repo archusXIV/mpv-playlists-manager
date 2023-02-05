@@ -11,7 +11,7 @@ _Remove() {
             _Menu ;;
         -q) sed -i '/^https/d' "$QUEUE"
             __
-            echo " ${r}Default list clear...${nc}"
+            echo " ${r}Default list cleared...${nc}"
             sleep 3s ;;
         -v) rm "$VIDEO_INFO" "$VIDEO_TITLE"
             __
