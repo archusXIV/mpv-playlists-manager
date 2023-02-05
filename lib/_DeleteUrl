@@ -17,7 +17,7 @@ _DeleteUrl() {
         __
         sed -i '/^https/d' "$QUEUE"
         _CleanTmpDir
-        echo " ${r}All lists clear...${nc}"
+        echo " ${r}All lists cleared...${nc}"
         sleep 3
         _Menu
     fi
