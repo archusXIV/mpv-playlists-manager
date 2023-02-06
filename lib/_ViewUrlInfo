@@ -1,0 +1,89 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_ViewUrlInfo() {
+    # Normaly in Bash nested functions use parentheses instead of curly braces,
+    # but here it won't work because of the case statment right parenthese...
+    # They will close the block before it finishes.
+
+    prompt=( "[B]ack to menu," "[A]dd more audio links," "[A]dd more video links," \
+            "[D]ownload," "[P]lay," "[S]ave as," "[R]emove." "[V]iew title(s):" )
+
+    __audio() {
+        cat -n "$AUDIO_INFO"
+        __
+        cat -n "$AUDIO_TITLE"
+        __
+        unset {prompt[2],prompt[7]}
+        echo ${g} "${prompt[*]}" ${nc}
+        read -rsn 1 opt
+        case "$opt" in
+            a|A)    __; _CopyAudio ;;
+            b|B)    _Menu ;;
+            d|D)    _GetAudio ;;
+            p|P)    _LoadAudio -a ;;
+            r|R)    _Remove -a ;;
+            s|S)    _Save -a ;;
+        esac
+
+    }
+
+    __video() {
+        cat -n "$VIDEO_INFO"
+        __
+        cat -n "$VIDEO_TITLE"
+        __
+        unset {prompt[1],prompt[7]}
+        echo ${g} "${prompt[*]}" ${nc}
+        read -rsn 1 opt
+        case "$opt" in
+            a|A)    __; _CopyVideo ;;
+            b|B)    _Menu ;;
+            d|D)    _GetVideo ;;
+            p|P)    _GetQualityCodes -v 
+                    _LoadVideo ;;
+            r|R)    _Remove -v ;;
+            s|S)    _Save -v ;;
+        esac
+        return 0
+    }
+
+    __queue() {
+        if (( $(_GetLinesList -q) > 0 )); then
+            echo " ${g}order |  default playlist link(s)${nc}"
+            echo -e " ${g}______________________________________________________${nc}\n"
+            sed '1d' "$QUEUE" | cat -n
+            __
+            unset {prompt[1],prompt[2]}
+            echo ${g} "${prompt[*]}" ${nc}
+            read -rsn 1 opt
+            case "$opt" in
+                b|B)    _Menu ;;
+                d|D)    __; read -rsn 1 -p ${g}' Download [A]udio, [V]ideo:'${nc} get
+                        __; clear
+                        case "$get" in
+                            a|A)    _GetDefault -a ;;
+                            v|V)    _GetDefault -v ;;
+                        esac ;;
+                p|P)    _CheckCode -q ;;
+                r|R)    _Remove -q ;;
+                s|S)    _Save -q ;;
+                v|V)    __
+                       _GetMediaTitle -q | cat -n
+                        __
+                        read -rsn 1 -p ${g}' Press any key for main menu.'${nc} menu
+                        case "$menu" in *) clear; _Menu ;; esac ;;
+            esac
+        else
+            echo " ${r}There is nothing to do, Default playlist is empty...${nc}"
+            sleep 3
+        fi
+        return 0
+    }
+
+    case "$1" in
+        -a) __audio ;;
+        -v) __video ;;
+        -q) __queue ;;
+    esac
+}

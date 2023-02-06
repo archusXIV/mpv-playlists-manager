@@ -1,0 +1,17 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_ListsCount() {
+    if [[ -f $tmp_dir/1 ]]; then
+        __
+        echo " ${g}Default list: ${b}$(_GetLinesList -q)${nb} url(s).${nc}"
+    else
+        __
+        echo " ${g}Default list: $(_GetLinesList -q) url(s).${nc}"
+    fi
+
+    [[ -f $AUDIO_INFO ]] && \
+        echo " ${g}Audio list:   $(_GetLinesList -a) url(s).${nc}"
+    [[ -f $VIDEO_INFO ]] && \
+        echo " ${g}Video list:   $(_GetLinesList -v) url(s).${nc}"
+}

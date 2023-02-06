@@ -1,0 +1,23 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_Remove() {
+
+    case "$1" in
+        -a) rm "$AUDIO_INFO" "$AUDIO_TITLE"
+            __
+            echo " ${r}Audio list removed...${nc}"
+            sleep 3s
+            _Menu ;;
+        -q) sed -i '/^https/d' "$QUEUE"
+            rm "$tmp_dir"/1 2>/dev/null
+            __
+            echo " ${r}Default list cleared...${nc}"
+            sleep 3s ;;
+        -v) rm "$VIDEO_INFO" "$VIDEO_TITLE"
+            __
+            echo " ${r}Video list removed...${nc}"
+            sleep 3s
+            _Menu ;;
+    esac
+}

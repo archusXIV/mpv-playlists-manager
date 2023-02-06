@@ -1,0 +1,11 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_GetLinkTitle() {
+    case "$1" in
+        -a) sed -n '1p' "$AUDIO_TITLE" ;;
+        -v) sed -n '1p' "$VIDEO_TITLE" ;;
+        -d) sed -n '1p' "$tmp_dir"/download.txt ;;
+        -q) sed -n '2p' "$QUEUE" ;;
+    esac
+}
