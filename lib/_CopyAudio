@@ -11,13 +11,13 @@ _CopyAudio() {
         __
         echo -e " Paste an url to fill the ${g}audio${nc} playlist:\n"
         read -r url
-        
+
         [[ $url =~ 'playlist?list=' ]] && {
             echo -e " ${g}Checking youtube playlist availability...please wait.${nc}\n"
             _GetYoutubePlaylistUrls -a
             _RemoveCrap 2>/dev/null
         }
-        
+
         echo -e " ${g}Verifying media codes from selected file...${nc}\n"
         youtube-dl -F --no-warnings "$url" >"$YTOP"
         if [[ $? -eq 1 ]]; then
@@ -33,18 +33,18 @@ _CopyAudio() {
             "$(sed -r -n '$ p' "$AUDIO_INFO")" >> "$AUDIO_TITLE"
             _RemoveCrap 2>/dev/null
         fi
-        
+
         _ResizeWindow
         clear
         _ListsCount
 
         __
         echo -e "                                                    ${r}::audio options::${nc}"
-        echo -e "                              ┌────────────────────────────────────────────────────────────┐"
-        echo -e "                              │     1) Add more audio links      4) Play current list      │"
-        echo -e "                              │     2) Download current list     5) View current list      │"
-        echo -e "                              │     3) Save playlist as          6) Back to main menu      │"
-        echo -e "                              └────────────────────────────────────────────────────────────┘"
+        echo -e "                              ┌─────────────────────────────────────────────────────────────┐"
+        echo -e "                              │     1) Add more audio links       4) Play current list      │"
+        echo -e "                              │     2) Download current list      5) View current list      │"
+        echo -e "                              │     3) Save playlist as           6) Back to main menu      │"
+        echo -e "                              └─────────────────────────────────────────────────────────────┘"
         echo -e "                                                    ${g}${b}Select an item${nb}${nc}"
         __
         read -rsn 1 options
