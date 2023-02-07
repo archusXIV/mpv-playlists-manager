@@ -9,17 +9,17 @@ _Menu() {
         clear
         _ListsCount
         __
-        echo -e "                                           ${c}::MPV-PLAYLISTS-MANAGER OPTIONS::"
-        echo -e "                                             $VERSION ${g}For usage: mpm --help${nc}"
-        echo -e "                               ${r}For a better display consider a terminal size of 1210x685${nc}"
-        echo -e "                            ┌─────────────────────────────────────────────────────────────┐"
-        echo -e "                            │   1) Create/Add video playlist   6) View default playlist   │"
-        echo -e "                            │   2) Create/Add audio playlist   7) Clear all tmp lists     │"
-        echo -e "                            │   3) Save tmp/Del collection     8) Edit a playlist         │"
-        echo -e "                            │   4) Play/Download a playlist    9) Edit mpv.conf           │"
-        echo -e "                            │   5) Load local dir/files        X) Exit                    │"
-        echo -e "                            └─────────────────────────────────────────────────────────────┘"
-        echo -e "                                                   ${g}${b}Select an item${nc}${nb}"
+        echo -e "                                                ${c}::MPV-PLAYLISTS-MANAGER OPTIONS::"
+        echo -e "                                                  $VERSION ${g}For usage: mpm --help${nc}"
+        echo -e "                                    ${r}For a better display consider a terminal size of 1210x685${nc}"
+        echo -e "                                 ┌─────────────────────────────────────────────────────────────┐"
+        echo -e "                                 │   1) Create/Add video playlist   6) View default playlist   │"
+        echo -e "                                 │   2) Create/Add audio playlist   7) Clear all tmp lists     │"
+        echo -e "                                 │   3) Save tmp/Del collection     8) Edit a playlist         │"
+        echo -e "                                 │   4) Play/Download a playlist    9) Edit mpv.conf           │"
+        echo -e "                                 │   5) Load local dir/files        X) Exit                    │"
+        echo -e "                                 └─────────────────────────────────────────────────────────────┘"
+        echo -e "                                                        ${g}${b}Select an item${nc}${nb}"
         __
         read -rsn 1 action
         case "$action" in
