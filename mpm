@@ -40,6 +40,7 @@ pids=($(pidof -x $mpvmenu))
 
 [[ ${#pids[@]} -gt 1 ]] && exit
 
+# DO NOT REMOVE THESE CHARACTERS "__"
 # creates a blank line
 __() { printf '%s\n'; }
 
