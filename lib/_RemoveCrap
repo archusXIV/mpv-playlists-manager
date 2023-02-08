@@ -12,6 +12,6 @@ _RemoveCrap() {
     for file in "${LISTS[@]}"; do
         sed -i 's/&list.*//;/^\s*$/d' "$file"
         perl -i -ne 'print if ! $a{$_}++' "$file"
-    done
+    done 2>/dev/null
 
 }
