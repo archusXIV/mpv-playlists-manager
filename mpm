@@ -53,6 +53,7 @@ playlists_dir="$main_dir/playlists"
 audios_dir="$main_dir/audios"
 videos_dir="$main_dir/videos"
 tmp_dir="$main_dir/tmp"
+supportedsites="https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md"
 
 QUEUE="$playlists_dir/default.m3u"
 YTOP="$tmp_dir/youtube-dl_output.txt"
