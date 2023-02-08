@@ -12,6 +12,9 @@ _GetMediaTitle() {
     mapfile -t title < <(grep '^https' "$LIST")
 
     for line in "${title[@]}"; do
-        youtube-dl --skip-download --get-title --no-warnings "$line" 2>/dev/null
+        youtube-dl \
+        --skip-download \
+        --get-title \
+        --no-warnings "$line" 2>/dev/null
     done
 }
