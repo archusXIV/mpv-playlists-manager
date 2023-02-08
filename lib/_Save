@@ -25,9 +25,9 @@ _Save() {
                         sed -i '/^https/d' "$CURRENT"
                         echo " ${g}$list saved ${nc}"
                         sleep 3s
-                        _Menu ;;
-                N|n)    _Menu ;;
-                *  )    _Menu ;;
+                        __ ;;
+                N|n)    __ ;;
+                *  )    __ ;;
             esac
         else
             cp -f "$CURRENT" "$list"
@@ -35,7 +35,7 @@ _Save() {
             sed -i '/^https/d' "$CURRENT"
             echo " ${g}$list saved ${nc}"
             sleep 2s
-            _Menu
+            __
         fi
     }
 
@@ -43,14 +43,19 @@ _Save() {
         -a)
             CURRENT="$AUDIO_INFO"
             __NestedSave
+            rm -f $AUDIO_{INFO,TITLE}
+            _Menu
         ;;
         -q)
             CURRENT="$QUEUE"
             __NestedSave
+            _Menu
         ;;
         -v)
             CURRENT="$VIDEO_INFO"
             __NestedSave
+            rm -f $VIDEO_{INFO,TITLE}
+            _Menu
         ;;
     esac
 
