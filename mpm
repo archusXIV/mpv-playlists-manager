@@ -68,6 +68,74 @@ MEDIUM="$tmp_dir/quality_medium.m3u"
 LOW="$tmp_dir/quality_low.m3u"
 ELSE="$tmp_dir/else.m3u"
 
+#!/bin/bash
+
+##    Author: Barret E (2021-22) <archus@protonmail.com>
+##    https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
+##    Dependencies: ffmpeg, jq, mpv, youtube-dl.
+##    Optionals: ranger, wmctrl
+##
+##    Youtube-dl is for now kind of unmaintained so install and make a symlink with
+##    https://github.com/yt-dlp/yt-dlp/releases
+##    sudo pacman -S yt-dlp youtube-dl
+##    ln -s /usr/bin/yt-dlp ~/.local/bin/youtube-dl (if ~/.local/bin is in your $PATH)
+##
+##    This script rips video urls from Youtube and so on.
+##    In our case we use ".m3u" files to store urls in and then be able
+##    to watch from the site itself or download videos or just the audio.
+##    We can save, remove or edit playlists, mpv.conf.
+##    It is recommanded to disable mpv cache for better results on direct streaming,
+##    or find a better cache parameter.
+
+VERSION="v.1.0-0"
+
+## prompts & messages colors
+nc=$'\e[0m';
+r=$'\e[0;31m';
+g=$'\e[0;32m';
+c=$'\e[96m';
+b=$'\e[5m';
+nb=$'\e[25m'
+
+## First source our functions.
+for func in $(find /usr/local/lib/mpm -name "_*"); do
+    source "$func"
+done
+
+trap "_CleanTmpDir; exit" SIGTERM EXIT
+
+# avoids running multiple instances
+mpvmenu=$(basename $0)
+pids=($(pidof -x $mpvmenu))
+
+[[ ${#pids[@]} -gt 1 ]] && exit
+
+# creates a blank line
+__() { printf '%s\n'; }
+
+## default editor
+EDITOR="vim"
+
+## directories & files
+main_dir="$HOME/Documents/mpv-playlists-manager"
+playlists_dir="$main_dir/playlists"
+audios_dir="$main_dir/audios"
+videos_dir="$main_dir/videos"
+tmp_dir="$main_dir/tmp"
+
+QUEUE="$playlists_dir/default.m3u"
+YTOP="$tmp_dir/youtube-dl_output"
+FFOP="$tmp_dir/ffmpeg_output"
+AUDIO_INFO="$tmp_dir/AudioUrls.m3u"
+AUDIO_TITLE="$tmp_dir/AudioTitles"
+VIDEO_INFO="$tmp_dir/VideoUrls.m3u"
+VIDEO_TITLE="$tmp_dir/VideoTitles"
+HIGHEST="$tmp_dir/quality_highest.m3u"
+HIGH="$tmp_dir/quality_high.m3u"
+MEDIUM="$tmp_dir/quality_medium.m3u"
+LOW="$tmp_dir/quality_low.m3u"
+ELSE="$tmp_dir/else.m3u"
+
 case "$1" in -h|--help) cat | less << EOF
 
     MPV-PLAYLISTS-MANAGER usage:
@@ -92,17 +160,19 @@ case "$1" in -h|--help) cat | less << EOF
        when closing the program... So be carefull and saved them before it is too late.
        In this section we will be able to create a temporary video playlist by "copy/paste"
        urls from Youtube.com or any other supported web site by youtube-dl/yt-dlp packages.
-       https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md
-       After the first entry this will drop us into the video options menu where we have
-       six dedicated options. See II) audio/video files options:
+       See https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md
+       After the first entry this will drop us into the video options menu where we test
+       entries one by one before adding them in playlists.Now we have six dedicated options.
+       See II) audio/video files options:
 
     2) Create/Add audio playlist:
        Same as above but for audio only, for example after downloading, ffmpeg will
-       convert all .webm files into mp3, flac, ogg or wav.
+       convert all .webm files into mp3, flac, ogg or wav if you wish.
 
     3) Save tmp/Del collection:
        Here we can save the default playlist as a new one wich contains all temporary links
        from video/audio sections and save video/audio separetly.
+       They will be removed as we save them in the collection.
        We can also delete existing playlists (.m3u files) from our collection.
 
     4) Play/Download a playlist:
@@ -159,6 +229,10 @@ case "$1" in -h|--help) cat | less << EOF
     Press q to quit
 EOF
 exit ;; esac
+
+_ResizeWindow
+
+_CheckDependencies "${@}"hg
 
 _ResizeWindow
 
