@@ -2,6 +2,7 @@
 ## This is a part of main script: mpm.
 
 _CopyAudio() {
+    
     [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
     
     while (( $(grep "" -c "$QUEUE") > 0 )); do
@@ -17,25 +18,29 @@ _CopyAudio() {
             echo -e " ${g}Getting titles & links...Please be patient.${nc}\n"
             youtube-dl --get-title --no-warnings "$url" >> "$AUDIO_TITLE"
             _GetYoutubePlaylistUrls -a
-            _RemoveCrap 2>/dev/null
+            _RemoveCrap
         else
-            echo -e " ${g}Verifying media codes from selected file...${nc}\n"
+            echo "$url" | tee -a "$QUEUE" >> "$AUDIO_INFO"
+            echo -e " ${g}Testing url...${nc}\n"
+            _RemoveCrap
+            url=$(sed -n '$p' "$AUDIO_INFO")
             youtube-dl -F --no-warnings "$url" >"$YTOP"
             if [[ $? -eq 1 ]]; then
                 echo "$url" >> "$tmp_dir"/badurl
-                echo -e " ${r}${b}No format code found!${nb}\n $line will be removed."
-                echo -e " ${g}Please visit: https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md${nc}\n"
+                echo -e " ${r}${b}No format code found!${nb}\n$line will be removed."
+                echo -e " ${g}Please visit: $supportedsites${nc}\n"
+                sed -i '$d' {"$QUEUE","$AUDIO_INFO"}
+                _RemoveCrap
                 sleep 5
+                [[ $(_GetLinesList -a) -eq 0 ]] && _Menu
             else
-                echo "$url" | tee -a "$QUEUE" >> "$AUDIO_INFO"
-                sleep 1
                 echo -e " ${g}Getting title...${nc}\n"
                 youtube-dl --get-title --no-warnings \
-                "$(sed -r -n '$ p' "$AUDIO_INFO")" >> "$AUDIO_TITLE"
-                _RemoveCrap 2>/dev/null
+                "$url" >> "$AUDIO_TITLE"
+                _RemoveCrap
             fi
         fi
-
+        
         _ResizeWindow
         clear
         _ListsCount
@@ -66,4 +71,3 @@ _CopyAudio() {
         esac
     done
 }
-
