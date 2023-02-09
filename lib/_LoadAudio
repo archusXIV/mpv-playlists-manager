@@ -15,23 +15,24 @@ _LoadAudio() {
             if [[ -f "$AUDIO_INFO" ]]; then
                 read -rsn 1 -p ${r}' Temporary audio list still exist, KEEP it? [Y/n]:'${nc} keep
                 case "$keep" in
-                    y|Y)    _Menu ;;
-                    n|N)    rm {"$AUDIO_INFO","$AUDIO_TITLE"}
-                            _Menu ;;
+                    y|Y)
+                        _Menu
+                    ;;
+                    n|N)
+                        rm {"$AUDIO_INFO","$AUDIO_TITLE"}
+                    ;;
                 esac
+                _Menu
             else
                 _CleanTmpDir
-                _Menu
             fi
         ;;
         -q)
             mpv --no-video "$QUEUE"
-            _Menu
         ;;
         -l)
             mpv --no-video "$list"
-            _Menu
         ;;
     esac
-
+    _Menu
 }
