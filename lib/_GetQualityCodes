@@ -3,10 +3,9 @@
 
 _GetQualityCodes() {
     
-    local M3UFILE=""
     __NestedGetQualityCodes() (
         # enter highest codes first
-        quality=(299 137 22 135)
+        declare -i quality=(299 137 22 135)
 
         while read -r line; do
             youtube-dl --no-warnings -F $line > "$YTOP"
@@ -30,9 +29,11 @@ _GetQualityCodes() {
 
     case "$1" in
         -v) M3UFILE="$VIDEO_INFO"
-            __NestedGetQualityCodes ;;
+            __NestedGetQualityCodes
+            _LoadVideo ;;
         -q) M3UFILE="$QUEUE"
-            __NestedGetQualityCodes ;;
+            __NestedGetQualityCodes
+            _LoadVideo ;;
         -l) M3UFILE="$list"
             __NestedGetQualityCodes
             _LoadVideo ;;
