@@ -19,7 +19,9 @@ _Menu() {
         echo -e "                             │   4) Play/Download a playlist    9) Edit mpv.conf           │"
         echo -e "                             │   5) Load local dir/files        X) Exit                    │"
         echo -e "                             └─────────────────────────────────────────────────────────────┘"
-        echo -e "                                                    ${g}${b}Select an item${nc}${nb}"
+        [[ -f $tmp_dir/1 ]] \
+            && echo -e "                                                    ${g}Select an item${nc}" \
+            || echo -e "                                                    ${g}${b}Select an item${nc}${nb}"
         __
         read -rsn 1 action
         case "$action" in
