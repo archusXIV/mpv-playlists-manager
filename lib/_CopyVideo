@@ -26,7 +26,6 @@ _CopyVideo() {
             url=$(sed -n '$p' "$VIDEO_INFO")
             youtube-dl -F --no-warnings "$url" >"$YTOP"
             if [[ $? -eq 1 ]]; then
-                echo "$url" >> "$tmp_dir"/badurl
                 echo -e " ${r}${b}No format code found!${nb}\n$line will be removed."
                 echo -e " ${g}Please visit: $supportedsites${nc}\n"
                 sed -i '$d' {"$QUEUE","$VIDEO_INFO"}
