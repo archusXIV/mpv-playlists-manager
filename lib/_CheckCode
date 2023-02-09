@@ -59,10 +59,10 @@ _CheckCode() {
                 clear
                 case "$load" in
                     a|A)
-                        _LoadAudio -l
+                        _LoadAudio -q
                     ;;
                     v|V)
-                        _GetQualityCodes -l
+                        _GetQualityCodes -q
                     ;;
                 esac
             }
