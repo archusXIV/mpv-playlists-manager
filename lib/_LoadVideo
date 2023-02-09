@@ -1,6 +1,5 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
-
 _LoadVideo() {
 
     clear
@@ -21,12 +20,15 @@ _LoadVideo() {
 
         read -rsn 1 -p ${r}' Temporary video list still exist, keep it? [Y/n]:'${nc} keep
         case "$keep" in
-            y|Y)    unset {TMP[0],TMP[1]}
-                    rm -f "${TMP[@]}"
-                    _Menu ;;
-            n|N)    rm -f "${TMP[@]}"
-                    _Menu ;;
+            y|Y)
+                unset {TMP[0],TMP[1]}
+                rm -f "${TMP[@]}"
+            ;;
+            n|N)
+                rm -f "${TMP[@]}"
+            ;;
         esac
+        _Menu
     else
         _CleanTmpDir
         _Menu
