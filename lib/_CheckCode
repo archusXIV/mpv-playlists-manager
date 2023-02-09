@@ -4,6 +4,7 @@
 _CheckCode() {
 
     __NestedCheckCode() (
+        local BAD="$tmp_dir/badurl"
         __
         echo -e " ${g}Testing urls...be patient.${nc}\n"
         # mapfile in addition of a for loop is faster
