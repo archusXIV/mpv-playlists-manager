@@ -23,7 +23,7 @@ _Save() {
                         cp -f "$CURRENT" "$list"
                         sed -i '1s/^/#EXTM3U\n/' "$list" "$QUEUE"
                         sed -i '/^https/d' "$CURRENT"
-                        echo " ${g}$list saved ${nc}"
+                        echo " ${g}$list saved.${nc}"
                         sleep 3s
                         __ ;;
                 N|n)    __ ;;
@@ -33,7 +33,7 @@ _Save() {
             cp -f "$CURRENT" "$list"
             sed -i '1s/^/#EXTM3U\n/' "$list"
             sed -i '/^https/d' "$CURRENT"
-            echo " ${g}$list saved ${nc}"
+            echo " ${g}$list saved${nc}."
             sleep 2s
             __
         fi
@@ -44,19 +44,16 @@ _Save() {
             CURRENT="$AUDIO_INFO"
             __NestedSave
             rm -f $AUDIO_{INFO,TITLE}
-            _Menu
         ;;
         -q)
             CURRENT="$QUEUE"
             __NestedSave
-            _Menu
         ;;
         -v)
             CURRENT="$VIDEO_INFO"
             __NestedSave
             rm -f $VIDEO_{INFO,TITLE}
-            _Menu
         ;;
     esac
-
+    _Menu
 }
