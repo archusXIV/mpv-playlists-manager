@@ -70,5 +70,4 @@ _CheckCode() {
             fi
         ;;
     esac
-    _Menu
 }
