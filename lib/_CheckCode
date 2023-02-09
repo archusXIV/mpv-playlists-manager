@@ -35,9 +35,10 @@ _CheckCode() {
     )
 
     case "$1" in
-        -l) M3UFILE="$list"
+        -l)
+            M3UFILE="$list"
             __NestedCheckCode
-            if (( $(_GetLinesList -l) > 0 )) && {
+            if (( $(_GetLinesList -l) > 0 )); then
                 __
                 read -rsn 1 -p ${g}' [A]udio only, [V]ideo?:'${nc} load
                 clear
@@ -49,23 +50,24 @@ _CheckCode() {
                         _GetQualityCodes -l
                     ;;
                 esac
-            }
+            fi
         ;;
-        -q) M3UFILE="$QUEUE"
+        -q)
+            M3UFILE="$QUEUE"
             __NestedCheckCode
-            if (( $(_GetLinesList -q) > 0 )) && {
+            if (( $(_GetLinesList -q) > 0 )); then
                 __
                 read -rsn 1 -p ${g}' [A]udio only, [V]ideo?:'${nc} load
                 clear
                 case "$load" in
                     a|A)
-                        _LoadAudio -q
+                        _LoadAudio -l
                     ;;
                     v|V)
-                        _GetQualityCodes -q
+                        _GetQualityCodes -l
                     ;;
                 esac
-            }
+            fi
         ;;
     esac
     _Menu
