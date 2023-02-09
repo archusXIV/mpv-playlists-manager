@@ -54,26 +54,36 @@ _ViewUrlInfo() {
             echo -e " ${g}______________________________________________________${nc}\n"
             sed '1d' "$QUEUE" | cat -n
             __
-            unset {prompt[1],prompt[2]}
-            echo ${g} "${prompt[*]}" ${nc}
-            read -rsn 1 opt
-            case "$opt" in
-                b|B)    _Menu ;;
-                d|D)    __; read -rsn 1 -p ${g}' Download [A]udio, [V]ideo:'${nc} get
+            while true; do
+                unset {prompt[1],prompt[2]}
+                echo ${g} "${prompt[*]}" ${nc}
+                read -rsn 1 opt
+                case "$opt" in
+                    b|B)
+                        _Menu ;;
+                    d|D)
+                        __; read -rsn 1 -p ${g}' Download [A]udio, [V]ideo:'${nc} get
                         __; clear
                         case "$get" in
-                            a|A)    _GetDefault -a ;;
-                            v|V)    _GetDefault -v ;;
-                        esac ;;
-                p|P)    _CheckCode -q ;;
-                r|R)    _Remove -q ;;
-                s|S)    _Save -q ;;
-                v|V)    __
-                       _GetMediaTitle -q | cat -n
+                            a|A)
+                                _GetDefault -a ;;
+                            v|V)
+                                _GetDefault -v ;;
+                        esac
+                    ;;
+                    p|P)
+                        _CheckCode -q ;;
+                    r|R)
+                        _Remove -q ;;
+                    s|S)
+                        _Save -q ;;
+                    v|V)
                         __
-                        read -rsn 1 -p ${g}' Press any key for main menu.'${nc} menu
-                        case "$menu" in *) clear; _Menu ;; esac ;;
-            esac
+                        _GetMediaTitle -q | cat -n
+                        __
+                    ;;
+                esac
+            done
         else
             echo " ${r}There is nothing to do, Default playlist is empty...${nc}"
             sleep 3
