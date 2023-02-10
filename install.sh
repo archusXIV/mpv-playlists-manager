@@ -6,7 +6,7 @@ lib="/usr/local/lib/mpm"
 read -rn1 -p ' [I]nstall or [U]ninstall: '
 echo ""
 case "$REPLY" in
-    i|I)
+    i*|I*)
         cp -vf mpm "$bin"
     
         mkdir -vp "$lib" && \
@@ -20,7 +20,7 @@ case "$REPLY" in
             
         printf '%s\n' "for usage run: mpm --help"
     ;;
-    u|U)
+    u*|U*)
         rm -vf "$bin"/mpm
         rm -vrf "$lib"
         rm -vrf /usr/share/licenses/mpm
