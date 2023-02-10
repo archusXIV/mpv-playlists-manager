@@ -35,6 +35,12 @@ wmctrl -r :ACTIVE: -e 5,-1,-1,1210,685
              |         |----------------> Gravity
              |--------------------------> Apply to the active window
 ```
+## Why ranger?
+Because we are terminal users and it's here to navigate across our local media files to queue them in mpv.
+
+I also provide my ranger config to get you started if you're noob. (feel free to edit it)
+Please use the help option for more information.
+
 Requests and contributions? Why not, have fun.
 
 # dependencies
