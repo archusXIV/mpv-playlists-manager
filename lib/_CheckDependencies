@@ -12,7 +12,7 @@ _CheckDependencies() {
         }
     done
 
-    for optional in ranger wmctrl; do
+    for optional in ueberzug ranger wmctrl w3m; do
         [[ -z $(command -v "$optional") ]] && {
             echo " ${g}For better experience consider installing $optional.${nc}"
             sleep 3
