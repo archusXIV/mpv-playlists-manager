@@ -1,6 +1,6 @@
 #!/bin/bash
 
-##    Author: Barret E (2021-22) <archus@protonmail.com>
+##    Author: Barret E (2021-23) <archus@protonmail.com>
 ##    https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
 ##    Dependencies: ffmpeg, jq, mpv, youtube-dl.
 ##    Optionals: ranger, wmctrl
@@ -41,6 +41,7 @@ pids=($(pidof -x $mpvmenu))
 [[ ${#pids[@]} -gt 1 ]] && exit
 
 # creates a blank line
+# DO NOT DELETE THESE CHARACTERS "__" in the code below.
 __() { printf '%s\n'; }
 
 ## default editor
