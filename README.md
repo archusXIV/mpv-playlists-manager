@@ -5,7 +5,7 @@ Video link: https://www.youtube.com/watch?v=7OWO1vRL77A
 user@linux ~ $ mpm --help
 ```
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_ver0.9-8.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_v.1.0.1.png)
 
 
 This program is just a personal project, it can be written in a better way,
