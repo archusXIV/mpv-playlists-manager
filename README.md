@@ -38,7 +38,7 @@ wmctrl -r :ACTIVE: -e 5,-1,-1,1210,685
 ## Why ranger?
 Because we are terminal users so we can navigate across our local media files to queue them in mpv.
 
-I also provide my ranger config to get you started if you're noob. (feel free to edit it)
+I also provide my ranger config directory to get you started if you're noob, drag it in ~/.config.
 Please use the help option for more information.
 
 Requests and contributions? Why not, have fun.
