@@ -52,7 +52,7 @@ _LoadLocal() {
                 d|D)
                     PS3=" Select a directory to queue in mpv: "
                     select dir in $(find "$VIDEOS" -maxdepth 1 -not -name \
-                        "$vid" | sort | sed 's,.*/,,;s,Garam,,'); do
+                        "$vid" | sort | sed 's,.*/,,'); do
                         if [[ $(find "$VIDEOS"/"$dir" -type d -empty) ]]; then
                             echo " ${r}$dir is empty. Wait and try again...${nc}"
                             sleep 3
