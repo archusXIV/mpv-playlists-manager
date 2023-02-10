@@ -1,25 +1,30 @@
 #!/bin/sh
 
-read -rn1 -p ' [I]nstall or [U]ninstall: ' respons
+bin="/usr/local/bin"
+lib="/usr/local/lib/mpm"
+
+read -rn1 -p ' [I]nstall or [U]ninstall: '
 echo ""
-case "$respons" in
-    i|I)    cp -f mpm /usr/local/bin/mpm
+case "$REPLY" in
+    i|I)
+        cp -vf mpm "$bin"
     
-            mkdir -p /usr/local/lib/mpm && \
-            cp -r -f ./lib/* /usr/local/lib/mpm
+        mkdir -vp "$lib" && \
+        cp -vrf ./lib/* "$lib"
             
-            mkdir -p /usr/share/licenses/mpm && \
-            cp -f ./LICENSE /usr/share/licenses/mpm/LICENSE
+        mkdir -vp /usr/share/licenses/mpm && \
+        cp -vf ./LICENSE /usr/share/licenses/mpm/LICENSE
             
-            chmod 755 /usr/local/lib/mpm/*
-            chmod 755 /usr/local/bin/mpm
+        chmod 755 "$lib"/*
+        chmod 755 "$bin"/mpm
             
-            printf '%s\n' "for usage run: mpm --help"
+        printf '%s\n' "for usage run: mpm --help"
     ;;
-    u|U)    rm -f /usr/local/bin/mpm
-            rm -rf /usr/local/lib/mpm
-            rm -rf /usr/share/licenses/mpm
+    u|U)
+        rm -vf "$bin"/mpm
+        rm -vrf "$lib"
+        rm -vrf /usr/share/licenses/mpm
             
-            printf '%s\n' "hope you liked it anyway..."
+        printf '%s\n' "hope you liked it anyway..."
     ;;
 esac
