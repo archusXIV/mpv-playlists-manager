@@ -48,7 +48,9 @@ Requests and contributions? Why not, have fun.
 - [jq](https://stedolan.github.io/jq/)
 - [mpv](https://mpv.io/)
 - [ranger](https://github.com/ranger/ranger) (optional, see the help  option for details)
+- [ueberzug](https://github.com/seebye/ueberzug) might be in your distro repo
 - [vim](https://www.vim.org/) (set as the EDITOR)
+- [w3m](https://w3m.sourceforge.net/)
 - [wmctrl](https://www.freedesktop.org/wiki/Software/wmctrl/) (optional)
 - [youtube-dl](https://youtube-dl.org/)
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
