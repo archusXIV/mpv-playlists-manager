@@ -3,7 +3,7 @@
 
 _LoadLocal() {
     # for french env too...
-    local AUDIOS VIDEOS zic
+    local AUDIOS VIDEOS zic vid
     AUDIOS=$(find $HOME -maxdepth 2 -type d -name "Music" -o -name "Musique")
     VIDEOS=$(find $HOME -maxdepth 2 -type d -name "Videos" -o -name "Vidéos")
     zic=$(echo "$AUDIOS" | awk -F"/" '{print $NF}')
