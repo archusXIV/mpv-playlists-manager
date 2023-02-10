@@ -11,7 +11,7 @@ First of, github mention this repository as a python project but MPM is whritten
 and python because I have pushed my ranger configurations files whritten in that language.
 
 This program is just a personal project, and I wrote it as a normy Linux user (it is simple),
-but the goal is simply to manage playlists that mpv can read either online or from local files/directories.
+The goal is to manage self created playlists that mpv reads either online or from local files/directories.
 
 youtube-dl/yp-dlp is used to download videos or just audio and in that case if
 we choose webm links, ffmpeg will (if you want to) convert them in four different formats,
