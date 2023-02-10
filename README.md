@@ -7,10 +7,11 @@ user@linux ~ $ mpm --help
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_v.1.0.1.png)
 
+First of, github mention this repository as a python project but MPM is whritten in bash,
+and python because I have pushed my ranger configurations files whritten in that language.
 
-This program is just a personal project, it can be written in a better way,
-in another language but the goal is simply to manage playlists that mpv can read
-either online or from local files/directories.
+This program is just a personal project, and I wrote it as a normy Linux user (it is simple),
+but the goal is simply to manage playlists that mpv can read either online or from local files/directories.
 
 youtube-dl/yp-dlp is used to download videos or just audio and in that case if
 we choose webm links, ffmpeg will (if you want to) convert them in four different formats,
