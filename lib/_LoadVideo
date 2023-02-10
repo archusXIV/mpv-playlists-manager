@@ -1,0 +1,36 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_LoadVideo() {
+
+    clear
+    __; rm -f "$tmp_dir"/download 2>/dev/null
+    echo "${r}Tip: You may want to put this in your mpv.conf:"
+    printf '%s\n' "term-playing-msg='Tiltle: \${media-title}'"
+    echo -e "Otherwise press I in mpv for more infos.${nc}\n"
+
+    [[ -f $HIGHEST ]] && mpv --ytdl-format=299+251 "$HIGHEST"
+    [[ -f $HIGH ]] && mpv --ytdl-format=137+251 "$HIGH"
+    [[ -f $MEDIUM ]] && mpv --ytdl-format=22 "$MEDIUM"
+    [[ -f $LOW ]] && mpv --ytdl-format=135+251 "$LOW"
+    [[ -f $ELSE ]] && mpv "$ELSE"
+
+    if [[ -f "$VIDEO_INFO" ]]; then
+        TMP=( "$VIDEO_INFO" "$VIDEO_TITLE" "$HIGHEST" "$HIGH" "$MEDIUM" "$LOW" \
+            "$ELSE" "$FFOP" "$YTOP" "$tmp_dir/CheckCode" )
+
+        read -rsn 1 -p ${r}' Temporary video list still exist, keep it? [Y/n]:'${nc} keep
+        case "$keep" in
+            y|Y)
+                unset {TMP[0],TMP[1]}
+                rm -f "${TMP[@]}" 2>/dev/null
+            ;;
+            n|N)
+                rm -f "${TMP[@]}" 2>/dev/null
+            ;;
+        esac
+        _Menu
+    else
+        _Menu
+    fi
+}

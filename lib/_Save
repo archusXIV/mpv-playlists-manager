@@ -1,0 +1,71 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_Save() {
+
+    cd "$playlists_dir"
+
+    __NestedSave() {
+        echo -e " ${g}Available playlists:\n${nc}"
+        find . -name "*.m3u" -o -name "*.m3u_origin" \
+        | sort -d \
+        | sed 's,.*/,,' \
+        | cat -n
+
+        __
+        read -p ${g}' Save playlist as: '${nc} list
+        list="$list.m3u"
+        if [[ $(find . -name "${list}") ]]; then
+            echo -e " ${r}This playlist already exists!\n Overwrite $list? [y/N]:${nc}"
+            read -r overwrite
+            case "$overwrite" in
+                y|Y)    #sed -i '1d' "$QUEUE" # deleting "#EXTM3U"
+                    cp -f "$CURRENT" "$list"
+                    sed -i '1s/^/#EXTM3U\n/' "$list"
+                    sed -i '/^https/d' "$CURRENT"
+                    if (( $(grep -c -w '#EXTM3U' "$list") > 1 )); then
+                        sed -i '1d' "$list"
+                    fi
+                    echo " ${g}$list saved.${nc}"
+                    sleep 3s
+                ;;
+                N|n)
+                    __
+                ;;
+                *  )
+                    echo " ${r}WRONG OPTION, try again..${nc}"
+                    sleep 3s
+                ;;
+            esac
+        else
+            cp -f "$CURRENT" "$list"
+            sed -i '1s/^/#EXTM3U\n/' "$list"
+            sed -i '/^https/d' "$CURRENT"
+            if (( $(grep -c -w '#EXTM3U' "$list") > 1 )); then
+                sed -i '1d' "$list"
+            fi
+            echo " ${g}$list saved${nc}."
+            sleep 2s
+            __
+        fi
+        
+    }
+
+    case "$1" in
+        -a)
+            CURRENT="$AUDIO_INFO"
+            __NestedSave
+            rm -f $AUDIO_{INFO,TITLE}
+        ;;
+        -q)
+            CURRENT="$QUEUE"
+            __NestedSave
+        ;;
+        -v)
+            CURRENT="$VIDEO_INFO"
+            __NestedSave
+            rm -f $VIDEO_{INFO,TITLE}
+        ;;
+    esac
+    _Menu
+}

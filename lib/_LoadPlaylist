@@ -1,0 +1,36 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_LoadPlaylist() {
+    __
+    echo -e " ${g}Select a playlist to load (Press 'q' to quit mpv):\n${nc}"
+    PS3=" "
+    select list in $(find "$playlists_dir" -name "*.m3u" -o -name "*_origin" \
+        | sort -d | sed 's,.*/,,'); do
+        list="$playlists_dir"/"$list"
+        if ! grep -q -e '^https' "$list"; then
+            echo " ${r}$(find "$list" | sed 's,.*/,,') is empty...${nc}"
+            sleep 3s
+            break
+        fi
+        echo -e " ${g}Getting titles...please wait.${nc}\n"
+        _GetMediaTitle -l >> "$tmp_dir"/download
+        cat -n "$tmp_dir"/download
+        __
+        echo " ${g}[L]oad from site, [A]udio download or [V]ideo download"
+        echo " (Press '^C' to quit youtube-dl):${nc}"
+        read -rsn 1 letter
+        case "$letter" in
+            a|A)
+                _DownloadAudio
+            ;;
+            l|L)
+                _CheckCode -l
+            ;;
+            v|V)
+                _DownloadVideo
+            ;;
+        esac
+        # break
+    done
+}

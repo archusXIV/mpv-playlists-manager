@@ -1,0 +1,59 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_GetCompleted() {
+
+    cd "$main_dir"
+
+    if [[ -n $(find . -name "*.part") ]]; then
+        mv {"$AUDIO_INFO"_origin,"$VIDEO_INFO"_origin} "$playlists_dir" 2>/dev/null
+        echo " ${r}Temporary playlists have been moved in $playlists_dir."
+        echo -e " Incomplete files in audio/video dir:\n${nc}"
+        find . -name "*.part" | sort -d | sed 's,.*/,,' | cat -n
+        __
+        echo " ${g}Keep them in if you want to resume downloads,"
+        echo " by using '.m3u_origin' files in section: 4) Load a playlist,"
+        echo " in this session or later.${nc}"
+        sleep 15
+        return 0 && _Menu
+    else
+        case "$1" in
+            -a) echo -e " ${g}Audio Downloads completed, KEEP: downloaded playlist? [N/y]: ${nc}\n"
+                read -rsn 1 keep
+                case "$keep" in
+                    N|n)
+                        [[ -f "$QUEUE"_origin ]] && {
+                            rm {"$QUEUE"_origin,"$tmp_dir"/1} 2>/dev/null
+                        }
+                        _Remove -a
+                    ;;
+                    y|Y)
+                        [[ -f "$QUEUE"_origin ]] && \
+                            mv -f "$QUEUE"_origin "$QUEUE"
+                        cp -f "$AUDIO_INFO"_origin "$AUDIO_INFO" 2>/dev/null
+                        rm "$AUDIO_INFO"_origin 2>/dev/null
+                    ;;
+                esac
+            ;;
+            -v) echo -e " ${g}Video Downloads completed, KEEP: downloaded playlist? [N/y]: ${nc}\n"
+                read -rsn 1 keep
+                case "$keep" in
+                    N|n)
+                        [[ -f "$QUEUE"_origin ]] && {
+                            rm "$QUEUE"_origin
+                        }
+                        _Remove -v
+                    ;;
+                    y|Y)
+                        [[ -f "$QUEUE"_origin ]] && \
+                            mv -f "$QUEUE"_origin "$QUEUE"
+                        cp -f "$VIDEO_INFO"_origin "$VIDEO_INFO" 2>/dev/null
+                        rm "$VIDEO_INFO"_origin 2>/dev/null
+                    ;;
+                esac
+            ;;
+        esac
+        _Menu
+    fi
+
+}
