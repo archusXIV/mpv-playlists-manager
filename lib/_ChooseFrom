@@ -18,15 +18,12 @@ _ChooseFrom() {
                 clear
                 mpv --no-video "$CHOOSE1"
                 rm "$CHOOSE1"
-                unset $link
                 _LoadPlaylistMenu
             ;;
             v|V)
                 clear
                 echo " ${g}Loading codes, please be patient...${nc}"
                 _GetQualityCodes -c
-                # rm "$CHOOSE1"
-                unset $link
             ;;
         esac
     }
