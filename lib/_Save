@@ -16,28 +16,19 @@ _Save() {
         read -p ${g}' Save playlist as: '${nc} list
         list="$list.m3u"
         if [[ $(find . -name "${list}") ]]; then
-            echo -e " ${r}This playlist already exists!\n Overwrite $list? [y/N]:${nc}"
-            read -r overwrite
-            case "$overwrite" in
-                y|Y)
-                    cp -f "$CURRENT" "$list"
-                    sed -i '1s/^/#EXTM3U\n/' "$list"
-                    sed -i '/^https/d' "$CURRENT"
-                    [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
-                    if (( $(grep -c -w '#EXTM3U' "$list") > 1 )); then
-                        sed -i '1d' "$list"
-                    fi
-                    echo " ${g}$list saved.${nc}"
-                    sleep 3s
-                ;;
-                N|n)
-                    __
-                ;;
-                *  )
-                    echo " ${r}WRONG OPTION, try again..${nc}"
-                    sleep 3s
-                ;;
-            esac
+            __
+            _Prompt -n " ${r}This playlist already exists! Overwrite $list?: ${nc}" && {
+                cp -f "$CURRENT" "$list"
+                sed -i '1s/^/#EXTM3U\n/' "$list"
+                sed -i '/^https/d' "$CURRENT"
+                [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
+                if (( $(grep -c -w '#EXTM3U' "$list") > 1 )); then
+                    sed -i '1d' "$list"
+                fi
+                echo " ${g}$list saved.${nc}"
+                sleep 3s
+            }
+            __
         else
             cp -f "$CURRENT" "$list"
             sed -i '1s/^/#EXTM3U\n/' "$list"
