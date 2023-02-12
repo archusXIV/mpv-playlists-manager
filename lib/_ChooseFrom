@@ -23,9 +23,8 @@ _ChooseFrom() {
             ;;
             v|V)
                 clear
-                mpv \
-                --ytdl-format='bestvideo[ext=webm][width<=1920]\
-                [height<=1080]+bestaudio[ext=webm]' \
+                echo " ${g}Loading codes, please be patient...${nc}"
+                _GetQualityCodes -l
                 "$CHOOSE1"
                 rm "$CHOOSE1"
                 unset $link
