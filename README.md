@@ -57,7 +57,7 @@ Requests and contributions? Why not, have fun.
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
 # installation
-Before installing, please check paths variables in [function /lib/_LoadLoacal](/lib/_LoadLocal)
+Before installing, please check paths variables in [function /lib/_LoadLocal](/lib/_LoadLocal)
 and then run the install.sh script as root, by default /usr/local/bin /usr/local/lib are the
 respective used locations, feel free to change them.
 ```
