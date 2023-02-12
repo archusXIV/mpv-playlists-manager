@@ -2,6 +2,9 @@
 ## This is a part of main script: mpm.
 
 _LoadPlaylistMenu() {
+    ANOTHERONE="                              │     4) Available after first run                      │"
+    [[ -f $CHOOSE1 ]] && \
+    ANOTHERONE="                              │     ${g}${b}4)${nb}${nc} Load another playlist                      │"
     
     while (( $(grep "" -c "$list") > 0 )); do
         
@@ -15,7 +18,7 @@ _LoadPlaylistMenu() {
         echo -e "                              │     1) Choose playlist links & load from site     │"
         echo -e "                              │     2) Choose playlist links & download video     │"
         echo -e "                              │     3) Load whole playlist from site              │"
-        echo -e "                              │     4) Load another playlist                      │"
+        echo -e "$ANOTHERONE"
         echo -e "                              │     5) Download whole playlist as audio files     │"
         echo -e "                              │     6) Download whole playlist as video files     │"
         echo -e "                              │     7) Back to main menu                          │"
@@ -36,7 +39,8 @@ _LoadPlaylistMenu() {
                 __ ;;
             6)  _DownloadVideo
                 __ ;;
-            7)  _Menu
+            7)  rm -f "$CHOOSE1" 2>/dev/null
+                _Menu
                 __ ;;
         esac
     done
