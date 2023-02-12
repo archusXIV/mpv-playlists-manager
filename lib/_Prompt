@@ -1,6 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
+# stolen from budRich
 _Prompt() {
     local screenprompt key default opts status
 
