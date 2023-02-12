@@ -37,6 +37,9 @@ _GetQualityCodes() {
         -l) M3UFILE="$list"
             __NestedGetQualityCodes
             _LoadVideo ;;
+        -c) M3UFILE="$CHOOSE1"
+            __NestedGetQualityCodes
+            _LoadVideo ;;
     esac
 
 }
