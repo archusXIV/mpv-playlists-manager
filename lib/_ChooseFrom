@@ -24,9 +24,8 @@ _ChooseFrom() {
             v|V)
                 clear
                 echo " ${g}Loading codes, please be patient...${nc}"
-                _GetQualityCodes -l
-                "$CHOOSE1"
-                rm "$CHOOSE1"
+                _GetQualityCodes -c
+                # rm "$CHOOSE1"
                 unset $link
             ;;
         esac
@@ -88,10 +87,9 @@ _ChooseFrom() {
             __NestedDownload
         ;;
         -l)
-            __
+            clear
             __NestedGetTitles
             __NestedLoad
         ;;
     esac
 }
-
