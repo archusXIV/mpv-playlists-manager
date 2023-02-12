@@ -15,9 +15,10 @@ _LoadPlaylistMenu() {
         echo -e "                              │     1) Choose playlist links & load from site     │"
         echo -e "                              │     2) Choose playlist links & download video     │"
         echo -e "                              │     3) Load whole playlist from site              │"
-        echo -e "                              │     4) Download whole playlist as audio files     │"
-        echo -e "                              │     5) Download whole playlist as video files     │"
-        echo -e "                              │     6) Back to main menu                          │"
+        echo -e "                              │     4) Load another playlist                      │"
+        echo -e "                              │     5) Download whole playlist as audio files     │"
+        echo -e "                              │     6) Download whole playlist as video files     │"
+        echo -e "                              │     7) Back to main menu                          │"
         echo -e "                              └───────────────────────────────────────────────────┘"
         echo -e "                                                ${g}${b}Select an item${nb}${nc}"
         __
@@ -29,11 +30,13 @@ _LoadPlaylistMenu() {
                 __ ;;
             3)  _CheckCode -l
                 __ ;;
-            4)  _DownloadAudio
+            4)  _LoadPlaylist
                 __ ;;
-            5)  _DownloadVideo
+            5)  _DownloadAudio
                 __ ;;
-            6)  _Menu
+            6)  _DownloadVideo
+                __ ;;
+            7)  _Menu
                 __ ;;
         esac
     done
