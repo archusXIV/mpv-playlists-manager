@@ -30,6 +30,3 @@ _Prompt() {
 
     return "${status:-0}"
 }
-
-_ynp "${@}"
-
