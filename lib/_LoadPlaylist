@@ -1,0 +1,20 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_LoadPlaylist() {
+    cd "$playlists_dir"
+    clear
+    __
+    echo -e " ${g}Select a playlist to load (Press 'q' to quit mpv):\n${nc}"
+    PS3=" "
+    select list in $(find . -not -name "default.m3u" -name "*.m3u" -o -name "*_origin" \
+        | sort -d | sed 's,.*/,,'); do
+        if ! grep -q -e '^https' "$list"; then
+            echo " ${r}$(find "$list" | sed 's,.*/,,') is empty...${nc}"
+            sleep 3s
+            break
+        else
+            _LoadPlaylistMenu
+        fi
+    done
+}

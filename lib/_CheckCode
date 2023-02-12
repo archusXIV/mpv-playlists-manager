@@ -1,0 +1,65 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_CheckCode() {
+
+    __NestedCheckCode() (
+        clear
+        local BAD="$tmp_dir/badurl"
+        __
+        echo -e " ${g}Verifying media codes from selected file...be patient.${nc}\n"
+        # mapfile in addition of a for loop is faster
+        # than using while <condition>; do <command_2> done < <(command_1)
+        mapfile -t CHECKCODE < <(grep '^https' "$M3UFILE")
+        for line in "${CHECKCODE[@]}"; do
+            youtube-dl -F --no-warnings "$line" >"$YTOP"
+            if [[ $? -eq 1 ]]; then
+                echo "$line" >> "$BAD"
+                echo -e " ${r}${b}No format code found!${nb}\n $line will be removed."
+                echo -e " ${g}Please visit: $supportedsites${nc}\n"
+                sleep 5
+            else
+                echo " $line ${g}ok${nc}" | tee -a "$tmp_dir"/CheckCode
+                sleep 1
+            fi
+        done
+
+        # Now we need to purge the M3UFILE from bad urls
+        if [[ -f $BAD ]]; then
+            for bad in $(grep '^https' "$BAD"); do
+                grep -v "${bad}" "$M3UFILE" >> "$tmp_dir"/goodurl
+            done
+
+            mv -f "$tmp_dir"/goodurl "$M3UFILE"
+            rm "$BAD"
+        fi
+
+    )
+
+    case "$1" in
+        -l)
+            M3UFILE="$list"
+            __NestedCheckCode
+            if (( $(_GetLinesList -l) > 0 )); then
+                __
+                read -rsn 1 -p ${g}' [A]udio only, [V]ideo?:'${nc} load
+                clear
+                case "$load" in
+                    a|A)
+                        _LoadAudio -l
+                    ;;
+                    v|V)
+                        _GetQualityCodes -l
+                    ;;
+                esac
+            fi
+        ;;
+        -q)
+            M3UFILE="$QUEUE"
+            __NestedCheckCode
+            if (( $(_GetLinesList -q) > 0 )); then
+                __; _GetQualityCodes -q
+            fi
+        ;;
+    esac
+}

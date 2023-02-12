@@ -1,0 +1,98 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_ChooseFrom() {
+    local count=$(grep -v -c '#EXTM3U' "$list")
+    
+    __NestedLoad() {
+        IFS=","; read -a array -p " Links to load, eg: 3,1,5: "
+        for i in ${array[*]}; do
+            let "i++"
+            link=$(sed -n "${i}p" "$list")
+            echo "$link" >> "$CHOOSE1"
+        done
+        unset i
+        read -rn 1 -p ${g}' load [A]udio, [V]ideo: '${nc} load
+        case "$load" in
+            a|A)
+                clear
+                mpv --no-video "$CHOOSE1"
+                rm "$CHOOSE1"
+                unset $link
+                _LoadPlaylistMenu
+            ;;
+            v|V)
+                clear
+                mpv \
+                --ytdl-format='bestvideo[ext=webm][width<=1920]\
+                [height<=1080]+bestaudio[ext=webm]' \
+                "$CHOOSE1"
+                rm "$CHOOSE1"
+                unset $link
+            ;;
+        esac
+    }
+    
+    __NestedGetTitles() {
+        echo -e " ${g}Getting titles...please wait.${nc}\n"
+        mapfile -t CHOOSELIST < <(grep -v '#EXTM3U' "$list")
+    
+        for item in "${CHOOSELIST[@]}"; do
+            youtube-dl --no-warnings --get-title "$item"
+        done | cat -n 2>/dev/null
+        __
+    }
+    
+    __NestedDownload() {
+        
+        IFS=","; read -a array -p " Links to download, eg: 3,1,5: "
+        
+        for i in ${array[*]}; do
+            let "i++"
+            link=$(sed -n "${i}p" "$list")
+                 # Sending choosen urls in a temporary file for future operation.
+            echo "$link" >> "$CHOOSE1"
+            clear
+            cd "$videos_dir"
+            [[ $url =~ 'youtube.com' ]] && {
+                youtube-dl --no-warnings --merge-output-format mp4 --progress "$link"
+                clear
+            } || youtube-dl --no-warnings --progress "$link" && clear
+        done
+        unset i
+        # let's remove downloaded links from the original file
+        # and sending the other ones in a second temporary file...
+        for line in $(grep '^https' "$CHOOSE1"); do
+            grep -v "${line}" "$list" >> "$CHOOSE2"
+        done
+        
+        # ...that we now rename with the original file name.
+        mv -f "$CHOOSE2" "$list"
+        if (( $(_GetLinesList -l) < 2 )); then
+            rm "$list"
+            rm "$CHOOSE1"
+            unset $link
+            echo " ${g}choosen links Downloaded${nc}"
+            sleep 2s
+            _Menu
+        else
+            unset $link
+            _LoadPlaylistMenu
+        fi
+    }
+    
+    
+    case "$1" in
+        -v)
+            __
+            __NestedGetTitles
+            __NestedDownload
+        ;;
+        -l)
+            __
+            __NestedGetTitles
+            __NestedLoad
+        ;;
+    esac
+}
+
