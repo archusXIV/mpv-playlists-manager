@@ -19,6 +19,11 @@ _LoadVideo() {
             "$ELSE" "$FFOP" "$YTOP" "$tmp_dir/CheckCode" )
     
     if [[ -f "$VIDEO_INFO" ]]; then
+        clear
+        __
+        echo " ${r}Did you launched video(s) from the default list?"
+        echo " If so, type ${b}${c}Y${nb} ${r}to preserve temporary video list${nc}" 
+        __
         _Prompt " ${g}Temporary video list still exist, KEEP it?:${nc}" || {
             rm -f "${TMP[@]}" 2>/dev/null
             _Menu
