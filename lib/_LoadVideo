@@ -24,27 +24,28 @@ _LoadVideo() {
     --ytdl-format='bestvideo[height<=?1080][fps<=?30][vcodec!=?vp9]+bestaudio/best' \
     "$M3UFILE"
     
-    TMP=( "$VIDEO_INFO" "$VIDEO_TITLE" "$FFOP" "$YTOP" "$tmp_dir/CheckCode" )
+    TMP=( "$VIDEO_INFO" "$VIDEO_TITLE" "$FFOP" "$YTOP" "$CHOOSE1" "$tmp_dir/CheckCode" )
     
     if [[ -f "$VIDEO_INFO" ]]; then
         clear
         __
         echo " ${r}Did you launched video(s) from the default list?"
+        echo " or from option 4) Load a playlist?"
         echo " If so, type ${b}${c}Y${nb} ${r}to preserve temporary video list${nc}" 
         __
         _Prompt " ${g}Temporary video list still exist, KEEP it?:${nc}" || {
             rm -f "${TMP[@]}" 2>/dev/null
             _Menu
         }
+        echo " ${r}Temporary video list removed...${nc}"
         unset {TMP[0],TMP[1]}
         rm -f "${TMP[@]}" 2>/dev/null
+        sleep 3
         _Menu
     elif [[ -f $CHOOSE1 ]]; then
-            unset {TMP[0],TMP[1],TMP[2],TMP[4]}
-            rm -f {"${TMP[@]}","$CHOOSE1"} 2>/dev/null
-            _LoadPlaylistMenu
+        rm -f {"${TMP[@]}","$CHOOSE1"} 2>/dev/null
+        _LoadPlaylistMenu
     else
-        unset {TMP[0],TMP[1]}
         rm -f "${TMP[@]}" 2>/dev/null
         _Menu
     fi
