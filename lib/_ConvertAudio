@@ -17,7 +17,7 @@ _ConvertAudio() {
             -y "${FILE%.webm}.mp3";' _ '{}' \; 2>"$FFOP"
         ;;
         2)
-            echo " ${g}Converting files in ${c}${b}fla${nb}${nc}c...${nc}"
+            echo " ${g}Converting files in ${c}${b}flac${nb}${nc}...${nc}"
             find . -iname "*.webm" -exec \
             bash -c 'FILE="$1"; \
                 ffmpeg -i "${FILE}" \
