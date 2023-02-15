@@ -73,7 +73,7 @@ _LoadLocal() {
         v|V)
             _ReplaceSpaces
             __
-            echo -e " ${g}What would you like to load, a directory [D] or file(s) [F] ?: ${nc}\n"
+            echo -e " ${g}Load a directory [D] or file(using ranger) [F] ?: ${nc}\n"
             read -rsn 1 video
             case "$video" in
                 d|D)
