@@ -2,8 +2,8 @@ MPV-PLAYLISTS-MANAGER usage:
 
     !!! YOU CAN CHANGE MPM DIRECTORIES BY EDITING THE VARIABLES IN THE SCRIPT !!!
     By default "$HOME"/Documents/mpv-playlists-manager/
-    Dependencies: ffmpeg, jq, mpv, youtube-dl, yt-dlp (for better results).
-    Optionals: ranger, wmctrl.
+    Dependencies: ffmpeg, jq, mpv, vim, youtube-dl, yt-dlp (for better results).
+    Optionals: ranger, wmctrl, w3m.
     I) Main menu:
 
                 ┌─────────────────────────────────────────────────────────────┐
