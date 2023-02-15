@@ -33,8 +33,8 @@ _Save() {
         echo -e " ${g}Available playlists:\n${nc}"
         find . -name "*.m3u" -o -name "*.m3u_origin" \
         | sort -d \
-        | sed 's,.*/,,' \
-        | cat -n
+        | column \
+        | sed 's/\.\///g;s/\.m3u//g;s/\s/ /g'
         __
         read -p ${g}' Save playlist as: '${nc} list
         # no need to add extension when renaming
