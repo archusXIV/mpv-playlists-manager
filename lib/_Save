@@ -31,7 +31,7 @@ _Save() {
         
         __
         echo -e " ${g}Available playlists:\n${nc}"
-        find . -name "*.m3u" -o -name "*.m3u_origin" \
+        find . -not -name "default.m3u" -name "*.m3u" -o -name "*.m3u_origin" \
         | sort -d \
         | column \
         | sed 's/\.\///g;s/\.m3u//g;s/\s/ /g'
