@@ -36,7 +36,7 @@ _Save() {
         | column \
         | sed 's/\.\///g;s/\.m3u//g;s/\s/ /g'
         __
-        read -p ${g}' Save playlist as: '${nc} list
+        read -p ${g}' Save playlist as: (do not use extension) '${nc} list
         # no need to add extension when renaming
         local list="$list.m3u"
         if [[ $(find . -name "${list}") ]]; then
