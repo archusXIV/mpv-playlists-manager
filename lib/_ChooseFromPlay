@@ -19,6 +19,8 @@ _ChooseFromPlay() {
         __
     fi
 
+    [[ -f $CHOOSE1 ]] && rm "$CHOOSE1"
+    
     IFS=","; read -a array -p ${g}" Links to load, eg: 3,1,5: "${nc}
     
     for i in ${array[*]}; do
@@ -31,17 +33,11 @@ _ChooseFromPlay() {
     case "$load" in
         a|A)
             clear
-            mpv \
-            --no-video \
-            --ytdl-format='bestaudio/best' \
-            "$CHOOSE1"
-            rm "$CHOOSE1"
-            _LoadPlaylistMenu
+            _LoadAudio -c
         ;;
         v|V)
             clear
-            _LoadVideo -c
+            _CheckCode -c
         ;;
     esac
 }
-
