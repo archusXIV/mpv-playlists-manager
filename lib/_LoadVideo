@@ -18,30 +18,11 @@ _LoadVideo() {
     __
     echo "${r}Tip: You may want to put this in your mpv.conf:"
     printf '%s\n' "term-playing-msg='Tiltle: \${media-title}'"
-    echo -e "Otherwise press I in mpv for more infos.${nc}\n"
-    
-    declare -i quality=(299 298 137 22 136)
-    
-    mapfile -t < <(grep '^https' "$M3UFILE")
-    
-    for i in "${MAPFILE[@]}"; do
-        youtube-dl --no-warnings -F "$i" > "$YTOP"
-        
-        if grep -q -w ${quality[0]} "$YTOP"; then
-            mpv --ytdl-format=${quality[0]}+251 "$i"
-        elif grep -q -w ${quality[1]} "$YTOP"; then
-            mpv --ytdl-format=${quality[1]}+251 "$i"
-        elif grep -q -w ${quality[2]} "$YTOP"; then
-            mpv --ytdl-format=${quality[2]}+251 "$i"
-        elif grep -q -w ${quality[3]} "$YTOP"; then
-            mpv --ytdl-format=${quality[3]}+251 "$i"
-        elif grep -q -w ${quality[3]} "$YTOP"; then
-            mpv --ytdl-format=${quality[4]}+251 "$i"
-        else
-            mpv \
-            --ytdl-format='bestvideo[height<=?1080][fps<=?30][vcodec!=?vp9]+bestaudio/best' "$i"
-        fi
-    done
+    echo "Otherwise press I in mpv for more infos.${nc}"
+
+    mpv \
+    --ytdl-format='bestvideo[height<=?1080][fps<=?30][vcodec!=?vp9]+bestaudio/best' \
+    "$M3UFILE"
     
     TMP=( "$VIDEO_INFO" "$VIDEO_TITLE" "$FFOP" "$YTOP" "$tmp_dir/CheckCode" )
     
