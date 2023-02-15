@@ -36,7 +36,7 @@ _ChooseFromPlay() {
             --ytdl-format='bestaudio/best' \
             "$CHOOSE1"
             rm "$CHOOSE1"
-            _LoadPlaylistMenu
+            _Menu
         ;;
         v|V)
             clear
