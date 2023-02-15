@@ -39,6 +39,13 @@ _CheckCode() {
     )
 
     case "$1" in
+        -c)
+            M3UFILE="$CHOOSE1"
+            __NestedCheckCode
+            if (( $(_GetLinesList -c) > 0 )); then
+                __; _LoadVideo -c
+            fi
+        ;;
         -l)
             M3UFILE="$list"
             __NestedCheckCode
