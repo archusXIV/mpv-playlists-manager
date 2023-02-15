@@ -18,6 +18,12 @@ _LoadAudio() {
                 rm {"$AUDIO_INFO","$AUDIO_TITLE"}
             }
         ;;
+        -c)
+            mpv \
+            --no-video \
+            --ytdl-format='bestaudio/best' "$CHOOSE1"
+            _LoadPlaylistMenu
+        ;;
         -q)
             mpv \
             --no-video \
