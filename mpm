@@ -46,9 +46,10 @@ __() { printf '%s\n'; }
 ## default editor
 EDITOR="vim"
 
-## directories & files
+## directories & files (I know, that's a lot)
 main_dir="$HOME/Documents/mpv-playlists-manager"
 playlists_dir="$main_dir/playlists"
+titles_dir="$main_dir/titles"
 audios_dir="$main_dir/audios"
 videos_dir="$main_dir/videos"
 tmp_dir="$main_dir/tmp"
@@ -66,8 +67,9 @@ HIGH="$tmp_dir/quality_high.m3u"
 MEDIUM="$tmp_dir/quality_medium.m3u"
 LOW="$tmp_dir/quality_low.m3u"
 ELSE="$tmp_dir/else.m3u"
-CHOOSE1="$tmp_dir/ChooseFrom1.m3u"
-CHOOSE2="$tmp_dir/ChooseFrom2.m3u"
+CHOOSE1="$playlists_dir/ChooseFrom1.m3u"
+CHOOSE2="$playlists_dir/ChooseFrom2.m3u"
+CHOOSE3="$playlists_dir/ChooseFrom3.m3u"
 
 case "$1" in -h|--help) cat | less << EOF
 
