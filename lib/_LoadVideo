@@ -40,7 +40,7 @@ _LoadVideo() {
         rm -f "${TMP[@]}" 2>/dev/null
         _Menu
     elif [[ -f $CHOOSE1 ]]; then
-            unset {TMP[0],TMP[1],TMP[7],TMP[8],TMP[9]}
+            unset {TMP[0],TMP[1],TMP[2],TMP[4]}
             rm -f {"${TMP[@]}","$CHOOSE1"} 2>/dev/null
             _LoadPlaylistMenu
     else
