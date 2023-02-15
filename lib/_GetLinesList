@@ -1,0 +1,13 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_GetLinesList() {
+    case "$1" in
+        -a) FILE="$AUDIO_INFO" ;;
+        -c) FILE="$CHOOSE1" ;;
+        -l) FILE="$list" ;;
+        -q) FILE="$QUEUE" ;;
+        -v) FILE="$VIDEO_INFO" ;;
+    esac
+    grep -c '^https' "$FILE"
+}

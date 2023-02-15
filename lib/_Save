@@ -1,0 +1,75 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_Save() {
+
+    cd "$playlists_dir"
+
+    __NestedSave() (
+        cp -f "$CURRENT" "$list"
+        cp -f "$CURRENT_TITLE" "$titles_dir"/"$list".titles
+                
+        if [[ -f "$tmp_dir"/default ]]; then
+            cat "$tmp_dir"/default > "$titles_dir"/"$list".titles
+        else
+            cat "$CURRENT_TITLE" > "$titles_dir"/"$list".titles
+        fi
+                
+        sed -i '1s/^/#EXTM3U\n/' "$list"
+        sed -i '/^https/d' "$CURRENT"
+                
+        [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
+                
+        (( $(grep -c -w '#EXTM3U' "$list") > 1 )) \
+            && sed -i '1d' "$list"
+                
+        echo " ${g}$list saved.${nc}"
+        sleep 2s
+        )
+    
+    __NestedSaveCheck() (
+        
+        __
+        echo -e " ${g}Available playlists:\n${nc}"
+        find . -name "*.m3u" -o -name "*.m3u_origin" \
+        | sort -d \
+        | sed 's,.*/,,' \
+        | cat -n
+        __
+        read -p ${g}' Save playlist as: '${nc} list
+        # no need to add extension when renaming
+        local list="$list.m3u"
+        if [[ $(find . -name "${list}") ]]; then
+            __
+            _Prompt -n " ${r}This playlist already exists! Overwrite $list?: ${nc}" && {
+                __NestedSave
+            }
+            __
+        else
+            __NestedSave
+        fi
+        
+    )
+
+    case "$1" in
+        -a)
+            CURRENT="$AUDIO_INFO"
+            CURRENT_TITLE="$AUDIO_TITLE"
+            __NestedSaveCheck
+            rm -f $AUDIO_{INFO,TITLE}
+        ;;
+        -q)
+            CURRENT="$QUEUE"
+            CURRENT_TITLE="$tmp_dir"/default
+            __NestedSaveCheck
+            rm -f "$tmp_dir"/default
+        ;;
+        -v)
+            CURRENT="$VIDEO_INFO"
+            CURRENT_TITLE="$VIDEO_TITLE"
+            __NestedSaveCheck
+            rm -f $VIDEO_{INFO,TITLE}
+        ;;
+    esac
+    _Menu
+}

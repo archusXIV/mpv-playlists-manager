@@ -1,0 +1,109 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_LoadLocal() {
+    
+    local AUDIOS VIDEOS zic vid
+    # getting the right paths for french env too...
+    AUDIOS=$(find $HOME -maxdepth 2 -type d -name "Music" -o -name "Musique")
+    VIDEOS=$(find $HOME -maxdepth 2 -type d -name "Videos" -o -name "Vidéos")
+    zic=$(echo "$AUDIOS" | awk -F"/" '{print $NF}')
+    vid=$(echo "$VIDEOS" | awk -F"/" '{print $NF}')
+    
+    # create a symlink of $audios_dir/$videos_dir
+    # in ~/Music & ~/Videos for user convenience
+    if find "$audios_dir" "$videos_dir" -type d -empty >/dev/null; then
+        touch {"$audios_dir"/._,"$videos_dir"/._}
+        ! [[ -L "$AUDIOS"/mpm_audios ]] \
+        && ln -s "$audios_dir" "$AUDIOS"/mpm_audios
+        ! [[ -L "$VIDEOS"/mpm_videos ]] \
+        && ln -s "$videos_dir" "$VIDEOS"/mpm_videos
+    fi
+    
+    # the select loop won't display the correct directories names
+    # if white spaces exist, so we are forced to use this "dirthack"
+    _ReplaceSpaces() (
+        find "$AUDIOS" "$VIDEOS" -maxdepth 1 \
+        -type d -name "* *" -exec \
+        bash -c '
+            for f in "$@"; do
+                n="${f##*/}"
+                mv -nv "$f" "${f%/*}/${n// /_}"
+            done >/dev/null 2>&1
+        ' dummy {} +
+    )
+    
+    read -rsn 1 -p ${g}' Type of media, [A]udio or [V]ideo ?: '${nc} choice
+    case "$choice" in
+        a|A)
+            __
+            echo -e " ${g}Load a directory [D] or file(using ranger) [F] ?: ${nc}\n"
+            read -rsn 1 audio
+            case "$audio" in
+                d|D)
+                    _ReplaceSpaces
+                    PS3=" Select a directory: "
+                    select dir in $(find -L "$AUDIOS" -maxdepth 1 -type d -not -name \
+                        "$zic" | sort | sed 's,.*/,,'); do
+                        if [[ $(find "$AUDIOS"/"$dir" -type d -empty) ]]; then
+                            __
+                            echo " ${r}$dir is empty. Wait and try again...${nc}"
+                            sleep 4
+                            break
+                        else
+                            # checking for content in linked directories.
+                            if [[ -z $(command ls "$AUDIOS"/"$dir") ]]; then
+                                __
+                                echo " ${r}This symlink points to an empty directory!"
+                                echo " Wait and try again...${nc}"
+                                sleep 4
+                                break
+                            fi
+                            clear
+                            mpv --no-video "$AUDIOS"/"$dir"/*
+                            break
+                        fi
+                    done
+                ;;
+                f|F)
+                    ranger "$AUDIOS"; _Menu
+                ;;
+            esac
+        ;;
+        v|V)
+            _ReplaceSpaces
+            __
+            echo -e " ${g}What would you like to load, a directory [D] or file(s) [F] ?: ${nc}\n"
+            read -rsn 1 video
+            case "$video" in
+                d|D)
+                    PS3=" Select a directory: "
+                    select dir in $(find -L "$VIDEOS" -maxdepth 1 -not -name \
+                        "$vid" | sort | sed 's,.*/,,;s,Garam,,'); do
+                        if [[ $(find "$VIDEOS"/"$dir" -type d -empty) ]]; then
+                            __
+                            echo " ${r}$dir is empty. Wait and try again...${nc}"
+                            sleep 4
+                            break
+                        else
+                            if [[ -z $(command ls "$VIDEOS"/"$dir") ]]; then
+                                __
+                                echo " ${r}This symlink points to an empty directory!"
+                                echo " Wait and try again...${nc}"
+                                sleep 4
+                                break
+                            fi
+                            clear
+                            mpv "$VIDEOS"/"$dir"/*
+                            break
+                        fi
+                    done
+                ;;
+                f|F)
+                    ranger "$VIDEOS"; _Menu
+                ;;
+            esac
+        ;;
+    esac
+
+}

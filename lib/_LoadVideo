@@ -1,0 +1,70 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_LoadVideo() {
+
+    clear
+    case "$1" in
+        -v)
+            M3UFILE="$VIDEO_INFO" ;;
+        -q)
+            M3UFILE="$QUEUE" ;;
+        -l)
+            M3UFILE="$list" ;;
+        -c)
+            M3UFILE="$CHOOSE1" ;;
+    esac
+    
+    __
+    echo "${r}Tip: You may want to put this in your mpv.conf:"
+    printf '%s\n' "term-playing-msg='Tiltle: \${media-title}'"
+    echo -e "Otherwise press I in mpv for more infos.${nc}\n"
+    
+    declare -i quality=(299 298 137 22 136)
+    
+    mapfile -t < <(grep '^https' "$M3UFILE")
+    
+    for i in "${MAPFILE[@]}"; do
+        youtube-dl --no-warnings -F "$i" > "$YTOP"
+        
+        if grep -q -w ${quality[0]} "$YTOP"; then
+            mpv --ytdl-format=${quality[0]}+251 "$i"
+        elif grep -q -w ${quality[1]} "$YTOP"; then
+            mpv --ytdl-format=${quality[1]}+251 "$i"
+        elif grep -q -w ${quality[2]} "$YTOP"; then
+            mpv --ytdl-format=${quality[2]}+251 "$i"
+        elif grep -q -w ${quality[3]} "$YTOP"; then
+            mpv --ytdl-format=${quality[3]}+251 "$i"
+        elif grep -q -w ${quality[3]} "$YTOP"; then
+            mpv --ytdl-format=${quality[4]}+251 "$i"
+        else
+            mpv \
+            --ytdl-format='bestvideo[height<=?1080][fps<=?30][vcodec!=?vp9]+bestaudio/best' "$i"
+        fi
+    done
+    
+    TMP=( "$VIDEO_INFO" "$VIDEO_TITLE" "$FFOP" "$YTOP" "$tmp_dir/CheckCode" )
+    
+    if [[ -f "$VIDEO_INFO" ]]; then
+        clear
+        __
+        echo " ${r}Did you launched video(s) from the default list?"
+        echo " If so, type ${b}${c}Y${nb} ${r}to preserve temporary video list${nc}" 
+        __
+        _Prompt " ${g}Temporary video list still exist, KEEP it?:${nc}" || {
+            rm -f "${TMP[@]}" 2>/dev/null
+            _Menu
+        }
+        unset {TMP[0],TMP[1]}
+        rm -f "${TMP[@]}" 2>/dev/null
+        _Menu
+    elif [[ -f $CHOOSE1 ]]; then
+            unset {TMP[0],TMP[1],TMP[7],TMP[8],TMP[9]}
+            rm -f {"${TMP[@]}","$CHOOSE1"} 2>/dev/null
+            _LoadPlaylistMenu
+    else
+        unset {TMP[0],TMP[1]}
+        rm -f "${TMP[@]}" 2>/dev/null
+        _Menu
+    fi
+}

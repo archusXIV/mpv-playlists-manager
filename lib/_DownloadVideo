@@ -1,0 +1,77 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_DownloadVideo() {
+    cd "$playlists_dir"
+    clear
+    cp -f "$list" "$list"_origin 2>/dev/null
+    __
+    echo " ${g}Tip: direct download will always pick the best format,"
+    echo -e " on Youtube webm may be the best one but we'll merge files in mp4.\n"
+    echo -e " Choose [S]pecific codes or [D]irect download?:\n${nc}"
+    sleep 0.5 && read -rsn 1 choice
+
+    case "$choice" in
+        d|D)
+            mapfile -t DIRECT < <(grep -v '#EXTM3U' "$list")
+
+            local count=$(grep -v -c '#EXTM3U' "$list")
+
+            for line in "${DIRECT[@]}"; do
+                cd "$videos_dir"
+                printf '%s\n' " ${g}Downloading $count file(s).${nc}"
+                [[ $line =~ 'youtube.com' ]] && {
+                    youtube-dl --no-warnings --merge-output-format mp4 "$line"
+                    clear
+                } || youtube-dl --no-warnings "$line" && clear
+                let "count--"
+                sed -i '2d' "$playlists_dir"/"$list"
+            done
+
+            echo " ${g}All done${nc}"
+            sleep 2
+            _DownloadCompleted
+        ;;
+        s|S)
+            for url in $(grep -v '#EXTM3U' "$list"); do
+                clear
+                echo " ${g}$(_GetLinesList -l) video(s) file(s) left to download.${nc}"
+                echo -e " ${g}Codes for: $(_GetLinkTitle -l).${nc}\n"
+                cd "$videos_dir"
+                if [[ $url =~ 'youtube.com' ]]; then
+                    __
+                    youtube-dl -F --no-warnings "$url" \
+                    | sed '1,4d;/^sb/d;/3gp/d;/^[youtube]/d'
+                else
+                    youtube-dl -F --no-warnings "$url"
+                fi
+
+                __
+                echo -e " ${g}Choose a format code. \n eg: 137+251 for merging, hls-1080p, 22 for single:${nc}"
+                read -r code
+                sleep 0.5
+                clear
+
+                if [[ "$code" =~ '+' ]]; then
+                    echo " ${g}Please be patient while downloading and merging formats for:"
+                    echo -e " ${r}$(_GetLinkTitle -l).${nc}\n"
+                    youtube-dl -f "$code" --no-warnings --merge-output-format mp4 --progress "$url"
+                else
+                    echo " ${g}Please be patient while downloading:"
+                    echo -e " ${r}$(_GetLinkTitle -l).${nc}\n"
+                    youtube-dl -f "$code" --no-warnings --progress "$url"
+                fi
+
+                sed -i '2d' "$list"; \
+                sed -i '1d' "$titles_dir"/"$list".titles
+                clear
+
+            done
+
+            echo " ${g}All done${nc}"
+            sleep 2
+            _DownloadCompleted
+        ;;
+    esac
+
+}
