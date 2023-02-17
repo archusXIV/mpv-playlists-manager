@@ -1,0 +1,44 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_LoadPlaylistMenu() {
+    
+    while true; do
+        
+        _ResizeWindow
+        clear
+        __
+        echo " ${g}$list: "$(grep -v -c '#EXTM3U' "$list")" url(s).${nc}"
+        __
+        echo -e "                                                 ${r}::Download options::${nc}"
+        echo -e "                                 ┌───────────────────────────────────────────────────┐"
+        echo -e "                                 │     1) Choose playlist links & download ${c}audio${nc}     │"
+        echo -e "                                 │     2) Choose playlist links & download ${c}video${nc}     │"
+        echo -e "                                 │     3) Download whole playlist as ${c}audio${nc} files     │"
+        echo -e "                                 │     4) Download whole playlist as ${c}video${nc} files     │"
+        echo -e "                                 │     5) Back to main menu                          │"
+        echo -e "                                 └───────────────────────────────────────────────────┘"
+        echo -e "                                                   ${g}${b}Select an item${nb}${nc}"
+        __
+        read -rsn 1 options
+        case "$options" in
+            1)
+                _ChooseDownloadAudio
+            ;;
+            2)
+                _ChooseDownloadVideo
+            ;;
+            3)
+                _DownloadAudio
+            ;;
+            4)
+                _DownloadVideo
+            ;;
+            5)
+                _Menu
+            ;;
+        esac
+    done
+    
+}
+

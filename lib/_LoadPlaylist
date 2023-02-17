@@ -1,0 +1,33 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_LoadPlaylist() {
+    cd "$playlists_dir"
+    __
+    echo -e " ${g}Select a playlist to load (Press 'q' to quit mpv):${nc}\n"
+    PS3=""
+    select list in $(find . -type f | sort -d | sed 's,.*/,,'); do
+        
+        if [[ ! -f "$list" ]]; then
+            echo " ${r}$list is empty...${nc}"
+            sleep 3s
+            _Menu
+        fi
+        
+        clear
+        __
+        printf '%s\n' " ${g}Choose an option for${nc} $list:"
+        __
+        read -rn1 -p ${g}' [P]lay, [D]ownload: '${nc} loadplaylist
+        __
+        case "$loadplaylist" in
+            d|D)
+                _LoadPlaylistMenu
+            ;;
+            p|P)
+                _ChooseFromPlay
+            ;;
+        esac
+    done
+}
+

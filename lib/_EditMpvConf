@@ -1,0 +1,22 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_EditMpvConf() {
+
+    local mpvconf="$XDG_CONFIG_HOME/mpv/mpv.conf"
+
+    if [[ -f $mpvconf ]]; then
+        $EDITOR "$mpvconf"
+        echo " ${g}mpv.conf saved.${nc}"
+        sleep 2
+        clear
+        _Menu
+    else
+        echo " ${r}$mpvconf doesn't exist...${nc}"
+        sleep 3
+        clear
+        _Menu
+    fi
+
+}
+

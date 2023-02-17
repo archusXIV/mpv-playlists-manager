@@ -1,0 +1,69 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_CopyAudio() {
+
+    [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
+
+    while (( $(grep "" -c "$QUEUE") > 0 )); do
+        __
+        echo -e " Paste an url to fill the ${g}audio${nc} playlist:\n"
+        read -r url
+
+        if [[ $url =~ 'playlist?list=' ]]; then
+            echo -e " ${g}Getting titles & links from playlist...Please be patient.${nc}\n"
+            youtube-dl --get-title --no-warnings "$url" >> "$AUDIO_TITLE"
+            _GetYoutubePlaylistUrls -a
+            _RemoveCrap
+        else
+            echo "$url" | tee -a "$QUEUE" >> "$AUDIO_INFO"
+            __
+            echo -e " ${g}Testing url...${nc}\n"
+            _RemoveCrap
+            url=$(sed -n '$p' "$AUDIO_INFO")
+            youtube-dl -F --no-warnings "$url" > "$YTOP"
+            if [[ $? -eq 1 ]]; then
+                echo -e " ${r}${b}No format code found!${nb}\n$url will be removed."
+                echo " ${g}Please visit: $supportedsites${nc}"
+                sed -i '$d' {"$QUEUE","$AUDIO_INFO"}
+                _RemoveCrap
+                sleep 7
+                [[ $(_GetLinesList -a) -eq 0 ]] && _Menu
+            else
+                echo -e " ${g}Getting audio title...${nc}\n"
+                youtube-dl --get-title --no-warnings \
+                "$url" >> "$AUDIO_TITLE"
+                _RemoveCrap
+            fi
+        fi
+
+        _ResizeWindow
+        clear
+        _ListsCount
+        __
+        echo -e "                                                    ${r}::audio options::${nc}"
+        echo -e "                              ┌─────────────────────────────────────────────────────────────┐"
+        echo -e "                              │     1) Add more audio links       4) Play current list      │"
+        echo -e "                              │     2) Download current list      5) View current list      │"
+        echo -e "                              │     3) Save playlist as           6) Back to main menu      │"
+        echo -e "                              └─────────────────────────────────────────────────────────────┘"
+        echo -e "                                                    ${g}${b}Select an item${nb}${nc}"
+        __
+        read -rsn 1 options
+        case "$options" in
+            1)  continue
+                __ ;;
+            2)  _GetAudio
+                break ;;
+            3)  _Save -a
+                __ ;;
+            4)  _LoadAudio -a
+                __ ;;
+            5)  _ViewUrlInfo -a
+                __ ;;
+            6)  _Menu
+                __ ;;
+        esac
+    done
+}
+
