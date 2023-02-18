@@ -9,7 +9,7 @@ _LoadPlaylist() {
     select list in $(find . -type f  -not -name "ChooseFrom1.m3u" \
     | sort -d | sed 's,.*/,,'); do
         
-        if [[ ! -f "$list" ]]; then
+        if [[ $(_GetLinesList -l) -eq 0 ]]; then
             echo " ${r}$list is empty...${nc}"
             sleep 3s
             _Menu
