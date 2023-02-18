@@ -27,7 +27,7 @@ resizing just install [wmctrl](http://tripie.sweb.cz/utils/wmctrl/) an the scrip
 that for you.
 If you're a tiling window manager user, make it float or give it more room in the stack.
 ```
-wmctrl -r :ACTIVE: -e 5,-1,-1,1210,685
+wmctrl -r :ACTIVE: -e 5,-1,-1,1210,735
         -----------   -- -- -- --- ---
              |         | |  |   |   |---> Window height
              |         | |  |   |-------> Window width             
