@@ -17,7 +17,7 @@
 ##    It is recommanded to disable mpv cache for better results on direct streaming,
 ##    or find a better cache parameter.
 
-VERSION="v-1.2-1"
+VERSION="v-1.2-2"
 
 ## prompts & messages colors
 nc=$'\e[0m';
@@ -69,7 +69,6 @@ LOW="$tmp_dir/quality_low.m3u"
 ELSE="$tmp_dir/else.m3u"
 CHOOSE1="$playlists_dir/ChooseFrom1.m3u"
 CHOOSE2="$playlists_dir/ChooseFrom2.m3u"
-CHOOSE3="$playlists_dir/ChooseFrom3.m3u"
 
 case "$1" in -h|--help) cat | less << EOF
 
