@@ -1,0 +1,49 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_ChooseFromPlay() {
+    cd "$playlists_dir"
+
+    if [[ -f "$titles_dir"/"$list".titles ]]; then
+        __
+        echo -e " ${g}Titles for $list.${nc}\n"
+        cat -n "$titles_dir"/"$list".titles
+        __
+    else
+        __
+        echo -e " ${g}Getting titles...please wait.${nc}\n"
+        mapfile -t CHOOSEDLIST < <(grep -v '#EXTM3U' "$list")
+
+        for item in "${CHOOSEDLIST[@]}"; do
+            youtube-dl --no-warnings --get-title "$item"
+        done > "$titles_dir"/"$list".titles
+        cat -n "$titles_dir"/"$list".titles
+        __
+    fi
+
+    [[ -f $CHOOSE1 ]] && rm "$CHOOSE1"
+
+    IFS=","; read -a array -p ${g}" Enter links separeted by comma, eg: 3,1,5: "${nc}
+
+    for i in "${array[@]}"; do
+        let "i++"
+        sed -n "${i}p" "$list" >> "$CHOOSE1"
+    done
+    
+    # if we don't unset IFS all other functions will be messed up!
+    unset IFS
+    __
+    read -rsn 1 -p ${g}' load [A]udio, [V]ideo: '${nc} load
+
+    case "$load" in
+        a|A)
+            _LoadAudio -c
+        ;;
+        v|V)
+            clear
+            _LoadVideo -c
+        ;;
+    esac
+    _Menu
+}
+

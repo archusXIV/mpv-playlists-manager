@@ -1,0 +1,5 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_ResizeWindow() { wmctrl -r :ACTIVE: -e 5,-1,-1,1210,735; }
+

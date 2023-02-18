@@ -1,0 +1,49 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_GetDefaultAudio() {
+    __
+    echo " ${g}Getting titles...${nc}"
+    _GetMediaTitle -q > "$tmp_dir"/DefaultAudio
+
+    cd "$audios_dir"
+    cp -f "$QUEUE" "$QUEUE"_origin 2>/dev/null
+    cp -f "$tmp_dir"/DefaultAudio "$tmp_dir"/DefaultAudio_origin
+    [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
+
+    for getdefaudiourl in $(grep -v '#EXTM3U' "$QUEUE"); do
+        __
+        echo -e " ${g}Codes for: $(sed -n '1p' "$tmp_dir"/DefaultAudio).${nc}\n"
+        youtube-dl -F --no-warnings "$getdefaudiourl" | sed -n '
+        1,5d;6,7p;/audio only/p' | sed '/^sb2/d' 2>/dev/null
+        __
+        echo " ${g}Choose a format code: ${nc}"
+        read -r code
+
+        clear
+
+        __
+        echo " ${g}$(_GetLinesList -q) audio file(s) left to download.${nc}"
+        echo " ${g}Please be patient while downloading..."
+        echo -e " ${r}$(sed -n '1p' "$tmp_dir"/DefaultAudio).${nc}\n"
+        youtube-dl -f "$code" --no-warnings --progress "$getdefaudiourl"
+        sed -i '2d' "$QUEUE"; sed -i '1d' "$tmp_dir"/DefaultAudio
+        clear
+
+    done
+
+    echo -e " ${g}Done\n${nc}"
+
+    if [[ -n $(find . -iname "*.webm") ]]; then
+        echo -e " ${r}Advisory: IF YOU CHOOSE CONVERSION, ALL FILES WILL BE IN THE CHOSEN FORMAT.${nc}\n"
+        find . -iname "*.webm" | sed 's,.*/,,'
+        __
+        _Prompt " ${g}Do you wish to convert them?: ${nc}" || {
+            _GetCompleted -a
+        }
+        _ConvertAudio && _GetCompleted -a
+    else
+        _GetCompleted -a
+    fi
+
+}
