@@ -5,7 +5,7 @@ Video link: https://www.youtube.com/watch?v=7OWO1vRL77A
 user@linux ~ $ mpm --help
 ```
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_v.1.0.1.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_v1.2-2.png)
 
 First of, github mention this repository as a python project but MPM is whritten in bash,
 and python because I have pushed my ranger configurations files whritten in that language.
