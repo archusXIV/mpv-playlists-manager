@@ -2,6 +2,9 @@
 ## This is a part of main script: mpm.
 
 _ListsCount() {
+    __
+    echo " ${g}Collection:"  \
+    "  $(find "$playlists_dir" -iname "*.m3u" -printf '.' | wc -c) playist(s)${nc}"
     if [[ -f $tmp_dir/1 ]]; then
         __
         echo " ${g}Default list: ${b}$(_GetLinesList -q)${nb} url(s).${nc}"
@@ -13,6 +16,5 @@ _ListsCount() {
     [[ -f $AUDIO_INFO ]] && (( $(_GetLinesList -a) > 0 )) && \
         echo " ${g}Audio list:   $(_GetLinesList -a) url(s).${nc}"
     [[ -f $VIDEO_INFO ]] && (( $(_GetLinesList -v) > 0 )) && \
-        echo " ${g}Video list:   $(_GetLinesList -v) url(s).${nc}"
+        echo -e " ${g}Video list:   $(_GetLinesList -v) url(s).${nc}\n"
 }
-
