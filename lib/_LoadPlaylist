@@ -4,14 +4,14 @@
 _LoadPlaylist() {
     cd "$playlists_dir"
     __
-    echo -e " ${g}Select a playlist to load (Press 'q' to quit mpv):${nc}\n"
-    PS3=""
+    PS3=""$'\n'"${g}Select a playlist to load:${nc} "
     select list in $(find . -type f  -not -name "ChooseFrom1.m3u" \
     | sort -d | sed 's,.*/,,'); do
         
         if [[ $(_GetLinesList -l) -eq 0 ]]; then
-            echo " ${r}$list is empty...${nc}"
-            sleep 3s
+            echo " ${r}No links found in $list (empty or does not contains #EXTM3U header)."
+            echo " You can edit and fix it in option 8) Edit a playlist.${nc}"
+            sleep 8
             _Menu
         fi
         
@@ -31,4 +31,3 @@ _LoadPlaylist() {
         esac
     done
 }
-
