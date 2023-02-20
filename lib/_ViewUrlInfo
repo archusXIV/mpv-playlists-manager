@@ -62,10 +62,30 @@ _ViewUrlInfo() {
                         _Menu
                     ;;
                     d|D)
-                        _CheckCode -d
+                        __
+                        read -rsn 1 -p ${g}' Download [A]udio, [V]ideo:'${nc} get
+                        case "$get" in
+                            a|A)
+                                __
+                                _GetDefaultAudio
+                            ;;
+                            v|V)
+                                __
+                                _GetDefaultVideo
+                            ;;
+                        esac
                     ;;
                     p|P)
-                        _CheckCode -p
+                        __
+                        read -sn1 -p ${g}' Play [A]udio, [V]ideo?: '${nc} play
+                        case "$play" in
+                            a|A)
+                                _LoadAudio -q
+                            ;;
+                            v|V)
+                                _LoadVideo -q
+                            ;;
+                        esac
                     ;;
                     r|R)
                         _Remove -q
@@ -74,15 +94,18 @@ _ViewUrlInfo() {
                         __
                         echo " ${g}Updating playlist titles...${nc}"
                         _GetMediaTitle -q \
-                        | tee -a "$tmp_dir"/default \
+                        | tee -a "$tmp_dir"/DefaultAudio \
                         | cat -n >/dev/null 2>&1
+                        cp "$tmp_dir"/DefaultAudio "$tmp_dir"/DefaultVideo
                         _Save -q
                     ;;
                     v|V)
-                        __
+                        clear; __
                         echo -e " ${g}Getting titles...${nc}\n"
                         _GetMediaTitle -q \
-                        | cat -n 2>/dev/null
+                        | tee -a "$tmp_dir"/DefaultAudio \
+                        | cat -n >/dev/null 2>&1
+                        cp "$tmp_dir"/DefaultAudio "$tmp_dir"/DefaultVideo
                         __
                     ;;
                 esac
@@ -99,4 +122,3 @@ _ViewUrlInfo() {
         -q) __queue ;;
     esac
 }
-
