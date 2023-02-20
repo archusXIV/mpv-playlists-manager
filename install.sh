@@ -28,6 +28,8 @@ _uninstall() {
 }
 
 {
+date
+printf '%s\n'
 if [ -x "$bin"/mpm ] && [ -d "$lib" ]; then
     read -rn 1 -p ' [R]emove or [U]pgrade mpm?: ' answer
     case "$answer" in
