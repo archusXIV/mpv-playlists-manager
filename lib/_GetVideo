@@ -2,11 +2,12 @@
 ## This is a part of main script: mpm.
 
 _GetVideo() {
-
+    
     cd "$videos_dir"
     cp -f "$VIDEO_INFO" "$VIDEO_INFO"_origin 2>/dev/null
     cp -f "$VIDEO_TITLE" "$VIDEO_TITLE"_origin 2>/dev/null
     clear
+    
     for getvideourl in $(grep '^https' "$VIDEO_INFO"); do
         __
         echo -e " ${g}Codes for: $(_GetLinkTitle -v).${nc}\n"
