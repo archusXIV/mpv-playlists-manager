@@ -3,22 +3,24 @@
 
 _CheckDependencies() {
     ## Checking dependencies: softwares, directories and files.
-    declare -a deps=( "ffmpeg" "jq" "mpv" "vim" "youtube-dl" "yt-dlp" )
+    declare -a deps=( "ffmpeg" "jq" "mpv" "vim" "youtube-dl" "yt-dlp" \
+                    "ranger" "ueberzug" "wmctrl" "w3m" )
 
-    for dep in "${deps[@]}"; do
+    for dep in "${deps[@]:0:6}"; do
         [[ -z $(command -v "$dep") ]] && {
             echo " ${r}$dep isn 't installed, bye..."
             exit 127
         }
     done
+    echo optionals...
 
-    for optional in ranger ueberzug wmctrl w3m; do
+    for optional in "${deps[@]:6:10}"; do
         [[ -z $(command -v "$optional") ]] && {
             echo " ${g}For better experience consider installing $optional.${nc}"
             sleep 2s
         }
     done
-
+    
     if [[ ! -d $main_dir ]]; then
         mkdir --parents \
         {"$audios_dir","$playlists_dir","$titles_dir","$tmp_dir","$videos_dir"}
@@ -39,4 +41,3 @@ _CheckDependencies() {
     _Menu
 
 }
-
