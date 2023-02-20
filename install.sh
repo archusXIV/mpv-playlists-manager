@@ -3,28 +3,40 @@
 bin="/usr/local/bin"
 lib="/usr/local/lib/mpm"
 
-read -rn1 -p ' [I]nstall or [U]ninstall: '
-echo ""
-case "$REPLY" in
-    i*|I*)
-        cp -vf mpm "$bin"
-    
-        mkdir -vp "$lib" && \
-        cp -vrf ./lib/* "$lib"
+_install() {
+    cp -vf mpm "$bin"
+    mkdir -vp "$lib" && \
+    cp -vrf ./lib/* "$lib"
             
-        mkdir -vp /usr/share/licenses/mpm && \
-        cp -vf ./LICENSE /usr/share/licenses/mpm/LICENSE
+    mkdir -vp /usr/share/licenses/mpm && \
+    cp -vf ./LICENSE /usr/share/licenses/mpm/LICENSE
             
-        chmod 755 "$lib"/*
-        chmod 755 "$bin"/mpm
+    chmod 755 "$lib"/*
+    chmod 755 "$bin"/mpm
             
-        printf '%s\n' "for usage run: mpm --help"
-    ;;
-    u*|U*)
-        rm -vf "$bin"/mpm
-        rm -vrf "$lib"
-        rm -vrf /usr/share/licenses/mpm
+    printf '%s\n' "for usage run: mpm --help"
+    printf '%s\n' "install.log created."
+}
+
+_uninstall() {
+    rm -vf "$bin"/mpm
+    rm -vrf "$lib"
+    rm -vrf /usr/share/licenses/mpm
             
-        printf '%s\n' "hope you liked it anyway..."
-    ;;
-esac
+    printf '%s\n' "hope you liked it anyway..."
+    printf '%s\n' "install.log created."
+}
+
+{
+if [ "$(find ./lib -type f | wc -l)" = \
+    "$(find "$lib" -type f | wc -l)" ]; then
+    _uninstall
+    _install
+elif [ "$(find ./lib -type f | wc -l)" != \
+    "$(find "$lib" -type f | wc -l)" ]; then
+    _uninstall
+    _install
+else
+    _install
+fi
+} > install.log
