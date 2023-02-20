@@ -1,0 +1,51 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_GetVideo() {
+    
+    cd "$videos_dir"
+    cp -f "$VIDEO_INFO" "$VIDEO_INFO"_origin 2>/dev/null
+    cp -f "$VIDEO_TITLE" "$VIDEO_TITLE"_origin 2>/dev/null
+    clear
+    
+    for getvideourl in $(grep '^https' "$VIDEO_INFO"); do
+        __
+        echo -e " ${g}Codes for: $(_GetLinkTitle -v).${nc}\n"
+
+        if [[ "$getvideourl" =~ 'youtube.com' ]]; then
+            youtube-dl -F --no-warnings "$getvideourl" \
+            | sed '1,4d;/^sb/d;/3gp/d;/^[youtube]/d'
+        else
+            youtube-dl -F --no-warnings "$getvideourl"
+        fi
+
+        __
+        echo -e " ${g}Choose a format code. \n eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
+        read -r code
+        clear
+        __
+        echo " ${g}$(_GetLinesList -v) video file(s) left to download.${nc}"
+
+        if [[ "$code" =~ '+' ]]; then
+            echo " ${g}Please be patient while downloading and merging formats for:"
+            echo -e " ${r}$(_GetLinkTitle -v).${nc}\n"
+            youtube-dl -f "$code" \
+            --no-warnings \
+            --merge-output-format mp4 \
+            --progress "$getvideourl"
+        else
+            echo " ${g}Please be patient while downloading:"
+            echo -e " ${r}$(_GetLinkTitle -v).${nc}\n"
+            youtube-dl -f "$code" --no-warnings --progress "$getvideourl"
+        fi
+
+        sed -i '1d' {"$VIDEO_INFO","$VIDEO_TITLE"}
+        clear
+
+    done
+
+    echo -e " ${g}Done.\n${nc}"
+    sleep 2
+    _GetCompleted -v
+
+}

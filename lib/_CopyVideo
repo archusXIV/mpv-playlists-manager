@@ -1,0 +1,71 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_CopyVideo() {
+
+    [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
+
+    while (( $(grep "" -c "$QUEUE") > 0 )); do
+        __
+        echo -e " Paste an url to fill the ${g}video${nc} playlist:\n"
+        read -r videourl
+
+        if [[ $videourl =~ 'playlist?list=' ]]; then
+            __
+            echo -e " ${g}Getting titles & links from playlist...${b}Please be patient.${nb}${nc}\n"
+            youtube-dl --get-title --no-warnings "$videourl" >> "$VIDEO_TITLE"
+            _GetYoutubePlaylistUrls -v
+            _RemoveCrap -v
+        else
+            echo "$videourl" >> "$VIDEO_INFO"
+            __
+            echo " ${g}Testing url...${nc}"
+            _RemoveCrap -v
+            videourl=$(sed -n '$p' "$VIDEO_INFO")
+            youtube-dl -F --no-warnings "$(sed -n '$p' "$VIDEO_INFO")" > "$YTOP"
+            if [[ $? -eq 1 ]]; then
+                __
+                echo -e " ${r}${b}No format code found!${nb}\n$videourl will be removed."
+                echo " ${g}Please visit: $supportedsites${nc}"
+                sed -i '$d' "$VIDEO_INFO"
+                _RemoveCrap -v
+                sleep 7
+                [[ $(_GetLinesList -v) -eq 0 ]] && _Menu
+            else
+                sed -n '$p' "$VIDEO_INFO" >> "$QUEUE"
+                echo -e " ${g}Getting video title...${nc}\n"
+                youtube-dl --get-title --no-warnings \
+                "$videourl" >> "$VIDEO_TITLE"
+                _RemoveCrap -v
+            fi
+        fi
+
+        _ResizeWindow
+        clear
+        _ListsCount
+        __
+        echo -e "                                                    ${r}::video options::${nc}"
+        echo -e "                              ┌─────────────────────────────────────────────────────────────┐"
+        echo -e "                              │     1) Add more video links       4) Play current list      │"
+        echo -e "                              │     2) Download current list      5) View current list      │"
+        echo -e "                              │     3) Save playlist as           6) Back to main menu      │"
+        echo -e "                              └─────────────────────────────────────────────────────────────┘"
+        echo -e "                                                    ${g}${b}Select an item${nb}${nc}"
+        __
+        read -rsn 1 options
+        case "$options" in
+            1)  continue
+                __ ;;
+            2)  _GetVideo
+                break ;;
+            3)  _Save -v
+                __ ;;
+            4)  _LoadVideo -v
+                __ ;;
+            5)  _ViewUrlInfo -v
+                __ ;;
+            6)  _Menu
+                __ ;;
+        esac
+    done
+}
