@@ -3,11 +3,15 @@
 
 _GetLinkTitle() {
     case "$1" in
-        -a) sed -n '1p' "$AUDIO_TITLE" ;;
-        -c) sed -n '1p' "$CHOOSE2" ;;
-        -l) sed -n '1p' "$titles_dir"/"$list.titles" ;;
-        -q) sed -n '2p' "$QUEUE" ;;
-        -v) sed -n '1p' "$VIDEO_TITLE" ;;
+        -a)
+            sed -n '1p' "$AUDIO_TITLE"
+        ;;
+        -q)
+            sed -n '1p' "$tmp_dir"/DefaultAudio 2>/dev/null \
+            || sed -n '1p' "$tmp_dir"/DefaultVideo 2>/dev/null
+        ;;
+        -v)
+            sed -n '1p' "$VIDEO_TITLE"
+        ;;
     esac
 }
-
