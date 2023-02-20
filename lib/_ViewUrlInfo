@@ -100,6 +100,7 @@ _ViewUrlInfo() {
                             _GetMediaTitle -q \
                             | tee -a "$tmp_dir"/DefaultAudio \
                             | cat -n >/dev/null 2>&1
+                            _RemoveCrap -q
                             cp "$tmp_dir"/DefaultAudio "$tmp_dir"/DefaultVideo
                             _Save -q
                         fi
@@ -108,6 +109,7 @@ _ViewUrlInfo() {
                         __
                         echo -e " ${g}Getting titles...${nc}\n"
                         _GetMediaTitle -q > "$tmp_dir"/DefaultAudio
+                        _RemoveCrap -q
                         cp "$tmp_dir"/DefaultAudio "$tmp_dir"/DefaultVideo
                         cat -n "$tmp_dir"/DefaultAudio
                         __
@@ -126,4 +128,3 @@ _ViewUrlInfo() {
         -q) __queue ;;
     esac
 }
-
