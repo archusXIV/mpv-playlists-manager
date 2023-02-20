@@ -4,7 +4,9 @@
 _ListsCount() {
     __
     echo " ${g}Collection:"  \
-    "  $(find "$playlists_dir" -iname "*.m3u" -printf '.' | wc -c) playist(s)${nc}"
+    "  $(find "$playlists_dir" -not -name "default.m3u" \
+    -iname "*.m3u" -printf '.' | wc -c) playist(s)${nc}"
+    
     if [[ -f $tmp_dir/1 ]]; then
         __
         echo " ${g}Default list: ${b}$(_GetLinesList -q)${nb} url(s).${nc}"
