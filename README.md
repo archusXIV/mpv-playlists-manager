@@ -61,8 +61,8 @@ Requests and contributions? Why not, have fun.
 Before installing, please check paths variables in [function /lib/_LoadLocal](/lib/_LoadLocal)
 and then run the install.sh script as root, by default /usr/local/bin /usr/local/lib are the
 respective used locations, feel free to change them.
-Re-run the install script to uninstall, **as new versions occure too** and in that case uninstall & install again 
-as new version may contain less files.
+The install script will detect if mpm is already installed and in that case the prompt will be: [R]emove or [U]pgrade mpm? 
+Otherwise the simple install function will run.
 ```
 git clone https://github.com/archusXIV/mpv-playlists-manager.git
 cd mpv-playlists-manager
