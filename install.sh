@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 bin="/usr/local/bin"
 lib="/usr/local/lib/mpm"
@@ -28,14 +28,23 @@ _uninstall() {
 }
 
 {
-if [ "$(find ./lib -type f | wc -l)" = \
-    "$(find "$lib" -type f | wc -l)" ]; then
-    _uninstall
-    _install
-elif [ "$(find ./lib -type f | wc -l)" != \
-    "$(find "$lib" -type f | wc -l)" ]; then
-    _uninstall
-    _install
+if [ -x "$bin"/mpm ] && [ -d "$lib" ]; then
+    read -rn 1 -p ' [R]emove or [U]pgrade mpm?: ' answer
+    case "$answer" in
+        r|R) _uninstall
+        ;;
+        u|U)
+            if [ "$(find ./lib -type f | wc -l)" = \
+                "$(find "$lib" -type f | wc -l)" ]; then
+                _uninstall
+                _install
+            elif [ "$(find ./lib -type f | wc -l)" != \
+                "$(find "$lib" -type f | wc -l)" ]; then
+                _uninstall
+                _install
+            fi
+        ;;
+    esac
 else
     _install
 fi
