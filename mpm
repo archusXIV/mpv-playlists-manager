@@ -1,8 +1,8 @@
 #!/bin/bash
 
-##    Author: Barret E (2021-23) <archus@protonmail.com>
+##    Author: Barret E (2021-22) <archus@protonmail.com>
 ##    https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-##    Dependencies: ffmpeg, jq, mpv, vim, youtube-dl/yt-dlp.
+##    Dependencies: ffmpeg, jq, mpv, youtube-dl.
 ##    Optionals: ranger, w3m, wmctrl
 ##
 ##    Youtube-dl is for now kind of unmaintained so install and make a symlink with
@@ -17,7 +17,7 @@
 ##    It is recommanded to disable mpv cache for better results on direct streaming,
 ##    or find a better cache parameter.
 
-VERSION="v-1.2-2"
+VERSION="v.1.2-2"
 
 ## prompts & messages colors
 nc=$'\e[0m';
@@ -28,7 +28,7 @@ b=$'\e[5m';
 nb=$'\e[25m'
 
 ## First source our functions.
-for func in $(find /usr/local/lib/mpm -name "_*"); do
+for func in $(find "$SCRIPTDIR"/mpv-playlists-manager/lib/_*); do
     source "$func"
 done
 
@@ -44,7 +44,7 @@ pids=($(pidof -x $mpvmenu))
 __() { printf '%s\n'; }
 
 ## default editor
-EDITOR="vim"
+EDITOR=${VISUAL:-vim}
 
 ## directories & files (I know, that's a lot)
 main_dir="$HOME/Documents/mpv-playlists-manager"
@@ -62,13 +62,8 @@ AUDIO_INFO="$tmp_dir/AudioUrls.m3u"
 AUDIO_TITLE="$tmp_dir/AudioTitles"
 VIDEO_INFO="$tmp_dir/VideoUrls.m3u"
 VIDEO_TITLE="$tmp_dir/VideoTitles"
-HIGHEST="$tmp_dir/quality_highest.m3u"
-HIGH="$tmp_dir/quality_high.m3u"
-MEDIUM="$tmp_dir/quality_medium.m3u"
-LOW="$tmp_dir/quality_low.m3u"
-ELSE="$tmp_dir/else.m3u"
 CHOOSE1="$playlists_dir/ChooseFrom1.m3u"
-CHOOSE2="$playlists_dir/ChooseFrom2.m3u"
+CHOOSE2="$playlists_dir/ChooseFrom2.titles"
 
 case "$1" in -h|--help) cat | less << EOF
 
@@ -76,8 +71,8 @@ case "$1" in -h|--help) cat | less << EOF
 
     !!! YOU CAN CHANGE MPM DIRECTORIES BY EDITING THE VARIABLES IN THE SCRIPT !!!
     By default "$HOME"/Documents/mpv-playlists-manager/
-    Dependencies: ffmpeg, jq, mpv, youtube-dl, yt-dlp (for better results).
-    Optionals: ranger, wmctrl.
+    Dependencies: ffmpeg, jq, mpv, vim, youtube-dl, yt-dlp (for better results).
+    Optionals: ranger, ueberzug, wmctrl, w3m.
     I) Main menu:
 
                 ┌─────────────────────────────────────────────────────────────┐
