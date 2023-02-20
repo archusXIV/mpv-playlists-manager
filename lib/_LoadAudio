@@ -4,7 +4,8 @@
 _LoadAudio() {
     
     _MpvAudioOptions() (
-        mpv --no-video --ytdl-format='bestaudio/best' "$1"
+        mpv --term-playing-msg='Title: ${media-title}' \
+        --no-video --ytdl-format='bestaudio/best' "$1"
     )
     
     clear
@@ -33,4 +34,3 @@ _LoadAudio() {
         ;;
     esac
 }
-
