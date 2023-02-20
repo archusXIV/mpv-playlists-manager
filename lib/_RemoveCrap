@@ -11,6 +11,9 @@ _RemoveCrap() {
         -a)
             LISTS=( "$AUDIO_INFO" "$AUDIO_TITLE" )
         ;;
+        -q)
+            LISTS=( "$QUEUE" "$tmp_dir"/DefaultAudio "$tmp_dir"/DefaultVideo )
+        ;;
         -v)
             LISTS=( "$VIDEO_INFO" "$VIDEO_TITLE" )
         ;;
@@ -23,4 +26,3 @@ _RemoveCrap() {
     done 2>/dev/null
 
 }
-
