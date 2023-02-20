@@ -3,6 +3,8 @@
 
 _EditMpvConf() {
 
+    : "${XDG_CONFIG_HOME:-$HOME/.config}"
+    
     local mpvconf="$XDG_CONFIG_HOME/mpv/mpv.conf"
 
     if [[ -f $mpvconf ]]; then
