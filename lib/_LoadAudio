@@ -1,0 +1,44 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_LoadAudio() {
+
+    _MpvAudioOptions() (
+        # change mpv settings here if needed
+        mpv \
+        --input-ipc-server='/tmp/mpvsocket' \
+        --no-config \
+        --term-playing-msg='Title: ${media-title}' \
+        --ytdl-format='bestaudio/best' "$M3UFILE"
+    )
+
+    clear
+    __; rm -f "$tmp_dir"/download 2>/dev/null
+    echo "${r}Tip: You may want to put this in your mpv.conf:"
+    printf '%s\n' "term-playing-msg='Tiltle: \${media-title}'"
+    echo "Otherwise press I in mpv for more infos.${nc}"
+    __
+    case "$1" in
+        -a)
+            M3UFILE="$AUDIO_INFO"
+            _MpvAudioOptions
+            _Prompt " ${g}Temporary audio list still exist, KEEP it?: ${nc}" || {
+                rm {"$AUDIO_INFO","$AUDIO_TITLE"}
+            }
+            _Menu
+        ;;
+        -c)
+            M3UFILE="$CHOOSE1"
+            _MpvAudioOptions
+        ;;
+        -q)
+            M3UFILE="$QUEUE"
+            _MpvAudioOptions
+            clear; __; echo -e " ${g}Did you like it? Choose an option:\n"
+        ;;
+        -l)
+            M3UFILE="$list"
+            _MpvAudioOptions
+        ;;
+    esac
+}

@@ -1,0 +1,37 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_DownloadCompleted() {
+    cd "$playlists_dir"
+    
+    if [[ -n $(find "$main_dir" -name "*.part") ]]; then
+        mv {"$AUDIO_INFO"_origin,"$VIDEO_INFO"_origin} "$playlists_dir" 2>/dev/null
+        echo " ${r}Temporary playlists have been moved in $playlists_dir."
+        echo -e " Incomplete files in audio/video dir:\n${nc}"
+        find . -name "*.part" | sort -d | sed 's,.*/,,' | cat -n
+        __
+        echo " ${g}Keep them in if you want to resume downloads,"
+        echo " by using '.m3u_origin' files in section: 4) Load a playlist,"
+        echo " in this session or later.${nc}"
+        sleep 15
+        _Menu
+    else
+        FILES=( "$list" "$list"_origin \
+            "$titles_dir"/"$list".titles "$CHOOSE1" "$CHOOSE2" )
+        
+        if [[ -f $list ]] && [[ $(grep -v -c '#EXTM3U' "$list") -gt 0 ]] ; then
+            _Prompt \
+            " ${g}Downloads completed but $list is not empty, do you want to KEEP it?: ${nc}" || {
+                rm -f "${FILES[@]}" 2>/dev/null
+            }
+            unset {FILES[0],FILES[2]}
+            rm -f "${FILES[@]}" 2>/dev/null
+        else
+            echo " ${g}Downloads completed, ${r}$list is empty... $list removed.${nc}"
+            sleep 5s
+            rm -f "${FILES[@]}" 2>/dev/null
+        fi
+        _Menu
+    fi
+}
+

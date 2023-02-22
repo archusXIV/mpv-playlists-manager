@@ -1,0 +1,62 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_ChooseDownloadAudio() {
+    cd "$playlists_dir" || exit 1
+    
+    _TitlesListCompare
+    
+    cp -f "$list" "$list"_origin 2>/dev/null
+    
+    IFS=","; read -a array \
+    -p " Enter links separeted by comma, eg: 3,1,5: "
+    clear
+    cd "$audios_dir"
+    
+    local counter="${#array[*]}"
+    
+    for i in ${array[*]}; do
+        let "i++"
+        url=$(sed -n "${i}p" "$playlists_dir"/"$list")
+        echo "$url" >> "$CHOOSE1"
+        printf '%s\n' " ${g}Total downloads: $counter${nc}"
+        youtube-dl -f 251 --no-warnings --progress "$url"
+        let "counter--"
+        clear
+    done
+
+    cd "$playlists_dir" || exit 1
+    # let's remove downloaded links from the original file
+    # and sending the other ones in a second temporary file...
+    for line in $(grep '^https' "$CHOOSE1"); do
+        grep -v "${line}" "$list" >> "$CHOOSE2"
+    done
+
+    # ...that we now rename with the original file name.
+    mv -f "$CHOOSE2" "$list"
+    rm "$CHOOSE1"
+    
+    # if we don't unset IFS other functions will be messed up!
+    unset IFS
+    
+    clear
+    
+    echo -e " ${g}Done${nc}\n"
+    echo -e " ${c}Updating titles...${b}please wait.${nb}${nc}\n"
+    _GetMediaTitle -l > "$titles_dir"/"$list".titles
+    
+    if [[ -n $(find "$audios_dir" -iname "*.webm") ]]; then
+        echo " ${r}ADVISORY: if you choose conversion, all downloaded files" 
+        echo -e " will be converted in the chosen format.${nc}\n"
+        find "$audios_dir" -iname "*.webm" | sed 's,.*/,,'
+        __
+        _Prompt " ${g}Do you wish to convert them?: ${nc}" || {
+            _DownloadCompleted
+        }
+        _ConvertAudio && _DownloadCompleted
+    else
+        _DownloadCompleted
+    fi
+
+}
+

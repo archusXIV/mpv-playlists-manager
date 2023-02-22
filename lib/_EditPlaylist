@@ -1,0 +1,29 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_EditPlaylist() {
+    while true; do
+        clear
+        cd "$playlists_dir"
+		__
+        PS3=""$'\n'"${g}Choose a playlist to edit:${nc} "
+
+        select playlist in $(find . -name "*.m3u" -o -name "*.m3u_origin" \
+            | sort -d | sed 's,.*/,,'); do
+                __
+                $EDITOR "$playlist"
+                echo -e " ${g}$playlist saved${nc}\n"
+                read -rsn 1 -p ${g}' [C]ontinue editing, [B]ack to menu.'${nc} edit
+                case "$edit" in
+                    c|C)
+                        break
+                        __
+                    ;;
+                    b|B)
+                        _Menu
+                    ;;
+                esac
+        done
+
+    done
+}
