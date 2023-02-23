@@ -6,6 +6,7 @@ _GetDefaultAudio() {
     if [[ ! -f "$tmp_dir"/DefaultAudio ]]; then
         echo " ${g}Getting titles...${nc}"
         _GetMediaTitle -q > "$tmp_dir"/DefaultAudio
+        clear
     fi
     
     cd "$audios_dir"
@@ -14,24 +15,18 @@ _GetDefaultAudio() {
     [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
     
     for getdefaudiourl in $(grep -v '#EXTM3U' "$QUEUE"); do
+        youtube-dl -F --no-warnings "$getdefaudiourl" \
+        | sed -n '1,7p;/audio only/p' | sed '/^sb2/d'
         __
-        echo -e " ${g}Codes for: $(_GetLinkTitle -q).${nc}\n"
-        youtube-dl -F --no-warnings "$getdefaudiourl" | sed -n '
-        1,5d;6,7p;/audio only/p' | sed '/^sb2/d' 2>/dev/null
-        __
-        echo " ${g}Choose a format code: ${nc}"
+        echo " ${g}Choose a format code for $(_GetLinkTitle -q):${nc}"
         read -r code
-        
         clear
-        
         __
-        echo " ${g}$(_GetLinesList -q) audio file(s) left to download.${nc}"
-        echo " ${g}Please be patient while downloading..."
-        echo -e " ${r}$(_GetLinkTitle -q).${nc}\n"
+        echo " ${g}$(_GetLinesList -q) audio file(s) left to download."
+        echo " Please be patient while downloading...${nc}"
         youtube-dl -f "$code" --no-warnings --progress "$getdefaudiourl"
         sed -i '2d' "$QUEUE"; sed -i '1d' "$tmp_dir"/DefaultAudio
         clear
-        
     done
 
     echo -e " ${g}Done\n${nc}"
