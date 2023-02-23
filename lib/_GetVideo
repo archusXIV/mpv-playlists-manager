@@ -10,38 +10,32 @@ _GetVideo() {
     
     for getvideourl in $(grep '^https' "$VIDEO_INFO"); do
         __
-        echo -e " ${g}Codes for: $(_GetLinkTitle -v).${nc}\n"
-
         if [[ "$getvideourl" =~ 'youtube.com' ]]; then
-            youtube-dl -F --no-warnings "$getvideourl" \
-            | sed '1,4d;/^sb/d;/3gp/d;/^[youtube]/d'
+            youtube-dl -F --no-warnings "$getvideourl"
         else
             youtube-dl -F --no-warnings "$getvideourl"
         fi
-
         __
-        echo -e " ${g}Choose a format code. \n eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
+        echo -e " ${g}Choose a format code for $(_GetLinkTitle -v)."
+        echo "eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
         read -r code
         clear
         __
         echo " ${g}$(_GetLinesList -v) video file(s) left to download.${nc}"
 
         if [[ "$code" =~ '+' ]]; then
-            echo " ${g}Please be patient while downloading and merging formats for:"
-            echo -e " ${r}$(_GetLinkTitle -v).${nc}\n"
+            echo -e " ${g}Please be patient while downloading and merging formats...${nc}\n"
             youtube-dl -f "$code" \
             --no-warnings \
             --merge-output-format mp4 \
             --progress "$getvideourl"
         else
-            echo " ${g}Please be patient while downloading:"
-            echo -e " ${r}$(_GetLinkTitle -v).${nc}\n"
+            echo -e " ${g}Please be patient while downloading.${nc}\n"
             youtube-dl -f "$code" --no-warnings --progress "$getvideourl"
         fi
 
         sed -i '1d' {"$VIDEO_INFO","$VIDEO_TITLE"}
         clear
-
     done
 
     echo -e " ${g}Done.\n${nc}"
