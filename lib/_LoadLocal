@@ -4,9 +4,9 @@
 _LoadLocal() {
     
     [[ -z $(command -v ranger) ]] && \
-    printf '%s\n' " ${r}Ranger cannot be found!${nc}" \
+    printf '%s\n' " ${r}Ranger cannot be found!" \
         " ${c}Install it or change the code of" \
-        " /usr/local/lib/mpm/_LoadLocal.${nc}"
+        "  /usr/local/lib/mpm/_LoadLocal.${nc}"
         sleep 12 && _Menu
     
     local AUDIOS VIDEOS zic vid
