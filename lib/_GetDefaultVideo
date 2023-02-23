@@ -16,40 +16,32 @@ _GetDefaultVideo() {
     clear
     for getdefvideourl in $(grep -v '#EXTM3U' "$QUEUE"); do
         __
-        echo -e " ${g}Codes for: $(_GetLinkTitle -q).${nc}\n"
-
         if [[ "$getdefvideourl" =~ 'youtube.com' ]]; then
-            youtube-dl -F --no-warnings "$getdefvideourl" \
-            | sed '1,5d;/^[sb]/d;/^\s*$/d;s/-//g;/^\s*$/d'
+            youtube-dl -F --no-warnings "$getdefvideourl"
         else
             youtube-dl -F --no-warnings "$getdefvideourl"
         fi
-        
         __
-        echo " ${g}Choose a format code."
+        echo " ${g}Choose a format code for $(_GetLinkTitle -q)."
         echo " eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
         read -r code
-        
         clear
         __
         echo " ${g}$(_GetLinesList -q) video file(s) left to download.${nc}"
 
         if [[ "$code" =~ '+' ]]; then
-            echo " ${g}Please be patient while downloading and merging formats for:"
-            echo -e " ${r}$(_GetLinkTitle -q).${nc}\n"
+            echo " ${g}Please be patient while downloading and merging formats.${nc}"
             youtube-dl \
             -f "$code" \
             --no-warnings \
             --merge-output-format mp4 \
             --progress "$getdefvideourl"
         else
-            echo " ${g}Please be patient while downloading:"
-            echo -e " ${r}$(_GetLinkTitle -q).${nc}\n"
+            echo -e " ${g}Please be patient while downloading...${nc}\n"
             youtube-dl -f "$code" --no-warnings --progress "$getdefvideourl"
         fi
         sed -i '2d' "$QUEUE"; sed -i '1d' "$tmp_dir"/DefaultVideo
         clear
-        
     done
     
     echo -e " ${g}Done.\n${nc}"
