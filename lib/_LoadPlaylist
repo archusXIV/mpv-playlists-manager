@@ -3,6 +3,12 @@
 
 _LoadPlaylist() {
     cd "$playlists_dir"
+    if [[ -z $(find . -type f -iname "*.m3u") ]]; then
+        printf '%s\n' " ${r}No playlist found!${nc}" \
+        " ${c}First make a temporary list using options 1 or 2," \
+        " save it as wathever you like, then come back to play/download it.${nc}"
+        sleep 12 && _Menu
+    fi
     clear
     __
     echo " ${g}If you have changed your mind,"
