@@ -12,7 +12,6 @@ _CheckDependencies() {
             exit 127
         }
     done
-    echo optionals...
 
     for optional in "${deps[@]:6:10}"; do
         [[ -z $(command -v "$optional") ]] && {
