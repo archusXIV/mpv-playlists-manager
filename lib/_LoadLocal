@@ -3,12 +3,6 @@
 
 _LoadLocal() {
     
-    [[ -z $(command -v ranger) ]] && \
-    printf '%s\n' " ${r}Ranger cannot be found!" \
-        " ${c}Install it or change the code of" \
-        "  /usr/local/lib/mpm/_LoadLocal.${nc}"
-        sleep 12 && _Menu
-    
     local AUDIOS VIDEOS zic vid
     # getting the right paths for french env too...
     AUDIOS=$(find $HOME -maxdepth 2 -type d -name "Music" -o -name "Musique")
