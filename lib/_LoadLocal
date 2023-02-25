@@ -37,7 +37,7 @@ _LoadLocal() {
     case "$choice" in
         a|A)
             __
-            echo -e " ${g}Load a directory [D] or file(using ranger) [F] ?: ${nc}\n"
+            echo -e " ${g}Load a directory [D] or file (using ranger) [F] ?: ${nc}\n"
             read -rsn 1 audio
             case "$audio" in
                 d|D)
@@ -73,7 +73,7 @@ _LoadLocal() {
         v|V)
             _ReplaceSpaces
             __
-            echo -e " ${g}Load a directory [D] or file(using ranger) [F] ?: ${nc}\n"
+            echo -e " ${g}Load a directory [D] or file (using ranger) [F] ?: ${nc}\n"
             read -rsn 1 video
             case "$video" in
                 d|D)
