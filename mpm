@@ -161,4 +161,4 @@ exit ;; esac
 
 _ResizeWindow
 
-_CheckDependencies "${@}"hg
+_CheckDependencies "${@}"
