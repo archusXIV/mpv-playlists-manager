@@ -25,7 +25,7 @@ r=$'\e[0;31m';
 g=$'\e[0;32m';
 c=$'\e[96m';
 b=$'\e[5m';
-nb=$'\e[25m'
+nb=$'\e[25m';
 
 ## First source our functions.
 for func in $(find "$SCRIPTDIR"/mpv-playlists-manager/lib/_*); do
