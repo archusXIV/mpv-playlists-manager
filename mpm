@@ -28,7 +28,7 @@ b=$'\e[5m';
 nb=$'\e[25m';
 
 ## First source our functions.
-for func in $(find /usr/local/lib/mpm/_*); do
+for func in $(find /usr/local/lib/mpm -name "_*"); do
     source "$func"
 done
 
