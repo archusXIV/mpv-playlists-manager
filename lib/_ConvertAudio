@@ -41,7 +41,7 @@ _ConvertAudio() {
             -y "${FILE%.webm}.ogg";' _ '{}' \; 2>"$FFOP"
         ;;
         *)
-            echo " ${r}UNKNOWN FORMAT !!! Try again.${color_off}"
+            echo " ${r}UNKNOWN FORMAT !!! Try again.${nc}"
             sleep 3s
             clear
             _Menu
