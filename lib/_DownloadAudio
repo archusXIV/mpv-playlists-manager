@@ -2,12 +2,13 @@
 ## This is a part of main script: mpm.
 
 _DownloadAudio() {
-    cd "$playlists_dir"
+    cd "$playlists_dir" || exit 1
 
     clear
     cp -f "$list" "$list"_origin 2>/dev/null
 
-	local counter=$(grep -v -c '#EXTM3U' "$list")
+    local counter
+    counter=$(grep -v -c '#EXTM3U' "$list")
 
     for downaudiourl in $(grep -v '#EXTM3U' "$list"); do
         clear
@@ -19,12 +20,12 @@ _DownloadAudio() {
         echo " ${g}Choose a format code: ${nc}"
         read -r code
         clear
-        cd "$audios_dir"
+        cd "$audios_dir" || exit 1
         printf '%s\n' " ${g}Total downloads: $counter${nc}"
         youtube-dl -f "$code" --no-warnings --progress "$downaudiourl"
         sed -i '2d' "$playlists_dir"/"$list"
         sed -i '1d' "$titles_dir"/"$list".titles
-        let "counter--"
+        ((counter--))
         clear
 
     done
