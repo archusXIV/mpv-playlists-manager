@@ -2,7 +2,7 @@
 ## This is a part of main script: mpm.
 
 _DownloadCompleted() {
-    cd "$playlists_dir"
+    cd "$playlists_dir" || exit 1
     
     if [[ -n $(find "$main_dir" -name "*.part") ]]; then
         mv {"$AUDIO_INFO"_origin,"$VIDEO_INFO"_origin} "$playlists_dir" 2>/dev/null
