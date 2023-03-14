@@ -3,7 +3,7 @@
 
 _Save() {
 
-    cd "$playlists_dir"
+    cd "$playlists_dir" || exit 1
     
     __NestedSave() (
         cp -f "$CURRENT" "$list"
