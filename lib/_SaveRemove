@@ -3,7 +3,7 @@
 
 _SaveRemove() {
 
-    cd "$playlists_dir"
+    cd "$playlists_dir" || exit 1
 
     prompt=( "[B]ack to menu," "[S]ave default," "Save [A]udio," \
     "Save [V]ideo," "[R]emove a playlist." )
