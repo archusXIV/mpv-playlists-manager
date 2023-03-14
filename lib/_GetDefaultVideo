@@ -8,7 +8,7 @@ _GetDefaultVideo() {
         _GetMediaTitle -q > "$tmp_dir"/DefaultVideo
     fi
     
-    cd "$videos_dir"
+    cd "$videos_dir" || exit 1
     cp -f "$QUEUE" "$QUEUE"_origin 2>/dev/null
     cp -f "$tmp_dir"/DefaultVideo "$tmp_dir"/DefaultVideo_origin
     [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
