@@ -2,13 +2,13 @@
 ## This is a part of main script: mpm.
 
 _ChooseFromPlay() {
-    cd "$playlists_dir"
+    cd "$playlists_dir" || exit 1
 
     _TitlesListCompare
 
     [[ -f $CHOOSE1 ]] && rm "$CHOOSE1"
 
-    read -sn 1 -p ${g}" [B]ack to menu, Play all items as [A]udio, [V]ideo or ${b}[S]elect:${nb} "${nc} choice
+    read -rsn 1 -p "${g}"" [B]ack to menu, Play all items as [A]udio, [V]ideo or ${b}[S]elect:${nb} ""${nc}" choice
     case "$choice" in
         a|A)
             _LoadAudio -l
@@ -21,17 +21,17 @@ _ChooseFromPlay() {
         ;;
         s|S)
             __
-            IFS=","; read -a array -p ${g}" Enter links separeted by comma, eg: 3,1,5: "${nc}
+            IFS=","; read -a array -p "${g}"" Enter links separeted by comma, eg: 3,1,5: ""${nc}"
 
             for i in "${array[@]}"; do
-                let "i++"
+                ((i++))
                 sed -n "${i}p" "$list" >> "$CHOOSE1"
             done
 
             # if we don't unset IFS all other functions will be messed up!
             unset IFS
             __
-            read -rsn 1 -p ${g}' load [A]udio, [V]ideo: '${nc} load
+            read -rsn 1 -p "${g}"' load [A]udio, [V]ideo: '"${nc}" load
             case "$load" in
                 a|A)
                     _LoadAudio -c
