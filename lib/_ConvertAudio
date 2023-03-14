@@ -3,7 +3,7 @@
 
 _ConvertAudio() {
 
-    cd "$audios_dir"
+    cd "$audios_dir" || exit 1
 
     read -rn1 -p ${g}' Select an output format [1 = mp3] [2 = flac] [3 = wav] [4 = ogg]: '${nc} conv
     __
