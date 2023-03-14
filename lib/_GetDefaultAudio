@@ -9,7 +9,7 @@ _GetDefaultAudio() {
         clear
     fi
     
-    cd "$audios_dir"
+    cd "$audios_dir" || exit 1
     cp -f "$QUEUE" "$QUEUE"_origin 2>/dev/null
     cp -f "$tmp_dir"/DefaultAudio "$tmp_dir"/DefaultAudio_origin
     [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
