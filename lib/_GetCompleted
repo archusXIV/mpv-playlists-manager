@@ -3,7 +3,7 @@
 
 _GetCompleted() {
 
-    cd "$main_dir"
+    cd "$main_dir" || exit 1
 
     if [[ -n $(find . -name "*.part") ]]; then
         mv {"$AUDIO_INFO"_origin,"$VIDEO_INFO"_origin} "$playlists_dir" 2>/dev/null
