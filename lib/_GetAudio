@@ -3,7 +3,7 @@
 
 _GetAudio() {
 
-    cd "$audios_dir"
+    cd "$audios_dir" || exit 1
     cp -f "$AUDIO_INFO" "$AUDIO_INFO"_origin 2>/dev/null
     cp -f "$AUDIO_TITLE" "$AUDIO_TITLE"_origin 2>/dev/null
     clear
