@@ -21,7 +21,7 @@ _ChooseFromPlay() {
         ;;
         s|S)
             __
-            IFS=","; read -a array -p "${g}"" Enter links separeted by comma, eg: 3,1,5: ""${nc}"
+            IFS=","; read -a array -p "${g}"" Enter media titles numbers separeted by comma, eg: 3,1,5: ""${nc}"
 
             for i in "${array[@]}"; do
                 ((i++))
