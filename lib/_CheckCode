@@ -11,7 +11,7 @@ _CheckCode() {
 
         # mapfile in addition of a for loop is faster
         # than using while <condition>; do <command_2> done < <(command_1)
-        mapfile -t CHECKCODE < <(grep '^https' "$M3UFILE")
+        mapfile -t CHECKCODE < <(grep '^https' "$QUEUE")
 
         for line in "${CHECKCODE[@]}"; do
             youtube-dl -F --no-warnings "$line" >"$YTOP"
@@ -26,13 +26,13 @@ _CheckCode() {
             fi
         done
 
-        # Now we need to purge the M3UFILE from bad urls
+        # Now we need to purge the default list from bad urls
         if [[ -f $BAD ]]; then
             for bad in $(grep '^https' "$BAD"); do
-                grep -v "${bad}" "$M3UFILE" >> "$tmp_dir"/goodurl
+                grep -v "${bad}" "$QUEUE" >> "$tmp_dir"/goodurl
             done
 
-            mv -f "$tmp_dir"/goodurl "$M3UFILE"
+            mv -f "$tmp_dir"/goodurl "$QUEUE"
             rm "$BAD"
         fi
 
@@ -40,7 +40,6 @@ _CheckCode() {
 
     case "$1" in
         -d)
-            M3UFILE="$QUEUE"
             __NestedCheckCode
             if (( $(_GetLinesList -q) > 0 )); then
                 __
@@ -58,7 +57,6 @@ _CheckCode() {
             fi
         ;;
         -p)
-            M3UFILE="$QUEUE"
             __NestedCheckCode
             if (( $(_GetLinesList -q) > 0 )); then
                 __
