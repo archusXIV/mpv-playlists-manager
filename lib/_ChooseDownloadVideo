@@ -9,7 +9,7 @@ _ChooseDownloadVideo() {
     cp -f "$list" "$list"_origin 2>/dev/null
     
     IFS=","; read -a array \
-    -p " Enter links separeted by comma, eg: 3,1,5: "
+    -p " Enter video titles numbers separeted by comma, eg: 3,1,5: "
     
     clear
     cd "$videos_dir" || exit 1
