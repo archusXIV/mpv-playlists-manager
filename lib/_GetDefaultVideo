@@ -16,11 +16,7 @@ _GetDefaultVideo() {
     clear
     for getdefvideourl in $(grep -v '#EXTM3U' "$QUEUE"); do
         __
-        if [[ "$getdefvideourl" =~ 'youtube.com' ]]; then
-            youtube-dl -F --no-warnings "$getdefvideourl"
-        else
-            youtube-dl -F --no-warnings "$getdefvideourl"
-        fi
+        youtube-dl -F --no-warnings "$getdefvideourl"
         __
         echo " ${g}Choose a format code for $(_GetLinkTitle -q)."
         echo " eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
