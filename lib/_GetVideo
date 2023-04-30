@@ -10,11 +10,7 @@ _GetVideo() {
     
     for getvideourl in $(grep '^https' "$VIDEO_INFO"); do
         __
-        if [[ "$getvideourl" =~ 'youtube.com' ]]; then
-            youtube-dl -F --no-warnings "$getvideourl"
-        else
-            youtube-dl -F --no-warnings "$getvideourl"
-        fi
+        youtube-dl -F --no-warnings "$getvideourl"
         __
         echo -e " ${g}Choose a format code for $(_GetLinkTitle -v)."
         echo "eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
