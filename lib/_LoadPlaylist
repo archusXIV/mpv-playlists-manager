@@ -17,19 +17,19 @@ _LoadPlaylist() {
     PS3=""$'\n'"${g}Select a playlist to load:${nc} "
     select list in $(find . -type f  -not -name "default.m3u" \
     | sort -d | sed 's,.*/,,'); do
-        
+
         if [[ $(_GetLinesList -l) -eq 0 ]]; then
             echo " ${r}No links found in $list (empty or does not contains #EXTM3U header)."
             echo " You can edit and fix it in option 8) Edit a playlist.${nc}"
             sleep 8
             break
         fi
-        
+
         clear
         __
         printf '%s\n' " ${g}Choose an option for${nc} $list:"
         __
-        read -rn1 -p ${g}' [B]ack to menu, [P]lay, [D]ownload: '${nc} loadplaylist
+        read -rn1 -p "${g}"' [B]ack to menu, [P]lay, [D]ownload: '"${nc}" loadplaylist
         __
         case "$loadplaylist" in
             b|B)
@@ -44,4 +44,3 @@ _LoadPlaylist() {
         esac
     done
 }
-
