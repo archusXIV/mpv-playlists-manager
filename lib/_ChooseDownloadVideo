@@ -35,10 +35,16 @@ _ChooseDownloadVideo() {
             
             for line in "${DIRECT[@]}"; do
                 printf '%s\n' " ${g}Downloading $counter file(s).${nc}"
-                [[ $line =~ 'youtube.com' ]] && {
-                    youtube-dl --no-warnings --merge-output-format mp4 "$line"
+                if [[ $line =~ 'youtube.com' ]]; then
+                    youtube-dl \
+                    --no-warnings \
+                    --merge-output-format mp4 \
+                    --progress "$line"
                     clear
-                } || youtube-dl --no-warnings "$line" && clear
+                else
+                    youtube-dl --no-warnings --progress "$line"
+                    clear
+                fi
                 ((counter--))
             done
             
