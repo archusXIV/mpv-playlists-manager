@@ -5,8 +5,9 @@ Video link: https://www.youtube.com/watch?v=7OWO1vRL77A
 user@linux ~ $ mpm --help
 ```
 ## New in version 1.2-4: 3 flags added -{e,l,p}
+Ok not big changes but usefull so you can alias those.
 ```
-mpm -e # edit a playlist directly
+mpm -e # edit a playlist from a list
 mpm -l # launch the play/download function
 mpm -p # launch the load local function
 ```
