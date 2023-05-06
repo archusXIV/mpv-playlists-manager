@@ -65,7 +65,11 @@ VIDEO_TITLE="$tmp_dir/VideoTitles"
 CHOOSE1="$playlists_dir/ChooseFrom1.m3u"
 CHOOSE2="$playlists_dir/ChooseFrom2.m3u"
 
-case "$1" in -h|--help) cat | less << EOF
+case "$1" in
+    -e) _EditPlaylist ;;
+    -l) _LoadPlaylist ;;
+    -p) _LoadLocal ;;
+    -h|--help) cat | less << EOF
 
     MPV-PLAYLISTS-MANAGER usage:
 
