@@ -22,7 +22,7 @@ _CopyVideo() {
             echo " ${g}Testing url...${nc}"
             _RemoveCrap
             videourl=$(sed -n '$p' "$VIDEO_INFO")
-            youtube-dl -F --no-warnings "$(sed -n '$p' "$VIDEO_INFO")" > "$YTOP"
+            youtube-dl -F --no-warnings "$videourl" > "$YTOP"
             if [[ $? -eq 1 ]]; then
                 __
                 echo -e " ${r}${b}No format code found!${nb}\n$videourl will be removed."
