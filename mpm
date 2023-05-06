@@ -77,6 +77,11 @@ case "$1" in
     By default "$HOME"/Documents/mpv-playlists-manager/
     Dependencies: ffmpeg, jq, mpv, vim, youtube-dl, yt-dlp (for better results).
     Optionals: ranger, ueberzug, wmctrl, w3m.
+    We possibly use some options to directly edit, load a playlist:
+        . mpm -e: opens the playlist edition function
+        . mpm -l: opens the playlist load (online) function
+        . mpm -p: opens the playlist load (local) function
+    After we are done, we are dropped in the main menu.
     I) Main menu:
 
                 ┌─────────────────────────────────────────────────────────────┐
