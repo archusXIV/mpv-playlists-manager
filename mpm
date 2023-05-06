@@ -17,7 +17,7 @@
 ##    It is recommanded to disable mpv cache for better results on direct streaming,
 ##    or find a better cache parameter.
 
-VERSION="v.1.2-3"
+VERSION="v.1.2-4"
 
 ## prompts & messages colors
 nc=$'\e[0m';
