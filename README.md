@@ -5,7 +5,7 @@ Video link: https://www.youtube.com/watch?v=7OWO1vRL77A
 user@linux ~ $ mpm --help
 ```
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_v1.2-2.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_v1.2-4.png)
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
 First of, github mention this repository as a python project but MPM is whritten in bash,
