@@ -4,6 +4,12 @@ Video link: https://www.youtube.com/watch?v=7OWO1vRL77A
 ```
 user@linux ~ $ mpm --help
 ```
+## New in version 1.2-4: 3 flags added -{e,l,p}
+```
+mpm -e # edit a playlist directly
+mpm -l # launch the play/download function
+mpm -p # launch the load local function
+```
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_v1.2-4.png)
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
