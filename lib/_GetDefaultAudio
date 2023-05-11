@@ -2,35 +2,45 @@
 ## This is a part of main script: mpm.
 
 _GetDefaultAudio() {
-    
+
     if [[ ! -f "$tmp_dir"/DefaultAudio ]]; then
         echo " ${g}Getting titles...${nc}"
         _GetMediaTitle -q > "$tmp_dir"/DefaultAudio
         clear
     fi
-    
+
     cd "$audios_dir" || exit 1
     cp -f "$QUEUE" "$QUEUE"_origin 2>/dev/null
     cp -f "$tmp_dir"/DefaultAudio "$tmp_dir"/DefaultAudio_origin
     [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
-    
+
     for getdefaudiourl in $(grep -v '#EXTM3U' "$QUEUE"); do
-        youtube-dl -F --no-warnings "$getdefaudiourl" \
-        | sed -n '1,7p;/audio only/p' | sed '/^sb2/d'
-        __
-        echo " ${g}Choose a format code for $(_GetLinkTitle -q):${nc}"
-        read -r code
-        clear
-        __
-        echo " ${g}$(_GetLinesList -q) audio file(s) left to download."
-        echo " Please be patient while downloading...${nc}"
-        youtube-dl -f "$code" --no-warnings --progress "$getdefaudiourl"
+        if [[ $(youtube-dl -F --no-warnings "$getdefaudiourl" \
+            | sed -n '1,7p;/audio only/p' | grep 251) ]]; then
+            __
+            echo " ${g}$(_GetLinesList -q) audio file(s) left to download."
+            echo " Please be patient while downloading $(_GetLinkTitle -q).webm${nc}"
+            youtube-dl -f 251 --no-warnings --progress "$getdefaudiourl"
+        else
+            youtube-dl -F --no-warnings "$getdefaudiourl" \
+            | sed -n '1,7p;/audio only/p' | sed '/^sb2/d'
+            __
+            echo " ${g}Choose a format code for $(_GetLinkTitle -q):${nc}"
+            read -r code
+            clear
+            __
+            echo " ${g}$(_GetLinesList -q) audio file(s) left to download."
+            echo " Please be patient while downloading $(_GetLinkTitle -q)${nc}"
+            youtube-dl -f "$code" --no-warnings --progress "$getdefaudiourl"
+        fi
+        
         sed -i '2d' "$QUEUE"; sed -i '1d' "$tmp_dir"/DefaultAudio
         clear
+
     done
 
     echo -e " ${g}Done\n${nc}"
-    
+
     if [[ -n $(find . -iname "*.webm") ]]; then
         echo " ${r}ADVISORY: if you choose conversion, all downloaded files" 
         echo -e " will be converted in the chosen format.${nc}\n"
@@ -43,5 +53,5 @@ _GetDefaultAudio() {
     else
         _GetCompleted -a
     fi
-    
+
 }
