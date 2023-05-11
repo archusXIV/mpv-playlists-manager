@@ -11,18 +11,29 @@ _DownloadAudio() {
     counter=$(grep -v -c '#EXTM3U' "$list")
 
     for downaudiourl in $(grep -v '#EXTM3U' "$list"); do
-        clear
-        __
-        echo " ${g}Codes for $(_GetLinkTitle -l):${nc}"
-        youtube-dl -F --no-warnings "$downaudiourl" | sed -n '
-        1,5d;6,7p;/audio only/p' | sed '/^sb2/d' 2>/dev/null
-        __
-        echo " ${g}Choose a format code: ${nc}"
-        read -r code
-        clear
-        cd "$audios_dir" || exit 1
-        printf '%s\n' " ${g}Total downloads: $counter${nc}"
-        youtube-dl -f "$code" --no-warnings --progress "$downaudiourl"
+        if [[ $(youtube-dl -F --no-warnings "$downaudiourl" \
+            | sed -n '1,7p;/audio only/p' | grep 251) ]]; then
+            cd "$audios_dir" || exit 1
+            __
+            echo " ${g}$(_GetLinesList -l) audio file(s) left to download."
+            echo " Please be patient while downloading $(_GetLinkTitle -l).webm${nc}"
+            youtube-dl -f 251 --no-warnings --progress "$downaudiourl"
+            clear
+        else
+            clear
+            __
+            echo " ${g}Codes for $(_GetLinkTitle -l):${nc}"
+            youtube-dl -F --no-warnings "$downaudiourl" | sed -n '
+            1,5d;6,7p;/audio only/p' | sed '/^sb2/d' 2>/dev/null
+            __
+            echo " ${g}Choose a format code: ${nc}"
+            read -r code
+            clear
+            cd "$audios_dir" || exit 1
+            printf '%s\n' " ${g}Total downloads: $counter${nc}"
+            youtube-dl -f "$code" --no-warnings --progress "$downaudiourl"
+        fi
+        
         sed -i '2d' "$playlists_dir"/"$list"
         sed -i '1d' "$titles_dir"/"$list".titles
         ((counter--))
