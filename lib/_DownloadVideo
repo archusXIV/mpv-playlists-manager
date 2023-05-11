@@ -21,7 +21,7 @@ _DownloadVideo() {
                 cd "$videos_dir" || exit 1
                 printf '%s\n' " ${g}Downloading $counter file(s).${nc}"
                 echo " ${g}Downloading $(_GetLinkTitle -l):${nc}"
-                [[ $line =~ youtube.com ]] && {
+                [[ $line =~ 'youtube.com' ]] && {
                     youtube-dl --no-warnings --merge-output-format mp4 "$line"
                     clear
                 } || youtube-dl --no-warnings "$line" && clear
@@ -38,7 +38,7 @@ _DownloadVideo() {
             for downvideourl in $(grep -v '#EXTM3U' "$list"); do
                 clear
                 cd "$videos_dir" || exit 1
-                if [[ $downvideourl =~ youtube.com ]]; then
+                if [[ $downvideourl =~ 'youtube.com' ]]; then
                     __
                     echo " ${g}Codes for $(_GetLinkTitle -l):${nc}"
                     youtube-dl -F --no-warnings "$downvideourl" \
@@ -54,7 +54,7 @@ _DownloadVideo() {
                 sleep 0.5
                 clear
 
-                if [[ "$code" =~ + ]]; then
+                if [[ "$code" =~ '+' ]]; then
                     printf '%s\n' " ${g}Downloading $counter file(s).${nc}"
                     youtube-dl -f "$code" --no-warnings --merge-output-format mp4 --progress "$downvideourl"
                 else
