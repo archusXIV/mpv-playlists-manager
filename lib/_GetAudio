@@ -7,20 +7,30 @@ _GetAudio() {
     cp -f "$AUDIO_INFO" "$AUDIO_INFO"_origin 2>/dev/null
     cp -f "$AUDIO_TITLE" "$AUDIO_TITLE"_origin 2>/dev/null
     clear
+
     for getaudiourl in $(grep '^https' "$AUDIO_INFO"); do
-        __
-        youtube-dl -F --no-warnings "$getaudiourl" \
-        | sed -n '1,7p;/audio only/p' | sed '/^sb2/d'
-        __
-        echo " ${g}Choose a format code for $(_GetLinkTitle -a):${nc}"
-        read -r code
-        clear
-        __
-        echo " ${g}$(_GetLinesList -a) audio file(s) left to download.${nc}"
-        echo -e " ${g}Please be patient while downloading...${nc}\n"
-        youtube-dl -f "$code" --no-warnings --progress "$getaudiourl"
+        if [[ $(youtube-dl -F --no-warnings "$getaudiourl" \
+            | sed -n '1,7p;/audio only/p' | grep 251) ]]; then
+            __
+            echo " ${g}$(_GetLinesList -a) audio file(s) left to download."
+            echo " Please be patient while downloading $(_GetLinkTitle -a).webm${nc}"
+            youtube-dl -f 251 --no-warnings --progress "$getaudiourl"
+        else
+            youtube-dl -F --no-warnings "$getaudiourl" \
+            | sed -n '1,7p;/audio only/p' | sed '/^sb2/d'
+            __
+            echo " ${g}Choose a format code for $(_GetLinkTitle -a):${nc}"
+            read -r code
+            clear
+            __
+            echo " ${g}$(_GetLinesList -a) audio file(s) left to download."
+            echo " Please be patient while downloading $(_GetLinkTitle -a)${nc}"
+            youtube-dl -f "$code" --no-warnings --progress "$getaudiourl"
+        fi
+        
         sed -i '1d' {"$AUDIO_INFO","$AUDIO_TITLE"}
         clear
+            
     done
 
     echo -e " ${g}Done\n${nc}"
