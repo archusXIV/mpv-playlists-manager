@@ -4,9 +4,9 @@
 _GetMediaTitle() {
     case "$1" in
         -a) LIST="$AUDIO_INFO" ;;
+        -l) LIST="$playlists_dir"/"$list" ;;
+        -q) LIST="$QUEUE" ;;
         -v) LIST="$VIDEO_INFO" ;;
-        -l) LIST="$list"       ;;
-        -q) LIST="$QUEUE"      ;;
     esac
 
     mapfile -t title < <(grep '^https' "$LIST")
@@ -18,4 +18,3 @@ _GetMediaTitle() {
         --no-warnings "$line" 2>/dev/null
     done
 }
-
