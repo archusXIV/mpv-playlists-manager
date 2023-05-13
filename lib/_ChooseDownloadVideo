@@ -57,7 +57,7 @@ _ChooseDownloadVideo() {
                 url=$(sed -n "${i}p" "$playlists_dir"/"$list")
                 echo "$url" >> "$CHOOSE1"
                 
-                if [[ $i =~ 'youtube.com' ]]; then
+                if [[ $url =~ 'youtube.com' ]]; then
                     __
                     youtube-dl -F --no-warnings "$url" \
                     | sed '1,5d;/^[sb]/d;/^\s*$/d;s/-//g;/^\s*$/d'
