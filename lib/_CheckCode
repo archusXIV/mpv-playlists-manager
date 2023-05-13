@@ -21,7 +21,7 @@ _CheckCode() {
                 echo -e " ${g}Please visit: $supportedsites${nc}\n"
                 sleep 5
             else
-                echo " $line ${g}ok${nc}" | tee -a "$tmp_dir"/CheckCode
+                echo " $line ${g}ok${nc}"
                 sleep 1
             fi
         done
