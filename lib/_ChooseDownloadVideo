@@ -71,7 +71,7 @@ _ChooseDownloadVideo() {
                 sleep 0.5
                 clear
                 printf '%s\n' " ${g}Total downloads: $counter${nc}"
-                if [[ "$code" =~ + ]]; then
+                if [[ $code =~ '+' ]]; then
                     youtube-dl -f "$code" \
                     --no-warnings \
                     --merge-output-format mp4 \
@@ -102,7 +102,6 @@ _ChooseDownloadVideo() {
     # if we don't unset IFS other functions will be messed up!
     unset IFS
 
-    echo -e " ${g}Done${nc}\n"
     echo -e " ${c}Updating titles...${b}please wait.${nb}${nc}\n"
     _GetMediaTitle -l > "$titles_dir"/"$list".titles
     _DownloadCompleted
