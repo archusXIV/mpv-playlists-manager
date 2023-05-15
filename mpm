@@ -136,7 +136,7 @@ case "$1" in
        directly or afterward. Vim is set as the EDITOR (change it if you will).
 
     9) Edit mpm config:
-       we may want to edit this file for  directories preferences and better quality or results with mpv.
+       we may want to edit this file for directories preferences and better quality or results with mpv.
 
     II) audio/video files options:
 
