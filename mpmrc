@@ -24,17 +24,17 @@ tmp_dir="$main_dir/tmp"
 QUEUE="$playlists_dir/default.m3u"
 
 # mpv audio playing command line
-_MpvAudioOptions() (
+_MpvAudioOptions() {
 	# change mpv audio settings here if needed but do not remove $M3UFILE
 	mpv \
 	--input-ipc-server='/tmp/mpvsocket' \
 	--no-config \
 	--term-playing-msg='Title: ${media-title}' \
 	--ytdl-format='bestaudio/best' "$M3UFILE"
-)
+}
 
 # mpm video playing command line
-_MpvVideoOptions() (
+_MpvVideoOptions() {
 	# same as above.
 	mpv \
 	--input-ipc-server='/tmp/mpvsocket' \
@@ -42,4 +42,4 @@ _MpvVideoOptions() (
 	--no-config \
 	--term-playing-msg='Title: ${media-title}' \
 	--ytdl-format='299+251/298+251/137+251/136+251/best' "$M3UFILE"
-)
+}
