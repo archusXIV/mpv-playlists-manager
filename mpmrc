@@ -10,7 +10,6 @@ EDITOR=${VISUAL:-vim}
 ## These are by default directories used by mpm.
 
 # The main directory can be renamed but must be present for mpm to work.
-# main_dir="$HOME/Documents/mpv-playlists-manager"
 main_dir="$XDG_DATA_HOME/mpv-playlists-manager"
 
 playlists_dir="$main_dir/playlists"
