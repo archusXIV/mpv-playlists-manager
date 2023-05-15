@@ -2,7 +2,7 @@
 
 # mpv-playlists-manager configuration file
 
-: "${$XDG_DATA_HOME:-$HOME/.local/share}"
+: "${XDG_DATA_HOME:-$HOME/.local/share}"
 
 ## default editor
 EDITOR=${VISUAL:-vim}
