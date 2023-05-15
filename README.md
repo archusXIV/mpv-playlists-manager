@@ -15,7 +15,7 @@ mpm -p # launch the load local function
 - Usefull so you can alias those flags.
 - Direct download or format selection in the _LoadPlaylist function when choosing few links.
 
-Please check the README_FIRST before first run.
+Please check the [README_FIRST](https://github.com/archusXIV/mpv-playlists-manager/blob/main/README_FIRST) before first run.
 ## version 1.2-4 screen (no changes here)
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_v1.2-4.png)
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
