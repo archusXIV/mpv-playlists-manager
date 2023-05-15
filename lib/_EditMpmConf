@@ -1,0 +1,15 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_EditMpmConf() {
+
+    : "${XDG_CONFIG_HOME:-$HOME/.config}"
+
+    $EDITOR "$XDG_CONFIG_HOME/mpm/mpmrc"
+    printf '%s\n' " ${g}mpm config saved!" " exit & relaunch mpm if any changes made.${nc}"
+    sleep 4
+    clear
+    _Menu
+
+}
+
