@@ -81,7 +81,7 @@ case "$1" in
                 │  1) Create/Add video playlist     6) View default playlist  │
                 │  2) Create/Add audio playlist     7) Clear all tmp lists    │
                 │  3) Save tmp/Del collection       8) Edit a playlist        │
-                │  4) Play/Download a playlist      9) Edit mpv.conf          │
+                │  4) Play/Download a playlist      9) Edit mpm config        │
                 │  5) Load local dir/files          X) Exit                   │
                 └─────────────────────────────────────────────────────────────┘
 
@@ -135,8 +135,8 @@ case "$1" in
        Here is the place where by editing our collection we can add or remove links
        directly or afterward. Vim is set as the EDITOR (change it if you will).
 
-    9) Edit mpv.conf:
-       we may want to edit this file for better results, quality and learning more about mpv.
+    9) Edit mpm config:
+       we may want to edit this file for  directories preferences and better quality or results with mpv.
 
     II) audio/video files options:
 
