@@ -13,7 +13,7 @@
 ##    This script rips video urls from Youtube and so on.
 ##    In our case we use ".m3u" files to store urls in and then be able
 ##    to watch from the site itself or download videos or just the audio.
-##    We can save, remove or edit playlists, mpv.conf.
+##    We can save, remove or edit playlists, mpm config.
 ##    It is recommanded to disable mpv cache for better results on direct streaming,
 ##    or find a better cache parameter.
 
