@@ -43,9 +43,6 @@ pids=($(pidof -x $mpvmenu))
 # creates a blank line
 __() { printf '%s\n'; }
 
-## default editor
-EDITOR=${VISUAL:-vim}
-
 ## directories & files (I know, that's a lot)
 source ~/.config/mpm/mpmrc
 
