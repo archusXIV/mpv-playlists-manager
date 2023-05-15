@@ -24,7 +24,7 @@ tmp_dir="$main_dir/tmp"
 QUEUE="$playlists_dir/default.m3u"
 
 # mpv audio playing command line
-_MpvAudioOptions() {
+function _MpvAudioOptions {
 	# change mpv audio settings here if needed but do not remove $M3UFILE
 	mpv \
 	--input-ipc-server='/tmp/mpvsocket' \
@@ -34,7 +34,7 @@ _MpvAudioOptions() {
 }
 
 # mpm video playing command line
-_MpvVideoOptions() {
+function _MpvVideoOptions {
 	# same as above.
 	mpv \
 	--input-ipc-server='/tmp/mpvsocket' \
