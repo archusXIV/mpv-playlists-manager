@@ -47,15 +47,10 @@ __() { printf '%s\n'; }
 EDITOR=${VISUAL:-vim}
 
 ## directories & files (I know, that's a lot)
-main_dir="$HOME/Documents/mpv-playlists-manager"
-playlists_dir="$main_dir/playlists"
-titles_dir="$main_dir/titles"
-audios_dir="$main_dir/audios"
-videos_dir="$main_dir/videos"
-tmp_dir="$main_dir/tmp"
+source ~/.config/mpm/mpmrc
+
 supportedsites="https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md"
 
-QUEUE="$playlists_dir/default.m3u"
 YTOP="$tmp_dir/youtube-dl_output"
 FFOP="$tmp_dir/ffmpeg_output"
 AUDIO_INFO="$tmp_dir/AudioUrls.m3u"
