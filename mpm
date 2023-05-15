@@ -17,7 +17,7 @@
 ##    It is recommanded to disable mpv cache for better results on direct streaming,
 ##    or find a better cache parameter.
 
-VERSION="v.1.2-4"
+VERSION="v.1.2-5"
 
 ## prompts & messages colors
 nc=$'\e[0m';
@@ -61,6 +61,7 @@ CHOOSE1="$playlists_dir/ChooseFrom1.m3u"
 CHOOSE2="$playlists_dir/ChooseFrom2.m3u"
 
 case "$1" in
+    -c) $EDITOR ~/.config/mpm/mpmrc ;;
     -e) _EditPlaylist ;;
     -l) _LoadPlaylist ;;
     -p) _LoadLocal ;;
