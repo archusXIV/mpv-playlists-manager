@@ -20,6 +20,12 @@ _CheckDependencies() {
         }
     done
     
+    [[ ! -f ~/.config/mpm/mpmrc ]] && {
+        printf 's%\n' " ${r}No config file found...exiting!${nc}"
+        notify-send -t 0 -u critical "No config file found...exiting!"
+        exit 1
+    }
+    
     if [[ ! -d $main_dir ]]; then
         mkdir --parents \
         {"$audios_dir","$playlists_dir","$titles_dir","$tmp_dir","$videos_dir"}
