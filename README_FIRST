@@ -1,0 +1,21 @@
+Author: Barret E (2020-21) <archus@protonmail.com>
+https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
+
+Dependencies: ffmpeg, jq, mpv, youtube-dl, yt-dlp.
+Optionals: ueberzug, ranger, vim (editor), w3m, wmctrl
+
+Youtube-dl is for now kind of unmaintained so install and make a symlink with
+https://github.com/yt-dlp/yt-dlp/releases
+sudo pacman -S yt-dlp youtube-dl
+ln -s /usr/bin/yt-dlp ~/.local/bin/youtube-dl (if ~/.local/bin is in your $PATH)
+
+This script rips video urls from Youtube and so on.
+In our case we use ".m3u" files to store urls in and then be able
+to watch from the site itself or download videos or just the audio.
+We can save, remove or edit playlists, mpv.conf.
+
+After installation and before the first run create a config directory
+and copy the config file (mpmrc) into it.
+
+mkdir -p ~/.config/mpm
+cp -f ./mpmrc ~/.config/mpm/mpmrc

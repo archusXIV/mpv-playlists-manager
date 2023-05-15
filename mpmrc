@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# mpv-playlists-manager configuration file
+
+## These are by default directories used by mpm.
+# The main directory can be renamed but must be present for mpm to work.
+main_dir="$HOME/Documents/mpv-playlists-manager"
+
+playlists_dir="$main_dir/playlists"
+
+titles_dir="$main_dir/titles"
+
+# Be carefull with this one because if you choose to use
+# the conversion action, ALL .webm files in that directory will be converted.
+audios_dir="$main_dir/audios"
+
+videos_dir="$main_dir/videos"
+
+tmp_dir="$main_dir/tmp"
+
+QUEUE="$playlists_dir/default.m3u"
+
+# mpv audio playing command line
+_MpvAudioOptions() (
+	# change mpv audio settings here if needed but do not remove $M3UFILE
+	mpv \
+	--input-ipc-server='/tmp/mpvsocket' \
+	--no-config \
+	--term-playing-msg='Title: ${media-title}' \
+	--ytdl-format='bestaudio/best' "$M3UFILE"
+)
+
+# mpm video playing command line
+_MpvVideoOptions() (
+	# same as above.
+	mpv \
+	--input-ipc-server='/tmp/mpvsocket' \
+	--cache \
+	--no-config \
+	--term-playing-msg='Title: ${media-title}' \
+	--ytdl-format='299+251/298+251/137+251/136+251/best' "$M3UFILE"
+)
