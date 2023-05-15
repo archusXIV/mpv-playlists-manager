@@ -2,22 +2,26 @@
 
 # mpv-playlists-manager configuration file
 
+: "${$XDG_DATA_HOME:-$HOME/.local/share}"
+
 ## default editor
 EDITOR=${VISUAL:-vim}
 
 ## These are by default directories used by mpm.
+
 # The main directory can be renamed but must be present for mpm to work.
-main_dir="$HOME/Documents/mpv-playlists-manager"
+# main_dir="$HOME/Documents/mpv-playlists-manager"
+main_dir="$XDG_DATA_HOME/mpv-playlists-manager"
 
 playlists_dir="$main_dir/playlists"
-
-titles_dir="$main_dir/titles"
 
 # Be carefull with this one because if you choose to use
 # the conversion action, ALL .webm files in that directory will be converted.
 audios_dir="$main_dir/audios"
 
 videos_dir="$main_dir/videos"
+
+titles_dir="$main_dir/titles"
 
 tmp_dir="$main_dir/tmp"
 
