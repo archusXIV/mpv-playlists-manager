@@ -95,13 +95,13 @@ _ChooseDownloadAudio() {
             printf '%s\n' " ${c}Automatic audio conversion enabled.${nc}"
             __
             sleep 2
-            _ConvertAudio
+            _ConvertAudio && _DownloadCompleted
         else
             __
             _Prompt " ${g}Do you wish to convert them?: ${nc}" || {
                 _DownloadCompleted
             }
-            _ConvertAudio
+            _ConvertAudio && _DownloadCompleted
         fi
         
     else
