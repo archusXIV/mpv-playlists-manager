@@ -2,16 +2,13 @@
 ## This is a part of main script: mpm.
 
 _LoadAudio() {
+    # change mpv settings in ~/.config/mpmrc
+    local M3UFILE
 
-    _MpvAudioOptions() (
-        # change mpv settings here if needed
-        mpv \
-        --input-ipc-server='/tmp/mpvsocket' \
-        --no-config \
-        --term-playing-msg='Title: ${media-title}' \
-        --ytdl-format='bestaudio/best' "$M3UFILE"
-    )
-
+    __QuitAfterListening() {
+        [[ $quit_after_task = yes ]] && exit || _Menu
+    }
+    
     clear
     __; rm -f "$tmp_dir"/download 2>/dev/null
     echo "${r}Tip: You may want to put this in your mpv.conf:"
@@ -30,6 +27,8 @@ _LoadAudio() {
         -c)
             M3UFILE="$CHOOSE1"
             _MpvAudioOptions
+            rm "$CHOOSE1"
+            __QuitAfterListening
         ;;
         -q)
             M3UFILE="$QUEUE"
@@ -39,6 +38,7 @@ _LoadAudio() {
         -l)
             M3UFILE="$list"
             _MpvAudioOptions
+            __QuitAfterListening
         ;;
     esac
 }
