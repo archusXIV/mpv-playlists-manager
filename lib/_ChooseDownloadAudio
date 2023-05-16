@@ -42,7 +42,7 @@ _ChooseDownloadAudio() {
             __
             printf '%s\n' " ${g}Total downloads: $counter${nc}"
             youtube-dl --no-warnings --progress "$url"
-        elif [[ $direct_download = no ]]; then
+        elif [[ $direct_download = no ]] && [[ $url =~ 'youtube.com' ]]; then
             __
             printf '%s\n' " ${c}Direct download disabled.${nc}"
             __
