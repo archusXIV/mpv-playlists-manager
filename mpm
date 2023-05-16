@@ -47,7 +47,7 @@ __() { printf '%s\n'; }
 source ~/.config/mpm/mpmrc
 
 supportedsites="https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md"
-
+QUEUE="$playlists_dir/default.m3u"
 YTOP="$tmp_dir/youtube-dl_output"
 FFOP="$tmp_dir/ffmpeg_output"
 AUDIO_INFO="$tmp_dir/AudioUrls.m3u"
