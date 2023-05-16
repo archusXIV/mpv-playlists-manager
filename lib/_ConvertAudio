@@ -68,19 +68,19 @@ _ConvertAudio() {
     
     if [[ $default_conversion_format = mp3 ]]; then
         __
-        printf '%s\n' " ${c}Default format enabled.${nc}"
+        printf '%s\n' " ${c}Default format set to mp3.${nc}"
         __mp3
     elif [[ $default_conversion_format = flac ]]; then
         __
-        printf '%s\n' " ${c}Default format enabled.${nc}"
+        printf '%s\n' " ${c}Default format set to flac.${nc}"
         __flac
     elif [[ $default_conversion_format = wav ]]; then
         __
-        printf '%s\n' " ${c}Default format enabled.${nc}"
+        printf '%s\n' " ${c}Default format set to wav.${nc}"
         __wav
     elif [[ $default_conversion_format = ogg ]]; then
         __
-        printf '%s\n' " ${c}Default format enabled.${nc}"
+        printf '%s\n' " ${c}Default format set to ogg.${nc}"
         __ogg
     else
         __
