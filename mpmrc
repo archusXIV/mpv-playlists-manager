@@ -1,15 +1,16 @@
 #!/bin/bash
 
-# mpv-playlists-manager configuration file
+####### MPV-PLAYLISTS-MANAGER CONFIGURATION FILE #######
 
 : "${XDG_DATA_HOME:-$HOME/.local/share}"
 
 ## default editor
 EDITOR=${VISUAL:-vim}
 
-## These are by default directories used by mpm.
+## THESE ARE BY DEFAULT DIRECTORIES USED BY MPM.
 
 # The main directory can be renamed but must be present for mpm to work.
+# main_dir="$HOME/Documents/mpv-playlists-manager"
 main_dir="$XDG_DATA_HOME/mpv-playlists-manager"
 
 playlists_dir="$main_dir/playlists"
@@ -24,23 +25,42 @@ titles_dir="$main_dir/titles"
 
 tmp_dir="$main_dir/tmp"
 
+## DEFAULT TASKS ANSWERS
+# from download tasks (option 4) we are prompted or not to choose formats
+direct_download="no"
+
+# some links may still be present in playlist files...
+# if value is 'no' you will be prompted
+keep_none_empty_playlist="yes"
+
+# audio files (.webm) conversion
+automatic_audio_conversion="no"
+
+# default audio conversion format {mp3,falc,wav,ogg}
+# if value is empty you will be prompted
+default_conversion_format="flac"
+
+# this takes place only after downloading/playing from a collection playlist
+quit_after_task="no"
+
+## MPV SPECIFICS
 # mpv audio playing command line
 function _MpvAudioOptions {
-	# change mpv audio settings here if needed but do not remove $M3UFILE
-	mpv \
-	--input-ipc-server='/tmp/mpvsocket' \
-	--no-config \
-	--term-playing-msg='Title: ${media-title}' \
-	--ytdl-format='bestaudio/best' "$M3UFILE"
+    # change mpv audio settings here if needed but do not remove $M3UFILE
+    mpv \
+    --input-ipc-server='/tmp/mpvsocket' \
+    --no-config \
+    --term-playing-msg='Title: ${media-title}' \
+    --ytdl-format='bestaudio/best' "$M3UFILE"
 }
 
 # mpm video playing command line
 function _MpvVideoOptions {
-	# same as above.
-	mpv \
-	--input-ipc-server='/tmp/mpvsocket' \
-	--cache \
-	--no-config \
-	--term-playing-msg='Title: ${media-title}' \
-	--ytdl-format='299+251/298+251/137+251/136+251/best' "$M3UFILE"
+    # same as above.
+    mpv \
+    --input-ipc-server='/tmp/mpvsocket' \
+    --cache \
+    --no-config \
+    --term-playing-msg='Title: ${media-title}' \
+    --ytdl-format='299+251/298+251/137+251/136+251/best' "$M3UFILE"
 }
