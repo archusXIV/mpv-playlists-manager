@@ -8,7 +8,7 @@
 #    ╚═╝     ╚═╝╚═╝     ╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
                                               
 ####### MPV-PLAYLISTS-MANAGER CONFIGURATION FILE #######
-## THE PLACE FOR YOUR PERSONAL SETTINGS
+######### THE PLACE FOR YOUR PERSONAL SETTINGS #########
 
 : "${XDG_DATA_HOME:-$HOME/.local/share}"
 
