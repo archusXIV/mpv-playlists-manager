@@ -39,9 +39,7 @@ _CheckDependencies() {
 
     [[ ! -f $QUEUE ]] && echo "#EXTM3U" > "$QUEUE"
 
-    (( $(_GetLinesList -q) >= 1 )) && {
-        touch "$tmp_dir"/1
-    }
+    (( $(_GetLinesList -q) >= 1 )) && touch "$tmp_dir"/1
 
     _Menu
 
