@@ -4,51 +4,93 @@
 _ConvertAudio() {
 
     cd "$audios_dir" || exit 1
-
-    read -rn1 -p ${g}' Select an output format [1 = mp3] [2 = flac] [3 = wav] [4 = ogg]: '${nc} conv
-    __
-    case "$conv" in
-        1)
-            echo " ${g}Converting files in ${c}${b}mp3${nb}${nc}...${nc}"
-            find . -iname "*.webm" -exec \
-            bash -c 'FILE="$1"; \
-                ffmpeg -i "${FILE}" \
-                -vn -ab 320k -ar 48000 \
+    
+    __mp3() (
+        echo " ${g}Converting files in ${c}${b}mp3${nb}${nc}...${nc}"
+        find . -iname "*.webm" -exec \
+        bash -c 'FILE="$1"; \
+            ffmpeg -i "${FILE}" \
+            -vn -ab 320k -ar 48000 \
             -y "${FILE%.webm}.mp3";' _ '{}' \; 2>"$FFOP"
-        ;;
-        2)
-            echo " ${g}Converting files in ${c}${b}flac${nb}${nc}...${nc}"
+    )
+    
+    __flac() (
+        echo " ${g}Converting files in ${c}${b}flac${nb}${nc}...${nc}"
             find . -iname "*.webm" -exec \
             bash -c 'FILE="$1"; \
                 ffmpeg -i "${FILE}" \
                 -af aformat=s32:48000 \
-            -y "${FILE%.webm}.flac";' _ '{}' \; 2>"$FFOP"
-        ;;
-        3)
-            echo " ${g}Converting files in ${c}${b}wav${nb}${nc}...${nc}"
+                -y "${FILE%.webm}.flac";' _ '{}' \; 2>"$FFOP"
+    )
+    
+    __wav() (
+        echo " ${g}Converting files in ${c}${b}wav${nb}${nc}...${nc}"
             find . -iname "*.webm" -exec \
             bash -c 'FILE="$1"; \
                 ffmpeg -i "${FILE}" \
                 -acodec pcm_s32le -ar 48000 \
-            -y "${FILE%.webm}.wav";' _ '{}' \; 2>"$FFOP"
-        ;;
-        4)
-            echo " ${g}Converting files in ${c}${b}ogg${nb}${nc}...${nc}"
+                -y "${FILE%.webm}.wav";' _ '{}' \; 2>"$FFOP"
+    )
+    
+    __ogg() (
+        echo " ${g}Converting files in ${c}${b}ogg${nb}${nc}...${nc}"
             find . -iname "*.webm" -exec \
             bash -c 'FILE="$1"; \
                 ffmpeg -i "${FILE}" \
                 -acodec libvorbis -ar 48000 -ab 320k \
-            -y "${FILE%.webm}.ogg";' _ '{}' \; 2>"$FFOP"
-        ;;
-        *)
-            echo " ${r}UNKNOWN FORMAT !!! Try again.${nc}"
-            sleep 3s
-            clear
-            _Menu
-        ;;
-    esac
+                -y "${FILE%.webm}.ogg";' _ '{}' \; 2>"$FFOP"
+    )
+    
+    __FormatSelection() {
+        read -rn1 -p "${g}"' Select an output format [1 = mp3] [2 = flac] [3 = wav] [4 = ogg]: '"${nc}" conv
+        __
+        case "$conv" in
+            1)
+                __mp3
+            ;;
+            2)
+                __flac
+            ;;
+            3)
+                __wav
+            ;;
+            4)
+                __ogg
+            ;;
+            *)
+                echo " ${r}UNKNOWN FORMAT !!! Try again.${nc}"
+                sleep 3s
+                clear
+                _Menu
+            ;;
+        esac
+    }
+    
+    if [[ $default_conversion_format = mp3 ]]; then
+        __
+        printf '%s\n' " ${c}Default format enabled.${nc}"
+        __mp3
+    elif [[ $default_conversion_format = flac ]]; then
+        __
+        printf '%s\n' " ${c}Default format enabled.${nc}"
+        __flac
+    elif [[ $default_conversion_format = wav ]]; then
+        __
+        printf '%s\n' " ${c}Default format enabled.${nc}"
+        __wav
+    elif [[ $default_conversion_format = ogg ]]; then
+        __
+        printf '%s\n' " ${c}Default format enabled.${nc}"
+        __ogg
+    else
+        __
+        printf '%s\n' " ${c}Default format disabled.${nc}"
+        __
+        __FormatSelection
+    fi
+
     rm ./*.webm
     echo " ${g}Conversion done.${nc}"
     sleep 2
+    _DownloadCompleted
 }
-
