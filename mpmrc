@@ -37,7 +37,7 @@ tmp_dir="$main_dir/tmp"
 # from download tasks (option 4) we are prompted or not to choose formats
 direct_download="no"
 
-# some links may still be present in playlist files...
+# some links may be still present in playlist files...
 # if value is 'no' you will be prompted
 keep_none_empty_playlist="yes"
 
