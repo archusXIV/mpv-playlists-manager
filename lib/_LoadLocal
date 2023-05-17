@@ -66,7 +66,7 @@ _LoadLocal() {
                     done
                 ;;
                 f|F)
-                    ranger "$AUDIOS"; _Menu
+                    "$FILEMANAGER" "$AUDIOS"; _Menu
                 ;;
             esac
         ;;
@@ -100,7 +100,7 @@ _LoadLocal() {
                     done
                 ;;
                 f|F)
-                    ranger "$VIDEOS"; _Menu
+                    "$FILEMANAGER" "$VIDEOS"; _Menu
                 ;;
             esac
         ;;
