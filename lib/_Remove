@@ -12,8 +12,7 @@ _Remove() {
         ;;
         -q) sed -i '/^https/d' "$QUEUE"
             rm {"$QUEUE"_origin,"$tmp_dir"/1} 2>/dev/null
-            rm {"$tmp_dir"/DefaultAudio_origin,"$tmp_dir"/DefaultAudio} 2>/dev/null
-            rm {"$tmp_dir"/DefaultVideo_origin,"$tmp_dir"/DefaultVideo} 2>/dev/null
+            rm {"$tmp_dir"/DefaultTitles_origin,"$tmp_dir"/DefaultTitles} 2>/dev/null
             __
             echo " ${r}Default list cleared...${nc}"
             sleep 3
@@ -27,4 +26,3 @@ _Remove() {
     esac
     _Menu
 }
-
