@@ -17,12 +17,6 @@ _Save() {
         cp -f "$CURRENT" "$list"
         cp -f "$CURRENT_TITLE" "$titles_dir"/"$list".titles
 
-        if [[ -f "$tmp_dir"/default ]]; then
-            cat "$tmp_dir"/default > "$titles_dir"/"$list".titles
-        else
-            cat "$CURRENT_TITLE" > "$titles_dir"/"$list".titles
-        fi
-
         sed -i '1s/^/#EXTM3U\n/' "$list"
         sed -i '/^https/d' "$CURRENT"
 
