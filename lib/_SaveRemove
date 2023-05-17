@@ -45,6 +45,7 @@ _SaveRemove() {
         echo ${g} "${prompt[@]}" ${nc}
         __
     fi
+
     read -rsn 1 opt
     case "$opt" in
         a|A)
@@ -86,4 +87,3 @@ _SaveRemove() {
     esac
     _Menu
 }
-
