@@ -3,15 +3,15 @@
 
 _GetDefaultAudio() {
 
-    if [[ ! -f "$tmp_dir"/DefaultAudio ]]; then
+    if [[ ! -f "$tmp_dir"/DefaultTitles ]]; then
         echo " ${g}Getting titles...${nc}"
-        _GetMediaTitle -q > "$tmp_dir"/DefaultAudio
+        _GetMediaTitle -q > "$tmp_dir"/DefaultTitles
         clear
     fi
 
     cd "$audios_dir" || exit 1
     cp -f "$QUEUE" "$QUEUE"_origin 2>/dev/null
-    cp -f "$tmp_dir"/DefaultAudio "$tmp_dir"/DefaultAudio_origin
+    cp -f "$tmp_dir"/DefaultTitles "$tmp_dir"/DefaultTitles_origin
     [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
 
     for getdefaudiourl in $(grep -v '#EXTM3U' "$QUEUE"); do
@@ -33,8 +33,8 @@ _GetDefaultAudio() {
             echo " Please be patient while downloading $(_GetLinkTitle -q)${nc}"
             youtube-dl -f "$code" --no-warnings --progress "$getdefaudiourl"
         fi
-        
-        sed -i '2d' "$QUEUE"; sed -i '1d' "$tmp_dir"/DefaultAudio
+
+        sed -i '2d' "$QUEUE"; sed -i '1d' "$tmp_dir"/DefaultTitles
         clear
 
     done
@@ -42,7 +42,7 @@ _GetDefaultAudio() {
     echo -e " ${g}Done\n${nc}"
 
     if [[ -n $(find . -iname "*.webm") ]]; then
-        echo " ${r}ADVISORY: if you choose conversion, all downloaded files" 
+        echo " ${r}ADVISORY: if you choose conversion, all downloaded files"
         echo -e " will be converted in the chosen format.${nc}\n"
         find . -iname "*.webm" | sed 's,.*/,,'
         __
