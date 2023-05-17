@@ -69,7 +69,7 @@ case "$1" in
     !!! YOU CAN CHANGE MPM DIRECTORIES BY EDITING THE VARIABLES IN THE SCRIPT !!!
     By default "$HOME"/.local/share/
     Dependencies: ffmpeg, jq, mpv, vim, youtube-dl, yt-dlp (for better results).
-    Optionals: ranger, ueberzug, wmctrl, w3m.
+    Optionals: ranger (can be any terminal file manager), ueberzug, wmctrl, w3m.
     We possibly use some options to directly edit, load a playlist:
         . mpm -c: opens ~/.config/mpm/mpmrc
         . mpm -e: opens the playlist edition function
