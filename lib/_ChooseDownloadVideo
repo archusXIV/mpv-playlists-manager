@@ -3,11 +3,45 @@
 
 _ChooseDownloadVideo() {
     cd "$playlists_dir" || exit 1
-
+    clear
     _TitlesListCompare
 
     cp -f "$list" "$list"_origin 2>/dev/null
 
+    __ChooseDirectVideoDownload() (
+        for i in ${array[*]}; do
+            ((i++))
+            url=$(sed -n "${i}p" "$playlists_dir"/"$list")
+            echo "$url" >> "$CHOOSE1"
+        done
+
+        clear
+        
+        mapfile -t DIRECT < <(grep '^https' "$CHOOSE1")
+
+        for line in "${DIRECT[@]}"; do
+            printf '%s\n' " ${c}Direct download enabled.${nc}"
+            __
+            printf '%s\n' " ${g}Downloading $counter file(s).${nc}"
+            if [[ $line =~ 'youtube.com' ]]; then
+                youtube-dl \
+                --no-warnings \
+                --merge-output-format mp4 \
+                --progress "$line"
+                clear
+            else
+                printf '%s\n' " ${c}Direct download enabled.${nc}"
+                __
+                youtube-dl --no-warnings --progress "$line"
+                clear
+            fi
+            ((counter--))
+        done
+
+        echo " ${g}All done${nc}"
+        sleep 2
+    )
+    
     IFS=","; read -a array \
     -p " Enter links separeted by comma, eg: 3,1,5: "
 
@@ -15,48 +49,27 @@ _ChooseDownloadVideo() {
     cd "$videos_dir" || exit 1
 
     local counter="${#array[*]}"
-    
-    __
-    echo " ${g}Tip: direct download will always pick the best format,"
-    echo -e " on Youtube webm may be the best one but we'll merge files in mp4.\n"
-    echo -e " Choose [S]pecific codes or [D]irect download?:\n${nc}"
-    sleep 0.5 && read -rsn 1 choice
+
+    if [[ $direct_download = yes ]]; then
+        __ChooseDirectVideoDownload
+    else
+        __
+        echo " ${g}Tip: direct download will always pick the best format,"
+        echo -e " on Youtube webm may be the best one but we'll merge files in mp4.\n"
+        echo -e " Choose [S]pecific codes or [D]irect download?:\n${nc}"
+        sleep 0.5 && read -rsn 1 choice
+    fi
     
     case "$choice" in
         d|D)
-            for i in ${array[*]}; do
-                ((i++))
-                url=$(sed -n "${i}p" "$playlists_dir"/"$list")
-                echo "$url" >> "$CHOOSE1"
-            done
-            
-            clear
-            mapfile -t DIRECT < <(grep '^https' "$CHOOSE1")
-            
-            for line in "${DIRECT[@]}"; do
-                printf '%s\n' " ${g}Downloading $counter file(s).${nc}"
-                if [[ $line =~ 'youtube.com' ]]; then
-                    youtube-dl \
-                    --no-warnings \
-                    --merge-output-format mp4 \
-                    --progress "$line"
-                    clear
-                else
-                    youtube-dl --no-warnings --progress "$line"
-                    clear
-                fi
-                ((counter--))
-            done
-            
-            echo " ${g}All done${nc}"
-            sleep 2
+            __ChooseDirectVideoDownload
         ;;
         s|S)
             for i in ${array[*]}; do
                 ((i++))
                 url=$(sed -n "${i}p" "$playlists_dir"/"$list")
                 echo "$url" >> "$CHOOSE1"
-                
+
                 if [[ $url =~ 'youtube.com' ]]; then
                     __
                     youtube-dl -F --no-warnings "$url" \
@@ -104,6 +117,7 @@ _ChooseDownloadVideo() {
 
     echo -e " ${c}Updating titles...${b}please wait.${nb}${nc}\n"
     _GetMediaTitle -l > "$titles_dir"/"$list".titles
+    clear
     _DownloadCompleted
 
 }
