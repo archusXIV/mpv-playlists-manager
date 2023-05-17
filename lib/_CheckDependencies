@@ -1,6 +1,3 @@
-#!/bin/bash
-## This is a part of main script: mpm.
-
 _CheckDependencies() {
     ## Checking dependencies: softwares, directories and files.
     declare -a deps=( "ffmpeg" "jq" "mpv" "vim" "youtube-dl" "yt-dlp" \
