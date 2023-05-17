@@ -66,7 +66,7 @@ case "$1" in
 
     MPV-PLAYLISTS-MANAGER usage:
 
-    !!! YOU CAN CHANGE MPM DIRECTORIES BY EDITING THE VARIABLES IN THE SCRIPT !!!
+    !!! YOU CAN CHANGE MPM DIRECTORIES BY EDITING THE VARIABLES IN THE MPMRC FILE !!!
     By default "$HOME"/.local/share/
     Dependencies: ffmpeg, jq, mpv, vim, youtube-dl, yt-dlp (for better results).
     Optionals: ranger (can be any terminal file manager), ueberzug, wmctrl, w3m.
