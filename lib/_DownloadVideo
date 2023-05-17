@@ -7,32 +7,40 @@ _DownloadVideo() {
     counter=$(grep -v -c '#EXTM3U' "$list")
     clear
     cp -f "$list" "$list"_origin 2>/dev/null
-    __
-    echo " ${g}Tip: direct download will always pick the best format,"
-    echo -e " on Youtube webm may be the best one but we'll merge files in mp4.\n"
-    echo -e " Choose [S]pecific codes or [D]irect download?:\n${nc}"
-    sleep 0.5 && read -rsn 1 choice
+    
+    __DirectVideoDownload() (
+        __
+        printf '%s\n' " ${c}Direct download enabled.${nc}"
+        __
+        mapfile -t DIRECT < <(grep -v '#EXTM3U' "$list")
+
+        for line in "${DIRECT[@]}"; do
+            cd "$videos_dir" || exit 1
+            printf '%s\n' " ${g}Downloading $counter file(s).${nc}" \
+            " Downloading $(_GetLinkTitle -l):${nc}"
+            [[ $line =~ 'youtube.com' ]] && {
+                youtube-dl --no-warnings --merge-output-format mp4 "$line"
+                clear
+            } || youtube-dl --no-warnings "$line" && clear
+            ((counter--))
+            sed -i '2d' "$playlists_dir"/"$list"
+            sed -i '1d' "$titles_dir"/"$list".titles
+        done
+    )
+    
+    if [[ $direct_download = yes ]]; then
+        __DirectVideoDownload
+    else
+        __
+        echo " ${g}Tip: direct download will always pick the best format,"
+        echo -e " on Youtube webm may be the best one but we'll merge files in mp4.\n"
+        echo -e " Choose [S]pecific codes or [D]irect download?:\n${nc}"
+        sleep 0.5 && read -rsn 1 choice
+    fi
 
     case "$choice" in
         d|D)
-            mapfile -t DIRECT < <(grep -v '#EXTM3U' "$list")
-
-            for line in "${DIRECT[@]}"; do
-                cd "$videos_dir" || exit 1
-                printf '%s\n' " ${g}Downloading $counter file(s).${nc}"
-                echo " ${g}Downloading $(_GetLinkTitle -l):${nc}"
-                [[ $line =~ 'youtube.com' ]] && {
-                    youtube-dl --no-warnings --merge-output-format mp4 "$line"
-                    clear
-                } || youtube-dl --no-warnings "$line" && clear
-                ((counter--))
-                sed -i '2d' "$playlists_dir"/"$list"
-                sed -i '1d' "$titles_dir"/"$list".titles
-            done
-
-            echo " ${g}All done${nc}"
-            sleep 2
-            _DownloadCompleted
+            __DirectVideoDownload
         ;;
         s|S)
             for downvideourl in $(grep -v '#EXTM3U' "$list"); do
@@ -48,15 +56,16 @@ _DownloadVideo() {
                 fi
 
                 __
-                echo " ${g}Choose a format code."
-                echo " eg: 137+251 for merging, hls-1080p, 22 for single:${nc}"
+                printf '%s\n' " ${g}Choose a format code." \
+                " eg: 137+251 for merging, hls-1080p, 22 for single:${nc}"
                 read -r code
                 sleep 0.5
                 clear
 
                 if [[ "$code" =~ '+' ]]; then
                     printf '%s\n' " ${g}Downloading $counter file(s).${nc}"
-                    youtube-dl -f "$code" --no-warnings --merge-output-format mp4 --progress "$downvideourl"
+                    youtube-dl -f "$code" --no-warnings \
+                    --merge-output-format mp4 --progress "$downvideourl"
                 else
                     printf '%s\n' " ${g}Downloading $counter file(s).${nc}"
                     youtube-dl -f "$code" --no-warnings --progress "$downvideourl"
@@ -69,10 +78,11 @@ _DownloadVideo() {
 
             done
 
-            echo " ${g}All done${nc}"
-            sleep 2
-            _DownloadCompleted
         ;;
     esac
+    
+    echo " ${g}All done${nc}"
+    sleep 2
+    _DownloadCompleted
 
 }
