@@ -105,12 +105,20 @@ _ViewUrlInfo() {
                         fi
                     ;;
                     v|V)
-                        __
-                        echo -e " ${g}Getting titles...${nc}\n"
-                        _GetMediaTitle -q > "$tmp_dir"/DefaultAudio
-                        cp "$tmp_dir"/DefaultAudio "$tmp_dir"/DefaultVideo
-                        cat -n "$tmp_dir"/DefaultAudio
-                        __
+                        if [[ -f $tmp_dir/DefaultAudio || -f $tmp_dir/DefaultVideo ]]; then
+                            __
+                            cat -n "$tmp_dir"/DefaultAudio
+                            __ \
+                            || __ \
+                            cat -n "$tmp_dir"/DefaultVideo
+                        else
+                            __
+                            echo -e " ${g}Getting titles...${nc}\n"
+                            _GetMediaTitle -q > "$tmp_dir"/DefaultAudio
+                            cp "$tmp_dir"/DefaultAudio "$tmp_dir"/DefaultVideo
+                            cat -n "$tmp_dir"/DefaultAudio
+                            __
+                        fi
                     ;;
                 esac
             done
