@@ -74,6 +74,7 @@ _DownloadAudio() {
             __
             printf '%s\n' " ${c}Automatic audio conversion enabled.${nc}"
             __
+            sleep 2
             _ConvertAudio && _DownloadCompleted
         else
             __
