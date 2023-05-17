@@ -1,6 +1,3 @@
-#!/bin/bash
-## This is a part of main script: mpm.
-
 _ViewUrlInfo() {
     # Normaly in Bash nested functions use parentheses instead of curly braces,
     # but here it won't work because of the case statment right parenthese...
@@ -93,30 +90,26 @@ _ViewUrlInfo() {
                         _Remove -q
                     ;;
                     s|S)
-                        if [[ -f "$tmp_dir"/DefaultAudio ]]; then
+                        if [[ -f "$tmp_dir"/DefaultTitles ]]; then
                             _Save -q
                         else
                             echo " ${g}${b}Updating playlist titles...${nb}${nc}"
                             _GetMediaTitle -q \
-                            | tee -a "$tmp_dir"/DefaultAudio \
+                            | tee -a "$tmp_dir"/DefaultTitles \
                             | cat -n >/dev/null 2>&1
-                            cp "$tmp_dir"/DefaultAudio "$tmp_dir"/DefaultVideo
                             _Save -q
                         fi
                     ;;
                     v|V)
-                        if [[ -f $tmp_dir/DefaultAudio || -f $tmp_dir/DefaultVideo ]]; then
+                        if [[ -f $tmp_dir/DefaultTitles ]]; then
                             __
-                            cat -n "$tmp_dir"/DefaultAudio
-                            __ \
-                            || __ \
-                            cat -n "$tmp_dir"/DefaultVideo
+                            cat -n "$tmp_dir"/DefaultTitles
+                            __
                         else
                             __
                             echo -e " ${g}Getting titles...${nc}\n"
-                            _GetMediaTitle -q > "$tmp_dir"/DefaultAudio
-                            cp "$tmp_dir"/DefaultAudio "$tmp_dir"/DefaultVideo
-                            cat -n "$tmp_dir"/DefaultAudio
+                            _GetMediaTitle -q > "$tmp_dir"/DefaultTitles
+                            cat -n "$tmp_dir"/DefaultTitles
                             __
                         fi
                     ;;
