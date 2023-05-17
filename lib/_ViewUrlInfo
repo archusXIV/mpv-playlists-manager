@@ -1,3 +1,6 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
 _ViewUrlInfo() {
     # Normaly in Bash nested functions use parentheses instead of curly braces,
     # but here it won't work because of the case statment right parenthese...
