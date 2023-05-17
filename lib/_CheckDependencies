@@ -4,26 +4,31 @@
 _CheckDependencies() {
     ## Checking dependencies: softwares, directories and files.
     declare -a deps=( "ffmpeg" "jq" "mpv" "vim" "youtube-dl" "yt-dlp" \
-                    "ranger" "ueberzug" "wmctrl" "w3m" )
+                    "ueberzug" "wmctrl" "w3m" )
 
     for dep in "${deps[@]:0:6}"; do
         [[ -z $(command -v "$dep") ]] && {
-            echo " ${r}$dep isn 't installed, bye..."
+            printf '%s\n' " ${r}$dep isn 't installed, bye..."
             exit 127
         }
     done
-
-    for optional in "${deps[@]:6:10}"; do
+    
+    for optional in "${deps[@]:6:9}"; do
         [[ -z $(command -v "$optional") ]] && {
-            echo " ${g}For better experience consider installing $optional.${nc}"
+            printf '%s\n' " ${g}For better experience consider installing $optional.${nc}"
             sleep 2s
         }
     done
-    
+
     [[ ! -f ~/.config/mpm/mpmrc ]] && {
-        printf 's%\n' " ${r}No config file found...exiting!${nc}"
+        printf '%s\n' " ${r}No config file found...exiting!${nc}"
         notify-send -t 0 -u critical "No config file found...exiting!"
         exit 1
+    }
+
+    [[ -z $(command -v "$FILEMANAGER") ]] && {
+        printf '%s\n' " ${r}Consider installing a file manager.${nc}"
+        sleep 3s
     }
     
     if [[ ! -d $main_dir ]]; then
@@ -44,4 +49,3 @@ _CheckDependencies() {
     _Menu
 
 }
-
