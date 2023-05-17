@@ -3,16 +3,17 @@
 
 _GetDefaultVideo() {
     __
-    if [[ ! -f "$tmp_dir"/DefaultVideo ]]; then
+    if [[ ! -f "$tmp_dir"/DefaultTitles ]]; then
         echo " ${g}Getting titles...${nc}"
-        _GetMediaTitle -q > "$tmp_dir"/DefaultVideo
+        _GetMediaTitle -q > "$tmp_dir"/DefaultTitles
+        clear
     fi
-    
+
     cd "$videos_dir" || exit 1
     cp -f "$QUEUE" "$QUEUE"_origin 2>/dev/null
-    cp -f "$tmp_dir"/DefaultVideo "$tmp_dir"/DefaultVideo_origin
+    cp -f "$tmp_dir"/DefaultTitles "$tmp_dir"/DefaultTitles_origin
     [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
-    
+
     clear
     for getdefvideourl in $(grep -v '#EXTM3U' "$QUEUE"); do
         __
@@ -26,9 +27,8 @@ _GetDefaultVideo() {
         echo " ${g}$(_GetLinesList -q) video file(s) left to download.${nc}"
 
         if [[ "$code" =~ '+' ]]; then
-            echo " ${g}Please be patient while downloading and merging formats.${nc}"
-            youtube-dl \
-            -f "$code" \
+            echo " ${g}Please be patient while downloading $(_GetLinkTitle -q)${nc}"
+            youtube-dl -f "$code" \
             --no-warnings \
             --merge-output-format mp4 \
             --progress "$getdefvideourl"
@@ -36,12 +36,12 @@ _GetDefaultVideo() {
             echo -e " ${g}Please be patient while downloading...${nc}\n"
             youtube-dl -f "$code" --no-warnings --progress "$getdefvideourl"
         fi
-        sed -i '2d' "$QUEUE"; sed -i '1d' "$tmp_dir"/DefaultVideo
+        sed -i '2d' "$QUEUE"; sed -i '1d' "$tmp_dir"/DefaultTitles
         clear
     done
-    
+
     echo -e " ${g}Done.\n${nc}"
     sleep 2
     _GetCompleted -v
-    
+
 }
