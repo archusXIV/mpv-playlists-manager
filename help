@@ -1,10 +1,11 @@
 MPV-PLAYLISTS-MANAGER usage:
 
-    !!! YOU CAN CHANGE MPM DIRECTORIES BY EDITING THE VARIABLES IN THE SCRIPT !!!
-    By default $HOME/.local/share
+    !!! YOU CAN CHANGE MPM DIRECTORIES BY EDITING THE VARIABLES IN MPMRC !!!
+    By default $HOME/.local/share/mpv-playlists-manager
     Dependencies: ffmpeg, jq, mpv, vim, youtube-dl, yt-dlp (for better results).
-    Optionals: ranger, wmctrl, w3m.
+    Optionals: ranger (can be any terminal file manager), ueberzug, wmctrl, w3m.
     We possibly use some options to directly edit, load a playlist:
+        . mpm -c: opens ~/.config/mpm/mpmrc
         . mpm -e: opens the playlist edition function
         . mpm -l: opens the playlist load (online) function
         . mpm -p: opens the playlist load (local) function
@@ -38,6 +39,7 @@ MPV-PLAYLISTS-MANAGER usage:
     3) Save tmp/Del collection:
        Here we can save the default playlist as a new one wich contains all temporary links
        from video/audio sections and save video/audio separetly.
+       Note that names with spaces will be renamed with underscores.
        They will be removed as we save them in the collection.
        We can also delete existing playlists (.m3u files) from our collection.
 
@@ -71,7 +73,8 @@ MPV-PLAYLISTS-MANAGER usage:
        directly or afterward. Vim is set as the EDITOR (change it if you will).
 
     9) Edit mpm config:
-       we may want to edit this file for  directories preferences and better quality or results with mpv.
+       We may want to edit this file for default directories & tasks preferences,
+       and better quality or results with mpv.
 
     II) audio/video files options:
 
