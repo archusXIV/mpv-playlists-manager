@@ -15,6 +15,9 @@
 ## default editor
 EDITOR=${VISUAL:-vim}
 
+## default file manager
+FILEMANAGER="ranger"
+
 ## THESE ARE BY DEFAULT DIRECTORIES USED BY MPM.
 
 # The main directory can be renamed but must be present for mpm to work.
@@ -49,7 +52,7 @@ automatic_audio_conversion="no"
 default_conversion_format="flac"
 
 # this takes place only after downloading/playing from a collection playlist
-quit_after_task="no"
+quit_after_task="yes"
 
 ## MPV SPECIFICS
 # mpv audio playing command line
