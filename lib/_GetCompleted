@@ -25,7 +25,7 @@ _GetCompleted() {
                     sleep 3
                     [[ -f "$QUEUE"_origin ]] && {
                         mv -f "$QUEUE"_origin "$QUEUE"
-                        rm -f "$tmp_dir"/DefaultAudio_origin "$tmp_dir"/DefaultAudio
+                        rm -f "$tmp_dir"/DefaultTitles_origin "$tmp_dir"/DefaultTitles
                     }
                     cp -f "$AUDIO_INFO"_origin "$AUDIO_INFO"
                     cp -f "$AUDIO_TITLE"_origin "$AUDIO_TITLE"
@@ -44,7 +44,7 @@ _GetCompleted() {
                     sleep 3
                     [[ -f "$QUEUE"_origin ]] && {
                         mv -f "$QUEUE"_origin "$QUEUE"
-                        rm -f "$tmp_dir"/DefaultVideo_origin "$tmp_dir"/DefaultVideo
+                        rm -f "$tmp_dir"/DefaultTitles_origin "$tmp_dir"/DefaultTitles
                     }
                     cp -f "$VIDEO_INFO"_origin "$VIDEO_INFO"
                     cp -f "$VIDEO_TITLE"_origin "$VIDEO_TITLE"
@@ -60,4 +60,3 @@ _GetCompleted() {
     fi
 
 }
-
