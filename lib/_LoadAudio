@@ -30,15 +30,15 @@ _LoadAudio() {
             rm "$CHOOSE1"
             __QuitAfterListening
         ;;
-        -q)
-            M3UFILE="$QUEUE"
-            _MpvAudioOptions
-            clear; __; echo -e " ${g}Did you like it? Choose an option:\n"
-        ;;
         -l)
             M3UFILE="$list"
             _MpvAudioOptions
             __QuitAfterListening
+        ;;
+        -q)
+            M3UFILE="$QUEUE"
+            _MpvAudioOptions
+            clear; __; echo -e " ${g}Did you like it? Choose an option:\n"
         ;;
     esac
 }
