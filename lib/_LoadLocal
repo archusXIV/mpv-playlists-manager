@@ -2,14 +2,14 @@
 ## This is a part of main script: mpm.
 
 _LoadLocal() {
-    
+
     local AUDIOS VIDEOS zic vid
     # getting the right paths for french env too...
     AUDIOS=$(find $HOME -maxdepth 2 -type d -name "Music" -o -name "Musique")
     VIDEOS=$(find $HOME -maxdepth 2 -type d -name "Videos" -o -name "Vidéos")
     zic=$(echo "$AUDIOS" | awk -F"/" '{print $NF}')
     vid=$(echo "$VIDEOS" | awk -F"/" '{print $NF}')
-    
+
     # create a symlink of $audios_dir/$videos_dir
     # in ~/Music & ~/Videos for user convenience
     if find "$audios_dir" "$videos_dir" -type d -empty >/dev/null; then
@@ -19,7 +19,7 @@ _LoadLocal() {
         ! [[ -L "$VIDEOS"/mpm_videos ]] \
         && ln -s "$videos_dir" "$VIDEOS"/mpm_videos
     fi
-    
+
     # the select loop won't display the correct directories names
     # if white spaces exist, so we are forced to use this "dirthack"
     _ReplaceSpaces() (
@@ -32,12 +32,12 @@ _LoadLocal() {
             done >/dev/null 2>&1
         ' dummy {} +
     )
-    
+
     read -rsn 1 -p ${g}' Type of media, [A]udio or [V]ideo ?: '${nc} choice
     case "$choice" in
         a|A)
             __
-            echo -e " ${g}Load a directory [D] or file (using ranger) [F] ?: ${nc}\n"
+            echo -e " ${g}Load a directory [D] or file [F] ?: ${nc}\n"
             read -rsn 1 audio
             case "$audio" in
                 d|D)
@@ -107,4 +107,3 @@ _LoadLocal() {
     esac
 
 }
-
