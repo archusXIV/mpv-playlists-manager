@@ -15,7 +15,7 @@
 ## default editor
 EDITOR=${VISUAL:-vim}
 
-## default file manager (can any terminal file manager)
+## default file manager (can be any terminal file manager)
 FILEMANAGER="ranger"
 
 ## THESE ARE BY DEFAULT DIRECTORIES USED BY MPM.
