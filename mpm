@@ -116,7 +116,7 @@ case "$1" in
        Two downloading methods are offered here: one by choosing specidics format codes,
        and a direct download functionality which grabs the best format.
 
-    5) Load local dir/files:
+    5) Load local dir/files: the following method uses ranger.
        The possibility of watching or listening media files from disk is done with ranger
        as a dependency. The default music and video directories are ~/Music & ~/Videos,
        Change the local variables in _LoadLocal function if needed.
