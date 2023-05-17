@@ -1,14 +1,24 @@
 #!/bin/bash
 
-#    ███╗   ███╗██████╗ ███╗   ███╗██████╗  ██████╗
-#    ████╗ ████║██╔══██╗████╗ ████║██╔══██╗██╔════╝
-#    ██╔████╔██║██████╔╝██╔████╔██║██████╔╝██║     
-#    ██║╚██╔╝██║██╔═══╝ ██║╚██╔╝██║██╔══██╗██║     
-#    ██║ ╚═╝ ██║██║     ██║ ╚═╝ ██║██║  ██║╚██████╗
-#    ╚═╝     ╚═╝╚═╝     ╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
-                                              
+########################################################
+#                                                      # 
+#    ███╗   ███╗██████╗ ███╗   ███╗██████╗  ██████╗    #
+#    ████╗ ████║██╔══██╗████╗ ████║██╔══██╗██╔════╝    #
+#    ██╔████╔██║██████╔╝██╔████╔██║██████╔╝██║         #
+#    ██║╚██╔╝██║██╔═══╝ ██║╚██╔╝██║██╔══██╗██║         #
+#    ██║ ╚═╝ ██║██║     ██║ ╚═╝ ██║██║  ██║╚██████╗    #
+#    ╚═╝     ╚═╝╚═╝     ╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝    #
+#                                                      #
 ####### MPV-PLAYLISTS-MANAGER CONFIGURATION FILE #######
 ######### THE PLACE FOR YOUR PERSONAL SETTINGS #########
+#~~~~~ change the values, not the variables names ~~~~~#
+
+## prompts & messages colors
+# https://misc.flogisoft.com/bash/tip_colors_and_formatting
+nc=$'\e[0m';   # normal text
+r=$'\e[0;31m'; # red (critical)
+g=$'\e[0;32m'; # green (info)
+c=$'\e[96m';   # cyan (tasks settings)
 
 : "${XDG_DATA_HOME:-$HOME/.local/share}"
 
@@ -50,10 +60,10 @@ automatic_audio_conversion="no"
 
 # default audio conversion format {mp3,falc,wav,ogg}
 # if value is empty you will be prompted
-default_conversion_format="flac"
+default_conversion_format="mp3"
 
 # this takes place only after downloading/playing from a collection playlist
-quit_after_task="yes"
+quit_after_task="no"
 
 ## MPV SPECIFICS
 # mpv audio playing command line
