@@ -12,14 +12,14 @@ _LoadVideo() {
     }
     
     case "$1" in
-        -v)
-            M3UFILE="$VIDEO_INFO" ;;
-        -q)
-            M3UFILE="$QUEUE" ;;
-        -l)
-            M3UFILE="$list" ;;
         -c)
             M3UFILE="$CHOOSE1" ;;
+        -l)
+            M3UFILE="$list" ;;
+        -q)
+            M3UFILE="$QUEUE" ;;
+        -v)
+            M3UFILE="$VIDEO_INFO" ;;
     esac
 
     __
@@ -38,8 +38,7 @@ _LoadVideo() {
         echo " If so, type ${b}${c}Y${nb} ${r}to preserve temporary video list${nc}"
         __
 
-        declare -a TMP=( "$VIDEO_INFO" "$VIDEO_TITLE" "$FFOP" \
-                        "$YTOP" "$CHOOSE1" "$tmp_dir/CheckCode" )
+        declare -a TMP=( "$VIDEO_INFO" "$VIDEO_TITLE" "$FFOP" "$YTOP" "$CHOOSE1" )
 
         _Prompt " ${g}Temporary video list still exist, KEEP it?:${nc}" || {
             rm -f "${TMP[@]}" 2>/dev/null
@@ -52,7 +51,6 @@ _LoadVideo() {
         __QuitAfterWatching
     else
         rm -f "${TMP[@]}" 2>/dev/null
-        __QuitAfterWatching
     fi
     _Menu
 }
