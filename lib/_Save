@@ -1,12 +1,9 @@
-#!/bin/bash
-## This is a part of main script: mpm.
-
 _Save() {
 
     cd "$playlists_dir" || exit 1
 
     __ReplaceSpaces() (
-        find . -maxdepth 1 \
+        find "$playlists_dir" "$titles_dir" -maxdepth 1 \
         -type f -name "* *" -exec \
         bash -c '
             for f in "$@"; do
@@ -15,7 +12,7 @@ _Save() {
             done >/dev/null 2>&1
         ' dummy {} +
     )
-    
+
     __NestedSave() (
         cp -f "$CURRENT" "$list"
         cp -f "$CURRENT_TITLE" "$titles_dir"/"$list".titles
@@ -72,9 +69,9 @@ _Save() {
         ;;
         -q)
             CURRENT="$QUEUE"
-            CURRENT_TITLE="$tmp_dir"/DefaultAudio
+            CURRENT_TITLE="$tmp_dir"/DefaultTitles
             __NestedSaveCheck
-            rm -f "$tmp_dir"/{DefaultAudio,DefaultVideo}
+            rm -f "$tmp_dir"/DefaultTitles
             __ReplaceSpaces
         ;;
         -v)
