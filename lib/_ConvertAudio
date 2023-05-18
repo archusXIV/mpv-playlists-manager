@@ -16,29 +16,29 @@ _ConvertAudio() {
 
     __flac() (
         echo " ${info}Converting files in ${task}${b}flac${nb}${nc}...${nc}"
-            find . -iname "*.webm" -exec \
-            bash -c 'FILE="$1"; \
-                ffmpeg -i "${FILE}" \
-                -af aformat=s32:48000 \
-                -y "${FILE%.webm}.flac";' _ '{}' \; 2>"$FFOP"
+        find . -iname "*.webm" -exec \
+        bash -c 'FILE="$1"; \
+            ffmpeg -i "${FILE}" \
+            -af aformat=s32:48000 \
+            -y "${FILE%.webm}.flac";' _ '{}' \; 2>"$FFOP"
     )
 
     __wav() (
         echo " ${info}Converting files in ${task}${b}wav${nb}${nc}...${nc}"
-            find . -iname "*.webm" -exec \
-            bash -c 'FILE="$1"; \
-                ffmpeg -i "${FILE}" \
-                -acodec pcm_s32le -ar 48000 \
-                -y "${FILE%.webm}.wav";' _ '{}' \; 2>"$FFOP"
+         ind . -iname "*.webm" -exec \
+        bash -c 'FILE="$1"; \
+            ffmpeg -i "${FILE}" \
+            -acodec pcm_s32le -ar 48000 \
+            -y "${FILE%.webm}.wav";' _ '{}' \; 2>"$FFOP"
     )
 
     __ogg() (
         echo " ${info}Converting files in ${task}${b}ogg${nb}${nc}...${nc}"
-            find . -iname "*.webm" -exec \
-            bash -c 'FILE="$1"; \
-                ffmpeg -i "${FILE}" \
-                -acodec libvorbis -ar 48000 -ab 320k \
-                -y "${FILE%.webm}.ogg";' _ '{}' \; 2>"$FFOP"
+        find . -iname "*.webm" -exec \
+        bash -c 'FILE="$1"; \
+            ffmpeg -i "${FILE}" \
+            -acodec libvorbis -ar 48000 -ab 320k \
+            -y "${FILE%.webm}.ogg";' _ '{}' \; 2>"$FFOP"
     )
 
     __FormatSelection() {
