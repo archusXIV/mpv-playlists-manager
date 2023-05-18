@@ -60,7 +60,6 @@ keep_none_empty_playlist="yes"
 automatic_audio_conversion="no"
 
 # default audio conversion format {mp3,falc,wav,ogg}
-# if value is {empty,unsupported_format}, you will be prompted.
 default_conversion_format="mp3"
 
 # this takes place only after downloading/playing from a collection playlist.
