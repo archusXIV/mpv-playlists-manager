@@ -27,23 +27,32 @@ _GetAudio() {
             echo " Please be patient while downloading $(_GetLinkTitle -a)${nc}"
             youtube-dl -f "$code" --no-warnings --progress "$getaudiourl"
         fi
-        
+
         sed -i '1d' {"$AUDIO_INFO","$AUDIO_TITLE"}
         clear
-            
+
     done
 
     echo -e " ${g}Done\n${nc}"
 
     if [[ -n $(find . -iname "*.webm") ]]; then
-        echo " ${r}ADVISORY: if you choose conversion, all downloaded files" 
+        echo " ${r}ADVISORY: if you choose conversion, all downloaded files"
         echo -e " will be converted in the chosen format.${nc}\n"
         find . -iname "*.webm" | sed 's,.*/,,'
-        __
-        _Prompt " ${g}Do you wish to convert them?: ${nc}" || {
-            _GetCompleted -a
-        }
-        _ConvertAudio && _GetCompleted -a
+
+        if [[ $automatic_audio_conversion = yes ]]; then
+            __
+            printf '%s\n' " ${c}Automatic audio conversion enabled.${nc}"
+            sleep 2
+            _ConvertAudio && _GetCompleted -a
+        else
+            __
+            _Prompt " ${g}Do you wish to convert them?: ${nc}" || {
+                _DownloadCompleted
+            }
+            _ConvertAudio && _GetCompleted -a
+        fi
+
     else
         _GetCompleted -a
     fi
