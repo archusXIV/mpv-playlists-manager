@@ -1,0 +1,60 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_GetAudio() {
+
+    cd "$audios_dir" || exit 1
+    cp -f "$AUDIO_INFO" "$AUDIO_INFO"_origin 2>/dev/null
+    cp -f "$AUDIO_TITLE" "$AUDIO_TITLE"_origin 2>/dev/null
+    clear
+
+    for getaudiourl in $(grep '^https' "$AUDIO_INFO"); do
+        if [[ $(youtube-dl -F --no-warnings "$getaudiourl" \
+            | sed -n '1,7p;/audio only/p' | grep 251) ]]; then
+            __
+            echo " ${info}$(_GetLinesList -a) audio file(s) left to download."
+            echo " Please be patient while downloading $(_GetLinkTitle -a).webm${nc}"
+            youtube-dl -f 251 --no-warnings --progress "$getaudiourl"
+        else
+            youtube-dl -F --no-warnings "$getaudiourl" \
+            | sed -n '1,7p;/audio only/p' | sed '/^sb2/d'
+            __
+            echo " ${info}Choose a format code for $(_GetLinkTitle -a):${nc}"
+            read -r code
+            clear
+            __
+            echo " ${info}$(_GetLinesList -a) audio file(s) left to download."
+            echo " Please be patient while downloading $(_GetLinkTitle -a)${nc}"
+            youtube-dl -f "$code" --no-warnings --progress "$getaudiourl"
+        fi
+
+        sed -i '1d' {"$AUDIO_INFO","$AUDIO_TITLE"}
+        clear
+
+    done
+
+    echo -e " ${info}Done\n${nc}"
+
+    if [[ -n $(find . -iname "*.webm") ]]; then
+        echo " ${critical}ADVISORY: if you choose conversion, all downloaded files"
+        echo -e " will be converted in the chosen format.${nc}\n"
+        find . -iname "*.webm" | sed 's,.*/,,'
+
+        if [[ $automatic_audio_conversion = yes ]]; then
+            __
+            printf '%s\n' " ${task}Automatic audio conversion enabled.${nc}"
+            sleep 2
+            _ConvertAudio && _GetCompleted -a
+        else
+            __
+            _Prompt " ${info}Do you wish to convert them?: ${nc}" || {
+                _GetCompleted -a
+            }
+            _ConvertAudio && _GetCompleted -a
+        fi
+
+    else
+        _GetCompleted -a
+    fi
+
+}

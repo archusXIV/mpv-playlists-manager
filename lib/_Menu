@@ -1,0 +1,50 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_Menu() {
+    # First copy url then select option 1 or 2,
+    # the link will be saved in an m3u file.
+    while [[ -e $QUEUE ]]; do
+        _ResizeWindow
+        clear
+        _ListsCount
+        __
+        echo -e "                                            ${mtitle}::MPV-PLAYLISTS-MANAGER OPTIONS::"
+        echo -e "                                              $VERSION ${info}For usage: mpm --help${nc}"
+        echo -e "                                ${critical}For a better display consider a terminal size of 1210x735${nc}"
+        echo -e "                             ┌─────────────────────────────────────────────────────────────┐"
+        echo -e "                             │   1) Create/Add video playlist   6) View default playlist   │"
+        echo -e "                             │   2) Create/Add audio playlist   7) Clear all tmp lists     │"
+        echo -e "                             │   3) Save tmp/Del collection     8) Edit a playlist         │"
+        echo -e "                             │   4) Play/Download a playlist    9) Edit mpm config (mpmrc) │"
+        echo -e "                             │   5) Load local dir/files        X) Exit                    │"
+        echo -e "                             └─────────────────────────────────────────────────────────────┘"
+        [[ -f $tmp_dir/1 ]] \
+            && echo -e "                                                    ${info}Select an item${nc}" \
+            || echo -e "                                                    ${info}${b}Select an item${nc}${nb}"
+        __
+        read -rsn 1 action
+        case "$action" in
+            1)  _CopyVideo
+                __ ;;
+            2)  _CopyAudio
+                __ ;;
+            3)  _SaveRemove
+                __ ;;
+            4)  _LoadPlaylist
+                __ ;;
+            5)  _LoadLocal
+                __ ;;
+            6)  _ViewUrlInfo -q
+                __ ;;
+            7)  _DeleteUrl
+                __ ;;
+            8)  _EditPlaylist
+                __ ;;
+            9)  _EditMpmConf
+                __ ;;
+            x|X)  exit  ;;
+        esac
+    done
+
+}

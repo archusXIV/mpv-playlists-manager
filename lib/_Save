@@ -1,0 +1,83 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_Save() {
+
+    cd "$playlists_dir" || exit 1
+
+    __ReplaceSpaces() (
+        find "$playlists_dir" "$titles_dir" -maxdepth 1 \
+        -type f -name "* *" -exec \
+        bash -c '
+            for f in "$@"; do
+                n="${f##*/}"
+                mv -nv "$f" "${f%/*}/${n// /_}"
+            done >/dev/null 2>&1
+        ' dummy {} +
+    )
+
+    __NestedSave() (
+        cp -f "$CURRENT" "$list"
+        cp -f "$CURRENT_TITLE" "$titles_dir"/"$list".titles
+
+        sed -i '1s/^/#EXTM3U\n/' "$list"
+        sed -i '/^https/d' "$CURRENT"
+
+        [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
+
+        (( $(grep -c -w '#EXTM3U' "$list") > 1 )) \
+            && sed -i '1d' "$list"
+
+        echo " ${info}$list saved.${nc}"
+        sleep 2s
+    )
+
+    __NestedSaveCheck() (
+        clear
+        __
+        echo -e " ${info}Available playlists:\n${nc}"
+        find . -not -name "default.m3u" -name "*.m3u" -o -name "*.m3u_origin" \
+        | sort -d \
+        | column \
+        | sed 's/\.\///g;s/\.m3u//g;s/\s/ /g'
+        __
+        read -p ${info}' Save playlist as: (do not use extension) '${nc} list
+        # no need to add extension when renaming
+        local list="$list.m3u"
+        if [[ $(find . -name "${list}") ]]; then
+            __
+            _Prompt -n " ${critical}This playlist already exists! Overwrite $list?: ${nc}" && {
+                __NestedSave
+            }
+            __
+        else
+            __NestedSave
+        fi
+
+    )
+
+    case "$1" in
+        -a)
+            CURRENT="$AUDIO_INFO"
+            CURRENT_TITLE="$AUDIO_TITLE"
+            __NestedSaveCheck
+            rm -f $AUDIO_{INFO,TITLE} "$AUDIO_TITLE"_origin
+            __ReplaceSpaces
+        ;;
+        -q)
+            CURRENT="$QUEUE"
+            CURRENT_TITLE="$tmp_dir"/DefaultTitles
+            __NestedSaveCheck
+            rm -f "$tmp_dir"/DefaultTitles
+            __ReplaceSpaces
+        ;;
+        -v)
+            CURRENT="$VIDEO_INFO"
+            CURRENT_TITLE="$VIDEO_TITLE"
+            __NestedSaveCheck
+            rm -f $VIDEO_{INFO,TITLE} "$VIDEO_TITLE"_origin
+            __ReplaceSpaces
+        ;;
+    esac
+    _Menu
+}
