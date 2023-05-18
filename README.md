@@ -11,7 +11,8 @@ mpm -e # edit a playlist from a list
 mpm -l # launch the play/download function
 mpm -p # launch the load local function
 ```
-- Edit the configuration file via ~/.config/mpm/mpmrc
+- Edit the configuration file via ~/.config/mpm/mpmrc,
+- in other words you can create your own function.
 - Usefull so you can alias those flags.
 - Direct download or format selection in the _LoadPlaylist function when choosing few links.
 
