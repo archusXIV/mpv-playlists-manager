@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ########################################################
-#                                                      # 
+#                                                      #
 #    ███╗   ███╗██████╗ ███╗   ███╗██████╗  ██████╗    #
 #    ████╗ ████║██╔══██╗████╗ ████║██╔══██╗██╔════╝    #
 #    ██╔████╔██║██████╔╝██╔████╔██║██████╔╝██║         #
@@ -26,7 +26,7 @@ c=$'\e[96m';   # cyan (tasks settings)
 EDITOR=${VISUAL:-vim}
 
 ## default file manager (can be any terminal file manager)
-# used in option 5) Load local dir/files
+## used in option 5) Load local dir/files
 FILEMANAGER="ranger"
 
 ## THESE ARE BY DEFAULT DIRECTORIES USED BY MPM.
@@ -59,11 +59,11 @@ keep_none_empty_playlist="yes"
 automatic_audio_conversion="no"
 
 # default audio conversion format {mp3,falc,wav,ogg}
-# if value is empty you will be prompted
+# if value is empty or a none supported format you will be prompted
 default_conversion_format="mp3"
 
 # this takes place only after downloading/playing from a collection playlist
-quit_after_task="no"
+quit_after_task="yes"
 
 ## MPV SPECIFICS
 # mpv audio playing command line
