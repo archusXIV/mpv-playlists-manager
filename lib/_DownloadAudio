@@ -1,0 +1,90 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_DownloadAudio() {
+    cd "$playlists_dir" || exit 1
+
+    clear
+    cp -f "$list" "$list"_origin 2>/dev/null
+
+    local counter
+    counter=$(grep -v -c '#EXTM3U' "$list")
+
+    __IfNoBestWebm() (
+        youtube-dl -F --no-warnings "$url"
+        echo " ${info}Choose a format code: ${nc}"
+        read -r code
+        clear
+        __
+        printf '%s\n' " ${info}Total downloads: $counter${nc}"
+        sleep 0.5
+        youtube-dl -f "$code" --no-warnings --progress "$url"
+    )
+
+    for downaudiourl in $(grep -v '#EXTM3U' "$list"); do
+
+        cd "$audios_dir" || exit 1
+
+        if [[ $direct_download = yes ]] && \
+            [[ $(youtube-dl -F --no-warnings "$downaudiourl" | grep 251) ]]; then
+            __
+            printf '%s\n' " ${task}Direct download enabled.${nc}"
+            __
+            printf '%s\n' " ${info}$(_GetLinesList -l) audio file(s) left to download." \
+            " Please be patient while downloading $(_GetLinkTitle -l).webm${nc}"
+            youtube-dl -f 251 --no-warnings --progress "$downaudiourl"
+            clear
+        elif [[ $direct_download = yes ]]; then
+            clear
+            __
+            printf '%s\n' " ${task}Direct download enabled.${nc}"
+            __
+            youtube-dl --no-warnings --progress "$downaudiourl"
+        else
+            __
+            printf '%s\n' " ${task}Direct download disabled.${nc}"
+            __
+            printf '%s\n' " ${info}Codes for $(_GetLinkTitle -l):${nc}"
+            youtube-dl -F --no-warnings "$downaudiourl" | sed -n '
+            1,5d;6,7p;/audio only/p' | sed '/^sb2/d' 2>/dev/null
+            __
+            printf '%s\n' " ${info}Choose a format code: ${nc}"
+            read -r code
+            clear
+            cd "$audios_dir" || exit 1
+            printf '%s\n' " ${info}Total downloads: $counter${nc}"
+            youtube-dl -f "$code" --no-warnings --progress "$downaudiourl"
+        fi
+
+        sed -i '2d' "$playlists_dir"/"$list"
+        sed -i '1d' "$titles_dir"/"$list".titles
+        ((counter--))
+        clear
+
+    done
+
+    echo -e " ${info}Done${nc}\n"
+
+    if [[ -n $(find . -iname "*.webm") ]]; then
+        echo " ${critical}ADVISORY: if you choose conversion, all downloaded files"
+        echo -e " will be converted in the chosen format.${nc}\n"
+        find . -iname "*.webm" | sed 's,.*/,,'
+
+        if [[ $automatic_audio_conversion = yes ]]; then
+            __
+            printf '%s\n' " ${task}Automatic audio conversion enabled.${nc}"
+            _ConvertAudio && _DownloadCompleted
+        else
+            __
+            _Prompt " ${info}Do you wish to convert them?: ${nc}" || {
+                _DownloadCompleted
+            }
+            _ConvertAudio && _DownloadCompleted
+        fi
+
+    else
+        _DownloadCompleted
+    fi
+
+}
+

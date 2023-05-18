@@ -1,0 +1,45 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_LoadAudio() {
+    # change mpv settings in ~/.config/mpmrc
+    local M3UFILE
+
+    __QuitAfterListening() {
+        [[ $quit_after_task = yes ]] && exit || _Menu
+    }
+
+    clear
+    __; rm -f "$tmp_dir"/download 2>/dev/null
+    echo "${critical}Tip: You may want to put this in your mpv.conf:"
+    printf '%s\n' "term-playing-msg='Tiltle: \${media-title}'"
+    echo "Otherwise press I in mpv for more infos.${nc}"
+    __
+    case "$1" in
+        -a)
+            M3UFILE="$AUDIO_INFO"
+            _MpvAudioOptions
+            _Prompt " ${info}Temporary audio list still exist, KEEP it?: ${nc}" || {
+                rm {"$AUDIO_INFO","$AUDIO_TITLE"}
+            }
+            _Menu
+        ;;
+        -c)
+            M3UFILE="$CHOOSE1"
+            _MpvAudioOptions
+            rm "$CHOOSE1"
+            __QuitAfterListening
+        ;;
+        -l)
+            M3UFILE="$list"
+            _MpvAudioOptions
+            __QuitAfterListening
+        ;;
+        -q)
+            M3UFILE="$QUEUE"
+            _MpvAudioOptions
+            clear; __; echo -e " ${info}Did you like it? Choose an option:\n"
+        ;;
+    esac
+}
+

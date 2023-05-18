@@ -1,0 +1,47 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_LoadPlaylist() {
+    cd "$playlists_dir" || exit 1
+    if [[ -z $(find . -type f -iname "*.m3u") ]]; then
+        printf '%s\n' " ${critical}No playlist found!${nc}" \
+        " ${task}First make a temporary list using options 1 or 2," \
+        " save it as wathever you like, then come back to play/download it.${nc}"
+        sleep 12 && _Menu
+    fi
+    clear
+    __
+    echo " ${info}If you have changed your mind,"
+    echo " first select a playlist then [B]ack to menu option.${nc}"
+    __
+    PS3=""$'\n'"${info}Select a playlist to load:${nc} "
+    select list in $(find . -type f  -not -name "default.m3u" \
+    | sort -d | sed 's,.*/,,'); do
+
+        if [[ $(_GetLinesList -l) -eq 0 ]]; then
+            echo " ${critical}No links found in $list (empty or does not contains #EXTM3U header)."
+            echo " You can edit and fix it in option 8) Edit a playlist.${nc}"
+            sleep 8
+            break
+        fi
+
+        clear
+        __
+        printf '%s\n' " ${info}Choose an option for${nc} $list:"
+        __
+        read -rn1 -p "${info}"' [B]ack to menu, [P]lay, [D]ownload: '"${nc}" loadplaylist
+        __
+        case "$loadplaylist" in
+            b|B)
+                _Menu
+            ;;
+            d|D)
+                _LoadPlaylistMenu
+            ;;
+            p|P)
+                _ChooseFromPlay
+            ;;
+        esac
+    done
+}
+

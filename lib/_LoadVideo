@@ -1,0 +1,57 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_LoadVideo() {
+
+    clear
+
+    local M3UFILE
+
+     __QuitAfterWatching() {
+        [[ $quit_after_task = yes ]] && exit || _Menu
+    }
+
+    case "$1" in
+        -c)
+            M3UFILE="$CHOOSE1" ;;
+        -l)
+            M3UFILE="$list" ;;
+        -q)
+            M3UFILE="$QUEUE" ;;
+        -v)
+            M3UFILE="$VIDEO_INFO" ;;
+    esac
+
+    __
+    echo "${critical}Tip: You may want to put this in your mpv.conf:"
+    printf '%s\n' "term-playing-msg='Tiltle: \${media-title}'"
+    echo -e "Otherwise press I in mpv for more infos.${nc}\n"
+    __
+    # change mpv settings in ~/.config/mpmrc
+    _MpvVideoOptions
+
+    if [[ -f "$VIDEO_INFO" ]]; then
+        clear
+        __
+        echo " ${critical}Did you launched video(s) from the default list?"
+        echo " or from option 4) Load a playlist?"
+        echo " If so, type ${b}${task}Y${nb} ${critical}to preserve temporary video list${nc}"
+        __
+
+        declare -a TMP=( "$VIDEO_INFO" "$VIDEO_TITLE" "$FFOP" "$YTOP" "$CHOOSE1" )
+
+        _Prompt " ${info}Temporary video list still exist, KEEP it?:${nc}" || {
+            rm -f "${TMP[@]}" 2>/dev/null
+            echo " ${critical}Temporary video list removed...${nc}"
+            sleep 3
+        }
+        __
+    elif [[ -f $CHOOSE1 ]]; then
+        rm -f "$CHOOSE1" "$list"_origin 2>/dev/null
+        __QuitAfterWatching
+    else
+        rm -f "${TMP[@]}" 2>/dev/null
+    fi
+    _Menu
+}
+
