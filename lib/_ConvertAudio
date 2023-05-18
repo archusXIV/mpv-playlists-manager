@@ -4,7 +4,7 @@
 _ConvertAudio() {
 
     cd "$audios_dir" || exit 1
-    
+
     __mp3() (
         echo " ${g}Converting files in ${c}${b}mp3${nb}${nc}...${nc}"
         find . -iname "*.webm" -exec \
@@ -13,7 +13,7 @@ _ConvertAudio() {
             -vn -ab 320k -ar 48000 \
             -y "${FILE%.webm}.mp3";' _ '{}' \; 2>"$FFOP"
     )
-    
+
     __flac() (
         echo " ${g}Converting files in ${c}${b}flac${nb}${nc}...${nc}"
             find . -iname "*.webm" -exec \
@@ -22,7 +22,7 @@ _ConvertAudio() {
                 -af aformat=s32:48000 \
                 -y "${FILE%.webm}.flac";' _ '{}' \; 2>"$FFOP"
     )
-    
+
     __wav() (
         echo " ${g}Converting files in ${c}${b}wav${nb}${nc}...${nc}"
             find . -iname "*.webm" -exec \
@@ -31,7 +31,7 @@ _ConvertAudio() {
                 -acodec pcm_s32le -ar 48000 \
                 -y "${FILE%.webm}.wav";' _ '{}' \; 2>"$FFOP"
     )
-    
+
     __ogg() (
         echo " ${g}Converting files in ${c}${b}ogg${nb}${nc}...${nc}"
             find . -iname "*.webm" -exec \
@@ -40,23 +40,19 @@ _ConvertAudio() {
                 -acodec libvorbis -ar 48000 -ab 320k \
                 -y "${FILE%.webm}.ogg";' _ '{}' \; 2>"$FFOP"
     )
-    
+
     __FormatSelection() {
         read -rn1 -p "${g}"' Select an output format [1 = mp3] [2 = flac] [3 = wav] [4 = ogg]: '"${nc}" conv
         __
         case "$conv" in
             1)
-                __mp3
-            ;;
+                __mp3 ;;
             2)
-                __flac
-            ;;
+                __flac ;;
             3)
-                __wav
-            ;;
+                __wav ;;
             4)
-                __ogg
-            ;;
+                __ogg ;;
             *)
                 echo " ${r}UNKNOWN FORMAT !!! Try again.${nc}"
                 sleep 3s
@@ -65,29 +61,26 @@ _ConvertAudio() {
             ;;
         esac
     }
-    
-    if [[ $default_conversion_format = mp3 ]]; then
-        __
-        printf '%s\n' " ${c}Default format set to mp3.${nc}"
-        __mp3
-    elif [[ $default_conversion_format = flac ]]; then
-        __
-        printf '%s\n' " ${c}Default format set to flac.${nc}"
-        __flac
-    elif [[ $default_conversion_format = wav ]]; then
-        __
-        printf '%s\n' " ${c}Default format set to wav.${nc}"
-        __wav
-    elif [[ $default_conversion_format = ogg ]]; then
-        __
-        printf '%s\n' " ${c}Default format set to ogg.${nc}"
-        __ogg
-    else
-        __
-        printf '%s\n' " ${c}Default format disabled.${nc}"
+
+    declare -a FORMATS=( "flac" "mp3" "ogg" "wav" )
+
+    [[ -z $default_conversion_format ]] && {
+        printf '%s\n' " ${c}Default format is empty.${nc}"
         __
         __FormatSelection
-    fi
+    }
+
+    # testing if format is set and if it is part of array FORMATS
+    # if so we use it for conversion.
+    [[ -n $default_conversion_format ]] && \
+    [[ $(echo "${FORMATS[@]}") =~ $default_conversion_format ]] && {
+        __
+        printf '%s\n' " ${c}Default format set to $default_conversion_format.${nc}"
+        __
+        __"$default_conversion_format"
+    } || printf '%s\n' " ${r}Format $default_conversion_format not supported.${nc}" \
+        && __ \
+        && __FormatSelection
 
     rm ./*.webm
     echo " ${g}Conversion done.${nc}"
