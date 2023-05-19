@@ -51,6 +51,7 @@ _LoadVideo() {
         __QuitAfterWatching
     else
         rm -f "${TMP[@]}" 2>/dev/null
+        __QuitAfterWatching
     fi
     _Menu
 }
