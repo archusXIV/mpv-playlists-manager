@@ -8,11 +8,10 @@ _LoadAudio() {
     __QuitAfterListening() {
         [[ $quit_after_task = yes ]] && exit || _Menu
     }
-
-    clear
-    __; rm -f "$tmp_dir"/download 2>/dev/null
     
     __AdviceAudio() (
+        clear
+        __; rm -f "$tmp_dir"/download 2>/dev/null
         echo "${critical}Tip: You may want to put this in your mpv.conf:"
         printf '%s\n' "term-playing-msg='Tiltle: \${media-title}'"
         echo "Otherwise press I in mpv for more infos.${nc}"
