@@ -13,7 +13,7 @@ mpm -p # launch the load local function
 ```
 - Tasks are displayed in the main menu.
 - Edit the configuration file via ~/.config/mpm/mpmrc,
-- in other words you can create your own function.
+ (you can create your own function).
 - Usefull so you can alias those flags.
 - Direct download or format selection in the _LoadPlaylist function when choosing few links.
 
