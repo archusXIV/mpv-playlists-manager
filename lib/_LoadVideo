@@ -3,8 +3,6 @@
 
 _LoadVideo() {
 
-    clear
-
     local M3UFILE
 
      __QuitAfterWatching() {
@@ -19,9 +17,16 @@ _LoadVideo() {
         -q)
             M3UFILE="$QUEUE" ;;
         -v)
-            M3UFILE="$VIDEO_INFO" ;;
+            if [[ -f $VIDEO_INFO ]]; then
+                M3UFILE="$VIDEO_INFO"
+            else
+                echo " ${critical}No links in the list${nc}"
+                sleep 2 && _CopyVideo
+            fi
+        ;;
     esac
 
+    clear
     __
     echo "${critical}Tip: You may want to put this in your mpv.conf:"
     printf '%s\n' "term-playing-msg='Tiltle: \${media-title}'"
