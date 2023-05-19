@@ -4,7 +4,7 @@ Video link: https://www.youtube.com/watch?v=7OWO1vRL77A
 ```
 user@linux ~ $ mpm --help
 ```
-## New in version 1.2-5: 4 flags added -{c,e,l,p}
+## New in version 1.2-6: new menu
 ```
 mpm -c # edit mpm config
 mpm -e # edit a playlist from a list
