@@ -22,9 +22,6 @@ Please check the [README_FIRST](https://github.com/archusXIV/mpv-playlists-manag
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.2-6.png)
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
-First of, github mention this repository as a python project but MPM is whritten in bash,
-and python because I have pushed my ranger configurations files whritten in that language.
-
 This program is just a personal project, and I wrote it as a normy Linux user (it is simple),
 The goal is to manage self created playlists that mpv reads either online or from local files/directories.
 
