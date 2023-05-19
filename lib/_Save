@@ -58,11 +58,17 @@ _Save() {
 
     case "$1" in
         -a)
-            CURRENT="$AUDIO_INFO"
-            CURRENT_TITLE="$AUDIO_TITLE"
-            __NestedSaveCheck
-            rm -f $AUDIO_{INFO,TITLE} "$AUDIO_TITLE"_origin
-            __ReplaceSpaces
+            if [[ -f $AUDIO_INFO ]]; then
+                CURRENT="$AUDIO_INFO"
+                CURRENT_TITLE="$AUDIO_TITLE"
+                __NestedSaveCheck
+                rm -f $AUDIO_{INFO,TITLE} "$AUDIO_TITLE"_origin
+                __ReplaceSpaces
+            else
+                echo " ${critical}No links in the list${nc}"
+                sleep 2
+                _CopyAudio
+            fi
         ;;
         -q)
             CURRENT="$QUEUE"
@@ -72,11 +78,17 @@ _Save() {
             __ReplaceSpaces
         ;;
         -v)
-            CURRENT="$VIDEO_INFO"
-            CURRENT_TITLE="$VIDEO_TITLE"
-            __NestedSaveCheck
-            rm -f $VIDEO_{INFO,TITLE} "$VIDEO_TITLE"_origin
-            __ReplaceSpaces
+            if [[ -f $VIDEO_INFO ]]; then
+                CURRENT="$VIDEO_INFO"
+                CURRENT_TITLE="$VIDEO_TITLE"
+                __NestedSaveCheck
+                rm -f $VIDEO_{INFO,TITLE} "$VIDEO_TITLE"_origin
+                __ReplaceSpaces
+            else
+                echo " ${critical}No links in the list${nc}"
+                sleep 2
+                _CopyVideo
+            fi
         ;;
     esac
     _Menu
