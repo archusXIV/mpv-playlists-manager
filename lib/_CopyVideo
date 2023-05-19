@@ -53,7 +53,7 @@ _CopyVideo() {
             echo -e "                              │     2) Download current list      5) View current list      │"
             echo -e "                              │     3) Save playlist as           6) Back to main menu      │"
             echo -e "                              └─────────────────────────────────────────────────────────────┘"
-            echo -e "                                                    ${info}${b}Select an item${nb}${nc}"
+            echo -e "                                                     ${info}${b}Select an item${nb}${nc}"
             __
             read -rsn 1 options
             case "$options" in
