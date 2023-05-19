@@ -11,7 +11,7 @@ mpm -e # edit a playlist from a list
 mpm -l # launch the play/download function
 mpm -p # launch the load local function
 ```
-- Task are displayed in the main menu.
+- Tasks are displayed in the main menu.
 - Edit the configuration file via ~/.config/mpm/mpmrc,
 - in other words you can create your own function.
 - Usefull so you can alias those flags.
