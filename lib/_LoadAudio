@@ -16,7 +16,7 @@ _LoadAudio() {
         echo "${critical}Tip: You may want to put this in your mpv.conf:"
         printf '%s\n' "term-playing-msg='Tiltle: \${media-title}'"
         echo "Otherwise press I in mpv for more infos.${nc}"
-    __
+        __
     )
     
     case "$1" in
