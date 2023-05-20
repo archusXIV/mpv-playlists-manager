@@ -64,7 +64,7 @@ keep_none_empty_playlist="yes"
 # (will appear in main menu)
 automatic_audio_conversion="yes"
 
-# default audio conversion format {mp3,falc,wav,ogg},
+# default audio conversion format {mp3,flac,wav,ogg},
 # mp3 & ogg in 320k, flac & wav are lossless.
 # (will appear in main menu)
 default_conversion_format="mp3"
