@@ -58,7 +58,10 @@ case "$1" in
     -e) _EditPlaylist ;;
     -l) _LoadPlaylist ;;
     -p) _LoadLocal ;;
+    -v) echo "mpm $VERSION"; exit ;;
     -h|--help) cat | less << EOF
+
+    mpm "$VERSION"
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -71,17 +74,19 @@ case "$1" in
         . mpm -e: opens the playlist edition function
         . mpm -l: opens the playlist load (online) function
         . mpm -p: opens the playlist load (local) function
+        . mpm -v: echoes mpm version and exit
     After we are done, we are dropped in the main menu.
-    
+
     I) Main menu:
 
-                ┌─────────────────────────────────────────────────────────────┐
-                │  1) Create/Add video playlist    6) View default playlist   │
-                │  2) Create/Add audio playlist    7) Clear all tmp lists     │
-                │  3) Save tmp/Del collection      8) Edit a playlist         │
-                │  4) Play/Download a playlist     9) Edit mpm config (mpmrc) │
-                │  5) Load local dir/files         X) Exit                    │
-                └─────────────────────────────────────────────────────────────┘
+       ┌──────────────────────────────────────────────────────────────────────────────────────┐
+       │   1) Create/Add video playlist   6) View default playlist   │ Tasks for option 4):   │
+       │   2) Create/Add audio playlist   7) Clear all tmp lists     │ direct download: no    │
+       │   3) Save tmp/Del collection     8) Edit a playlist         │ conversion auto: yes   │
+       │   4) Play/Download a playlist    9) Edit mpm config (mpmrc) │ audio format:    mp3   │
+       │   5) Load local dir/files        X) Exit                    │ quit after task: yes   │
+       └──────────────────────────────────────────────────────────────────────────────────────┘
+                                          Select an item
 
 
     1) Create/Add video playlist:
@@ -137,12 +142,13 @@ case "$1" in
     9) Edit mpm config:
        We may want to edit this file for default directories & tasks preferences,
        and better quality or results with mpv.
+       After changing parameters they will appear in the main menu as: Tasks for option 4):
 
     II) audio/video files options:
 
                                       ::audio options::
                 ┌────────────────────────────────────────────────────────────┐
-                │     1) Add more audio links      4) Play current list      │
+                │     1) Add audio links           4) Play current list      │
                 │     2) Download current list     5) View current list      │
                 │     3) Save playlist as          6) Back to main menu      │
                 └────────────────────────────────────────────────────────────┘
