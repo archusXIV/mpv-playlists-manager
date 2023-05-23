@@ -5,6 +5,8 @@ _install() {
     cp -vf mpm /usr/local/bin
     mkdir -vp /usr/local/lib/mpm && \
     cp -vrf ./lib/* /usr/local/lib/mpm/
+    mkdir -p /usr/local/share/doc/mpm && \
+    cp -vf {help,mpmrc} /usr/local/share/doc/mpm
 
     mkdir -vp /usr/share/licenses/mpm && \
     cp -vf ./LICENSE /usr/share/licenses/mpm/LICENSE
@@ -20,6 +22,7 @@ _uninstall() {
     rm -vf /usr/local/bin/mpm
     rm -vrf /usr/local/lib/mpm
     rm -vrf /usr/share/licenses/mpm
+    rm -vrf /usr/local/share/doc/mpm
 
     printf '%s\n' "hope you liked it anyway..."
     printf '%s\n' "install.log created."
