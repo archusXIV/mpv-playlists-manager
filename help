@@ -1,4 +1,6 @@
-MPV-PLAYLISTS-MANAGER usage:
+mpm version 1.2-6
+
+    MPV-PLAYLISTS-MANAGER usage:
 
     !!! YOU CAN CHANGE MPM DIRECTORIES BY EDITING THE VARIABLES IN THE MPMRC FILE !!!
     By default "$HOME"/.local/share/
