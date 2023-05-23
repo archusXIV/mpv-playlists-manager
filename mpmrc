@@ -13,11 +13,11 @@
 ######### THE PLACE FOR YOUR PERSONAL SETTINGS #########
 #~~~~~ change the values, not the variables names ~~~~~#
 
-# shellcheck disable=SC2034
+# shellcheck disable=SC2034,SC2016
 
 ## prompts & messages colors
 # https://misc.flogisoft.com/bash/tip_colors_and_formatting
-nc=$'\e[0m';   # normal text
+nc=$'\e[0m';          # normal text
 critical=$'\e[0;31m'; # red (critical)
 info=$'\e[0;32m';     # green (info)
 task=$'\e[96m';       # cyan (tasks settings)
@@ -62,16 +62,16 @@ keep_none_empty_playlist="yes"
 
 # audio files (.webm) conversion.
 # (will appear in main menu)
-automatic_audio_conversion="yes"
+automatic_audio_conversion="no"
 
-# default audio conversion format {mp3,flac,wav,ogg},
+# default audio conversion format {mp3,falc,wav,ogg},
 # mp3 & ogg in 320k, flac & wav are lossless.
 # (will appear in main menu)
 default_conversion_format="mp3"
 
 # this takes place only after downloading/playing from a collection playlist.
 # (will appear in main menu)
-quit_after_task="yes"
+quit_after_task="no"
 
 ## MPV SPECIFICS
 # mpv audio playing command line
