@@ -67,6 +67,7 @@ automatic_audio_conversion="no"
 
 # default audio conversion format {mp3,falc,wav,ogg},
 # mp3 & ogg in 320k, flac & wav are lossless.
+# if value is 'no' you will be prompted.
 # (will appear in main menu)
 default_conversion_format="mp3"
 
