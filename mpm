@@ -1,0 +1,77 @@
+#!/bin/bash
+
+##    Author: Barret E (2021-23) <archus@protonmail.com>
+##    https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
+##    Dependencies: ffmpeg, jq, mpv, youtube-dl.
+##    Optionals: ranger, w3m, wmctrl
+##
+##    Youtube-dl is for now kind of unmaintained so install and make a symlink with
+##    https://github.com/yt-dlp/yt-dlp/releases
+##    sudo pacman -S yt-dlp youtube-dl
+##    ln -s /usr/bin/yt-dlp ~/.local/bin/youtube-dl (if ~/.local/bin is in your $PATH)
+##
+##    This script rips video urls from Youtube and so on.
+##    In our case we use ".m3u" files to store urls in and then be able
+##    to watch from the site itself or download videos or just the audio.
+##    We can save, remove or edit playlists, mpv.conf.
+##    It is recommanded to disable mpv cache for better results on direct streaming,
+##    or find a better cache parameter.
+
+# shellcheck disable=SC2034,SC2044,SC2086,SC2207,SC2154,SC2120,SC2119
+VERSION="v.1.2-7"
+
+## prompts blinking
+b=$'\e[5m';
+nb=$'\e[25m';
+
+# shellcheck source=/dev/null
+## First source our functions.
+for func in $(find /usr/local/lib/mpm -name "_*"); do
+    source "$func"
+done
+
+trap "_CleanTmpDir; exit" SIGTERM EXIT
+
+# avoids running multiple instances
+mpvmenu=$(basename $0)
+pids=($(pidof -x $mpvmenu))
+
+[[ ${#pids[@]} -gt 1 ]] && exit
+
+# creates a blank line
+__() { printf '\n'; }
+
+# shellcheck source=/dev/null
+## summon our personal settings
+source ~/.config/mpm/mpmrc
+
+supportedsites="https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md"
+QUEUE="$playlists_dir/default.m3u"
+YTOP="$tmp_dir/youtube-dl_output"
+FFOP="$tmp_dir/ffmpeg_output"
+AUDIO_INFO="$tmp_dir/AudioUrls.m3u"
+AUDIO_TITLE="$tmp_dir/AudioTitles"
+VIDEO_INFO="$tmp_dir/VideoUrls.m3u"
+VIDEO_TITLE="$tmp_dir/VideoTitles"
+CHOOSE1="$playlists_dir/ChooseFrom1.m3u"
+CHOOSE2="$playlists_dir/ChooseFrom2.m3u"
+HELP="/usr/local/share/doc/mpm/help"
+
+_LaunchMpn() {
+    _Prompt " ${info}Launch mpm? ${nc}" || {
+        exit
+    }
+    _CheckDependencies "${@}"
+}
+
+case "$1" in
+    -c) $EDITOR ~/.config/mpm/mpmrc && _LaunchMpn ;;
+    -e) _EditPlaylist ;;
+    -l) _LoadPlaylist ;;
+    -p) _LoadLocal ;;
+    -v) echo "mpm $VERSION" && _LaunchMpn ;;
+    -h|--help) less "$HELP" && _LaunchMpn ;;
+esac
+
+_CheckDependencies "${@}"
+
