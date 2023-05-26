@@ -39,7 +39,7 @@ _LoadLocal() {
     case "$choice" in
         a|A)
             __
-            echo -e " ${info}Load a directory [D] or file [F] ?: ${nc}\n"
+            echo -e " ${info}Load a [D]irectory or [F]ile(s)?: ${nc}\n"
             read -rsn 1 audio
             case "$audio" in
                 d|D)
