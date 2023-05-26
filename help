@@ -9,6 +9,7 @@ mpm version 1.2-7
     We possibly use some options to directly edit, load a playlist:
         . mpm -c: opens ~/.config/mpm/mpmrc
         . mpm -e: opens the playlist edition function
+        . mpm -h: launch less /usr/local/share/doc/mpm/help
         . mpm -l: opens the playlist load (online) function
         . mpm -p: opens the playlist load (local) function
         . mpm -v: echoes mpm version and exit
