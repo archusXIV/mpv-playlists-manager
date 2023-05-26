@@ -4,7 +4,7 @@ Video (french spoken) link: https://www.youtube.com/watch?v=7OWO1vRL77A
 ```
 user@linux ~ $ mpm --help
 ```
-## New in version 1.2-7: new menu
+## New in version 1.2-7
 Mostly code refactoring.
 ```
 mpm -c # edit mpm config
