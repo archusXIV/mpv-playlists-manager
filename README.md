@@ -9,9 +9,9 @@ Mostly code refactoring.
 ```
 mpm -c # edit mpm config
 mpm -e # edit a playlist from a list
-mpm -h # launch less /usr/local/share/doc/mpm/help
-mpm -l # launch the play/download function
-mpm -p # launch the load local function
+mpm -h # launches less /usr/local/share/doc/mpm/help
+mpm -l # launches the play/download function
+mpm -p # launches the load local function
 mpm -v # prints mpm version
 ```
 - Tasks are displayed in the main menu.
