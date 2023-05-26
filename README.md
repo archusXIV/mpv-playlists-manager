@@ -4,7 +4,8 @@ Video (french spoken) link: https://www.youtube.com/watch?v=7OWO1vRL77A
 ```
 user@linux ~ $ mpm --help
 ```
-## New in version 1.2-6: new menu
+## New in version 1.2-7: new menu
+Mostly code refactoring.
 ```
 mpm -c # edit mpm config
 mpm -e # edit a playlist from a list
@@ -20,8 +21,8 @@ mpm -v # prints mpm version
 - Direct download or format selection in the _LoadPlaylist function when choosing few links.
 
 Please check the [README_FIRST](https://github.com/archusXIV/mpv-playlists-manager/blob/main/README_FIRST) before first run.
-## version 1.2-6 main screen.
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.2-6.png)
+## version 1.2-7 main screen.
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.2-7.png)
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
 This program is just a personal project, and I wrote it as a normy Linux user (it is simple),
