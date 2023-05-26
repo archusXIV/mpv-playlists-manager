@@ -1,0 +1,78 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_ConvertAudio() {
+
+    cd "$audios_dir" || exit 1
+
+    __mp3() (
+        echo " ${info}Converting files in ${task}mp3${b}...${nb}${nc}"
+        find . -iname "*.webm" -exec \
+        bash -c 'FILE="$1"; \
+            ffmpeg -i "${FILE}" \
+            -acodec libmp3lame -ar 48000 -ab 320k \
+            -y "${FILE%.webm}.mp3";' _ '{}' \; 2>"$FFOP"
+    )
+
+    __flac() (
+        echo " ${info}Converting files in ${task}flac${b}...${nb}${nc}"
+        find . -iname "*.webm" -exec \
+        bash -c 'FILE="$1"; \
+            ffmpeg -i "${FILE}" \
+            -af aformat=s32:48000 \
+            -y "${FILE%.webm}.flac";' _ '{}' \; 2>"$FFOP"
+    )
+
+    __wav() (
+        echo " ${info}Converting files in ${task}wav${b}...${nb}${nc}"
+        find . -iname "*.webm" -exec \
+        bash -c 'FILE="$1"; \
+            ffmpeg -i "${FILE}" \
+            -acodec pcm_s32le -ar 48000 \
+            -y "${FILE%.webm}.wav";' _ '{}' \; 2>"$FFOP"
+    )
+
+    __ogg() (
+        echo " ${info}Converting files in ${task}ogg${b}...${nb}${nc}"
+        find . -iname "*.webm" -exec \
+        bash -c 'FILE="$1"; \
+            ffmpeg -i "${FILE}" \
+            -acodec libvorbis -ar 48000 -ab 320k \
+            -y "${FILE%.webm}.ogg";' _ '{}' \; 2>"$FFOP"
+    )
+
+    __FormatSelection() {
+        read -rn1 -p "${info}"' Select an output format [1 = mp3] [2 = flac] [3 = wav] [4 = ogg]: '"${nc}" conv
+        __
+        case "$conv" in
+            1) __mp3 ;;
+            2) __flac ;;
+            3) __wav ;;
+            4) __ogg ;;
+            *)
+                echo " ${critical}UNKNOWN FORMAT !!! Try again.${nc}"
+                sleep 3s
+                clear
+                _Menu
+            ;;
+        esac
+    }
+
+    if [[ -n $default_conversion_format ]]; then
+        __
+        printf '%s\n' " ${task}Default format set to $default_conversion_format.${nc}"
+        __"$default_conversion_format"
+    else
+        __
+        printf '%s\n' " ${task}Default format disabled.${nc}"
+        __
+        __FormatSelection
+    fi
+
+    rm ./*.webm
+    echo " ${info}Conversion done.${nc}"
+    sleep 2
+
+}
+

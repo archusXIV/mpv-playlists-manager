@@ -1,0 +1,112 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2013,SC2154,SC2143,SC2076
+
+_ChooseDownloadAudio() {
+    cd "$playlists_dir" || exit 1
+    clear
+    _TitlesListCompare
+
+    cp -f "$list" "$list"_origin 2>/dev/null
+
+    IFS=","; read -ra array \
+    -p " Enter links separeted by comma, eg: 3,1,5: "
+    clear
+    cd "$audios_dir" || exit 1
+
+    local counter="${#array[*]}"
+
+    __IfNoBestWebm() (
+        youtube-dl -F --no-warnings "$url"
+        echo " ${info}Choose a format code: ${nc}"
+        read -r code
+        clear
+        __
+        printf '%s\n' " ${info}Total downloads: $counter${nc}"
+        sleep 0.5
+        youtube-dl -f "$code" --no-warnings --progress "$url"
+    )
+
+    for i in "${array[@]}"; do
+        ((i++))
+        url=$(sed -n "${i}p" "$playlists_dir"/"$list")
+        echo "$url" >> "$CHOOSE1"
+        if [[ $direct_download = yes ]] && \
+            [[ $(youtube-dl -F --no-warnings "$url" | grep 251) ]]; then
+            printf '%s\n' " ${task}Direct download enabled.${nc}"
+            __
+            printf '%s\n' " ${info}Downloading $counter file(s).${nc}"
+            youtube-dl -f 251 --no-warnings --progress "$url"
+        elif [[ $direct_download = yes ]]; then
+            printf '%s\n' " ${task}Direct download enabled.${nc}"
+            __
+            printf '%s\n' " ${info}Total downloads: $counter${nc}"
+            youtube-dl --no-warnings --progress "$url"
+        elif [[ $direct_download = no ]] && [[ $url =~ 'youtube.com' ]]; then
+            __
+            printf '%s\n' " ${task}Direct download disabled.${nc}"
+            __
+            youtube-dl -F --no-warnings "$url" | sed -n '
+            1,5d;6,7p;/audio only/p' | sed '/^sb2/d' 2>/dev/null
+            __
+            echo " ${info}Choose a format code: ${nc}"
+            read -r code
+            clear
+            __
+            printf '%s\n' " ${info}Total downloads: $counter${nc}"
+            youtube-dl -f "$code" --no-warnings --progress "$url"
+        else
+            __IfNoBestWebm
+        fi
+        ((counter--))
+        clear
+    done
+
+    cd "$playlists_dir" || exit 1
+    # let's remove downloaded links from the original file
+    # and sending the other ones in a second temporary file...
+    for line in $(grep '^https' "$CHOOSE1"); do
+        grep -v "${line}" "$list" >> "$CHOOSE2"
+    done
+
+    # ...that we now rename with the original file name.
+    mv -f "$CHOOSE2" "$list"
+    rm "$CHOOSE1"
+
+    # if we don't unset IFS other functions will be messed up!
+    unset IFS
+
+    clear
+
+    echo -e " ${info}Done${nc}\n"
+    echo -e " ${task}Updating titles...${b}please wait.${nb}${nc}\n"
+    _GetMediaTitle -l > "$titles_dir"/"$list".titles
+    clear
+
+    cd "$audios_dir" || exit 1
+
+    if [[ -n $(find . -iname "*.webm") ]]; then
+        echo " ${critical}ADVISORY: if you choose conversion, all downloaded files"
+        echo -e " will be converted in the chosen format.${nc}\n"
+        find . -iname "*.webm" | sed 's,.*/,,'
+
+        if [[ $automatic_audio_conversion = yes ]]; then
+            __
+            printf '%s\n' " ${task}Automatic audio conversion enabled.${nc}"
+            sleep 2
+            _ConvertAudio && _DownloadCompleted
+        else
+            __
+            _Prompt " ${info}Do you wish to convert them?: ${nc}" || {
+                _DownloadCompleted
+            }
+            _ConvertAudio && _DownloadCompleted
+        fi
+
+    else
+        _DownloadCompleted
+    fi
+
+}
+
