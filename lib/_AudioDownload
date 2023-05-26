@@ -99,26 +99,25 @@ _AudioDownload() {
             __
             printf '%s\n' " ${task}Automatic audio conversion enabled.${nc}"
             sleep 2
-            [[ $M3UFILE = "$AUDIO_INFO" ]] && _ConvertAudio && _GetCompleted -a
+            [[ $M3UFILE = "$AUDIO_INFO" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+            && _ConvertAudio && _GetCompleted -a
             [[ $M3UFILE = "$playlists_dir"/"$list" ]] && _ConvertAudio && _DownloadCompleted
-            [[ $M3UFILE = "$QUEUE" ]] && _ConvertAudio && _GetCompleted -a
         else
             __
             _Prompt " ${info}Do you wish to convert them?: ${nc}" || {
-                [[ $M3UFILE = "$AUDIO_INFO" ]] && _GetCompleted -a
+                [[ $M3UFILE = "$AUDIO_INFO" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+                && _GetCompleted -a
                 [[ $M3UFILE = "$playlists_dir"/"$list" ]] && _DownloadCompleted
-                [[ $M3UFILE = "$QUEUE" ]] && _GetCompleted -a
             }
-            [[ $M3UFILE = "$AUDIO_INFO" ]] && _ConvertAudio && _GetCompleted -a
+            [[ $M3UFILE = "$AUDIO_INFO" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+            && _ConvertAudio && _GetCompleted -a
             [[ $M3UFILE = "$playlists_dir"/"$list" ]] && _ConvertAudio && _DownloadCompleted
-            [[ $M3UFILE = "$QUEUE" ]] && _ConvertAudio && _GetCompleted -a
         fi
 
     else
-        [[ $M3UFILE = "$AUDIO_INFO" ]] && _GetCompleted -a
+        [[ $M3UFILE = "$AUDIO_INFO" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+        && _GetCompleted -a
         [[ $M3UFILE = "$playlists_dir"/"$list" ]] && _DownloadCompleted
-        [[ $M3UFILE = "$QUEUE" ]] && _GetCompleted -a
     fi
 
 }
-
