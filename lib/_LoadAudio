@@ -6,10 +6,6 @@ _LoadAudio() {
     # change mpv settings in ~/.config/mpmrc
     local M3UFILE
 
-    __QuitAfterListening() {
-        [[ $quit_after_task = yes ]] && exit || _Menu
-    }
-
     __AdviceAudio() (
         clear
         __; rm -f "$tmp_dir"/download 2>/dev/null
@@ -19,6 +15,7 @@ _LoadAudio() {
         __
     )
 
+    # change mpv settings in ~/.config/mpm/mpmrc
     case "$1" in
         -a)
             if [[ -f $AUDIO_INFO ]]; then
@@ -39,13 +36,13 @@ _LoadAudio() {
             __AdviceAudio
             _MpvAudioOptions
             rm "$CHOOSE1"
-            __QuitAfterListening
+            [[ $quit_after_task = yes ]] && exit || _Menu
         ;;
         -l)
             M3UFILE="$list"
             __AdviceAudio
             _MpvAudioOptions
-            __QuitAfterListening
+            [[ $quit_after_task = yes ]] && exit || _Menu
         ;;
         -q)
             M3UFILE="$QUEUE"
@@ -56,4 +53,3 @@ _LoadAudio() {
     esac
 
 }
-
