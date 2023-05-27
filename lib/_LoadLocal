@@ -24,7 +24,7 @@ _LoadLocal() {
 
     # the select loop won't display the correct directories names
     # if white spaces exist, so we are forced to use this "dirthack"
-    _ReplaceSpaces() (
+    _ReplaceSpacesDirs() (
         find "$AUDIOS" "$VIDEOS" -maxdepth 1 \
         -type d -name "* *" -exec \
         bash -c '
@@ -34,7 +34,7 @@ _LoadLocal() {
             done >/dev/null 2>&1
         ' dummy {} +
     )
-
+    
     read -rsn 1 -p "${info}"' Type of media, [A]udio or [V]ideo ?: '"${nc}" choice
     case "$choice" in
         a|A)
@@ -43,8 +43,11 @@ _LoadLocal() {
             read -rsn 1 audio
             case "$audio" in
                 d|D)
-                    _ReplaceSpaces
-                    PS3=""$'\n'"${info}Select a directory:${nc} "
+                    _ReplaceSpacesDirs
+                    clear
+                    __
+                    echo -e " ${info}Directories in $AUDIOS: ${nc}\n"
+                    PS3=""$'\n'"${info}Your selection number: ${nc}"
                     select dir in $(find -L "$AUDIOS" -maxdepth 1 -type d -not -name \
                         "$zic" | sort | sed 's,.*/,,'); do
                         if [[ $(find "$AUDIOS"/"$dir" -type d -empty) ]]; then
@@ -73,13 +76,16 @@ _LoadLocal() {
             esac
         ;;
         v|V)
-            _ReplaceSpaces
             __
-            echo -e " ${info}Load a directory [D] or file (using ranger) [F] ?: ${nc}\n"
+            echo -e " ${info}Load a [D]irectory or [F]ile (using ranger)?: ${nc}\n"
             read -rsn 1 video
             case "$video" in
                 d|D)
-                    PS3=" Select a directory: "
+                    _ReplaceSpacesDirs
+                    clear
+                    __
+                    echo -e " ${info}Directories in $VIDEOS: ${nc}\n"
+                    PS3=""$'\n'"${info}Your selection number: ${nc}"
                     select dir in $(find -L "$VIDEOS" -maxdepth 1 -not -name \
                         "$vid" | sort | sed 's,.*/,,;s,Garam,,'); do
                         if [[ $(find "$VIDEOS"/"$dir" -type d -empty) ]]; then
@@ -109,4 +115,3 @@ _LoadLocal() {
     esac
 
 }
-
