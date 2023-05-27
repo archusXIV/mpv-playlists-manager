@@ -75,6 +75,40 @@ default_conversion_format="mp3"
 # (will appear in main menu)
 quit_after_task="no"
 
+## FFMPEG SPECIFICS (audio conversion)
+# !!! You can change ffmpeg audio codec command line settings !!!
+function _mp3 {
+    find . -iname "*.webm" -exec \
+    bash -c 'FILE="$1"; \
+        ffmpeg -i "${FILE}" \
+        -acodec libmp3lame -ar 48000 -ab 320k \
+        -y "${FILE%.webm}.mp3";' _ '{}' \; 2>"$FFOP"
+}
+
+function _flac {
+    find . -iname "*.webm" -exec \
+    bash -c 'FILE="$1"; \
+        ffmpeg -i "${FILE}" \
+        -af aformat=s32:48000 \
+        -y "${FILE%.webm}.flac";' _ '{}' \; 2>"$FFOP"
+}
+
+function _wav {
+    find . -iname "*.webm" -exec \
+    bash -c 'FILE="$1"; \
+        ffmpeg -i "${FILE}" \
+        -acodec pcm_s32le -ar 48000 \
+        -y "${FILE%.webm}.wav";' _ '{}' \; 2>"$FFOP"
+}
+
+function _ogg {
+    find . -iname "*.webm" -exec \
+    bash -c 'FILE="$1"; \
+        ffmpeg -i "${FILE}" \
+        -acodec libvorbis -ar 48000 -ab 320k \
+        -y "${FILE%.webm}.ogg";' _ '{}' \; 2>"$FFOP"
+}
+
 ## MPV SPECIFICS
 # mpv audio playing command line
 function _MpvAudioOptions {
@@ -96,4 +130,3 @@ function _MpvVideoOptions {
     --term-playing-msg='Title: ${media-title}' \
     --ytdl-format='299+251/298+251/137+251/136+251/best' "$M3UFILE"
 }
-
