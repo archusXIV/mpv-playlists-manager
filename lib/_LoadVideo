@@ -6,10 +6,6 @@ _LoadVideo() {
 
     local M3UFILE
 
-     __QuitAfterWatching() {
-        [[ $quit_after_task = yes ]] && exit || _Menu
-    }
-
     case "$1" in
         -c) M3UFILE="$CHOOSE1" ;;
         -l) M3UFILE="$list" ;;
@@ -30,7 +26,7 @@ _LoadVideo() {
     printf '%s\n' "term-playing-msg='Tiltle: \${media-title}'"
     echo -e "Otherwise press I in mpv for more infos.${nc}\n"
     __
-    # change mpv settings in ~/.config/mpmrc
+    # change mpv settings in ~/.config/mpm/mpmrc
     _MpvVideoOptions
 
     if [[ -f "$VIDEO_INFO" ]]; then
@@ -51,11 +47,10 @@ _LoadVideo() {
         __
     elif [[ -f $CHOOSE1 ]]; then
         rm -f "$CHOOSE1" "$list"_origin 2>/dev/null
-        __QuitAfterWatching
+        [[ $quit_after_task = yes ]] && exit || _Menu
     else
         rm -f "${TMP[@]}" 2>/dev/null
-        __QuitAfterWatching
+        [[ $quit_after_task = yes ]] && exit || _Menu
     fi
     _Menu
 }
-
