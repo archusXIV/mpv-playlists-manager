@@ -14,6 +14,7 @@ mpm -l # launches the play/download function
 mpm -p # launches the load local function
 mpm -v # prints mpm version
 ```
+- mpv & ffmpeg editable settings.
 - Tasks are displayed in the main menu.
 - Edit the configuration (mpmrc) frome the main menu.
  (you can create your own function).
