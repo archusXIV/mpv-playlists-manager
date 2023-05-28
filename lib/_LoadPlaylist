@@ -4,21 +4,23 @@
 # shellcheck disable=SC2154
 _LoadPlaylist() {
     cd "$playlists_dir" || exit 1
-    if [[ -z $(find . -type f -iname "*.m3u") ]]; then
+
+    if [[ -z $(find . -type f -not -name "default.m3u" -iname "*.m3u") ]]; then
         printf '%s\n' " ${critical}No playlist found!${nc}" \
         " ${task}First make a temporary list using options 1 or 2," \
         " save it as wathever you like, then come back to play/download it.${nc}"
-        sleep 12 && _Menu
+        sleep 10 && _Menu
     fi
+    
     clear
+    touch 1_Back_to_menu
     __
-    echo " ${info}If you have changed your mind,"
-    echo " first select a playlist then [B]ack to menu option.${nc}"
-    __
-
-    PS3=""$'\n'"${info}Select a playlist to load:${nc} "
+    
+    PS3=""$'\n'"${info}Select a playlist to load or hit 1) for main menu:${nc} "
     select list in $(find . -type f  -not -name "default.m3u" \
     | sort -d | sed 's,.*/,,'); do
+
+        [[ $list = 1_Back_to_menu ]] && rm 1_Back_to_menu && break
 
         if [[ $(_GetLinesList -l) -eq 0 ]]; then
             echo " ${critical}No links found in $list (empty or does not contains #EXTM3U header)."
@@ -27,14 +29,14 @@ _LoadPlaylist() {
             break
         fi
 
+        rm 1_Back_to_menu
         clear
         __
         printf '%s\n' " ${info}Choose an option for${nc} $list:"
         __
-        read -rn1 -p "${info}"' [B]ack to menu, [D]ownload, [P]lay, [V]iew titles: '"${nc}" submenu
+        read -rn1 -p "${info}"' [D]ownload, [P]lay, [V]iew titles: '"${nc}" submenu
         __
         case "$submenu" in
-            b|B) _Menu ;;
             d|D) _LoadPlaylistMenu ;;
             p|P) _ChooseFromPlay ;;
             v|V)
@@ -64,4 +66,3 @@ _LoadPlaylist() {
 
     done
 }
-
