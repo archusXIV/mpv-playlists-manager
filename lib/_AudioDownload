@@ -36,6 +36,7 @@ _AudioDownload() {
             TITLES="$tmp_dir"/DefaultTitles
             cp -f "$QUEUE" "$QUEUE"_origin 2>/dev/null
             cp -f "$tmp_dir"/DefaultTitles "$tmp_dir"/DefaultTitles_origin
+        ;;
     esac
 
     clear
