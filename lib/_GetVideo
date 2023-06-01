@@ -30,6 +30,7 @@ _GetVideo() {
             TITLES="$VIDEO_TITLE"
             cp -f "$M3UFILE" "$M3UFILE"_origin 2>/dev/null
             cp -f "$TITLES" "$TITLES"_origin
+        ;;
     esac
 
     clear
