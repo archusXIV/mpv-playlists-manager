@@ -75,7 +75,7 @@ mpm version 1.2-7
 
     8) Edit a playlist:
        Here is the place where by editing our collection we can add or remove links
-       directly or afterward. Vim is set as the EDITOR (change it if you will).
+       directly or afterward. Vim is set as the MPMEDITOR (change it if you will).
 
     9) Edit mpm config:
        We may want to edit this file for default directories & tasks preferences,
@@ -98,5 +98,5 @@ mpm version 1.2-7
     infos (titles) about the links and a prompt will present the same options as in the menu,
     but now [R]emoving the specific file is available...
 
-    Author: Barret E (2022) <archus@protonmail.com>
+    Author: Barret E (2023) <archus@protonmail.com>
     https://github.com/archusXIV/mpv-playlists-manager
