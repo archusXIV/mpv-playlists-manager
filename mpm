@@ -65,7 +65,7 @@ _LaunchMpn() {
 }
 
 case "$1" in
-    -c) $EDITOR ~/.config/mpm/mpmrc && _LaunchMpn ;;
+    -c) $MPMEDITOR ~/.config/mpm/mpmrc && _LaunchMpn ;;
     -e) _EditPlaylist ;;
     -l) _LoadPlaylist ;;
     -p) _LoadLocal ;;
