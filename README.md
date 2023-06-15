@@ -66,7 +66,7 @@ Requests and contributions? Why not, have fun.
 - [mpv](https://mpv.io/)
 - [ranger](https://github.com/ranger/ranger) (optional, see the help  option for details)
 - [ueberzug](https://github.com/seebye/ueberzug) (optional) might be in your distro repo
-- [vim](https://www.vim.org/) (set as the EDITOR)
+- [vim](https://www.vim.org/) (set as the MPMEDITOR)
 - [w3m](https://w3m.sourceforge.net/) (optional)
 - [wmctrl](https://www.freedesktop.org/wiki/Software/wmctrl/) (optional)
 - [youtube-dl](https://youtube-dl.org/)
