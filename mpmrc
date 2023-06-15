@@ -27,7 +27,7 @@ mtitle=$'\e[33m';     # yellow (menus title)
 : "${XDG_DATA_HOME:-$HOME/.local/share}"
 
 ## default editor
-EDITOR=${VISUAL:-vim}
+MPMEDITOR=${VISUAL:-vim}
 
 ## default file manager (can be any terminal file manager)
 ## used in option 5) Load local dir/files
