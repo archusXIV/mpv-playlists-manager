@@ -30,7 +30,7 @@ _CheckDependencies() {
     ## summon our personal settings
     source ~/.config/mpm/mpmrc
 
-    [[ -z $EDITOR ]] && {
+    [[ -z $MPMEDITOR ]] && {
         printf '%s\n' " ${critical}The config EDITOR is not set...exiting!${nc}"
         notify-send -t 0 -u critical "The config EDITOR is not set...exiting!"
         exit 1
