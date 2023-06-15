@@ -22,9 +22,8 @@ _CheckDependencies() {
     done
 
     [[ ! -f ~/.config/mpm/mpmrc ]] && {
-        printf '%s\n' " ${critical}No config file found...exiting!${nc}"
-        notify-send -t 0 -u critical "No config file found...exiting!"
-        exit 1
+        mkdir -p ~/.config/mpm
+        cp /usr/local/share/doc/mpm/mpmrc ~/.config/mpm/mpmrc
     }
 
     # shellcheck source=/dev/null
@@ -38,7 +37,7 @@ _CheckDependencies() {
     }
 
     [[ -z $(command -v "$FILEMANAGER") ]] && {
-        printf '%s\n' " ${critical}Consider installing a file manager.${nc}"
+        printf '%s\n' " ${critical}Consider installing a terminal file manager.${nc}"
         sleep 3s
     }
 
