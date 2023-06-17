@@ -41,6 +41,11 @@ pids=($(pidof -x $mpvmenu))
 # creates a blank line
 __() { printf '\n'; }
 
+[[ ! -f ~/.config/mpm/mpmrc ]] && {
+    mkdir -p ~/.config/mpm
+    cp /usr/local/share/doc/mpm/mpmrc ~/.config/mpm/mpmrc
+}
+
 # shellcheck source=/dev/null
 ## summon our personal settings
 source ~/.config/mpm/mpmrc
@@ -74,4 +79,3 @@ case "$1" in
 esac
 
 _CheckDependencies "${@}"
-
