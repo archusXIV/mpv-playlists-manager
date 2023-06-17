@@ -21,15 +21,6 @@ _CheckDependencies() {
         }
     done
 
-    [[ ! -f ~/.config/mpm/mpmrc ]] && {
-        mkdir -p ~/.config/mpm
-        cp /usr/local/share/doc/mpm/mpmrc ~/.config/mpm/mpmrc
-    }
-
-    # shellcheck source=/dev/null
-    ## summon our personal settings
-    source ~/.config/mpm/mpmrc
-
     [[ -z $MPMEDITOR ]] && {
         printf '%s\n' " ${critical}The config EDITOR is not set...exiting!${nc}"
         notify-send -t 0 -u critical "The config EDITOR is not set...exiting!"
