@@ -4,13 +4,17 @@
 # shellcheck disable=SC2154
 _ConvertAudio() {
 
-    cd "$audios_dir" || exit 1
+    if [[ -d "$audios_dir"/"$listdirname" ]]; then
+        cd "$audios_dir"/"$listdirname"
+    else
+        cd "$audios_dir" || exit 1
+    fi
 
     if [[ -n $default_conversion_format ]]; then
         __
         printf '%s\n' " ${task}Default format set to $default_conversion_format.${nc}"
         __
-        echo " ${info}Converting files in ${task}$default_conversion_format${b}...${nb}${nc}"
+        printf '%s\n' " ${info}Converting files in ${task}$default_conversion_format${b}...${nb}${nc}"
         _"$default_conversion_format"
     else
         # functions _mp3 _flac _wav & _ogg are in ~/.config/mpm/mpmrc
@@ -22,16 +26,20 @@ _ConvertAudio() {
         case "$conv" in
             1) 
                 echo " ${info}Converting files in ${task}mp3${b}...${nb}${nc}"
-                _mp3 ;;
+                _mp3
+            ;;
             2) 
                 echo " ${info}Converting files in ${task}flac${b}...${nb}${nc}"
-                _flac ;;
+                _flac
+            ;;
             3) 
                 echo " ${info}Converting files in ${task}wav${b}...${nb}${nc}"
-                _wav ;;
+                _wav
+            ;;
             4) 
                 echo " ${info}Converting files in ${task}ogg${b}...${nb}${nc}"
-                _ogg ;;
+                _ogg
+            ;;
             *)
                 echo " ${critical}UNKNOWN FORMAT !!! Try again.${nc}"
                 sleep 3s
