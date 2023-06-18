@@ -22,7 +22,7 @@ mpm -v # prints mpm version
 - Direct download or format selection in the _LoadPlaylist function when choosing few links.
 
 Please check the [README_FIRST](https://github.com/archusXIV/mpv-playlists-manager/blob/main/README_FIRST) before first run.
-## version 1.2-7 main screen.
+## version 1.2-8 main screen.
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.2-7.png)
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
