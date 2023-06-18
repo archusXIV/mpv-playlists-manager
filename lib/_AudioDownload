@@ -85,14 +85,13 @@ _AudioDownload() {
 
         if [[ $M3UFILE = "$AUDIO_INFO" ]]; then
             sed -i '1d' {"$M3UFILE","$TITLES"}
-            ((counter--))
-            clear
         else
             sed -i '2d' "$M3UFILE"
             sed -i '1d' "$TITLES"
-            ((counter--))
-            clear
         fi
+
+        ((counter--))
+        clear
 
     done
 
