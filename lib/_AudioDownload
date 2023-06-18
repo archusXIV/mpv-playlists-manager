@@ -4,7 +4,7 @@
 # shellcheck disable=SC2013,SC2154,2143
 _AudioDownload() {
 
-    local counter M3UFILE TITLES
+    local counter M3UFILE TITLES listdirname
 
     case "$1" in
         -a)
@@ -24,6 +24,8 @@ _AudioDownload() {
             M3UFILE="$playlists_dir"/"$list"
             TITLES="$titles_dir"/"$list".titles
             cp -f "$list" "$list"_origin 2>/dev/null
+            listdirname="${list%.*}"
+            mkdir -p "$audios_dir"/"$listdirname"
         ;;
         -q)
             if [[ ! -f "$tmp_dir"/DefaultTitles ]]; then
@@ -57,8 +59,13 @@ _AudioDownload() {
         }
     )
 
-    for audiodownloadurl in $(grep '^https' "$M3UFILE"); do
+    if [[ -d "$audios_dir"/"$listdirname" ]]; then
+        cd "$audios_dir"/"$listdirname"
+    else
         cd "$audios_dir" || exit 1
+    fi
+
+    for audiodownloadurl in $(grep '^https' "$M3UFILE"); do
         if [[ $(youtube-dl -F --no-warnings "$audiodownloadurl" \
             | sed -n '/audio only/p' | grep 251) ]]; then
             __
