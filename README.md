@@ -4,8 +4,8 @@ Older version but still valide video (french spoken) link: https://www.youtube.c
 ```
 user@linux ~ $ mpm --help
 ```
-## New in version 1.2-7
-Mostly code refactoring.
+## New in version 1.2-8
+When downloading a complete playlist, a subdirectory named as the playlist will be created.
 ```
 mpm -c # edit mpm config
 mpm -e # edit a playlist from a list
