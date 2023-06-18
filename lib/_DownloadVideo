@@ -10,7 +10,7 @@ _DownloadVideo() {
 
     clear
     cp -f "$list" "$list"_origin 2>/dev/null
-    newdirname="${list%.*}"
+    listdirname="${list%.*}"
     mkdir -p "$videos_dir"/"$listdirname"
 
     __DirectVideoDownload() (
