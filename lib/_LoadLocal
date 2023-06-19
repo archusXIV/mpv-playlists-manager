@@ -87,7 +87,7 @@ _LoadLocal() {
                     echo -e " ${info}Directories in $VIDEOS: ${nc}\n"
                     PS3=""$'\n'"${info}Your selection number: ${nc}"
                     select dir in $(find -L "$VIDEOS" -maxdepth 1 -not -name \
-                        "$vid" | sort | sed 's,.*/,,;s,Garam,,'); do
+                        "$vid" | sort | sed 's,.*/,,'); do
                         if [[ $(find "$VIDEOS"/"$dir" -type d -empty) ]]; then
                             __
                             echo " ${critical}$dir is empty. Wait and try again...${nc}"
