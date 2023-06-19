@@ -16,7 +16,6 @@ _install() {
     chmod 755 /usr/local/bin/mpm
 
     printf '%s\n' "for usage run: mpm --help"
-    printf '%s\n' "install.log created."
 }
 
 _uninstall() {
@@ -26,10 +25,8 @@ _uninstall() {
     rm -vrf /usr/local/share/doc/mpm
 
     printf '%s\n' "hope you liked it anyway..."
-    printf '%s\n' "install.log created."
 }
 
-{
 date
 printf '\n'
 if [ -x /usr/local/bin/mpm ] && [ -d /usr/local/lib/mpm ]; then
@@ -53,5 +50,3 @@ if [ -x /usr/local/bin/mpm ] && [ -d /usr/local/lib/mpm ]; then
 else
     _install
 fi
-} > install.log
-
