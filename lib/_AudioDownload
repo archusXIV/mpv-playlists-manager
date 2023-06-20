@@ -24,8 +24,7 @@ _AudioDownload() {
             M3UFILE="$playlists_dir"/"$list"
             TITLES="$titles_dir"/"$list".titles
             cp -f "$list" "$list"_origin 2>/dev/null
-            listdirname="${list%.*}"
-            mkdir -p "$audios_dir"/"$listdirname"
+            mkdir -p "$audios_dir"/"${list%.*}"
         ;;
         -q)
             if [[ ! -f "$tmp_dir"/DefaultTitles ]]; then
@@ -59,8 +58,8 @@ _AudioDownload() {
         }
     )
 
-    if [[ -d "$audios_dir"/"$listdirname" ]]; then
-        cd "$audios_dir"/"$listdirname"
+    if [[ -d "$audios_dir"/"${list%.*}" ]]; then
+        cd "$audios_dir"/"${list%.*}"
     else
         cd "$audios_dir" || exit 1
     fi
