@@ -4,8 +4,8 @@
 # shellcheck disable=SC2154
 _ConvertAudio() {
 
-    if [[ -d "$audios_dir"/"$listdirname" ]]; then
-        cd "$audios_dir"/"$listdirname"
+    if [[ -d "$audios_dir"/"${list%.*}" ]]; then
+        cd "$audios_dir"/"${list%.*}"
     else
         cd "$audios_dir" || exit 1
     fi
