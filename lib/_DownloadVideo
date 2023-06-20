@@ -5,13 +5,12 @@
 _DownloadVideo() {
     cd "$playlists_dir" || exit 1
 
-    local counter listdirname
+    local counter
     counter=$(grep -v -c '#EXTM3U' "$list")
 
     clear
     cp -f "$list" "$list"_origin 2>/dev/null
-    listdirname="${list%.*}"
-    mkdir -p "$videos_dir"/"$listdirname"
+    mkdir -p "$videos_dir"/"${list%.*}"
 
     __DirectVideoDownload() (
         __
@@ -20,7 +19,7 @@ _DownloadVideo() {
         mapfile -t DIRECT < <(grep -v '#EXTM3U' "$list")
 
         for line in "${DIRECT[@]}"; do
-            cd "$videos_dir"/"$listdirname" || exit 1
+            cd "$videos_dir"/"${list%.*}" || exit 1
             printf '%s\n' " ${info}Downloading $counter file(s)." \
             " Downloading $(_GetLinkTitle -l):${nc}"
             [[ $line =~ 'youtube.com' ]] && {
@@ -48,7 +47,7 @@ _DownloadVideo() {
         s|S)
             for downvideourl in $(grep -v '#EXTM3U' "$list"); do
                 clear
-                cd "$videos_dir"/"$listdirname" || exit 1
+                cd "$videos_dir"/"${list%.*}" || exit 1
                 __
                 echo " ${info}Codes for $(_GetLinkTitle -l):${nc}"
                 youtube-dl -F --no-warnings "$downvideourl"
