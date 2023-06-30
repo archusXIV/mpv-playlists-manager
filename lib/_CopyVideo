@@ -14,7 +14,9 @@ _CopyVideo() {
 
             if [[ $videourl =~ 'playlist?list=' ]]; then
                 __
-                echo -e " ${info}Getting titles & links from playlist...${b}Please be patient.${nb}${nc}\n"
+                VideoPlaylistTitle=$(youtube-dl -J --flat-playlist "$videourl" | jq -r .title)
+                printf '%s\n' " ${info}Getting titles & links from playlist: $VideoPlaylistTitle..." \
+                "${b} Please be patient.${nb}${nc}"
                 youtube-dl --get-title --no-warnings "$videourl" >> "$VIDEO_TITLE"
                 _GetYoutubePlaylistUrls -v
                 _RemoveCrap
@@ -46,7 +48,9 @@ _CopyVideo() {
         while (( $(grep "" -c "$QUEUE") > 0 )); do
             _ResizeWindow
             clear
-            _ListsCount
+            __
+            [[ -f $VIDEO_INFO ]] && (($(_GetLinesList -v) > 0)) && \
+            echo -e " ${info}Video list:   $(_GetLinesList -v) url(s)${nc}\n"
             __
             echo -e "                                                    ${mtitle}::video options::${nc}"
             echo -e "                              ┌─────────────────────────────────────────────────────────────┐"
@@ -75,4 +79,3 @@ _CopyVideo() {
 
     done
 }
-
