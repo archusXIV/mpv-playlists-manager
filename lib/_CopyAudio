@@ -14,7 +14,9 @@ _CopyAudio() {
 
             if [[ $audiourl =~ 'playlist?list=' ]]; then
                 __
-                echo -e " ${info}Getting titles & links from playlist...${b}Please be patient.${nb}${nc}\n"
+                AudioPlaylistTitle=$(youtube-dl -J --flat-playlist "$audiourl" | jq -r .title)
+                printf '%s\n' " ${info}Getting titles & links from playlist: $AudioPlaylistTitle..." \
+                "${b} Please be patient.${nb}${nc}"
                 youtube-dl --get-title --no-warnings "$audiourl" >> "$AUDIO_TITLE"
                 _GetYoutubePlaylistUrls -a
                 _RemoveCrap
@@ -46,7 +48,9 @@ _CopyAudio() {
         while (( $(grep "" -c "$QUEUE") > 0 )); do
             _ResizeWindow
             clear
-            _ListsCount
+            __
+            [[ -f $AUDIO_INFO ]] && (($(_GetLinesList -a) > 0)) && \
+            echo " ${info}Audio list:   $(_GetLinesList -a) url(s)${nc}"
             __
             echo -e "                                                    ${mtitle}::audio options::${nc}"
             echo -e "                              ┌─────────────────────────────────────────────────────────────┐"
@@ -76,4 +80,3 @@ _CopyAudio() {
 
     done
 }
-
