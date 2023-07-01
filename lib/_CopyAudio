@@ -49,7 +49,7 @@ _CopyAudio() {
             _ResizeWindow
             clear
             __
-            [[ -f $AUDIO_INFO ]] && (($(_GetLinesList -a) > 0)) && \
+            [[ -f $AUDIO_INFO ]] && \
             echo " ${info}Audio list:   $(_GetLinesList -a) url(s)${nc}"
             __
             echo -e "                                                    ${mtitle}::audio options::${nc}"
