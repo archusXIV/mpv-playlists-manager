@@ -49,7 +49,7 @@ _CopyVideo() {
             _ResizeWindow
             clear
             __
-            [[ -f $VIDEO_INFO ]] && (($(_GetLinesList -v) > 0)) && \
+            [[ -f $VIDEO_INFO ]] && \
             echo -e " ${info}Video list:   $(_GetLinesList -v) url(s)${nc}\n"
             __
             echo -e "                                                    ${mtitle}::video options::${nc}"
