@@ -49,11 +49,11 @@ _GetVideo() {
 
     __DownloadMessages() (
         [[ $TITLES = "$tmp_dir"/DefaultTitles ]] && {
-            printf '%s\n' " ${info}$counter audio file(s) left to download." \
+            printf '%s\n' " ${info}$counter video file(s) left to download." \
             " Please be patient while downloading:  $(_GetLinkTitle -q).webm${nc}"
         }
         [[ $TITLES = "$VIDEO_TITLE" ]] && {
-            printf '%s\n' " ${info}$counter audio file(s) left to download." \
+            printf '%s\n' " ${info}$counter video file(s) left to download." \
             " Please be patient while downloading:  $(_GetLinkTitle -v).webm${nc}"
         }
     )
