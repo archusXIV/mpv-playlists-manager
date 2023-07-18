@@ -16,7 +16,7 @@ mpm -v # prints mpm version
 ```
 - mpv & ffmpeg editable settings (command lines).
 - Tasks are displayed in the main menu.
-- Edit the configuration (mpmrc) frome the main menu.
+- Edit the configuration (mpmrc) from the main menu.
  (you can create your own function).
 - Added some flags to access some functions.
 - Direct download or format selection in the _LoadPlaylist function when choosing few links.
