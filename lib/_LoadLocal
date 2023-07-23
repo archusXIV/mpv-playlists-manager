@@ -1,0 +1,105 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_LoadLocal() {
+
+    local AUDIOS VIDEOS zic vid
+    # getting the right paths for french env too...
+    # we use -maxdepth 2 in case our directories are in subdirectories.
+    AUDIOS=$(find "$HOME" -maxdepth 2 -type d -name "Music" -o -name "Musique")
+    VIDEOS=$(find "$HOME" -maxdepth 2 -type d -name "Videos" -o -name "Vidéos")
+    zic=$(echo "$AUDIOS" | awk -F"/" '{print $NF}')
+    vid=$(echo "$VIDEOS" | awk -F"/" '{print $NF}')
+
+    # create a symlink of $audios_dir/$videos_dir
+    # in ~/Music & ~/Videos for user convenience
+    if find "$audios_dir" "$videos_dir" -type d -empty >/dev/null; then
+        touch {"$audios_dir"/._,"$videos_dir"/._}
+        ! [[ -L "$AUDIOS"/mpm_audios ]] \
+        && ln -s "$audios_dir" "$AUDIOS"/mpm_audios
+        ! [[ -L "$VIDEOS"/mpm_videos ]] \
+        && ln -s "$videos_dir" "$VIDEOS"/mpm_videos
+    fi
+
+    # the select loop won't display the correct directories names
+    # if white spaces exist, so we are forced to use this "dirthack"
+    _ReplaceSpacesDirs() (
+        find "$AUDIOS" "$VIDEOS" -maxdepth 1 \
+        -type d -name "* *" -exec \
+        bash -c '
+            for f in "$@"; do
+                n="${f##*/}"
+                mv -nv "$f" "${f%/*}/${n// /_}"
+            done >/dev/null 2>&1
+        ' dummy {} +
+    )
+    
+    read -rsn 1 -p "${info}"' Play: [1] Audio dir, [2] Audio files, [3] Video dir or [4] Video files?: '"${nc}" choice
+    case "$choice" in
+        1)
+            _ReplaceSpacesDirs
+            clear
+            __
+            echo -e " ${info}Directories in $AUDIOS: ${nc}\n"
+            PS3=""$'\n'"${info}Your selection number: ${nc}"
+            select dir in $(find -L "$AUDIOS" -maxdepth 1 -type d -not -name \
+                "$zic" | sort | sed 's,.*/,,'); do
+                if [[ $(find "$AUDIOS"/"$dir" -type d -empty) ]]; then
+                    __
+                    echo " ${critical}$dir is empty. Wait and try again...${nc}"
+                    sleep 4
+                    break
+                else
+                    # checking for content in linked directories.
+                    if [[ -z $(command ls "$AUDIOS"/"$dir") ]]; then
+                        __
+                        echo " ${critical}This symlink points to an empty directory!"
+                        echo " Wait and try again...${nc}"
+                        sleep 4
+                        break
+                    fi
+                    clear
+                    mpv --no-video "$AUDIOS"/"$dir"/*
+                    break
+                fi
+            done
+        ;;
+        2)
+            "$FILEMANAGER" "$AUDIOS"; _Menu
+        ;;
+        3)
+            _ReplaceSpacesDirs
+            clear
+            __
+            echo -e " ${info}Directories in $VIDEOS: ${nc}\n"
+            PS3=""$'\n'"${info}Your selection number: ${nc}"
+            select dir in $(find -L "$VIDEOS" -maxdepth 1 -not -name \
+                "$vid" | sort | sed 's,.*/,,'); do
+                if [[ $(find "$VIDEOS"/"$dir" -type d -empty) ]]; then
+                    __
+                    echo " ${critical}$dir is empty. Wait and try again...${nc}"
+                    sleep 4
+                    break
+                else
+                    if [[ -z $(command ls "$VIDEOS"/"$dir") ]]; then
+                        __
+                        echo " ${critical}This symlink points to an empty directory!"
+                        echo " Wait and try again...${nc}"
+                        sleep 4
+                        break
+                    fi
+                    clear
+                    mpv "$VIDEOS"/"$dir"/*
+                    break
+                fi
+            done
+        ;;
+        4)
+            "$FILEMANAGER" "$VIDEOS"; _Menu
+        ;;
+
+    esac
+
+}
+
