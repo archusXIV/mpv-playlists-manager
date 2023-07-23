@@ -4,7 +4,8 @@ Older version but still valide video (french spoken) link: https://www.youtube.c
 ```
 user@linux ~ $ mpm --help
 ```
-## New in version 1.2-8
+## New in version 1.2-9
+refactoring some parts in functions.
 When downloading a complete playlist, a subdirectory named as the playlist will be created.
 ```
 mpm -c # edit mpm config
@@ -18,11 +19,9 @@ mpm -v # prints mpm version
 - Tasks are displayed in the main menu.
 - Edit the configuration (mpmrc) from the main menu.
  (you can create your own function).
-- Added some flags to access some functions.
-- Direct download or format selection in the _LoadPlaylist function when choosing few links.
 
 Please check the [README_FIRST](https://github.com/archusXIV/mpv-playlists-manager/blob/main/README_FIRST) before first run.
-## version 1.2-8 main screen.
+## version 1.2-9 main screen.
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.2-8.png)
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
