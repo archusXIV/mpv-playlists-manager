@@ -62,20 +62,20 @@ CHOOSE1="$playlists_dir/ChooseFrom1.m3u"
 CHOOSE2="$playlists_dir/ChooseFrom2.m3u"
 HELP="/usr/local/share/doc/mpm/help"
 
-_LaunchMpn() {
-    _Prompt " ${info}Launch mpm? ${nc}" || {
+_LaunchMpm() {
+    _Prompt " ${info}Launch mpm_test? ${nc}" || {
         exit
     }
     _CheckDependencies "${@}"
 }
 
 case "$1" in
-    -c) $MPMEDITOR ~/.config/mpm/mpmrc && _LaunchMpn ;;
+    -c) $MPMEDITOR ~/.config/mpm/mpmrc && _LaunchMpm ;;
     -e) _EditPlaylist ;;
     -l) _LoadPlaylist ;;
     -p) _LoadLocal ;;
-    -v) echo "mpm $VERSION" && _LaunchMpn ;;
-    -h|--help) less "$HELP" && _LaunchMpn ;;
+    -v) echo "mpm $VERSION" && _LaunchMpm ;;
+    -h|--help) less "$HELP" && _LaunchMpm ;;
 esac
 
 _CheckDependencies "${@}"
