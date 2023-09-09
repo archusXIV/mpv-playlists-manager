@@ -4,6 +4,8 @@ Older version but still valide video (french spoken) link: https://www.youtube.c
 ```
 user@linux ~ $ mpm --help
 ```
+## New in version 1.3-0
+Access to the default list titles even after closing the program.
 ## New in version 1.2-9
 Added update checker.
 
@@ -24,7 +26,7 @@ mpm -v # prints mpm version
  (you can create your own function).
 
 Please check the [README_FIRST](https://github.com/archusXIV/mpv-playlists-manager/blob/main/README_FIRST) before first run.
-## version 1.2-9 main screen.
+## version 1.{2-9,3-0} main screen.
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.2-9.png)
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
