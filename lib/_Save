@@ -1,0 +1,95 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2086
+_Save() {
+
+    cd "$playlists_dir" || exit 1
+
+    __ReplaceSpaces() (
+        find "$playlists_dir" "$titles_dir" -maxdepth 1 \
+        -type f -name "* *" -exec \
+        bash -c '
+            for f in "$@"; do
+                n="${f##*/}"
+                mv -nv "$f" "${f%/*}/${n// /_}"
+            done >/dev/null 2>&1
+        ' dummy {} +
+    )
+
+    __NestedSave() (
+        cp -f "$CURRENT_LIST" "$list"
+        cp -f "$CURRENT_TITLE" "$titles_dir"/"$list".titles
+
+        sed -i '1s/^/#EXTM3U\n/' "$list"
+        sed -i '/^https/d' "$CURRENT_LIST"
+
+        (( $(grep -c -w '#EXTM3U' "$list") > 1 )) \
+            && sed -i '1d' "$list"
+
+        echo " ${info}$list saved.${nc}"
+        sleep 2s
+    )
+
+    __NestedSaveCheck() (
+        clear
+        __
+        echo -e " ${info}Available playlists:\n${nc}"
+        find . -not -name "default.m3u" -name "*.m3u" -o -name "*.m3u_origin" \
+        | sort -d \
+        | column \
+        | sed 's/\.\///g;s/\.m3u//g;s/\s/ /g'
+        __
+        read -rp "${info}"' Save playlist as: (do not use extension) '"${nc}" list
+        # no need to add extension when naming our new playlist.
+        local list="$list.m3u"
+        if [[ $(find . -name "${list}") ]]; then
+            __
+            _Prompt -n " ${critical}This playlist already exists! Overwrite $list?: ${nc}" && {
+                __NestedSave
+            }
+            __
+        else
+            __NestedSave
+        fi
+
+    )
+
+    case "$1" in
+        -a)
+            if [[ -f $AUDIO_INFO ]]; then
+                CURRENT_LIST="$AUDIO_INFO"
+                CURRENT_TITLE="$AUDIO_TITLE"
+                __NestedSaveCheck
+                rm -f $AUDIO_{INFO,TITLE} "$AUDIO_TITLE"_origin
+                __ReplaceSpaces
+            else
+                echo " ${critical}No links in the list${nc}"
+                sleep 2
+                _CopyAudio
+            fi
+        ;;
+        -q)
+            CURRENT_LIST="$QUEUE"
+            CURRENT_TITLE="$tmp_dir"/DefaultTitles
+            __NestedSaveCheck
+            rm -f "$tmp_dir"/DefaultTitles
+            __ReplaceSpaces
+        ;;
+        -v)
+            if [[ -f $VIDEO_INFO ]]; then
+                CURRENT_LIST="$VIDEO_INFO"
+                CURRENT_TITLE="$VIDEO_TITLE"
+                __NestedSaveCheck
+                rm -f $VIDEO_{INFO,TITLE} "$VIDEO_TITLE"_origin
+                __ReplaceSpaces
+            else
+                echo " ${critical}No links in the list${nc}"
+                sleep 2
+                _CopyVideo
+            fi
+        ;;
+    esac
+    _Menu
+}
+
