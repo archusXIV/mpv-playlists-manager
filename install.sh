@@ -7,7 +7,7 @@ _install() {
     mkdir -vp /usr/local/lib/mpm && \
     cp -vrf ./lib/* /usr/local/lib/mpm/
     mkdir -p /usr/local/share/doc/mpm && \
-    cp -vf {help,mpmrc} /usr/local/share/doc/mpm
+    cp -vf {help,mpmrc,README.md} /usr/local/share/doc/mpm
 
     mkdir -vp /usr/share/licenses/mpm && \
     cp -vf ./LICENSE /usr/share/licenses/mpm/LICENSE
