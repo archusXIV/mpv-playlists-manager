@@ -120,7 +120,7 @@ function _MpvAudioOptions {
     --ytdl-format='bestaudio/best' "$M3UFILE"
 }
 
-# mpm video playing command line
+# mpv video playing command line
 function _MpvVideoOptions {
     # same as above.
     mpv \
