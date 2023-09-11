@@ -108,19 +108,18 @@ _ViewUrlInfo() {
                         fi
                     ;;
                     v|V)
+                        unset prompt[7]
                         if [[ -f "$tmp_dir"/DefaultTitles ]]; then
                             clear
                             __
                             cat -n "$tmp_dir"/DefaultTitles
                             __
-                            unset prompt[7]
                         elif [[ -f "$titles_dir"/default.m3u.titles ]]; then
                             clear
                             __
                             cp -f "$titles_dir"/default.m3u.titles "$tmp_dir"/DefaultTitles
                             cat -n "$tmp_dir"/DefaultTitles
                             __
-                            unset prompt[7]
                         else
                             clear
                             __
@@ -130,7 +129,6 @@ _ViewUrlInfo() {
                             __
                             cat -n "$tmp_dir"/DefaultTitles
                             __
-                            unset prompt[7]
                         fi
                     ;;
                 esac
