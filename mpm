@@ -41,7 +41,7 @@ pids=($(pidof -x $mpvmenu))
 # creates a blank line
 __() { printf '\n'; }
 
-[[ ! -f ~/.config/mpm/mpmrc ]] && {
+[[ ! -f $HOME/.config/mpm/mpmrc ]] && {
     mkdir -p ~/.config/mpm
     cp /usr/local/share/doc/mpm/mpmrc ~/.config/mpm/mpmrc
 }
