@@ -41,14 +41,16 @@ pids=($(pidof -x $mpvmenu))
 # creates a blank line
 __() { printf '\n'; }
 
-[[ ! -f $HOME/.config/mpm/mpmrc ]] && {
+MPMRC="$HOME/.config/mpm/mpmrc"
+
+[[ ! -f $MPMRC ]] && {
     mkdir -p "$HOME"/.config/mpm
-    cp /usr/local/share/doc/mpm/mpmrc "$HOME"/.config/mpm/mpmrc
+    cp /usr/local/share/doc/mpm/mpmrc "$MPMRC"
 }
 
 # shellcheck source=/dev/null
 ## summon our personal settings
-source ~/.config/mpm/mpmrc
+source "$MPMRC"
 
 supportedsites="https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md"
 QUEUE="$playlists_dir/default.m3u"
