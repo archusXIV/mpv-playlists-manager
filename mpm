@@ -72,7 +72,7 @@ _LaunchMpm() {
 }
 
 case "$1" in
-    -c) $MPMEDITOR ~/.config/mpm/mpmrc && _LaunchMpm ;;
+    -c) $MPMEDITOR "$MPMRC" && _LaunchMpm ;;
     -e) _EditPlaylist ;;
     -l) _LoadPlaylist ;;
     -p) _LoadLocal ;;
