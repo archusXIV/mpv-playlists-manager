@@ -4,6 +4,7 @@
 # shellcheck disable=SC2013,SC2154,SC2143,SC2164
 _GetAudio() {
 
+    cd "$audios_dir" || exit 1
     local counter M3UFILE TITLES
 
     case "$1" in
@@ -13,14 +14,12 @@ _GetAudio() {
                 sleep 2
                 _CopyAudio
             }
-            cd "$audios_dir" || exit 1
             M3UFILE="$AUDIO_INFO"
             TITLES="$AUDIO_TITLE"
             cp -f "$AUDIO_INFO" "$AUDIO_INFO"_origin 2>/dev/null
             cp -f "$AUDIO_TITLE" "$AUDIO_TITLE"_origin 2>/dev/null
         ;;
         -l)
-            cd "$playlists_dir" || exit 1
             M3UFILE="$playlists_dir"/"$list"
             TITLES="$titles_dir"/"$list".titles
             cp -f "$list" "$list"_origin 2>/dev/null
@@ -32,7 +31,6 @@ _GetAudio() {
                 _GetMediaTitle -q > "$tmp_dir"/DefaultTitles
                 clear
             fi
-            cd "$audios_dir" || exit 1
             M3UFILE="$QUEUE"
             TITLES="$tmp_dir"/DefaultTitles
             cp -f "$QUEUE" "$QUEUE"_origin 2>/dev/null
@@ -58,11 +56,7 @@ _GetAudio() {
         }
     )
 
-    if [[ -d "$audios_dir"/"${list%.*}" ]]; then
-        cd "$audios_dir"/"${list%.*}"
-    else
-        cd "$audios_dir" || exit 1
-    fi
+    [[ -d "$audios_dir"/"${list%.*}" ]] && cd "$audios_dir"/"${list%.*}"
 
     for audiodownloadurl in $(grep '^https' "$M3UFILE"); do
 
