@@ -7,9 +7,9 @@
 _CleanTmpDir() {
     if (( $(_GetLinesList -q) > 0 )); then
         cp "$tmp_dir"/DefaultTitles "$titles_dir"/default.m3u.titles
-        rm -f "$tmp_dir"/* >/dev/null 2>&1
     elif [[ -f "$titles_dir"/default.m3u.titles ]]; then
-        rm -f {"$titles_dir"/default.m3u.titles,"$tmp_dir"/*} >/dev/null 2>&1
+        rm -f "$titles_dir"/default.m3u.titles >/dev/null 2>&1
     fi
+    rm -f "$tmp_dir"/* >/dev/null 2>&1
 }
 
