@@ -65,7 +65,7 @@ CHOOSE2="$playlists_dir/ChooseFrom2.m3u"
 HELP="/usr/local/share/doc/mpm/help"
 
 _LaunchMpm() {
-    _Prompt " ${info}Launch mpm_test? ${nc}" || {
+    _Prompt " ${info}Launch mpm? ${nc}" || {
         exit
     }
     _CheckDependencies "${@}"
