@@ -9,9 +9,9 @@ Access to the default list titles even after closing the program.
 ## New in version 1.2-9
 Added update checker.
 
-refactoring some parts in functions.
+- refactoring some parts in functions.
 
-When downloading a complete playlist, a subdirectory named as the playlist will be created.
+- When downloading a complete playlist, a subdirectory named as the playlist will be created.
 ```
 mpm -c # edit mpm config
 mpm -e # edit a playlist from a list
@@ -37,9 +37,9 @@ youtube-dl/yp-dlp is used to download videos or just audio and in that case if
 we choose webm links, ffmpeg will (if you want to) convert them in four different formats,
 mp3, flac, ogg, or wav. You can switch encoders by editing the config file (mpmrc).
 
-[help](https://github.com/archusXIV/mpv-playlists-manager/blob/main/help)
+- [help](https://github.com/archusXIV/mpv-playlists-manager/blob/main/help)
 
-[Supported websites](https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md)
+- [Supported websites](https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md)
 
 For a better experience I **recommend** a minimum terminal size of 1210x735 because of the youtube-dl
 outputs that let you choose desired audio/video formats, if you want an automatic terminal
