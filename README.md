@@ -5,9 +5,9 @@ Older version but still valide video (french spoken) link: https://www.youtube.c
 user@linux ~ $ mpm --help
 ```
 ## New in version 1.3-0
-Access to the default list titles even after closing the program.
+- Access to the default list titles even after closing the program.
 ## New in version 1.2-9
-Added update checker.
+- Added update checker.
 
 - refactoring some parts in functions.
 
