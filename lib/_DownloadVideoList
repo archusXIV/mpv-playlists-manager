@@ -22,7 +22,6 @@ _DownloadVideoList() {
             cd "$videos_dir"/"${list%.*}" || exit 1
             printf '%s\n' " ${info}Downloading $counter file(s)." \
             " Downloading: $(_GetLinkTitle -l)${nc}"
-
             [[ $line =~ 'youtube.com' ]] && {
                 youtube-dl \
                 -o "$(_GetLinkTitle -l)".mp4 \
@@ -30,9 +29,7 @@ _DownloadVideoList() {
             } || youtube-dl \
                 -o "$(_GetLinkTitle -l)".mp4 \
                 --no-warnings "$line"
-
             ((counter--))
-
             sed -i '2d' "$playlists_dir"/"$list"
             sed -i '1d' "$titles_dir"/"$list".titles
             clear
@@ -81,9 +78,7 @@ _DownloadVideoList() {
 
                 sed -i '2d' "$playlists_dir"/"$list"
                 sed -i '1d' "$titles_dir"/"$list".titles
-
                 ((counter--))
-
                 clear
 
             done
@@ -96,4 +91,3 @@ _DownloadVideoList() {
     _DownloadCompleted
 
 }
-
