@@ -1,0 +1,27 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_TitlesListCompare() {
+
+    # first test if "myplaylist".titles exist.
+    if [[ -f $titles_dir/$list.titles ]]; then
+        if (( $(grep "" -c "$titles_dir/$list.titles") \
+            != $(_GetLinesList -l) )); then
+            __
+            echo -e " ${task}${b}Updating titles...please wait.${nb}${nc}\n"
+            _GetMediaTitle -l > "$titles_dir"/"$list".titles
+        fi
+        __
+        echo -e " ${info}Titles for $list.${nc}\n"
+        cat -n "$titles_dir"/"$list".titles
+        __
+    else
+        echo -e " ${task}${b}Getting titles...please wait.${nb}${nc}\n"
+        _GetMediaTitle -l > "$titles_dir"/"$list".titles
+        cat -n "$titles_dir"/"$list".titles
+        __
+    fi
+
+}
+
