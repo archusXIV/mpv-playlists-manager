@@ -4,7 +4,7 @@ Older version but still valide video (french spoken) link: https://www.youtube.c
 ```
 user@linux ~ $ mpm --help
 ```
-## New in version 1.3-1
+## New in version 1.3-2
 - New way to save a playlist as...by entering a number greater than your total playlists collection. For example if you have 22 saved playlists, just enter 23 and you' ll be prompted to type a name for the new one.
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/saving_a_playlist_as.png)
@@ -13,6 +13,7 @@ user@linux ~ $ mpm --help
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/saving_a_playlist_as_an_existing_one.png)
 
+- After downloading chosen audio/video files, links/titles are updated locally with sed & grep magic.
 - refactoring some parts in functions.
 ## New in version 1.3-0
 - Access to the default list titles even after closing the program.
@@ -34,8 +35,8 @@ mpm -v # prints mpm version
  (you can create your own function).
 
 Please check the [README_FIRST](https://github.com/archusXIV/mpv-playlists-manager/blob/main/README_FIRST) before first run.
-## version 1.3-1 main screen.
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.3-1.png)
+## version 1.3-2 main screen.
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.3-2.png)
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
 This program is just a personal project, and I wrote it as a normy Linux user (it is simple),
