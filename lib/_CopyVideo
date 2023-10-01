@@ -1,0 +1,83 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_CopyVideo() {
+
+    [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
+
+    while (( $(grep "" -c "$QUEUE") > 0 )); do
+        __CopyVideoLinks() {
+            __
+            echo -e " Paste an url to fill the ${info}video${nc} playlist:\n"
+            read -r videourl
+
+            if [[ $videourl =~ 'playlist?list=' ]]; then
+                __
+                VideoPlaylistTitle=$(youtube-dl -J --flat-playlist "$videourl" | jq -r .title)
+                printf '%s\n' " ${info}Getting titles & links from playlist: $VideoPlaylistTitle..." \
+                "${b} Please be patient.${nb}${nc}"
+                youtube-dl --get-title --no-warnings "$videourl" \
+                | tee -a "$VIDEO_TITLE" >> "$tmp_dir"/DefaultTitles
+                _GetYoutubePlaylistUrls -v
+                _RemoveCrap
+            else
+                echo "$videourl" >> "$VIDEO_INFO"
+                __
+                echo " ${info}Testing url...${nc}"
+                _RemoveCrap
+                videourl=$(sed -n '$p' "$VIDEO_INFO")
+                youtube-dl -F --no-warnings "$videourl" > "$YTOP"
+                if [[ $? -eq 1 ]]; then
+                    __
+                    echo -e " ${critical}${b}No format code found!${nb}\n$videourl will be removed."
+                    echo " ${info}Please visit: $supportedsites${nc}"
+                    sed -i '$d' "$VIDEO_INFO"
+                    _RemoveCrap
+                    sleep 7
+                    [[ $(_GetLinesList -v) -eq 0 ]] && _Menu
+                else
+                    sed -n '$p' "$VIDEO_INFO" >> "$QUEUE"
+                    echo -e " ${info}Getting video title...${nc}\n"
+                    youtube-dl --get-title --no-warnings \
+                    "$videourl" | tee -a "$VIDEO_TITLE" >> "$tmp_dir"/DefaultTitles
+                    _RemoveCrap
+                fi
+            fi
+        }
+
+        while (( $(grep "" -c "$QUEUE") > 0 )); do
+            _ResizeWindow
+            clear
+            __
+            [[ -f $VIDEO_INFO ]] && \
+            echo -e " ${info}Video list:   $(_GetLinesList -v) url(s)${nc}\n"
+            __
+            echo -e "                                                    ${mtitle}::video options::${nc}"
+            echo -e "                              ┌─────────────────────────────────────────────────────────────┐"
+            echo -e "                              │     1) Add video links            4) Play current list      │"
+            echo -e "                              │     2) Download current list      5) View current list      │"
+            echo -e "                              │     3) Save playlist as           6) Back to main menu      │"
+            echo -e "                              └─────────────────────────────────────────────────────────────┘"
+            echo -e "                                                     ${info}${b}Select an item${nb}${nc}"
+            __
+            read -rsn 1 options
+            case "$options" in
+                1)  __CopyVideoLinks
+                    __ ;;
+                2)  _GetVideo -v
+                    break ;;
+                3)  _Save -v
+                    __ ;;
+                4)  _LoadVideo -v
+                    __ ;;
+                5)  _ViewUrlInfo -v
+                    __ ;;
+                6)  _Menu
+                    __ ;;
+            esac
+        done
+
+    done
+}
+
