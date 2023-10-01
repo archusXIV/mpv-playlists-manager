@@ -1,9 +1,16 @@
 # mpv-playlists-manager
 ## Manage playlists for mpv from your linux terminal.
 Older version but still valide video (french spoken) link: https://www.youtube.com/watch?v=7OWO1vRL77A
+
 ```
-user@linux ~ $ mpm --help
+mpm -c # edit mpm config
+mpm -e # edit a playlist from a list
+mpm -h # launches less /usr/local/share/doc/mpm/help
+mpm -l # launches the play/download function
+mpm -p # launches the load local function
+mpm -v # prints mpm version
 ```
+
 ## New in version 1.3-2
 - New way to save a playlist as...by entering a number greater than your total playlists collection. For example if you have 22 saved playlists, just enter 23 and you' ll be prompted to type a name for the new one.
 
@@ -21,14 +28,6 @@ user@linux ~ $ mpm --help
 - When downloading a complete playlist, a subdirectory named as the playlist will be created.
 
 ## From previous versions:
-```
-mpm -c # edit mpm config
-mpm -e # edit a playlist from a list
-mpm -h # launches less /usr/local/share/doc/mpm/help
-mpm -l # launches the play/download function
-mpm -p # launches the load local function
-mpm -v # prints mpm version
-```
 - mpv & ffmpeg editable settings (command lines).
 - Tasks are displayed in the main menu.
 - Edit the configuration (mpmrc) from the main menu.
