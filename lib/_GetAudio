@@ -1,0 +1,127 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2013,SC2154,SC2143,SC2164
+_GetAudio() {
+
+    cd "$audios_dir" || exit 1
+    local counter M3UFILE TITLES
+
+    case "$1" in
+        -a)
+            [[ $(_GetLinesList -a) -eq 0 ]] && {
+                echo " ${critical}No links in the list${nc}"
+                sleep 2
+                _CopyAudio
+            }
+            M3UFILE="$AUDIO_INFO"
+            TITLES="$AUDIO_TITLE"
+            cp -f "$AUDIO_INFO" "$AUDIO_INFO"_origin 2>/dev/null
+            cp -f "$AUDIO_TITLE" "$AUDIO_TITLE"_origin 2>/dev/null
+        ;;
+        -l)
+            M3UFILE="$playlists_dir"/"$list"
+            TITLES="$titles_dir"/"$list".titles
+            cp -f "$list" "$list"_origin 2>/dev/null
+            mkdir -p "$audios_dir"/"${list%.*}"
+        ;;
+        -q)
+            if [[ ! -f "$tmp_dir"/DefaultTitles ]]; then
+                echo " ${info}Getting titles...${nc}"
+                _GetMediaTitle -q > "$tmp_dir"/DefaultTitles
+                clear
+            fi
+            M3UFILE="$QUEUE"
+            TITLES="$tmp_dir"/DefaultTitles
+            cp -f "$QUEUE" "$QUEUE"_origin 2>/dev/null
+            cp -f "$tmp_dir"/DefaultTitles "$tmp_dir"/DefaultTitles_origin
+        ;;
+    esac
+
+    clear
+    counter=$(grep -c '^https' "$M3UFILE")
+
+    __DownloadMessages() (
+        [[ $M3UFILE = "$AUDIO_INFO" ]] && {
+            printf '%s\n' " ${info}$counter audio file(s) left to download." \
+            " Please be patient while downloading:  $(_GetLinkTitle -a).webm${nc}"
+        }
+        [[ $M3UFILE = "$playlists_dir"/"$list" ]] && {
+            printf '%s\n' " ${info}$counter audio file(s) left to download." \
+            " Please be patient while downloading:  $(_GetLinkTitle -l).webm${nc}"
+        }
+        [[ $M3UFILE = "$QUEUE" ]] && {
+            printf '%s\n' " ${info}$counter audio file(s) left to download." \
+            " Please be patient while downloading:  $(_GetLinkTitle -q).webm${nc}"
+        }
+    )
+
+    [[ -d "$audios_dir"/"${list%.*}" ]] && cd "$audios_dir"/"${list%.*}"
+
+    for audiodownloadurl in $(grep '^https' "$M3UFILE"); do
+
+        if [[ $(youtube-dl -F --no-warnings "$audiodownloadurl" \
+            | sed -n '/audio only/p' | grep -w '251') ]]; then
+            __
+            __DownloadMessages
+            youtube-dl \
+            -o "$(youtube-dl --skip-download --get-title "$audiodownloadurl")".webm \
+            -f 251 --no-warnings --progress "$audiodownloadurl"
+        else
+            youtube-dl -F --no-warnings "$audiodownloadurl" \
+            | sed -n '/audio only/p'
+            __
+            echo " ${info}Choose a format code: ${nc}"
+            read -r code
+            clear
+            __
+            __DownloadMessages
+            youtube-dl -f "$code" \
+            --no-warnings --progress "$audiodownloadurl"
+        fi
+
+        if [[ $M3UFILE = "$AUDIO_INFO" ]]; then
+            sed -i '1d' {"$M3UFILE","$TITLES"}
+        else
+            sed -i '2d' "$M3UFILE"
+            sed -i '1d' "$TITLES"
+        fi
+
+        ((counter--))
+        clear
+
+    done
+
+    echo -e " ${info}Done\n${nc}"
+
+    if [[ -n $(find . -iname "*.webm") ]]; then
+        echo " ${critical}ADVISORY: if you choose conversion, all downloaded files (.webm)"
+        echo -e " will be converted in the chosen format.${nc}\n"
+        find . -iname "*.webm" | sort -d | sed 's,.*/,,'
+
+        if [[ $automatic_audio_conversion = yes ]]; then
+            __
+            printf '%s\n' " ${task}Automatic audio conversion enabled.${nc}"
+            sleep 2
+            [[ $M3UFILE = "$AUDIO_INFO" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+            && _ConvertAudio && _GetCompleted -a
+            [[ $M3UFILE = "$playlists_dir"/"$list" ]] && _ConvertAudio && _DownloadCompleted
+        else
+            __
+            _Prompt " ${info}Do you wish to convert them?: ${nc}" || {
+                [[ $M3UFILE = "$AUDIO_INFO" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+                && _GetCompleted -a
+                [[ $M3UFILE = "$playlists_dir"/"$list" ]] && _DownloadCompleted
+            }
+            [[ $M3UFILE = "$AUDIO_INFO" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+            && _ConvertAudio && _GetCompleted -a
+            [[ $M3UFILE = "$playlists_dir"/"$list" ]] && _ConvertAudio && _DownloadCompleted
+        fi
+
+    else
+        [[ $M3UFILE = "$AUDIO_INFO" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+        && _GetCompleted -a
+        [[ $M3UFILE = "$playlists_dir"/"$list" ]] && _DownloadCompleted
+    fi
+
+}
