@@ -17,7 +17,7 @@ _UpdateSelected() {
     cd "$titles_dir" || exit 1
 
     for line in $(cat "$titles_dir"/selected.titles); do
-        grep -v "${line}" "$titles_dir"/"$list.titles" \
+        grep -v "$line" "$titles_dir"/"$list.titles" \
         >> "$titles_dir"/playlist.titles
     done
     unset line
