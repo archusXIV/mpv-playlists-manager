@@ -10,7 +10,10 @@ mpm -l # launches the play/download function
 mpm -p # launches the load local function
 mpm -v # prints mpm version
 ```
-
+## New in version 1.3-3
+- When downloading a few links from a playlist, a subdirectory named as the playlist will be created (so we know which file is from).
+  videos_dir/myplaylist_name_dir/some_file.mp4.
+- Minor code review.
 ## New in version 1.3-2
 - New way to save a playlist as...by entering a number greater than your total playlists collection. For example if you have 22 saved playlists, just enter 23 and you' ll be prompted to type a name for the new one.
 
@@ -22,20 +25,10 @@ mpm -v # prints mpm version
 
 - After downloading chosen audio/video files, links/titles are updated locally with sed & grep magic.
 - refactoring some parts in functions.
-## New in version 1.3-0
-- Access to the default list titles even after closing the program.
-- refactoring some parts in functions.
-- When downloading a complete playlist, a subdirectory named as the playlist will be created.
-
-## From previous versions:
-- mpv & ffmpeg editable settings (command lines).
-- Tasks are displayed in the main menu.
-- Edit the configuration (mpmrc) from the main menu.
- (you can create your own function).
 
 Please check the [README_FIRST](https://github.com/archusXIV/mpv-playlists-manager/blob/main/README_FIRST) before first run.
 ## version 1.3-2 main screen.
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.3-2.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.3-3.png)
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
 This program is just a personal project, and I wrote it as a normy Linux user (it is simple),
