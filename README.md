@@ -11,8 +11,10 @@ mpm -p # launches the load local function
 mpm -v # prints mpm version
 ```
 ## New in version 1.3-3
-- When downloading a few links from a playlist, a subdirectory named as the playlist will be created (so we know which file is from).
-  videos_dir/myplaylist_name_dir/some_file.mp4.
+- When downloading a few links from a playlist, a subdirectory named as the playlist will be created,
+  so we know which file is from.
+  
+  /videos_dir/myplaylist_name_dir/some_file.mp4.
 - Minor code review.
 ## New in version 1.3-2
 - New way to save a playlist as...by entering a number greater than your total playlists collection. For example if you have 22 saved playlists, just enter 23 and you' ll be prompted to type a name for the new one.
