@@ -28,7 +28,6 @@ mpm -v # prints mpm version
 - After downloading chosen audio/video files, links/titles are updated locally with sed & grep magic.
 - refactoring some parts in functions.
 
-Please check the [README_FIRST](https://github.com/archusXIV/mpv-playlists-manager/blob/main/README_FIRST) before first run.
 ## version 1.3-3 main screen.
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.3-3.png)
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
@@ -85,6 +84,7 @@ and then run the install.sh script as root, by default /usr/local/bin /usr/local
 respective used locations, feel free to change them in the install script and line 29 in mpm itself.
 The install script will detect if mpm is already installed and in that case the prompt will be: [R]emove or [U]pgrade mpm? 
 Otherwise the simple install function will run.
+- Please check the [README_FIRST](https://github.com/archusXIV/mpv-playlists-manager/blob/main/README_FIRST) before first run.
 ```
 git clone https://github.com/archusXIV/mpv-playlists-manager.git
 cd mpv-playlists-manager
