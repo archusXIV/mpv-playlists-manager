@@ -11,7 +11,7 @@ mpm -p # launches the load local function
 mpm -v # prints mpm version
 ```
 ## New in version 1.3-3
-- When downloading a few links from a playlist, a subdirectory named as the playlist will be created,
+- When downloading a few links from a video playlist, a subdirectory named as the playlist will be created,
   so we know which file is from.
   
   /videos_dir/myplaylist_name_dir/some_file.mp4.
