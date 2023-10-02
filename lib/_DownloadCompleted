@@ -1,0 +1,45 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2015
+_DownloadCompleted() {
+    cd "$playlists_dir" || exit 1
+
+    if [[ -n $(find "$main_dir" -name "*.part") ]]; then
+        mv {"$AUDIO_INFO"_origin,"$VIDEO_INFO"_origin} "$playlists_dir" 2>/dev/null
+        printf '%s\n' " ${critical}Temporary playlists have been moved in $playlists_dir." \
+        " Incomplete files in audio/video dir:\n${nc}"; __
+        find . -name "*.part" | sort -d | sed 's,.*/,,' | cat -n
+        __
+        printf '%s\n' " ${info}Keep them in if you want to resume downloads," \
+        " by using '.m3u_origin' files in section: 4) Load a playlist," \
+        " in this session or later.${nc}"
+        sleep 15
+        _Menu
+    else
+        FILES=( "$list" "$list"_origin \
+            "$titles_dir"/"$list".titles "$CHOOSE1" "$CHOOSE2" )
+
+        if [[ -f $list ]] && [[ $(grep -v -c '#EXTM3U' "$list") -gt 0 ]] ; then
+
+            if [[ $keep_none_empty_playlist = yes ]]; then
+                unset {FILES[0],FILES[2]}
+                rm -f "${FILES[@]}" 2>/dev/null
+            else
+                _Prompt \
+                " ${info}Downloads completed but $list is not empty, do you want to KEEP it?: ${nc}" || {
+                    rm -f "${FILES[@]}" 2>/dev/null
+                }
+                unset {FILES[0],FILES[2]}
+                rm -f "${FILES[@]}" 2>/dev/null
+            fi
+
+        else
+            echo " ${info}Downloads completed, ${critical}$list is empty... $list removed.${nc}"
+            sleep 5s
+            rm -f "${FILES[@]}" 2>/dev/null
+        fi
+        [[ $quit_after_task = yes ]] && exit || _Menu
+    fi
+}
+
