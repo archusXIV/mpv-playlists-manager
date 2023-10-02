@@ -27,7 +27,7 @@ mpm -v # prints mpm version
 - refactoring some parts in functions.
 
 Please check the [README_FIRST](https://github.com/archusXIV/mpv-playlists-manager/blob/main/README_FIRST) before first run.
-## version 1.3-2 main screen.
+## version 1.3-3 main screen.
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.3-3.png)
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
