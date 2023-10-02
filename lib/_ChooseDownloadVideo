@@ -12,7 +12,6 @@ _ChooseDownloadVideo() {
     __ChooseDirectVideoDownload() (
         _GetSelected
         clear
-        sleep 10s
         
         mapfile -t DIRECT < <(grep '^https' "$CHOOSE1")
 
