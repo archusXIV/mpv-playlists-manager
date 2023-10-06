@@ -2,7 +2,7 @@
 ## This is a part of main script: mpm.
 
 _GetSelected() {
-    # we don't quote here because yd-dlp will fail.
+    # we don't quote here because yt-dlp will fail.
     for i in ${array[*]}; do
         ((i++))
         sed -n "${i}p" "$playlists_dir"/"$list" \
