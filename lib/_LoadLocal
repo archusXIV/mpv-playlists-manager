@@ -12,16 +12,6 @@ _LoadLocal() {
     zic=$(echo "$AUDIOS" | awk -F"/" '{print $NF}')
     vid=$(echo "$VIDEOS" | awk -F"/" '{print $NF}')
 
-    # create a symlink of $audios_dir/$videos_dir
-    # in ~/Music & ~/Videos for user convenience
-    if find "$audios_dir" "$videos_dir" -type d -empty >/dev/null; then
-        touch {"$audios_dir"/._,"$videos_dir"/._}
-        ! [[ -L "$AUDIOS"/mpm_audios ]] \
-        && ln -s "$audios_dir" "$AUDIOS"/mpm_audios
-        ! [[ -L "$VIDEOS"/mpm_videos ]] \
-        && ln -s "$videos_dir" "$VIDEOS"/mpm_videos
-    fi
-
     read -rsn 1 -p "${info}"' Play: [1] Audio dir, [2] Audio files, [3] Video dir or [4] Video files?: '"${nc}" choice
     case "$choice" in
         1)
