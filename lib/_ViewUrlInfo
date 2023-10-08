@@ -97,7 +97,8 @@ _ViewUrlInfo() {
                     ;;
                     r|R) _Remove -q ;;
                     s|S)
-                        if [[ -f "$tmp_dir"/DefaultTitles ]]; then
+                        if [[ -f $titles_dir/default.m3u.titles \
+                        || -f  $tmp_dir/DefaultTitles ]]; then
                             _Save -q
                         else
                             echo " ${task}${b}Updating playlist titles...${nb}${nc}"
