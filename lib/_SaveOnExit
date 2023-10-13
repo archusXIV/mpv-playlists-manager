@@ -4,6 +4,10 @@
 # shellcheck disable=SC2154,SC2086,SC2184
 _SaveOnExit() {
 
+    _Prompt -n \
+        " ${critical}Some temporary lists aren't saved, quit anyway?: ${nc}" && {
+        exit
+    }
     cd "$playlists_dir" || exit 1
 
     SOE_Prompt=( "[B]ack to menu," "Save [A]udio list," "Save [V]ideo list," )
@@ -29,4 +33,3 @@ _SaveOnExit() {
     esac
 
 }
-
