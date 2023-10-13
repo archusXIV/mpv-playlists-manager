@@ -10,14 +10,9 @@ mpm -l # launches the play/download function
 mpm -p # launches the load local function
 mpm -v # prints mpm version
 ```
-## New in version 1.3-3
-- When downloading a few links from a video playlist, a subdirectory named as the playlist will be created,
-  so we know which file is from.
-  
-  /videos_dir/myplaylist_name_dir/some_file.mp4.
-- Minor code review.
-## New in version 1.3-2
-- New way to save a playlist as...by entering a number greater than your total playlists collection. For example if you have 22 saved playlists, just enter 23 and you' ll be prompted to type a name for the new one.
+## New in version 1.3-4
+- If you exit the script by typing "x", annd if temporary lists exist you will be prompted to save them.
+- New way to save a playlist as described in version 1.3-2 but in a more secured way...by entering a number greater than your total playlists collection. For example if you have 22 saved playlists, just enter 23 and you' ll be prompted to type a name for the new one and this time the entered name will be tested again.
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/saving_a_playlist_as.png)
 
@@ -25,11 +20,16 @@ mpm -v # prints mpm version
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/saving_a_playlist_as_an_existing_one.png)
 
-- After downloading chosen audio/video files, links/titles are updated locally with sed & grep magic.
-- refactoring some parts in functions.
+
+## New in version 1.3-3
+- When downloading a few links from a video playlist, a subdirectory named as the playlist will be created,
+  so we know which file is from.
+  
+  /videos_dir/myplaylist_name_dir/some_file.mp4.
+- Minor code review.
 
 ## version 1.3-3 main screen.
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.3-3.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.3-4.png)
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
 This program is just a personal project, and I wrote it as a normy Linux user (it is simple),
