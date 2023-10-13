@@ -50,11 +50,6 @@ _Menu() {
             9)  _EditMpmConf
                 __ ;;
             x|X)    if [[ -f "$AUDIO_INFO" || -f "$VIDEO_INFO" ]]; then
-                        _Prompt -n \
-                            " ${critical}Some temporary lists aren't saved, quit anyway?: ${nc}" && {
-                            exit
-                        }
-                        __
                         _SaveOnExit
                     else
                         exit 0
@@ -64,4 +59,3 @@ _Menu() {
     done
 
 }
-
