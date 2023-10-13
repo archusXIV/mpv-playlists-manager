@@ -25,7 +25,7 @@ mpm -v # prints mpm version
   /videos_dir/myplaylist_name_dir/some_file.mp4.
 - Minor code review.
 
-## version 1.3-3 main screen.
+## version 1.3-4 main screen.
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.3-4.png)
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
