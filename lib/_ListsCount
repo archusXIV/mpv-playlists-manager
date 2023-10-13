@@ -14,7 +14,7 @@ _ListsCount() {
 
     echo " ${info}Collection:" \
     "  $(find "$playlists_dir" -not -name "default.m3u" \
-    -iname "*.m3u" -printf '.' | wc -c) playist(s)${nc}"
+    -iname "*.m3u" -printf '.' | wc -c) playlist(s)${nc}"
 
     if [[ -f $tmp_dir/1 ]]; then
         __
