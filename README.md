@@ -11,8 +11,8 @@ mpm -p # launches the load local function
 mpm -v # prints mpm version
 ```
 ## New in version 1.3-4
-- If you exit the script by typing "x", annd if temporary lists exist you will be prompted to save them.
-- New way to save a playlist as described in version 1.3-2 but in a more secured way...by entering a number greater than your total playlists collection. For example if you have 22 saved playlists, just enter 23 and you' ll be prompted to type a name for the new one and this time the entered name will be tested again.
+- If you exit the script by typing "x", and if temporary lists exist you will be prompted to save them.
+- New way to save a playlist as described in version 1.3-2 but in a more secured way...by entering a number greater than your total playlists collection. For example if you have 22 saved playlists, just enter 23 and you' ll be prompted to type a name for the new one.
 - If you enter an existing playlist number or name, a red prompt appears for confirmation.
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/saving_a_playlist_as_an_existing_one.png)
