@@ -9,7 +9,7 @@ _EditPlaylist() {
         __
         PS3=""$'\n'"${info}Choose a playlist to edit:${nc} "
 
-        select playlist in $(find . -name "*.m3u" -o -name "*.m3u_origin" \
+        select playlist in $(find . -not -name "default.m3u" -name "*.m3u" -o -name "*.m3u_origin" \
             | sort -d | sed 's,.*/,,'); do
                 __
                 $MPMEDITOR "$playlist"
