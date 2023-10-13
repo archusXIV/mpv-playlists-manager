@@ -1,0 +1,34 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_DirectVideoDownload() {
+
+    mkdir -p "$videos_dir"/"${list%.*}"
+    __
+    printf '%s\n' " ${task}Direct download enabled.${nc}"
+    __
+    mapfile -t DIRECT < <(grep -v '#EXTM3U' "$list")
+    
+    cd "$videos_dir"/"${list%.*}"
+    
+    for line in "${DIRECT[@]}"; do
+        printf '%s\n' " ${info}Downloading $counter file(s)." \
+        " Downloading: $(_GetLinkTitle -l)${nc}"
+        
+        [[ $line =~ 'youtube.com' ]] && {
+            youtube-dl \
+            -o "$(_GetLinkTitle -l)".mp4 \
+            --no-warnings --merge-output-format mp4 "$line"
+        } || youtube-dl \
+            -o "$(_GetLinkTitle -l)".mp4 \
+            --no-warnings "$line"
+    
+        ((counter--))
+        
+        sed -i '2d' "$playlists_dir"/"$list"
+        sed -i '1d' "$titles_dir"/"$list".titles
+        clear
+    done
+
+}
+

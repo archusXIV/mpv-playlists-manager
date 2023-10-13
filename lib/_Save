@@ -1,0 +1,46 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2086
+_Save() {
+
+    cd "$playlists_dir" || exit 1
+
+    case "$1" in
+        -a)
+            if [[ -f $AUDIO_INFO ]]; then
+                CURRENT_LIST="$AUDIO_INFO"
+                CURRENT_TITLE="$AUDIO_TITLE"
+                _SaveCheck
+                _ReplaceSpaces -s
+                unset list
+            else
+                echo " ${critical}No links in the list${nc}"
+                sleep 2
+                _CopyAudio
+            fi
+        ;;
+        -q)
+            CURRENT_LIST="$QUEUE"
+            CURRENT_TITLE="$tmp_dir"/DefaultTitles
+            _SaveCheck
+            _ReplaceSpaces -s
+            unset list
+        ;;
+        -v)
+            if [[ -f $VIDEO_INFO ]]; then
+                CURRENT_LIST="$VIDEO_INFO"
+                CURRENT_TITLE="$VIDEO_TITLE"
+                _SaveCheck
+                _ReplaceSpaces -s
+                unset list
+            else
+                echo " ${critical}No links in the list${nc}"
+                sleep 2
+                _CopyVideo
+            fi
+        ;;
+    esac
+    _Menu
+}
+

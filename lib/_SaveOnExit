@@ -1,0 +1,32 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2086,SC2184
+_SaveOnExit() {
+
+    cd "$playlists_dir" || exit 1
+
+    SOE_Prompt=( "[B]ack to menu," "Save [A]udio list," "Save [V]ideo list," )
+
+    if [[ -f $AUDIO_INFO && -f $VIDEO_INFO ]]; then
+        __
+        echo "${info}" "${SOE_Prompt[@]}" "${nc}"
+    elif [[ -f $AUDIO_INFO && ! -f $VIDEO_INFO ]]; then
+        unset SOE_Prompt[2]
+        __
+        echo "${info}" "${SOE_Prompt[*]}" "${nc}"
+    elif [[ -f $VIDEO_INFO && ! -f $AUDIO_INFO ]]; then
+        unset SOE_Prompt[1]
+        __
+        echo "${info}" "${SOE_Prompt[*]}" "${nc}"
+    fi
+
+    read -rsn 1 soe
+    case "$soe" in
+        a|A) _Save -a ;;
+        b|B) _Menu ;;
+        v|V) _Save -v ;;
+    esac
+
+}
+

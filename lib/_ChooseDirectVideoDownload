@@ -1,0 +1,43 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2076,SC2154
+_ChooseDirectVideoDownload() {
+
+    _GetSelected
+    clear
+    cd "$videos_dir"/"${list%.*}" || exit 1
+    
+    mapfile -t DIRECT < <(grep '^https' "$CHOOSE1")
+
+    for line in "${DIRECT[@]}"; do
+        
+        if [[ $direct_download = yes ]]; then
+            printf '%s\n' " ${task}Direct download enabled.${nc}"
+        else
+            printf '%s\n' " ${task}Download method = direct.${nc}"
+        fi
+        
+        __
+        printf '%s\n' " ${info}Downloading $counter file(s).${nc}"
+        
+        if [[ $line =~ 'youtube.com' ]]; then
+            youtube-dl --no-warnings \
+            --merge-output-format mp4 \
+            --progress "$line"
+            clear
+        else
+            youtube-dl --no-warnings --progress "$line"
+            clear
+        fi
+        
+        ((counter--))
+        
+    done
+    
+    unset line
+    echo " ${info}All done${nc}"
+    sleep 2
+
+}
+
