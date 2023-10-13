@@ -3,6 +3,8 @@
 
 _DirectVideoDownload() {
 
+    counter=$(grep -v -c '#EXTM3U' "$list")
+    
     mkdir -p "$videos_dir"/"${list%.*}"
     __
     printf '%s\n' " ${task}Direct download enabled.${nc}"
