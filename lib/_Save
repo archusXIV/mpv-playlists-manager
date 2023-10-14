@@ -22,7 +22,11 @@ _Save() {
         ;;
         -q)
             CURRENT_LIST="$QUEUE"
-            CURRENT_TITLE="$tmp_dir"/DefaultTitles
+            if [[ -f "$tmp_dir"/DefaultTitles ]]; then
+                CURRENT_TITLE="$tmp_dir"/DefaultTitles
+            else
+                CURRENT_TITLE="$titles_dir"/default.m3u.titles
+            fi
             _SaveCheck
             _ReplaceSpaces -s
             unset list
