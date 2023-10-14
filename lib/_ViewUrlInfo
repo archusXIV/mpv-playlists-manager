@@ -71,7 +71,7 @@ _ViewUrlInfo() {
             echo -e " ${info}______________________________________________________${nc}\n"
             sed '1d' "$QUEUE" | cat -n
             __
-            cat -n "$tmp_dir"/DefaultTitles || \
+            cat -n "$tmp_dir"/DefaultTitles 2>/dev/null || \
             cat -n "$titles_dir"/default.m3u.titles
             __
             while [[ -f $QUEUE ]]; do
