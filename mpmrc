@@ -120,12 +120,10 @@ function _MpvAudioOptions {
 # mpm video online playing command line
 function _MpvVideoOptions {
     # same as above.
-    # mpv \
-    # --input-ipc-server='/tmp/mpvsocket' \
-    # --cache \
-    # --no-config \
-    # --term-playing-msg='Title: ${media-title}' \
-    # --ytdl-format='299+251/298+251/137+251/136+251/best' "$M3UFILE"
-    echo '{ "command": ["get_property", "media-title"] }' \
-    | socat - /tmp/mpvsocket | awk -F '"' '{print $4}'
+    mpv \
+    --input-ipc-server='/tmp/mpvsocket' \
+    --cache \
+    --no-config \
+    --term-playing-msg='Title: ${media-title}' \
+    --ytdl-format='299+251/298+251/137+251/136+251/best' "$M3UFILE"
 }
