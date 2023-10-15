@@ -8,7 +8,7 @@ _ViewUrlInfo() {
     # They will close the block before it finishes.
 
     prompt=( "[M]aim menu" "[B]ack to audio options" "[B]ack to video options" \
-            "[D]ownload" "[P]lay" "[S]ave as" "[R]emove list" "[V]iew title(s):" )
+            "[D]ownload" "[P]lay" "[S]ave as" "[R]emove list: " )
 
     __audio() {
         if [[ -f $AUDIO_INFO ]]; then
