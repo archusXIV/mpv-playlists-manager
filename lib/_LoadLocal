@@ -31,13 +31,13 @@ _LoadLocal() {
                     break
                 else
                     # checking for content in linked directories.
-                    if [[ -z $(command ls "$AUDIOS"/"$dir") ]]; then
+                    [[ -z $(command ls "$AUDIOS"/"$dir") ]] && {
                         __
                         echo " ${critical}This symlink points to an empty directory!"
                         echo " Wait and try again...${nc}"
                         sleep 4
                         break
-                    fi
+                    }
 
                     clear
                     mpv --no-video "$AUDIOS"/"$dir"/*
@@ -66,13 +66,14 @@ _LoadLocal() {
                     break
                 else
 
-                    if [[ -z $(command ls "$VIDEOS"/"$dir") ]]; then
+                    [[ -z $(command ls "$VIDEOS"/"$dir") ]] && {
                         __
                         echo " ${critical}This symlink points to an empty directory!"
                         echo " Wait and try again...${nc}"
                         sleep 4
                         break
-                    fi
+                    }
+                    
                     clear
                     mpv "$VIDEOS"/"$dir"/*
                     break
