@@ -5,12 +5,15 @@
 _LoadPlaylist() {
     cd "$playlists_dir" || exit 1
 
-    if [[ -z $(find . -type f -not -name "default.m3u" -iname "*.m3u") ]]; then
+    [[ -z $(find . -type f -not -name "default.m3u" -iname "*.m3u") ]] && {
+
         printf '%s\n' " ${critical}No playlist found!${nc}" \
         " ${task}First make a temporary list using options 1 or 2," \
         " save it as wathever you like, then come back to play/download it.${nc}"
         sleep 10 && _Menu
-    fi
+    
+    }
+    
     
     clear
     touch 1_Back_to_menu
@@ -22,12 +25,12 @@ _LoadPlaylist() {
 
         [[ $list = 1_Back_to_menu ]] && rm 1_Back_to_menu && break
 
-        if [[ $(_GetLinesList -l) -eq 0 ]]; then
+        [[ $(_GetLinesList -l) -eq 0 ]] && {
             echo " ${critical}No links found in $list (empty or does not contains #EXTM3U header)."
             echo " You can edit and fix it in option 8) Edit a playlist.${nc}"
             sleep 8
             break
-        fi
+        }
 
         rm 1_Back_to_menu
         clear

@@ -27,6 +27,7 @@ _DownloadVideoList() {
         s|S)
             cd "$videos_dir"/"${list%.*}" || return
             for downvideourl in $(grep -v '#EXTM3U' "$list"); do
+
                 clear
                 __
                 echo " ${info}Codes for: $(_GetLinkTitle -l)${nc}"
@@ -39,17 +40,22 @@ _DownloadVideoList() {
                 clear
 
                 if [[ "$code" =~ '+' ]]; then
+
                     printf '%s\n' " ${info}Downloading $downloadvideocounter file(s).${nc}"
                     youtube-dl \
                     -o "$(_GetLinkTitle -l)".mp4 \
                     -f "$code" --no-warnings \
-                    --merge-output-format mp4 --progress "$downvideourl"
+                    --merge-output-format mp4 \
+                    --progress "$downvideourl"
+
                 else
+
                     printf '%s\n' " ${info}Downloading $downloadvideocounter file(s).${nc}"
                     youtube-dl \
                     -o "$(_GetLinkTitle -l)".mp4 \
                     -f "$code" --no-warnings \
                     --progress "$downvideourl"
+
                 fi
 
                 sed -i '2d' "$playlists_dir"/"$list"

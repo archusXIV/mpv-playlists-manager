@@ -66,12 +66,19 @@ _GetAudio() {
 
         if [[ $(youtube-dl -F --no-warnings "$audiodownloadurl" \
             | sed -n '/audio only/p' | grep -w '251') ]]; then
+
             __
             __GetAudioDownloadMessages
             youtube-dl \
-            -o "$(youtube-dl --skip-download --get-title "$audiodownloadurl")".webm \
-            -f 251 --no-warnings --progress "$audiodownloadurl"
+            -o "$(youtube-dl \
+            --skip-download \
+            --get-title "$audiodownloadurl")".webm \
+            -f 251 \
+            --no-warnings \
+            --progress "$audiodownloadurl"
+
         else
+
             youtube-dl -F --no-warnings "$audiodownloadurl" \
             | sed -n '/audio only/p'
             __
@@ -82,6 +89,7 @@ _GetAudio() {
             __GetAudioDownloadMessages
             youtube-dl -f "$code" \
             --no-warnings --progress "$audiodownloadurl"
+            
         fi
 
         if [[ $M3UFILE = "$AUDIO_INFO" ]]; then
@@ -99,11 +107,13 @@ _GetAudio() {
     echo -e " ${info}Done\n${nc}"
 
     if [[ -n $(find . -iname "*.webm") ]]; then
+
         echo " ${critical}ADVISORY: if you choose conversion, all downloaded files (.webm)"
         echo -e " will be converted in the chosen format.${nc}\n"
         find . -iname "*.webm" | sort -d | sed 's,.*/,,'
 
         if [[ $automatic_audio_conversion = yes ]]; then
+
             __
             printf '%s\n' " ${task}Automatic audio conversion enabled.${nc}"
             sleep 2
@@ -111,7 +121,9 @@ _GetAudio() {
             && _ConvertAudio && _GetCompleted -a
             [[ $M3UFILE = "$playlists_dir"/"$list" ]] \
             && _ConvertAudio && _DownloadCompleted
+
         else
+
             __
             _Prompt " ${info}Do you wish to convert them?: ${nc}" || {
                 [[ $M3UFILE = "$AUDIO_INFO" ]] || [[ $M3UFILE = "$QUEUE" ]] \
@@ -122,12 +134,15 @@ _GetAudio() {
             && _ConvertAudio && _GetCompleted -a
             [[ $M3UFILE = "$playlists_dir"/"$list" ]] \
             && _ConvertAudio && _DownloadCompleted
+
         fi
 
     else
+
         [[ $M3UFILE = "$AUDIO_INFO" ]] || [[ $M3UFILE = "$QUEUE" ]] \
         && _GetCompleted -a
         [[ $M3UFILE = "$playlists_dir"/"$list" ]] && _DownloadCompleted
+
     fi
 
 }

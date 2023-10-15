@@ -24,13 +24,16 @@ _ChooseDownloadAudio() {
     mapfile -t < <(grep '^https' "$CHOOSE1")
     
     for url in "${MAPFILE[@]}"; do
+
         if [[ $direct_download = yes ]] && \
             [[ $(youtube-dl -F --no-warnings "$url" | grep -w '251') ]]; then
+
             printf '%s\n' " ${task}Direct download enabled.${nc}"
             __
             printf '%s\n' " ${info}Downloading $chooseaudiocounter file(s).${nc}"
             youtube-dl -o "$(youtube-dl --skip-download --get-title "$url")".webm \
             -f 251 --no-warnings --progress "$url"
+
         elif [[ $direct_download = no ]] && [[ $url =~ 'youtube.com' ]]; then
             __
             printf '%s\n' " ${task}Direct download disabled.${nc}"
@@ -44,7 +47,9 @@ _ChooseDownloadAudio() {
             __
             printf '%s\n' " ${info}Total downloads: $chooseaudiocounter${nc}"
             youtube-dl -f "$code" --no-warnings --progress "$url"
+
         else
+
             youtube-dl -F --no-warnings "$url"
             echo " ${info}Choose a format code: ${nc}"
             read -r code
@@ -53,9 +58,12 @@ _ChooseDownloadAudio() {
             printf '%s\n' " ${info}Total downloads: $chooseaudiocounter${nc}"
             sleep 0.5
             youtube-dl -f "$code" --no-warnings --progress "$url"
+
         fi
+
         ((chooseaudiocounter--))
         clear
+
     done
     unset i
     
@@ -73,6 +81,7 @@ _ChooseDownloadAudio() {
     cd "$audios_dir" || exit 1
 
     if [[ -n $(find . -iname "*.webm") ]]; then
+    
         echo " ${critical}ADVISORY: if you choose conversion, all downloaded files"
         echo -e " will be converted in the chosen format.${nc}\n"
         find . -iname "*.webm" | sed 's,.*/,,'

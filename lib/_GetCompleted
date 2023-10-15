@@ -7,6 +7,7 @@ _GetCompleted() {
     cd "$main_dir" || exit 1
 
     if [[ -n $(find . -name "*.part") ]]; then
+
         mv {"$AUDIO_INFO"_origin,"$VIDEO_INFO"_origin} "$playlists_dir" 2>/dev/null
         echo " ${critical}Temporary playlists have been moved in $playlists_dir."
         echo -e " Incomplete files in audio/video directories:\n${nc}"
@@ -17,17 +18,22 @@ _GetCompleted() {
         echo " in this session or later.${nc}"
         sleep 15
         _Menu
+
     else
+
         _Prompt -n " ${info}Downloads completed, KEEP playlist?: ${nc}" && {
             echo " ${critical}Don't forget to save it as for future download.${nc}"
             sleep 3
+
             [[ -f "$QUEUE"_origin ]] && {
                 mv -f "$QUEUE"_origin "$QUEUE"
                 rm -f "$tmp_dir"/{DefaultTitles_origin,DefaultTitles}
             }
+
             cp -f "$AUDIO_INFO"_origin "$AUDIO_INFO"
             cp -f "$AUDIO_TITLE"_origin "$AUDIO_TITLE"
             _Menu
+            
         }
         
         case "$1" in

@@ -6,8 +6,10 @@
 # but let's ensure temporary files are removed before we exit out. 
 _CleanTmpDir() {
     if (( $(_GetLinesList -q) > 0 )); then
+
         [[ -f "$tmp_dir"/DefaultTitles ]] && \
         cp "$tmp_dir"/DefaultTitles "$titles_dir"/default.m3u.titles
+        
     elif [[ -f "$titles_dir"/default.m3u.titles ]]; then
         rm -f "$titles_dir"/default.m3u.titles
     fi

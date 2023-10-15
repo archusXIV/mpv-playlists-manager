@@ -74,14 +74,21 @@ _GetVideo() {
         clear
         __
         if [[ "$code" =~ '+' ]]; then
+
             __DownloadMessages
             youtube-dl -f "$code" \
             --no-warnings \
             --merge-output-format mp4 \
             --progress "$getvideourl"
+
         else
+
             __DownloadMessages
-            youtube-dl -f "$code" --no-warnings --progress "$getvideourl"
+            youtube-dl \
+            -f "$code" \
+            --no-warnings \
+            --progress "$getvideourl"
+        
         fi
 
         if [[ $M3UFILE = "$VIDEO_INFO" ]]; then

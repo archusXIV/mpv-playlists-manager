@@ -10,6 +10,7 @@ _SaveRemove() {
     "Save [V]ideo," "[R]emove a playlist." )
 
     if [[ -f $AUDIO_INFO ]] && [[ -f $VIDEO_INFO ]]; then
+
         if (( $(_GetLinesList -q) < 1 )); then
             unset prompt[1]
             echo "${info}" "${prompt[*]}" "${nc}"
@@ -18,7 +19,9 @@ _SaveRemove() {
             echo "${info}" "${prompt[@]}" "${nc}"
             __
         fi
+    
     elif [[ -f $AUDIO_INFO ]]; then
+
         if (( $(_GetLinesList -q) < 1 )); then
             unset {prompt[1],prompt[3]}
             echo "${info}" "${prompt[*]}" "${nc}"
@@ -27,7 +30,9 @@ _SaveRemove() {
             echo "${info}" "${prompt[*]}" "${nc}"
             __
         fi
+    
     elif [[ -f $VIDEO_INFO ]]; then
+
         if (( $(_GetLinesList -q) < 1 )); then
             unset {prompt[1],prompt[2]}
             echo "${info}" "${prompt[*]}" "${nc}"
@@ -36,6 +41,7 @@ _SaveRemove() {
             echo "${info}" "${prompt[*]}" "${nc}"
             __
         fi
+    
     elif (( $(_GetLinesList -q) < 1 )); then
         echo -e " ${critical}Nothing to save, maybe remove something?${nc}\n"
         unset {prompt[1],prompt[2],prompt[3]}
@@ -49,13 +55,13 @@ _SaveRemove() {
 
     read -rsn 1 opt
     case "$opt" in
-        a*|A*) _Save -a ;;
-        b*|B*) _Menu ;;
-        d*|D*)
+        a|A) _Save -a ;;
+        b|B) _Menu ;;
+        d|D)
             rm -f "$tmp_dir"/1 2>/dev/null
             _Save -q
         ;;
-        r*|R*)
+        r|R)
             clear; __
             PS3=""$'\n'" ${info}Choose a playlist to remove:${nc} "
             __
@@ -77,7 +83,7 @@ _SaveRemove() {
                 break
             done
         ;;
-        v*|V*) _Save -v ;;
+        v|V) _Save -v ;;
     esac
     _Menu
 }

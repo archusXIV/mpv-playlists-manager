@@ -6,6 +6,7 @@ _DownloadCompleted() {
     cd "$playlists_dir" || exit 1
 
     if [[ -n $(find "$main_dir" -name "*.part") ]]; then
+
         mv {"$AUDIO_INFO"_origin,"$VIDEO_INFO"_origin} "$playlists_dir" 2>/dev/null
         printf '%s\n' " ${critical}Temporary playlists have been moved in $playlists_dir." \
         " Incomplete files in audio/video dir:\n${nc}"; __
@@ -16,6 +17,7 @@ _DownloadCompleted() {
         " in this session or later.${nc}"
         sleep 15
         _Menu
+        
     else
         FILES=( "$list" "$list"_origin \
             "$titles_dir"/"$list".titles "$CHOOSE1" "$CHOOSE2" )

@@ -13,6 +13,7 @@ _CopyAudio() {
             read -r audiourl
 
             if [[ $audiourl =~ 'playlist?list=' ]]; then
+
                 __
                 AudioPlaylistTitle=$(\
                 youtube-dl --no-warnings -J \
@@ -26,14 +27,18 @@ _CopyAudio() {
                 | tee -a "$AUDIO_TITLE" >> "$tmp_dir"/DefaultTitles
                 _GetYoutubePlaylistUrls -a
                 _RemoveCrap
+
             else
+
                 echo "$audiourl" >> "$AUDIO_INFO"
                 __
                 echo " ${info}Testing url...${nc}"
                 _RemoveCrap
                 audiourl=$(sed -n '$p' "$AUDIO_INFO")
                 youtube-dl -F --no-warnings "$audiourl" > "$YTOP"
+
                 if [[ $? -eq 1 ]]; then
+
                     __
                     echo -e " ${critical}${b}No format code found!${nb}\n$audiourl will be removed."
                     echo " ${info}Please visit: $supportedsites${nc}"
@@ -41,13 +46,17 @@ _CopyAudio() {
                     _RemoveCrap
                     sleep 7
                     [[ $(_GetLinesList -a) -eq 0 ]] && _Menu
+
                 else
+
                     sed -n '$p' "$AUDIO_INFO" >> "$QUEUE"
                     echo -e " ${info}Getting audio title...${nc}\n"
                     youtube-dl --get-title --no-warnings \
                     "$audiourl" | tee -a "$AUDIO_TITLE" >> "$tmp_dir"/DefaultTitles
                     _RemoveCrap
+
                 fi
+                
             fi
         }
 

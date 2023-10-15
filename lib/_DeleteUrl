@@ -5,6 +5,7 @@
 _DeleteUrl() {
 
     if (( $(_GetLinesList -q) == 0 )); then
+
         if [[ -n $(find "$tmp_dir" -name "*.m3u") ]]; then
             _CleanTmpDir
             echo " ${critical}All tmp lists removed.${nc}"
@@ -14,6 +15,7 @@ _DeleteUrl() {
             sleep 3
             _Menu
         fi
+        
     else
         __
         sed -i '/^https/d' "$QUEUE"

@@ -7,10 +7,10 @@ _ListsCount() {
     local UPD
     UPD=$(curl -sL "https://raw.githubusercontent.com/archusXIV/mpv-playlists-manager/main/version")
     __
-    if [[ $UPD != "$VERSION" ]]; then
+    [[ $UPD != "$VERSION" ]] && {
         printf '%s\n' " ${critical}${b}New version available${nb}${nc}"
         __
-    fi
+    }
 
     echo " ${info}Collection:" \
     "  $(find "$playlists_dir" -not -name "default.m3u" \

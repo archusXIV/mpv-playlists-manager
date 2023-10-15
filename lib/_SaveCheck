@@ -15,6 +15,7 @@ _SaveCheck() {
     -o -name "*.m3u_origin" | sort -d | sed 's,.*/,,'); do
         
         [[ $REPLY != $((listTotal + 1)) ]] && {
+        
             if [[ $(find . -name "${list}") ]]; then
                 __
                 _Prompt -n " ${critical}$list already exists! Overwrite it?: ${nc}" && {
@@ -37,6 +38,7 @@ _SaveCheck() {
                 sleep 4
                 break
             fi
+        
         }
         
         __
