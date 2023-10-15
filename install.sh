@@ -29,19 +29,19 @@ _uninstall() {
 
 date
 printf '\n'
-if [ -x /usr/local/bin/mpm ] && [ -d /usr/local/lib/mpm ]; then
+if [[ -x /usr/local/bin/mpm ]] && [[ -d /usr/local/lib/mpm ]]; then
     read -rn 1 -p ' [R]emove or [U]pgrade mpm?: ' answer
     case "$answer" in
         r|R)
             _uninstall
         ;;
         u|U)
-            if [ "$(find ./lib -type f | wc -l)" = \
-                "$(find /usr/local/lib/mpm -type f | wc -l)" ]; then
+            if [[ $(find ./lib -type f | wc -l) = \
+                $(find /usr/local/lib/mpm -type f | wc -l) ]]; then
                 _uninstall
                 _install
-            elif [ "$(find ./lib -type f | wc -l)" != \
-                "$(find /usr/local/lib/mpm -type f | wc -l)" ]; then
+            elif [[ $(find ./lib -type f | wc -l) != \
+                $(find /usr/local/lib/mpm -type f | wc -l) ]]; then
                 _uninstall
                 _install
             fi
