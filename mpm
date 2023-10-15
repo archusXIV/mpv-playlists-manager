@@ -72,12 +72,12 @@ _LaunchMpm() {
 }
 
 case "$1" in
-    -c) $MPMEDITOR "$MPMRC" && _LaunchMpm ;;
+    -c) $MPMEDITOR "$MPMRC" && _LaunchMpm "$@";;
     -e) _EditPlaylist ;;
     -l) _LoadPlaylist ;;
     -p) _LoadLocal ;;
-    -v) echo "mpm $VERSION" && _LaunchMpm ;;
-    -h|--help) less "$HELP" && _LaunchMpm ;;
+    -v) echo "mpm $VERSION" && _LaunchMpm "$@";;
+    -h|--help) less "$HELP" && _LaunchMpm "$@";;
 esac
 
 _CheckDependencies "${@}"
