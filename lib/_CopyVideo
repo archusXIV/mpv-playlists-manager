@@ -51,7 +51,7 @@ _CopyVideo() {
             fi
         }
 
-        while (( $(grep "" -c "$QUEUE") > 0 )); do
+        while :; do
             _ResizeWindow
             clear
             __
@@ -85,4 +85,3 @@ _CopyVideo() {
 
     done
 }
-

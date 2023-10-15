@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154
 _LoadPlaylistMenu() {
 
-    while true; do
+    while :; do
 
         _ResizeWindow
         clear

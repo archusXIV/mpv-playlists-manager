@@ -32,4 +32,3 @@ _ListsCount() {
         echo -e " ${info}Video list:   $(_GetLinesList -v) url(s)${nc}\n"
 
 }
-

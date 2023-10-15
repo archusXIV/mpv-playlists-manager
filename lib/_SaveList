@@ -13,7 +13,7 @@ _SaveList() {
     (( $(grep -c -w '#EXTM3U' "$list") > 1 )) \
         && sed -i '1d' "$list"
 
-    if [[ $CURRENT_LIST = $QUEUE ]]; then
+    if [[ $CURRENT_LIST = "$QUEUE" ]]; then
         __
         printf '%s\n' " ${info}default list saved as $list${nc}"
     else
@@ -24,4 +24,3 @@ _SaveList() {
     
     sleep 3
 }
-

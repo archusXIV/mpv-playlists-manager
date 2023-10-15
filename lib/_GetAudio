@@ -5,7 +5,7 @@
 _GetAudio() {
 
     cd "$audios_dir" || exit 1
-    local counter M3UFILE TITLES
+    local getaudiocounter M3UFILE TITLES
 
     case "$1" in
         -a)
@@ -39,22 +39,22 @@ _GetAudio() {
     esac
 
     clear
-    counter=$(grep -c '^https' "$M3UFILE")
+    getaudiocounter=$(grep -c '^https' "$M3UFILE")
 
     __GetAudioDownloadMessages() (
     
         [[ $M3UFILE = "$AUDIO_INFO" ]] && {
-            printf '%s\n' " ${info}$counter audio file(s) left to download." \
+            printf '%s\n' " ${info}$getaudiocounter audio file(s) left to download." \
             " Please be patient while downloading:  $(_GetLinkTitle -a).webm${nc}"
         }
         
         [[ $M3UFILE = "$playlists_dir"/"$list" ]] && {
-            printf '%s\n' " ${info}$counter audio file(s) left to download." \
+            printf '%s\n' " ${info}$getaudiocounter audio file(s) left to download." \
             " Please be patient while downloading:  $(_GetLinkTitle -l).webm${nc}"
         }
         
         [[ $M3UFILE = "$QUEUE" ]] && {
-            printf '%s\n' " ${info}$counter audio file(s) left to download." \
+            printf '%s\n' " ${info}$getaudiocounter audio file(s) left to download." \
             " Please be patient while downloading:  $(_GetLinkTitle -q).webm${nc}"
         }
 
@@ -91,7 +91,7 @@ _GetAudio() {
             sed -i '1d' "$TITLES"
         fi
 
-        ((counter--))
+        ((getaudiocounter--))
         clear
 
     done
@@ -131,4 +131,3 @@ _GetAudio() {
     fi
 
 }
-

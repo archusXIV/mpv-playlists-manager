@@ -13,4 +13,3 @@ _CleanTmpDir() {
     fi
     rm -f {"$tmp_dir"/*,"$playlists_dir"/1_Back_to_menu} 2>/dev/null
 }
-
