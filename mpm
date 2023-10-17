@@ -36,7 +36,11 @@ trap "_CleanTmpDir; exit" SIGTERM EXIT
 mpvmenu=$(basename $0)
 pids=($(pidof -x $mpvmenu))
 
-[[ ${#pids[@]} -gt 1 ]] && exit
+[[ ${#pids[@]} -gt 1 ]] && {
+    printf '%s\n' " ${critical}mpm is already running...${nc}"
+    notify-send -t 0 -u critical "mpm is already running..."
+    exit
+}
 
 # creates a blank line
 __() { printf '\n'; }
