@@ -37,7 +37,7 @@ _LoadVideo() {
         echo " If so, type ${b}${task}Y${nb} ${critical}to preserve temporary video list${nc}"
         __
 
-        declare -a TMP=( "$VIDEO_URLS" "$VIDEO_TITLE" "$FFOP" "$YTOP" "$CHOOSE1" )
+        declare -a TMP=( "$VIDEO_URLS" "$VIDEO_TITLES" "$FFOP" "$YTOP" "$CHOOSE1" )
 
         _Prompt " ${info}Temporary video list still exist, KEEP it?:${nc}" || {
             rm -f "${TMP[@]}" 2>/dev/null

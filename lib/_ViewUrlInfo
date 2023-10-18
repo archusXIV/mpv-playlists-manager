@@ -17,7 +17,7 @@ _ViewUrlInfo() {
             __
             cat -n "$AUDIO_URLS"
             __
-            cat -n "$AUDIO_TITLE"
+            cat -n "$AUDIO_TITLES"
             __
             unset {viewUrlInfoPrompt[2],viewUrlInfoPrompt[7]}
             __
@@ -43,7 +43,7 @@ _ViewUrlInfo() {
             __
             cat -n "$VIDEO_URLS"
             __
-            cat -n "$VIDEO_TITLE"
+            cat -n "$VIDEO_TITLES"
             __
             unset {viewUrlInfoPrompt[1],viewUrlInfoPrompt[7]}
             __

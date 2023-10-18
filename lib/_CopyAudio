@@ -24,7 +24,7 @@ _CopyAudio() {
                 printf '%s\n' " ${info}Getting titles & links from playlist: $AudioPlaylistTitle..." \
                 "${b} Please be patient.${nb}${nc}"
                 youtube-dl --get-title --no-warnings "$copyAudioUrl" \
-                | tee -a "$AUDIO_TITLE" >> "$tmp_dir"/DefaultTitles
+                | tee -a "$AUDIO_TITLES" >> "$tmp_dir"/DefaultTitles
                 _GetYoutubePlaylistUrls -a
                 _RemoveCrap
 
@@ -52,7 +52,7 @@ _CopyAudio() {
                     sed -n '$p' "$AUDIO_URLS" >> "$QUEUE"
                     echo -e " ${info}Getting audio title...${nc}\n"
                     youtube-dl --get-title --no-warnings \
-                    "$copyAudioUrl" | tee -a "$AUDIO_TITLE" >> "$tmp_dir"/DefaultTitles
+                    "$copyAudioUrl" | tee -a "$AUDIO_TITLES" >> "$tmp_dir"/DefaultTitles
                     _RemoveCrap
 
                 fi

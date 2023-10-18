@@ -32,7 +32,7 @@ _GetVideo() {
                 _CopyVideo
             }
             M3UFILE="$VIDEO_URLS"
-            TITLES="$VIDEO_TITLE"
+            TITLES="$VIDEO_TITLES"
             cp -f "$M3UFILE" "$M3UFILE"_origin 2>/dev/null
             cp -f "$TITLES" "$TITLES"_origin
         ;;
@@ -57,7 +57,7 @@ _GetVideo() {
             printf '%s\n' " ${info}$getVideoCounter video file(s) left to download." \
             " Please be patient while downloading:  $(_GetLinkTitle -q).webm${nc}"
         }
-        [[ $TITLES = "$VIDEO_TITLE" ]] && {
+        [[ $TITLES = "$VIDEO_TITLES" ]] && {
             printf '%s\n' " ${info}$getVideoCounter video file(s) left to download." \
             " Please be patient while downloading:  $(_GetLinkTitle -v).webm${nc}"
         }

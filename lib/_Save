@@ -10,7 +10,7 @@ _Save() {
         -a)
             if [[ -f $AUDIO_URLS ]]; then
                 CURRENT_LIST="$AUDIO_URLS"
-                CURRENT_TITLE="$AUDIO_TITLE"
+                CURRENT_TITLES="$AUDIO_TITLES"
                 _SaveCheck
                 _ReplaceSpaces -s
                 unset list
@@ -23,9 +23,9 @@ _Save() {
         -q)
             CURRENT_LIST="$QUEUE"
             if [[ -f "$tmp_dir"/DefaultTitles ]]; then
-                CURRENT_TITLE="$tmp_dir"/DefaultTitles
+                CURRENT_TITLES="$tmp_dir"/DefaultTitles
             else
-                CURRENT_TITLE="$titles_dir"/default.m3u.titles
+                CURRENT_TITLES="$titles_dir"/default.m3u.titles
             fi
             _SaveCheck
             _ReplaceSpaces -s
@@ -34,7 +34,7 @@ _Save() {
         -v)
             if [[ -f $VIDEO_URLS ]]; then
                 CURRENT_LIST="$VIDEO_URLS"
-                CURRENT_TITLE="$VIDEO_TITLE"
+                CURRENT_TITLES="$VIDEO_TITLES"
                 _SaveCheck
                 _ReplaceSpaces -s
                 unset list

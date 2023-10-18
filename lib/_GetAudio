@@ -15,9 +15,9 @@ _GetAudio() {
                 _CopyAudio
             }
             M3UFILE="$AUDIO_URLS"
-            TITLES="$AUDIO_TITLE"
+            TITLES="$AUDIO_TITLES"
             cp -f "$AUDIO_URLS" "$AUDIO_URLS"_origin 2>/dev/null
-            cp -f "$AUDIO_TITLE" "$AUDIO_TITLE"_origin 2>/dev/null
+            cp -f "$AUDIO_TITLES" "$AUDIO_TITLES"_origin 2>/dev/null
         ;;
         -l)
             M3UFILE="$playlists_dir"/"$list"

@@ -23,7 +23,7 @@ _LoadAudio() {
                 __AdviceAudio
                 _MpvAudioOptions
                 _Prompt " ${info}Temporary audio list still exist, KEEP it?: ${nc}" || {
-                    rm {"$AUDIO_URLS","$AUDIO_TITLE"}
+                    rm {"$AUDIO_URLS","$AUDIO_TITLES"}
                 }
                 _Menu
             else

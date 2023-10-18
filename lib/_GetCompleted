@@ -31,7 +31,7 @@ _GetCompleted() {
             }
 
             cp -f "$AUDIO_URLS"_origin "$AUDIO_URLS"
-            cp -f "$AUDIO_TITLE"_origin "$AUDIO_TITLE"
+            cp -f "$AUDIO_TITLES"_origin "$AUDIO_TITLES"
             _Menu
             
         }
