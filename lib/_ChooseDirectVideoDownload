@@ -19,7 +19,7 @@ _ChooseDirectVideoDownload() {
         fi
         
         __
-        printf '%s\n' " ${info}Downloading $choosevideocounter file(s).${nc}"
+        printf '%s\n' " ${info}Downloading $chooseVideoCounter file(s).${nc}"
         
         if [[ $line =~ 'youtube.com' ]]; then
             youtube-dl --no-warnings \
@@ -31,7 +31,7 @@ _ChooseDirectVideoDownload() {
             clear
         fi
         
-        ((choosevideocounter--))
+        ((chooseVideoCounter--))
         
     done
     

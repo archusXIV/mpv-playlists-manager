@@ -7,8 +7,9 @@ _ViewUrlInfo() {
     # but here it won't work because of the case statment right parenthese...
     # They will close the block before it finishes.
 
-    prompt=( "[M]aim menu" "[B]ack to audio options" "[B]ack to video options" \
-            "[D]ownload" "[P]lay" "[S]ave as" "[R]emove list: " )
+    viewUrlInfoPrompt=( "[M]aim menu" "[B]ack to audio options" \
+                        "[B]ack to video options" "[D]ownload" \
+                        "[P]lay" "[S]ave as" "[R]emove list: " )
 
     __audio() {
         if [[ -f $AUDIO_INFO ]]; then
@@ -18,9 +19,9 @@ _ViewUrlInfo() {
             __
             cat -n "$AUDIO_TITLE"
             __
-            unset {prompt[2],prompt[7]}
+            unset {viewUrlInfoPrompt[2],viewUrlInfoPrompt[7]}
             __
-            echo "${info}" "${prompt[*]}" "${nc}"
+            echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
             read -rsn 1 opt
             case "$opt" in
                 b|B) __; _CopyAudio ;;
@@ -44,9 +45,9 @@ _ViewUrlInfo() {
             __
             cat -n "$VIDEO_TITLE"
             __
-            unset {prompt[1],prompt[7]}
+            unset {viewUrlInfoPrompt[1],viewUrlInfoPrompt[7]}
             __
-            echo "${info}" "${prompt[*]}" "${nc}"
+            echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
             read -rsn 1 opt
             case "$opt" in
                 b|B) __; _CopyVideo ;;
@@ -75,8 +76,8 @@ _ViewUrlInfo() {
             cat -n "$titles_dir"/default.m3u.titles
             __
             while [[ -f $QUEUE ]]; do
-                unset {prompt[1],prompt[2],prompt[7]}
-                echo "${info}" "${prompt[*]}" "${nc}"
+                unset {viewUrlInfoPrompt[1],viewUrlInfoPrompt[2],viewUrlInfoPrompt[7]}
+                echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
                 read -rsn 1 opt
                 case "$opt" in
                     m|M)

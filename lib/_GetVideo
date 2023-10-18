@@ -4,7 +4,7 @@
 # shellcheck disable=SC2013,SC2154,SC2076
 _GetVideo() {
 
-    local getvideocounter M3UFILE TITLES
+    local getVideoCounter M3UFILE TITLES
 
     case "$1" in
         -q)
@@ -39,7 +39,7 @@ _GetVideo() {
     esac
 
     clear
-    getvideocounter=$(grep -c '^https' "$M3UFILE")
+    getVideoCounter=$(grep -c '^https' "$M3UFILE")
 
     __ChooseFormatMessages() (
         [[ $M3UFILE = "$QUEUE" ]] && {
@@ -54,20 +54,20 @@ _GetVideo() {
 
     __DownloadMessages() (
         [[ $TITLES = "$tmp_dir"/DefaultTitles ]] && {
-            printf '%s\n' " ${info}$getvideocounter video file(s) left to download." \
+            printf '%s\n' " ${info}$getVideoCounter video file(s) left to download." \
             " Please be patient while downloading:  $(_GetLinkTitle -q).webm${nc}"
         }
         [[ $TITLES = "$VIDEO_TITLE" ]] && {
-            printf '%s\n' " ${info}$getvideocounter video file(s) left to download." \
+            printf '%s\n' " ${info}$getVideoCounter video file(s) left to download." \
             " Please be patient while downloading:  $(_GetLinkTitle -v).webm${nc}"
         }
     )
 
     cd "$videos_dir" || exit 1
 
-    for getvideourl in $(grep '^https' "$M3UFILE"); do
+    for getVideoUrl in $(grep '^https' "$M3UFILE"); do
         __
-        youtube-dl -F --no-warnings "$getvideourl"
+        youtube-dl -F --no-warnings "$getVideoUrl"
         __
         __ChooseFormatMessages
         read -r code
@@ -79,7 +79,7 @@ _GetVideo() {
             youtube-dl -f "$code" \
             --no-warnings \
             --merge-output-format mp4 \
-            --progress "$getvideourl"
+            --progress "$getVideoUrl"
 
         else
 
@@ -87,20 +87,20 @@ _GetVideo() {
             youtube-dl \
             -f "$code" \
             --no-warnings \
-            --progress "$getvideourl"
+            --progress "$getVideoUrl"
         
         fi
 
         if [[ $M3UFILE = "$VIDEO_INFO" ]]; then
             sed -i '1d' {"$M3UFILE","$TITLES"}
-            ((getvideocounter--))
             clear
         else
             sed -i '2d' "$M3UFILE"
             sed -i '1d' "$TITLES"
-            ((getvideocounter--))
             clear
         fi
+
+        ((getVideoCounter--))
 
     done
 

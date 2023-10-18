@@ -10,37 +10,37 @@ _CopyAudio() {
         __CopyAudioLinks() {
             __
             echo -e " Paste an url to fill the ${info}audio${nc} playlist:\n"
-            read -r audiourl
+            read -r copyAudioUrl
 
-            if [[ $audiourl =~ 'playlist?list=' ]]; then
+            if [[ $copyAudioUrl =~ 'playlist?list=' ]]; then
 
                 __
                 AudioPlaylistTitle=$(\
                 youtube-dl --no-warnings -J \
-                --flat-playlist "$audiourl" \
+                --flat-playlist "$copyAudioUrl" \
                 | jq -r .title \
                 )
                 
                 printf '%s\n' " ${info}Getting titles & links from playlist: $AudioPlaylistTitle..." \
                 "${b} Please be patient.${nb}${nc}"
-                youtube-dl --get-title --no-warnings "$audiourl" \
+                youtube-dl --get-title --no-warnings "$copyAudioUrl" \
                 | tee -a "$AUDIO_TITLE" >> "$tmp_dir"/DefaultTitles
                 _GetYoutubePlaylistUrls -a
                 _RemoveCrap
 
             else
 
-                echo "$audiourl" >> "$AUDIO_INFO"
+                echo "$copyAudioUrl" >> "$AUDIO_INFO"
                 __
                 echo " ${info}Testing url...${nc}"
                 _RemoveCrap
-                audiourl=$(sed -n '$p' "$AUDIO_INFO")
-                youtube-dl -F --no-warnings "$audiourl" > "$YTOP"
+                copyAudioUrl=$(sed -n '$p' "$AUDIO_INFO")
+                youtube-dl -F --no-warnings "$copyAudioUrl" > "$YTOP"
 
                 if [[ $? -eq 1 ]]; then
 
                     __
-                    echo -e " ${critical}${b}No format code found!${nb}\n$audiourl will be removed."
+                    echo -e " ${critical}${b}No format code found!${nb}\n$copyAudioUrl will be removed."
                     echo " ${info}Please visit: $supportedsites${nc}"
                     sed -i '$d' "$AUDIO_INFO"
                     _RemoveCrap
@@ -52,7 +52,7 @@ _CopyAudio() {
                     sed -n '$p' "$AUDIO_INFO" >> "$QUEUE"
                     echo -e " ${info}Getting audio title...${nc}\n"
                     youtube-dl --get-title --no-warnings \
-                    "$audiourl" | tee -a "$AUDIO_TITLE" >> "$tmp_dir"/DefaultTitles
+                    "$copyAudioUrl" | tee -a "$AUDIO_TITLE" >> "$tmp_dir"/DefaultTitles
                     _RemoveCrap
 
                 fi
@@ -75,8 +75,8 @@ _CopyAudio() {
             echo -e "                              └─────────────────────────────────────────────────────────────┘"
             echo -e "                                                     ${info}${b}Select an item${nb}${nc}"
             __
-            read -rsn 1 options
-            case "$options" in
+            read -rsn 1 copyAudioOptions
+            case "$copyAudioOptions" in
                 1)  __CopyAudioLinks
                     __ ;;
                 2)  _GetAudio -a

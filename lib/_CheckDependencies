@@ -22,6 +22,7 @@ _CheckDependencies() {
         }
     done
 
+    # MPMEDITOR & FILEMANAGER must be defined in ~/.config/mpm/mpmrc
     [[ -z $MPMEDITOR ]] && {
         printf '%s\n' " ${critical}The config EDITOR is not set...exiting!${nc}"
         notify-send -t 0 -u critical "The config EDITOR is not set...exiting!"

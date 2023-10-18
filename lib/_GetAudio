@@ -5,7 +5,7 @@
 _GetAudio() {
 
     cd "$audios_dir" || exit 1
-    local getaudiocounter M3UFILE TITLES
+    local getAudioCounter M3UFILE TITLES
 
     case "$1" in
         -a)
@@ -39,22 +39,22 @@ _GetAudio() {
     esac
 
     clear
-    getaudiocounter=$(grep -c '^https' "$M3UFILE")
+    getAudioCounter=$(grep -c '^https' "$M3UFILE")
 
     __GetAudioDownloadMessages() (
     
         [[ $M3UFILE = "$AUDIO_INFO" ]] && {
-            printf '%s\n' " ${info}$getaudiocounter audio file(s) left to download." \
+            printf '%s\n' " ${info}$getAudioCounter audio file(s) left to download." \
             " Please be patient while downloading:  $(_GetLinkTitle -a).webm${nc}"
         }
         
         [[ $M3UFILE = "$playlists_dir"/"$list" ]] && {
-            printf '%s\n' " ${info}$getaudiocounter audio file(s) left to download." \
+            printf '%s\n' " ${info}$getAudioCounter audio file(s) left to download." \
             " Please be patient while downloading:  $(_GetLinkTitle -l).webm${nc}"
         }
         
         [[ $M3UFILE = "$QUEUE" ]] && {
-            printf '%s\n' " ${info}$getaudiocounter audio file(s) left to download." \
+            printf '%s\n' " ${info}$getAudioCounter audio file(s) left to download." \
             " Please be patient while downloading:  $(_GetLinkTitle -q).webm${nc}"
         }
 
@@ -62,9 +62,9 @@ _GetAudio() {
     
     [[ -d "$audios_dir"/"${list%.*}" ]] && cd "$audios_dir"/"${list%.*}"
 
-    for audiodownloadurl in $(grep '^https' "$M3UFILE"); do
+    for getAudioUrl in $(grep '^https' "$M3UFILE"); do
 
-        if [[ $(youtube-dl -F --no-warnings "$audiodownloadurl" \
+        if [[ $(youtube-dl -F --no-warnings "$getAudioUrl" \
             | sed -n '/audio only/p' | grep -w '251') ]]; then
 
             __
@@ -72,14 +72,14 @@ _GetAudio() {
             youtube-dl \
             -o "$(youtube-dl \
             --skip-download \
-            --get-title "$audiodownloadurl")".webm \
+            --get-title "$getAudioUrl")".webm \
             -f 251 \
             --no-warnings \
-            --progress "$audiodownloadurl"
+            --progress "$getAudioUrl"
 
         else
 
-            youtube-dl -F --no-warnings "$audiodownloadurl" \
+            youtube-dl -F --no-warnings "$getAudioUrl" \
             | sed -n '/audio only/p'
             __
             echo " ${info}Choose a format code: ${nc}"
@@ -88,7 +88,7 @@ _GetAudio() {
             __
             __GetAudioDownloadMessages
             youtube-dl -f "$code" \
-            --no-warnings --progress "$audiodownloadurl"
+            --no-warnings --progress "$getAudioUrl"
             
         fi
 
@@ -99,7 +99,7 @@ _GetAudio() {
             sed -i '1d' "$TITLES"
         fi
 
-        ((getaudiocounter--))
+        ((getAudioCounter--))
         clear
 
     done

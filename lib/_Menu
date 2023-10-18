@@ -29,8 +29,8 @@ _Menu() {
             && echo -e "                                                   ${info}Select an item${nc}" \
             || echo -e "                                                   ${info}${b}Select an item${nc}${nb}"
         __
-        read -rsn 1 action
-        case "$action" in
+        read -rsn 1 mainMenuOptions
+        case "$mainMenuOptions" in
             1)  _CopyVideo
                 __ ;;
             2)  _CopyAudio

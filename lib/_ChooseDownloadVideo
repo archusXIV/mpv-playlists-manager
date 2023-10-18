@@ -16,7 +16,7 @@ _ChooseDownloadVideo() {
 
     clear
 
-    local choosevideocounter="${#array[*]}"
+    local chooseVideoCounter="${#array[*]}"
 
     if [[ $direct_download = yes ]]; then
         _ChooseDirectVideoDownload
@@ -54,7 +54,7 @@ _ChooseDownloadVideo() {
                 read -r code
                 sleep 0.5
                 clear
-                printf '%s\n' " ${info}Total downloads: $choosevideocounter${nc}"
+                printf '%s\n' " ${info}Total downloads: $chooseVideoCounter${nc}"
                 
                 if [[ $code =~ '+' ]]; then
                     youtube-dl -f "$code" \
@@ -66,7 +66,7 @@ _ChooseDownloadVideo() {
                     --no-warnings --progress "$url"
                 fi
                 
-                ((choosevideocounter--))
+                ((chooseVideoCounter--))
                 clear
             
             done

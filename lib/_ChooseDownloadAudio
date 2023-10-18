@@ -16,8 +16,8 @@ _ChooseDownloadAudio() {
     clear
     cd "$audios_dir" || exit 1
 
-    local chooseaudiocounter
-    chooseaudiocounter="${#array[*]}"
+    local chooseAudioCounter
+    chooseAudioCounter="${#array[*]}"
 
     _GetSelected
     
@@ -30,7 +30,7 @@ _ChooseDownloadAudio() {
 
             printf '%s\n' " ${task}Direct download enabled.${nc}"
             __
-            printf '%s\n' " ${info}Downloading $chooseaudiocounter file(s).${nc}"
+            printf '%s\n' " ${info}Downloading $chooseAudioCounter file(s).${nc}"
             youtube-dl -o "$(youtube-dl --skip-download --get-title "$url")".webm \
             -f 251 --no-warnings --progress "$url"
 
@@ -45,7 +45,7 @@ _ChooseDownloadAudio() {
             read -r code
             clear
             __
-            printf '%s\n' " ${info}Total downloads: $chooseaudiocounter${nc}"
+            printf '%s\n' " ${info}Total downloads: $chooseAudioCounter${nc}"
             youtube-dl -f "$code" --no-warnings --progress "$url"
 
         else
@@ -55,13 +55,13 @@ _ChooseDownloadAudio() {
             read -r code
             clear
             __
-            printf '%s\n' " ${info}Total downloads: $chooseaudiocounter${nc}"
+            printf '%s\n' " ${info}Total downloads: $chooseAudioCounter${nc}"
             sleep 0.5
             youtube-dl -f "$code" --no-warnings --progress "$url"
 
         fi
 
-        ((chooseaudiocounter--))
+        ((chooseAudioCounter--))
         clear
 
     done

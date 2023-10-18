@@ -14,7 +14,7 @@ _DirectVideoDownload() {
     
     for line in "${DIRECT[@]}"; do
 
-        printf '%s\n' " ${info}Downloading $downloadvideocounter file(s)." \
+        printf '%s\n' " ${info}Downloading $downloadVideoCounter file(s)." \
         " Downloading: $(_GetLinkTitle -l)${nc}"
         
         [[ $line =~ 'youtube.com' ]] && {
@@ -26,7 +26,7 @@ _DirectVideoDownload() {
             -o "$(_GetLinkTitle -l)".mp4 \
             --no-warnings "$line"
     
-        ((downloadvideocounter--))
+        ((downloadVideoCounter--))
         
         sed -i '2d' "$playlists_dir"/"$list"
         sed -i '1d' "$titles_dir"/"$list".titles
