@@ -5,10 +5,10 @@
 _GetYoutubePlaylistUrls() {
     __
     case "$1" in
-        -a) URLS_INFO="$AUDIO_INFO"
+        -a) URLS_INFO="$AUDIO_URLS"
             url="$audiourl"
         ;;
-        -v) URLS_INFO="$VIDEO_INFO"
+        -v) URLS_INFO="$VIDEO_URLS"
             url="$videourl"
         ;;
     esac

@@ -8,8 +8,8 @@ _Save() {
 
     case "$1" in
         -a)
-            if [[ -f $AUDIO_INFO ]]; then
-                CURRENT_LIST="$AUDIO_INFO"
+            if [[ -f $AUDIO_URLS ]]; then
+                CURRENT_LIST="$AUDIO_URLS"
                 CURRENT_TITLE="$AUDIO_TITLE"
                 _SaveCheck
                 _ReplaceSpaces -s
@@ -32,8 +32,8 @@ _Save() {
             unset list
         ;;
         -v)
-            if [[ -f $VIDEO_INFO ]]; then
-                CURRENT_LIST="$VIDEO_INFO"
+            if [[ -f $VIDEO_URLS ]]; then
+                CURRENT_LIST="$VIDEO_URLS"
                 CURRENT_TITLE="$VIDEO_TITLE"
                 _SaveCheck
                 _ReplaceSpaces -s

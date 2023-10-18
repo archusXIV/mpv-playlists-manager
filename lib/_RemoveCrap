@@ -7,8 +7,8 @@ _RemoveCrap() {
     # So with sed & perl we cleanup the link to get the direct link to the desir video.
     # Note that this behavior does not appear during a simple viewing/listening.
 
-    LISTS=( "$AUDIO_INFO" "$AUDIO_TITLE" \
-            "$VIDEO_INFO" "$VIDEO_TITLE" \
+    LISTS=( "$AUDIO_URLS" "$AUDIO_TITLE" \
+            "$VIDEO_URLS" "$VIDEO_TITLE" \
             "$QUEUE" "$tmp_dir"/DefaultTitles )
 
     for file in "${LISTS[@]}"; do

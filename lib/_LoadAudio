@@ -18,12 +18,12 @@ _LoadAudio() {
     # change mpv settings in ~/.config/mpm/mpmrc
     case "$1" in
         -a)
-            if [[ -f $AUDIO_INFO ]]; then
-                M3UFILE="$AUDIO_INFO"
+            if [[ -f $AUDIO_URLS ]]; then
+                M3UFILE="$AUDIO_URLS"
                 __AdviceAudio
                 _MpvAudioOptions
                 _Prompt " ${info}Temporary audio list still exist, KEEP it?: ${nc}" || {
-                    rm {"$AUDIO_INFO","$AUDIO_TITLE"}
+                    rm {"$AUDIO_URLS","$AUDIO_TITLE"}
                 }
                 _Menu
             else

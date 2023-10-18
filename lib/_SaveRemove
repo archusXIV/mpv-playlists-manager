@@ -9,7 +9,7 @@ _SaveRemove() {
     saveRemovePrompt=( "[B]ack to menu," "Save [D]efault," "Save [A]udio," \
     "Save [V]ideo," "[R]emove a playlist." )
 
-    if [[ -f $AUDIO_INFO ]] && [[ -f $VIDEO_INFO ]]; then
+    if [[ -f $AUDIO_URLS ]] && [[ -f $VIDEO_URLS ]]; then
 
         if (( $(_GetLinesList -q) < 1 )); then
             unset saveRemovePrompt[1]
@@ -20,7 +20,7 @@ _SaveRemove() {
             __
         fi
     
-    elif [[ -f $AUDIO_INFO ]]; then
+    elif [[ -f $AUDIO_URLS ]]; then
 
         if (( $(_GetLinesList -q) < 1 )); then
             unset {saveRemovePrompt[1],saveRemovePrompt[3]}
@@ -31,7 +31,7 @@ _SaveRemove() {
             __
         fi
     
-    elif [[ -f $VIDEO_INFO ]]; then
+    elif [[ -f $VIDEO_URLS ]]; then
 
         if (( $(_GetLinesList -q) < 1 )); then
             unset {saveRemovePrompt[1],saveRemovePrompt[2]}

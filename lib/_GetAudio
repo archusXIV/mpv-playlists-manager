@@ -14,9 +14,9 @@ _GetAudio() {
                 sleep 2
                 _CopyAudio
             }
-            M3UFILE="$AUDIO_INFO"
+            M3UFILE="$AUDIO_URLS"
             TITLES="$AUDIO_TITLE"
-            cp -f "$AUDIO_INFO" "$AUDIO_INFO"_origin 2>/dev/null
+            cp -f "$AUDIO_URLS" "$AUDIO_URLS"_origin 2>/dev/null
             cp -f "$AUDIO_TITLE" "$AUDIO_TITLE"_origin 2>/dev/null
         ;;
         -l)
@@ -43,7 +43,7 @@ _GetAudio() {
 
     __GetAudioDownloadMessages() (
     
-        [[ $M3UFILE = "$AUDIO_INFO" ]] && {
+        [[ $M3UFILE = "$AUDIO_URLS" ]] && {
             printf '%s\n' " ${info}$getAudioCounter audio file(s) left to download." \
             " Please be patient while downloading:  $(_GetLinkTitle -a).webm${nc}"
         }
@@ -92,7 +92,7 @@ _GetAudio() {
             
         fi
 
-        if [[ $M3UFILE = "$AUDIO_INFO" ]]; then
+        if [[ $M3UFILE = "$AUDIO_URLS" ]]; then
             sed -i '1d' {"$M3UFILE","$TITLES"}
         else
             sed -i '2d' "$M3UFILE"
@@ -117,7 +117,7 @@ _GetAudio() {
             __
             printf '%s\n' " ${task}Automatic audio conversion enabled.${nc}"
             sleep 2
-            [[ $M3UFILE = "$AUDIO_INFO" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+            [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
             && _ConvertAudio && _GetCompleted -a
             [[ $M3UFILE = "$playlists_dir"/"$list" ]] \
             && _ConvertAudio && _DownloadCompleted
@@ -126,11 +126,11 @@ _GetAudio() {
 
             __
             _Prompt " ${info}Do you wish to convert them?: ${nc}" || {
-                [[ $M3UFILE = "$AUDIO_INFO" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+                [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
                 && _GetCompleted -a
                 [[ $M3UFILE = "$playlists_dir"/"$list" ]] && _DownloadCompleted
             }
-            [[ $M3UFILE = "$AUDIO_INFO" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+            [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
             && _ConvertAudio && _GetCompleted -a
             [[ $M3UFILE = "$playlists_dir"/"$list" ]] \
             && _ConvertAudio && _DownloadCompleted
@@ -139,7 +139,7 @@ _GetAudio() {
 
     else
 
-        [[ $M3UFILE = "$AUDIO_INFO" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+        [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
         && _GetCompleted -a
         [[ $M3UFILE = "$playlists_dir"/"$list" ]] && _DownloadCompleted
 

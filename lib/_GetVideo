@@ -31,7 +31,7 @@ _GetVideo() {
                 sleep 2
                 _CopyVideo
             }
-            M3UFILE="$VIDEO_INFO"
+            M3UFILE="$VIDEO_URLS"
             TITLES="$VIDEO_TITLE"
             cp -f "$M3UFILE" "$M3UFILE"_origin 2>/dev/null
             cp -f "$TITLES" "$TITLES"_origin
@@ -46,7 +46,7 @@ _GetVideo() {
             printf '%s\n' " ${info}Choose a format code for $(_GetLinkTitle -q)." \
             " eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
         }
-        [[ $M3UFILE = "$VIDEO_INFO" ]] && {
+        [[ $M3UFILE = "$VIDEO_URLS" ]] && {
             printf '%s\n' " ${info}Choose a format code for $(_GetLinkTitle -v)." \
             " eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
         }
@@ -91,7 +91,7 @@ _GetVideo() {
         
         fi
 
-        if [[ $M3UFILE = "$VIDEO_INFO" ]]; then
+        if [[ $M3UFILE = "$VIDEO_URLS" ]]; then
             sed -i '1d' {"$M3UFILE","$TITLES"}
             clear
         else

@@ -12,10 +12,10 @@ _ViewUrlInfo() {
                         "[P]lay" "[S]ave as" "[R]emove list: " )
 
     __audio() {
-        if [[ -f $AUDIO_INFO ]]; then
+        if [[ -f $AUDIO_URLS ]]; then
             clear
             __
-            cat -n "$AUDIO_INFO"
+            cat -n "$AUDIO_URLS"
             __
             cat -n "$AUDIO_TITLE"
             __
@@ -38,10 +38,10 @@ _ViewUrlInfo() {
     }
 
     __video() {
-        if [[ -f $VIDEO_INFO ]]; then
+        if [[ -f $VIDEO_URLS ]]; then
             clear
             __
-            cat -n "$VIDEO_INFO"
+            cat -n "$VIDEO_URLS"
             __
             cat -n "$VIDEO_TITLE"
             __

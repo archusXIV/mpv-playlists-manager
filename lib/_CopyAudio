@@ -30,11 +30,11 @@ _CopyAudio() {
 
             else
 
-                echo "$copyAudioUrl" >> "$AUDIO_INFO"
+                echo "$copyAudioUrl" >> "$AUDIO_URLS"
                 __
                 echo " ${info}Testing url...${nc}"
                 _RemoveCrap
-                copyAudioUrl=$(sed -n '$p' "$AUDIO_INFO")
+                copyAudioUrl=$(sed -n '$p' "$AUDIO_URLS")
                 youtube-dl -F --no-warnings "$copyAudioUrl" > "$YTOP"
 
                 if [[ $? -eq 1 ]]; then
@@ -42,14 +42,14 @@ _CopyAudio() {
                     __
                     echo -e " ${critical}${b}No format code found!${nb}\n$copyAudioUrl will be removed."
                     echo " ${info}Please visit: $supportedsites${nc}"
-                    sed -i '$d' "$AUDIO_INFO"
+                    sed -i '$d' "$AUDIO_URLS"
                     _RemoveCrap
                     sleep 7
                     [[ $(_GetLinesList -a) -eq 0 ]] && _Menu
 
                 else
 
-                    sed -n '$p' "$AUDIO_INFO" >> "$QUEUE"
+                    sed -n '$p' "$AUDIO_URLS" >> "$QUEUE"
                     echo -e " ${info}Getting audio title...${nc}\n"
                     youtube-dl --get-title --no-warnings \
                     "$copyAudioUrl" | tee -a "$AUDIO_TITLE" >> "$tmp_dir"/DefaultTitles
@@ -64,7 +64,7 @@ _CopyAudio() {
             _ResizeWindow
             clear
             __
-            [[ -f $AUDIO_INFO ]] && \
+            [[ -f $AUDIO_URLS ]] && \
             echo " ${info}Audio list:   $(_GetLinesList -a) url(s)${nc}"
             __
             echo -e "                                                    ${mtitle}::audio options::${nc}"

@@ -49,7 +49,7 @@ _Menu() {
                 __ ;;
             9)  _EditMpmConf
                 __ ;;
-            x|X)    if [[ -f "$AUDIO_INFO" || -f "$VIDEO_INFO" ]]; then
+            x|X)    if [[ -f "$AUDIO_URLS" || -f "$VIDEO_URLS" ]]; then
                         _SaveOnExit
                     else
                         exit 0

@@ -30,11 +30,11 @@ _CopyVideo() {
 
             else
 
-                echo "$copyVideoUrl" >> "$VIDEO_INFO"
+                echo "$copyVideoUrl" >> "$VIDEO_URLS"
                 __
                 echo " ${info}Testing url...${nc}"
                 _RemoveCrap
-                copyVideoUrl=$(sed -n '$p' "$VIDEO_INFO")
+                copyVideoUrl=$(sed -n '$p' "$VIDEO_URLS")
                 youtube-dl -F --no-warnings "$copyVideoUrl" > "$YTOP"
 
                 if [[ $? -eq 1 ]]; then
@@ -42,14 +42,14 @@ _CopyVideo() {
                     __
                     echo -e " ${critical}${b}No format code found!${nb}\n$copyVideoUrl will be removed."
                     echo " ${info}Please visit: $supportedsites${nc}"
-                    sed -i '$d' "$VIDEO_INFO"
+                    sed -i '$d' "$VIDEO_URLS"
                     _RemoveCrap
                     sleep 7
                     [[ $(_GetLinesList -v) -eq 0 ]] && _Menu
 
                 else
 
-                    sed -n '$p' "$VIDEO_INFO" >> "$QUEUE"
+                    sed -n '$p' "$VIDEO_URLS" >> "$QUEUE"
                     echo -e " ${info}Getting video title...${nc}\n"
                     youtube-dl --get-title --no-warnings \
                     "$copyVideoUrl" | tee -a "$VIDEO_TITLE" >> "$tmp_dir"/DefaultTitles
@@ -64,7 +64,7 @@ _CopyVideo() {
             _ResizeWindow
             clear
             __
-            [[ -f $VIDEO_INFO ]] && \
+            [[ -f $VIDEO_URLS ]] && \
             echo -e " ${info}Video list:   $(_GetLinesList -v) url(s)${nc}\n"
             __
             echo -e "                                                    ${mtitle}::video options::${nc}"

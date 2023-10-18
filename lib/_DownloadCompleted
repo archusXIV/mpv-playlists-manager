@@ -7,7 +7,7 @@ _DownloadCompleted() {
 
     if [[ -n $(find "$main_dir" -name "*.part") ]]; then
 
-        mv {"$AUDIO_INFO"_origin,"$VIDEO_INFO"_origin} "$playlists_dir" 2>/dev/null
+        mv {"$AUDIO_URLS"_origin,"$VIDEO_URLS"_origin} "$playlists_dir" 2>/dev/null
         printf '%s\n' " ${critical}Temporary playlists have been moved in $playlists_dir." \
         " Incomplete files in audio/video dir:\n${nc}"; __
         find . -name "*.part" | sort -d | sed 's,.*/,,' | cat -n
