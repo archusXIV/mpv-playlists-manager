@@ -5,18 +5,9 @@
 _DownloadCompleted() {
     cd "$playlists_dir" || exit 1
 
-    if [[ -n $(find "$main_dir" -name "*.part") ]]; then
+    if [[ -n $(find "$audios_dir" "$videos_dir" -name "*.part") ]]; then
 
-        mv {"$AUDIO_URLS"_origin,"$VIDEO_URLS"_origin} "$playlists_dir" 2>/dev/null
-        printf '%s\n' " ${critical}Temporary playlists have been moved in $playlists_dir." \
-        " Incomplete files in audio/video dir:\n${nc}"; __
-        find . -name "*.part" | sort -d | sed 's,.*/,,' | cat -n
-        __
-        printf '%s\n' " ${info}Keep them in if you want to resume downloads," \
-        " by using '.m3u_origin' files in section: 4) Load a playlist," \
-        " in this session or later.${nc}"
-        sleep 15
-        _Menu
+        _IfPartsExist
         
     else
         FILES=( "$list" "$list"_origin \

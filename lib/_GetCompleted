@@ -6,18 +6,9 @@ _GetCompleted() {
 
     cd "$main_dir" || exit 1
 
-    if [[ -n $(find . -name "*.part") ]]; then
+    if [[ -n $(find "$audios_dir" "$videos_dir" -name "*.part") ]]; then
 
-        mv {"$AUDIO_URLS"_origin,"$VIDEO_URLS"_origin} "$playlists_dir" 2>/dev/null
-        echo " ${critical}Temporary playlists have been moved in $playlists_dir."
-        echo -e " Incomplete files in audio/video directories:\n${nc}"
-        find . -name "*.part" | sort -d | sed 's,.*/,,' | cat -n
-        __
-        echo " ${info}Keep them in if you want to resume downloads,"
-        echo " by using '.m3u_origin' files in section: 4) Load a playlist,"
-        echo " in this session or later.${nc}"
-        sleep 15
-        _Menu
+        _IfPartsExist
 
     else
 
