@@ -6,10 +6,10 @@ _GetYoutubePlaylistUrls() {
     __
     case "$1" in
         -a) URLS_INFO="$AUDIO_URLS"
-            url="$audiourl"
+            url="$copyAudioUrl"
         ;;
         -v) URLS_INFO="$VIDEO_URLS"
-            url="$videourl"
+            url="$copyVideoUrl"
         ;;
     esac
 
@@ -19,4 +19,3 @@ _GetYoutubePlaylistUrls() {
     sed -i '/playlist/d' {"$QUEUE","$URLS_INFO"}
 
 }
-
