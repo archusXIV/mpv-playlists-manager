@@ -11,16 +11,15 @@ _GetVideo() {
             __
             if [[ ! -f "$tmp_dir"/DefaultTitles && \
                 -f "$titles_dir"/default.m3u.titles ]]; then
-                TITLES="$playlists_dir"/default.m3u.titles
-            elif [[ -f "$tmp_dir"/DefaultTitles ]]; then
-                TITLES="$tmp_dir"/DefaultTitles
+                cat "$titles_dir"/default.m3u.titles > \
+                "$tmp_dir"/DefaultTitles
             else
                 echo " ${info}Getting titles...${nc}"
                 _GetMediaTitle -q > "$tmp_dir"/DefaultTitles
                 clear
-                TITLES="$tmp_dir"/DefaultTitles
             fi
             M3UFILE="$QUEUE"
+            TITLES="$tmp_dir"/DefaultTitles
             cp -f "$M3UFILE" "$M3UFILE"_origin 2>/dev/null
             cp -f "$TITLES" "$TITLES"_origin
         ;;
