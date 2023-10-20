@@ -10,7 +10,7 @@ _GetVideo() {
         -q)
             __
             if [[ ! -f "$tmp_dir"/DefaultTitles && \
-                -f "$playlists_dir"/default.m3u.titles ]]; then
+                -f "$titles_dir"/default.m3u.titles ]]; then
                 TITLES="$playlists_dir"/default.m3u.titles
             elif [[ -f "$tmp_dir"/DefaultTitles ]]; then
                 TITLES="$tmp_dir"/DefaultTitles
