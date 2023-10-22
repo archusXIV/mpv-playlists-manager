@@ -11,7 +11,7 @@ _LoadPlaylistMenu() {
         __
         [[ $direct_download = yes ]] && printf '%s\n' " ${task}Direct download enabled.${nc}"
         __
-        echo " ${info}$list: $(grep -v -c '#EXTM3U' "$list") url(s).${nc}"
+        echo " ${info}$list: $(grep -c '^https' "$list") url(s).${nc}"
         __
         echo -e "                                                 ${mtitle}::Download options::${nc}"
         echo -e "                                 ┌───────────────────────────────────────────────────┐"

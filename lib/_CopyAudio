@@ -16,14 +16,14 @@ _CopyAudio() {
 
                 __
                 AudioPlaylistTitle=$(\
-                youtube-dl --no-warnings -J \
+                youtube-dl "${ytdlPreset_DW[@]}" -J \
                 --flat-playlist "$copyAudioUrl" \
                 | jq -r .title \
                 )
                 
                 printf '%s\n' " ${info}Getting titles & links from playlist: $AudioPlaylistTitle..." \
                 "${b} Please be patient.${nb}${nc}"
-                youtube-dl --get-title --no-warnings "$copyAudioUrl" \
+                youtube-dl --get-title "${ytdlPreset_DW[@]}" "$copyAudioUrl" \
                 | tee -a "$AUDIO_TITLES" >> "$tmp_dir"/DefaultTitles
                 _GetYoutubePlaylistUrls -a
                 _RemoveCrap
@@ -35,7 +35,7 @@ _CopyAudio() {
                 echo " ${info}Testing url...${nc}"
                 _RemoveCrap
                 copyAudioUrl=$(sed -n '$p' "$AUDIO_URLS")
-                youtube-dl -F --no-warnings "$copyAudioUrl" > "$YTOP"
+                youtube-dl -F "${ytdlPreset_DW[@]}" "$copyAudioUrl" > "$YTOP"
 
                 if [[ $? -eq 1 ]]; then
 
@@ -51,7 +51,7 @@ _CopyAudio() {
 
                     sed -n '$p' "$AUDIO_URLS" >> "$QUEUE"
                     echo -e " ${info}Getting audio title...${nc}\n"
-                    youtube-dl --get-title --no-warnings \
+                    youtube-dl --get-title "${ytdlPreset_DW[@]}" \
                     "$copyAudioUrl" | tee -a "$AUDIO_TITLES" >> "$tmp_dir"/DefaultTitles
                     _RemoveCrap
 

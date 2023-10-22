@@ -22,12 +22,11 @@ _ChooseDirectVideoDownload() {
         printf '%s\n' " ${info}Downloading $chooseVideoCounter file(s).${nc}"
         
         if [[ $line =~ 'youtube.com' ]]; then
-            youtube-dl --no-warnings \
-            --merge-output-format mp4 \
-            --progress "$line"
+            # downloader presets described in ~/.config/mpm/mpmrc
+            youtube-dl "${ytdlPreset_X[@]}" "$line"
             clear
         else
-            youtube-dl --no-warnings --progress "$line"
+            youtube-dl "${ytdlPreset_NC[@]}" "$line"
             clear
         fi
         

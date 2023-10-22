@@ -1,4 +1,4 @@
-mpm version 1.3-4
+mpm version 1.3-5
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -29,23 +29,24 @@ mpm version 1.3-4
 
     1) Create/Add video playlist:
        Links saved here and in audio section too are not permanent, they will be erased
-       when closing the program... So be carefull and saved them before it is too late.
+       when closing the program...unless you answer yes when prompted to save them.
        In this section we will be able to create a temporary video playlist by "copy/paste"
        urls from Youtube.com or any other supported web site by youtube-dl/yt-dlp packages.
        See https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md
-       After the first entry this will drop us into the video options menu where we test
-       entries one by one before adding them in playlists.Now we have six dedicated options.
+       Once into the video options menu we can add tested links to a temporary list,
+       youtube playlists are supported. Now we have six dedicated options.
        See II) audio/video files options:
 
     2) Create/Add audio playlist:
        Same as above but for audio only, for example after downloading, ffmpeg will
-       convert all .webm files into mp3, flac, ogg or wav if you wish.
+       convert all .webm files into mp3, flac, ogg or wav if you wish (settings in mpmrc).
+       Note that for youtube audio files the download is automatic (code 251 .webm).
 
     3) Save tmp/Del collection:
        Here we can save the default playlist as a new one wich contains all temporary links
-       from video/audio sections and save video/audio separetly.
+       from video/audio sections and save video/audio separetly, all playlists are associated
+       with a .titles file.
        Note that names with spaces will be renamed with underscores.
-       They will be removed as we save them in the collection.
        We can also delete existing playlists (.m3u files) from our collection.
 
     4) Play/Download a playlist:
@@ -67,7 +68,7 @@ mpm version 1.3-4
        if you do not use URxvt for example (w3m works fine for URxvt/xterm).
 
     6) View default playlist:
-       All links we enter are added in this file (default.m3u), at least we can save it,
+       All links we enter are added in this file (default.m3u), at least we can save,
        download, play it and view titles in case we closed the program and forgot them.
 
     7) Clear all tmp lists:
@@ -79,7 +80,7 @@ mpm version 1.3-4
 
     9) Edit mpm config:
        We may want to edit this file for default directories & tasks preferences,
-       and better quality or results with mpv.
+       and better quality or results with mpv, ffmpeg and yt-dlp downloader options.
        After changing parameters they will appear in the main menu as: Tasks for option 4):
 
     II) audio/video files options:
@@ -93,10 +94,12 @@ mpm version 1.3-4
                                         Select an item
 
     The same menu is also prensented in video section.
-    Now in this menu it cannot be simpler as it is, all options are applied
-    to the specific temporary file and we act directly on it, by entering '5' we will get more
-    infos (titles) about the links and a prompt will present the same options as in the menu,
+    Now in this menu it cannot be simpler as it is, all options are applied to the specific
+    temporary file and we act directly on it, by entering '5' we will get more infos (titles)
+    about the links and a prompt will present the same options as in the menu,
     but now [R]emoving the specific file is available...
 
     Author: Barret E (2023) <archus@protonmail.com>
     https://github.com/archusXIV/mpv-playlists-manager
+
+    Press "q" to quit.

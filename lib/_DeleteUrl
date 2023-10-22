@@ -18,7 +18,7 @@ _DeleteUrl() {
         
     else
         __
-        sed -i '/^https/d' "$QUEUE"
+        sed -i '/^[[:alpha:]]/d' "$QUEUE"
         _CleanTmpDir
         echo " ${critical}All lists cleared...${nc}"
         sleep 3

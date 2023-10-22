@@ -6,7 +6,7 @@ _DownloadVideoList() {
     cd "$playlists_dir" || exit 1
 
     local downloadVideoCounter
-    downloadVideoCounter=$(grep -v -c '#EXTM3U' "$list")
+    downloadVideoCounter=$(grep -c '^https' "$list")
 
     clear
     cp -f "$list" "$list"_origin 2>/dev/null
@@ -26,12 +26,12 @@ _DownloadVideoList() {
         d|D) _DirectVideoDownload ;;
         s|S)
             cd "$videos_dir"/"${list%.*}" || return
-            for downvideourl in $(grep -v '#EXTM3U' "$list"); do
+            for downvideourl in $(grep -w '^https' "$list"); do
 
                 clear
                 __
                 echo " ${info}Codes for: $(_GetLinkTitle -l)${nc}"
-                youtube-dl -F --no-warnings "$downvideourl"
+                youtube-dl -F "${ytdlPreset_DW[@]}" "$downvideourl"
                 __
                 printf '%s\n' " ${info}Choose a format code." \
                 " eg: 137+251 for merging, hls-1080p, 22 for single:${nc}"
@@ -44,17 +44,14 @@ _DownloadVideoList() {
                     printf '%s\n' " ${info}Downloading $downloadVideoCounter file(s).${nc}"
                     youtube-dl \
                     -o "$(_GetLinkTitle -l)".mp4 \
-                    -f "$code" --no-warnings \
-                    --merge-output-format mp4 \
-                    --progress "$downvideourl"
+                    -f "$code" "${ytdlPreset_X[@]}" "$downvideourl"
 
                 else
 
                     printf '%s\n' " ${info}Downloading $downloadVideoCounter file(s).${nc}"
                     youtube-dl \
                     -o "$(_GetLinkTitle -l)".mp4 \
-                    -f "$code" --no-warnings \
-                    --progress "$downvideourl"
+                    -f "$code" "${ytdlPreset_NC[@]}" "$downvideourl"
 
                 fi
 

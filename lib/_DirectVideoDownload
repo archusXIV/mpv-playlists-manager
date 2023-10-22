@@ -20,11 +20,10 @@ _DirectVideoDownload() {
         [[ $line =~ 'youtube.com' ]] && {
             youtube-dl \
             -o "$(_GetLinkTitle -l)".mp4 \
-            --no-warnings \
-            --merge-output-format mp4 "$line"
+            "${ytdlPreset_X[@]}" "$line"
         } || youtube-dl \
             -o "$(_GetLinkTitle -l)".mp4 \
-            --no-warnings "$line"
+            "${ytdlPreset_NC[@]}" "$line"
     
         ((downloadVideoCounter--))
         

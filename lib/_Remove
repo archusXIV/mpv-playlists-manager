@@ -11,10 +11,10 @@ _Remove() {
             echo " ${critical}Audio list removed...${nc}"
             sleep 3
         ;;
-        -q) sed -i '/^https/d' "$QUEUE"
+        -q) sed -i '/^[[:alpha:]]/d' "$QUEUE"
             rm -f {"$QUEUE"_origin,"$tmp_dir"/1} 2>/dev/null
             rm -f "$tmp_dir"/{DefaultTitles_origin,DefaultTitles} 2>/dev/null
-            rm -f "$titles_dir"/default.m3u.titles >/dev/null 2>&1
+            rm -f "$titles_dir"/default.m3u.titles 2>/dev/null
             __
             echo " ${critical}Default list cleared...${nc}"
             sleep 3

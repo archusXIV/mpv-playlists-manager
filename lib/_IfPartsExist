@@ -4,16 +4,36 @@
 # shellcheck disable=SC2154
 _IfPartsExist() {
 
-    mv {"$AUDIO_URLS"_origin,"$VIDEO_URLS"_origin} "$playlists_dir" 2>/dev/null
-    echo " ${critical}Temporary playlists have been moved in $playlists_dir."
-    echo -e " Incomplete files in audio/video directories:\n${nc}"
-    find "$audios_dir" "$videos_dir" -name "*.part" -name "*.part" \
-    | sort -d | sed 's,.*/,,' | cat -n
-    __
-    echo " ${info}Keep them in if you want to resume downloads,"
-    echo " by using '.m3u_origin' files in section: 4) Load a playlist,"
-    echo " in this session or later.${nc}"
-    sleep 15
-    _Menu
+    __IfPartsExistInfo() (
+        echo -e " Incomplete files in audio/video directories:\n${nc}"
+        find "$audios_dir"/"${list%.*}" "$videos_dir"/"${list%.*}" \
+        -name "*.part" -name "*.part" 2>/dev/null \
+        | sort -d | sed 's,.*/,,' | cat -n
+        __
+        echo " ${info}Keep them in if you want to resume downloads,"
+        echo " and try again in this session or later.${nc}"
+        sleep 10
+        _Menu
+    )
+    
+    case "$1" in
+        -l)
+            mv "$playlists_dir"/"$list"_origin \
+            "$playlists_dir"/"$list"
+            mv "$titles_dir"/"$list".titles_origin \
+            "$titles_dir"/"$list".titles
+            __IfPartsExistInfo
+        ;;
+        -t)
+            tempfiles=( "$QUEUE" "$AUDIO_URLS" "$AUDIO_TITLES" \
+                        "$VIDEO_URLS" "$VIDEO_TITLES" "$tmp_dir"/DefaultTitles )
+            
+            for f in "${tempfiles[@]}"; do
+                mv -f "$f"_origin "$f"
+            done 2>/dev/null
+            
+            __IfPartsExistInfo
+        ;;
+    esac
 
 }

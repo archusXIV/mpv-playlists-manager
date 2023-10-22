@@ -13,7 +13,6 @@ _Save() {
                 CURRENT_TITLES="$AUDIO_TITLES"
                 _SaveCheck
                 _ReplaceSpaces -s
-                unset list
             else
                 echo " ${critical}No links in the list${nc}"
                 sleep 2
@@ -29,7 +28,6 @@ _Save() {
             fi
             _SaveCheck
             _ReplaceSpaces -s
-            unset list
         ;;
         -v)
             if [[ -f $VIDEO_URLS ]]; then
@@ -37,7 +35,6 @@ _Save() {
                 CURRENT_TITLES="$VIDEO_TITLES"
                 _SaveCheck
                 _ReplaceSpaces -s
-                unset list
             else
                 echo " ${critical}No links in the list${nc}"
                 sleep 2

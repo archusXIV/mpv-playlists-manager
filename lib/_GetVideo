@@ -10,19 +10,19 @@ _GetVideo() {
         -q)
             __
             if [[ ! -f "$tmp_dir"/DefaultTitles && \
-                -f "$playlists_dir"/default.m3u.titles ]]; then
-                TITLES="$playlists_dir"/default.m3u.titles
+                -f "$titles_dir"/default.m3u.titles ]]; then
+                cat "$titles_dir"/default.m3u.titles > \
+                "$tmp_dir"/DefaultTitles
             elif [[ -f "$tmp_dir"/DefaultTitles ]]; then
-                TITLES="$tmp_dir"/DefaultTitles
+                printf '%s\n' " ${info}Fetching titles file...${nc}"
+                sleep 1
             else
-                echo " ${info}Getting titles...${nc}"
+                printf '%s\n' " ${info}Getting titles...${nc}"
                 _GetMediaTitle -q > "$tmp_dir"/DefaultTitles
                 clear
-                TITLES="$tmp_dir"/DefaultTitles
             fi
             M3UFILE="$QUEUE"
-            cp -f "$M3UFILE" "$M3UFILE"_origin 2>/dev/null
-            cp -f "$TITLES" "$TITLES"_origin
+            TITLES="$tmp_dir"/DefaultTitles
         ;;
         -v)
             __
@@ -33,12 +33,13 @@ _GetVideo() {
             }
             M3UFILE="$VIDEO_URLS"
             TITLES="$VIDEO_TITLES"
-            cp -f "$M3UFILE" "$M3UFILE"_origin 2>/dev/null
-            cp -f "$TITLES" "$TITLES"_origin
         ;;
     esac
 
+    cp -f "$M3UFILE" "$M3UFILE"_origin
+    cp -f "$TITLES" "$TITLES"_origin
     clear
+    
     getVideoCounter=$(grep -c '^https' "$M3UFILE")
 
     __ChooseFormatMessages() (
@@ -67,7 +68,7 @@ _GetVideo() {
 
     for getVideoUrl in $(grep '^https' "$M3UFILE"); do
         __
-        youtube-dl -F --no-warnings "$getVideoUrl"
+        youtube-dl -F "${ytdlPreset_DW[@]}" "$getVideoUrl"
         __
         __ChooseFormatMessages
         read -r code
@@ -76,18 +77,17 @@ _GetVideo() {
         if [[ "$code" =~ '+' ]]; then
 
             __DownloadMessages
-            youtube-dl -f "$code" \
-            --no-warnings \
-            --merge-output-format mp4 \
-            --progress "$getVideoUrl"
+            # downloader presets described in ~/.config/mpm/mpmrc
+            youtube-dl \
+            -f "$code" \
+            "${ytdlPreset_X[@]}" "$getVideoUrl"
 
         else
 
             __DownloadMessages
             youtube-dl \
             -f "$code" \
-            --no-warnings \
-            --progress "$getVideoUrl"
+            "${ytdlPreset_NC[@]}" "$getVideoUrl"
         
         fi
 

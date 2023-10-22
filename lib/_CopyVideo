@@ -16,14 +16,14 @@ _CopyVideo() {
 
                 __
                 VideoPlaylistTitle=$(\
-                youtube-dl --no-warnings -J \
+                youtube-dl "${ytdlPreset_DW[@]}" -J \
                 --flat-playlist "$copyVideoUrl" \
                 | jq -r .title \
                 )
                 
                 printf '%s\n' " ${info}Getting titles & links from playlist: $VideoPlaylistTitle..." \
                 "${b} Please be patient.${nb}${nc}"
-                youtube-dl --get-title --no-warnings "$copyVideoUrl" \
+                youtube-dl --get-title "${ytdlPreset_DW[@]}" "$copyVideoUrl" \
                 | tee -a "$VIDEO_TITLES" >> "$tmp_dir"/DefaultTitles
                 _GetYoutubePlaylistUrls -v
                 _RemoveCrap
@@ -35,7 +35,7 @@ _CopyVideo() {
                 echo " ${info}Testing url...${nc}"
                 _RemoveCrap
                 copyVideoUrl=$(sed -n '$p' "$VIDEO_URLS")
-                youtube-dl -F --no-warnings "$copyVideoUrl" > "$YTOP"
+                youtube-dl -F "${ytdlPreset_DW[@]}" "$copyVideoUrl" > "$YTOP"
 
                 if [[ $? -eq 1 ]]; then
 
@@ -51,7 +51,7 @@ _CopyVideo() {
 
                     sed -n '$p' "$VIDEO_URLS" >> "$QUEUE"
                     echo -e " ${info}Getting video title...${nc}\n"
-                    youtube-dl --get-title --no-warnings \
+                    youtube-dl --get-title "${ytdlPreset_DW[@]}" \
                     "$copyVideoUrl" | tee -a "$VIDEO_TITLES" >> "$tmp_dir"/DefaultTitles
                     _RemoveCrap
 

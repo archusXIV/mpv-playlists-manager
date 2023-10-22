@@ -70,7 +70,7 @@ _ViewUrlInfo() {
             __
             echo " ${info}order |  default playlist link(s) & titles.${nc}"
             echo -e " ${info}______________________________________________________${nc}\n"
-            sed '1d' "$QUEUE" | cat -n
+            awk '$0 ~ /^https/{print $0}' "$QUEUE" | cat -n
             __
             cat -n "$tmp_dir"/DefaultTitles 2>/dev/null || \
             cat -n "$titles_dir"/default.m3u.titles
