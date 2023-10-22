@@ -1,119 +1,96 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2013,SC2154,SC2076
-_GetVideo() {
+# shellcheck disable=SC2154
+_CopyVideo() {
 
-    local getVideoCounter M3UFILE TITLES
+    [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
 
-    case "$1" in
-        -q)
+    while (( $(grep "" -c "$QUEUE") > 0 )); do
+        __CopyVideoLinks() {
             __
-            if [[ ! -f "$tmp_dir"/DefaultTitles && \
-                -f "$titles_dir"/default.m3u.titles ]]; then
-                cat "$titles_dir"/default.m3u.titles > \
-                "$tmp_dir"/DefaultTitles
-<<<<<<< HEAD
-            elif [[ -f "$tmp_dir"/DefaultTitles ]]; then
-                printf '%s\n' " ${info}Fetching titles file...${nc}"
-                sleep 1
-=======
->>>>>>> 77a7ace1bea0493a627423430b8c6e34e5ecf23f
+            echo -e " Paste an url to fill the ${info}video${nc} playlist:\n"
+            read -r copyVideoUrl
+
+            if [[ $copyVideoUrl =~ 'playlist?list=' ]]; then
+
+                __
+                VideoPlaylistTitle=$(\
+                youtube-dl "${ytdlPreset_DW[@]}" -J \
+                --flat-playlist "$copyVideoUrl" \
+                | jq -r .title \
+                )
+                
+                printf '%s\n' " ${info}Getting titles & links from playlist: $VideoPlaylistTitle..." \
+                "${b} Please be patient.${nb}${nc}"
+                youtube-dl --get-title "${ytdlPreset_DW[@]}" "$copyVideoUrl" \
+                | tee -a "$VIDEO_TITLES" >> "$tmp_dir"/DefaultTitles
+                _GetYoutubePlaylistUrls -v
+                _RemoveCrap
+
             else
-                printf '%s\n' " ${info}Getting titles...${nc}"
-                _GetMediaTitle -q > "$tmp_dir"/DefaultTitles
-                clear
+
+                echo "$copyVideoUrl" >> "$VIDEO_URLS"
+                __
+                echo " ${info}Testing url...${nc}"
+                _RemoveCrap
+                copyVideoUrl=$(sed -n '$p' "$VIDEO_URLS")
+                youtube-dl -F "${ytdlPreset_DW[@]}" "$copyVideoUrl" > "$YTOP"
+
+                if [[ $? -eq 1 ]]; then
+
+                    __
+                    echo -e " ${critical}${b}No format code found!${nb}\n$copyVideoUrl will be removed."
+                    echo " ${info}Please visit: $supportedsites${nc}"
+                    sed -i '$d' "$VIDEO_URLS"
+                    _RemoveCrap
+                    sleep 7
+                    [[ $(_GetLinesList -v) -eq 0 ]] && _Menu
+
+                else
+
+                    sed -n '$p' "$VIDEO_URLS" >> "$QUEUE"
+                    echo -e " ${info}Getting video title...${nc}\n"
+                    youtube-dl --get-title "${ytdlPreset_DW[@]}" \
+                    "$copyVideoUrl" | tee -a "$VIDEO_TITLES" >> "$tmp_dir"/DefaultTitles
+                    _RemoveCrap
+
+                fi
+                
             fi
-            M3UFILE="$QUEUE"
-            TITLES="$tmp_dir"/DefaultTitles
-<<<<<<< HEAD
-=======
-            cp -f "$M3UFILE" "$M3UFILE"_origin 2>/dev/null
-            cp -f "$TITLES" "$TITLES"_origin
->>>>>>> 77a7ace1bea0493a627423430b8c6e34e5ecf23f
-        ;;
-        -v)
+        }
+
+        while :; do
+            _ResizeWindow
+            clear
             __
-            [[ $(_GetLinesList -v) -eq 0 ]] && {
-                echo " ${critical}No links in the list${nc}"
-                sleep 2
-                _CopyVideo
-            }
-            M3UFILE="$VIDEO_URLS"
-            TITLES="$VIDEO_TITLES"
-        ;;
-    esac
-
-    cp -f "$M3UFILE" "$M3UFILE"_origin
-    cp -f "$TITLES" "$TITLES"_origin
-    clear
-    
-    getVideoCounter=$(grep -c '^https' "$M3UFILE")
-
-    __ChooseFormatMessages() (
-        [[ $M3UFILE = "$QUEUE" ]] && {
-            printf '%s\n' " ${info}Choose a format code for $(_GetLinkTitle -q)." \
-            " eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
-        }
-        [[ $M3UFILE = "$VIDEO_URLS" ]] && {
-            printf '%s\n' " ${info}Choose a format code for $(_GetLinkTitle -v)." \
-            " eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
-        }
-    )
-
-    __DownloadMessages() (
-        [[ $TITLES = "$tmp_dir"/DefaultTitles ]] && {
-            printf '%s\n' " ${info}$getVideoCounter video file(s) left to download." \
-            " Please be patient while downloading:  $(_GetLinkTitle -q).webm${nc}"
-        }
-        [[ $TITLES = "$VIDEO_TITLES" ]] && {
-            printf '%s\n' " ${info}$getVideoCounter video file(s) left to download." \
-            " Please be patient while downloading:  $(_GetLinkTitle -v).webm${nc}"
-        }
-    )
-
-    cd "$videos_dir" || exit 1
-
-    for getVideoUrl in $(grep '^https' "$M3UFILE"); do
-        __
-        youtube-dl -F "${ytdlPreset_DW[@]}" "$getVideoUrl"
-        __
-        __ChooseFormatMessages
-        read -r code
-        clear
-        __
-        if [[ "$code" =~ '+' ]]; then
-
-            __DownloadMessages
-            # downloader presets described in ~/.config/mpm/mpmrc
-            youtube-dl \
-            -f "$code" \
-            "${ytdlPreset_X[@]}" "$getVideoUrl"
-
-        else
-
-            __DownloadMessages
-            youtube-dl \
-            -f "$code" \
-            "${ytdlPreset_NC[@]}" "$getVideoUrl"
-        
-        fi
-
-        if [[ $M3UFILE = "$VIDEO_URLS" ]]; then
-            sed -i '1d' {"$M3UFILE","$TITLES"}
-            clear
-        else
-            sed -i '2d' "$M3UFILE"
-            sed -i '1d' "$TITLES"
-            clear
-        fi
-
-        ((getVideoCounter--))
+            [[ -f $VIDEO_URLS ]] && \
+            echo -e " ${info}Video list:   $(_GetLinesList -v) url(s)${nc}\n"
+            __
+            echo -e "                                                    ${mtitle}::video options::${nc}"
+            echo -e "                              ┌─────────────────────────────────────────────────────────────┐"
+            echo -e "                              │     1) Add video links            4) Play current list      │"
+            echo -e "                              │     2) Download current list      5) View current list      │"
+            echo -e "                              │     3) Save playlist as           6) Back to main menu      │"
+            echo -e "                              └─────────────────────────────────────────────────────────────┘"
+            echo -e "                                                     ${info}${b}Select an item${nb}${nc}"
+            __
+            read -rsn 1 copyVideoOptions
+            case "$copyVideoOptions" in
+                1)  __CopyVideoLinks
+                    __ ;;
+                2)  _GetVideo -v
+                    break ;;
+                3)  _Save -v
+                    __ ;;
+                4)  _LoadVideo -v
+                    __ ;;
+                5)  _ViewUrlInfo -v
+                    __ ;;
+                6)  _Menu
+                    __ ;;
+            esac
+        done
 
     done
-
-    echo -e " ${info}Done.\n${nc}"
-    sleep 2
-    _GetCompleted -v
-
 }

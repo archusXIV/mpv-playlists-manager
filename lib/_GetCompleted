@@ -20,11 +20,7 @@ _GetCompleted() {
             for f in "${tempfiles[@]}"; do
                 mv -f "$f"_origin "$f"
             done 2>/dev/null
-<<<<<<< HEAD
             
-=======
-
->>>>>>> 77a7ace1bea0493a627423430b8c6e34e5ecf23f
             _Menu
             
         }
