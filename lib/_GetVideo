@@ -13,12 +13,9 @@ _GetVideo() {
                 -f "$titles_dir"/default.m3u.titles ]]; then
                 cat "$titles_dir"/default.m3u.titles > \
                 "$tmp_dir"/DefaultTitles
-<<<<<<< HEAD
             elif [[ -f "$tmp_dir"/DefaultTitles ]]; then
                 printf '%s\n' " ${info}Fetching titles file...${nc}"
                 sleep 1
-=======
->>>>>>> 77a7ace1bea0493a627423430b8c6e34e5ecf23f
             else
                 printf '%s\n' " ${info}Getting titles...${nc}"
                 _GetMediaTitle -q > "$tmp_dir"/DefaultTitles
@@ -26,11 +23,6 @@ _GetVideo() {
             fi
             M3UFILE="$QUEUE"
             TITLES="$tmp_dir"/DefaultTitles
-<<<<<<< HEAD
-=======
-            cp -f "$M3UFILE" "$M3UFILE"_origin 2>/dev/null
-            cp -f "$TITLES" "$TITLES"_origin
->>>>>>> 77a7ace1bea0493a627423430b8c6e34e5ecf23f
         ;;
         -v)
             __
