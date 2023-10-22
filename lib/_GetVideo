@@ -9,19 +9,11 @@ _GetVideo() {
     case "$1" in
         -q)
             __
-<<<<<<< HEAD
             if [[ ! -f $DEFAULTITLES && \
                 -f $DEFAULTM3UTITLES ]]; then
                 cat "$DEFAULTM3UTITLES" > \
                 "$DEFAULTITLES"
             elif [[ -f $DEFAULTITLES ]]; then
-=======
-            if [[ ! -f "$tmp_dir"/DefaultTitles && \
-                -f "$titles_dir"/default.m3u.titles ]]; then
-                cat "$titles_dir"/default.m3u.titles > \
-                "$tmp_dir"/DefaultTitles
-            elif [[ -f "$tmp_dir"/DefaultTitles ]]; then
->>>>>>> 18300f71d95f73e7fdf7d073599e54c14c82658b
                 printf '%s\n' " ${info}Fetching titles file...${nc}"
                 sleep 1
             else
@@ -30,11 +22,7 @@ _GetVideo() {
                 clear
             fi
             M3UFILE="$QUEUE"
-<<<<<<< HEAD
             TITLES="$DEFAULTITLES"
-=======
-            TITLES="$tmp_dir"/DefaultTitles
->>>>>>> 18300f71d95f73e7fdf7d073599e54c14c82658b
         ;;
         -v)
             __
