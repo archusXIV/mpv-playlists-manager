@@ -23,20 +23,20 @@ _GetAudio() {
             mkdir -p "$audios_dir"/"${list%.*}"
         ;;
         -q)
-            if [[ ! -f "$tmp_dir"/DefaultTitles && \
-                -f "$titles_dir"/default.m3u.titles ]]; then
-                cat "$titles_dir"/default.m3u.titles > \
-                "$tmp_dir"/DefaultTitles
-            elif [[ -f "$tmp_dir"/DefaultTitles ]]; then
+            if [[ ! -f $DEFAULTITLES && \
+                -f $DEFAULTM3UTITLES ]]; then
+                cat "$DEFAULTM3UTITLES" > \
+                "$DEFAULTITLES"
+            elif [[ -f $DEFAULTITLES ]]; then
                 printf '%s\n' " ${info}Fetching titles file...${nc}"
                 sleep 1
             else
                 printf '%s\n' " ${info}Getting titles...${nc}"
-                _GetMediaTitle -q > "$tmp_dir"/DefaultTitles
+                _GetMediaTitle -q > "$DEFAULTITLES"
                 clear
             fi
             M3UFILE="$QUEUE"
-            TITLES="$tmp_dir"/DefaultTitles
+            TITLES="$DEFAULTITLES"
         ;;
     esac
 

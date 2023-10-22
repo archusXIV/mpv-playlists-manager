@@ -49,7 +49,10 @@ _CheckDependencies() {
     [[ ! -f $QUEUE ]] && echo "#EXTM3U" > "$QUEUE"
 
     # needed to warn the user when the default list isn' t empty.
-    (($(_GetLinesList -q) >= 1)) && touch "$tmp_dir"/1
+    (($(_GetLinesList -q) >= 1)) && {
+        touch "$tmp_dir"/1
+        cp -f "$DEFAULTM3UTITLES" "$DEFAULTITLES"
+    }
 
     _Menu
 

@@ -7,11 +7,11 @@
 _CleanTmpDir() {
     if (( $(_GetLinesList -q) > 0 )); then
 
-        [[ -f "$tmp_dir"/DefaultTitles ]] && \
-        cp "$tmp_dir"/DefaultTitles "$titles_dir"/default.m3u.titles
+        [[ -f $DEFAULTITLES ]] && \
+        cp "$DEFAULTITLES" "$DEFAULTM3UTITLES"
         
-    elif [[ -f "$titles_dir"/default.m3u.titles ]]; then
-        rm -f "$titles_dir"/default.m3u.titles
+    elif [[ -f $DEFAULTM3UTITLES ]]; then
+        rm -f "$DEFAULTM3UTITLES"
     fi
     rm -f {"$tmp_dir"/*,"$playlists_dir"/1_Back_to_menu} 2>/dev/null
 }

@@ -15,7 +15,7 @@ _GetCompleted() {
             sleep 3
 
             tempfiles=( "$QUEUE" "$AUDIO_URLS" "$AUDIO_TITLES" \
-                        "$VIDEO_URLS" "$VIDEO_TITLES" "$tmp_dir"/DefaultTitles )
+                        "$VIDEO_URLS" "$VIDEO_TITLES" "$DEFAULTITLES" )
             
             for f in "${tempfiles[@]}"; do
                 mv -f "$f"_origin "$f"

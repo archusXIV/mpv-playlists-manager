@@ -20,7 +20,7 @@ _UpdateSelected() {
 
     echo -e " ${task}${b}Refreshing titles...please wait.${nb}${nc}\n"
     _GetMediaTitle -l > "$titles_dir"/"$list".titles
-    rm "$titles_dir"/selected.titles
+    rm "$SELECTEDTITLES"
     clear
 
 }

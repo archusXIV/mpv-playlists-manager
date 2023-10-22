@@ -13,8 +13,8 @@ _Remove() {
         ;;
         -q) sed -i '/^[[:alpha:]]/d' "$QUEUE"
             rm -f {"$QUEUE"_origin,"$tmp_dir"/1} 2>/dev/null
-            rm -f "$tmp_dir"/{DefaultTitles_origin,DefaultTitles} 2>/dev/null
-            rm -f "$titles_dir"/default.m3u.titles 2>/dev/null
+            rm -f {"$DEFAULTITLES"_origin,"$DEFAULTITLES"} 2>/dev/null
+            rm -f "$DEFAULTM3UTITLES" 2>/dev/null
             __
             echo " ${critical}Default list cleared...${nc}"
             sleep 3

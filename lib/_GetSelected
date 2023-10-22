@@ -13,7 +13,7 @@ _GetSelected() {
     
     for t in "${array[@]}"; do
         sed -n "${t}p" "$titles_dir"/"$list.titles" \
-        >> "$titles_dir"/selected.titles
+        >> "$SELECTEDTITLES"
     done
     unset t
 }

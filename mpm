@@ -58,16 +58,19 @@ source "$MPMRC"
 
 # global variables
 supportedsites="https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md"
-QUEUE="$playlists_dir/default.m3u"
-YTOP="$tmp_dir/youtube-dl_output"
-FFOP="$tmp_dir/ffmpeg_output"
 AUDIO_URLS="$tmp_dir/AudioUrls.m3u"
 AUDIO_TITLES="$tmp_dir/AudioTitles"
-VIDEO_URLS="$tmp_dir/VideoUrls.m3u"
-VIDEO_TITLES="$tmp_dir/VideoTitles"
 CHOOSE1="$playlists_dir/ChooseFrom1.m3u"
 CHOOSE2="$playlists_dir/ChooseFrom2.m3u"
-HELP="/usr/local/share/doc/mpm/help"
+DEFAULTITLES="$tmp_dir/DefaultTitles"
+DEFAULTM3UTITLES="$titles_dir/default.m3u.titles"
+FFOP="$tmp_dir/ffmpeg_output"
+HELP="$SCRIPTDIR/mpv-playlists-manager/help"
+QUEUE="$playlists_dir/default.m3u"
+SELECTEDTITLES="$titles_dir/selected.titles"
+VIDEO_URLS="$tmp_dir/VideoUrls.m3u"
+VIDEO_TITLES="$tmp_dir/VideoTitles"
+YTOP="$tmp_dir/youtube-dl_output"
 
 _LaunchMpm() {
     _Prompt " ${info}Launch mpm? ${nc}" || {

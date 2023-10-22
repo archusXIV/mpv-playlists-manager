@@ -11,11 +11,15 @@ _ViewUrlInfo() {
                         "[B]ack to video options" "[D]ownload" \
                         "[P]lay" "[S]ave as" "[R]emove list: " )
 
+    # let's play...
+    s=$(printf "%-54s" "*")
     __audio() {
         if [[ -f $AUDIO_URLS ]]; then
             clear
             __
-            cat -n "$AUDIO_URLS"
+            echo " ${info}order |  audio playlist link(s) & titles.${nc}"
+            echo -e " ${info}${s// /*}${nc}\n"
+            awk '$0 ~ /^https/{print $0}' "$AUDIO_URLS" | cat -n
             __
             cat -n "$AUDIO_TITLES"
             __
@@ -41,7 +45,9 @@ _ViewUrlInfo() {
         if [[ -f $VIDEO_URLS ]]; then
             clear
             __
-            cat -n "$VIDEO_URLS"
+            echo " ${info}order |  video playlist link(s) & titles.${nc}"
+            echo -e " ${info}${s// /*}${nc}\n"
+            awk '$0 ~ /^https/{print $0}' "$VIDEO_URLS" | cat -n
             __
             cat -n "$VIDEO_TITLES"
             __
@@ -69,11 +75,11 @@ _ViewUrlInfo() {
             clear
             __
             echo " ${info}order |  default playlist link(s) & titles.${nc}"
-            echo -e " ${info}______________________________________________________${nc}\n"
+            echo -e " ${info}${s// /*}${nc}\n"
             awk '$0 ~ /^https/{print $0}' "$QUEUE" | cat -n
             __
-            cat -n "$tmp_dir"/DefaultTitles 2>/dev/null || \
-            cat -n "$titles_dir"/default.m3u.titles
+            cat -n "$DEFAULTITLES" 2>/dev/null || \
+            cat -n "$DEFAULTM3UTITLES"
             __
             while [[ -f $QUEUE ]]; do
                 unset {viewUrlInfoPrompt[1],viewUrlInfoPrompt[2],viewUrlInfoPrompt[7]}
@@ -101,13 +107,13 @@ _ViewUrlInfo() {
                     ;;
                     r|R) _Remove -q ;;
                     s|S)
-                        if [[ -f $titles_dir/default.m3u.titles \
-                        || -f  $tmp_dir/DefaultTitles ]]; then
+                        if [[ -f $DEFAULTM3UTITLES \
+                        || -f  $DEFAULTITLES ]]; then
                             _Save -q
                         else
                             echo " ${task}${b}Updating playlist titles...${nb}${nc}"
                             _GetMediaTitle -q \
-                            | tee -a "$tmp_dir"/DefaultTitles \
+                            | tee -a "$DEFAULTITLES" \
                             | cat -n >/dev/null 2>&1
                             _Save -q
                         fi

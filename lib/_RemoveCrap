@@ -9,7 +9,7 @@ _RemoveCrap() {
 
     LISTS=( "$AUDIO_URLS" "$AUDIO_TITLES" \
             "$VIDEO_URLS" "$VIDEO_TITLES" \
-            "$QUEUE" "$tmp_dir"/DefaultTitles )
+            "$QUEUE" "$DEFAULTITLES" )
 
     for file in "${LISTS[@]}"; do
         # removing unwanted parts of links, blank lines & duplicates
