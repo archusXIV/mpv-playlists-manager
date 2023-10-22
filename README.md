@@ -11,7 +11,7 @@ mpm -p # launches the load local function
 mpm -v # prints mpm version
 ```
 ## New in version 1.3-5
-- Add possibility to modify yt-dlp downloader options in ~/.config/mpm/mpmrc, for example:
+- Add yt-dlp downloader options in ~/.config/mpm/mpmrc, for example:
 ```
 --downloader m3u8:ffmpeg  # using proto m3u8 & ffmpeg as external downloader
 --downloader-args '-n'    # this will not redownload existing files
