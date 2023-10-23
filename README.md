@@ -46,7 +46,7 @@ mp3, flac, ogg, or wav. You can switch encoders by editing the config file (mpmr
 
 For a better experience I **recommend** a minimum terminal size of 1210x735 because of the youtube-dl
 outputs that let you choose desired audio/video formats, if you want an automatic terminal
-resizing just install [wmctrl](http://tripie.sweb.cz/utils/wmctrl/) an the script will take care of
+resizing just install [wmctrl](https://github.com/dancor/wmctrl) an the script will take care of
 that for you.
 If you're a tiling window manager user, make it float or give it more room in the stack.
 ```
@@ -75,8 +75,8 @@ Requests and contributions? Why not, have fun.
 - [ueberzug](https://github.com/seebye/ueberzug) (optional) might be in your distro's repo
 - [vim](https://www.vim.org/) (set as the MPMEDITOR)
 - [w3m](https://w3m.sourceforge.net/) (optional)
-- [wmctrl](https://www.freedesktop.org/wiki/Software/wmctrl/) (optional)
-- [youtube-dl](https://youtube-dl.org/)
+- [wmctrl](https://github.com/dancor/wmctrl) (optional)
+- [youtube-dl](https://github.com/ytdl-org/youtube-dl)
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
 # installation
