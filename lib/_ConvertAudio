@@ -43,10 +43,13 @@ _ConvertAudio() {
                 _ogg
             ;;
             *)
-                echo " ${critical}Wrong option, conversion aborted...${nc}"
+                echo " ${critical}Conversion aborted...${nc}"
                 sleep 3
                 clear
-                _Menu
+                [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+                && _GetCompleted -a
+                [[ $M3UFILE = "$playlists_dir"/"$list" ]] \
+                && _DownloadCompleted
             ;;
         esac
     fi
