@@ -81,7 +81,7 @@ function _mp3 {
         ffmpeg -i "${FILE}" \
         -acodec libmp3lame -ar 48000 -ab 320k \
         -y "${FILE%.webm}.mp3";' _ '{}' \; 2>"$FFOP"
-    rm ./*.webm
+    find . -iname "*.webm" -exec rm {} \;
 }
 
 function _flac {
@@ -90,7 +90,7 @@ function _flac {
         ffmpeg -i "${FILE}" \
         -af aformat=s32:48000 \
         -y "${FILE%.webm}.flac";' _ '{}' \; 2>"$FFOP"
-    rm ./*.webm
+    find . -iname "*.webm" -exec rm {} \;
 }
 
 function _wav {
@@ -99,7 +99,7 @@ function _wav {
         ffmpeg -i "${FILE}" \
         -acodec pcm_s32le -ar 48000 \
         -y "${FILE%.webm}.wav";' _ '{}' \; 2>"$FFOP"
-    rm ./*.webm
+    find . -iname "*.webm" -exec rm {} \;
 }
 
 function _ogg {
@@ -108,7 +108,7 @@ function _ogg {
         ffmpeg -i "${FILE}" \
         -acodec libvorbis -ar 48000 -ab 320k \
         -y "${FILE%.webm}.ogg";' _ '{}' \; 2>"$FFOP"
-    rm ./*.webm
+    find . -iname "*.webm" -exec rm {} \;
 }
 
 ## MPV SPECIFICS
