@@ -54,7 +54,6 @@ _ConvertAudio() {
         esac
     fi
 
-    rm ./*.webm
     echo " ${info}Conversion done.${nc}"
     sleep 2
 
