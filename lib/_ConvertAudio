@@ -24,26 +24,31 @@ _ConvertAudio() {
         __
         read -rn1 \
         -p "${info}"' Select an output format [1 = mp3] [2 = flac] [3 = wav] [4 = ogg]: '"${nc}" conv
-        __
+
         case "$conv" in
             1)
-                echo " ${info}Converting files in ${task}mp3${b}...${nb}${nc}"
+                __
+                printf '%s\n' " ${info}Converting files in ${task}mp3${b}...${nb}${nc}"
                 _mp3
             ;;
             2)
-                echo " ${info}Converting files in ${task}flac${b}...${nb}${nc}"
+                __
+                printf '%s\n' " ${info}Converting files in ${task}flac${b}...${nb}${nc}"
                 _flac
             ;;
             3)
-                echo " ${info}Converting files in ${task}wav${b}...${nb}${nc}"
+                __
+                printf '%s\n' " ${info}Converting files in ${task}wav${b}...${nb}${nc}"
                 _wav
             ;;
             4)
-                echo " ${info}Converting files in ${task}ogg${b}...${nb}${nc}"
+                __
+                printf '%s\n' " ${info}Converting files in ${task}ogg${b}...${nb}${nc}"
                 _ogg
             ;;
             *)
-                echo " ${critical}Conversion aborted...${nc}"
+                __
+                printf '%s\n' " ${critical}Conversion aborted...${nc}"
                 sleep 3
                 clear
                 [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
@@ -54,8 +59,13 @@ _ConvertAudio() {
         esac
     fi
 
-    echo " ${info}Conversion done.${nc}"
+    if [[ -z $(find "$audios_dir" -maxdepth 2 -name "*.webm" ) ]]; then
+        __
+        printf '%s\n' " ${info}Conversion done.${nc}"
+    else
+        echo ""
+    fi
+
     sleep 2
 
 }
-
