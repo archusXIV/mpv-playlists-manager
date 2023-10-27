@@ -26,7 +26,7 @@ _DownloadVideoList() {
         d|D) _DirectVideoDownload ;;
         s|S)
             cd "$videos_dir"/"${list%.*}" || return
-            for downvideourl in $(grep -w '^https' "$list"); do
+            for downvideourl in $(grep '^https' "$playlists_dir"/"$list"); do
 
                 clear
                 __
