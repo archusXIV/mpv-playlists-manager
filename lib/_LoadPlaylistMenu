@@ -7,21 +7,20 @@ _LoadPlaylistMenu() {
     while :; do
 
         _ResizeWindow
-        clear
         __
         [[ $direct_download = yes ]] && printf '%s\n' " ${task}Direct download enabled.${nc}"
         __
         echo " ${info}$list: $(grep -c '^https' "$list") url(s).${nc}"
         __
-        echo -e "                                                 ${mtitle}::Download options::${nc}"
-        echo -e "                                 ┌───────────────────────────────────────────────────┐"
-        echo -e "                                 │     1) Choose playlist links & download ${info}audio${nc}     │"
-        echo -e "                                 │     2) Choose playlist links & download ${info}video${nc}     │"
-        echo -e "                                 │     3) Download whole playlist as ${info}audio${nc} files     │"
-        echo -e "                                 │     4) Download whole playlist as ${info}video${nc} files     │"
-        echo -e "                                 │     5) Back to main menu                          │"
-        echo -e "                                 └───────────────────────────────────────────────────┘"
-        echo -e "                                                   ${info}${b}Select an item${nb}${nc}"
+        echo -e "                                                  ${mtitle}::Download options::${nc}"
+        echo -e "                                  ┌───────────────────────────────────────────────────┐"
+        echo -e "                                  │     1) Choose playlist links & download ${info}audio${nc}     │"
+        echo -e "                                  │     2) Choose playlist links & download ${info}video${nc}     │"
+        echo -e "                                  │     3) Download whole playlist as ${info}audio${nc} files     │"
+        echo -e "                                  │     4) Download whole playlist as ${info}video${nc} files     │"
+        echo -e "                                  │     5) Back to main menu                          │"
+        echo -e "                                  └───────────────────────────────────────────────────┘"
+        echo -e "                                                    ${info}${b}Select an item${nb}${nc}"
         __
         read -rsn 1 options
         case "$options" in

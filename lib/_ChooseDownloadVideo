@@ -29,26 +29,24 @@ _ChooseDownloadVideo() {
     fi
 
     case "$choice" in
-        d|D)
-            _ChooseDirectVideoDownload
-        ;;
+        d|D) _ChooseDirectVideoDownload ;;
         s|S)
             _GetSelected
-            
+
+            mapfile -t CHOSENCODES < <(grep '^https' "$CHOOSE1")
+
             cd "$videos_dir"/"${list%.*}" || exit 1
             
-            mapfile -t < <(grep '^https' "$CHOOSE1")
-            
-            for url in "${MAPFILE[@]}"; do
+            for url in "${CHOSENCODES[@]}"; do
 
                 if [[ $url =~ 'youtube.com' ]]; then
                     __
                     youtube-dl -F "${ytdlPreset_DW[@]}" "$url" \
-                    | sed '1,5d;/^[sb]/d;/^\s*$/d;s/-//g;/^\s*$/d'
+                    | awk '$0 !~ /sb|youtube/{print $0}'
                 else
                     youtube-dl -F "${ytdlPreset_DW[@]}" "$url"
                 fi
-                
+
                 __
                 printf '%s\n' " ${info}Choose a format code for: $(_GetLinkTitle -s)" \
                 " eg: 137+251 for merging, hls-1080p, 22 for single:${nc}"
@@ -56,22 +54,24 @@ _ChooseDownloadVideo() {
                 sleep 0.5
                 clear
                 printf '%s\n' " ${info}Total downloads: $chooseVideoCounter${nc}"
-                
+
                 if [[ $code =~ '+' ]]; then
                     # downloader presets described in ~/.config/mpm/mpmrc
-                    youtube-dl -f "$code" \
+                    youtube-dl --format "$code" \
+                    --output "$(_GetLinkTitle -s).%(ext)s" \
                     "${ytdlPreset_X[@]}" "$url"
                 else
-                    youtube-dl -f "$code" \
+                    youtube-dl --format "$code" \
+                    --output "$(_GetLinkTitle -s).%(ext)s" \
                     "${ytdlPreset_NC[@]}" "$url"
                 fi
 
                 sed -i '1d' "$SELECTEDTITLES"
                 ((chooseVideoCounter--))
                 clear
-            
+
             done
-       
+
             echo " ${info}All done${nc}"
             sleep 2
         ;;

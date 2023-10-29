@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.3-5)
+# ~/.config/mpm/mpmrc (version 1.3-6)
 
 ########################################################
 #                                                      #
@@ -45,7 +45,6 @@ playlists_dir="$main_dir/playlists"
 # Be carefull with this one because if you choose to use the conversion action,
 # ALL .webm files in that directory will be converted.
 audios_dir="$main_dir/audios"
-
 videos_dir="$main_dir/videos"
 titles_dir="$main_dir/titles"
 tmp_dir="$main_dir/tmp"
@@ -139,22 +138,19 @@ function _MpvVideoOptions {
 # !!! do not change the name of the array (ytdlPreset_<*>) !!!
 # downloader name
 ytdlPreset_DN=( --downloader m3u8:ffmpeg )
-
 # downloader arguments
 ytdlPreset_DA=( --downloader-args '-n' )
-
 # merge format
 ytdlPreset_MF=( --merge-output-format mp4 )
-
 # downloader warnings
 ytdlPreset_DW=( --no-warnings )
-
 # downloader progress
 ytdlPreset_DP=( --progress )
-
+# downloader filename sanitization
+# (this avoid the creation of subdirectories because of filenames containing '/')
+ytdlPreset_FS=( --compat-options filename-sanitization )
 # downloader without multiple format codes
 ytdlPreset_NC=( "${ytdlPreset_DW[@]}" "${ytdlPreset_DP[@]}" )
-
 # combined presets
 ytdlPreset_X=( "${ytdlPreset_DN[@]}" "${ytdlPreset_DA[@]}" \
 "${ytdlPreset_MF[@]}" "${ytdlPreset_DW[@]}" "${ytdlPreset_DP[@]}" )

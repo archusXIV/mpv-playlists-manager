@@ -6,50 +6,50 @@ _SaveRemove() {
 
     cd "$playlists_dir" || exit 1
 
-    saveRemovePrompt=( "[B]ack to menu," "Save [D]efault," "Save [A]udio," \
-    "Save [V]ideo," "[R]emove a playlist." )
+    saveRemovePrompts=( "[B]ack to menu," "Save [D]efault," "Save [A]udio," \
+                        "Save [V]ideo," "[R]emove a playlist." )
 
     if [[ -f $AUDIO_URLS ]] && [[ -f $VIDEO_URLS ]]; then
 
         if (( $(_GetLinesList -q) < 1 )); then
-            unset saveRemovePrompt[1]
-            echo "${info}" "${saveRemovePrompt[*]}" "${nc}"
+            unset saveRemovePrompts[1]
+            echo "${info}" "${saveRemovePrompts[*]}" "${nc}"
             __
         else
-            echo "${info}" "${saveRemovePrompt[@]}" "${nc}"
+            echo "${info}" "${saveRemovePrompts[@]}" "${nc}"
             __
         fi
     
     elif [[ -f $AUDIO_URLS ]]; then
 
         if (( $(_GetLinesList -q) < 1 )); then
-            unset {saveRemovePrompt[1],saveRemovePrompt[3]}
-            echo "${info}" "${saveRemovePrompt[*]}" "${nc}"
+            unset {saveRemovePrompts[1],saveRemovePrompts[3]}
+            echo "${info}" "${saveRemovePrompts[*]}" "${nc}"
         else
-            unset saveRemovePrompt[3]
-            echo "${info}" "${saveRemovePrompt[*]}" "${nc}"
+            unset saveRemovePrompts[3]
+            echo "${info}" "${saveRemovePrompts[*]}" "${nc}"
             __
         fi
     
     elif [[ -f $VIDEO_URLS ]]; then
 
         if (( $(_GetLinesList -q) < 1 )); then
-            unset {saveRemovePrompt[1],saveRemovePrompt[2]}
-            echo "${info}" "${saveRemovePrompt[*]}" "${nc}"
+            unset {saveRemovePrompts[1],saveRemovePrompts[2]}
+            echo "${info}" "${saveRemovePrompts[*]}" "${nc}"
         else
-            unset saveRemovePrompt[2]
-            echo "${info}" "${saveRemovePrompt[*]}" "${nc}"
+            unset saveRemovePrompts[2]
+            echo "${info}" "${saveRemovePrompts[*]}" "${nc}"
             __
         fi
     
     elif (( $(_GetLinesList -q) < 1 )); then
         echo -e " ${critical}Nothing to save, maybe remove something?${nc}\n"
-        unset {saveRemovePrompt[1],saveRemovePrompt[2],saveRemovePrompt[3]}
-        echo "${info}" "${saveRemovePrompt[*]}" "${nc}"
+        unset {saveRemovePrompts[1],saveRemovePrompts[2],saveRemovePrompts[3]}
+        echo "${info}" "${saveRemovePrompts[*]}" "${nc}"
         __
     else
-        unset {saveRemovePrompt[2],saveRemovePrompt[3]}
-        echo "${info}" "${saveRemovePrompt[@]}" "${nc}"
+        unset {saveRemovePrompts[2],saveRemovePrompts[3]}
+        echo "${info}" "${saveRemovePrompts[@]}" "${nc}"
         __
     fi
 

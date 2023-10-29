@@ -11,8 +11,8 @@ _LoadAudio() {
         __; rm -f "$tmp_dir"/download 2>/dev/null
         echo "${critical}Tip: You may want to put this in your mpv.conf:"
         printf '%s\n' "term-playing-msg='Tiltle: \${media-title}'"
-        echo "Otherwise press I in mpv for more infos.${nc}"
-        __
+        echo -e "Otherwise press I in mpv for more infos.${nc}\n"
+        printf '%s\n' " ${info}Playing ${M3UFILE##*/}${nc}"
     )
 
     # change mpv settings in ~/.config/mpm/mpmrc
@@ -53,4 +53,3 @@ _LoadAudio() {
     esac
 
 }
-

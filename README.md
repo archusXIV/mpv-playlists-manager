@@ -10,6 +10,16 @@ mpm -l # launches the play/download function
 mpm -p # launches the load local function
 mpm -v # prints mpm version
 ```
+## New in version 1.3-6
+- Add yt-dlp downloader options in [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/6b58af229393d50971d7bfea4ae18710e5016449/mpmrc#L149), for example:
+```
+--compat-options filename-sanitization
+
+```
+- This avoid the creation of subdirectories because of filenames containing '/'
+- Fixed some bugs.
+- Refactoring some functions.
+
 ## New in version 1.3-5
 - Add yt-dlp downloader options in [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/6b58af229393d50971d7bfea4ae18710e5016449/mpmrc#L132), for example:
 ```
@@ -21,16 +31,9 @@ mpm -v # prints mpm version
 - Refactoring some functions.
 - Add changes in help file.
 
-## New in version 1.3-4
-- If you exit the script by typing "x", and if temporary lists exist you will be prompted to save them.
-- New way to save a playlist as described in version 1.3-2 but in a more secured way...by entering a number greater than your total playlists collection. For example if you have 22 saved playlists, just enter 23 and you' ll be prompted to type a name for the new one.
-- If you enter an existing playlist number or name, a red prompt appears for confirmation.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/saving_a_playlist_as_an_existing_one.png)
-
-
-## version 1.3-5 main screen.
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.3-5.png)
+## version 1.3-6 main screen.
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.3-6.png)
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
 This program is just a personal project, and I wrote it as a normy Linux user (it is simple),

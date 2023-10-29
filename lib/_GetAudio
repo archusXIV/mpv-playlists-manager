@@ -1,11 +1,11 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2013,SC2154,SC2143,SC2164
+# shellcheck disable=SC2013,SC2154,SC2143,SC2164,SC2317
 _GetAudio() {
 
     cd "$audios_dir" || exit 1
-    local getAudioCounter M3UFILE TITLES
+    local M3UFILE TITLES
 
     case "$1" in
         -a)
@@ -43,70 +43,29 @@ _GetAudio() {
     cp -f "$M3UFILE" "$M3UFILE"_origin
     cp -f "$TITLES" "$TITLES"_origin
     clear
-    
-    getAudioCounter=$(grep -c '^https' "$M3UFILE")
 
     __GetAudioDownloadMessages() (
-    
+
         [[ $M3UFILE = "$AUDIO_URLS" ]] && {
-            printf '%s\n' " ${info}$getAudioCounter audio file(s) left to download." \
-            " Please be patient while downloading:  $(_GetLinkTitle -a).webm${nc}"
+            printf '%s\n' " ${info}$(_GetLinesList -a) audio file(s) left to download." \
+            " Please be patient while downloading:  $(_GetLinkTitle -a)${nc}"
         }
-        
+
         [[ $M3UFILE = "$playlists_dir"/"$list" ]] && {
-            printf '%s\n' " ${info}$getAudioCounter audio file(s) left to download." \
-            " Please be patient while downloading:  $(_GetLinkTitle -l).webm${nc}"
+            printf '%s\n' " ${info}$(_GetLinesList -l) audio file(s) left to download." \
+            " Please be patient while downloading:  $(_GetLinkTitle -l)${nc}"
         }
-        
+
         [[ $M3UFILE = "$QUEUE" ]] && {
-            printf '%s\n' " ${info}$getAudioCounter audio file(s) left to download." \
-            " Please be patient while downloading:  $(_GetLinkTitle -q).webm${nc}"
+            printf '%s\n' " ${info}$(_GetLinesList -q) audio file(s) left to download." \
+            " Please be patient while downloading:  $(_GetLinkTitle -q)${nc}"
         }
 
     )
-    
+
     [[ -d "$audios_dir"/"${list%.*}" ]] && cd "$audios_dir"/"${list%.*}"
 
-    for getAudioUrl in $(grep '^https' "$M3UFILE"); do
-
-        if [[ $(youtube-dl -F "${ytdlPreset_DW[@]}" "$getAudioUrl" \
-            | sed -n '/audio only/p' | grep -w '251') ]]; then
-
-            __
-            __GetAudioDownloadMessages
-            youtube-dl \
-            -o "$(youtube-dl \
-            --skip-download \
-            --get-title "$getAudioUrl")".webm \
-            -f 251 \
-            "${ytdlPreset_NC[@]}" "$getAudioUrl"
-
-        else
-
-            youtube-dl -F "${ytdlPreset_DW[@]}" "$getAudioUrl" \
-            | sed -n '/audio only/p'
-            __
-            printf '%s\n' " ${info}Choose a format code: ${nc}"
-            read -r code
-            clear
-            __
-            __GetAudioDownloadMessages
-            youtube-dl -f "$code" \
-            "${ytdlPreset_NC[@]}" "$getAudioUrl"
-            
-        fi
-
-        if [[ $M3UFILE = "$AUDIO_URLS" ]]; then
-            sed -i '1d' {"$M3UFILE","$TITLES"}
-        else
-            sed -i '2d' "$M3UFILE"
-            sed -i '1d' "$TITLES"
-        fi
-
-        ((getAudioCounter--))
-        clear
-
-    done
+    _GetAudioDownload
 
     echo -e " ${info}Done\n${nc}"
 
@@ -117,7 +76,6 @@ _GetAudio() {
         find . -iname "*.webm" | sort -d | sed 's,.*/,,'
 
         if [[ $automatic_audio_conversion = yes ]]; then
-
             __
             printf '%s\n' " ${task}Automatic audio conversion enabled.${nc}"
             sleep 2
@@ -125,9 +83,7 @@ _GetAudio() {
             && _ConvertAudio && _GetCompleted -a
             [[ $M3UFILE = "$playlists_dir"/"$list" ]] \
             && _ConvertAudio && _DownloadCompleted
-
         else
-
             __
             _Prompt " ${info}Do you wish to convert them?: ${nc}" || {
                 [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
@@ -138,15 +94,12 @@ _GetAudio() {
             && _ConvertAudio && _GetCompleted -a
             [[ $M3UFILE = "$playlists_dir"/"$list" ]] \
             && _ConvertAudio && _DownloadCompleted
-
         fi
 
     else
-
         [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
         && _GetCompleted -a
         [[ $M3UFILE = "$playlists_dir"/"$list" ]] && _DownloadCompleted
-
     fi
 
 }

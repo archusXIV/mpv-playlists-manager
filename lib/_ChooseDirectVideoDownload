@@ -7,33 +7,36 @@ _ChooseDirectVideoDownload() {
     _GetSelected
     clear
     cd "$videos_dir"/"${list%.*}" || exit 1
-    
+
     mapfile -t DIRECT < <(grep '^https' "$CHOOSE1")
 
     for line in "${DIRECT[@]}"; do
-        
+
         if [[ $direct_download = yes ]]; then
             printf '%s\n' " ${task}Direct download enabled.${nc}"
         else
             printf '%s\n' " ${task}Download method = direct.${nc}"
         fi
-        
         __
         printf '%s\n' " ${info}Downloading $chooseVideoCounter file(s).${nc}"
-        
+
         if [[ $line =~ 'youtube.com' ]]; then
             # downloader presets described in ~/.config/mpm/mpmrc
-            youtube-dl "${ytdlPreset_X[@]}" "$line"
+            youtube-dl \
+            --output "$(_GetLinkTitle -s).%(ext)s" \
+            "${ytdlPreset_X[@]}" "$line"
             clear
         else
-            youtube-dl "${ytdlPreset_NC[@]}" "$line"
+            youtube-dl \
+            --output "$(_GetLinkTitle -s).%(ext)s" \
+            "${ytdlPreset_NC[@]}" "$line"
             clear
         fi
-        
+
         ((chooseVideoCounter--))
-        
+
     done
-    
+
     unset line
     echo " ${info}All done${nc}"
     sleep 2

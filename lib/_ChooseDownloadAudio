@@ -8,14 +8,12 @@ _ChooseDownloadAudio() {
     _TitlesListCompare
 
     cp -f "$list" "$list"_origin
-    cp -f "$titles_dir"/"$list".titles \
-    "$titles_dir"/"$list".titles_origin
     mkdir -p "$audios_dir"/"${list%.*}"
 
     IFS=","
     read -ra array \
     -p " ${info}Enter links numbers separeted by comma, eg: 3,1,5: ${nc}"
-    
+
     clear
     cd "$audios_dir"/"${list%.*}" || exit 1
 
@@ -23,35 +21,37 @@ _ChooseDownloadAudio() {
     chooseAudioCounter="${#array[*]}"
 
     _GetSelected
-    
-    mapfile -t < <(grep '^https' "$CHOOSE1")
-    
-    for url in "${MAPFILE[@]}"; do
+
+    mapfile -t SELECTEDAUDIO < <(grep '^https' "$CHOOSE1")
+
+    for url in "${SELECTEDAUDIO[@]}"; do
 
         if [[ $direct_download = yes ]] && \
-            [[ $(youtube-dl -F "${ytdlPreset_DW[@]}" "$url" | grep -w '251') ]]; then
+            [[ $(youtube-dl -F "${ytdlPreset_DW[@]}" "$url" \
+            | grep '^251') ]]; then
 
             printf '%s\n' " ${task}Direct download enabled.${nc}"
             __
-            printf '%s\n' " ${info}Downloading $chooseAudioCounter file(s)." \
+            printf '%s\n' " ${info}$chooseAudioCounter file(s) left to downloads." \
             " Downloading: $(_GetLinkTitle -s)${nc}"
-            youtube-dl -o "$(youtube-dl --skip-download --get-title "$url")".webm \
-            -f 251 "${ytdlPreset_NC[@]}" "$url"
+            youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
+            --format 251 "${ytdlPreset_NC[@]}" "$url"
 
         elif [[ $direct_download = no ]] && [[ $url =~ 'youtube.com' ]]; then
             __
             printf '%s\n' " ${task}Direct download disabled.${nc}"
             __
-            youtube-dl -F "${ytdlPreset_DW[@]}" "$url" | sed -n '
-            1,5d;6,7p;/audio only/p' | sed '/^sb2/d' 2>/dev/null
+            youtube-dl -F "${ytdlPreset_DW[@]}" "$url" \
+            | awk '/audio only|PROTO|^[-]/ {sub("^[sb*]",""); print $0}'
             __
             printf '%s\n' " ${info}Choose a format code for: $(_GetLinkTitle -s)${nc}"
             read -r code
             clear
             __
-            printf '%s\n' " ${info}Downloading $chooseAudioCounter file(s)." \
+            printf '%s\n' " ${info}$chooseAudioCounter file(s) left to downloads." \
             " Downloading: $(_GetLinkTitle -s)${nc}"
-            youtube-dl -f "$code" "${ytdlPreset_NC[@]}" "$url"
+            youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
+            --format "$code" "${ytdlPreset_NC[@]}" "$url"
 
         else
 
@@ -60,9 +60,10 @@ _ChooseDownloadAudio() {
             read -r code
             clear
             __
-            printf '%s\n' " ${info}Total downloads: $chooseAudioCounter${nc}"
+            printf '%s\n' " ${info}$chooseAudioCounter file(s) left to downloads.${nc}"
             sleep 0.5
-            youtube-dl -f "$code" "${ytdlPreset_NC[@]}" "$url"
+            youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
+            --format "$code" "${ytdlPreset_NC[@]}" "$url"
 
         fi
 
@@ -71,7 +72,7 @@ _ChooseDownloadAudio() {
         clear
 
     done
-    
+
     _UpdateSelected
 
     # if we don't unset IFS other functions will be messed up!
@@ -85,10 +86,10 @@ _ChooseDownloadAudio() {
 
     cd "$audios_dir"/"${list%.*}" || exit 1
 
-    if [[ -n $(find . -iname "*.webm") ]]; then
-    
-        echo " ${critical}ADVISORY: if you choose conversion, all downloaded files"
-        echo -e " will be converted in the chosen format.${nc}\n"
+    if [[ -n $(find "$audios_dir"/"${list%.*}" -iname "*.webm") ]]; then
+
+        echo " ${critical}ADVISORY: if you choose conversion, all downloaded webm"
+        echo -e " files will be converted in the chosen format.${nc}\n"
         find . -iname "*.webm" | sed 's,.*/,,'
 
         if [[ $automatic_audio_conversion = yes ]]; then

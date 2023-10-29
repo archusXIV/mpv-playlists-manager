@@ -8,25 +8,25 @@ _DirectVideoDownload() {
     __
     printf '%s\n' " ${task}Direct download enabled.${nc}"
     __
-    mapfile -t DIRECT < <(grep -v '#EXTM3U' "$list")
-    
+    mapfile -t DIRECT < <(grep '^https' "$list")
+
     cd "$videos_dir"/"${list%.*}" || return
-    
+
     for line in "${DIRECT[@]}"; do
 
         printf '%s\n' " ${info}Downloading $downloadVideoCounter file(s)." \
         " Downloading: $(_GetLinkTitle -l)${nc}"
-        
+
         [[ $line =~ 'youtube.com' ]] && {
             youtube-dl \
-            -o "$(_GetLinkTitle -l)".mp4 \
+            --output "$(_GetLinkTitle -l).%(ext)s" \
             "${ytdlPreset_X[@]}" "$line"
         } || youtube-dl \
-            -o "$(_GetLinkTitle -l)".mp4 \
+            --output "$(_GetLinkTitle -l).%(ext)s" \
             "${ytdlPreset_NC[@]}" "$line"
-    
+
         ((downloadVideoCounter--))
-        
+
         sed -i '2d' "$playlists_dir"/"$list"
         sed -i '1d' "$titles_dir"/"$list".titles
         clear

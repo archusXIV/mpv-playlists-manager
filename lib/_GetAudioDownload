@@ -1,0 +1,50 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2013,SC2154,SC2143,SC2164,SC2317,SC2076
+_GetAudioDownload() {
+    
+    mapfile -t AUDIOLINKS < <(grep '^https' "$M3UFILE")
+    
+    for getAudioUrl in "${AUDIOLINKS[@]}"; do
+        __GetAudioDownloadMessages
+        if [[ $(youtube-dl -F "${ytdlPreset_DW[@]}" "$getAudioUrl" \
+            | grep '^251') ]]; then
+            __
+            if [[ $(youtube-dl --skip-download --get-title "$getAudioUrl") =~ '/' ]]; then
+                youtube-dl --format 251 "${ytdlPreset_FS[@]}" \
+                "${ytdlPreset_NC[@]}" "$getAudioUrl"
+            else
+                youtube-dl --output "$(youtube-dl \
+                --skip-download --get-title "$getAudioUrl").%(ext)s" \
+                --format 251 "${ytdlPreset_NC[@]}" "$getAudioUrl"
+            fi
+        else
+            youtube-dl -F "${ytdlPreset_DW[@]}" "$getAudioUrl" \
+            | awk '/audio only|PROTO|^[-]/ {sub("^[sb*]",""); print $0}'
+            __
+            printf '%s\n' " ${info}Choose a format code: ${nc}"
+            read -r code
+            clear
+            __
+            if [[ $(youtube-dl --skip-download --get-title "$getAudioUrl") =~ '/' ]]; then
+                youtube-dl --format "$code" "${ytdlPreset_FS[@]}" \
+                "${ytdlPreset_NC[@]}" "$getAudioUrl"
+            else
+                youtube-dl --output "$(youtube-dl \
+                --skip-download --get-title "$getAudioUrl").%(ext)s" \
+                --format "$code" "${ytdlPreset_NC[@]}" "$getAudioUrl"
+            fi
+        fi
+
+        if [[ $M3UFILE = "$AUDIO_URLS" ]]; then
+            sed -i '1d' {"$M3UFILE","$TITLES"}
+        else
+            sed -i '2d' "$M3UFILE"
+            sed -i '1d' "$TITLES"
+        fi
+
+        clear
+
+    done
+}

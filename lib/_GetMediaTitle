@@ -17,7 +17,7 @@ _GetMediaTitle() {
         youtube-dl \
         --skip-download \
         --get-title \
-        --no-warnings "$line" 2>/dev/null
+        "${ytdlPreset_DW[@]}" "$line" 2>/dev/null
     done
 
 }

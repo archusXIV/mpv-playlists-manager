@@ -1,0 +1,77 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2013,SC2154,SC2143,SC2164,SC2317,SC2076
+_GetVideoDownload() {
+
+    cd "$videos_dir" || exit 1
+
+    mapfile -t VIDEOLINKS < <(grep '^https' "$M3UFILE")
+    
+    for getVideoUrl in "${VIDEOLINKS[@]}"; do
+        __
+        youtube-dl -F "${ytdlPreset_DW[@]}" "$getVideoUrl" \
+        | awk '$0 !~ /sb|youtube/{print $0}'
+        __
+        __ChooseFormatMessages
+        read -r code
+        clear
+        __
+        __DownloadMessages
+        
+        if [[ "$code" =~ '+' ]]; then
+            # downloader presets described in ~/.config/mpm/mpmrc
+            # we have to differenciate titles files because of _GetLinkTitle function.
+            if [[ $TITLES = "$DEFAULTITLES" ]]; then
+                if [[ $(youtube-dl --skip-download --get-title "$getVideoUrl") =~ '/' ]]; then
+                    youtube-dl --format "$code" "${ytdlPreset_FS[@]}" \
+                    "${ytdlPreset_X[@]}" "$getVideoUrl"
+                else
+                    youtube-dl --format "$code" \
+                    --output "$(_GetLinkTitle -q).%(ext)s" \
+                    "${ytdlPreset_X[@]}" "$getVideoUrl"
+                fi
+            else
+                if [[ $(youtube-dl --skip-download --get-title "$getVideoUrl") =~ '/' ]]; then
+                    youtube-dl --format "$code" "${ytdlPreset_FS[@]}" \
+                    "${ytdlPreset_NC[@]}" "$getVideoUrl"
+                else
+                    youtube-dl --format "$code" \
+                    --output "$(_GetLinkTitle -v).%(ext)s" \
+                    "${ytdlPreset_NC[@]}" "$getVideoUrl"
+                fi
+            fi
+        else
+            if [[ $TITLES = "$DEFAULTITLES" ]]; then
+                if [[ $(youtube-dl --skip-download --get-title "$getVideoUrl") =~ '/' ]]; then
+                    youtube-dl --format "$code" "${ytdlPreset_FS[@]}" \
+                    "${ytdlPreset_NC[@]}" "$getVideoUrl"
+                else
+                    youtube-dl --format "$code" \
+                    --output "$(_GetLinkTitle -q).%(ext)s" \
+                    "${ytdlPreset_X[@]}" "$getVideoUrl"
+                fi
+            else
+                if [[ $(youtube-dl --skip-download --get-title "$getVideoUrl") =~ '/' ]]; then
+                    youtube-dl --format "$code" "${ytdlPreset_FS[@]}" \
+                    "${ytdlPreset_NC[@]}" "$getVideoUrl"
+                else
+                    youtube-dl --format "$code" \
+                    --output "$(_GetLinkTitle -v).%(ext)s" \
+                    "${ytdlPreset_NC[@]}" "$getVideoUrl"
+                fi
+            fi
+        fi
+
+        if [[ $M3UFILE = "$VIDEO_URLS" ]]; then
+            sed -i '1d' {"$M3UFILE","$TITLES"}
+            clear
+        else
+            sed -i '2d' "$M3UFILE"
+            sed -i '1d' "$TITLES"
+            clear
+        fi
+
+    done
+
+}

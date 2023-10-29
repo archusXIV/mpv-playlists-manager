@@ -5,17 +5,17 @@
 _IfPartsExist() {
 
     __IfPartsExistInfo() (
+        partsDirs=( "$audios_dir" "$videos_dir" )
+        clear
         echo -e " Incomplete files in audio/video directories:\n${nc}"
-        find "$audios_dir"/"${list%.*}" "$videos_dir"/"${list%.*}" \
-        -name "*.part" -name "*.part" 2>/dev/null \
+        find "${partsDirs[@]}" -name "*.part" 2>/dev/null \
         | sort -d | sed 's,.*/,,' | cat -n
         __
-        echo " ${info}Keep them in if you want to resume downloads,"
-        echo " and try again in this session or later.${nc}"
-        sleep 10
-        _Menu
+        echo " ${info}Try again now or later, choose an option.${nc}"
+        __
+        return
     )
-    
+
     case "$1" in
         -l)
             mv "$playlists_dir"/"$list"_origin \
@@ -27,11 +27,11 @@ _IfPartsExist() {
         -t)
             tempfiles=( "$QUEUE" "$AUDIO_URLS" "$AUDIO_TITLES" \
                         "$VIDEO_URLS" "$VIDEO_TITLES" "$DEFAULTITLES" )
-            
+
             for f in "${tempfiles[@]}"; do
                 mv -f "$f"_origin "$f"
             done 2>/dev/null
-            
+
             __IfPartsExistInfo
         ;;
     esac

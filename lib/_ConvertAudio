@@ -19,7 +19,7 @@ _ConvertAudio() {
     else
         # functions _mp3 _flac _wav & _ogg are in ~/.config/mpm/mpmrc
         __
-        printf '%s\n' " ${task}Default format disabled." \
+        printf '%s\n' " ${task}Default format isn't set." \
         " Press Enter to abort conversion.${nc}"
         __
         read -rn1 \
@@ -51,10 +51,6 @@ _ConvertAudio() {
                 printf '%s\n' " ${critical}Conversion aborted...${nc}"
                 sleep 3
                 clear
-                [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
-                && _GetCompleted -a
-                [[ $M3UFILE = "$playlists_dir"/"$list" ]] \
-                && _DownloadCompleted
             ;;
         esac
     fi
@@ -62,10 +58,10 @@ _ConvertAudio() {
     if [[ -z $(find "$audios_dir" -maxdepth 2 -name "*.webm" ) ]]; then
         __
         printf '%s\n' " ${info}Conversion done.${nc}"
+        sleep 2
+        clear
     else
         echo ""
     fi
-
-    sleep 2
 
 }

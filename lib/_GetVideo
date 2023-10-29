@@ -1,10 +1,10 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2013,SC2154,SC2076
+# shellcheck disable=SC2013,SC2154,SC2143,SC2164,SC2317
 _GetVideo() {
 
-    local getVideoCounter M3UFILE TITLES
+    local M3UFILE TITLES
 
     case "$1" in
         -q)
@@ -39,8 +39,6 @@ _GetVideo() {
     cp -f "$M3UFILE" "$M3UFILE"_origin
     cp -f "$TITLES" "$TITLES"_origin
     clear
-    
-    getVideoCounter=$(grep -c '^https' "$M3UFILE")
 
     __ChooseFormatMessages() (
         [[ $M3UFILE = "$QUEUE" ]] && {
@@ -55,57 +53,21 @@ _GetVideo() {
 
     __DownloadMessages() (
         [[ $TITLES = "$DEFAULTITLES" ]] && {
-            printf '%s\n' " ${info}$getVideoCounter video file(s) left to download." \
-            " Please be patient while downloading:  $(_GetLinkTitle -q).webm${nc}"
+            printf '%s\n' " ${info}$(_GetLinesList -q) video file(s) left to download." \
+            " Please be patient while downloading:  $(_GetLinkTitle -q)${nc}"
         }
         [[ $TITLES = "$VIDEO_TITLES" ]] && {
-            printf '%s\n' " ${info}$getVideoCounter video file(s) left to download." \
-            " Please be patient while downloading:  $(_GetLinkTitle -v).webm${nc}"
+            printf '%s\n' " ${info}$(_GetLinesList -v) video file(s) left to download." \
+            " Please be patient while downloading:  $(_GetLinkTitle -v)${nc}"
         }
     )
 
     cd "$videos_dir" || exit 1
 
-    for getVideoUrl in $(grep '^https' "$M3UFILE"); do
-        __
-        youtube-dl -F "${ytdlPreset_DW[@]}" "$getVideoUrl"
-        __
-        __ChooseFormatMessages
-        read -r code
-        clear
-        __
-        if [[ "$code" =~ '+' ]]; then
-
-            __DownloadMessages
-            # downloader presets described in ~/.config/mpm/mpmrc
-            youtube-dl \
-            -f "$code" \
-            "${ytdlPreset_X[@]}" "$getVideoUrl"
-
-        else
-
-            __DownloadMessages
-            youtube-dl \
-            -f "$code" \
-            "${ytdlPreset_NC[@]}" "$getVideoUrl"
-        
-        fi
-
-        if [[ $M3UFILE = "$VIDEO_URLS" ]]; then
-            sed -i '1d' {"$M3UFILE","$TITLES"}
-            clear
-        else
-            sed -i '2d' "$M3UFILE"
-            sed -i '1d' "$TITLES"
-            clear
-        fi
-
-        ((getVideoCounter--))
-
-    done
+    _GetVideoDownload
 
     echo -e " ${info}Done.\n${nc}"
     sleep 2
     _GetCompleted -v
-
+    
 }

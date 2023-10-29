@@ -5,6 +5,7 @@
 _DownloadVideoList() {
     cd "$playlists_dir" || exit 1
 
+    _TitlesListCompare
     local downloadVideoCounter
     downloadVideoCounter=$(grep -c '^https' "$list")
 
@@ -18,22 +19,26 @@ _DownloadVideoList() {
         __
         echo " ${info}Tip: direct download will always pick the best format,"
         echo -e " on Youtube webm may be the best one but we'll merge files in mp4.\n"
-        echo -e " Choose [S]pecific codes or [D]irect download?:\n${nc}"
+        echo -e " [B]ack to dl menu, choose [S]pecific codes or [D]irect download?:\n${nc}"
         sleep 0.5 && read -rsn 1 choice
     fi
 
     case "$choice" in
+        b|B) clear; return ;;
         d|D) _DirectVideoDownload ;;
         s|S)
+            mapfile -t SELECTEDCODES < <(grep '^https' "$list")
+
             cd "$videos_dir"/"${list%.*}" || return
-            for downvideourl in $(grep '^https' "$playlists_dir"/"$list"); do
+
+            for downvideourl in "${SELECTEDCODES[@]}"; do
 
                 clear
                 __
-                echo " ${info}Codes for: $(_GetLinkTitle -l)${nc}"
-                youtube-dl -F "${ytdlPreset_DW[@]}" "$downvideourl"
+                youtube-dl -F "${ytdlPreset_DW[@]}" "$downvideourl" \
+                | awk '$0 !~ /sb|youtube/{print $0}'
                 __
-                printf '%s\n' " ${info}Choose a format code." \
+                printf '%s\n' " ${info}Choose a format code for $(_GetLinkTitle -l)." \
                 " eg: 137+251 for merging, hls-1080p, 22 for single:${nc}"
                 read -r code
                 sleep 0.5
@@ -43,15 +48,17 @@ _DownloadVideoList() {
 
                     printf '%s\n' " ${info}Downloading $downloadVideoCounter file(s).${nc}"
                     youtube-dl \
-                    -o "$(_GetLinkTitle -l)".mp4 \
-                    -f "$code" "${ytdlPreset_X[@]}" "$downvideourl"
+                    --output "$(_GetLinkTitle -l).%(ext)s" \
+                    --format "$code" \
+                    "${ytdlPreset_X[@]}" "$downvideourl"
 
                 else
 
                     printf '%s\n' " ${info}Downloading $downloadVideoCounter file(s).${nc}"
                     youtube-dl \
-                    -o "$(_GetLinkTitle -l)".mp4 \
-                    -f "$code" "${ytdlPreset_NC[@]}" "$downvideourl"
+                    --output "$(_GetLinkTitle -l).%(ext)s" \
+                    --format "$code" \
+                    "${ytdlPreset_NC[@]}" "$downvideourl"
 
                 fi
 
