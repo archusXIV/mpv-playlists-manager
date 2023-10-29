@@ -11,7 +11,7 @@ mpm -p # launches the load local function
 mpm -v # prints mpm version
 ```
 ## New in version 1.3-6
-- Add yt-dlp downloader options in [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/6b58af229393d50971d7bfea4ae18710e5016449/mpmrc#L149), for example:
+- Add yt-dlp downloader options in [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/0163c4ba40cdbe3b90f7cbce5400cf7d9bdb828f/mpmrc#L149), for example:
 ```
 --compat-options filename-sanitization
 ```
