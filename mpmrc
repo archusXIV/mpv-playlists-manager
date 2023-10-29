@@ -147,7 +147,7 @@ ytdlPreset_DW=( --no-warnings )
 # downloader progress
 ytdlPreset_DP=( --progress )
 # downloader filename sanitization
-# (this avoid the creation of subdirectories because of filenames containing '/')
+# (this avoid the creation of subdirectories because of filenames containing '/').
 ytdlPreset_FS=( --compat-options filename-sanitization )
 # downloader without multiple format codes
 ytdlPreset_NC=( "${ytdlPreset_DW[@]}" "${ytdlPreset_DP[@]}" )
