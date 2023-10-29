@@ -14,7 +14,6 @@ mpm -v # prints mpm version
 - Add yt-dlp downloader options in [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/6b58af229393d50971d7bfea4ae18710e5016449/mpmrc#L149), for example:
 ```
 --compat-options filename-sanitization
-
 ```
 - This avoid the creation of subdirectories because of filenames containing '/'
 - Fixed some bugs.
