@@ -48,13 +48,13 @@ mpm -v # prints mpm version
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.3-6.png)
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
-For a better experience I **recommend** a minimum terminal size of 1210x735 because of the youtube-dl
+For a better experience I **recommend** a minimum terminal size of 1260x738 because of the youtube-dl
 outputs that let you choose desired audio/video formats, if you want an automatic terminal
 resizing just install [wmctrl](https://github.com/dancor/wmctrl) an the script will take care of
 that for you.
 If you're a tiling window manager user, make it float or give it more room in the stack.
 ```
-wmctrl -r :ACTIVE: -e 5,-1,-1,1210,735
+wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738
         -----------   -- -- -- --- ---
              |         | |  |   |   |---> Window height
              |         | |  |   |-------> Window width             
