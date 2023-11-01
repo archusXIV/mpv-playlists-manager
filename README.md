@@ -29,7 +29,7 @@ mpm -v # prints mpm version
 --compat-options filename-sanitization
 ```
 - This avoid the creation of subdirectories because of filenames containing '/'
-- Fixed some bugs.
+- Some bugs fixed.
 - Refactoring some functions.
 
 ## New in version 1.3-5
@@ -39,7 +39,7 @@ mpm -v # prints mpm version
 --downloader-args '-n'    # this will not redownload existing files
 --merge-output-format mp4 # no comment...
 ```
-- Fixed some bugs.
+- Some bugs fixed.
 - Refactoring some functions.
 - Add changes in help file.
 
