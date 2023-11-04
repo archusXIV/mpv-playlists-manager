@@ -23,7 +23,7 @@ mpm -l # launches the play/download function
 mpm -p # launches the load local function
 mpm -v # prints mpm version
 ```
-
+## Please update your mpmrc file on each release.
 ## New in version 1.3-7
 - Change mpm default window size in mpmrc by editing _ResizeWindow function.
 - Prompts, warnings, etc in mpmrc... now support rgb sequences, for example:
