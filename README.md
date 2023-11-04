@@ -28,11 +28,12 @@ mpm -v # prints mpm version
 - Change mpm default window size in mpmrc by editing _ResizeWindow function.
 - Prompts, warnings, etc... now support rbg sequences, for example:
 ```
-## hex #CE221E = rgb (206, 34, 30)
-critical=$'\e[38;2;206;34;30m';
+## hex #D79922 = rgb (215, 153, 34)
+mtitle=$'\e[38;2;215;153;34m';
 ```
 - To find out how to convert hex colors in rgb colors, open your prefered color picker
 and look at "red green blue" fields.
+
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/color_picker.png)
 
 ## New in version 1.3-6
