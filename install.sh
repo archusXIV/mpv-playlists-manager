@@ -15,7 +15,8 @@ _install() {
     chmod 755 /usr/local/lib/mpm/*
     chmod 755 /usr/local/bin/mpm
 
-    printf '%s\n' "for usage run: mpm --help"
+    printf '%s\n' "for usage run: mpm --help" \
+    " PLEASE UPDATE YOUR MPMRC IF YOU HAVE ONE."
 }
 
 _uninstall() {
