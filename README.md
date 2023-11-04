@@ -45,7 +45,6 @@ and look at "red green blue" fields.
 - Some bugs fixed.
 - Refactoring some functions.
 
-<<<<<<< HEAD
 ## version 1.3-7 main screen.
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.3-7.png)
 =======
