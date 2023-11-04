@@ -14,15 +14,15 @@ _SaveOnExit() {
 
     if [[ -f $AUDIO_URLS && -f $VIDEO_URLS ]]; then
         __
-        echo " ${info}${saveOnExitPrompt[*]}${nc}"
+        echo -e " ${info}${saveOnExitPrompt[*]}${nc}"
     elif [[ -f $AUDIO_URLS && ! -f $VIDEO_URLS ]]; then
         unset saveOnExitPrompt[2]
         __
-        echo " ${info}${saveOnExitPrompt[*]}${nc}"
+        echo -e " ${info}${saveOnExitPrompt[*]}${nc}"
     elif [[ -f $VIDEO_URLS && ! -f $AUDIO_URLS ]]; then
         unset saveOnExitPrompt[1]
         __
-        echo " ${info}${saveOnExitPrompt[*]}${nc}"
+        echo -e " ${info}${saveOnExitPrompt[*]}${nc}"
     fi
 
     read -rsn 1 saveOnExitOptions

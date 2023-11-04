@@ -54,20 +54,20 @@ _GetVideo() {
     __DownloadMessages() (
         [[ $TITLES = "$DEFAULTITLES" ]] && {
             printf '%s\n' " ${info}$(_GetLinesList -q) video file(s) left to download." \
-            " Please be patient while downloading:  $(_GetLinkTitle -q)${nc}"
+            " Downloading:  $(_GetLinkTitle -q)${nc}"
         }
         [[ $TITLES = "$VIDEO_TITLES" ]] && {
             printf '%s\n' " ${info}$(_GetLinesList -v) video file(s) left to download." \
-            " Please be patient while downloading:  $(_GetLinkTitle -v)${nc}"
+            " Downloading:  $(_GetLinkTitle -v)${nc}"
         }
     )
 
     cd "$videos_dir" || exit 1
 
-    _GetVideoDownload
+    _GetVideoDownload && {
 
     echo -e " ${info}Done.\n${nc}"
     sleep 2
     _GetCompleted -v
-    
+    }
 }

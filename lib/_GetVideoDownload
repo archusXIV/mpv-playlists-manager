@@ -18,7 +18,8 @@ _GetVideoDownload() {
         clear
         __
         __DownloadMessages
-        
+
+        # it seems that only youtube uses merging options
         if [[ "$code" =~ '+' ]]; then
             # downloader presets described in ~/.config/mpm/mpmrc
             # we have to differenciate titles files because of _GetLinkTitle function.
@@ -34,11 +35,11 @@ _GetVideoDownload() {
             else
                 if [[ $(youtube-dl --skip-download --get-title "$getVideoUrl") =~ '/' ]]; then
                     youtube-dl --format "$code" "${ytdlPreset_FS[@]}" \
-                    "${ytdlPreset_NC[@]}" "$getVideoUrl"
+                    "${ytdlPreset_X[@]}" "$getVideoUrl"
                 else
                     youtube-dl --format "$code" \
                     --output "$(_GetLinkTitle -v).%(ext)s" \
-                    "${ytdlPreset_NC[@]}" "$getVideoUrl"
+                    "${ytdlPreset_X[@]}" "$getVideoUrl"
                 fi
             fi
         else
@@ -49,7 +50,7 @@ _GetVideoDownload() {
                 else
                     youtube-dl --format "$code" \
                     --output "$(_GetLinkTitle -q).%(ext)s" \
-                    "${ytdlPreset_X[@]}" "$getVideoUrl"
+                    "${ytdlPreset_NC[@]}" "$getVideoUrl"
                 fi
             else
                 if [[ $(youtube-dl --skip-download --get-title "$getVideoUrl") =~ '/' ]]; then

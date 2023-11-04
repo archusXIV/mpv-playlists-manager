@@ -9,7 +9,6 @@ _GetCompleted() {
     if [[ -n $(find "$audios_dir" "$videos_dir" -name "*.part") ]]; then
         _IfPartsExist -t
     else
-        __
         _Prompt -n " ${info}Downloads completed, KEEP playlist?: ${nc}" && {
             __
             echo " ${critical}If it was a temporary list, don't forget to save it.${nc}"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.3-6)
+# ~/.config/mpm/mpmrc (version 1.3-7)
 
 ########################################################
 #                                                      #
@@ -15,16 +15,45 @@
 #~~~~~ change the values, not the variables names ~~~~~#
 
 # shellcheck disable=SC2034,SC2016,SC2154
-
-## prompts & messages colors
-# https://misc.flogisoft.com/bash/tip_colors_and_formatting
-nc=$'\e[0m';          # normal text (ends the colored string)
-critical=$'\e[0;31m'; # red (critical)
-info=$'\e[0;32m';     # green (info)
-task=$'\e[96m';       # cyan (tasks settings)
-mtitle=$'\e[33m';     # yellow (menus title)
-
 : "${XDG_DATA_HOME:-$HOME/.local/share}"
+
+# change the main mpm window size. (the actual size is 1260x738)
+function _ResizeWindow { wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738; } 2>/dev/null
+
+### PROMPTS & MESSAGES COLORS
+### https://misc.flogisoft.com/bash/tip_colors_and_formatting
+### using console_colors (default) or rgb colors (custom)
+
+## normal text (ends the colored string)
+# this will reset texts to the default foreground
+nc=$'\e[0m';
+## custom rgb
+## hex #458588 = rgb (69, 133, 136)
+# nc=$'\e[38;2;69;133;136m';
+
+## warnings (console_colors)
+critical=$'\e[0;31m';
+## custom rgb
+## hex #CE221E = rgb (206, 34, 30)
+# critical=$'\e[38;2;206;34;30m';
+
+## prompts (console_colors)
+info=$'\e[0;32m';
+## custom rgb
+## hex #689D69 = rgb (104, 157, 105)
+# info=$'\e[38;2;104;157;105m';
+
+## yellow (menus title)
+mtitle=$'\e[33m';
+## custom rgb
+## hex #D79922 = rgb (215, 153, 34)
+# mtitle=$'\e[38;2;215;153;34m';
+
+## litgh color (tasks settings)
+task=$'\e[96m';
+## custom rgb
+## hex #ebdbb2 = rgb (235, 219, 178)
+# task=$'\e[38;2;235;219;178m';
 
 ## default editor
 MPMEDITOR="vim"

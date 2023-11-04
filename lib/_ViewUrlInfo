@@ -12,17 +12,19 @@ _ViewUrlInfo() {
                         "[P]lay" "[S]ave as" "[R]emove list: " )
 
     # let's play...
-    s=$(printf "%-54s" "*")
+    stars=$(printf "%-54s" "*")
     __audio() {
         if [[ -f $AUDIO_URLS ]]; then
             clear
             __
             echo " ${info}order |  audio playlist link(s) & titles.${nc}"
-            echo -e " ${info}${s// /*}${nc}\n"
-            awk '$0 ~ /^https/{print $0}' "$AUDIO_URLS" | cat -n
+            echo -e " ${info}${stars// /*}${nc}\n"
+            awk '$0 ~ /^https/{print $0}' "$AUDIO_URLS" \
+            | cat -n && {
+                __
+                cat -n "$AUDIO_TITLES"
             __
-            cat -n "$AUDIO_TITLES"
-            __
+            }
             unset {viewUrlInfoPrompt[2],viewUrlInfoPrompt[7]}
             __
             echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
@@ -37,7 +39,7 @@ _ViewUrlInfo() {
             esac
         else
             echo " ${critical}No links in the list${nc}"
-            sleep 2 && _CopyAudio
+            sleep 2 && return
         fi
     }
 
@@ -46,11 +48,13 @@ _ViewUrlInfo() {
             clear
             __
             echo " ${info}order |  video playlist link(s) & titles.${nc}"
-            echo -e " ${info}${s// /*}${nc}\n"
-            awk '$0 ~ /^https/{print $0}' "$VIDEO_URLS" | cat -n
+            echo -e " ${info}${stars// /*}${nc}\n"
+            awk '$0 ~ /^https/{print $0}' "$VIDEO_URLS" \
+            | cat -n && {
+                __
+                cat -n "$VIDEO_TITLES"
             __
-            cat -n "$VIDEO_TITLES"
-            __
+            }
             unset {viewUrlInfoPrompt[1],viewUrlInfoPrompt[7]}
             __
             echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
@@ -65,7 +69,7 @@ _ViewUrlInfo() {
             esac
         else
             echo " ${critical}No links in the list${nc}"
-            sleep 2 && _CopyVideo
+            sleep 2 && return
         fi
     }
 
@@ -75,12 +79,14 @@ _ViewUrlInfo() {
             clear
             __
             echo " ${info}order |  default playlist link(s) & titles.${nc}"
-            echo -e " ${info}${s// /*}${nc}\n"
-            awk '$0 ~ /^https/{print $0}' "$QUEUE" | cat -n
+            echo -e " ${info}${stars// /*}${nc}\n"
+            awk '$0 ~ /^https/{print $0}' "$QUEUE" \
+            | cat -n && {
             __
             cat -n "$DEFAULTITLES" 2>/dev/null || \
             cat -n "$DEFAULTM3UTITLES"
             __
+            }
             while [[ -f $QUEUE ]]; do
                 unset {viewUrlInfoPrompt[1],viewUrlInfoPrompt[2],viewUrlInfoPrompt[7]}
                 echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"

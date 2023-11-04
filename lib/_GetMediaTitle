@@ -11,9 +11,9 @@ _GetMediaTitle() {
         -v) LIST="$VIDEO_URLS" ;;
     esac
 
-    mapfile -t title < <(grep '^https' "$LIST")
+    mapfile -t MEDIATITLES < <(grep '^https' "$LIST")
 
-    for line in "${title[@]}"; do
+    for line in "${MEDIATITLES[@]}"; do
         youtube-dl \
         --skip-download \
         --get-title \
@@ -21,4 +21,3 @@ _GetMediaTitle() {
     done
 
 }
-

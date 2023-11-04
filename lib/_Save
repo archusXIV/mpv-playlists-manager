@@ -14,7 +14,7 @@ _Save() {
                 _SaveCheck
                 _ReplaceSpaces -s
             else
-                echo " ${critical}No links in the list${nc}"
+                echo -e " ${critical}No links in the list${nc}"
                 sleep 2
                 _CopyAudio
             fi
@@ -36,7 +36,7 @@ _Save() {
                 _SaveCheck
                 _ReplaceSpaces -s
             else
-                echo " ${critical}No links in the list${nc}"
+                echo -e " ${critical}No links in the list${nc}"
                 sleep 2
                 _CopyVideo
             fi

@@ -14,10 +14,9 @@ _LoadPlaylist() {
 
     }
 
-    for dotm3ufile in $(find . -type f -name "*.m3u"); do
-        if [[ -f "$dotm3ufile"_origin ]] ; then
-            mv "$dotm3ufile"_origin "$dotm3ufile"
-        fi
+    for dotM3uFile in $(find . -type f -name "*.m3u"); do
+        [[ -f "$dotM3uFile"_origin ]] \
+        && mv "$dotM3uFile"_origin "$dotM3uFile"
     done
      
     clear
@@ -26,7 +25,7 @@ _LoadPlaylist() {
 
     PS3=""$'\n'"${info}Select a playlist to load or hit 1) for main menu:${nc} "
     select list in $(find . -type f -not -name "default.m3u" \
-    | sort -d | sed 's,.*/,,'); do
+        | sort -d | sed 's,.*/,,'); do
 
         [[ $list = 1_Back_to_menu ]] && rm 1_Back_to_menu && break
 
@@ -51,9 +50,9 @@ _LoadPlaylist() {
                 clear
                 _TitlesListCompare
                 read -rn 1 \
-                -p "${info}"' [B]ack to menu, [D]ownload, [P]lay: '"${nc}" loadplaylist
+                -p "${info}"' [B]ack to menu, [D]ownload, [P]lay: '"${nc}" loadPlaylistOptions
                 __
-                case "$loadplaylist" in
+                case "$loadPlaylistOptions" in
                     b|B) return ;;
                     d|D) clear; _LoadPlaylistMenu ;;
                     p|P) _ChooseFromPlay ;;

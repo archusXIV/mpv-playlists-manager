@@ -22,6 +22,11 @@ _ChooseDownloadAudio() {
 
     _GetSelected
 
+    __ChooseDownloadAudioMessage() (
+        printf '%s\n' " ${info}$chooseAudioCounter file(s) left to downloads.${nc}" \
+        " Downloading: $(_GetLinkTitle -s)${nc}"
+    )
+    
     mapfile -t SELECTEDAUDIO < <(grep '^https' "$CHOOSE1")
 
     for url in "${SELECTEDAUDIO[@]}"; do
@@ -32,8 +37,7 @@ _ChooseDownloadAudio() {
 
             printf '%s\n' " ${task}Direct download enabled.${nc}"
             __
-            printf '%s\n' " ${info}$chooseAudioCounter file(s) left to downloads." \
-            " Downloading: $(_GetLinkTitle -s)${nc}"
+            __ChooseDownloadAudioMessage
             youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
             --format 251 "${ytdlPreset_NC[@]}" "$url"
 
@@ -48,8 +52,7 @@ _ChooseDownloadAudio() {
             read -r code
             clear
             __
-            printf '%s\n' " ${info}$chooseAudioCounter file(s) left to downloads." \
-            " Downloading: $(_GetLinkTitle -s)${nc}"
+            __ChooseDownloadAudioMessage
             youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
             --format "$code" "${ytdlPreset_NC[@]}" "$url"
 
@@ -60,7 +63,7 @@ _ChooseDownloadAudio() {
             read -r code
             clear
             __
-            printf '%s\n' " ${info}$chooseAudioCounter file(s) left to downloads.${nc}"
+            __ChooseDownloadAudioMessage
             sleep 0.5
             youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
             --format "$code" "${ytdlPreset_NC[@]}" "$url"

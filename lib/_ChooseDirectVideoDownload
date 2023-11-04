@@ -18,14 +18,18 @@ _ChooseDirectVideoDownload() {
             printf '%s\n' " ${task}Download method = direct.${nc}"
         fi
         __
-        printf '%s\n' " ${info}Downloading $chooseVideoCounter file(s).${nc}"
+        printf '%s\n' " ${info}$chooseVideoCounter file(s) left to downloads.${nc}" \
+        " Downloading: $(_GetLinkTitle -s)${nc}"
 
-        if [[ $line =~ 'youtube.com' ]]; then
+        if [[ $line =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]; then
             # downloader presets described in ~/.config/mpm/mpmrc
+            youtube-dl "${ytdlPreset_FS[@]}" \
+            "${ytdlPreset_X[@]}" "$line"
+            clear
+        elif [[ $line =~ 'youtube.com' ]]; then
             youtube-dl \
             --output "$(_GetLinkTitle -s).%(ext)s" \
             "${ytdlPreset_X[@]}" "$line"
-            clear
         else
             youtube-dl \
             --output "$(_GetLinkTitle -s).%(ext)s" \

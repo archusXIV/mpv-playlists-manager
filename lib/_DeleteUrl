@@ -15,7 +15,7 @@ _DeleteUrl() {
             sleep 3
             _Menu
         fi
-        
+
     else
         __
         sed -i '/^[[:alpha:]]/d' "$QUEUE"

@@ -42,7 +42,7 @@ _LoadLocal() {
                     clear
                     mpv --no-video "$AUDIOS"/"$dir"/*
                     break
-                
+
                 fi
 
             done
@@ -73,7 +73,7 @@ _LoadLocal() {
                         sleep 4
                         break
                     }
-                    
+
                     clear
                     mpv "$VIDEOS"/"$dir"/*
                     break
@@ -89,4 +89,3 @@ _LoadLocal() {
     esac
 
 }
-

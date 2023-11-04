@@ -18,4 +18,3 @@ _RemoveCrap() {
     done 2>/dev/null
 
 }
-

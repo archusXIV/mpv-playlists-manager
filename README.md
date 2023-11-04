@@ -1,5 +1,18 @@
 # mpv-playlists-manager
 ## Manage playlists for mpv from your linux terminal.
+
+## About mpm.
+This program is just a personal project, and I wrote it as a normy Linux user (it is simple),
+The goal is to manage self created playlists that mpv reads either online or from local files/directories, 
+youtube-dl/yp-dlp is used to download videos or just audio and in that case if
+we choose webm links, ffmpeg will (if you want to) convert them in four different formats,
+mp3, flac, ogg, or wav. You can switch encoders by editing the config file (mpmrc).
+
+- [help](https://github.com/archusXIV/mpv-playlists-manager/blob/main/help)
+
+- [Supported websites](https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md)
+
+
 Older version but still valide video (french spoken) link: https://www.youtube.com/watch?v=7OWO1vRL77A
 
 ```
@@ -10,43 +23,32 @@ mpm -l # launches the play/download function
 mpm -p # launches the load local function
 mpm -v # prints mpm version
 ```
+
+## New in version 1.3-7
+- Change mpm default window size in mpmrc by editing _ResizeWindow function.
+- Prompts, warnings, etc... now support rbg sequences, for example:
+```
+## hex #CE221E = rgb (206, 34, 30)
+critical=$'\e[38;2;206;34;30m';
+```
+- To find out how to convert hex colors in rgb colors, open your prefered color picker
+and look at "red green blue" fields.
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/color_picker.png)
+
 ## New in version 1.3-6
 - Add yt-dlp downloader options in [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/0163c4ba40cdbe3b90f7cbce5400cf7d9bdb828f/mpmrc#L149), for example:
 ```
 --compat-options filename-sanitization
 ```
 - This avoid the creation of subdirectories because of filenames containing '/'
-- Fixed some bugs.
+- Some bugs fixed.
 - Refactoring some functions.
 
-## New in version 1.3-5
-- Add yt-dlp downloader options in [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/6b58af229393d50971d7bfea4ae18710e5016449/mpmrc#L132), for example:
-```
---downloader m3u8:ffmpeg  # using proto m3u8 & ffmpeg as external downloader
---downloader-args '-n'    # this will not redownload existing files
---merge-output-format mp4 # no comment...
-```
-- Fixed some bugs.
-- Refactoring some functions.
-- Add changes in help file.
-
-
-## version 1.3-6 main screen.
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.3-6.png)
+## version 1.3-7 main screen.
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.3-7.png)
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
-This program is just a personal project, and I wrote it as a normy Linux user (it is simple),
-The goal is to manage self created playlists that mpv reads either online or from local files/directories.
-
-youtube-dl/yp-dlp is used to download videos or just audio and in that case if
-we choose webm links, ffmpeg will (if you want to) convert them in four different formats,
-mp3, flac, ogg, or wav. You can switch encoders by editing the config file (mpmrc).
-
-- [help](https://github.com/archusXIV/mpv-playlists-manager/blob/main/help)
-
-- [Supported websites](https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md)
-
-For a better experience I **recommend** a minimum terminal size of 1210x735 because of the youtube-dl
+For a better experience I **recommend** a minimum terminal size of 1260x738 because of the youtube-dl
 outputs that let you choose desired audio/video formats, if you want an automatic terminal
 resizing just install [wmctrl](https://github.com/dancor/wmctrl) an the script will take care of
 that for you.

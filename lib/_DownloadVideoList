@@ -41,25 +41,23 @@ _DownloadVideoList() {
                 printf '%s\n' " ${info}Choose a format code for $(_GetLinkTitle -l)." \
                 " eg: 137+251 for merging, hls-1080p, 22 for single:${nc}"
                 read -r code
-                sleep 0.5
                 clear
-
-                if [[ "$code" =~ '+' ]]; then
-
-                    printf '%s\n' " ${info}Downloading $downloadVideoCounter file(s).${nc}"
-                    youtube-dl \
-                    --output "$(_GetLinkTitle -l).%(ext)s" \
+                __
+                printf '%s\n' " ${info}$downloadVideoCounter file(s) left to download." \
+                " Downloading $(_GetLinkTitle -l).${nc}"
+                
+                if [[ "$code" =~ '+' && $(_GetLinkTitle -l) =~ '/' ]]; then
+                    youtube-dl "${ytdlPreset_FS[@]}" \
                     --format "$code" \
                     "${ytdlPreset_X[@]}" "$downvideourl"
-
-                else
-
-                    printf '%s\n' " ${info}Downloading $downloadVideoCounter file(s).${nc}"
-                    youtube-dl \
+                elif [[ "$code" =~ '+' ]]; then
+                    youtube-dl --format "$code" \
                     --output "$(_GetLinkTitle -l).%(ext)s" \
-                    --format "$code" \
+                    "${ytdlPreset_X[@]}" "$downvideourl"
+                else
+                    youtube-dl --format "$code" \
+                    --output "$(_GetLinkTitle -l).%(ext)s" \
                     "${ytdlPreset_NC[@]}" "$downvideourl"
-
                 fi
 
                 sed -i '2d' "$playlists_dir"/"$list"

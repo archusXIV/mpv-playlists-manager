@@ -1,14 +1,12 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2164
+# shellcheck disable=SC2154,SC2164,SC2015
 _ConvertAudio() {
 
-    if [[ -d "$audios_dir"/"${list%.*}" ]]; then
-        cd "$audios_dir"/"${list%.*}"
-    else
-        cd "$audios_dir" || exit 1
-    fi
+    [[ -d "$audios_dir"/"${list%.*}" ]] \
+    && cd "$audios_dir"/"${list%.*}" \
+    || cd "$audios_dir"
 
     if [[ -n $default_conversion_format ]]; then
         __
@@ -23,7 +21,7 @@ _ConvertAudio() {
         " Press Enter to abort conversion.${nc}"
         __
         read -rn1 \
-        -p "${info}"' Select an output format [1 = mp3] [2 = flac] [3 = wav] [4 = ogg]: '"${nc}" conv
+        -p "${info}"' Select an output format [1=mp3] [2=flac] [3=wav] [4=ogg]: '"${nc}" conv
 
         case "$conv" in
             1)
