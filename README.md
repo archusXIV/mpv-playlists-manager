@@ -26,7 +26,7 @@ mpm -v # prints mpm version
 
 ## New in version 1.3-7
 - Change mpm default window size in mpmrc by editing _ResizeWindow function.
-- Prompts, warnings, etc... now support rgb sequences, for example:
+- Prompts, warnings, etc in mpmrc... now support rgb sequences, for example:
 ```
 ## hex #D79922 = rgb (215, 153, 34)
 mtitle=$'\e[38;2;215;153;34m';
