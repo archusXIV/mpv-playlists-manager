@@ -8,7 +8,7 @@ _DirectVideoDownload() {
     __
     printf '%s\n' " ${task}Direct download enabled.${nc}"
     __
-    mapfile -t DIRECT < <(grep '^https' "$list")
+    mapfile -t DIRECT < <(grep '^https' "$playlists_dir"/"$list")
 
     cd "$videos_dir"/"${list%.*}" || return
 
