@@ -2,21 +2,33 @@
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
 # version 1.3-7
 
+_diffMpmrc() {
+    
+    read -r -p ' Please enter your username: ' user
+    local MPMRC="/home/$user/.config/mpm/mpmrc"
+    [[ -f $MPMRC ]] && {
+        diff -U 9999999 /usr/local/share/doc/mpm/mpmrc \
+        "$MPMRC" > "$MPMRC".diff
+        chown 1000:1000 "$MPMRC".diff
+        printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc.diff created, PLEASE UPDATE YOUR MPMRC FILE.\e[0m\n'
+    }
+}
+
 _install() {
     cp -vf mpm /usr/local/bin
     mkdir -vp /usr/local/lib/mpm && \
     cp -vrf ./lib/* /usr/local/lib/mpm/
     mkdir -p /usr/local/share/doc/mpm && \
     cp -vf {help,mpmrc,README.md} /usr/local/share/doc/mpm
-
+    
     mkdir -vp /usr/share/licenses/mpm && \
     cp -vf ./LICENSE /usr/share/licenses/mpm/LICENSE
 
     chmod 755 /usr/local/lib/mpm/*
     chmod 755 /usr/local/bin/mpm
 
-    printf '%s\n' "for usage run: mpm --help" \
-    " PLEASE UPDATE YOUR MPMRC IF YOU HAVE ONE."
+    _diffMpmrc
+    printf '%s\n' "for usage run: mpm --help"
 }
 
 _uninstall() {
