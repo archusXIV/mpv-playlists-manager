@@ -7,7 +7,7 @@ _diffMpmrc() {
     read -r -p ' Please enter your username: ' user
     local MPMRCDIR MPMRC
     MPMRCDIR="/home/$user/.config/mpm"
-    MPMRC="/home/$user/$MPMRCDIR/mpmrc"
+    MPMRC="$MPMRCDIR/mpmrc"
     
     if [[ -f $MPMRC ]]; then
         diff -U 9999999 ./mpmrc \
