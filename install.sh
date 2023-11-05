@@ -11,9 +11,9 @@ _diffMpmrc() {
         chown 1000:1000 "$MPMRC".diff
         printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc.diff created, PLEASE UPDATE YOUR MPMRC FILE.\e[0m\n'
     else
-        mkdir -p /home/$user/.config/mpm
+        mkdir -p /home/"$user"/.config/mpm
         cp -f ./mpmrc "$MPMRC"
-        chown -R 1000:1000 /home/$user/.config/mpm
+        chown -R 1000:1000 /home/"$user"/.config/mpm
     fi
 }
 
