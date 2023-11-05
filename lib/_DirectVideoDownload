@@ -8,9 +8,9 @@ _DirectVideoDownload() {
     __
     printf '%s\n' " ${task}Direct download enabled.${nc}"
     __
-    mapfile -t DIRECT < <(grep '^https' "$playlists_dir"/"$list")
+    cd "$videos_dir"/"${list%.*}" || exit 1
 
-    cd "$videos_dir"/"${list%.*}" || return
+    mapfile -t DIRECT < <(grep '^https' "$playlists_dir"/"$list")
 
     for line in "${DIRECT[@]}"; do
 
