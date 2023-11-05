@@ -99,6 +99,4 @@ git clone https://github.com/archusXIV/mpv-playlists-manager.git
 cd mpv-playlists-manager
 chmod +x install.sh
 sudo ./install.sh
-mkdir -p ~/.config/mpm
-cp -f ./mpmrc ~/.config/mpm/mpmrc
 ```

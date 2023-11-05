@@ -14,8 +14,6 @@ In our case we use ".m3u" files to store urls in and then be able
 to watch from the site itself or download videos or just the audio.
 We can save, remove or edit playlists, mpv.conf.
 
-After installation and before the first run create a config directory
-and copy the config file (mpmrc) into it.
-
-mkdir -p ~/.config/mpm
-cp -f ./mpmrc ~/.config/mpm/mpmrc
+The installation script will create the configuration file (mpmrc)
+as ~/.config/mpm/mpmrc, so please edit this file first and make sure
+the directory structure is ok for you.

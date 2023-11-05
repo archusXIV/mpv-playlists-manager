@@ -3,15 +3,18 @@
 # version 1.3-7
 
 _diffMpmrc() {
-    
     read -r -p ' Please enter your username: ' user
     local MPMRC="/home/$user/.config/mpm/mpmrc"
-    [[ -f $MPMRC ]] && {
-        diff -U 9999999 /usr/local/share/doc/mpm/mpmrc \
+    if [[ -f $MPMRC ]]; then
+        diff -U 9999999 ./mpmrc \
         "$MPMRC" > "$MPMRC".diff
         chown 1000:1000 "$MPMRC".diff
         printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc.diff created, PLEASE UPDATE YOUR MPMRC FILE.\e[0m\n'
-    }
+    else
+        mkdir -p /home/$user/.config/mpm
+        cp -f ./mpmrc "$MPMRC"
+        chown -R 1000:1000 /home/$user/.config/mpm
+    fi
 }
 
 _install() {
