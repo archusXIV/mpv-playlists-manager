@@ -10,8 +10,8 @@ _diffMpmrc() {
     MPMRC="$MPMRCDIR/mpmrc"
     
     if [[ -f $MPMRC ]]; then
-        diff -U 9999999 ./mpmrc \
-        "$MPMRC" > "$MPMRC".diff
+        diff -U 9999999 "$MPMRC" \
+        ./mpmrc > "$MPMRC".diff
         chown 1000:1000 "$MPMRC".diff
         printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc.diff created, PLEASE UPDATE YOUR MPMRC FILE.\e[0m\n'
     else
