@@ -67,7 +67,7 @@ _CopyAudio() {
             [[ -f $AUDIO_URLS ]] && \
             echo -e " ${info}Audio list:   $(_GetLinesList -a) url(s)${nc}"
             __
-            echo -e "                                                    ${mtitle}::audio options::${nc}"
+            echo -e "                                                    ${mtitle}::AUDIO OPTIONS::${nc}"
             echo -e "                              ┌─────────────────────────────────────────────────────────────┐"
             echo -e "                              │     1) Add audio links            4) Play current list      │"
             echo -e "                              │     2) Download current list      5) View current list      │"

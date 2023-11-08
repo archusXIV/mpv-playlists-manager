@@ -12,7 +12,7 @@ _LoadPlaylistMenu() {
         __
         echo " ${info}$list: $(grep -c '^https' "$list") url(s).${nc}"
         __
-        echo -e "                                                  ${mtitle}::Download options::${nc}"
+        echo -e "                                                  ${mtitle}::DOWNLOAD OPTIONS::${nc}"
         echo -e "                                  ┌───────────────────────────────────────────────────┐"
         echo -e "                                  │     1) Choose playlist links & download ${info}audio${nc}     │"
         echo -e "                                  │     2) Choose playlist links & download ${info}video${nc}     │"

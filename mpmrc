@@ -22,38 +22,45 @@ function _ResizeWindow { wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738; } 2>/dev/null
 
 ### PROMPTS & MESSAGES COLORS
 ### https://misc.flogisoft.com/bash/tip_colors_and_formatting
-### using console_colors (default) or rgb colors (custom)
+### Console_colors (default) will always use your current ~/.Xresources colors,
+### or custom rgb/hex colors so you can set your own theme.
+### nc=normal text, critical=warnings, info=normal prompt, mtitle=menus title,
+### task=infos like: direct download, audio conversion type etc...
+function _Theme {
+    case "$1" in
+        default)
+            nc=$'\e[0m';
+            critical=$'\e[31m';
+            info=$'\e[32m';
+            mtitle=$'\e[33m';
+            task=$'\e[37m';
+        ;;
+        gruvbox)
+            # Using RGB colors for array 'customColors'
+            nc=$'\e[38;2;69;133;136m';      # #458588 "0x45 0x85 0x88"
+            critical=$'\e[38;2;204;36;29m'; # #CC241D "0xcc 0x24 0x1d"
+            info=$'\e[38;2;104;157;106m';   # #689d6a "0x68 0x9d 0x6a"
+            mtitle=$'\e[38;2;215;153;33m';  # #D79921 "0xd7 0x99 0x21"
+            task=$'\e[38;2;235;219;178m';   # #ebdbb2 "0xeb 0xdb 0xb2"
+            # enter the last three numbers of your custom sequence.
+                        #   normal text  critical      info          mtitle       task
+            customColors=( "69;133;136" "204;36;29" "104;157;106" "215;153;33" "235;219;178" )
+        ;;
+        chocolat-pistache)
+            # Using HEX colors for array 'customColors'
+            nc=$'\e[38;2;140;117;94m';      # #8C755E "0x8c 0x75 0x5e"
+            critical=$'\e[38;2;215;95;65m'; # #D75F41 "0xd7 0x5f 0x41"
+            info=$'\e[38;2;146;196;113m';   # #92C471 "0x92 0xc4 0x71"
+            mtitle=$'\e[38;2;242;203;87m';  # #F2CB57 "0xf2 0xcb 0x57"
+            task=$'\e[38;2;249;230;176m';   # #F9E6B0 "0xf9 0xe6 0xb0"
+            customColors=( "0x8c 0x75 0x5e" "0xd7 0x5f 0x41" "0x92 0xc4 0x71" \
+            "0xf2 0xcb 0x57" "0xf9 0xe6 0xb0" )
+        ;;
+    esac
+}
 
-## normal text (ends the colored string)
-# this will reset texts to the default foreground
-nc=$'\e[0m';
-## custom rgb
-## hex #458588 = rgb (69, 133, 136)
-# nc=$'\e[38;2;69;133;136m';
-
-## warnings (console_colors)
-critical=$'\e[0;31m';
-## custom rgb
-## hex #CE221E = rgb (206, 34, 30)
-# critical=$'\e[38;2;206;34;30m';
-
-## prompts (console_colors)
-info=$'\e[0;32m';
-## custom rgb
-## hex #689D69 = rgb (104, 157, 105)
-# info=$'\e[38;2;104;157;105m';
-
-## yellow (menus title)
-mtitle=$'\e[33m';
-## custom rgb
-## hex #D79922 = rgb (215, 153, 34)
-# mtitle=$'\e[38;2;215;153;34m';
-
-## litgh color (tasks settings)
-task=$'\e[96m';
-## custom rgb
-## hex #ebdbb2 = rgb (235, 219, 178)
-# task=$'\e[38;2;235;219;178m';
+# apply the theme by calling function _Theme "name" ...
+_Theme default
 
 ## default editor
 MPMEDITOR="vim"
@@ -73,8 +80,8 @@ playlists_dir="$main_dir/playlists"
 
 # Be carefull with this one because if you choose to use the conversion action,
 # ALL .webm files in that directory will be converted.
-audios_dir="$main_dir/audios"
-videos_dir="$main_dir/videos"
+audios_dir="$HOME/Documents/Music/mpm_audios"
+videos_dir="$HOME/Documents/Videos/mpm_videos"
 titles_dir="$main_dir/titles"
 tmp_dir="$main_dir/tmp"
 
@@ -146,7 +153,7 @@ function _MpvAudioOptions {
     mpv \
     --input-ipc-server='/tmp/mpvsocket' \
     --no-config \
-    --term-playing-msg='Title: ${media-title}' \
+    --term-playing-msg="${info}"'Title: ${media-title}'"${nc}" \
     --ytdl-format='bestaudio/best' "$M3UFILE"
 }
 
@@ -157,7 +164,7 @@ function _MpvVideoOptions {
     --input-ipc-server='/tmp/mpvsocket' \
     --cache \
     --no-config \
-    --term-playing-msg='Title: ${media-title}' \
+    --term-playing-msg="${info}"'Title: ${media-title}'"${nc}" \
     --ytdl-format='299+251/298+251/137+251/136+251/best' "$M3UFILE"
 }
 

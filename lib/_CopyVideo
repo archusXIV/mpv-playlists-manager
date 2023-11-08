@@ -67,7 +67,7 @@ _CopyVideo() {
             [[ -f $VIDEO_URLS ]] && \
             echo -e " ${info}Video list:   $(_GetLinesList -v) url(s)${nc}\n"
             __
-            echo -e "                                                    ${mtitle}::video options::${nc}"
+            echo -e "                                                    ${mtitle}::VIDEO OPTIONS::${nc}"
             echo -e "                              ┌─────────────────────────────────────────────────────────────┐"
             echo -e "                              │     1) Add video links            4) Play current list      │"
             echo -e "                              │     2) Download current list      5) View current list      │"

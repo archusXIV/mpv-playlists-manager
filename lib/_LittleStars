@@ -1,0 +1,21 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2086
+_LittleStars() {
+
+    if [[ $(awk '/^_Theme/{print $2}' "$MPMRC") = default ]]; then
+        for i in {1..7}; do
+            echo -en "\e[38;5;${i}m*****\e[0m"
+        done
+    else
+        for i in "${customColors[@]}"; do
+            if [[ $i = 0x* ]]; then
+                printf '\e[38;2;%d;%d;%dm%s' ${i} '*******'
+            else
+                echo -en "\e[38;2;${i}m*******\e[0m"
+            fi
+        done
+    fi
+    
+}

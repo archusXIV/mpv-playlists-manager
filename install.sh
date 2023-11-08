@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
-# version 1.3-7
+# version 1.3-8
 
 _diffMpmrc() {
     
@@ -18,6 +18,7 @@ _diffMpmrc() {
         mkdir -p "$MPMRCDIR"
         cp -f ./mpmrc "$MPMRC"
         chown -R 1000:1000 "$MPMRCDIR"
+        printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc created, edit your settings there.\e[0m\n'
     fi
 }
 

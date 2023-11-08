@@ -10,20 +10,20 @@ _Menu() {
         clear
         _ListsCount
         __
-        echo -e "                                           ${mtitle}::MPV-PLAYLISTS-MANAGER OPTIONS::"
-        echo -e "                                             $VERSION ${info}For usage: mpm --help${nc}"
-        echo -e "                               ${critical}For a better display consider a terminal size of 1260x738${nc}"
+        echo -e "                                           ${mtitle}::MPV-PLAYLISTS-MANAGER $VERSION::"
+        echo -e "                                          $(_LittleStars)"
+        echo -e "                                     ${info}current theme: $(awk '/^_Theme/{print $2}' "$MPMRC"). ${critical}For usage: mpm --help${nc}"
         echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
         echo -e "                  │  1) Create/Add video playlist   6) View default playlist   │  ${info}Tasks for option 4)${nc}:  │"
-        [[ $direct_download = yes ]] && echo -e "                  │  2) Create/Add audio playlist   7) Clear all tmp lists     │  direct download: $direct_download  │"
-        [[ $direct_download = no ]] && echo -e "                  │  2) Create/Add audio playlist   7) Clear all tmp lists     │  direct download:  $direct_download  │"
-        [[ $automatic_audio_conversion = yes ]] && echo -e "                  │  3) Save as/Delete a playlist   8) Edit a playlist         │  conversion auto: $automatic_audio_conversion  │"
-        [[ $automatic_audio_conversion = no ]] && echo -e "                  │  3) Save as/Delete a playlist   8) Edit a playlist         │  conversion auto:  $automatic_audio_conversion  │"
-        if [[ -z $default_conversion_format ]]; then echo -e "                  │  ${info}4)${nc} Play/Download a playlist    9) Edit mpm config (mpmrc) │  audio format:  unset  │"; \
-        elif [[ $default_conversion_format != flac ]]; then echo -e "                  │  ${info}4)${nc} Play/Download a playlist    9) Edit mpm config (mpmrc) │  audio format:    $default_conversion_format  │"; \
-        elif [[ $default_conversion_format = flac ]]; then echo -e "                  │  ${info}4)${nc} Play/Download a playlist    9) Edit mpm config (mpmrc) │  audio format:   $default_conversion_format  │"; fi
-        [[ $quit_after_task = yes ]] && echo -e "                  │  5) Load local folder/files     X) Exit                    │  quit after task: $quit_after_task  │"
-        [[ $quit_after_task = no ]] && echo -e "                  │  5) Load local folder/files     X) Exit                    │  quit after task:  $quit_after_task  │"
+        [[ $direct_download = yes ]] && echo -e "                  │  2) Create/Add audio playlist   7) Clear all tmp lists     │  direct download: ${task}$direct_download${nc}  │"
+        [[ $direct_download = no ]] && echo -e "                  │  2) Create/Add audio playlist   7) Clear all tmp lists     │  direct download:  ${task}$direct_download${nc}  │"
+        [[ $automatic_audio_conversion = yes ]] && echo -e "                  │  3) Save as/Delete a playlist   8) Edit a playlist         │  conversion auto: ${task}$automatic_audio_conversion${nc}  │"
+        [[ $automatic_audio_conversion = no ]] && echo -e "                  │  3) Save as/Delete a playlist   8) Edit a playlist         │  conversion auto:  ${task}$automatic_audio_conversion${nc}  │"
+        if [[ -z $default_conversion_format ]]; then echo -e "                  │  ${info}4)${nc} Play/Download a playlist    9) Edit mpm config (mpmrc) │  audio format:  ${task}unset  │"; \
+        elif [[ $default_conversion_format != flac ]]; then echo -e "                  │  ${info}4)${nc} Play/Download a playlist    9) Edit mpm config (mpmrc) │  audio format:    ${task}$default_conversion_format${nc}  │"; \
+        elif [[ $default_conversion_format = flac ]]; then echo -e "                  │  ${info}4)${nc} Play/Download a playlist    9) Edit mpm config (mpmrc) │  audio format:   ${task}$default_conversion_format${nc}  │"; fi
+        [[ $quit_after_task = yes ]] && echo -e "                  │  5) Load local folder/files     X) Exit                    │  quit after task: ${task}$quit_after_task${nc}  │"
+        [[ $quit_after_task = no ]] && echo -e "                  │  5) Load local folder/files     X) Exit                    │  quit after task:  ${task}$quit_after_task${nc}  │"
         echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
         [[ -f $tmp_dir/1 ]] \
             && echo -e "                                                     ${info}Select an item${nc}" \
@@ -32,30 +32,29 @@ _Menu() {
         read -rsn 1 mainMenuOptions
         case "$mainMenuOptions" in
             1)  _CopyVideo
-                __ ;;
+                __  ;;
             2)  _CopyAudio
-                __ ;;
+                __  ;;
             3)  _SaveRemove
-                __ ;;
+                __  ;;
             4)  _LoadPlaylist
-                __ ;;
+                __  ;;
             5)  _LoadLocal
-                __ ;;
+                __  ;;
             6)  _ViewUrlInfo -q
-                __ ;;
+                __  ;;
             7)  _DeleteUrl
-                __ ;;
+                __  ;;
             8)  _EditPlaylist
-                __ ;;
+                __  ;;
             9)  _EditMpmConf
-                __ ;;
+                __  ;;
             x|X)    if [[ -f "$AUDIO_URLS" || -f "$VIDEO_URLS" ]]; then
                         _SaveOnExit
                     else
+                        clear
                         exit 0
                     fi
-                    ;;
         esac
     done
-
 }

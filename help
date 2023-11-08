@@ -1,4 +1,4 @@
-mpm version 1.3-7
+mpm version 1.3-8
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -13,7 +13,20 @@ mpm version 1.3-7
         . mpm -l: opens the playlist load (online) function
         . mpm -p: opens local files or directory function
         . mpm -v: echoes mpm version and exit
-    After we are done, we are dropped in the main menu.
+    Changing the "theme" in ~/.config/mpm/mpmrc:
+        Variables: nc=normal text, critical=warnings, info=normal prompt
+        mtitle=menus title, task=infos like: direct download, audio conversion type etc...
+        Colors of warnings, prompts etc... can be changed in you mpmrc file with
+        shell colors syntax and RGB/HEX values. Two methods are provided.
+        Documentation here: https://misc.flogisoft.com/bash/tip_colors_and_formatting
+        
+    a)  Using console_colors (default) will always use your current ~/.Xresources colors
+        if you have set them or if you use a modern terminal with colors settings available.
+       
+    b)  Using custom rgb colors (206;34;30) and hex (#ff00ff) so you can set your own
+        "theme" with existing ones as a models.
+    
+    Usage:
 
     I) Main menu:
 
@@ -78,10 +91,10 @@ mpm version 1.3-7
        Here is the place where by editing our collection we can add or remove links
        directly or afterward. Vim is set as the MPMEDITOR (change it if you will).
 
-    9) Edit mpm config:
+    9) Edit mpm config (mpmrc):
        We may want to edit this file for default directories & tasks preferences,
-       and better quality or results with mpv, ffmpeg and yt-dlp downloader options.
-       After changing parameters they will appear in the main menu as: Tasks for option 4):
+       colors and better quality or results with mpv, ffmpeg and yt-dlp downloader options.
+       After changing parameters and saving the file, they will be immediatly active.
 
     II) audio/video files options:
 
