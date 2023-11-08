@@ -80,8 +80,8 @@ playlists_dir="$main_dir/playlists"
 
 # Be carefull with this one because if you choose to use the conversion action,
 # ALL .webm files in that directory will be converted.
-audios_dir="$HOME/Documents/Music/mpm_audios"
-videos_dir="$HOME/Documents/Videos/mpm_videos"
+audios_dir="$main_dir/mpm_audios"
+videos_dir="$main_dir/mpm_videos"
 titles_dir="$main_dir/titles"
 tmp_dir="$main_dir/tmp"
 

@@ -8,6 +8,11 @@ youtube-dl/yp-dlp is used to download videos or just audio and in that case if
 we choose webm links, ffmpeg will (if you want to) convert them in four different formats,
 mp3, flac, ogg, or wav. You can switch encoders by editing the config file (mpmrc).
 
+In order to use mpm you **have** to create a symlink as follow:
+```
+ln -s /usr/bin/yt-dlp ~/.local/bin/youtube-dl # (if ~/.local/bin is in your $PATH)
+```
+
 - [help](https://github.com/archusXIV/mpv-playlists-manager/blob/main/help)
 
 - [Supported websites](https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md)
