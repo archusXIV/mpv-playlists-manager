@@ -5,10 +5,12 @@
 _LittleStars() {
 
     if [[ $(awk '/^_Theme/{print $2}' "$MPMRC") = default ]]; then
+        # looping 7 times 5 stars
         for i in {1..7}; do
             echo -en "\e[38;5;${i}m*****\e[0m"
         done
     else
+        # looping 5 times 7 stars
         for i in "${customColors[@]}"; do
             if [[ $i = 0x* ]]; then
                 printf '\e[38;2;%d;%d;%dm%s' ${i} '*******'
