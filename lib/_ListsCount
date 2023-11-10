@@ -6,16 +6,14 @@ _ListsCount() {
 
     local UPD
     UPD=$(curl -sL "https://raw.githubusercontent.com/archusXIV/mpv-playlists-manager/main/version")
-    __
     [[ $UPD != "$VERSION" ]] && {
-        printf '%s\n' " ${critical}${b}New version available${nb}${nc}"
-        __
+        printf '%s\n' " ${critical}${b}version $UPD available${nb}${nc}"
     }
-
+    __
     echo -e " ${info}Collection:" \
     " $(find "$playlists_dir" -not -name "default.m3u" \
     -iname "*.m3u" -printf '.' | wc -c) playlist(s)${nc}"
-
+    
     if [[ -f $tmp_dir/1 ]]; then
         __
         echo -e " ${info}Default list: ${b}$(_GetLinesList -q)${nb} url(s)${nc}"
