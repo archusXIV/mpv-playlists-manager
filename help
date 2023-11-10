@@ -24,7 +24,7 @@ mpm version 1.3-8
       if you have set them or if you use a modern terminal with colors settings available.
        
    b) Using custom rgb colors (206;34;30) and hex (#ff00ff) so you can set your own
-      "theme" with existing ones as a models.
+      "theme" with existing ones as models.
     
    Usage:
 
