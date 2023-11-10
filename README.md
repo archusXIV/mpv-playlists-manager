@@ -36,12 +36,16 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge 
 - With RGB syntax:
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/theme_rgb.png)
+
 Will look like this.
+
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/gruvbox.png)
 - With HEX syntax:
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/theme_hex.png)
+
 Will look like this.
+
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/chocolat-pistache.png)
 - then you have to enable your stuff:
 ```
