@@ -35,7 +35,7 @@ mpm version 1.3-8
       │   2) Create/Add audio playlist   7) Clear all tmp lists     │ direct download: no    │
       │   3) Save tmp/Del collection     8) Edit a playlist         │ conversion auto: yes   │
       │   4) Play/Download a playlist    9) Edit mpm config (mpmrc) │ audio format:    mp3   │
-      │   5) Load local dir/files        X) Exit                    │ quit after task: yes   │
+      │   5) Load local folder/files     X) Exit                    │ quit after task: yes   │
       └──────────────────────────────────────────────────────────────────────────────────────┘
                                           Select an item
 

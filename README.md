@@ -30,30 +30,29 @@ mpm -v # prints mpm version
 ```
 ## Please update your mpmrc file on each release.
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
-## New in version 1.3-7
-- Change mpm default window size in mpmrc by editing _ResizeWindow function.
-- Prompts, warnings, etc in mpmrc... now support rgb sequences, for example:
+
+## New in version 1.3-8
+- We take a step further with theme creation method by using a simple case statement like so.
+- With RGB syntax:
+
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/theme_rgb.png)
+Will look like this.
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/gruvbox.png)
+- With HEX syntax:
+
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/theme_hex.png)
+Will look like this.
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/chocolat-pistache.png)
+- then you have to enable your stuff:
 ```
-## hex #D79922 = rgb (215, 153, 34)
-mtitle=$'\e[38;2;215;153;34m';
+# apply the theme by calling function _Theme "name" ...
+_Theme gruvbox
 ```
+
 - To find out how to convert hex colors in rgb colors, open your prefered color picker
 and look at "red green blue" fields.
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/color_picker.png)
-
-## New in version 1.3-6
-- Add yt-dlp downloader options in [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/0163c4ba40cdbe3b90f7cbce5400cf7d9bdb828f/mpmrc#L149), for example:
-```
---compat-options filename-sanitization
-```
-- This avoid the creation of subdirectories because of filenames containing '/'
-- Some bugs fixed.
-- Refactoring some functions.
-
-## version 1.3-7 main screen.
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.3-7.png)
-
 
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
@@ -84,7 +83,7 @@ Requests and contributions? Why not, have fun.
 - [ffmpeg](https://ffmpeg.org/)
 - [jq](https://stedolan.github.io/jq/)
 - [mpv](https://mpv.io/)
-- [ranger](https://github.com/ranger/ranger) (optional, see the help  option for details)
+- [ranger](https://github.com/ranger/ranger) (optional, see the help option for details)
 - [ueberzug](https://github.com/seebye/ueberzug) (optional) might be in your distro's repo
 - [vim](https://www.vim.org/) (set as the MPMEDITOR)
 - [w3m](https://w3m.sourceforge.net/) (optional)
@@ -97,7 +96,8 @@ Before installing, please check paths variables in [function /lib/_LoadLocal](/l
 and then run the install.sh script as root, by default /usr/local/bin /usr/local/lib are the
 respective used locations, feel free to change them in the install script and line 29 in mpm itself.
 The install script will detect if mpm is already installed and in that case the prompt will be: [R]emove or [U]pgrade mpm? 
-Otherwise the simple install function will run.
+
+Otherwise the simple install function will run and create ~/.config/mpm/mpmrc.
 - Please check the [README_FIRST](https://github.com/archusXIV/mpv-playlists-manager/blob/main/README_FIRST) before first run.
 ```
 git clone https://github.com/archusXIV/mpv-playlists-manager.git

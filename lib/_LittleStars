@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154,SC2086
 _LittleStars() {
-
+    # ${i} is a sequence of RGB or HEX colors defined in mpmrc
     if [[ $(awk '/^_Theme/{print $2}' "$MPMRC") = default ]]; then
         # looping 7 times 5 stars
         for i in {1..7}; do
