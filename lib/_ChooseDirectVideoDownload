@@ -37,6 +37,7 @@ _ChooseDirectVideoDownload() {
             clear
         fi
 
+        sed -i '1d' "$SELECTEDTITLES"
         ((chooseVideoCounter--))
 
     done
