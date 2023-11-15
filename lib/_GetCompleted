@@ -6,7 +6,7 @@ _GetCompleted() {
 
     cd "$main_dir" || exit 1
 
-    if [[ -n $(find "$audios_dir" "$videos_dir" -name "*.part") ]]; then
+    if [[ -n $(find {"$audios_dir","$videos_dir"} -name "*.part") ]]; then
         _IfPartsExist -t
     else
         _Prompt -n " ${info}Downloads completed, KEEP playlist?: ${nc}" && {
@@ -21,6 +21,7 @@ _GetCompleted() {
                 mv -f "$f"_origin "$f"
             done 2>/dev/null
 
+			_mpmIpc
             _Menu
 
         }

@@ -5,7 +5,7 @@
 _DownloadCompleted() {
     cd "$playlists_dir" || exit 1
 
-    if [[ -n $(find "$audios_dir" "$videos_dir" -name "*.part") ]]; then
+    if [[ -n $(find {"$audios_dir","$videos_dir"} -name "*.part") ]]; then
         _IfPartsExist -l
     else
         FILES=( "$list" "$list"_origin "$titles_dir"/"$list".titles \

@@ -16,7 +16,7 @@ _Save() {
             else
                 echo -e " ${critical}No links in the list${nc}"
                 sleep 2
-                _CopyAudio
+                return
             fi
         ;;
         -q)
@@ -38,7 +38,7 @@ _Save() {
             else
                 echo -e " ${critical}No links in the list${nc}"
                 sleep 2
-                _CopyVideo
+                return
             fi
         ;;
     esac

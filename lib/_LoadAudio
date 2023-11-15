@@ -9,10 +9,11 @@ _LoadAudio() {
     __AdviceAudio() (
         clear
         __; rm -f "$tmp_dir"/download 2>/dev/null
-        echo "${critical}Tip: You may want to put this in your mpv.conf:"
-        printf '%s\n' "term-playing-msg='Tiltle: \${media-title}'"
-        echo -e "Otherwise press I in mpv for more infos.${nc}\n"
-        printf '%s\n' " ${info}Playing ${M3UFILE##*/}${nc}"
+        printf '%s\n' " ${critical}Tip: You may want to put this in your mpv.conf:" \
+        " ${info}term-playing-msg='Tiltle: \${media-title}'"
+        echo -e " ${critical}Otherwise press I in mpv for more infos.${nc}\n"
+        file="${M3UFILE##*/}" file="${file%%.*}"
+        printf '%s\n' " ${info}Playing: ${file}${nc}"
     )
 
     # change mpv settings in ~/.config/mpm/mpmrc
