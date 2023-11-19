@@ -17,7 +17,7 @@ _ViewUrlInfo() {
         if [[ -f $AUDIO_URLS ]]; then
             clear
             __
-            echo " ${info}order |  audio playlist link(s) & titles.${nc}"
+            echo " ${info}ORDER |  AUDIO PLAYLIST LINKS & TITLES.${nc}"
             echo -e " ${info}${stars// /*}${nc}\n"
             awk '$0 ~ /^https/{print $0}' "$AUDIO_URLS" \
             | cat -n && {
@@ -47,7 +47,7 @@ _ViewUrlInfo() {
         if [[ -f $VIDEO_URLS ]]; then
             clear
             __
-            echo " ${info}order |  video playlist link(s) & titles.${nc}"
+            echo " ${info}ORDER |  VIDEO PLAYLIST LINKS & TITLES.${nc}"
             echo -e " ${info}${stars// /*}${nc}\n"
             awk '$0 ~ /^https/{print $0}' "$VIDEO_URLS" \
             | cat -n && {
@@ -78,7 +78,7 @@ _ViewUrlInfo() {
             [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
             clear
             __
-            echo " ${info}order |  default playlist link(s) & titles.${nc}"
+            echo " ${info}ORDER |  DEFAULT PLAYLIST LINKS & TITLES.${nc}"
             echo -e " ${info}${stars// /*}${nc}\n"
             awk '$0 ~ /^https/{print $0}' "$QUEUE" \
             | cat -n && {

@@ -29,7 +29,7 @@ _LoadAudio() {
                 _Menu
             else
                 echo " ${critical}No links in the list${nc}"
-                sleep 2 && _CopyAudio
+                sleep 2 && return
             fi
         ;;
         -c)

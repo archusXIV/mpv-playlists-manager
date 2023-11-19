@@ -1,4 +1,4 @@
-mpm version 1.3-8
+mpm version 1.4-0
 
    MPV-PLAYLISTS-MANAGER usage:
 
@@ -13,7 +13,7 @@ mpm version 1.3-8
       . mpm -l: opens the playlist load (online) function
       . mpm -p: opens local files or directory function
       . mpm -v: echoes mpm version and exit
-   Changing the "theme" in ~/.config/mpm/mpmrc:
+   Changing the "theme" in ~/.config/mpm/themerc:
       Variables: nc=normal text, critical=warnings, info=normal prompt
       mtitle=menus title, task=infos like: direct download, audio conversion type etc...
       Colors of warnings, prompts etc... can be changed in you mpmrc file with

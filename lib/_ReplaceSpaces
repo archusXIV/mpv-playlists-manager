@@ -6,7 +6,7 @@ _ReplaceSpaces() {
 
     case "$1" in
         -l)
-            find "$AUDIOS" "$VIDEOS" -maxdepth 1 \
+            find {"$AUDIOS","$VIDEOS"} -maxdepth 1 \
             -type d -name "* *" -exec \
             bash -c '
                 for f in "$@"; do
@@ -16,7 +16,7 @@ _ReplaceSpaces() {
             ' dummy {} +
         ;;
         -s)
-            find "$playlists_dir" "$titles_dir" -maxdepth 1 \
+            find {"$playlists_dir","$titles_dir"} -maxdepth 1 \
             -type f -name "* *" -exec \
             bash -c '
                 for f in "$@"; do

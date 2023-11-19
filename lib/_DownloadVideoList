@@ -11,7 +11,7 @@ _DownloadVideoList() {
 
     clear
     cp -f "$list" "$list"_origin 2>/dev/null
-    mkdir -p "$videos_dir"/"${list%.*}"
+    mkdir --parents "$videos_dir"/"${list%.*}"
 
     if [[ $direct_download = yes ]]; then
         _DirectVideoDownload

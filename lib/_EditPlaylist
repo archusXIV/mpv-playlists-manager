@@ -11,25 +11,22 @@ _EditPlaylist() {
 
         select playlist in $(find . -not -name "default.m3u" -name "*.m3u" \
             -o -name "*.m3u_origin" | sort -d | sed 's,.*/,,'); do
-                __
-                $MPMEDITOR "$playlist"
-                echo -e " ${info}$playlist saved${nc}\n"
-                read -rsn 1 \
-                -p "${info}"' [C]ontinue editing, [B]ack to menu or [Q]uit.'"${nc}" edit
-
-                case "$edit" in
-                    c|C) break ;;
-                    b|B) _Menu ;;
-                    q|Q)
-                        if [[ -f "$AUDIO_URLS" || -f "$VIDEO_URLS" ]]; then
-                            _SaveOnExit
-                        else
-                            clear
-                            exit 0
-                        fi ;;
-                esac
-
+            __
+            $MPMEDITOR "$playlist"
+            echo -e " ${info}$playlist saved${nc}\n"
+            read -rsn 1 \
+            -p "${info}"' [C]ontinue editing, [B]ack to menu or [Q]uit.'"${nc}" edit
+            case "$edit" in
+                c|C) break ;;
+                b|B) _Menu ;;
+                q|Q)
+                    if [[ -f "$AUDIO_URLS" || -f "$VIDEO_URLS" ]]; then
+                        _SaveOnExit
+                    else
+                        clear
+                        exit 0
+                    fi ;;
+            esac
         done
-
     done
 }

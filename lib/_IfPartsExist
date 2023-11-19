@@ -5,10 +5,9 @@
 _IfPartsExist() {
 
     __IfPartsExistInfo() (
-        partsDirs=( "$audios_dir" "$videos_dir" )
         clear
-        echo -e " Incomplete files in audio/video directories:\n${nc}"
-        find "${partsDirs[@]}" -name "*.part" 2>/dev/null \
+        echo -e " ${critical}Incomplete files in audio/video directories:\n${nc}"
+        find {"$audios_dir","$videos_dir"} -name "*.part" 2>/dev/null \
         | sort -d | sed 's,.*/,,' | cat -n
         __
         echo " ${info}Try again now or later, choose an option.${nc}"

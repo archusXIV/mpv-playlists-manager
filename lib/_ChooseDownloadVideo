@@ -9,10 +9,10 @@ _ChooseDownloadVideo() {
     _TitlesListCompare
 
     cp -f "$list" "$list"_origin
-    mkdir -p "$videos_dir"/"${list%.*}"
+    mkdir --parents "$videos_dir"/"${list%.*}"
 
     IFS=","; read -ra array \
-    -p " ${info}Enter links numbers separeted by comma, eg: 3,1,5: ${nc}"
+    -p " ${info}Enter links numbers separeted by a comma, eg: 3,1,5: ${nc}"
 
     clear
 
@@ -53,7 +53,7 @@ _ChooseDownloadVideo() {
                 read -r code
                 sleep 0.5
                 clear
-                printf '%s\n' " ${info}$chooseVideoCounter file(s) left to downloads.${nc}" \
+                printf '%s\n' " ${info}$chooseVideoCounter file(s) left to downloads." \
                 " Downloading: $(_GetLinkTitle -s)${nc}"
                 if [[ $line =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]; then
                     # downloader presets described in ~/.config/mpm/mpmrc

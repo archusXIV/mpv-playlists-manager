@@ -15,7 +15,7 @@ _LoadVideo() {
                 M3UFILE="$VIDEO_URLS"
             else
                 echo " ${critical}No links in the list${nc}"
-                sleep 2 && _CopyVideo
+                sleep 2 && return
             fi
         ;;
     esac

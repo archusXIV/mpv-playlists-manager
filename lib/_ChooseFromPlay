@@ -20,7 +20,7 @@ _ChooseFromPlay() {
             __
             IFS=","
             read -ra array \
-            -p " ${info}"'Enter links numbers separeted by comma, eg: 3,1,5: '"${nc}"
+            -p " ${info}"'Enter links numbers separeted by a comma, eg: 3,1,5: '"${nc}"
 
             for i in "${array[@]}"; do
                 ((i++))

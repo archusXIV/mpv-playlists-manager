@@ -21,7 +21,6 @@ _GetCompleted() {
                 mv -f "$f"_origin "$f"
             done 2>/dev/null
 
-			_mpmIpc
             _Menu
 
         }

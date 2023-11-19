@@ -5,11 +5,10 @@
 # shellcheck source=/dev/null
 _EditMpmConf() {
 
-    : "${XDG_CONFIG_HOME:-$HOME/.config}"
-
-    $MPMEDITOR "$XDG_CONFIG_HOME/mpm/mpmrc"
+    $MPMEDITOR "$MPMRC"
     printf '%s\n' " ${info}mpm config saved! New changes active.${nc}"
-    source "$XDG_CONFIG_HOME"/mpm/mpmrc
+    source "$MPMRC"
+    _Theme "$THEME"
     sleep 3
     clear
     _Menu

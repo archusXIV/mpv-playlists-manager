@@ -1,23 +1,33 @@
 #!/bin/bash
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
-# version 1.3-8
+# version 1.4-0
 
 _diffMpmrc() {
     
     read -r -p ' Please enter your username: ' user
-    local MPMRCDIR MPMRC
-    MPMRCDIR="/home/$user/.config/mpm"
-    MPMRC="$MPMRCDIR/mpmrc"
+    local MPMRC_DIR MPMRC THEMERC
+    MPMRC_DIR="/home/$user/.config/mpm"
+    MPMRC="$MPMRC_DIR/mpmrc"
+    THEMERC="$MPMRC_DIR/themerc"
     
-    if [[ -f $MPMRC ]]; then
+    if [[ -f $MPMRC && -f $THEMERC ]]; then
         diff -U 9999999 "$MPMRC" \
         ./mpmrc > "$MPMRC".diff
-        chown 1000:1000 "$MPMRC".diff
-        printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc.diff created, PLEASE UPDATE YOUR MPMRC FILE.\e[0m\n'
+        diff -U 9999999 "$THEMERC" \
+        ./themerc > "$THEMERC".diff
+        chown -R 1000:1000 "$MPMRC_DIR"
+        printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc.diff created.\e[0m\n'
+        printf '\e[38;2;206;34;30m~/.config/mpm/themerc.diff created.\e[0m\n'
+    elif [[ -f $MPMRC ]]; then
+        diff -U 9999999 "$MPMRC" \
+        ./mpmrc > "$MPMRC".diff
+        chown -R 1000:1000 "$MPMRC_DIR"
+        printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc.diff created.\e[0m\n'
     else
-        mkdir -p "$MPMRCDIR"
-        cp -f ./mpmrc "$MPMRC"
-        chown -R 1000:1000 "$MPMRCDIR"
+        mkdir --parents "$MPMRC_DIR"
+        cp ./mpmrc "$MPMRC"
+        cp ./themerc "$THEMERC"
+        chown -R 1000:1000 "$MPMRC_DIR"
         printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc created, edit your settings there.\e[0m\n'
     fi
 }
@@ -26,8 +36,8 @@ _install() {
     cp -vf mpm /usr/local/bin
     mkdir -vp /usr/local/lib/mpm && \
     cp -vrf ./lib/* /usr/local/lib/mpm/
-    mkdir -p /usr/local/share/doc/mpm && \
-    cp -vf {help,mpmrc,README.md} /usr/local/share/doc/mpm
+    mkdir --parents /usr/local/share/doc/mpm && \
+    cp -vf ./{help,mpmrc,README.md,themerc} /usr/local/share/doc/mpm
     
     mkdir -vp /usr/share/licenses/mpm && \
     cp -vf ./LICENSE /usr/share/licenses/mpm/LICENSE

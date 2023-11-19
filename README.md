@@ -31,7 +31,8 @@ mpm -v # prints mpm version
 ## Please update your mpmrc file on each release.
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
-## New in version 1.3-8
+## New in version 1.4-0
+- A [themerc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/themerc) file is now available to insert as many as you want "themes" instead of bloating up your mpmrc.
 - We take a step further with theme creation method by using a simple case statement like so.
 - With RGB syntax:
 
@@ -47,10 +48,14 @@ Will look like this.
 Will look like this.
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/chocolat-pistache.png)
-- then you have to enable your stuff:
+- then you have to enable your stuff in mpmrc:
 ```
-# apply the theme by calling function _Theme "name" ...
-_Theme gruvbox
+# edit your own theme in "$XDG_CONFIG_HOME"/mpm/themerc.
+# apply your prefered colorscheme...
+# AVAILABLE THEMES: default, blacksea, chocolat-pistache,
+# gruvbox, gotham, monokai, TokyoNight, solarized, zenburn
+
+THEME="chocolat-pistache"
 ```
 
 - To find out how to convert hex colors in rgb colors, open your prefered color picker

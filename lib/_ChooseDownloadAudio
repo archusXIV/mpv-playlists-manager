@@ -8,11 +8,11 @@ _ChooseDownloadAudio() {
     _TitlesListCompare
 
     cp -f "$list" "$list"_origin
-    mkdir -p "$audios_dir"/"${list%.*}"
+    mkdir --parents "$audios_dir"/"${list%.*}"
 
     IFS=","
     read -ra array \
-    -p " ${info}Enter links numbers separeted by comma, eg: 3,1,5: ${nc}"
+    -p " ${info}Enter links numbers separeted by a comma, eg: 3,1,5: ${nc}"
 
     clear
     cd "$audios_dir"/"${list%.*}" || exit 1
@@ -23,7 +23,7 @@ _ChooseDownloadAudio() {
     _GetSelected
 
     __ChooseDownloadAudioMessage() (
-        printf '%s\n' " ${info}$chooseAudioCounter file(s) left to downloads.${nc}" \
+        printf '%s\n' " ${info}$chooseAudioCounter file(s) left to downloads." \
         " Downloading: $(_GetLinkTitle -s)${nc}"
     )
     

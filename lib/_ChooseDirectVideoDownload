@@ -18,7 +18,7 @@ _ChooseDirectVideoDownload() {
             printf '%s\n' " ${task}Download method = direct.${nc}"
         fi
         __
-        printf '%s\n' " ${info}$chooseVideoCounter file(s) left to downloads.${nc}" \
+        printf '%s\n' " ${info}$chooseVideoCounter file(s) left to downloads." \
         " Downloading: $(_GetLinkTitle -s)${nc}"
 
         if [[ $line =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]; then

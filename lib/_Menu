@@ -12,7 +12,7 @@ _Menu() {
         __
         echo -e "                                           ${mtitle}::MPV-PLAYLISTS-MANAGER $VERSION::"
         echo -e "                                          $(_LittleStars)"
-        echo -e "                                     ${info}current theme: $(awk '/^_Theme/{print $2}' "$MPMRC"). ${critical}For usage: mpm --help${nc}"
+        echo -e "                                     ${info}current theme: $THEME. ${critical}For usage: mpm --help${nc}"
         echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
         echo -e "                  │  1) Create/Add video playlist   6) View default playlist   │  ${info}Tasks for option 4)${nc}:  │"
         [[ $direct_download = yes ]] && echo -e "                  │  2) Create/Add audio playlist   7) Clear all tmp lists     │  direct download: ${task}$direct_download${nc}  │"
@@ -52,6 +52,8 @@ _Menu() {
             x|X)    if [[ -f "$AUDIO_URLS" || -f "$VIDEO_URLS" ]]; then
                         _SaveOnExit
                     else
+                        nc=$'\e[0m';
+                        echo "${nc}"
                         clear
                         exit 0
                     fi

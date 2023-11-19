@@ -17,8 +17,9 @@
 ##    It is recommanded to disable mpv cache for better results on direct streaming,
 ##    or find a better cache parameter.
 
+# shellcheck source=/dev/null
 # shellcheck disable=SC2034,SC2044,SC2086,SC2207,SC2154,SC2120,SC2119
-VERSION="v.1.3-8"
+VERSION="v.1.4-0"
 
 ## prompts blinking
 b=$'\e[5m';
@@ -45,16 +46,19 @@ pids=($(pidof -x $mpvmenu))
 # creates a blank line
 __() { printf '\n'; }
 
-MPMRC="$HOME/.config/mpm/mpmrc"
+: "${XDG_CONFIG_HOME:-$HOME/.config}"
+MPMRCDIR="$XDG_CONFIG_HOME/mpm"
+MPMRC="$MPMRCDIR/mpmrc"
+THEMERC="$MPMRCDIR/themerc"
 
-[[ ! -f $MPMRC ]] && {
-    mkdir -p "$HOME"/.config/mpm
-    cp /usr/local/share/doc/mpm/mpmrc "$MPMRC"
+[[ ! -d $MPMRCDIR ]] && {
+    mkdir --parents "$MPMRCDIR"
+    cp /usr/local/share/doc/mpm/mpmrc "$MPMRCDIR"/mpmrc
+    cp /usr/local/share/doc/mpm/themerc "$MPMRCDIR"/themerc
 }
 
-# shellcheck source=/dev/null
 ## summon our personal settings
-source "$MPMRC"
+source "$MPMRC"; source "$THEMERC"
 
 # global variables
 supportedsites="https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md"

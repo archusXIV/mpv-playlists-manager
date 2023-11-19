@@ -26,15 +26,15 @@ _LoadLocal() {
 
                 if [[ $(find "$AUDIOS"/"$dir" -type d -empty) ]]; then
                     __
-                    echo " ${critical}$dir is empty. Wait and try again...${nc}"
+                    printf '%s\n' " ${critical}$dir is empty. Wait and try again...${nc}"
                     sleep 4
                     break
                 else
                     # checking for content in linked directories.
-                    [[ -z $(command ls "$AUDIOS"/"$dir") ]] && {
+                    command ls "$AUDIOS"/"$dir" 2>/dev/null || {
                         __
-                        echo " ${critical}This symlink points to an empty directory!"
-                        echo " Wait and try again...${nc}"
+                        printf '%s\n' " ${critical}This symlink points to an empty directory!" \
+                        " Wait and try again...${nc}"
                         sleep 4
                         break
                     }
@@ -61,15 +61,15 @@ _LoadLocal() {
 
                 if [[ $(find "$VIDEOS"/"$dir" -type d -empty) ]]; then
                     __
-                    echo " ${critical}$dir is empty. Wait and try again...${nc}"
+                    printf '%s\n' " ${critical}$dir is empty. Wait and try again...${nc}"
                     sleep 4
                     break
                 else
 
-                    [[ -z $(command ls "$VIDEOS"/"$dir") ]] && {
+                    command ls "$VIDEOS"/"$dir" 2>/dev/null || {
                         __
-                        echo " ${critical}This symlink points to an empty directory!"
-                        echo " Wait and try again...${nc}"
+                        printf '%s\n' " ${critical}This symlink points to an empty directory!" \
+                        " Wait and try again...${nc}"
                         sleep 4
                         break
                     }
@@ -85,7 +85,11 @@ _LoadLocal() {
         4)
             "$FILEMANAGER" "$VIDEOS"; _Menu
         ;;
-
+        *)
+            printf '%s\n' " ${critical}Wrong option!${nc}"
+            sleep 2
+            return
+        ;;
     esac
 
 }

@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.3-8)
+# ~/.config/mpm/mpmrc (version 1.4-0)
 
 ########################################################
 #                                                      #
@@ -20,47 +20,11 @@
 # change the main mpm window size. (the actual size is 1260x738)
 function _ResizeWindow { wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738; } 2>/dev/null
 
-### PROMPTS & MESSAGES COLORS
-### https://misc.flogisoft.com/bash/tip_colors_and_formatting
-### Console_colors (default) will always use your current ~/.Xresources colors,
-### or custom rgb/hex colors so you can set your own theme.
-### nc=normal text, critical=warnings, info=normal prompt, mtitle=menus title,
-### task=infos like: direct download, audio conversion type etc...
-function _Theme {
-    case "$1" in
-        default)
-            nc=$'\e[0m';        # default foreground
-            critical=$'\e[31m'; # *.color1 red
-            info=$'\e[32m';     # *.color2 green
-            mtitle=$'\e[33m';   # *.color3 yellow
-            task=$'\e[37m';     # *.color7 white
-        ;;
-        gruvbox)
-            nc=$'\e[38;2;69;133;136m';      # #458588 "0x45 0x85 0x88"
-            critical=$'\e[38;2;204;36;29m'; # #CC241D "0xcc 0x24 0x1d"
-            info=$'\e[38;2;104;157;106m';   # #689d6a "0x68 0x9d 0x6a"
-            mtitle=$'\e[38;2;215;153;33m';  # #D79921 "0xd7 0x99 0x21"
-            task=$'\e[38;2;235;219;178m';   # #ebdbb2 "0xeb 0xdb 0xb2"
-            # Using RGB colors for array 'customColors'
-            # enter the last three numbers of your custom sequence.
-                        #   normal text  critical      info          mtitle       task
-            customColors=( "69;133;136" "204;36;29" "104;157;106" "215;153;33" "235;219;178" )
-        ;;
-        chocolat-pistache)
-            nc=$'\e[38;2;140;117;94m';      # #8C755E "0x8c 0x75 0x5e"
-            critical=$'\e[38;2;215;95;65m'; # #D75F41 "0xd7 0x5f 0x41"
-            info=$'\e[38;2;146;196;113m';   # #92C471 "0x92 0xc4 0x71"
-            mtitle=$'\e[38;2;242;203;87m';  # #F2CB57 "0xf2 0xcb 0x57"
-            task=$'\e[38;2;249;230;176m';   # #F9E6B0 "0xf9 0xe6 0xb0"
-            # Using HEX colors for array 'customColors'
-            customColors=( "0x8c 0x75 0x5e" "0xd7 0x5f 0x41" "0x92 0xc4 0x71" \
-            "0xf2 0xcb 0x57" "0xf9 0xe6 0xb0" )
-        ;;
-    esac
-}
-
-# apply the theme by calling function _Theme "name" ...
-_Theme default
+# edit your own theme in "$XDG_CONFIG_HOME"/mpm/themerc.
+# apply your prefered colorscheme...
+# AVAILABLE THEMES: default, blacksea, chocolat-pistache,
+# gruvbox, gotham, monokai, TokyoNight, solarized, zenburn
+THEME="default"
 
 ## default editor
 MPMEDITOR="vim"

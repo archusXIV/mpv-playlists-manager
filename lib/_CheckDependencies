@@ -9,7 +9,7 @@ _CheckDependencies() {
 
     for dep in "${deps[@]:0:5}"; do
         [[ -z $(command -v "$dep") ]] && {
-            printf '%s\n' " ${critical}$dep isn 't installed,...exiting!"
+            printf '%s\n' " $dep isn 't installed,...exiting!"
             notify-send -t 0 -u critical "$dep isn 't installed,...exiting!"
             exit 127
         }
@@ -17,21 +17,26 @@ _CheckDependencies() {
 
     for optional in "${deps[@]:5:8}"; do
         [[ -z $(command -v "$optional") ]] && {
-            printf '%s\n' " ${info}For better experience consider installing $optional.${nc}"
+            printf '%s\n' " For better experience consider installing $optional."
             sleep 3
         }
     done
 
+    [[ -z $main_dir ]] && {
+        printf '%s\n' " Variable main_dir in mpmrc is not defined...exiting!!!"
+        exit 1
+    }
+    
     # MPMEDITOR & FILEMANAGER must be defined in ~/.config/mpm/mpmrc
     [[ -z $MPMEDITOR ]] && {
-        printf '%s\n' " ${critical}The config EDITOR is not set...exiting!${nc}"
+        printf '%s\n' " The config EDITOR is not set...exiting!"
         notify-send -t 0 -u critical "The config EDITOR is not set...exiting!"
         exit 1
     }
 
-    [[ -z $(command -v "$FILEMANAGER") ]] && {
-        printf '%s\n' " ${critical}Consider installing a terminal file manager.${nc}"
-        notify-send -t 0 -u critical "Consider installing a terminal file manager"
+    command -v "$FILEMANAGER" 2>/dev/null || {
+        printf '%s\n' " No terminal file manager found."
+        notify-send -t 0 -u critical "No terminal file manager found."
         sleep 3
     }
 
@@ -39,11 +44,11 @@ _CheckDependencies() {
         mkdir --parents \
         {"$audios_dir","$playlists_dir","$titles_dir","$tmp_dir","$videos_dir"}
     else
-        [[ ! -d $audios_dir ]] && mkdir -p "$audios_dir"
-        [[ ! -d $playlists_dir ]] && mkdir -p "$playlists_dir"
-        [[ ! -d $titles_dir ]] && mkdir -p "$titles_dir"
-        [[ ! -d $tmp_dir ]] && mkdir -p "$tmp_dir"
-        [[ ! -d $videos_dir ]] && mkdir -p "$videos_dir"
+        [[ ! -d $audios_dir ]] && mkdir --parents "$audios_dir"
+        [[ ! -d $playlists_dir ]] && mkdir --parents "$playlists_dir"
+        [[ ! -d $titles_dir ]] && mkdir --parents "$titles_dir"
+        [[ ! -d $tmp_dir ]] && mkdir --parents "$tmp_dir"
+        [[ ! -d $videos_dir ]] && mkdir --parents "$videos_dir"
     fi
 
     [[ ! -f $QUEUE ]] && echo "#EXTM3U" > "$QUEUE"
@@ -54,6 +59,7 @@ _CheckDependencies() {
         cp -f "$DEFAULTM3UTITLES" "$DEFAULTITLES"
     }
 
+    _Theme "$THEME"
     _Menu
 
 }

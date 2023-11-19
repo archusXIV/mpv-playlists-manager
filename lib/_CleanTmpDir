@@ -5,7 +5,7 @@
 # This function is called multiple times across this program,
 # but let's ensure temporary files are removed before we exit out. 
 _CleanTmpDir() {
-    if (( $(_GetLinesList -q) > 0 )); then
+    if [[ $(_GetLinesList -q) -gt 0 ]]; then
 
         [[ -f $DEFAULTITLES ]] && \
         cp "$DEFAULTITLES" "$DEFAULTM3UTITLES"

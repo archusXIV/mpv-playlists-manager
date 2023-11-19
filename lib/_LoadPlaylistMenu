@@ -22,8 +22,8 @@ _LoadPlaylistMenu() {
         echo -e "                                  └───────────────────────────────────────────────────┘"
         echo -e "                                                    ${info}${b}Select an item${nb}${nc}"
         __
-        read -rsn 1 options
-        case "$options" in
+        read -rsn 1 loadPlaylistMenuOptions
+        case "$loadPlaylistMenuOptions" in
             1) _ChooseDownloadAudio ;;
             2) _ChooseDownloadVideo ;;
             3) _GetAudio -l ;;

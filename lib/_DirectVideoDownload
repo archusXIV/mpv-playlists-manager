@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2076,SC2015
 _DirectVideoDownload() {
 
-    mkdir -p "$videos_dir"/"${list%.*}"
+    mkdir --parents "$videos_dir"/"${list%.*}"
     __
     printf '%s\n' " ${task}Direct download enabled.${nc}"
     __

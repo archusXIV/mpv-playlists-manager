@@ -29,7 +29,7 @@ _GetVideo() {
             [[ $(_GetLinesList -v) -eq 0 ]] && {
                 echo " ${critical}No links in the list${nc}"
                 sleep 2
-                _CopyVideo
+                return
             }
             M3UFILE="$VIDEO_URLS"
             TITLES="$VIDEO_TITLES"
@@ -65,9 +65,8 @@ _GetVideo() {
     cd "$videos_dir" || exit 1
 
     _GetVideoDownload && {
-
-    echo -e " ${info}Done.\n${nc}"
-    sleep 2
-    _GetCompleted -v
+        echo -e " ${info}Done.\n${nc}"
+        sleep 2
+        _GetCompleted -v
     }
 }
