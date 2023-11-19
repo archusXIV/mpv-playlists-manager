@@ -22,6 +22,7 @@ _diffMpmrc() {
         diff -U 9999999 "$MPMRC" \
         ./mpmrc > "$MPMRC".diff
         chown -R 1000:1000 "$MPMRC_DIR"
+        cp ./themerc "$THEMERC"
         printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc.diff created.\e[0m\n'
     else
         mkdir --parents "$MPMRC_DIR"
