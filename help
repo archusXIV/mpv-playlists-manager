@@ -1,4 +1,4 @@
-mpm version 1.4-0
+mpm version 1.4-1
 
    MPV-PLAYLISTS-MANAGER usage:
 
@@ -13,6 +13,7 @@ mpm version 1.4-0
       . mpm -l: opens the playlist load (online) function
       . mpm -p: opens local files or directory function
       . mpm -v: echoes mpm version and exit
+   
    Changing the "theme" in ~/.config/mpm/themerc:
       Variables: nc=normal text, critical=warnings, info=normal prompt
       mtitle=menus title, task=infos like: direct download, audio conversion type etc...
@@ -68,6 +69,12 @@ mpm version 1.4-0
       Now we still have the choice to play or download media links from the collection.
       Two downloading methods are offered here: one by choosing specidics format codes,
       and a direct download functionality which grabs the best format.
+      In the download options there are two of them where we can choose individual or ranges
+      of files to stream or download by entering their numbers as follow:
+      for example:
+                  1-4,6 8-11 # range,single range
+                  1-4,6-8,10 # range,range,single
+                  2,3,5,6,1  # random singles
 
    5) Load local dir/files: the following method uses ranger.
       The possibility of watching or listening media files from disk is done with ranger

@@ -1,20 +1,24 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2076,SC2015
+# shellcheck disable=SC2154,SC2076,SC2015,SC2164
 _DirectVideoDownload() {
 
-    mkdir --parents "$videos_dir"/"${list%.*}"
+    cd "$playlists_dir" || exit 1
+    local counter
     __
     printf '%s\n' " ${task}Direct download enabled.${nc}"
     __
-    cd "$videos_dir"/"${list%.*}" || exit 1
+    cp -f "$list" "$list"_origin
+    mkdir --parents "$videos_dir"/"${list%.*}" \
+    && cd "$videos_dir"/"${list%.*}"
 
     mapfile -t DIRECT < <(grep '^https' "$playlists_dir"/"$list")
-
+    counter="${#DIRECT[@]}"
+    
     for line in "${DIRECT[@]}"; do
 
-        printf '%s\n' " ${info}$downloadVideoCounter file(s) left to download." \
+        printf '%s\n' " ${info}$counter file(s) left to download." \
         " Downloading: $(_GetLinkTitle -l)${nc}"
         
         if [[ $line =~ 'youtube.com' && $(_GetLinkTitle -l) =~ '/' ]]; then
@@ -30,7 +34,7 @@ _DirectVideoDownload() {
             "${ytdlPreset_NC[@]}" "$line"
         fi
 
-        ((downloadVideoCounter--))
+        ((counter--))
 
         sed -i '2d' "$playlists_dir"/"$list"
         sed -i '1d' "$titles_dir"/"$list".titles

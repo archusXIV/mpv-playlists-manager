@@ -22,7 +22,7 @@ _SaveCheck() {
                     _SaveList && break
                 }
                 __
-                read -rp "${info}"' Save playlist as (no extension): '"${nc}" list
+                read -rp "${info}"' Save playlist as (do not use extension): '"${nc}" list
                 list="$list.m3u"
                 [[ -f $list ]] && {
                     __
@@ -42,7 +42,7 @@ _SaveCheck() {
         }
 
         __
-        read -rp "${info}"' Save the new playlist as (no extension): '"${nc}" list
+        read -rp "${info}"' Save the new playlist as (do not use extension): '"${nc}" list
         list="$list.m3u"
         [[ -f $list ]] && {
             __

@@ -1,15 +1,23 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2076,SC2154
+# shellcheck disable=SC2076,SC2154,SC2164
 _ChooseDirectVideoDownload() {
 
-    _GetSelected
+    local counter
     clear
-    cd "$videos_dir"/"${list%.*}" || exit 1
-
-    mapfile -t DIRECT < <(grep '^https' "$CHOOSE1")
-
+    cd "$playlists_dir" || exit 1
+    _TitlesListCompare
+    _GetRange
+    
+    clear
+    cp -f "$list" "$list"_origin
+    mkdir --parents "$videos_dir"/"${list%.*}" \
+    && cd "$videos_dir"/"${list%.*}"
+    
+    readarray -t DIRECT < "$CHOOSE1"
+    counter="${#DIRECT[@]}"
+    
     for line in "${DIRECT[@]}"; do
 
         if [[ $direct_download = yes ]]; then
@@ -18,14 +26,13 @@ _ChooseDirectVideoDownload() {
             printf '%s\n' " ${task}Download method = direct.${nc}"
         fi
         __
-        printf '%s\n' " ${info}$chooseVideoCounter file(s) left to downloads." \
+        printf '%s\n' " ${info}$counter file(s) left to downloads." \
         " Downloading: $(_GetLinkTitle -s)${nc}"
 
         if [[ $line =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]; then
             # downloader presets described in ~/.config/mpm/mpmrc
             youtube-dl "${ytdlPreset_FS[@]}" \
             "${ytdlPreset_X[@]}" "$line"
-            clear
         elif [[ $line =~ 'youtube.com' ]]; then
             youtube-dl \
             --output "$(_GetLinkTitle -s).%(ext)s" \
@@ -34,12 +41,11 @@ _ChooseDirectVideoDownload() {
             youtube-dl \
             --output "$(_GetLinkTitle -s).%(ext)s" \
             "${ytdlPreset_NC[@]}" "$line"
-            clear
         fi
 
         sed -i '1d' "$SELECTEDTITLES"
-        ((chooseVideoCounter--))
-
+        ((counter--))
+        clear
     done
 
     unset line

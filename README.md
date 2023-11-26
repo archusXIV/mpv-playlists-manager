@@ -31,24 +31,20 @@ mpm -v # prints mpm version
 ## Please update your mpmrc file on each release.
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
-## New in version 1.4-0
-- A [themerc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/themerc) file is now available to insert as many as you want "themes" instead of bloating up your mpmrc.
-- We take a step further with theme creation method by using a simple case statement like so.
-- With RGB syntax:
+## New in version 1.4-1
+- Added possibility to enter range(s) whem selecting titles to stream/download
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/theme_rgb.png)
+## Themes
+- A [themerc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/themerc) file is available to insert as many as you want "themes" instead of bloating up your mpmrc.
 
-Will look like this.
+gruvbox theme.
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/gruvbox.png)
-- With HEX syntax:
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/theme_hex.png)
-
-Will look like this.
+chocolat-pistache theme.
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/chocolat-pistache.png)
-- then you have to enable your stuff in mpmrc:
+
 ```
 # edit your own theme in "$XDG_CONFIG_HOME"/mpm/themerc.
 # apply your prefered colorscheme...
@@ -103,7 +99,7 @@ Requests and contributions? Why not, have fun.
 # installation
 Before installing, please check paths variables in [function /lib/_LoadLocal](/lib/_LoadLocal)
 and then run the install.sh script as root, by default /usr/local/bin /usr/local/lib are the
-respective used locations, feel free to change them in the install script and line 29 in mpm itself.
+respective used locations, feel free to change them in the install script and line 30 in mpm itself.
 The install script will detect if mpm is already installed and in that case the prompt will be: [R]emove or [U]pgrade mpm? 
 
 Otherwise the simple install function will run and create ~/.config/mpm/mpmrc.

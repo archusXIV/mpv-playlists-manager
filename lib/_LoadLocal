@@ -11,7 +11,7 @@ _LoadLocal() {
     VIDEOS=$(find "$HOME" -maxdepth 2 -type d -name "Videos" -o -name "Vidéos")
     zic=$(echo "$AUDIOS" | awk -F"/" '{print $NF}')
     vid=$(echo "$VIDEOS" | awk -F"/" '{print $NF}')
-
+    
     read -rsn 1 \
     -p "${info}"' Play: [1] Audio dir, [2] Audio files, [3] Video dir or [4] Video files?: '"${nc}" choice
     case "$choice" in
@@ -31,7 +31,7 @@ _LoadLocal() {
                     break
                 else
                     # checking for content in linked directories.
-                    command ls "$AUDIOS"/"$dir" 2>/dev/null || {
+                    command ls "$AUDIOS"/"$dir" >/dev/null || {
                         __
                         printf '%s\n' " ${critical}This symlink points to an empty directory!" \
                         " Wait and try again...${nc}"
@@ -66,7 +66,7 @@ _LoadLocal() {
                     break
                 else
 
-                    command ls "$VIDEOS"/"$dir" 2>/dev/null || {
+                    command ls "$VIDEOS"/"$dir" >/dev/null || {
                         __
                         printf '%s\n' " ${critical}This symlink points to an empty directory!" \
                         " Wait and try again...${nc}"

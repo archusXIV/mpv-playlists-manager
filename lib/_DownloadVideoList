@@ -1,38 +1,40 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2013,SC2154,SC2076,SC2031,SC2030
+# shellcheck disable=SC2013,SC2154,SC2076,SC2031,SC2030,SC2164
 _DownloadVideoList() {
     cd "$playlists_dir" || exit 1
 
     _TitlesListCompare
-    local downloadVideoCounter
-    downloadVideoCounter=$(grep -c '^https' "$list")
-
-    clear
-    cp -f "$list" "$list"_origin 2>/dev/null
-    mkdir --parents "$videos_dir"/"${list%.*}"
+    local counter
 
     if [[ $direct_download = yes ]]; then
+        clear
         _DirectVideoDownload
     else
+        clear
+        printf '%s\n' " ${task}Direct download disabled."
         __
-        echo " ${info}Tip: direct download will always pick the best format,"
-        echo -e " on Youtube webm may be the best one but we'll merge files in mp4.\n"
-        echo -e " [B]ack to dl menu, choose [S]pecific codes or [D]irect download?:\n${nc}"
-        sleep 0.5 && read -rsn 1 choice
+        printf '%s\n' " ${critical}Tip: direct download will always pick the best format," \
+        " on Youtube webm may be the best one but we'll merge files in mp4."
+        echo -e " ${info}[B]ack to download options, choose [S]pecific codes or [D]irect download?:\n${nc}"
+        read -rsn 1 choice
     fi
 
     case "$choice" in
         b|B) clear; return ;;
-        d|D) _DirectVideoDownload ;;
+        d|D) clear; _DirectVideoDownload ;;
         s|S)
-            mapfile -t SELECTEDCODES < <(grep '^https' "$list")
-
-            cd "$videos_dir"/"${list%.*}" || return
-
+            clear
+            cp -f "$list" "$list"_origin
+            mkdir --parents "$videos_dir"/"${list%.*}" \
+            && cd "$videos_dir"/"${list%.*}"
+            
+            mapfile -t SELECTEDCODES < <(grep '^https' "$playlists_dir"/"$list")
+            counter="${#SELECTEDCODES[@]}"
+            
             for downvideourl in "${SELECTEDCODES[@]}"; do
-
+                
                 clear
                 __
                 youtube-dl -F "${ytdlPreset_DW[@]}" "$downvideourl" \
@@ -43,7 +45,7 @@ _DownloadVideoList() {
                 read -r code
                 clear
                 __
-                printf '%s\n' " ${info}$downloadVideoCounter file(s) left to download." \
+                printf '%s\n' " ${info}$counter file(s) left to download." \
                 " Downloading $(_GetLinkTitle -l).${nc}"
                 
                 if [[ "$code" =~ '+' && $(_GetLinkTitle -l) =~ '/' ]]; then
@@ -62,11 +64,10 @@ _DownloadVideoList() {
 
                 sed -i '2d' "$playlists_dir"/"$list"
                 sed -i '1d' "$titles_dir"/"$list".titles
-                ((downloadVideoCounter--))
+                ((counter--))
                 clear
 
             done
-
         ;;
     esac
 

@@ -4,7 +4,6 @@
 # shellcheck disable=SC2154
 _ChooseFromPlay() {
     cd "$playlists_dir" || exit 1
-
     clear
     _TitlesListCompare
 
@@ -18,16 +17,8 @@ _ChooseFromPlay() {
         v|V) _LoadVideo -l ;;
         s|S)
             __
-            IFS=","
-            read -ra array \
-            -p " ${info}"'Enter links numbers separeted by a comma, eg: 3,1,5: '"${nc}"
-
-            for i in "${array[@]}"; do
-                ((i++))
-                sed -n "${i}p" "$list" >> "$CHOOSE1"
-            done
-
-            # if we don't unset IFS all other functions will be messed up!
+            _GetRange
+            rm "$SELECTEDTITLES"
             unset IFS
             __
             read -rsn 1 -p "${info}"' load [A]udio, [V]ideo: '"${nc}" load

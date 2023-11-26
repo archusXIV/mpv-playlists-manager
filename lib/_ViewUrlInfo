@@ -105,7 +105,7 @@ _ViewUrlInfo() {
                     ;;
                     p|P)
                         __
-                        read -rsn 1 -p "${info}"' Play [A]udio, [V]ideo?: '"${nc}" play
+                        read -rsn 1 -p "${info}"' Play [A]udio, [V]ideo?:'"${nc}" play
                         case "$play" in
                             a|A) _LoadAudio -q ;;
                             v|V) _LoadVideo -q ;;

@@ -1,41 +1,39 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2013,SC2076,SC2034,SC2154
+# shellcheck disable=SC2013,SC2076,SC2034,SC2154,SC2164
 _ChooseDownloadVideo() {
 
+    local counter
     cd "$playlists_dir" || exit 1
     clear
-    _TitlesListCompare
-
-    cp -f "$list" "$list"_origin
-    mkdir --parents "$videos_dir"/"${list%.*}"
-
-    IFS=","; read -ra array \
-    -p " ${info}Enter links numbers separeted by a comma, eg: 3,1,5: ${nc}"
-
-    clear
-
-    local chooseVideoCounter="${#array[*]}"
 
     if [[ $direct_download = yes ]]; then
         _ChooseDirectVideoDownload
     else
         __
-        printf '%s\n' " ${info}Tip: direct download will always pick the best format," \
-        " on Youtube webm may be the best one but we'll merge files in mp4." \
-        " Choose [S]pecific codes or [D]irect download?:\n${nc}"
+        printf '%s\n' " ${task}Direct download disabled."
+        __
+        printf '%s\n' " ${critical}Tip: direct download will always pick the best format," \
+        " on Youtube webm may be the best one but we'll merge files in mp4."
+        echo -e " ${info}[B]ack to download options, choose [S]pecific codes or [D]irect download?:\n${nc}"
         read -rsn 1 choice
     fi
 
     case "$choice" in
+        b|B) clear; return ;;
         d|D) _ChooseDirectVideoDownload ;;
         s|S)
-            _GetSelected
-
-            mapfile -t CHOSENCODES < <(grep '^https' "$CHOOSE1")
-
-            cd "$videos_dir"/"${list%.*}" || exit 1
+            _TitlesListCompare
+            _GetRange
+            clear
+            
+            cp -f "$list" "$list"_origin
+            mkdir --parents "$videos_dir"/"${list%.*}" \
+            && cd "$videos_dir"/"${list%.*}"
+            
+            readarray -t CHOSENCODES < "$CHOOSE1"
+            counter="${#CHOSENCODES[@]}"
             
             for url in "${CHOSENCODES[@]}"; do
 
@@ -46,34 +44,31 @@ _ChooseDownloadVideo() {
                 else
                     youtube-dl -F "${ytdlPreset_DW[@]}" "$url"
                 fi
-
                 __
                 printf '%s\n' " ${info}Choose a format code for: $(_GetLinkTitle -s)" \
                 " eg: 137+251 for merging, hls-1080p, 22 for single:${nc}"
                 read -r code
                 sleep 0.5
                 clear
-                printf '%s\n' " ${info}$chooseVideoCounter file(s) left to downloads." \
+                printf '%s\n' " ${info}$counter file(s) left to downloads." \
                 " Downloading: $(_GetLinkTitle -s)${nc}"
+                
                 if [[ $line =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]; then
                     # downloader presets described in ~/.config/mpm/mpmrc
                     youtube-dl "${ytdlPreset_FS[@]}" \
-                    "${ytdlPreset_X[@]}" "$line"
-                    # clear
+                    --format "$code" "${ytdlPreset_X[@]}" "$line"
                 elif [[ $line =~ 'youtube.com' ]]; then
                     youtube-dl \
                     --output "$(_GetLinkTitle -s).%(ext)s" \
-                    "${ytdlPreset_X[@]}" "$line"
-                    # clear
+                    --format "$code" "${ytdlPreset_X[@]}" "$line"
                 else
                     youtube-dl \
                     --output "$(_GetLinkTitle -s).%(ext)s" \
-                    "${ytdlPreset_NC[@]}" "$line"
-                    # clear
+                    --format "$code" "${ytdlPreset_NC[@]}" "$line"
                 fi
 
                 sed -i '1d' "$SELECTEDTITLES"
-                ((chooseVideoCounter--))
+                ((counter--))
                 clear
 
             done
@@ -84,10 +79,7 @@ _ChooseDownloadVideo() {
     esac
 
     _UpdateSelected
-
-    # if we don't unset IFS other functions will be messed up!
     unset IFS
-
     clear
     _DownloadCompleted
 

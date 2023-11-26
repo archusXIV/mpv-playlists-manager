@@ -1,34 +1,28 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2013,SC2154,SC2143,SC2076
+# shellcheck disable=SC2013,SC2154,SC2143,SC2076,SC2164
 _ChooseDownloadAudio() {
+
+    local counter
     cd "$playlists_dir" || exit 1
     clear
     _TitlesListCompare
-
-    cp -f "$list" "$list"_origin
-    mkdir --parents "$audios_dir"/"${list%.*}"
-
-    IFS=","
-    read -ra array \
-    -p " ${info}Enter links numbers separeted by a comma, eg: 3,1,5: ${nc}"
+    _GetRange
 
     clear
-    cd "$audios_dir"/"${list%.*}" || exit 1
-
-    local chooseAudioCounter
-    chooseAudioCounter="${#array[*]}"
-
-    _GetSelected
-
+    cp -f "$list" "$list"_origin
+    mkdir --parents "$audios_dir"/"${list%.*}" \
+    && cd "$audios_dir"/"${list%.*}"
+    
+    readarray -t SELECTEDAUDIO < "$CHOOSE1"
+    counter="${#SELECTEDAUDIO[@]}"
+    
     __ChooseDownloadAudioMessage() (
-        printf '%s\n' " ${info}$chooseAudioCounter file(s) left to downloads." \
+        printf '%s\n' " ${info}$counter file(s) left to downloads." \
         " Downloading: $(_GetLinkTitle -s)${nc}"
     )
     
-    mapfile -t SELECTEDAUDIO < <(grep '^https' "$CHOOSE1")
-
     for url in "${SELECTEDAUDIO[@]}"; do
 
         if [[ $direct_download = yes ]] && \
@@ -53,6 +47,7 @@ _ChooseDownloadAudio() {
             clear
             __
             __ChooseDownloadAudioMessage
+            
             youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
             --format "$code" "${ytdlPreset_NC[@]}" "$url"
 
@@ -71,7 +66,7 @@ _ChooseDownloadAudio() {
         fi
 
         sed -i '1d' "$SELECTEDTITLES"
-        ((chooseAudioCounter--))
+        ((counter--))
         clear
 
     done
@@ -82,18 +77,13 @@ _ChooseDownloadAudio() {
     unset IFS
 
     clear
-
     echo -e " ${info}Done${nc}\n"
-
     clear
 
-    cd "$audios_dir"/"${list%.*}" || exit 1
-
     if [[ -n $(find "$audios_dir"/"${list%.*}" -iname "*.webm") ]]; then
-
         echo " ${critical}ADVISORY: if you choose conversion, all downloaded webm"
         echo -e " files will be converted in the chosen format.${nc}\n"
-        find . -iname "*.webm" | sed 's,.*/,,'
+        find "$audios_dir"/"${list%.*}" -iname "*.webm" | sed 's,.*/,,' | cat -n
 
         if [[ $automatic_audio_conversion = yes ]]; then
             __
@@ -102,7 +92,7 @@ _ChooseDownloadAudio() {
             _ConvertAudio && _DownloadCompleted
         else
             __
-            _Prompt " ${info}Do you wish to convert them?: ${nc}" || {
+            _Prompt " ${info}Proceed with conversion?: ${nc}" || {
                 _DownloadCompleted
             }
             _ConvertAudio && _DownloadCompleted

@@ -16,8 +16,7 @@ _DownloadCompleted() {
                 unset {FILES[0],FILES[2]}
                 rm -f "${FILES[@]}" 2>/dev/null
             else
-                echo " ${critical}keep_none_empty_playlist is set to 'no'.${nc}"
-                echo -e " ${info}Please confirm.${nc}\n"
+                echo -e " ${critical}keep_none_empty_playlist is set to 'no'.${nc}\n"
                 _Prompt \
                 " ${info}Downloads completed but $list is not empty, do you want to KEEP it?: ${nc}" || {
                     rm -f "${FILES[@]}" 2>/dev/null

@@ -13,5 +13,5 @@ _CleanTmpDir() {
     elif [[ -f $DEFAULTM3UTITLES ]]; then
         rm -f "$DEFAULTM3UTITLES"
     fi
-    rm -f {"$tmp_dir"/*,"$playlists_dir"/1_Back_to_menu} 2>/dev/null
+    rm -f {"$tmp_dir"/*,"$playlists_dir"/{1_Back_to_menu,*_tmp}} 2>/dev/null
 }
