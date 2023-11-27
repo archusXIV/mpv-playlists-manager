@@ -32,7 +32,7 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
 ## New in version 1.4-1
-- Added possibility to enter range(s) whem selecting titles to stream/download
+- Added possibility to enter range(s) when selecting titles to stream/download
 
 ## Themes
 - A [themerc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/themerc) file is available to insert as many as you want "themes" instead of bloating up your mpmrc.
