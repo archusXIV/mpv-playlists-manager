@@ -22,13 +22,8 @@ _CheckDependencies() {
         }
     done
 
-    [[ -z $main_dir ]] && {
-        printf '%s\n' " Variable main_dir in mpmrc is not defined...exiting!!!"
-        exit 1
-    }
-    
     # MPMEDITOR & FILEMANAGER must be defined in ~/.config/mpm/mpmrc
-    [[ -z $MPMEDITOR ]] && {
+    [[ -z ${MPMEDITOR+x} ]] && {
         printf '%s\n' " The config EDITOR is not set...exiting!"
         notify-send -t 0 -u critical "The config EDITOR is not set...exiting!"
         exit 1
@@ -40,15 +35,19 @@ _CheckDependencies() {
         sleep 3
     }
 
+    [[ -z ${main_dir+x} ]] && {
+        printf '%s\n' " Variable main_dir in mpmrc is not defined...exiting!!!"
+        exit 1
+    }
+
+    dirs=( "$audios_dir" "$playlists_dir" "$titles_dir" "$tmp_dir" "$videos_dir" )
+    
     if [[ ! -d $main_dir ]]; then
-        mkdir --parents \
-        {"$audios_dir","$playlists_dir","$titles_dir","$tmp_dir","$videos_dir"}
+        mkdir --parents "${dirs[@]}"
     else
-        [[ ! -d $audios_dir ]] && mkdir --parents "$audios_dir"
-        [[ ! -d $playlists_dir ]] && mkdir --parents "$playlists_dir"
-        [[ ! -d $titles_dir ]] && mkdir --parents "$titles_dir"
-        [[ ! -d $tmp_dir ]] && mkdir --parents "$tmp_dir"
-        [[ ! -d $videos_dir ]] && mkdir --parents "$videos_dir"
+        for d in "${dirs[@]}"; do
+            mkdir --parents "$d"
+        done
     fi
 
     [[ ! -f $QUEUE ]] && echo "#EXTM3U" > "$QUEUE"

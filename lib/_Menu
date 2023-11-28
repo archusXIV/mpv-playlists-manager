@@ -19,7 +19,7 @@ _Menu() {
         [[ $direct_download = no ]] && echo -e "                  │  2) Create/Add audio playlist   7) Clear all tmp lists     │  direct download:  ${task}$direct_download${nc}  │"
         [[ $automatic_audio_conversion = yes ]] && echo -e "                  │  3) Save as/Delete a playlist   8) Edit a playlist         │  conversion auto: ${task}$automatic_audio_conversion${nc}  │"
         [[ $automatic_audio_conversion = no ]] && echo -e "                  │  3) Save as/Delete a playlist   8) Edit a playlist         │  conversion auto:  ${task}$automatic_audio_conversion${nc}  │"
-        if [[ -z $default_conversion_format ]]; then echo -e "                  │  ${info}4)${nc} Play/Download a playlist    9) Edit mpm config (mpmrc) │  audio format:  ${task}unset  │"; \
+        if [[ -z $default_conversion_format ]]; then echo -e "                  │  ${info}4)${nc} Play/Download a playlist    9) Edit mpm config (mpmrc) │  audio format:  ${task}unset${nc}  │"; \
         elif [[ $default_conversion_format != flac ]]; then echo -e "                  │  ${info}4)${nc} Play/Download a playlist    9) Edit mpm config (mpmrc) │  audio format:    ${task}$default_conversion_format${nc}  │"; \
         elif [[ $default_conversion_format = flac ]]; then echo -e "                  │  ${info}4)${nc} Play/Download a playlist    9) Edit mpm config (mpmrc) │  audio format:   ${task}$default_conversion_format${nc}  │"; fi
         [[ $quit_after_task = yes ]] && echo -e "                  │  5) Load local folder/files     X) Exit                    │  quit after task: ${task}$quit_after_task${nc}  │"
