@@ -7,12 +7,15 @@ _ViewUrlInfo() {
     # but here it won't work because of the case statment right parenthese...
     # They will close the block before it finishes.
 
+    local Default_Titles stars
+
     viewUrlInfoPrompt=( "[M]aim menu" "[B]ack to audio options" \
                         "[B]ack to video options" "[D]ownload" \
                         "[P]lay" "[S]ave as" "[R]emove list: " )
 
     # let's play...
     stars=$(printf "%-54s" "*")
+    
     __audio() {
         if [[ -f $AUDIO_URLS ]]; then
             clear
@@ -76,6 +79,18 @@ _ViewUrlInfo() {
     __queue() {
         if (($(_GetLinesList -q) > 0)); then
             [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
+            
+            if [[ -f $DEFAULTM3UTITLES ]]; then
+                Default_Titles="$DEFAULTM3UTITLES"
+            elif [[ -f  $DEFAULTITLES ]]; then
+                Default_Titles="$DEFAULTITLES"
+            fi
+            
+            (( $(grep "" -c "$Default_Titles") != $(_GetLinesList -q) )) && {
+                printf '%s\n' " ${critical}Default list as been modified," \
+                " ${task}${b}Updating Default list titles...${nb}${nc}"
+                _GetMediaTitle -q > "$Default_Titles"
+            }
             clear
             __
             echo " ${info}ORDER |  DEFAULT PLAYLIST LINKS & TITLES.${nc}"
@@ -83,10 +98,10 @@ _ViewUrlInfo() {
             awk '$0 ~ /^https/{print $0}' "$QUEUE" \
             | cat -n && {
             __
-            cat -n "$DEFAULTITLES" 2>/dev/null || \
-            cat -n "$DEFAULTM3UTITLES"
+            cat -n "$Default_Titles"
             __
             }
+            
             while [[ -f $QUEUE ]]; do
                 unset {viewUrlInfoPrompt[1],viewUrlInfoPrompt[2],viewUrlInfoPrompt[7]}
                 echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
@@ -105,7 +120,7 @@ _ViewUrlInfo() {
                     ;;
                     p|P)
                         __
-                        read -rsn 1 -p "${info}"' Play [A]udio, [V]ideo?:'"${nc}" play
+                        read -rsn 1 -p "${info}"' Play [A]udio, [V]ideo?: '"${nc}" play
                         case "$play" in
                             a|A) _LoadAudio -q ;;
                             v|V) _LoadVideo -q ;;
@@ -114,10 +129,10 @@ _ViewUrlInfo() {
                     r|R) _Remove -q ;;
                     s|S)
                         if [[ -f $DEFAULTM3UTITLES \
-                        || -f  $DEFAULTITLES ]]; then
+                            || -f  $DEFAULTITLES ]]; then
                             _Save -q
                         else
-                            echo " ${task}${b}Updating playlist titles...${nb}${nc}"
+                            echo " ${task}${b}Updating Default list titles...${nb}${nc}"
                             _GetMediaTitle -q \
                             | tee -a "$DEFAULTITLES" \
                             | cat -n >/dev/null 2>&1

@@ -40,14 +40,14 @@ _CheckDependencies() {
         exit 1
     }
 
-    dirs=( "$audios_dir" "$playlists_dir" "$titles_dir" "$tmp_dir" "$videos_dir" )
-    
     if [[ ! -d $main_dir ]]; then
-        mkdir --parents "${dirs[@]}"
+            mkdir --parents {"$audios_dir","$playlists_dir","$titles_dir","$tmp_dir","$videos_dir"}
     else
-        for d in "${dirs[@]}"; do
-            mkdir --parents "$d"
-        done
+        [[ ! -d $audios_dir ]] && mkdir --parents "$audios_dir"
+        [[ ! -d $playlists_dir ]] && mkdir --parents "$playlists_dir"
+        [[ ! -d $titles_dir ]] && mkdir --parents "$titles_dir"
+        [[ ! -d $tmp_dir ]] && mkdir --parents "$tmp_dir"
+        [[ ! -d $videos_dir ]] && mkdir --parents "$videos_dir"
     fi
 
     [[ ! -f $QUEUE ]] && echo "#EXTM3U" > "$QUEUE"
