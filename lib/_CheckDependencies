@@ -41,7 +41,8 @@ _CheckDependencies() {
     }
 
     if [[ ! -d $main_dir ]]; then
-            mkdir --parents {"$audios_dir","$playlists_dir","$titles_dir","$tmp_dir","$videos_dir"}
+        mkdir --parents \
+        {"$audios_dir","$playlists_dir","$titles_dir","$tmp_dir","$videos_dir"}
     else
         [[ ! -d $audios_dir ]] && mkdir --parents "$audios_dir"
         [[ ! -d $playlists_dir ]] && mkdir --parents "$playlists_dir"
