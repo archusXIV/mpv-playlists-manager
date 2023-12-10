@@ -1,4 +1,4 @@
-mpm version 1.4-1
+mpm version 1.4-2
 
    MPV-PLAYLISTS-MANAGER usage:
 
@@ -54,6 +54,7 @@ mpm version 1.4-1
    2) Create/Add audio playlist:
       Same as above but for audio only, for example after downloading, ffmpeg will
       convert all .webm files into mp3, flac, ogg or wav if you wish (settings in mpmrc).
+      New since version 1.4-2, parallel package (if installed) will speed up audio conversion.
       Note that for youtube audio files the download is automatic (code 251 .webm).
 
    3) Save tmp/Del collection:

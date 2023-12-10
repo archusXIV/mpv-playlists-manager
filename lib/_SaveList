@@ -3,6 +3,7 @@
 
 # shellcheck disable=SC2154
 _SaveList() {
+    
     cd "$playlists_dir" || exit 1
     cp -f "$CURRENT_LIST" "$list"
     cp -f "$CURRENT_TITLES" "$titles_dir"/"$list".titles 2>/dev/null

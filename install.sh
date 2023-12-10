@@ -1,8 +1,8 @@
 #!/bin/bash
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
-# version 1.4-1
+# version 1.4-2
 
-_diffMpmrc() {
+_diffRc() {
     
     read -r -p ' Please enter your username: ' user
     local MPMRC_DIR MPMRC THEMERC
@@ -11,26 +11,34 @@ _diffMpmrc() {
     THEMERC="$MPMRC_DIR/themerc"
     
     if [[ -f $MPMRC && -f $THEMERC ]]; then
+
         diff -U 9999999 "$MPMRC" \
         ./mpmrc > "$MPMRC".diff
+
         diff -U 9999999 "$THEMERC" \
         ./themerc > "$THEMERC".diff
-        chown -R 1000:1000 "$MPMRC_DIR"
+
         printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc.diff created.\e[0m\n'
         printf '\e[38;2;206;34;30m~/.config/mpm/themerc.diff created.\e[0m\n'
-    elif [[ -f $MPMRC ]]; then
+
+    elif [[ -f $MPMRC && ! -f $THEMERC ]]; then
+
         diff -U 9999999 "$MPMRC" \
         ./mpmrc > "$MPMRC".diff
-        chown -R 1000:1000 "$MPMRC_DIR"
-        cp ./themerc "$THEMERC"
+
+        cp ./themerc "$MPMRC_DIR"
+
         printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc.diff created.\e[0m\n'
+        printf '\e[38;2;206;34;30m~/.config/mpm/themerc created.\e[0m\n'
     else
         mkdir --parents "$MPMRC_DIR"
-        cp ./mpmrc "$MPMRC"
-        cp ./themerc "$THEMERC"
-        chown -R 1000:1000 "$MPMRC_DIR"
+        cp ./{mpmrc,themerc} "$MPMRC_DIR"
+        
         printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc created, edit your settings there.\e[0m\n'
     fi
+
+    chown -R 1000:1000 "$MPMRC_DIR"
+
 }
 
 _install() {
@@ -46,7 +54,7 @@ _install() {
     chmod 755 /usr/local/lib/mpm/*
     chmod 755 /usr/local/bin/mpm
 
-    _diffMpmrc
+    _diffRc
     printf '%s\n' "for usage run: mpm --help"
 }
 

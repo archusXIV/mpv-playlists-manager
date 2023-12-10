@@ -4,10 +4,10 @@
 # shellcheck disable=SC2154
 _CheckDependencies() {
     ## Checking dependencies: softwares, directories and files.
-    declare -a deps=( "ffmpeg" "jq" "mpv" "youtube-dl" "yt-dlp" \
-                    "ueberzug" "wmctrl" "w3m" )
+    declare -a DEPS=( "ffmpeg" "jq" "mpv" "youtube-dl" "yt-dlp" \
+                    "parallel" "ueberzug" "wmctrl" "w3m" )
 
-    for dep in "${deps[@]:0:5}"; do
+    for dep in "${DEPS[@]:0:5}"; do
         [[ -z $(command -v "$dep") ]] && {
             printf '%s\n' " $dep isn 't installed,...exiting!"
             notify-send -t 0 -u critical "$dep isn 't installed,...exiting!"
@@ -15,13 +15,13 @@ _CheckDependencies() {
         }
     done
 
-    for optional in "${deps[@]:5:8}"; do
+    for optional in "${DEPS[@]:5:9}"; do
         [[ -z $(command -v "$optional") ]] && {
             printf '%s\n' " For better experience consider installing $optional."
-            sleep 3
+            sleep 4
         }
     done
-
+    
     # MPMEDITOR & FILEMANAGER must be defined in ~/.config/mpm/mpmrc
     [[ -z $MPMEDITOR ]] && {
         printf '%s\n' " The config EDITOR is not set...exiting!"
@@ -29,7 +29,7 @@ _CheckDependencies() {
         exit 1
     }
 
-    command -v "$FILEMANAGER" 2>/dev/null || {
+    command -v "$FILEMANAGER" >/dev/null || {
         printf '%s\n' " No terminal file manager found."
         notify-send -t 0 -u critical "No terminal file manager found."
         sleep 3
@@ -39,7 +39,7 @@ _CheckDependencies() {
         printf '%s\n' " Variable main_dir in mpmrc is not defined...exiting!!!"
         exit 1
     }
-
+    
     if [[ ! -d $main_dir ]]; then
         mkdir --parents \
         {"$audios_dir","$playlists_dir","$titles_dir","$tmp_dir","$videos_dir"}

@@ -83,7 +83,7 @@ _ChooseDownloadAudio() {
     if [[ -n $(find "$audios_dir"/"${list%.*}" -iname "*.webm") ]]; then
         echo " ${critical}ADVISORY: if you choose conversion, all downloaded webm"
         echo -e " files will be converted in the chosen format.${nc}\n"
-        find "$audios_dir"/"${list%.*}" -iname "*.webm" | sed 's,.*/,,' | cat -n
+        find "$audios_dir"/"${list%.*}" -iname "*.webm" | sed 's,.*/,,' | sort | cat -n
 
         if [[ $automatic_audio_conversion = yes ]]; then
             __

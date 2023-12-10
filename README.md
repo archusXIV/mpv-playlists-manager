@@ -31,8 +31,8 @@ mpm -v # prints mpm version
 ## Please update your mpmrc file on each release.
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
-## New in version 1.4-1
-- Added possibility to enter range(s) when selecting titles to stream/download
+## New in version 1.4-2
+- If installed, parallel will launch multiple ffmpeg instances to speed up audio conversion.
 
 ## Themes
 - A [themerc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/themerc) file is available to insert as many as you want "themes" instead of bloating up your mpmrc.
@@ -41,9 +41,6 @@ gruvbox theme.
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/gruvbox.png)
 
-chocolat-pistache theme.
-
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/chocolat-pistache.png)
 
 ```
 # edit your own theme in "$XDG_CONFIG_HOME"/mpm/themerc.
@@ -88,6 +85,7 @@ Requests and contributions? Why not, have fun.
 - [ffmpeg](https://ffmpeg.org/)
 - [jq](https://stedolan.github.io/jq/)
 - [mpv](https://mpv.io/)
+- [parallel](https://www.gnu.org/software/parallel/) (optional)
 - [ranger](https://github.com/ranger/ranger) (optional, see the help option for details)
 - [ueberzug](https://github.com/seebye/ueberzug) (optional) might be in your distro's repo
 - [vim](https://www.vim.org/) (set as the MPMEDITOR)

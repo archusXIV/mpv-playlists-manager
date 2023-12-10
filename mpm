@@ -19,32 +19,10 @@
 
 # shellcheck source=/dev/null
 # shellcheck disable=SC2034,SC2044,SC2086,SC2207,SC2154,SC2120,SC2119
-VERSION="v.1.4-1"
-
-## prompts blinking
-b=$'\e[5m';
-nb=$'\e[25m';
-
-# shellcheck source=/dev/null
-## First source our functions.
-for func in $(find /usr/local/lib/mpm -name "_*"); do
-    source "$func"
-done
 
 trap "_CleanTmpDir; exit" SIGTERM EXIT
 
-# avoids running multiple instances
-mpvmenu=$(basename $0)
-pids=($(pidof -x $mpvmenu))
-
-[[ ${#pids[@]} -gt 1 ]] && {
-    printf '%s\n' " ${critical}mpm is already running...${nc}"
-    notify-send -t 0 -u critical "mpm is already running..."
-    exit
-}
-
-# creates a blank line
-__() { printf '\n'; }
+VERSION="v.1.4-2"
 
 : "${XDG_CONFIG_HOME:-$HOME/.config}"
 MPMRCDIR="$XDG_CONFIG_HOME/mpm"
@@ -58,6 +36,29 @@ THEMERC="$MPMRCDIR/themerc"
 
 ## summon our personal settings
 source "$MPMRC"; source "$THEMERC"
+
+## prompts blinking
+b=$'\e[5m';
+nb=$'\e[25m';
+
+# shellcheck source=/dev/null
+## First source our functions.
+for func in $(find "$SCRIPTDIR"/mpv-playlists-manager/lib/_*); do
+    source "$func"
+done
+
+# avoids running multiple instances
+mpvmenu=$(basename $0)
+pids=($(pidof -x $mpvmenu))
+
+[[ ${#pids[@]} -gt 1 ]] && {
+    printf '%s\n' " ${critical}mpm is already running...${nc}"
+    notify-send -t 0 -u critical "mpm is already running..."
+    exit
+}
+
+# creates a blank line
+__() { printf '\n'; }
 
 # global variables
 supportedsites="https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md"

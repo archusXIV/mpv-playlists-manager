@@ -6,6 +6,7 @@ _ListsCount() {
 
     local UPD
     UPD=$(curl -sL "https://raw.githubusercontent.com/archusXIV/mpv-playlists-manager/main/version")
+
     [[ $UPD != "$VERSION" ]] && {
         printf '%s\n' " ${critical}${b}version $UPD available${nb}${nc}"
     }

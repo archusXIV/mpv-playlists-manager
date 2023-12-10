@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.4-1)
+# ~/.config/mpm/mpmrc (version 1.4-2)
 
 ########################################################
 #                                                      #
@@ -14,7 +14,7 @@
 ######### THE PLACE FOR YOUR PERSONAL SETTINGS #########
 #~~~~~ change the values, not the variables names ~~~~~#
 
-# shellcheck disable=SC2034,SC2016,SC2154
+# shellcheck disable=SC2034,SC2016,SC2154,SC1083
 : "${XDG_DATA_HOME:-$HOME/.local/share}"
 
 # change the main mpm window size. (the actual size is 1260x738)
@@ -27,7 +27,7 @@ function _ResizeWindow { wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738; } 2>/dev/null
 THEME="default"
 
 ## default editor
-MPMEDITOR="vim"
+MPMEDITOR="${EDITOR:-vim}"
 
 ## default file manager (can be any terminal file manager)
 ## used in option 5) Load local dir/files
@@ -72,53 +72,88 @@ default_conversion_format="mp3"
 # (will appear in main menu)
 quit_after_task="no"
 
-## FFMPEG SPECIFICS (audio conversion)
+##### FFMPEG SPECIFICS (audio conversion) #####
 # !!! You can change ffmpeg audio codec command line settings !!!
+# if the parallel package is installed then it will be used to launch
+# multiple conversions at once, else files will be converted one by one.
 function _mp3 {
-    find . -iname "*.webm" -exec \
-    bash -c 'FILE="$1"; \
-        ffmpeg -i "${FILE}" \
-        -acodec libmp3lame -ar 48000 -ab 320k \
-        -y "${FILE%.webm}.mp3";' _ '{}' \; 2>"$FFOP"
+    case "$1" in
+        -n)
+            find . -iname "*.webm" -exec \
+            bash -c 'FILE="$1"; \
+                ffmpeg -i "${FILE}" \
+                -acodec libmp3lame -ar 48000 -ab 320k \
+                -y "${FILE%.webm}.mp3";' _ '{}' \; 2>"$FFOP"
+        ;;
+        -p) # parallel will launch ffmpeg instances with a little delay
+            # so we don't clutter our cpu.
+            parallel --delay 2.5 -j+0 \
+            ffmpeg -y -i {} -qscale:a 0 {.}.mp3 ::: ./*.webm 2>"$FFOP"
+        ;;
+    esac
     find . -iname "*.webm" -exec rm {} \;
 }
 
 function _flac {
-    find . -iname "*.webm" -exec \
-    bash -c 'FILE="$1"; \
-        ffmpeg -i "${FILE}" \
-        -af aformat=s32:48000 \
-        -y "${FILE%.webm}.flac";' _ '{}' \; 2>"$FFOP"
+    case "$1" in
+        -n)
+            find . -iname "*.webm" -exec \
+            bash -c 'FILE="$1"; \
+                ffmpeg -i "${FILE}" \
+                -af aformat=s32:48000 \
+                -y "${FILE%.webm}.flac";' _ '{}' \; 2>"$FFOP"
+        ;;
+        -p)
+            parallel --delay 2.5 -j+0 \
+            ffmpeg -y -i {} -qscale:a 0 {.}.flac ::: ./*.webm 2>"$FFOP"
+        ;;
+    esac
     find . -iname "*.webm" -exec rm {} \;
 }
 
 function _wav {
-    find . -iname "*.webm" -exec \
-    bash -c 'FILE="$1"; \
-        ffmpeg -i "${FILE}" \
-        -acodec pcm_s32le -ar 48000 \
-        -y "${FILE%.webm}.wav";' _ '{}' \; 2>"$FFOP"
+    case "$1" in
+        -n)
+            find . -iname "*.webm" -exec \
+            bash -c 'FILE="$1"; \
+                ffmpeg -i "${FILE}" \
+                -acodec pcm_s32le -ar 48000 \
+                -y "${FILE%.webm}.wav";' _ '{}' \; 2>"$FFOP"
+        ;;
+        -p)
+            parallel --delay 2.5 -j+0 \
+            ffmpeg -y -i {} -qscale:a 0 {.}.wav ::: ./*.webm 2>"$FFOP"
+        ;;
+    esac
     find . -iname "*.webm" -exec rm {} \;
 }
 
 function _ogg {
-    find . -iname "*.webm" -exec \
-    bash -c 'FILE="$1"; \
-        ffmpeg -i "${FILE}" \
-        -acodec libvorbis -ar 48000 -ab 320k \
-        -y "${FILE%.webm}.ogg";' _ '{}' \; 2>"$FFOP"
+    case "$1" in
+        -n)
+            find . -iname "*.webm" -exec \
+            bash -c 'FILE="$1"; \
+                ffmpeg -i "${FILE}" \
+                -acodec libvorbis -ar 48000 -ab 320k \
+                -y "${FILE%.webm}.ogg";' _ '{}' \; 2>"$FFOP"
+        ;;
+        -p)
+            parallel --delay 2.5 -j+0 \
+            ffmpeg -y -i {} -qscale:a 0 {.}.ogg ::: ./*.webm 2>"$FFOP"
+        ;;
+    esac
     find . -iname "*.webm" -exec rm {} \;
 }
 
 ## MPV SPECIFICS
 # mpv audio online playing command line
 function _MpvAudioOptions {
-    # change mpv audio settings here if needed but do not remove $M3UFILE
+    # change mpv audio settings here if needed but do not remove "$1"
     mpv \
     --input-ipc-server='/tmp/mpvsocket' \
     --no-config \
     --term-playing-msg="${info}"'Title: ${media-title}'"${nc}" \
-    --ytdl-format='bestaudio/best' "$M3UFILE"
+    --ytdl-format='bestaudio/best' "$1"
 }
 
 # mpm video online playing command line
@@ -129,7 +164,7 @@ function _MpvVideoOptions {
     --cache \
     --no-config \
     --term-playing-msg="${info}"'Title: ${media-title}'"${nc}" \
-    --ytdl-format='299+251/298+251/137+251/136+251/best' "$M3UFILE"
+    --ytdl-format='299+251/298+251/137+251/136+251/best' "$1"
 }
 
 # change the yt-dlp downloader presets ONLY for youtube video downloads

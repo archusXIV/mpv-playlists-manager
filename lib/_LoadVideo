@@ -29,14 +29,10 @@ _LoadVideo() {
     printf '%s\n' " ${info}Playing: ${file}${nc}"
     
     # change mpv settings in ~/.config/mpm/mpmrc
-    _MpvVideoOptions
+    _MpvVideoOptions "$M3UFILE"
 
     if [[ -f "$VIDEO_URLS" ]]; then
         clear
-        __
-        echo " ${critical}Did you launched video(s) from the default list?"
-        echo " or from option 4) Load a playlist?"
-        echo " If so, type ${b}${task}Y${nb} ${critical}to preserve temporary video list${nc}"
         __
 
         declare -a TMP=( "$VIDEO_URLS" "$VIDEO_TITLES" "$FFOP" "$YTOP" "$CHOOSE1" )

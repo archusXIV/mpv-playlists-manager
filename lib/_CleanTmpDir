@@ -6,12 +6,9 @@
 # but let's ensure temporary files are removed before we exit out. 
 _CleanTmpDir() {
     if [[ $(_GetLinesList -q) -gt 0 ]]; then
-
-        [[ -f $DEFAULTITLES ]] && \
         cp "$DEFAULTITLES" "$DEFAULTM3UTITLES"
-        
-    elif [[ -f $DEFAULTM3UTITLES ]]; then
-        rm -f "$DEFAULTM3UTITLES"
+    else
+        rm -f "$DEFAULTM3UTITLES" 2>/dev/null
     fi
     rm -f {"$tmp_dir"/*,"$playlists_dir"/{1_Back_to_menu,*_tmp}} 2>/dev/null
 }

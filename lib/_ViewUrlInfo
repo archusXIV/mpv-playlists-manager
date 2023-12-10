@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2184
+# shellcheck disable=SC2154
 _ViewUrlInfo() {
     # Normaly in Bash nested functions use parentheses instead of curly braces,
     # but here it won't work because of the case statment right parenthese...
@@ -82,7 +82,7 @@ _ViewUrlInfo() {
             
             if [[ -f $DEFAULTM3UTITLES ]]; then
                 Default_Titles="$DEFAULTM3UTITLES"
-            elif [[ -f  $DEFAULTITLES ]]; then
+            else
                 Default_Titles="$DEFAULTITLES"
             fi
             
@@ -107,9 +107,6 @@ _ViewUrlInfo() {
                 echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
                 read -rsn 1 opt
                 case "$opt" in
-                    m|M)
-                        _Menu
-                    ;;
                     d|D)
                         __
                         read -rsn 1 -p "${info}"' Download [A]udio, [V]ideo:'"${nc}" get
@@ -117,6 +114,9 @@ _ViewUrlInfo() {
                             a|A) __; _GetAudio -q ;;
                             v|V) __; _GetVideo -q ;;
                         esac
+                    ;;
+                    m|M)
+                        _Menu
                     ;;
                     p|P)
                         __

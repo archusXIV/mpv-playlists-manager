@@ -31,4 +31,3 @@ _Prompt() {
 
     return "${status:-0}"
 }
-

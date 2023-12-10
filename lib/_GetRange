@@ -26,4 +26,3 @@ _GetRange() {
     rm "$list"_tmp
 
 }
-

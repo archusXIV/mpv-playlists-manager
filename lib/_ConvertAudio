@@ -13,7 +13,9 @@ _ConvertAudio() {
         printf '%s\n' " ${task}Default format set to $default_conversion_format.${nc}"
         __
         printf '%s\n' " ${info}Converting files in ${task}$default_conversion_format${b}...${nb}${nc}"
-        _"$default_conversion_format"
+        command -v parallel >/dev/null && \
+        _"$default_conversion_format" -p || \
+        _"$default_conversion_format" -n
     else
         # functions _mp3 _flac _wav & _ogg are in ~/.config/mpm/mpmrc
         __
@@ -27,22 +29,26 @@ _ConvertAudio() {
             1)
                 __
                 printf '%s\n' " ${info}Converting files in ${task}mp3${b}...${nb}${nc}"
-                _mp3
+                command -v parallel >/dev/null && \
+                _mp3 -p || _mp3 -n
             ;;
             2)
                 __
                 printf '%s\n' " ${info}Converting files in ${task}flac${b}...${nb}${nc}"
-                _flac
+                command -v parallel >/dev/null && \
+                _flac -p || _flac -n
             ;;
             3)
                 __
                 printf '%s\n' " ${info}Converting files in ${task}wav${b}...${nb}${nc}"
-                _wav
+                command -v parallel >/dev/null && \
+                _wav -p || _wav -n
             ;;
             4)
                 __
                 printf '%s\n' " ${info}Converting files in ${task}ogg${b}...${nb}${nc}"
-                _ogg
+                command -v parallel >/dev/null && \
+                _ogg -p || _ogg -n
             ;;
             *)
                 __
