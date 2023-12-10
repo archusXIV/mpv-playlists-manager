@@ -61,6 +61,7 @@ _ConvertAudio() {
 
     if [[ -z $(find "$audios_dir" -maxdepth 2 -name "*.webm" ) ]]; then
         __
+        rm -rf "$HOME"/.parallel 2>dev/null
         printf '%s\n' " ${info}Conversion done.${nc}"
         sleep 2
         clear
