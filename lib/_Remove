@@ -7,6 +7,7 @@ _Remove() {
     case "$1" in
         -a) rm -f $AUDIO_{URLS,TITLES} \
             {"$AUDIO_URLS"_origin,"$AUDIO_TITLES"_origin}
+            rm -rf "$HOME"/.parallel 2>/dev/null
             __
             echo " ${critical}Audio list removed...${nc}"
             sleep 3
@@ -15,6 +16,7 @@ _Remove() {
             rm -f {"$QUEUE"_origin,"$tmp_dir"/1} 2>/dev/null
             rm -f {"$DEFAULTITLES"_origin,"$DEFAULTITLES"} 2>/dev/null
             rm -f "$DEFAULTM3UTITLES" 2>/dev/null
+            rm -rf "$HOME"/.parallel 2>/dev/null
             __
             echo " ${critical}Default list cleared...${nc}"
             sleep 3

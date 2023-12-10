@@ -21,6 +21,7 @@ _GetCompleted() {
                 mv -f "$f"_origin "$f"
             done 2>/dev/null
 
+            rm -rf "$HOME"/.parallel 2>/dev/null
             _Menu
 
         }
