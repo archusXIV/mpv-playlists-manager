@@ -48,7 +48,7 @@ gruvbox theme.
 # AVAILABLE THEMES: default, blacksea, chocolat-pistache,
 # gruvbox, gotham, monokai, TokyoNight, solarized, zenburn
 
-THEME="chocolat-pistache"
+THEME="gruvbox"
 ```
 
 - To find out how to convert hex colors in rgb colors, open your prefered color picker
