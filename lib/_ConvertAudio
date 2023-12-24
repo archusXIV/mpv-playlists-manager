@@ -13,9 +13,11 @@ _ConvertAudio() {
         printf '%s\n' " ${task}Default format set to $default_conversion_format.${nc}"
         __
         printf '%s\n' " ${info}Converting files in ${task}$default_conversion_format${b}...${nb}${nc}"
-        command -v parallel >/dev/null && \
-        _"$default_conversion_format" -p || \
-        _"$default_conversion_format" -n
+        if [[ -n $(command -v parallel) ]] && [[ $use_parallel = yes ]]; then
+            _"$default_conversion_format" -p
+        else
+            _"$default_conversion_format" -n
+        fi
     else
         # functions _mp3 _flac _wav & _ogg are in ~/.config/mpm/mpmrc
         __
@@ -29,26 +31,38 @@ _ConvertAudio() {
             1)
                 __
                 printf '%s\n' " ${info}Converting files in ${task}mp3${b}...${nb}${nc}"
-                command -v parallel >/dev/null && \
-                _mp3 -p || _mp3 -n
+                if [[ -n $(command -v parallel) ]] && [[ $use_parallel = yes ]]; then
+                    _mp3 -p
+                else
+                    _mp3 -n
+                fi
             ;;
             2)
                 __
                 printf '%s\n' " ${info}Converting files in ${task}flac${b}...${nb}${nc}"
-                command -v parallel >/dev/null && \
-                _flac -p || _flac -n
+                if [[ -n $(command -v parallel) ]] && [[ $use_parallel = yes ]]; then
+                    _flac -p
+                else
+                    _flac -n
+                fi
             ;;
             3)
                 __
                 printf '%s\n' " ${info}Converting files in ${task}wav${b}...${nb}${nc}"
-                command -v parallel >/dev/null && \
-                _wav -p || _wav -n
+                if [[ -n $(command -v parallel) ]] && [[ $use_parallel = yes ]]; then
+                    _wav -p
+                else
+                    _wav -n
+                fi
             ;;
             4)
                 __
                 printf '%s\n' " ${info}Converting files in ${task}ogg${b}...${nb}${nc}"
-                command -v parallel >/dev/null && \
-                _ogg -p || _ogg -n
+                if [[ -n $(command -v parallel) ]] && [[ $use_parallel = yes ]]; then
+                    _ogg -p
+                else
+                    _ogg -n
+                fi
             ;;
             *)
                 __

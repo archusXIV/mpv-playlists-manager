@@ -24,7 +24,7 @@ _GetVideoDownload() {
             # downloader presets described in ~/.config/mpm/mpmrc
             # we have to differenciate titles files because of _GetLinkTitle function.
             if [[ $TITLES = "$DEFAULTITLES" ]]; then
-                if [[ $(youtube-dl --skip-download --get-title "$getVideoUrl") =~ '/' ]]; then
+                if [[ $(_YtdlGetTitle "$getVideoUrl") =~ '/' ]]; then
                     youtube-dl --format "$code" "${ytdlPreset_FS[@]}" \
                     "${ytdlPreset_X[@]}" "$getVideoUrl"
                 else
@@ -33,7 +33,7 @@ _GetVideoDownload() {
                     "${ytdlPreset_X[@]}" "$getVideoUrl"
                 fi
             else
-                if [[ $(youtube-dl --skip-download --get-title "$getVideoUrl") =~ '/' ]]; then
+                if [[ $(_YtdlGetTitle "$getVideoUrl") =~ '/' ]]; then
                     youtube-dl --format "$code" "${ytdlPreset_FS[@]}" \
                     "${ytdlPreset_X[@]}" "$getVideoUrl"
                 else
@@ -44,7 +44,7 @@ _GetVideoDownload() {
             fi
         else
             if [[ $TITLES = "$DEFAULTITLES" ]]; then
-                if [[ $(youtube-dl --skip-download --get-title "$getVideoUrl") =~ '/' ]]; then
+                if [[ $(_YtdlGetTitle "$getVideoUrl") =~ '/' ]]; then
                     youtube-dl --format "$code" "${ytdlPreset_FS[@]}" \
                     "${ytdlPreset_NC[@]}" "$getVideoUrl"
                 else
@@ -53,7 +53,7 @@ _GetVideoDownload() {
                     "${ytdlPreset_NC[@]}" "$getVideoUrl"
                 fi
             else
-                if [[ $(youtube-dl --skip-download --get-title "$getVideoUrl") =~ '/' ]]; then
+                if [[ $(_YtdlGetTitle "$getVideoUrl") =~ '/' ]]; then
                     youtube-dl --format "$code" "${ytdlPreset_FS[@]}" \
                     "${ytdlPreset_NC[@]}" "$getVideoUrl"
                 else

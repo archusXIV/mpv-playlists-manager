@@ -1,0 +1,38 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_IfWebmFiles() {
+    if [[ -n $(find . -iname "*.webm") ]]; then
+
+        echo " ${critical}ADVISORY: if you choose conversion, all downloaded files (.webm)"
+        echo -e " will be converted in the chosen format.${nc}\n"
+        find . -iname "*.webm" | sed 's,.*/,,' | sort | cat -n
+
+        if [[ $automatic_audio_conversion = yes ]]; then
+            __
+            printf '%s\n' " ${task}Automatic audio conversion enabled.${nc}"
+            sleep 2
+            [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+            && _ConvertAudio && _GetCompleted -a
+            [[ $M3UFILE = "$playlists_dir"/"$list" ]] \
+            && _ConvertAudio && _DownloadCompleted
+        else
+            __
+            _Prompt " ${info}Proceed with conversion?: ${nc}" || {
+                [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+                && _GetCompleted -a
+                [[ $M3UFILE = "$playlists_dir"/"$list" ]] && _DownloadCompleted
+            }
+            [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+            && _ConvertAudio && _GetCompleted -a
+            [[ $M3UFILE = "$playlists_dir"/"$list" ]] \
+            && _ConvertAudio && _DownloadCompleted
+        fi
+
+    else
+        [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+        && _GetCompleted -a
+        [[ $M3UFILE = "$playlists_dir"/"$list" ]] && _DownloadCompleted
+    fi
+}

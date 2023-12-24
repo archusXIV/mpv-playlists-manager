@@ -1,11 +1,11 @@
-mpm version 1.4-2
+mpm version 1.4-3
 
    MPV-PLAYLISTS-MANAGER usage:
 
    !!! YOU CAN CHANGE MPM DIRECTORIES BY EDITING THE VARIABLES IN THE MPMRC FILE !!!
    By default "$HOME"/.local/share/
    Dependencies: ffmpeg, jq, mpv, vim, youtube-dl, yt-dlp (for better results).
-   Optionals: ranger (can be any terminal file manager), ueberzug, wmctrl, w3m.
+   Optionals: parallel, ranger (can be any terminal file manager), ueberzug, wmctrl, w3m.
    We possibly use some options to directly edit, load a playlist:
       . mpm -c: opens ~/.config/mpm/mpmrc
       . mpm -e: opens the playlist edition function

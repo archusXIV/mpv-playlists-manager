@@ -14,10 +14,7 @@ _GetMediaTitle() {
     mapfile -t MEDIATITLES < <(grep '^https' "$LIST")
 
     for line in "${MEDIATITLES[@]}"; do
-        youtube-dl \
-        --skip-download \
-        --get-title \
-        "${ytdlPreset_DW[@]}" "$line" 2>/dev/null
+        _YtdlGetTitle "$line" 2>/dev/null
     done
 
 }

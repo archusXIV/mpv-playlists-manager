@@ -7,7 +7,7 @@ _ViewUrlInfo() {
     # but here it won't work because of the case statment right parenthese...
     # They will close the block before it finishes.
 
-    local Default_Titles stars
+    local defaultTitles stars
 
     viewUrlInfoPrompt=( "[M]aim menu" "[B]ack to audio options" \
                         "[B]ack to video options" "[D]ownload" \
@@ -81,15 +81,15 @@ _ViewUrlInfo() {
             [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
             
             if [[ -f $DEFAULTM3UTITLES ]]; then
-                Default_Titles="$DEFAULTM3UTITLES"
+                defaultTitles="$DEFAULTM3UTITLES"
             else
-                Default_Titles="$DEFAULTITLES"
+                defaultTitles="$DEFAULTITLES"
             fi
             
-            (( $(grep "" -c "$Default_Titles") != $(_GetLinesList -q) )) && {
+            (( $(grep "" -c "$defaultTitles") != $(_GetLinesList -q) )) && {
                 printf '%s\n' " ${critical}Default list as been modified," \
                 " ${task}${b}Updating Default list titles...${nb}${nc}"
-                _GetMediaTitle -q > "$Default_Titles"
+                _GetMediaTitle -q > "$defaultTitles"
             }
             clear
             __
@@ -98,7 +98,7 @@ _ViewUrlInfo() {
             awk '$0 ~ /^https/{print $0}' "$QUEUE" \
             | cat -n && {
             __
-            cat -n "$Default_Titles"
+            cat -n "$defaultTitles"
             __
             }
             

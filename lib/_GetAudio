@@ -19,9 +19,9 @@ _GetAudio() {
             TITLES="$AUDIO_TITLES"
         ;;
         -l)
+            AUDIO_DIR="$audios_dir"/"${list%.*}"
             M3UFILE="$playlists_dir"/"$list"
             TITLES="$titles_dir"/"$list".titles
-            AUDIO_DIR="$audios_dir"/"${list%.*}"
         ;;
         -q)
             if [[ ! -f $DEFAULTITLES && \
@@ -46,25 +46,6 @@ _GetAudio() {
     cp -f "$TITLES" "$TITLES"_origin
     clear
 
-    __GetAudioDownloadMessages() (
-
-        [[ $M3UFILE = "$AUDIO_URLS" ]] && {
-            printf '%s\n' " ${info}$(_GetLinesList -a) audio file(s) left to download." \
-            " Downloading:  $(_GetLinkTitle -a)${nc}"
-        }
-
-        [[ $M3UFILE = "$playlists_dir"/"$list" ]] && {
-            printf '%s\n' " ${info}$(_GetLinesList -l) audio file(s) left to download." \
-            " Downloading:  $(_GetLinkTitle -l)${nc}"
-        }
-
-        [[ $M3UFILE = "$QUEUE" ]] && {
-            printf '%s\n' " ${info}$(_GetLinesList -q) audio file(s) left to download." \
-            " Downloading:  $(_GetLinkTitle -q)${nc}"
-        }
-
-    )
-
     [[ ! -d $AUDIO_DIR ]] && {
         mkdir --parents "$AUDIO_DIR"
         cd "$AUDIO_DIR"
@@ -74,37 +55,6 @@ _GetAudio() {
 
     echo -e " ${info}Done\n${nc}"
 
-    if [[ -n $(find . -iname "*.webm") ]]; then
-
-        echo " ${critical}ADVISORY: if you choose conversion, all downloaded files (.webm)"
-        echo -e " will be converted in the chosen format.${nc}\n"
-        find . -iname "*.webm" | sed 's,.*/,,' | sort | cat -n
-
-        if [[ $automatic_audio_conversion = yes ]]; then
-            __
-            printf '%s\n' " ${task}Automatic audio conversion enabled.${nc}"
-            sleep 2
-            [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
-            && _ConvertAudio && _GetCompleted -a
-            [[ $M3UFILE = "$playlists_dir"/"$list" ]] \
-            && _ConvertAudio && _DownloadCompleted
-        else
-            __
-            _Prompt " ${info}Proceed with conversion?: ${nc}" || {
-                [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
-                && _GetCompleted -a
-                [[ $M3UFILE = "$playlists_dir"/"$list" ]] && _DownloadCompleted
-            }
-            [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
-            && _ConvertAudio && _GetCompleted -a
-            [[ $M3UFILE = "$playlists_dir"/"$list" ]] \
-            && _ConvertAudio && _DownloadCompleted
-        fi
-
-    else
-        [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
-        && _GetCompleted -a
-        [[ $M3UFILE = "$playlists_dir"/"$list" ]] && _DownloadCompleted
-    fi
+    _IfWebmFiles
 
 }

@@ -39,5 +39,4 @@ _DownloadCompleted() {
         rm -rf "$HOME"/.parallel 2>/dev/null
         [[ $quit_after_task = yes ]] && exit || _Menu
     fi
-    
 }

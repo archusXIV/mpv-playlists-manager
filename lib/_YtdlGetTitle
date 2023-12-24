@@ -1,0 +1,4 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_YtdlGetTitle() { youtube-dl --skip-download --get-title "$1"; }

@@ -3,7 +3,8 @@
 
 # shellcheck disable=SC2154,SC2086
 _ReplaceSpaces() {
-
+    # the select loop will not parse correctly
+    # if we don't replace spaces with underscores
     case "$1" in
         -l)
             find {"$AUDIOS","$VIDEOS"} -maxdepth 1 \

@@ -3,14 +3,11 @@
 
 # shellcheck disable=SC2154
 _GetLinesList() {
-
     case "$1" in
         -a) FILE="$AUDIO_URLS" ;;
         -l) FILE="$playlists_dir"/"$list" ;;
         -q) FILE="$QUEUE" ;;
         -v) FILE="$VIDEO_URLS" ;;
     esac
-
     grep -c '^https' "$FILE" 2>/dev/null
-    
 }

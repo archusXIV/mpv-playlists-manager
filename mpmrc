@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.4-2)
+# ~/.config/mpm/mpmrc (version 1.4-3)
 
 ########################################################
 #                                                      #
@@ -76,6 +76,8 @@ quit_after_task="no"
 # !!! You can change ffmpeg audio codec command line settings !!!
 # if the parallel package is installed then it will be used to launch
 # multiple conversions at once, else files will be converted one by one.
+use_parallel="yes"
+
 function _mp3 {
     case "$1" in
         -n)
