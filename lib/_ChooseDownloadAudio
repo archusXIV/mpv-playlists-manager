@@ -4,7 +4,7 @@
 # shellcheck disable=SC2013,SC2154,SC2143,SC2076,SC2164
 _ChooseDownloadAudio() {
 
-    local counter
+    local counter M3UFILE
     cd "$playlists_dir" || exit 1
     clear
     _TitlesListCompare
@@ -14,8 +14,9 @@ _ChooseDownloadAudio() {
     cp -f "$list" "$list"_origin
     mkdir --parents "$audios_dir"/"${list%.*}" \
     && cd "$audios_dir"/"${list%.*}"
-    
-    readarray -t SELECTEDAUDIO < "$CHOOSE1"
+
+    M3UFILE="$CHOOSE1"
+    readarray -t SELECTEDAUDIO < "$M3UFILE"
     counter="${#SELECTEDAUDIO[@]}"
     
     __ChooseDownloadAudioMessage() (
@@ -80,26 +81,6 @@ _ChooseDownloadAudio() {
     echo -e " ${info}Done${nc}\n"
     clear
 
-    if [[ -n $(find "$audios_dir"/"${list%.*}" -iname "*.webm") ]]; then
-        echo " ${critical}ADVISORY: if you choose conversion, all downloaded webm"
-        echo -e " files will be converted in the chosen format.${nc}\n"
-        find "$audios_dir"/"${list%.*}" -iname "*.webm" | sed 's,.*/,,' | sort | cat -n
-
-        if [[ $automatic_audio_conversion = yes ]]; then
-            __
-            printf '%s\n' " ${task}Automatic audio conversion enabled.${nc}"
-            sleep 2
-            _ConvertAudio && _DownloadCompleted
-        else
-            __
-            _Prompt " ${info}Proceed with conversion?: ${nc}" || {
-                _DownloadCompleted
-            }
-            _ConvertAudio && _DownloadCompleted
-        fi
-
-    else
-        _DownloadCompleted
-    fi
+    _IfWebmFiles
 
 }

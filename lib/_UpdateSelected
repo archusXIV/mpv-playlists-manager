@@ -7,11 +7,10 @@ _UpdateSelected() {
     cd "$playlists_dir" || exit 1
     # let's remove downloaded links from the original file
     # and sending the other ones in a second temporary file...
-    for line in $(grep '^https' "$CHOOSE1"); do
-        grep -v "${line}" "$list" >> "$CHOOSE2"
-    done
-    unset line
-
+    grep -v "$(grep '^https' "$CHOOSE1")" "$list" >> "$CHOOSE2"
+    # removing possible duplicates.
+    perl -i -ne 'print if ! $a{$_}++' "$CHOOSE2"
+    
     # ...that we now rename with the original file name.
     mv -f "$CHOOSE2" "$list"
     rm "$CHOOSE1"
