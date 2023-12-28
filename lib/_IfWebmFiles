@@ -22,7 +22,8 @@ _IfWebmFiles() {
             _Prompt " ${info}Proceed with conversion?: ${nc}" || {
                 [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
                 && _GetCompleted -a
-                [[ $M3UFILE = "$playlists_dir"/"$list" ]] && _DownloadCompleted
+                [[ $M3UFILE = "$playlists_dir"/"$list" ]] || [[ $M3UFILE = "$CHOOSE1" ]] \
+                && _DownloadCompleted
             }
             [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
             && _ConvertAudio && _GetCompleted -a
