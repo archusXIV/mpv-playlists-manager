@@ -13,7 +13,7 @@ _ConvertAudio() {
         printf '%s\n' " ${task}Default format set to $default_conversion_format.${nc}"
         __
         printf '%s\n' " ${info}Converting files in ${task}$default_conversion_format${b}...${nb}${nc}"
-        if [[ -n $(command -v parallel) ]] && [[ $use_parallel = yes ]]; then
+        if [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
             _"$default_conversion_format" -p
         else
             _"$default_conversion_format" -n
@@ -23,54 +23,28 @@ _ConvertAudio() {
         __
         printf '%s\n' " ${task}Default format isn't set." \
         " Press Enter to abort conversion.${nc}"
+        formats=( "mp3" "flac" "wav" "ogg" )
         __
         read -rn1 \
-        -p "${info}"' Select an output format [1=mp3] [2=flac] [3=wav] [4=ogg]: '"${nc}" conv
+        -p "${info}"' Select an output format [1=mp3] [2=flac] [3=wav] [4=ogg]: '"${nc}" choice
+        
+        ((choice--))
+        case "$choice" in
+            [0-3])  __
+                    printf '%s\n' " ${info}Converting files in ${task}${formats[${choice}]}${b}...${nb}${nc}"
 
-        case "$conv" in
-            1)
-                __
-                printf '%s\n' " ${info}Converting files in ${task}mp3${b}...${nb}${nc}"
-                if [[ -n $(command -v parallel) ]] && [[ $use_parallel = yes ]]; then
-                    _mp3 -p
-                else
-                    _mp3 -n
-                fi
+                    if [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
+                        _"${formats[${choice}]}" -p
+                    else
+                        _"${formats[${choice}]}" -n
+                    fi
             ;;
-            2)
-                __
-                printf '%s\n' " ${info}Converting files in ${task}flac${b}...${nb}${nc}"
-                if [[ -n $(command -v parallel) ]] && [[ $use_parallel = yes ]]; then
-                    _flac -p
-                else
-                    _flac -n
-                fi
-            ;;
-            3)
-                __
-                printf '%s\n' " ${info}Converting files in ${task}wav${b}...${nb}${nc}"
-                if [[ -n $(command -v parallel) ]] && [[ $use_parallel = yes ]]; then
-                    _wav -p
-                else
-                    _wav -n
-                fi
-            ;;
-            4)
-                __
-                printf '%s\n' " ${info}Converting files in ${task}ogg${b}...${nb}${nc}"
-                if [[ -n $(command -v parallel) ]] && [[ $use_parallel = yes ]]; then
-                    _ogg -p
-                else
-                    _ogg -n
-                fi
-            ;;
-            *)
-                __
-                printf '%s\n' " ${critical}Conversion aborted...${nc}"
+            *)  __; printf '%s\n' " ${critical}Wrong format or conversion aborted...${nc}"
                 sleep 3
                 clear
             ;;
         esac
+        
     fi
 
     if [[ -z $(find "$audios_dir" -maxdepth 2 -name "*.webm" ) ]]; then

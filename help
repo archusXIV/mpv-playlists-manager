@@ -13,20 +13,20 @@ mpm version 1.4-4
       . mpm -l: opens the playlist load (online) function
       . mpm -p: opens local files or directory function
       . mpm -v: echoes mpm version and exit
-   
+
    Changing the "theme" in ~/.config/mpm/themerc:
       Variables: nc=normal text, critical=warnings, info=normal prompt
       mtitle=menus title, task=infos like: direct download, audio conversion type etc...
       Colors of warnings, prompts etc... can be changed in you mpmrc file with
       shell colors syntax and RGB/HEX values. Two methods are provided.
       Documentation here: https://misc.flogisoft.com/bash/tip_colors_and_formatting
-        
+
    a) Using console_colors (default) will always use your current ~/.Xresources colors
       if you have set them or if you use a modern terminal with colors settings available.
-       
+
    b) Using custom rgb colors (206;34;30) and hex (#ff00ff) so you can set your own
       "theme" with existing ones as models.
-    
+
    Usage:
 
    I) Main menu:
@@ -91,7 +91,7 @@ mpm version 1.4-4
    6) View default playlist:
       All links we enter are added in this file (default.m3u), at least we can save,
       download, play it and view titles in case we closed the program and forgot them.
-      
+
    7) Clear all tmp lists:
       Sometimes it is preferable to clear everything and restart from the bottom ground.
 
