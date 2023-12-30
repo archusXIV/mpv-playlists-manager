@@ -43,7 +43,7 @@ nb=$'\e[25m';
 
 # shellcheck source=/dev/null
 ## First source our functions.
-for func in $(find /usr/local/lib/_*); do
+for func in $(find /usr/local/lib/mpm/_*); do
     source "$func"
 done
 
