@@ -1,4 +1,10 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-_YtdlGetTitle() { youtube-dl --skip-download --get-title "$1"; }
+# shellcheck disable=SC2154
+_YtdlGetTitle() {
+    youtube-dl \
+    --skip-download \
+    --get-title \
+    "${ytdlPreset_DW[@]}" "$1"
+}

@@ -23,7 +23,7 @@ _CopyVideo() {
 
                 printf '%s\n' " ${info}Getting titles & links from playlist: $VideoPlaylistTitle..." \
                 "${b} Please be patient.${nb}${nc}"
-                youtube-dl --get-title "${ytdlPreset_DW[@]}" "$copyVideoUrl" \
+                _YtdlGetTitle "$copyVideoUrl" \
                 | tee -a "$VIDEO_TITLES" >> "$DEFAULTITLES"
                 _GetYoutubePlaylistUrls -v
                 _RemoveCrap
@@ -45,14 +45,14 @@ _CopyVideo() {
                     sed -i '$d' "$VIDEO_URLS"
                     _RemoveCrap
                     sleep 7
-                    [[ $(_GetLinesList -v) -eq 0 ]] && _Menu
+                    [[ $(_GetLinesList -v) -eq 0 ]] && return
 
                 else
 
                     echo "$copyVideoUrl" >> "$QUEUE"
                     echo -e " ${info}Getting video title...${nc}\n"
-                    youtube-dl --get-title "${ytdlPreset_DW[@]}" \
-                    "$copyVideoUrl" | tee -a "$VIDEO_TITLES" >> "$DEFAULTITLES"
+                    _YtdlGetTitle "$copyVideoUrl" \
+                    | tee -a "$VIDEO_TITLES" >> "$DEFAULTITLES"
                     _RemoveCrap
 
                 fi
@@ -64,7 +64,7 @@ _CopyVideo() {
             _ResizeWindow
             clear
             __
-            [[ -f $VIDEO_URLS ]] && \
+            [[ -s $VIDEO_URLS ]] && \
             echo -e " ${info}Video list:   $(_GetLinesList -v) url(s)${nc}\n"
             __
             echo -e "                                                    ${mtitle}::VIDEO OPTIONS::${nc}"

@@ -23,7 +23,7 @@ _CopyAudio() {
 
                 printf '%s\n' " ${info}Getting titles & links from playlist: $AudioPlaylistTitle..." \
                 "${b} Please be patient.${nb}${nc}"
-                youtube-dl --get-title "${ytdlPreset_DW[@]}" "$copyAudioUrl" \
+                _YtdlGetTitle "$copyAudioUrl" \
                 | tee -a "$AUDIO_TITLES" >> "$DEFAULTITLES"
                 _GetYoutubePlaylistUrls -a
                 _RemoveCrap
@@ -45,14 +45,14 @@ _CopyAudio() {
                     sed -i '$d' "$AUDIO_URLS"
                     _RemoveCrap
                     sleep 7
-                    [[ $(_GetLinesList -a) -eq 0 ]] && _Menu
+                    [[ $(_GetLinesList -a) -eq 0 ]] && return
 
                 else
 
                     echo "$copyAudioUrl" >> "$QUEUE"
                     echo -e " ${info}Getting audio title...${nc}\n"
-                    youtube-dl --get-title "${ytdlPreset_DW[@]}" \
-                    "$copyAudioUrl" | tee -a "$AUDIO_TITLES" >> "$DEFAULTITLES"
+                    _YtdlGetTitle "$copyAudioUrl" \
+                    | tee -a "$AUDIO_TITLES" >> "$DEFAULTITLES"
                     _RemoveCrap
 
                 fi
@@ -64,7 +64,7 @@ _CopyAudio() {
             _ResizeWindow
             clear
             __
-            [[ -f $AUDIO_URLS ]] && \
+            [[ -s $AUDIO_URLS ]] && \
             echo -e " ${info}Audio list:   $(_GetLinesList -a) url(s)${nc}"
             __
             echo -e "                                                    ${mtitle}::AUDIO OPTIONS::${nc}"

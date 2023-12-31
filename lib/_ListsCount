@@ -25,9 +25,9 @@ _ListsCount() {
         __
     fi
 
-    [[ -f $AUDIO_URLS ]] && (($(_GetLinesList -a) > 0)) && \
+    [[ -s $AUDIO_URLS ]] && \
         echo -e " ${info}Audio list:   $(_GetLinesList -a) url(s)${nc}"
-    [[ -f $VIDEO_URLS ]] && (($(_GetLinesList -v) > 0)) && \
+    [[ -s $VIDEO_URLS ]] && \
         echo -e " ${info}Video list:   $(_GetLinesList -v) url(s)${nc}\n"
 
 }
