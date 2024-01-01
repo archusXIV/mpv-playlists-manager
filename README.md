@@ -33,6 +33,7 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge 
 
 ## New in version 1.4-5
 - The help file is now readable when typing 'x' in main menu.
+
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.4-5.png)
 - If installed, [parallel](https://www.gnu.org/software/parallel/) will launch multiple ffmpeg instances to speed up audio conversion.
 - Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L79) file
