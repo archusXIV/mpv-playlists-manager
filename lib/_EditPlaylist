@@ -20,7 +20,7 @@ _EditPlaylist() {
                 c|C) break ;;
                 b|B) _Menu ;;
                 q|Q)
-                    if [[ -f "$AUDIO_URLS" || -f "$VIDEO_URLS" ]]; then
+                    if [[ -s "$AUDIO_URLS" || -s "$VIDEO_URLS" ]]; then
                         _SaveOnExit
                     else
                         clear
