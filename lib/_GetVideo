@@ -41,24 +41,18 @@ _GetVideo() {
     clear
 
     __ChooseFormatMessages() (
-        [[ $M3UFILE = "$QUEUE" ]] && {
-            printf '%s\n' " ${info}Choose a format code for $(_GetLinkTitle -q)." \
-            " eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
-        }
-        [[ $M3UFILE = "$VIDEO_URLS" ]] && {
-            printf '%s\n' " ${info}Choose a format code for $(_GetLinkTitle -v)." \
-            " eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
-        }
+        printf '%s\n' " ${info}Choose a format code for $(sed -n '1p' "$TITLES")." \
+        " eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
     )
 
     __DownloadMessages() (
         [[ $TITLES = "$DEFAULTITLES" ]] && {
             printf '%s\n' " ${info}$(_GetLinesList -q) video file(s) left to download." \
-            " Downloading:  $(_GetLinkTitle -q)${nc}"
+            " Downloading:  $(sed -n '1p' "$TITLES")${nc}"
         }
         [[ $TITLES = "$VIDEO_TITLES" ]] && {
             printf '%s\n' " ${info}$(_GetLinesList -v) video file(s) left to download." \
-            " Downloading:  $(_GetLinkTitle -v)${nc}"
+            " Downloading:  $(sed -n '1p' "$TITLES")${nc}"
         }
     )
 

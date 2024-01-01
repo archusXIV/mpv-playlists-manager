@@ -11,11 +11,11 @@ _GetAudioDownload() {
         if [[ $(youtube-dl -F "${ytdlPreset_DW[@]}" "$getAudioUrl" \
             | grep '^251') ]]; then
             __
-            if [[ $(_YtdlGetTitle "$getAudioUrl") =~ '/' ]]; then
+            if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
                 youtube-dl --format 251 "${ytdlPreset_FS[@]}" \
                 "${ytdlPreset_NC[@]}" "$getAudioUrl"
             else
-                youtube-dl --output "$(_YtdlGetTitle "$getAudioUrl").%(ext)s" \
+                youtube-dl --output "$(sed -n '1p' "$TITLES").%(ext)s" \
                 --format 251 "${ytdlPreset_NC[@]}" "$getAudioUrl"
             fi
         else
@@ -26,11 +26,11 @@ _GetAudioDownload() {
             read -r code
             clear
             __
-            if [[ $(_YtdlGetTitle "$getAudioUrl") =~ '/' ]]; then
+            if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
                 youtube-dl --format "$code" "${ytdlPreset_FS[@]}" \
                 "${ytdlPreset_NC[@]}" "$getAudioUrl"
             else
-                youtube-dl --output "$(_YtdlGetTitle "$getAudioUrl").%(ext)s" \
+                youtube-dl --output "$(sed -n '1p' "$TITLES").%(ext)s" \
                 --format "$code" "${ytdlPreset_NC[@]}" "$getAudioUrl"
             fi
         fi

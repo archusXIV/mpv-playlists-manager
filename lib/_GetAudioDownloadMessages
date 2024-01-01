@@ -6,17 +6,20 @@ _GetAudioDownloadMessages() {
 
     [[ $M3UFILE = "$AUDIO_URLS" ]] && {
         printf '%s\n' " ${info}$(_GetLinesList -a) audio file(s) left to download." \
-        " Downloading:  $(_GetLinkTitle -a)${nc}"
+        " Downloading:  $(_GetLinkTitle -a)" \
+        " ${task}Searching for webm format...${nc}"
     }
 
     [[ $M3UFILE = "$playlists_dir"/"$list" ]] && {
         printf '%s\n' " ${info}$(_GetLinesList -l) audio file(s) left to download." \
-        " Downloading:  $(_GetLinkTitle -l)${nc}"
+        " Downloading:  $(_GetLinkTitle -l)" \
+        " ${task}Searching for webm format...${nc}"
     }
 
     [[ $M3UFILE = "$QUEUE" ]] && {
         printf '%s\n' " ${info}$(_GetLinesList -q) audio file(s) left to download." \
-        " Downloading:  $(_GetLinkTitle -q)${nc}"
+        " Downloading:  $(_GetLinkTitle -q)" \
+        " ${task}Searching for webm format...${nc}"
     }
 
 }

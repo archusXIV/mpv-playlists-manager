@@ -6,7 +6,7 @@
 # but let's ensure temporary files are removed before we exit out. 
 _CleanTmpDir() {
     if [[ $(_GetLinesList -q) -gt 0 ]]; then
-        cp "$DEFAULTITLES" "$DEFAULTM3UTITLES"
+        cp "$DEFAULTITLES" "$DEFAULTM3UTITLES" 2>/dev/null
     else
         rm -f "$DEFAULTM3UTITLES" 2>/dev/null
     fi
