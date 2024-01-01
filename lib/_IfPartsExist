@@ -28,6 +28,7 @@ _IfPartsExist() {
                         "$VIDEO_URLS" "$VIDEO_TITLES" "$DEFAULTITLES" )
 
             for f in "${tempFiles[@]}"; do
+                [[ ! -f $f ]] && continue
                 mv -f "$f"_origin "$f"
             done 2>/dev/null
 
