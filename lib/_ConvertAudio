@@ -23,21 +23,26 @@ _ConvertAudio() {
         __
         printf '%s\n' " ${task}Default format isn't set." \
         " Press Enter to abort conversion.${nc}"
-        formats=( "mp3" "flac" "wav" "ogg" )
+        declare -A formats=(
+            ["1"]="mp3"
+            ["2"]="flac"
+            ["3"]="wav"
+            ["4"]="ogg"
+        )
         __
         read -rn1 \
-        -p "${info}"' Select an output format [1=mp3] [2=flac] [3=wav] [4=ogg]: '"${nc}" choice
+        -p "${info}"' Select an output format [1=mp3] [2=flac] [3=wav] [4=ogg]: '"${nc}"
         
-        ((choice--))
-        case "$choice" in
-            [0-3])  __
-                    printf '%s\n' " ${info}Converting files in ${task}${formats[${choice}]}${b}...${nb}${nc}"
+        case "$REPLY" in
+            [1-4])  
+                __
+                printf '%s\n' " ${info}Converting files in ${task}${formats[${REPLY}]}${b}...${nb}${nc}"
 
-                    if [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
-                        _"${formats[${choice}]}" -p
-                    else
-                        _"${formats[${choice}]}" -n
-                    fi
+                if [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
+                    _"${formats[${REPLY}]}" -p
+                else
+                    _"${formats[${REPLY}]}" -n
+                fi
             ;;
             *)  __; printf '%s\n' " ${critical}Wrong format or conversion aborted...${nc}"
                 sleep 3
