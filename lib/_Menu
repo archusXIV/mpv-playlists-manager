@@ -12,7 +12,7 @@ _Menu() {
         __
         echo -e "                                           ${mtitle}::MPV-PLAYLISTS-MANAGER $VERSION::"
         echo -e "                                          $(_LittleStars)"
-        echo -e "                                     ${info}current theme: $THEME. ${critical}For usage: mpm --help${nc}"
+        echo -e "                                        ${info}current theme: $THEME. ${critical}For usage type U${nc}"
         echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
         echo -e "                  │  1) Create/Add video playlist   6) View default playlist   │  ${info}Tasks for option 4)${nc}:  │"
         [[ $direct_download = yes ]] && echo -e "                  │  2) Create/Add audio playlist   7) Clear all tmp lists     │  direct download: ${task}$direct_download${nc}  │"
@@ -22,8 +22,8 @@ _Menu() {
         if [[ -z $default_conversion_format ]]; then echo -e "                  │  ${info}4)${nc} Play/Download a playlist    9) Edit mpm config (mpmrc) │  audio format:  ${task}unset${nc}  │"; \
         elif [[ $default_conversion_format != flac ]]; then echo -e "                  │  ${info}4)${nc} Play/Download a playlist    9) Edit mpm config (mpmrc) │  audio format:    ${task}$default_conversion_format${nc}  │"; \
         elif [[ $default_conversion_format = flac ]]; then echo -e "                  │  ${info}4)${nc} Play/Download a playlist    9) Edit mpm config (mpmrc) │  audio format:   ${task}$default_conversion_format${nc}  │"; fi
-        [[ $quit_after_task = yes ]] && echo -e "                  │  5) Load local folder/files     X) Exit or help            │  quit after task: ${task}$quit_after_task${nc}  │"
-        [[ $quit_after_task = no ]] && echo -e "                  │  5) Load local folder/files     X) Exit or help            │  quit after task:  ${task}$quit_after_task${nc}  │"
+        [[ $quit_after_task = yes ]] && echo -e "                  │  5) Load local folder/files     X) Exit                    │  quit after task: ${task}$quit_after_task${nc}  │"
+        [[ $quit_after_task = no ]] && echo -e "                  │  5) Load local folder/files     X) Exit                    │  quit after task:  ${task}$quit_after_task${nc}  │"
         echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
         [[ -f $tmp_dir/1 ]] \
             && echo -e "                                                     ${info}Select an item${nc}" \
@@ -49,7 +49,17 @@ _Menu() {
                 __  ;;
             9)  _EditMpmConf
                 __  ;;
-            x|X) _ExitOrHelp
+            u|U) less "$HELP"
+                    ;;
+            x|X) __;__
+                    if [[ -s "$AUDIO_URLS" || -s "$VIDEO_URLS" ]]; then
+                        _SaveOnExit
+                    else
+                        nc=$'\e[0m';
+                        echo "${nc}"
+                        clear
+                        exit 0
+                    fi
                     ;;
         esac
     done

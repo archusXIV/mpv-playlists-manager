@@ -1,4 +1,4 @@
-mpm version 1.4-5
+mpm version 1.4-6
 
    MPV-PLAYLISTS-MANAGER usage:
 
@@ -30,13 +30,16 @@ mpm version 1.4-5
    Usage:
 
    I) Main menu:
-
+   
+                                ::MPV-PLAYLISTS-MANAGER v.1.4-6::
+                               ***********************************
+                             current theme: default. For usage type U
       ┌──────────────────────────────────────────────────────────────────────────────────────┐
       │   1) Create/Add video playlist   6) View default playlist   │ Tasks for option 4):   │
       │   2) Create/Add audio playlist   7) Clear all tmp lists     │ direct download: no    │
       │   3) Save tmp/Del collection     8) Edit a playlist         │ conversion auto: yes   │
       │   4) Play/Download a playlist    9) Edit mpm config (mpmrc) │ audio format:    mp3   │
-      │   5) Load local folder/files     X) Exit or help            │ quit after task: yes   │
+      │   5) Load local folder/files     X) Exit                    │ quit after task: yes   │
       └──────────────────────────────────────────────────────────────────────────────────────┘
                                           Select an item
 

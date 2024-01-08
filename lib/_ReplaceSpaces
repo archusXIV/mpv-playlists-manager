@@ -10,9 +10,9 @@ _ReplaceSpaces() {
             find {"$AUDIOS","$VIDEOS"} -maxdepth 1 \
             -type d -name "* *" -exec \
             bash -c '
-                for f in "$@"; do
-                    n="${f##*/}"
-                    mv -nv "$f" "${f%/*}/${n// /_}"
+                for d in "$@"; do
+                    n="${d##*/}"
+                    mv -nv "$d" "${d%/*}/${n// /_}"
                 done >/dev/null 2>&1
             ' dummy {} +
         ;;

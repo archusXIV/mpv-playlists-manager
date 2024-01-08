@@ -31,19 +31,20 @@ mpm -v # prints mpm version
 ## Please update your mpmrc file on each release.
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
-## New in version 1.4-5
-- The help file is now readable when typing 'x' in main menu.
+## New in version 1.4-6
+- The help file is now readable when typing 'U' in main menu.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.4-5.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.4-6.png)
+- Few bugs fixed.
 - If installed, [parallel](https://www.gnu.org/software/parallel/) will launch multiple ffmpeg instances to speed up audio conversion.
 - Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L79) file
 
 ## Themes
 - A [themerc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/themerc) file is available to insert as many as you want "themes" instead of bloating up your mpmrc.
 
-gruvbox theme.
+chocolat-pistache theme.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/gruvbox.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/chocolat-pistache.png)
 
 
 ```
@@ -52,7 +53,7 @@ gruvbox theme.
 # AVAILABLE THEMES: default, blacksea, chocolat-pistache,
 # gruvbox, gotham, monokai, TokyoNight, solarized, zenburn
 
-THEME="gruvbox"
+THEME="chocolat-pistache"
 ```
 
 - To find out how to convert hex colors in rgb colors, open your prefered color picker

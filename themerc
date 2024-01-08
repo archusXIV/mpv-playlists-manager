@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/themerc (version 1.4-5)
+# ~/.config/mpm/themerc (version 1.4-6)
 
 ######################################################################
 #                                                                    #
@@ -51,6 +51,15 @@ _Theme() {
             task=$'\e[38;2;249;230;176m';   #F9E6B0 "0xf9 0xe6 0xb0"
             customColors=( "0x8c 0x75 0x5e" "0xd7 0x5f 0x41" "0x92 0xc4 0x71" \
             "0xf2 0xcb 0x57" "0xf9 0xe6 0xb0" )
+        ;;
+        dracula)
+            nc=$'\e[38;2;189;147;249m';     #BD93F9 "0xbd 0x93 0xf9"
+            critical=$'\e[38;2;255;85;85m'; #FF5555 "0xff 0x55 0x55"
+            info=$'\e[38;2;80;250;123m';    #50FA7B "0x50 0xfa 0x7b"
+            mtitle=$'\e[38;2;241;250;140m'; #F1FA8C "0xf1 0xfa 0x8c"
+            task=$'\e[38;2;191;191;191m';   #BFBFBF "0xbf 0xbf 0xbf"
+            customColors=( "0xbd 0x93 0xf9" "0xff 0x55 0x55" "0x50 0xfa 0x7b" \
+            "0xf1 0xfa 0x8c" "0xbf 0xbf 0xbf" )
         ;;
         gotham)
             nc=$'\e[38;2;136;139;165m';     #888BA5 "0x88 0x8b 0xa5"

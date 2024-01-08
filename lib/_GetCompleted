@@ -13,17 +13,9 @@ _GetCompleted() {
             __
             echo " ${critical}If it was a temporary list, don't forget to save it.${nc}"
             sleep 4
-
-            tempfiles=( "$QUEUE" "$AUDIO_URLS" "$AUDIO_TITLES" \
-                        "$VIDEO_URLS" "$VIDEO_TITLES" "$DEFAULTITLES" )
-
-            for f in "${tempfiles[@]}"; do
-                mv -f "$f"_origin "$f"
-            done 2>/dev/null
-
+            _RenameTmpFiles
             rm -rf "$HOME"/.parallel 2>/dev/null
             _Menu
-
         }
 
         case "$1" in

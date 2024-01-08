@@ -1,0 +1,15 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_RenameTmpFiles() {
+
+    tmpFiles=( "$QUEUE" "$AUDIO_URLS" "$AUDIO_TITLES" \
+                "$VIDEO_URLS" "$VIDEO_TITLES" "$DEFAULTITLES" )
+
+    for f in "${tmpFiles[@]}"; do
+        [[ ! -f $f ]] && continue
+        mv -f "$f"_origin "$f"
+    done 2>/dev/null
+
+}

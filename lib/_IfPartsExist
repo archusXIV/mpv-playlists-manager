@@ -24,14 +24,7 @@ _IfPartsExist() {
             __IfPartsExistInfo
         ;;
         -t)
-            tempFiles=( "$QUEUE" "$AUDIO_URLS" "$AUDIO_TITLES" \
-                        "$VIDEO_URLS" "$VIDEO_TITLES" "$DEFAULTITLES" )
-
-            for f in "${tempFiles[@]}"; do
-                [[ ! -f $f ]] && continue
-                mv -f "$f"_origin "$f"
-            done 2>/dev/null
-
+            _RenameTmpFiles
             __IfPartsExistInfo
         ;;
     esac
