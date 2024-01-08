@@ -24,10 +24,10 @@ _ConvertAudio() {
         printf '%s\n' " ${task}Default format isn't set." \
         " Press Enter to abort conversion.${nc}"
         declare -A formats=(
-            ["1"]="mp3"
-            ["2"]="flac"
-            ["3"]="wav"
-            ["4"]="ogg"
+            [1]="mp3"
+            [2]="flac"
+            [3]="wav"
+            [4]="ogg"
         )
         __
         read -rn1 \
