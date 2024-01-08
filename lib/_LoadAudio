@@ -14,6 +14,7 @@ _LoadAudio() {
         echo -e " ${critical}Otherwise press I in mpv for more infos.${nc}\n"
         file="${M3UFILE##*/}" file="${file%%.*}"
         printf '%s\n' " ${info}Playing: ${file}${nc}"
+        __
     )
 
     # change mpv settings in ~/.config/mpm/mpmrc
