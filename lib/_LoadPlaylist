@@ -41,21 +41,21 @@ _LoadPlaylist() {
         __
         printf '%s\n' " ${info}Choose an option for${nc} $list:"
         __
-        read -rn 1 -p "${info}"' [D]ownload, [P]lay, [V]iew titles: '"${nc}" submenu
+        read -rn 1 -p "${info}"' [1] Download/Play, [2] View titles: '"${nc}" submenu
         __
         case "$submenu" in
-            d|D) clear; _LoadPlaylistMenu ;;
-            p|P) _ChooseFromPlay ;;
-            v|V)
+            1)
+                clear; _LoadPlaylistMenu
+            ;;
+            2)
                 clear
                 _TitlesListCompare
                 read -rn 1 \
-                -p "${info}"' [B]ack to menu, [D]ownload, [P]lay: '"${nc}" loadPlaylistOptions
+                -p "${info}"' [1] Download/Play, [2] Back to menu: '"${nc}" loadPlaylistOptions
                 __
                 case "$loadPlaylistOptions" in
-                    b|B) return ;;
-                    d|D) clear; _LoadPlaylistMenu ;;
-                    p|P) _ChooseFromPlay ;;
+                    1) clear; _LoadPlaylistMenu ;;
+                    2) return ;;
                     *)
                         __
                         printf '%s\n' " ${critical}Wrong option...${nc}"
