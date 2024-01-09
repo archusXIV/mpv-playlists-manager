@@ -48,7 +48,7 @@ _LoadLocal() {
             done
         ;;
         2)
-            "$FILEMANAGER" "$AUDIOS"; _Menu
+            clear; "$FILEMANAGER" "$AUDIOS"; return
         ;;
         3)
            _ReplaceSpaces -l
@@ -83,7 +83,7 @@ _LoadLocal() {
             done
         ;;
         4)
-            "$FILEMANAGER" "$VIDEOS"; _Menu
+            clear; "$FILEMANAGER" "$VIDEOS"; _Menu
         ;;
         *)
             printf '%s\n' " ${critical}Wrong option!${nc}"

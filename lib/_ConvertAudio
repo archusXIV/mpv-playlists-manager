@@ -13,9 +13,12 @@ _ConvertAudio() {
         printf '%s\n' " ${task}Default format set to $default_conversion_format.${nc}"
         __
         printf '%s\n' " ${info}Converting files in ${task}$default_conversion_format${b}...${nb}${nc}"
+        __
         if [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
+            printf '%s\n' "${task}"' Parallel conversion enabled.'"${nc}"
             _"$default_conversion_format" -p
         else
+            printf '%s\n' "${task}"' Parallel conversion disabled.'"${nc}"
             _"$default_conversion_format" -n
         fi
     else
@@ -37,10 +40,12 @@ _ConvertAudio() {
             [1-4])  
                 __
                 printf '%s\n' " ${info}Converting files in ${task}${formats[${REPLY}]}${b}...${nb}${nc}"
-
+                __
                 if [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
+                    printf '%s\n' "${task}"' Parallel conversion enabled.'"${nc}"
                     _"${formats[${REPLY}]}" -p
                 else
+                    printf '%s\n' "${task}"' Parallel conversion disabled.'"${nc}"
                     _"${formats[${REPLY}]}" -n
                 fi
             ;;

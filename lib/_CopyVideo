@@ -83,7 +83,7 @@ _CopyVideo() {
                     break ;;
                 3)  _Save -v
                     __ ;;
-                4)  _LoadVideo -v
+                4)  _LoadAudioVideo -v
                     __ ;;
                 5)  _ViewUrlInfo -v
                     __ ;;

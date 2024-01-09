@@ -1,4 +1,4 @@
-mpm version 1.4-6
+mpm version 1.4-7
 
    MPV-PLAYLISTS-MANAGER usage:
 
@@ -86,7 +86,7 @@ mpm version 1.4-6
       Change the local variables in _LoadLocal function if needed.
       To use ranger in this function, just get mpvc script, and place it in your PATH.
       https://github.com/lwilletts/mpvc/blob/master/mpvc
-      Than in "$XDG_CONFIG_HOME"/ranger/rifle.conf:
+      Then in "$XDG_CONFIG_HOME"/ranger/rifle.conf:
       change lines (124-125) 124) mpvc add -- "$@" 125) mpvc add --fs -- "$@"
       Make sure that you have enabled; set preview_images_method ueberzug (has to be installed)
       if you do not use URxvt for example (w3m works fine for URxvt/xterm).
@@ -100,7 +100,8 @@ mpm version 1.4-6
 
    8) Edit a playlist:
       Here is the place where by editing our collection we can add or remove links
-      directly or afterward. Vim is set as the MPMEDITOR (change it if you will).
+      directly or afterward then titles will be updated.
+      Vim is set as the MPMEDITOR in your mpmrc file (change it if you will).
 
    9) Edit mpm config (mpmrc):
       We may want to edit this file for default directories & tasks preferences,

@@ -1,7 +1,7 @@
 # mpv-playlists-manager
-## Manage playlists for mpv from your linux terminal.
+## Manage playlists for mpv from your linux terminal
 
-## About mpm.
+## About mpm
 This program is just a personal project, and I wrote it as a normy Linux user (it is simple),
 The goal is to manage self created playlists that mpv reads either online or from local files/directories, 
 youtube-dl/yp-dlp is used to download videos or just audio and in that case if
@@ -79,6 +79,7 @@ wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738
              |--------------------------> Apply to the active window
 ```
 ## Why ranger file manager?
+(it can be any terminal file manager)
 Because we are terminal users so we can navigate across our local media files to queue them in mpv.
 You will also need some dependencies to make it functional, for example displaying image/video thumbnails preview
 with [ffmpegthumbnailer](https://github.com/dirkvdb/ffmpegthumbnailer). Make sure $XDG_CONFIG_HOME/ranger/scope.sh is executable.

@@ -83,7 +83,7 @@ _CopyAudio() {
                     __ ;;
                 3)  _Save -a
                     __ ;;
-                4)  _LoadAudio -a
+                4)  _LoadAudioVideo -a
                     __ ;;
                 5)  _ViewUrlInfo -a
                     __ ;;

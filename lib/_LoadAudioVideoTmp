@@ -1,0 +1,39 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2015
+_LoadAudioVideoTmp() {
+
+    __LoadAudioVideoTmpNotice() (
+        clear
+        __
+        _Prompt " ${info}Temporary $tmpFile list still exist, KEEP it?:${nc}" || {
+            rm -f "${TMP[@]}" 2>/dev/null
+            echo " ${critical}Temporary list removed...${nc}"
+            sleep 3
+        }
+    )
+
+    declare -a TMP=( "$AUDIO_URLS" "$AUDIO_TITLES" "$VIDEO_URLS" \
+                    "$VIDEO_TITLES" "$CHOOSE1" "$FFOP" "$YTOP" )
+
+    case "$1" in
+        -a)
+            unset {TMP[2],TMP[3]}
+            tmpFile=audio
+            __LoadAudioVideoTmpNotice
+        ;;
+        -c)
+            unset {TMP[0],TMP[1],TMP[2],TMP[3]}
+            rm "${TMP[@]}"
+        ;;
+        -v)
+            unset {TMP[0],TMP[1]}
+            tmpFile=video
+            __LoadAudioVideoTmpNotice
+        ;;
+    esac
+    
+    [[ $quit_after_task = yes ]] && exit || _Menu
+
+}

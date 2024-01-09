@@ -36,7 +36,7 @@ _ViewUrlInfo() {
                 b|B) __; _CopyAudio ;;
                 m|M) _Menu ;;
                 d|D) _GetAudio -a ;;
-                p|P) _LoadAudio -a ;;
+                p|P) _LoadAudioVideo -a ;;
                 r|R) _Remove -a ;;
                 s|S) _Save -a ;;
             esac
@@ -66,7 +66,7 @@ _ViewUrlInfo() {
                 b|B) __; _CopyVideo ;;
                 m|M) _Menu ;;
                 d|D) _GetVideo -v ;;
-                p|P) _LoadVideo -v ;;
+                p|P) _LoadAudioVideo -v ;;
                 r|R) _Remove -v ;;
                 s|S) _Save -v ;;
             esac
@@ -122,8 +122,8 @@ _ViewUrlInfo() {
                         __
                         read -rsn 1 -p "${info}"' Play [A]udio, [V]ideo?: '"${nc}" play
                         case "$play" in
-                            a|A) _LoadAudio -q ;;
-                            v|V) _LoadVideo -q ;;
+                            a|A) _LoadAudioVideo -qa ;;
+                            v|V) _LoadAudioVideo -qv ;;
                         esac
                     ;;
                     r|R) _Remove -q ;;

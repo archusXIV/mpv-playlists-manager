@@ -1,0 +1,68 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2015,SC2034
+_LoadAudioVideo() {
+    
+    # change mpv settings in ~/.config/mpm/mpmrc
+    local M3UFILE
+
+    case "$1" in
+        -a)
+            if [[ -s $AUDIO_URLS ]]; then
+                M3UFILE="$AUDIO_URLS"
+                _LoadAudioVideoAdvice
+                _MpvAudioOptions "$M3UFILE"
+                _LoadAudioVideoTmp -a
+            else
+                echo " ${critical}No links in the list${nc}"
+                sleep 2 && return
+            fi
+        ;;
+        -ca)
+            M3UFILE="$CHOOSE1"
+            _LoadAudioVideoAdvice
+            _MpvAudioOptions "$M3UFILE"
+            _LoadAudioVideoTmp -c
+        ;;
+        -cv)
+            M3UFILE="$CHOOSE1"
+            _LoadAudioVideoAdvice
+            _MpvVideoOptions "$M3UFILE"
+            _LoadAudioVideoTmp -c
+        ;;
+        -la)
+            M3UFILE="$list"
+            _LoadAudioVideoAdvice
+            _MpvAudioOptions "$M3UFILE"
+        ;;
+        -lv)
+            M3UFILE="$list"
+            _LoadAudioVideoAdvice
+            _MpvVideoOptions "$M3UFILE"
+        ;;
+        -qa)
+            M3UFILE="$QUEUE"
+            _LoadAudioVideoAdvice
+            _MpvAudioOptions "$M3UFILE"
+        ;;
+        -qv)
+            M3UFILE="$QUEUE"
+            _LoadAudioVideoAdvice
+            _MpvVideoOptions "$M3UFILE"
+        ;;
+        -v)
+            if [[ -s $VIDEO_URLS ]]; then
+                M3UFILE="$VIDEO_URLS"
+                _LoadAudioVideoAdvice
+                _MpvVideoOptions "$M3UFILE"
+                _LoadAudioVideoTmp -v
+            else
+                echo " ${critical}No links in the list${nc}"
+                sleep 2 && return
+            fi
+        ;;
+    esac
+    
+    _Menu
+}

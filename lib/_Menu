@@ -14,7 +14,11 @@ _Menu() {
         echo -e "                                          $(_LittleStars)"
         echo -e "                                        ${info}current theme: $THEME. ${critical}For usage type U${nc}"
         echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
-        echo -e "                  │  1) Create/Add video playlist   6) View default playlist   │  ${info}Tasks for option 4)${nc}:  │"
+        echo -e "                  │                      ${mtitle}GENERAL OPTIONS${nc}                       │     ${mtitle}MPMRC SETTINGS${nc}     │"
+        echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
+        echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
+        [[ $use_parallel = yes ]] && echo -e "                  │  1) Create/Add video playlist   6) View default playlist   │  use parallel:    ${task}yes${nc}  │" || \
+        echo -e "                  │  1) Create/Add video playlist   6) View default playlist   │  use parallel:     ${task}no${nc}  │"
         [[ $direct_download = yes ]] && echo -e "                  │  2) Create/Add audio playlist   7) Clear all tmp lists     │  direct download: ${task}$direct_download${nc}  │"
         [[ $direct_download = no ]] && echo -e "                  │  2) Create/Add audio playlist   7) Clear all tmp lists     │  direct download:  ${task}$direct_download${nc}  │"
         [[ $automatic_audio_conversion = yes ]] && echo -e "                  │  3) Save as/Delete a playlist   8) Edit a playlist         │  conversion auto: ${task}$automatic_audio_conversion${nc}  │"
