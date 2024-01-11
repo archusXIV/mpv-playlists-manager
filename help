@@ -31,12 +31,15 @@ mpm version 1.4-7
 
    I) Main menu:
    
-                                ::MPV-PLAYLISTS-MANAGER v.1.4-6::
+                                ::MPV-PLAYLISTS-MANAGER v.1.4-7::
                                ***********************************
                              current theme: default. For usage type U
       ┌──────────────────────────────────────────────────────────────────────────────────────┐
-      │   1) Create/Add video playlist   6) View default playlist   │ Tasks for option 4):   │
-      │   2) Create/Add audio playlist   7) Clear all tmp lists     │ direct download: no    │
+      │                      GENERAL OPTIONS                        │     MPMRC SETTINGS     │
+      └──────────────────────────────────────────────────────────────────────────────────────┘
+      ┌──────────────────────────────────────────────────────────────────────────────────────┐
+      │   1) Create/Add video playlist   6) View default playlist   │ use parallel:    yes   │
+      │   2) Create/Add audio playlist   7) Clear all tmp lists     │ direct download:  no   │
       │   3) Save tmp/Del collection     8) Edit a playlist         │ conversion auto: yes   │
       │   4) Play/Download a playlist    9) Edit mpm config (mpmrc) │ audio format:    mp3   │
       │   5) Load local folder/files     X) Exit                    │ quit after task: yes   │
@@ -110,7 +113,7 @@ mpm version 1.4-7
 
    II) audio/video files options:
 
-                                    ::audio options::
+                                    ::AUDIO OPTIONS::
                ┌────────────────────────────────────────────────────────────┐
                │     1) Add audio links           4) Play current list      │
                │     2) Download current list     5) View current list      │

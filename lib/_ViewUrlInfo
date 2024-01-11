@@ -33,7 +33,7 @@ _ViewUrlInfo() {
             echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
             read -rsn 1 opt
             case "$opt" in
-                b|B) __; _CopyAudio ;;
+                b|B) __; _CopyUrl -a ;;
                 m|M) _Menu ;;
                 d|D) _GetAudio -a ;;
                 p|P) _LoadAudioVideo -a ;;
@@ -63,7 +63,7 @@ _ViewUrlInfo() {
             echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
             read -rsn 1 opt
             case "$opt" in
-                b|B) __; _CopyVideo ;;
+                b|B) __; _CopyUrl -v ;;
                 m|M) _Menu ;;
                 d|D) _GetVideo -v ;;
                 p|P) _LoadAudioVideo -v ;;

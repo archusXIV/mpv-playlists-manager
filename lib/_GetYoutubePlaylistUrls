@@ -5,15 +5,15 @@
 _GetYoutubePlaylistUrls() {
     __
     case "$1" in
-        -a) URLS_INFO="$AUDIO_URLS"
-            url="$copyAudioUrl"
+        -a)
+            URLS_INFO="$AUDIO_URLS"
         ;;
-        -v) URLS_INFO="$VIDEO_URLS"
-            url="$copyVideoUrl"
+        -v)
+            URLS_INFO="$VIDEO_URLS"
         ;;
     esac
 
-    youtube-dl "${ytdlPreset_DW[@]}" -j "$url" \
+    youtube-dl "${ytdlPreset_DW[@]}" -j "$copyUrl" \
     | jq '(.webpage_url)' | sed 's/"//g' \
     | tee -a "$QUEUE" >> "$URLS_INFO"
     sed -i '/playlist/d' {"$QUEUE","$URLS_INFO"}

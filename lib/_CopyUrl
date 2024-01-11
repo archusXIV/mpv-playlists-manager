@@ -1,0 +1,116 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2015
+_CopyUrl() {
+
+    local Type copyUrl PlaylistTitle TITLES URLS MEDIA arg
+
+    [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
+
+    case "$1" in
+        -a)
+            Type=Audio
+            TITLES="$AUDIO_TITLES"
+            URLS="$AUDIO_URLS"
+            MEDIA=AUDIO
+            arg="-a"
+        ;;
+        -v)
+            Type=Video
+            TITLES="$VIDEO_TITLES"
+            URLS="$VIDEO_URLS"
+            MEDIA=VIDEO
+            arg="-v"
+        ;;
+    esac
+
+    while (( $(grep "" -c "$QUEUE") > 0 )); do
+    
+        __CopyLinks() {
+            __
+            echo -e " Paste an url to fill the ${info}${Type}${nc} playlist:\n"
+            read -r copyUrl
+
+            if [[ $copyUrl =~ 'playlist?list=' ]]; then
+
+                __
+                PlaylistTitle=$(\
+                youtube-dl "${ytdlPreset_DW[@]}" -J \
+                --flat-playlist "$copyUrl" \
+                | jq -r .title \
+                )
+
+                printf '%s\n' " ${info}Getting titles & links from playlist: $PlaylistTitle..." \
+                "${b} Please be patient.${nb}${nc}"
+                _YtdlGetTitle "$copyUrl" \
+                | tee -a "$TITLES" >> "$DEFAULTITLES"
+                _GetYoutubePlaylistUrls $arg
+                _RemoveCrap
+
+            else
+
+                echo "$copyUrl" >> "$URLS"
+                __
+                echo -e " ${info}Testing url...${nc}"
+                _RemoveCrap
+                copyUrl=$(sed -n '$p' "$URLS")
+                youtube-dl -F "${ytdlPreset_DW[@]}" "$copyUrl" > "$YTOP"
+
+                if [[ $? -eq 1 ]]; then
+
+                    __
+                    echo -e " ${critical}${b}No format code found!${nb}\n$copyUrl will be removed."
+                    echo " ${info}Please visit: $supportedsites${nc}"
+                    sed -i '$d' "$URLS"
+                    _RemoveCrap
+                    sleep 7
+                    [[ $(_GetLinesList $arg) -eq 0 ]] && return
+
+                else
+
+                    echo "$copyUrl" >> "$QUEUE"
+                    echo -e " ${info}Getting audio title...${nc}\n"
+                    _YtdlGetTitle "$copyUrl" \
+                    | tee -a "$TITLES" >> "$DEFAULTITLES"
+                    _RemoveCrap
+
+                fi
+
+            fi
+        }
+
+        while :; do
+            _ResizeWindow
+            clear
+            __
+            [[ -s $URLS ]] && \
+            echo -e " ${info}${Type} list:   $(_GetLinesList $arg) url(s)${nc}"
+            __
+            echo -e "                                                    ${mtitle}::${MEDIA} OPTIONS::${nc}"
+            echo -e "                              ┌─────────────────────────────────────────────────────────────┐"
+            echo -e "                              │     1) Add $Type links            4) Play current list      │"
+            echo -e "                              │     2) Download current list      5) View current list      │"
+            echo -e "                              │     3) Save playlist as           6) Back to main menu      │"
+            echo -e "                              └─────────────────────────────────────────────────────────────┘"
+            echo -e "                                                     ${info}${b}Select an item${nb}${nc}"
+            __
+            read -rsn 1 copyUrlsOptions
+            case "$copyUrlsOptions" in
+                1)  __CopyLinks
+                    __ ;;
+                2)
+                    [[ $arg = '-a' ]] && _GetAudio -a || _GetVideo -v
+                    __ ;;
+                3)  _Save $arg
+                    __ ;;
+                4)  _LoadAudioVideo $arg
+                    __ ;;
+                5)  _ViewUrlInfo $arg
+                    __ ;;
+                6)  _Menu
+                    __ ;;
+            esac
+        done
+    done
+}
