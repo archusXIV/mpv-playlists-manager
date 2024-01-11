@@ -70,7 +70,7 @@ _CopyUrl() {
                 else
 
                     echo "$copyUrl" >> "$QUEUE"
-                    echo -e " ${info}Getting audio title...${nc}\n"
+                    echo -e " ${info}Getting $Type title...${nc}\n"
                     _YtdlGetTitle "$copyUrl" \
                     | tee -a "$TITLES" >> "$DEFAULTITLES"
                     _RemoveCrap
