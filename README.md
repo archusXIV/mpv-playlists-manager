@@ -49,10 +49,10 @@ default theme.
 ```
 # edit your own theme in "$XDG_CONFIG_HOME"/mpm/themerc.
 # apply your prefered colorscheme...
-# AVAILABLE THEMES: default, blacksea, chocolat-pistache,
-# gruvbox, gotham, monokai, TokyoNight, solarized, zenburn
+# AVAILABLE THEMES: default, dracula, blacksea, chocolat-pistache,
+# gruvbox, gotham, monokai, TokyoNight, solarized, vacuous, zenburn
 
-THEME="chocolat-pistache"
+THEME="default"
 ```
 
 - To find out how to convert hex colors in rgb colors, open your prefered color picker
