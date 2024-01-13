@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2015
 _CopyUrl() {
 
-    local Type copyUrl PlaylistTitle TITLES URLS MEDIA arg
+    local Type TITLES URLS MEDIA arg copyUrl PlaylistTitle
 
     [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
 
@@ -70,7 +70,7 @@ _CopyUrl() {
                 else
 
                     echo "$copyUrl" >> "$QUEUE"
-                    echo -e " ${info}Getting $Type title...${nc}\n"
+                    echo -e " ${info}Getting ${Type} title...${nc}\n"
                     _YtdlGetTitle "$copyUrl" \
                     | tee -a "$TITLES" >> "$DEFAULTITLES"
                     _RemoveCrap
@@ -89,7 +89,7 @@ _CopyUrl() {
             __
             echo -e "                                                    ${mtitle}::${MEDIA} OPTIONS::${nc}"
             echo -e "                              ┌─────────────────────────────────────────────────────────────┐"
-            echo -e "                              │     1) Add $Type links            4) Play current list      │"
+            echo -e "                              │     1) Add ${Type} links            4) Play current list      │"
             echo -e "                              │     2) Download current list      5) View current list      │"
             echo -e "                              │     3) Save playlist as           6) Back to main menu      │"
             echo -e "                              └─────────────────────────────────────────────────────────────┘"
