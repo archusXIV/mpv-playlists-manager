@@ -39,7 +39,7 @@ _LoadPlaylist() {
         rm 1_Back_to_menu
         clear
         __
-        printf '%s\n' " ${info}Choose an option for${nc} $list:"
+        printf '%s\n' " ${info}Choose an option for${nc} $list ($(grep -v '#EXTM3U' -c "$list") urls)."
         __
         read -rn 1 -p "${info}"' [1] Download/Play, [2] View titles: '"${nc}" submenu
         __
