@@ -1,14 +1,14 @@
 #!/bin/bash
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
-# version 1.4-7
+# version 1.4-8
 
 _diffRc() {
-    
-    read -r -p ' Please enter your username: ' user
-    local MPMRC_DIR MPMRC THEMERC
-    MPMRC_DIR="/home/$user/.config/mpm"
-    MPMRC="$MPMRC_DIR/mpmrc"
-    THEMERC="$MPMRC_DIR/themerc"
+    # we execute this file as root so we need to provide the right username
+    read -r -p ' Please enter your username: ' username
+    local CONF_DIR MPMRC THEMERC
+    CONF_DIR="/home/$username/.config/mpm"
+    MPMRC="$CONF_DIR/mpmrc"
+    THEMERC="$CONF_DIR/themerc"
     
     if [[ -f $MPMRC && -f $THEMERC ]]; then
 
@@ -26,18 +26,18 @@ _diffRc() {
         diff -U 9999999 "$MPMRC" \
         ./mpmrc > "$MPMRC".diff
 
-        cp ./themerc "$MPMRC_DIR"
+        cp ./themerc "$CONF_DIR"
 
         printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc.diff created.\e[0m\n'
         printf '\e[38;2;206;34;30m~/.config/mpm/themerc created.\e[0m\n'
     else
-        mkdir --parents "$MPMRC_DIR"
-        cp ./{mpmrc,themerc} "$MPMRC_DIR"
+        mkdir --parents "$CONF_DIR"
+        cp ./{mpmrc,themerc} "$CONF_DIR"
         
         printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc created, edit your settings there.\e[0m\n'
     fi
 
-    chown -R 1000:1000 "$MPMRC_DIR"
+    chown -R 1000:1000 "$CONF_DIR"
 
 }
 
@@ -70,8 +70,8 @@ _uninstall() {
 date
 printf '\n'
 if [[ -x /usr/local/bin/mpm ]] && [[ -d /usr/local/lib/mpm ]]; then
-    read -rn 1 -p ' [R]emove or [U]pgrade mpm?: ' answer
-    case "$answer" in
+    read -rn 1 -p ' [R]emove or [U]pgrade mpm?: '
+    case "$REPLY" in
         r|R)
             _uninstall
         ;;

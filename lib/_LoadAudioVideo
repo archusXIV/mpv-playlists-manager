@@ -3,16 +3,16 @@
 
 # shellcheck disable=SC2154,SC2015,SC2034
 _LoadAudioVideo() {
-    
+
     # change mpv settings in ~/.config/mpm/mpmrc
-    local M3UFILE
+    local m3uFile
 
     case "$1" in
         -a)
             if [[ -s $AUDIO_URLS ]]; then
-                M3UFILE="$AUDIO_URLS"
+                m3uFile="$AUDIO_URLS"
                 _LoadAudioVideoAdvice
-                _MpvAudioOptions "$M3UFILE"
+                _MpvAudioOptions "$m3uFile"
                 _LoadAudioVideoTmp -a
             else
                 echo " ${critical}No links in the list${nc}"
@@ -20,42 +20,42 @@ _LoadAudioVideo() {
             fi
         ;;
         -ca)
-            M3UFILE="$CHOOSE1"
+            m3uFile="$CHOOSE1"
             _LoadAudioVideoAdvice
-            _MpvAudioOptions "$M3UFILE"
+            _MpvAudioOptions "$m3uFile"
             _LoadAudioVideoTmp -c
         ;;
         -cv)
-            M3UFILE="$CHOOSE1"
+            m3uFile="$CHOOSE1"
             _LoadAudioVideoAdvice
-            _MpvVideoOptions "$M3UFILE"
+            _MpvVideoOptions "$m3uFile"
             _LoadAudioVideoTmp -c
         ;;
         -la)
-            M3UFILE="$list"
+            m3uFile="$list"
             _LoadAudioVideoAdvice
-            _MpvAudioOptions "$M3UFILE"
+            _MpvAudioOptions "$m3uFile"
         ;;
         -lv)
-            M3UFILE="$list"
+            m3uFile="$list"
             _LoadAudioVideoAdvice
-            _MpvVideoOptions "$M3UFILE"
+            _MpvVideoOptions "$m3uFile"
         ;;
         -qa)
-            M3UFILE="$QUEUE"
+            m3uFile="$QUEUE"
             _LoadAudioVideoAdvice
-            _MpvAudioOptions "$M3UFILE"
+            _MpvAudioOptions "$m3uFile"
         ;;
         -qv)
-            M3UFILE="$QUEUE"
+            m3uFile="$QUEUE"
             _LoadAudioVideoAdvice
-            _MpvVideoOptions "$M3UFILE"
+            _MpvVideoOptions "$m3uFile"
         ;;
         -v)
             if [[ -s $VIDEO_URLS ]]; then
-                M3UFILE="$VIDEO_URLS"
+                m3uFile="$VIDEO_URLS"
                 _LoadAudioVideoAdvice
-                _MpvVideoOptions "$M3UFILE"
+                _MpvVideoOptions "$m3uFile"
                 _LoadAudioVideoTmp -v
             else
                 echo " ${critical}No links in the list${nc}"

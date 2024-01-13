@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.4-7)
+# ~/.config/mpm/mpmrc (version 1.4-8)
 
 ########################################################
 #                                                      #
@@ -18,12 +18,12 @@
 : "${XDG_DATA_HOME:-$HOME/.local/share}"
 
 # change the main mpm window size. (the actual size is 1260x738)
-function _ResizeWindow { wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738; } 2>/dev/null
+function _ResizeWindow { wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738; } 2>/dev/null                                                                        
 
 # edit your own theme in "$XDG_CONFIG_HOME"/mpm/themerc.
 # apply your prefered colorscheme...
-# AVAILABLE THEMES: default, blacksea, chocolat-pistache,
-# gruvbox, gotham, monokai, TokyoNight, solarized, zenburn
+# AVAILABLE THEMES: default, dracula, blacksea, chocolat-pistache,
+# gruvbox, gotham, monokai, TokyoNight, solarized, vacuous, zenburn
 THEME="default"
 
 ## default editor
@@ -76,7 +76,7 @@ quit_after_task="no"
 # !!! You can change ffmpeg audio codec command line settings !!!
 # if the parallel package is installed then it will be used to launch
 # multiple conversions at once, else files will be converted one by one.
-use_parallel="yes"
+use_parallel="no"
 
 function _mp3 {
     case "$1" in

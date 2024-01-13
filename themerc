@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/themerc (version 1.4-7)
+# ~/.config/mpm/themerc (version 1.4-8)
 
 ######################################################################
 #                                                                    #
@@ -108,6 +108,15 @@ _Theme() {
             task=$'\e[38;2;42;161;152m';    #2AA198 "0x2a 0xa1 0x98"
             customColors=( "0x83 0x94 0x96" "0xdc 0x32 0x2f" "0x85 0x99 0x00" \
             "0xb5 0x89 0x00" "0x2a 0xa1 0x98" )
+        ;;
+        vacuous)
+            nc=$'\e[38;2;116;145;161m';     #7491A1 "0x74 0x91 0xa1"
+            critical=$'\e[38;2;209;69;72m'; #D14548 "0xd1 0x45 0x48"
+            info=$'\e[38;2;167;183;154m';   #A7B79A "0xa7 0xb7 0x9a"
+            mtitle=$'\e[38;2;249;187;128m'; #F9BB80 "0xf9 0xbb 0x80"
+            task=$'\e[38;2;15;130;157m';    #0F829D "0x0f 0x82 0x9d"
+            customColors=( "0x74 0x91 0xa1" "0xd1 0x45 0x48" "0xa7 0xb7 0x9a" \
+            "0xf9 0xbb 0x80" "0x0f 0x82 0x9d" )
         ;;
         zenburn)
             nc=$'\e[38;2;220;220;204m';     #DCDCCC "0xdc 0xdc 0xcc"

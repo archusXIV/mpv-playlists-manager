@@ -22,16 +22,16 @@
 
 trap "_CleanTmpDir; exit" SIGTERM EXIT
 
-VERSION="v.1.4-7"
+VERSION="v.1.4-8"
 
 : "${XDG_CONFIG_HOME:-$HOME/.config}"
-MPMRCDIR="$XDG_CONFIG_HOME/mpm"
-MPMRC="$MPMRCDIR/mpmrc"
-THEMERC="$MPMRCDIR/themerc"
+CONF_DIR="$XDG_CONFIG_HOME/mpm"
+MPMRC="$CONF_DIR/mpmrc"
+THEMERC="$CONF_DIR/themerc"
 
-[[ ! -d $MPMRCDIR ]] && {
-    mkdir -p "$MPMRCDIR"
-    cp /usr/local/share/doc/mpm/{mpmrc,themerc} "$MPMRCDIR"
+[[ ! -d $CONF_DIR ]] && {
+    mkdir -p "$CONF_DIR"
+    cp /usr/local/share/doc/mpm/{mpmrc,themerc} "$CONF_DIR"
 }
 
 ## summon our personal settings

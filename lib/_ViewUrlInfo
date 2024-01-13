@@ -17,7 +17,7 @@ _ViewUrlInfo() {
     stars=$(printf "%-54s" "*")
     
     __audio() {
-        if [[ -f $AUDIO_URLS ]]; then
+        if [[ -s $AUDIO_URLS ]]; then
             clear
             __
             echo " ${info}ORDER |  AUDIO PLAYLIST LINKS & TITLES.${nc}"
@@ -47,7 +47,7 @@ _ViewUrlInfo() {
     }
 
     __video() {
-        if [[ -f $VIDEO_URLS ]]; then
+        if [[ -s $VIDEO_URLS ]]; then
             clear
             __
             echo " ${info}ORDER |  VIDEO PLAYLIST LINKS & TITLES.${nc}"

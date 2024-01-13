@@ -1,4 +1,4 @@
-mpm version 1.4-7
+mpm version 1.4-8
 
    MPV-PLAYLISTS-MANAGER usage:
 
@@ -31,9 +31,12 @@ mpm version 1.4-7
 
    I) Main menu:
    
-                                ::MPV-PLAYLISTS-MANAGER v.1.4-7::
+                                ::MPV-PLAYLISTS-MANAGER v.1.4-8::
                                ***********************************
                              current theme: default. For usage type U
+      ┌─────────────────────────────────────────────────────────────────────────────────────┐
+                Collection: 26 * Default list: 2 * Audio list: 2  * Video list: 1        
+      └─────────────────────────────────────────────────────────────────────────────────────┘
       ┌──────────────────────────────────────────────────────────────────────────────────────┐
       │                      GENERAL OPTIONS                        │     MPMRC SETTINGS     │
       └──────────────────────────────────────────────────────────────────────────────────────┘
@@ -54,7 +57,8 @@ mpm version 1.4-7
       urls from Youtube.com or any other supported web site by youtube-dl/yt-dlp packages.
       See https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md
       Once into the video options menu we can add tested links to a temporary list,
-      youtube playlists are supported. Now we have six dedicated options.
+      YouTube playlists are supported, but the more playlist items there are,
+      the longer it will take to analyze them. Now we have six dedicated options.
       See II) audio/video files options:
 
    2) Create/Add audio playlist:
@@ -111,7 +115,7 @@ mpm version 1.4-7
       colors and better quality or results with mpv, ffmpeg and yt-dlp downloader options.
       After changing parameters and saving the file, they will be immediatly active.
 
-   II) audio/video files options:
+   II) temporary audio/video lists options:
 
                                     ::AUDIO OPTIONS::
                ┌────────────────────────────────────────────────────────────┐
@@ -122,12 +126,11 @@ mpm version 1.4-7
                                        Select an item
 
    The same menu is also prensented in video section.
-   Now in this menu it cannot be simpler as it is, all options are applied to the specific
-   temporary file and we act directly on it, by entering '5' we will get more infos (titles)
-   about the links and a prompt will present the same options as in the menu,
-   but now [R]emoving the specific file is available...
+   All options are applied to the specific temporary file and we act directly on it,
+   by entering '5' we will get more infos (links & titles). A new prompt appears with the same options
+   as in the above menu, and [R]emove the specific list is now available...
 
-   Author: Barret E (2023) <archus@protonmail.com>
+   Author: Barret E (2024) <archus@protonmail.com>
    https://github.com/archusXIV/mpv-playlists-manager
 
    Press "q" to quit.

@@ -1,0 +1,14 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_CheckUpdate() {
+
+    local UPD
+    UPD=$(curl -sL "https://raw.githubusercontent.com/archusXIV/mpv-playlists-manager/main/version")
+    
+    [[ $UPD != "$VERSION" ]] && {
+        printf '%s\n' " ${critical}${b}$UPD available${nb}${nc}"
+    }
+
+}

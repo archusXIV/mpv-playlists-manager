@@ -31,19 +31,19 @@ mpm -v # prints mpm version
 ## Please update your mpmrc file on each release.
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
-## New in version 1.4-7
+## New in version 1.4-8
+- Just a new look !
 - Refactoring some functions.
 - Few bugs fixed.
-- The help file is now readable when typing 'U' in main menu.
 - If installed, [parallel](https://www.gnu.org/software/parallel/) will launch multiple ffmpeg instances to speed up audio conversion.
 - Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L79) file
 
 ## Themes
 - A [themerc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/themerc) file is available to insert as many as you want "themes" instead of bloating up your mpmrc.
 
-chocolat-pistache theme.
+default theme.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.4-7.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.4-8.png)
 
 
 ```
