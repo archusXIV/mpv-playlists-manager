@@ -52,7 +52,7 @@ use_fzf="yes"
 ## Themes
 - A [themerc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/themerc) file is available to insert as many as you want "themes" instead of bloating up your mpmrc.
 
-default theme.
+default theme will use your ~/.Xresources colors or your terminal preferences.
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.4-9.png)
 
