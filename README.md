@@ -54,7 +54,7 @@ use_fzf="yes"
 
 default theme.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.4-8.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.4-9.png)
 
 
 ```
