@@ -15,8 +15,8 @@ _EditPlaylist() {
             $MPMEDITOR "$list"
             echo -e " ${info}$list saved${nc}\n"
             (( $(grep "" -c "$titles_dir/$list.titles") \
-            != $(_GetLinesList -l) )) && _TitlesListCompare -e
-            
+            != $(_GetLinesList -l) )) && _TitlesListCompare
+
             read -rsn 1 \
             -p "${info}"' [C]ontinue editing, [B]ack to menu or [Q]uit.'"${nc}" edit
             case "$edit" in

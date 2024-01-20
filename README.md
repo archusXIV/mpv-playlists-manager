@@ -38,7 +38,7 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge 
   to search and copy audio/video urls from youtube.
   In addition you can also use the [ytfzf](https://github.com/pystardust/ytfzf) script
   if it is in your PATH.
-  
+
 - In your mpmrc file activate it.
 
 ```

@@ -9,15 +9,15 @@ _ChooseDirectVideoDownload() {
     cd "$playlists_dir" || exit 1
     _TitlesListCompare
     _GetRange
-    
+
     clear
     cp -f "$list" "$list"_origin
     mkdir --parents "$videos_dir"/"${list%.*}" \
     && cd "$videos_dir"/"${list%.*}"
-    
+
     readarray -t DIRECT < "$CHOOSE1"
     counter="${#DIRECT[@]}"
-    
+
     for line in "${DIRECT[@]}"; do
 
         if [[ $direct_download = yes ]]; then

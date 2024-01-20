@@ -18,7 +18,7 @@
 : "${XDG_DATA_HOME:-$HOME/.local/share}"
 
 # change the main mpm window size. (the actual size is 1260x738)
-function _ResizeWindow { wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738; } 2>/dev/null                                                                        
+function _ResizeWindow { wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738; } 2>/dev/null
 
 # edit your own theme in "$XDG_CONFIG_HOME"/mpm/themerc.
 # apply your prefered colorscheme...

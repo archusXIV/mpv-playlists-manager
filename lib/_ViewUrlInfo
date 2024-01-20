@@ -15,7 +15,7 @@ _ViewUrlInfo() {
 
     # let's play...
     stars=$(printf "%-54s" "*")
-    
+
     __audio() {
         if [[ -s $AUDIO_URLS ]]; then
             clear
@@ -79,13 +79,13 @@ _ViewUrlInfo() {
     __queue() {
         if (($(_GetLinesList -q) > 0)); then
             [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
-            
+
             if [[ -f $DEFAULTM3UTITLES ]]; then
                 defaultTitles="$DEFAULTM3UTITLES"
             else
                 defaultTitles="$DEFAULTITLES"
             fi
-            
+
             (( $(grep "" -c "$defaultTitles") != $(_GetLinesList -q) )) && {
                 printf '%s\n' " ${critical}Default list as been modified," \
                 " ${task}${b}Updating Default list titles...${nb}${nc}"
@@ -101,7 +101,7 @@ _ViewUrlInfo() {
             cat -n "$defaultTitles"
             __
             }
-            
+
             while [[ -f $QUEUE ]]; do
                 unset {viewUrlInfoPrompt[1],viewUrlInfoPrompt[2],viewUrlInfoPrompt[7]}
                 echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"

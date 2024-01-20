@@ -9,7 +9,7 @@ _diffRc() {
     CONF_DIR="/home/$username/.config/mpm"
     MPMRC="$CONF_DIR/mpmrc"
     THEMERC="$CONF_DIR/themerc"
-    
+
     if [[ -f $MPMRC && -f $THEMERC ]]; then
 
         diff -U 9999999 "$MPMRC" \
@@ -33,7 +33,7 @@ _diffRc() {
     else
         mkdir --parents "$CONF_DIR"
         cp ./{mpmrc,themerc} "$CONF_DIR"
-        
+
         printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc created, edit your settings there.\e[0m\n'
     fi
 
@@ -47,7 +47,7 @@ _install() {
     cp -vrf ./lib/* /usr/local/lib/mpm/
     mkdir --parents /usr/local/share/doc/mpm && \
     cp -vf ./{help,mpmrc,README.md,themerc} /usr/local/share/doc/mpm
-    
+
     mkdir -vp /usr/share/licenses/mpm && \
     cp -vf ./LICENSE /usr/share/licenses/mpm/LICENSE
 

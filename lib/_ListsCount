@@ -12,7 +12,7 @@ _ListsCount() {
             -iname "*.m3u" -printf '.' | wc -c)${nc}"
         fi
     )
-    
+
     __def() (
         if [[ -f $tmp_dir/1 ]]; then
             echo "${critical}${b}$(_GetLinesList -q)${nb}${nc}"
@@ -22,7 +22,7 @@ _ListsCount() {
             echo "0"
         fi
     )
-    
+
     __aud() (
         if [[ -s $AUDIO_URLS ]]; then
             echo "${info}$(_GetLinesList -a)${nc}"
@@ -30,7 +30,7 @@ _ListsCount() {
             echo "0"
         fi
     )
-    
+
     __vid() (
         if [[ -s $VIDEO_URLS ]]; then
             echo "${info}$(_GetLinesList -v)${nc}"
@@ -38,7 +38,7 @@ _ListsCount() {
             echo "0"
         fi
     )
-    
+
     echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
     echo -e "                           Collection: $(__col) * Default list: $(__def) * Audio list: $(__aud) * Video list: $(__vid)"
     echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"

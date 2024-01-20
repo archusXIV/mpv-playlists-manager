@@ -27,7 +27,7 @@ _SearchYoutubeWithFzf() {
     fi
 
     [[ -z $request ]] && return
-    
+
     # clean our request
     sanitizedRequest=$(sed -e 's/+/%2B/g;s/#/%23/g;s/&/%26/g;s/\s/+/g' <<< "$request")
 

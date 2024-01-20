@@ -26,7 +26,7 @@ _CopyUrl() {
     esac
 
     while (( $(grep "" -c "$QUEUE") > 0 )); do
-    
+
         __CopyLinks() (
 
             __
@@ -43,7 +43,7 @@ _CopyUrl() {
 
                 printf '%s\n' " ${info}Getting titles & links from playlist: $copyUrlPlaylisTitles..." \
                 "${b} Please be patient.${nb}${nc}"
-                
+
                 _YtdlGetTitle "$copyUrl" \
                 | tee -a "$TITLES" >> "$DEFAULTITLES"
                 _GetYoutubePlaylistUrls $arg
@@ -75,11 +75,11 @@ _CopyUrl() {
 
             fi
         )
-        
+
         while :; do
             _ResizeWindow
             clear
-            
+
             [[ -s $YTSEARCH${Type}Playlists ]] \
             && __ && _GetYoutubePlaylistUrls -s
             __

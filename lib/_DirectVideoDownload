@@ -15,12 +15,12 @@ _DirectVideoDownload() {
 
     mapfile -t DIRECT < <(grep '^https' "$playlists_dir"/"$list")
     counter="${#DIRECT[@]}"
-    
+
     for line in "${DIRECT[@]}"; do
 
         printf '%s\n' " ${info}$counter file(s) left to download." \
         " Downloading: $(_GetLinkTitle -l)${nc}"
-        
+
         if [[ $line =~ 'youtube.com' && $(_GetLinkTitle -l) =~ '/' ]]; then
             youtube-dl "${ytdlPreset_FS[@]}" \
             "${ytdlPreset_X[@]}" "$line"

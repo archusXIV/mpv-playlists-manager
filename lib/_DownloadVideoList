@@ -29,12 +29,12 @@ _DownloadVideoList() {
             cp -f "$list" "$list"_origin
             mkdir --parents "$videos_dir"/"${list%.*}" \
             && cd "$videos_dir"/"${list%.*}"
-            
+
             mapfile -t SELECTEDCODES < <(grep '^https' "$playlists_dir"/"$list")
             counter="${#SELECTEDCODES[@]}"
-            
+
             for downvideourl in "${SELECTEDCODES[@]}"; do
-                
+
                 clear
                 __
                 youtube-dl -F "${ytdlPreset_DW[@]}" "$downvideourl" \
@@ -47,7 +47,7 @@ _DownloadVideoList() {
                 __
                 printf '%s\n' " ${info}$counter file(s) left to download." \
                 " Downloading $(_GetLinkTitle -l).${nc}"
-                
+
                 if [[ "$code" =~ '+' && $(_GetLinkTitle -l) =~ '/' ]]; then
                     youtube-dl "${ytdlPreset_FS[@]}" \
                     --format "$code" \

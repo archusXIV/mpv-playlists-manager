@@ -7,7 +7,7 @@ _GetVideoDownload() {
     cd "$videos_dir" || exit 1
 
     mapfile -t VIDEOLINKS < <(grep '^https' "$M3UFILE")
-    
+
     for getVideoUrl in "${VIDEOLINKS[@]}"; do
         __
         youtube-dl -F "${ytdlPreset_DW[@]}" "$getVideoUrl" \
@@ -31,7 +31,7 @@ _GetVideoDownload() {
                 --output "$(sed -n '1p' "$TITLES").%(ext)s" \
                 "${ytdlPreset_X[@]}" "$getVideoUrl"
             fi
-            
+
         else
             if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
                 youtube-dl --format "$code" "${ytdlPreset_FS[@]}" \
@@ -41,7 +41,7 @@ _GetVideoDownload() {
                 --output "$(sed -n '1p' "$TITLES").%(ext)s" \
                 "${ytdlPreset_NC[@]}" "$getVideoUrl"
             fi
-            
+
         fi
 
         if [[ $M3UFILE = "$VIDEO_URLS" ]]; then

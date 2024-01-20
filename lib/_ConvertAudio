@@ -35,9 +35,9 @@ _ConvertAudio() {
         __
         read -rn1 \
         -p "${info}"' Select an output format [1=mp3] [2=flac] [3=wav] [4=ogg]: '"${nc}"
-        
+
         case "$REPLY" in
-            [1-4])  
+            [1-4])
                 __
                 printf '%s\n' " ${info}Converting files in ${task}${formats[${REPLY}]}${b}...${nb}${nc}"
                 __
@@ -54,7 +54,7 @@ _ConvertAudio() {
                 clear
             ;;
         esac
-        
+
     fi
 
     find . -iname "*.webm" -exec rm {} \;

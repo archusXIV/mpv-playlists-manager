@@ -18,7 +18,7 @@ _LoadPlaylist() {
         [[ -f "$dotM3uFile"_origin ]] \
         && mv "$dotM3uFile"_origin "$dotM3uFile"
     done
-     
+
     clear
     touch 1_Back_to_menu
     __

@@ -27,14 +27,14 @@ _ChooseDownloadVideo() {
             _TitlesListCompare
             _GetRange
             clear
-            
+
             cp -f "$list" "$list"_origin
             mkdir --parents "$videos_dir"/"${list%.*}" \
             && cd "$videos_dir"/"${list%.*}"
-            
+
             readarray -t CHOSENCODES < "$CHOOSE1"
             counter="${#CHOSENCODES[@]}"
-            
+
             for url in "${CHOSENCODES[@]}"; do
 
                 if [[ $url =~ 'youtube.com' ]]; then
@@ -52,7 +52,7 @@ _ChooseDownloadVideo() {
                 clear
                 printf '%s\n' " ${info}$counter file(s) left to downloads." \
                 " Downloading: $(_GetLinkTitle -s)${nc}"
-                
+
                 if [[ $line =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]; then
                     # downloader presets described in ~/.config/mpm/mpmrc
                     youtube-dl "${ytdlPreset_FS[@]}" \

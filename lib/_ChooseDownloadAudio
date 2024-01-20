@@ -18,12 +18,12 @@ _ChooseDownloadAudio() {
     M3UFILE="$CHOOSE1"
     readarray -t SELECTEDAUDIO < "$M3UFILE"
     counter="${#SELECTEDAUDIO[@]}"
-    
+
     __ChooseDownloadAudioMessage() (
         printf '%s\n' " ${info}$counter file(s) left to downloads." \
         " Downloading: $(_GetLinkTitle -s)${nc}"
     )
-    
+
     for url in "${SELECTEDAUDIO[@]}"; do
 
         if [[ $direct_download = yes ]] && \
@@ -48,7 +48,7 @@ _ChooseDownloadAudio() {
             clear
             __
             __ChooseDownloadAudioMessage
-            
+
             youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
             --format "$code" "${ytdlPreset_NC[@]}" "$url"
 

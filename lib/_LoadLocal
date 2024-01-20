@@ -11,7 +11,7 @@ _LoadLocal() {
     VIDEOS=$(find "$HOME" -maxdepth 2 -type d -name "Videos" -o -name "Vidéos")
     zic=$(echo "$AUDIOS" | awk -F"/" '{print $NF}')
     vid=$(echo "$VIDEOS" | awk -F"/" '{print $NF}')
-    
+
     read -rsn 1 \
     -p "${info}"' Play: [1] Audio dir, [2] Audio files, [3] Video dir or [4] Video files?: '"${nc}" choice
     case "$choice" in

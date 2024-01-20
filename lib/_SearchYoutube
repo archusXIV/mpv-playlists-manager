@@ -6,7 +6,7 @@ _SearchYoutube() {
     __
     command -v ytfzf >/dev/null && {
         read -rsn1 -p " ${info}Search ${Type} with regular [f]zf or [y]tfzf script?: ${nc}" searchTool
-        
+
         case "$searchTool" in
             f|F)
                 _SearchYoutubeWithFzf

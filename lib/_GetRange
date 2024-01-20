@@ -3,18 +3,18 @@
 
 # shellcheck disable=SC2154
 _GetRange() {
-    
+
     grep -v '#EXTM3U' "$list" > "$list"_tmp
     RP=$(printf '%s\n' "Enter numbers separeted by commas or dashes for a range" \
     " for example: ${task}1-4,6 8-11 or 1-4,6-8,10 or 2,3,5,6,1 : ${nc}")
     __
     IFS=", "; read -ra array -p " ${info}""$RP""${nc}"
-    
+
     for range in "${array[@]}"; do
         IFS="-"; read -r start end <<< "$range"
         [[ -z $start ]] && continue
         [[ -z $end ]] && end="$start"
-        
+
         for ((i=start;i <= end;i++)); do
             sed -n "${i}p" "$list"_tmp >> "$CHOOSE1"
             sed -n "${i}p" "$titles_dir"/"$list.titles" \
