@@ -9,11 +9,26 @@ _SaveCheck() {
     local listTotal
     listTotal=$(find . -not -name "default.m3u" -name "*.m3u" \
     -o -name "*.m3u_origin" | wc -l)
+
+    __listAlreadyExists() (
+        __
+        read -rp "${info}"' Enter the new playlist name (do not use extension): '"${nc}" list
+        list="$list.m3u"
+        [[ -f $list ]] && {
+            __
+            _Prompt -n " ${critical}$list ALREADY exists! Overwrite it?: ${nc}" && {
+                _SaveList && _Menu
+            }
+            _Menu
+        }
+        _SaveList && _Menu
+    )
+
     __
     PS3=""$'\n'" ${info}Available playlists (type ${task}$((listTotal + 1)) ${info}to create a new one):${nc} "
     select list in $(find . -not -name "default.m3u" -name "*.m3u" \
         -o -name "*.m3u_origin" | sort -d | sed 's,.*/,,'); do
-
+        
         [[ $REPLY != $((listTotal + 1)) ]] && {
 
             if [[ $(find . -name "${list}") ]]; then
@@ -22,36 +37,38 @@ _SaveCheck() {
                     _SaveList && break
                 }
                 __
-                read -rp "${info}"' Save playlist as (do not use extension): '"${nc}" list
-                list="$list.m3u"
-                [[ -f $list ]] && {
-                    __
-                    _Prompt -n " ${critical}$list ALREADY exists! Overwrite it?: ${nc}" && {
-                        _SaveList && break
-                    }
-                    break
-                }
-                _SaveList && break
+                read -rp " ${info}[S]ave playlist as a new one or [A]dd links to $list?: ${nc}" saveOrAddLinks
+                case "$saveOrAddLinks" in
+                    a|A)
+                        cat "$CURRENT_LIST" >> "$list"
+                        cat "$CURRENT_TITLES" >> "$titles_dir/$list.titles"
+                        perl -i -ne 'print if ! $a{$_}++' {"$list","$titles_dir/$list.titles"}
+                        __
+                        printf '%s\n' " ${info}Link(s) added to $list.${nc}"
+                        rm {"$CURRENT_LIST","$CURRENT_TITLES"}
+                        sleep 2
+                        _Menu
+                    ;;
+                    s|S)
+                        __listAlreadyExists
+                    ;;
+                    *)
+                        printf '%s\n' " ${critical}Wrong option, try again later...${nc}"
+                        sleep 4
+                        break
+                    ;;
+                esac
+                
             else
                 __
-                printf '%s\n' " ${critical}Wrong entry $REPLY, try again...${nc}"
+                printf '%s\n' " ${critical}Wrong entry $REPLY, try again later...${nc}"
                 sleep 4
                 break
             fi
 
         }
 
-        __
-        read -rp "${info}"' Save the new playlist as (do not use extension): '"${nc}" list
-        list="$list.m3u"
-        [[ -f $list ]] && {
-            __
-            _Prompt -n " ${critical}$list ALREADY exists! Overwrite it?: ${nc}" && {
-                _SaveList && break
-            }
-            break
-        }
-        _SaveList && break
+        __listAlreadyExists
 
     done
 }

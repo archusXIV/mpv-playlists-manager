@@ -1,0 +1,102 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_SearchYoutubeWithFzf() {
+
+    ! command -v fzf >/dev/null && {
+        __
+        printf '%s\n' " ${critical}fzf package is not installed...${nc}"
+        sleep 2
+        return
+    }
+
+    local sanitizedRequest sanitizedResult grabLink grabPlaylist IDS id selection \
+    mediaLinkIDS mediaPrefix playlistLinkIDS playlistPrefix
+
+    if [[ -z $* ]]; then
+        __
+        printf '%s\n' " ${critical}Tip: To copy links in the fzf menu press ${task}Enter" \
+        " ${critical}on the desired ${Type} titles (can be a playlist)," \
+        " note that multi selection is not implemented" \
+        " so ${task}press Enter ${critical}on each title and then press ${task}Escape ${critical}to confirm.${nc}"
+        __
+        read -rp " ${info}Search for youtube ${Type} (no quotes): ${nc}" request
+    else
+        request="$*"
+    fi
+
+    [[ -z $request ]] && return
+    
+    # clean our request
+    sanitizedRequest=$(sed -e 's/+/%2B/g;s/#/%23/g;s/&/%26/g;s/\s/+/g' <<< "$request")
+
+    sanitizedResult=$(
+        curl \
+        -s "https://www.youtube.com/results?search_query=${sanitizedRequest}" | \
+        sed 's|\\.||g'
+    )
+
+    if ! grep -q "$sanitizedRequest" <<< "$sanitizedResult"; then
+        echo "unable to fetch Youtube."
+        sleep 2s
+        return
+    fi
+
+    grabLink='"videoRenderer":{"videoId":"\K.{11}".+?"text":".+?[^\\](?=")'
+    grabPlaylist='"playlistRenderer":{"playlistId":"\K.{34}?","title":{"simpleText":".+?[^\"](?=")'
+
+    __getResults() (
+        grep -oP "$1" <<< "$sanitizedResult" | \
+        awk -F\" -v p="$2" '{ print $1 "\t" p " " $NF}'
+    )
+
+    mediaLinkIDS=$(__getResults "$grabLink" "[${Type}]")
+    playlistLinkIDS=$(__getResults "$grabPlaylist" "[Playlist]")
+
+    [[ -n $playlistLinkIDS ]] && IDS="$playlistLinkIDS\n"
+    [[ -n $mediaLinkIDS ]] && IDS="$IDS$mediaLinkIDS"
+
+    mediaPrefix="https://www.youtube.com/watch?v="
+    playlistPrefix="https://www.youtube.com/playlist?list="
+
+    if [[ $Type = Audio ]]; then
+        URLS="$AUDIO_URLS"
+        TITLES="$AUDIO_TITLES"
+        Type=Audio
+    else
+        URLS="$VIDEO_URLS"
+        TITLES="$VIDEO_TITLES"
+        Type=Video
+    fi
+
+    while :; do
+        selection=$(echo -e "$IDS" | cut -d'	' -f2 \
+        | fzf \
+        --prompt='Filter: ' \
+        --header "${info}${b}"'Press Enter to copy, Escape to exit search: '"${nb}${nc}")
+
+        id=$(echo -e "$IDS" | grep -Fwm1 "$selection" | cut -d'	' -f1)
+
+        [[ -z $selection ]] && return	# if esc-ed then exit
+        [[ -n $selection ]] && \
+        notify-send "copied: $(echo -e "$selection" | sed "s/\[.*\]\s//")"
+
+        case "$id" in
+            # 11 digits id = media
+            ???????????)
+                echo "$mediaPrefix$id" | tee -a "$URLS" >> "$QUEUE"
+                echo -e "$selection" | sed "s/\[.*\]\s//" \
+                | tee -a "$TITLES" >> "$DEFAULTITLES"
+                _RemoveCrap
+            ;;
+            # 34 digits id = playlist
+            ??????????????????????????????????)
+                echo "$playlistPrefix$id" >> "$YTSEARCH""${Type}"Playlists
+            ;;
+            *)
+                return
+            ;;
+        esac
+    done
+}

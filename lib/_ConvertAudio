@@ -57,6 +57,8 @@ _ConvertAudio() {
         
     fi
 
+    find . -iname "*.webm" -exec rm {} \;
+
     if [[ -z $(find "$audios_dir" -maxdepth 2 -name "*.webm" ) ]]; then
         __
         printf '%s\n' " ${info}Conversion done.${nc}"

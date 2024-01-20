@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2015
 _CopyUrl() {
 
-    local Type TITLES URLS MEDIA arg copyUrl PlaylistTitle
+    local Type TITLES URLS menuTitleType arg copyUrl copyUrlPlaylisTitles
 
     [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
 
@@ -13,41 +13,41 @@ _CopyUrl() {
             Type=Audio
             TITLES="$AUDIO_TITLES"
             URLS="$AUDIO_URLS"
-            MEDIA=AUDIO
+            menuTitleType=AUDIO
             arg="-a"
         ;;
         -v)
             Type=Video
             TITLES="$VIDEO_TITLES"
             URLS="$VIDEO_URLS"
-            MEDIA=VIDEO
+            menuTitleType=VIDEO
             arg="-v"
         ;;
     esac
 
     while (( $(grep "" -c "$QUEUE") > 0 )); do
     
-        __CopyLinks() {
+        __CopyLinks() (
+
             __
             echo -e " Paste an url to fill the ${info}${Type}${nc} playlist:\n"
             read -r copyUrl
 
             if [[ $copyUrl =~ 'playlist?list=' ]]; then
-
                 __
-                PlaylistTitle=$(\
+                copyUrlPlaylisTitles=$(\
                 youtube-dl "${ytdlPreset_DW[@]}" -J \
                 --flat-playlist "$copyUrl" \
                 | jq -r .title \
                 )
 
-                printf '%s\n' " ${info}Getting titles & links from playlist: $PlaylistTitle..." \
+                printf '%s\n' " ${info}Getting titles & links from playlist: $copyUrlPlaylisTitles..." \
                 "${b} Please be patient.${nb}${nc}"
+                
                 _YtdlGetTitle "$copyUrl" \
                 | tee -a "$TITLES" >> "$DEFAULTITLES"
                 _GetYoutubePlaylistUrls $arg
                 _RemoveCrap
-
             else
 
                 echo "$copyUrl" >> "$URLS"
@@ -58,59 +58,73 @@ _CopyUrl() {
                 youtube-dl -F "${ytdlPreset_DW[@]}" "$copyUrl" > "$YTOP"
 
                 if [[ $? -eq 1 ]]; then
-
                     __
                     echo -e " ${critical}${b}No format code found!${nb}\n$copyUrl will be removed."
-                    echo " ${info}Please visit: $supportedsites${nc}"
+                    echo " ${info}Please visit: $supportedSites${nc}"
                     sed -i '$d' "$URLS"
                     _RemoveCrap
                     sleep 7
                     [[ $(_GetLinesList $arg) -eq 0 ]] && return
-
                 else
-
                     echo "$copyUrl" >> "$QUEUE"
                     echo -e " ${info}Getting ${Type} title...${nc}\n"
                     _YtdlGetTitle "$copyUrl" \
                     | tee -a "$TITLES" >> "$DEFAULTITLES"
                     _RemoveCrap
-
                 fi
 
             fi
-        }
-
+        )
+        
         while :; do
             _ResizeWindow
             clear
+            
+            [[ -s $YTSEARCH${Type}Playlists ]] \
+            && __ && _GetYoutubePlaylistUrls -s
             __
             [[ -s $URLS ]] && \
             echo -e " ${info}${Type} list:   $(_GetLinesList $arg) url(s)${nc}"
             __
-            echo -e "                                                    ${mtitle}::${MEDIA} OPTIONS::${nc}"
-            echo -e "                              ┌─────────────────────────────────────────────────────────────┐"
-            echo -e "                              │     1) Add ${Type} links            4) Play current list      │"
-            echo -e "                              │     2) Download current list      5) View current list      │"
-            echo -e "                              │     3) Save playlist as           6) Back to main menu      │"
-            echo -e "                              └─────────────────────────────────────────────────────────────┘"
-            echo -e "                                                     ${info}${b}Select an item${nb}${nc}"
+            echo -e "                                                  ${mtitle}::${menuTitleType} OPTIONS::${nc}"
+            echo -e "                               ┌──────────────────────────────────────────────────────┐"
+            echo -e "                               │   1) Add ${Type} links         5) Play current list    │"
+            command -v fzf >/dev/null || echo -e "                               │   2) ${critical}Search Youtube ${Type}${nc}    6) View current list    │" \
+            && echo -e "                               │   2) Search Youtube ${Type}    6) View current list    │"
+            echo -e "                               │   3) Download current list   7) Back to main menu    │"
+            echo -e "                               │   4) Save current list as                            │"
+            echo -e "                               └──────────────────────────────────────────────────────┘"
+            echo -e "                                                   ${info}${b}Select an item${nb}${nc}"
             __
             read -rsn 1 copyUrlsOptions
             case "$copyUrlsOptions" in
                 1)  __CopyLinks
                     __ ;;
                 2)
+                    if [[ $use_fzf = yes ]]; then
+                        clear
+                        _SearchYoutube
+                    else
+                        __
+                        printf '%s\n' \
+                            " ${critical}fzf is set to NO in your mpmrc file..." \
+                            " no way to search on youtube!${nc}"
+                        sleep 5
+                    fi
+                ;;
+                3)
                     [[ $arg = '-a' ]] && _GetAudio -a || _GetVideo -v
                     __ ;;
-                3)  _Save $arg
+                4)  _Save $arg
                     __ ;;
-                4)  _LoadAudioVideo $arg
+                5)  _LoadAudioVideo $arg
                     __ ;;
-                5)  _ViewUrlInfo $arg
+                6)  _ViewUrlInfo $arg
                     __ ;;
-                6)  _Menu
+                7)  _Menu
                     __ ;;
             esac
         done
     done
+
 }

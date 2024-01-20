@@ -31,10 +31,21 @@ mpm -v # prints mpm version
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
-## New in version 1.4-8
-- Just a new look !
+## New in version 1.4-9
+- Using fzf functionality.
+  Two methods are offered here:
+  If the fzf package is installed it will be used
+  to search and copy audio/video urls from youtube.
+  In addition you can also use the ytfzf script
+  if it is in your PATH.
+  <https://github.com/pystardust/ytfzf>
+- In your mpmrc file activate it.
+
+```
+use_fzf="yes"
+```
+
 - Refactoring some functions.
-- Few bugs fixed.
 - If installed, [parallel](https://www.gnu.org/software/parallel/) will launch multiple ffmpeg instances to speed up audio conversion.
 - Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L79) file
 
@@ -88,11 +99,12 @@ Requests and contributions? Why not, have fun.
 
 # dependencies
 - [ffmpeg](https://ffmpeg.org/)
+- [fzf](https://github.com/junegunn/fzf) (optional)
 - [jq](https://stedolan.github.io/jq/)
 - [mpv](https://mpv.io/)
 - [parallel](https://www.gnu.org/software/parallel/) (optional)
 - [ranger](https://github.com/ranger/ranger) (optional, see the help option for details)
-- [ueberzug](https://github.com/seebye/ueberzug) (optional) might be in your distro's repo
+- [ueberzug](https://github.com/ueber-devel/ueberzug) (optional) might be in your distro's repo
 - [vim](https://www.vim.org/) (set as the MPMEDITOR)
 - [w3m](https://w3m.sourceforge.net/) (optional)
 - [wmctrl](https://github.com/dancor/wmctrl) (optional)

@@ -22,7 +22,7 @@
 
 trap "_CleanTmpDir; exit" SIGTERM EXIT
 
-VERSION="v.1.4-8"
+VERSION="v.1.4-9"
 
 : "${XDG_CONFIG_HOME:-$HOME/.config}"
 CONF_DIR="$XDG_CONFIG_HOME/mpm"
@@ -64,8 +64,8 @@ __() { printf '\n'; }
 supportedsites="https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md"
 AUDIO_URLS="$tmp_dir/temporaryAudioUrls.m3u"
 AUDIO_TITLES="$tmp_dir/temporaryAudioTitles"
-CHOOSE1="$playlists_dir/temporarySelection.m3u"
-CHOOSE2="$playlists_dir/temporarySelection2.m3u"
+CHOOSE1="$tmp_dir/temporarySelection.m3u"
+CHOOSE2="$tmp_dir/temporarySelection2.m3u"
 DEFAULTITLES="$tmp_dir/DefaultTitles"
 DEFAULTM3UTITLES="$titles_dir/default.m3u.titles"
 FFOP="$tmp_dir/ffmpeg_output"
@@ -75,6 +75,7 @@ SELECTEDTITLES="$titles_dir/selected.titles"
 VIDEO_URLS="$tmp_dir/temporaryVideoUrls.m3u"
 VIDEO_TITLES="$tmp_dir/temporaryVideoTitles"
 YTOP="$tmp_dir/youtube-dl_output"
+YTSEARCH="$tmp_dir/youtubeSearch"
 
 _LaunchMpm() {
     _Prompt " ${info}Launch mpm? ${nc}" || {

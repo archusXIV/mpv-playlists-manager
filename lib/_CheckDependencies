@@ -5,7 +5,7 @@
 _CheckDependencies() {
     ## Checking dependencies: softwares, directories and files.
     declare -a DEPS=( "ffmpeg" "jq" "mpv" "youtube-dl" "yt-dlp" \
-                    "parallel" "ueberzug" "wmctrl" "w3m" )
+                    "fzf" "parallel" "ueberzug" "wmctrl" "w3m" )
 
     for dep in "${DEPS[@]:0:5}"; do
         [[ -z $(command -v "$dep") ]] && {
@@ -15,7 +15,7 @@ _CheckDependencies() {
         }
     done
 
-    for optional in "${DEPS[@]:5:9}"; do
+    for optional in "${DEPS[@]:5:10}"; do
         [[ -z $(command -v "$optional") ]] && {
             printf '%s\n' " For better experience consider installing $optional."
             sleep 4

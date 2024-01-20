@@ -1,0 +1,40 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_SearchYoutubeWithYtfzf() {
+    __
+    printf '%s\n' " ${critical}Tip: To select mutiple links in the ytfzf menu press ${task}Tab" \
+    " ${critical}on the desired ${Type} titles, ${task}Ctrl P${critical} to view next page...etc" \
+    " then ${task}Enter ${critical}to confirm and go back in $menuTitleType OPTIONS menu.${nc}"
+    __
+    read -rp " ${info}Search for youtube ${Type}: ${nc}" request
+
+    if [[ -n $request ]]; then
+        # ytfzf_options are defined in mpmrc
+        ytfzf -tL "${ytfzfOptions_X[@]}" "$request$*" >> "$URLS"
+
+        clear
+        [[ ! -s $URLS ]] && return
+
+        while read -r line; do
+
+            if [[ $line =~ 'playlist?list=' ]]; then
+                echo "$line" >> "$YTSEARCH""${Type}"Playlists
+            else
+                echo "$line" >> "$QUEUE"
+                __
+                printf '%s\n' " ${info}Getting $line title...${nc}"
+                _YtdlGetTitle "$line" | tee -a "$TITLES" >> "$DEFAULTITLES"
+                sleep 1
+                clear
+            fi
+
+        done < "$URLS"
+
+        _RemoveCrap
+
+    else
+        return
+    fi
+}

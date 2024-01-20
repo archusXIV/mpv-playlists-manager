@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.4-8)
+# ~/.config/mpm/mpmrc (version 1.4-9)
 
 ########################################################
 #                                                      #
@@ -44,6 +44,8 @@ playlists_dir="$main_dir/playlists"
 
 # Be carefull with this one because if you choose to use the conversion action,
 # ALL .webm files in that directory will be converted.
+#audios_dir="$HOME/Music/mpm_audios"
+#videos_dir="$HOME/Videos/mpm_videos"
 audios_dir="$main_dir/mpm_audios"
 videos_dir="$main_dir/mpm_videos"
 titles_dir="$main_dir/titles"
@@ -72,6 +74,24 @@ default_conversion_format="mp3"
 # (will appear in main menu)
 quit_after_task="no"
 
+########### USING FZF FUNCTIONALITY ###########
+# Two methods are offered here:
+# If the fzf package is installed it will be used
+# to search and copy audio/video urls from youtube.
+# In addition you can also use the ytfzf script
+# if it is in your PATH.
+# <https://github.com/pystardust/ytfzf>
+use_fzf="no"
+
+# add/change your ytfzf preferences here (see man ytfzf)
+ytfzfOptions_YT=( --force-youtube )
+ytfzfOptions_PG=( --pages=3 )
+ytfzfOptions_VD=( --video-duration=long )
+ytfzfOptions_SB=( --sort-by=relevance )
+ytfzfOptions_TY=( --type=all )
+ytfzfOptions_X=( "${ytfzfOptions_YT[@]}" "${ytfzfOptions_PG[@]}" \
+"${ytfzfOptions_VD[@]}" "${ytfzfOptions_SB[@]}" "${ytfzfOptions_TY[@]}" )
+
 ##### FFMPEG SPECIFICS (audio conversion) #####
 # !!! You can change ffmpeg audio codec command line settings !!!
 # if the parallel package is installed then it will be used to launch
@@ -93,7 +113,6 @@ function _mp3 {
             ffmpeg -y -i {} -qscale:a 0 {.}.mp3 ::: ./*.webm 2>"$FFOP"
         ;;
     esac
-    find . -iname "*.webm" -exec rm {} \;
 }
 
 function _flac {
@@ -110,7 +129,6 @@ function _flac {
             ffmpeg -y -i {} -qscale:a 0 {.}.flac ::: ./*.webm 2>"$FFOP"
         ;;
     esac
-    find . -iname "*.webm" -exec rm {} \;
 }
 
 function _wav {
@@ -127,7 +145,6 @@ function _wav {
             ffmpeg -y -i {} -qscale:a 0 {.}.wav ::: ./*.webm 2>"$FFOP"
         ;;
     esac
-    find . -iname "*.webm" -exec rm {} \;
 }
 
 function _ogg {
@@ -144,7 +161,6 @@ function _ogg {
             ffmpeg -y -i {} -qscale:a 0 {.}.ogg ::: ./*.webm 2>"$FFOP"
         ;;
     esac
-    find . -iname "*.webm" -exec rm {} \;
 }
 
 ## MPV SPECIFICS

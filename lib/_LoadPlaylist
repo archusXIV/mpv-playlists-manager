@@ -33,7 +33,7 @@ _LoadPlaylist() {
             echo " ${critical}No links found in $list (empty or does not contains #EXTM3U header)."
             echo " You can edit and fix it in option 8) Edit a playlist.${nc}"
             sleep 8
-            break
+            return
         }
 
         rm 1_Back_to_menu
@@ -55,7 +55,7 @@ _LoadPlaylist() {
                 __
                 case "$loadPlaylistOptions" in
                     1) clear; _LoadPlaylistMenu ;;
-                    2) return ;;
+                    2) break ;;
                     *)
                         __
                         printf '%s\n' " ${critical}Wrong option...${nc}"

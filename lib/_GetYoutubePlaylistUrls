@@ -3,10 +3,47 @@
 
 # shellcheck disable=SC2154
 _GetYoutubePlaylistUrls() {
-    __
+
+    local URLS_INFO getYoutubePlaylistUrls
     case "$1" in
         -a)
             URLS_INFO="$AUDIO_URLS"
+        ;;
+        -s)
+            if [[ $Type = Audio ]]; then
+                getYoutubePlaylistUrls="$YTSEARCH"AudioPlaylists
+                URLS_INFO="$AUDIO_URLS"
+            else
+                getYoutubePlaylistUrls="$YTSEARCH"VideoPlaylists
+                URLS_INFO="$VIDEO_URLS"
+            fi
+
+            getYoutubePlaylistTitle=$(\
+                youtube-dl "${ytdlPreset_DW[@]}" -J \
+                --flat-playlist "$(cat "$getYoutubePlaylistUrls")" \
+                | jq -r .title \
+            )
+
+            printf '%s\n' \
+            " ${info}Please be patient while extracting urls/titles from:" \
+            " $getYoutubePlaylistTitle playlist...${nc}"
+            
+            mapfile -t < <(grep '^https' "$getYoutubePlaylistUrls")
+            # there might be several playlists urls selected in _SearchYoutube function
+            for url in "${MAPFILE[@]}"; do
+                youtube-dl "${ytdlPreset_DW[@]}" -j "$url" \
+                | jq '(.webpage_url)' | sed 's/"//g' \
+                | tee -a "$QUEUE" >> "$URLS_INFO"
+                sed -i '/playlist/d' {"$QUEUE","$URLS_INFO"}
+            done
+            
+            _YtdlGetTitle "$(cat "$getYoutubePlaylistUrls")" \
+            | tee -a "$TITLES" >> "$DEFAULTITLES"
+            _RemoveCrap
+
+            rm "$getYoutubePlaylistUrls"; sleep 1s
+
+            clear && return
         ;;
         -v)
             URLS_INFO="$VIDEO_URLS"
