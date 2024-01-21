@@ -10,8 +10,8 @@ _TitlesListCompare() {
     # first test if "myplaylist".titles exist.
     if [[ -f $titles_dir/$list.titles ]]; then
 
-        if (( $(grep "" -c "$titles_dir/$list.titles") \
-            != $(_GetLinesList -l) )); then
+        if [[ $(grep "" -c "$titles_dir/$list.titles") \
+            -ne $(_GetLinesList -l) ]]; then
             __
             printf '%s\n' " ${critical}${titles} is out of date...${nc}" \
             " ${task}${b}Updating titles...please wait.${nb}${nc}"

@@ -5,10 +5,12 @@
 # This function is called multiple times across this program,
 # but let's ensure temporary files are removed before we exit out. 
 _CleanTmpDir() {
-    if [[ $(_GetLinesList -q) -gt 0 ]]; then
-        cp "$DEFAULTITLES" "$DEFAULTM3UTITLES" 2>/dev/null
+    if [[ $(_GetLinesList -q) -eq $(grep "" -c "$DEFAULTITLES") ]] ; then
+        cp -f "$DEFAULTITLES" "$DEFAULTM3UTITLES"
     else
-        rm -f "$DEFAULTM3UTITLES" 2>/dev/null
+        printf '%s\n' " ${task}${b}Updating Default list titles...${nb}${nc}"
+        sleep 1
+        _GetMediaTitle -q > "$DEFAULTM3UTITLES"
     fi
     rm -f \
     {"$tmp_dir"/*,"$playlists_dir"/{1_Back_to_menu,*_tmp}} 2>/dev/null

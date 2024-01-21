@@ -31,7 +31,7 @@ mpm -v # prints mpm version
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
-## New in version 1.4-9
+## New in version 1.5-0
 - Using fzf functionality.
   Two methods are offered here:
   If the fzf package is installed it will be used
@@ -44,7 +44,7 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge 
 ```
 use_fzf="yes"
 ```
-
+- Bugs fixed.
 - Refactoring some functions.
 - If installed, [parallel](https://www.gnu.org/software/parallel/) will launch multiple ffmpeg instances to speed up audio conversion.
 - Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L79) file
@@ -54,7 +54,7 @@ use_fzf="yes"
 
 default theme will use your ~/.Xresources colors or your terminal preferences.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.4-9.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.5-0.png)
 
 
 ```

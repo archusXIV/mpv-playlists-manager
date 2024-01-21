@@ -23,11 +23,11 @@ _GetYoutubePlaylistUrls() {
                 --flat-playlist "$(cat "$getYoutubePlaylistUrls")" \
                 | jq -r .title \
             )
-
+            
             printf '%s\n' \
             " ${info}Please be patient while extracting urls/titles from:" \
             " $getYoutubePlaylistTitle playlist...${nc}"
-
+            
             mapfile -t < <(grep '^https' "$getYoutubePlaylistUrls")
             # there might be several playlists urls selected in _SearchYoutube function
             for url in "${MAPFILE[@]}"; do
@@ -36,7 +36,7 @@ _GetYoutubePlaylistUrls() {
                 | tee -a "$QUEUE" >> "$URLS_INFO"
                 sed -i '/playlist/d' {"$QUEUE","$URLS_INFO"}
             done
-
+            
             _YtdlGetTitle "$(cat "$getYoutubePlaylistUrls")" \
             | tee -a "$TITLES" >> "$DEFAULTITLES"
             _RemoveCrap

@@ -7,7 +7,7 @@ _ViewUrlInfo() {
     # but here it won't work because of the case statment right parenthese...
     # They will close the block before it finishes.
 
-    local defaultTitles stars
+    local stars
 
     viewUrlInfoPrompt=( "[M]aim menu" "[B]ack to audio options" \
                         "[B]ack to video options" "[D]ownload" \
@@ -15,7 +15,7 @@ _ViewUrlInfo() {
 
     # let's play...
     stars=$(printf "%-54s" "*")
-
+    
     __audio() {
         if [[ -s $AUDIO_URLS ]]; then
             clear
@@ -79,17 +79,11 @@ _ViewUrlInfo() {
     __queue() {
         if (($(_GetLinesList -q) > 0)); then
             [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
-
-            if [[ -f $DEFAULTM3UTITLES ]]; then
-                defaultTitles="$DEFAULTM3UTITLES"
-            else
-                defaultTitles="$DEFAULTITLES"
-            fi
-
-            (( $(grep "" -c "$defaultTitles") != $(_GetLinesList -q) )) && {
+            
+            [[ $(grep "" -c "$DEFAULTITLES") -ne $(_GetLinesList -q) ]] && {
                 printf '%s\n' " ${critical}Default list as been modified," \
                 " ${task}${b}Updating Default list titles...${nb}${nc}"
-                _GetMediaTitle -q > "$defaultTitles"
+                _GetMediaTitle -q > "$DEFAULTITLES"
             }
             clear
             __
@@ -98,10 +92,10 @@ _ViewUrlInfo() {
             awk '$0 ~ /^https/{print $0}' "$QUEUE" \
             | cat -n && {
             __
-            cat -n "$defaultTitles"
+            cat -n "$DEFAULTITLES"
             __
             }
-
+            
             while [[ -f $QUEUE ]]; do
                 unset {viewUrlInfoPrompt[1],viewUrlInfoPrompt[2],viewUrlInfoPrompt[7]}
                 echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
@@ -132,7 +126,7 @@ _ViewUrlInfo() {
                             || -f  $DEFAULTITLES ]]; then
                             _Save -q
                         else
-                            echo " ${task}${b}Updating Default list titles...${nb}${nc}"
+                            printf '%s\n' " ${task}${b}Updating Default list titles...${nb}${nc}"
                             _GetMediaTitle -q \
                             | tee -a "$DEFAULTITLES" \
                             | cat -n >/dev/null 2>&1

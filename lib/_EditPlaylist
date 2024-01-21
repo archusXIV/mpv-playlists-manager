@@ -9,13 +9,14 @@ _EditPlaylist() {
         __
         PS3=""$'\n'"${info}Choose a playlist to edit:${nc} "
 
-        select list in $(find . -name "*.m3u" \
+        select list in $(find . -not -name "default.m3u" -name "*.m3u" \
             -o -name "*.m3u_origin" | sort -d | sed 's,.*/,,'); do
             __
             $MPMEDITOR "$list"
             echo -e " ${info}$list saved${nc}\n"
-            (( $(grep "" -c "$titles_dir/$list.titles") \
-            != $(_GetLinesList -l) )) && _TitlesListCompare
+
+            [[ $(grep "" -c "$titles_dir/$list.titles") \
+                -ne $(_GetLinesList -l) ]] && _TitlesListCompare
 
             read -rsn 1 \
             -p "${info}"' [C]ontinue editing, [B]ack to menu or [Q]uit.'"${nc}" edit

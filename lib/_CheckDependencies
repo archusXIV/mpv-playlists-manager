@@ -21,7 +21,7 @@ _CheckDependencies() {
             sleep 4
         }
     done
-
+    
     # MPMEDITOR & FILEMANAGER must be defined in ~/.config/mpm/mpmrc
     [[ -z $MPMEDITOR ]] && {
         printf '%s\n' " The config EDITOR is not set...exiting!"
@@ -39,7 +39,7 @@ _CheckDependencies() {
         printf '%s\n' " Variable main_dir in mpmrc is not defined...exiting!!!"
         exit 1
     }
-
+    
     if [[ ! -d $main_dir ]]; then
         mkdir --parents \
         {"$audios_dir","$playlists_dir","$titles_dir","$tmp_dir","$videos_dir"}
@@ -57,6 +57,7 @@ _CheckDependencies() {
     (($(_GetLinesList -q) >= 1)) && {
         touch "$tmp_dir"/1
         cp -f "$DEFAULTM3UTITLES" "$DEFAULTITLES"
+        rm "$DEFAULTM3UTITLES"
     }
 
     _Theme "$THEME"

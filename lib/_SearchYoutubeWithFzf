@@ -28,13 +28,16 @@ _SearchYoutubeWithFzf() {
 
     [[ -z $request ]] && return
 
-    # clean our request
-    sanitizedRequest=$(sed -e 's/+/%2B/g;s/#/%23/g;s/&/%26/g;s/\s/+/g' <<< "$request")
+    sanitizedRequest=$(
+        sed -e '
+        s/+/%2B/g;s/#/%23/g;s/&/%26/g;s/\s/+/g
+        ' <<< "$request"
+    )
 
     sanitizedResult=$(
         curl \
         -s "https://www.youtube.com/results?search_query=${sanitizedRequest}" | \
-        sed 's|\\.||g'
+        sed 's/\\./g'
     )
 
     if ! grep -q "$sanitizedRequest" <<< "$sanitizedResult"; then
@@ -76,11 +79,14 @@ _SearchYoutubeWithFzf() {
         --prompt='Filter: ' \
         --header "${info}${b}"'Press Enter to copy, Escape to exit search: '"${nb}${nc}")
 
+        # grep a fixed string that is a word and matches only one line in selection.
         id=$(echo -e "$IDS" | grep -Fwm1 "$selection" | cut -d'	' -f1)
 
-        [[ -z $selection ]] && return	# if esc-ed then exit
-        [[ -n $selection ]] && \
-        notify-send "copied: $(echo -e "$selection" | sed "s/\[.*\]\s//")"
+        if [[ -z $selection ]]; then
+            return
+        else
+            notify-send "copied: $(echo -e "$selection" | sed "s/\[.*\]\s//")"
+        fi
 
         case "$id" in
             # 11 digits id = media

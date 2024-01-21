@@ -28,7 +28,7 @@ _SaveCheck() {
     PS3=""$'\n'" ${info}Available playlists (type ${task}$((listTotal + 1)) ${info}to create a new one):${nc} "
     select list in $(find . -not -name "default.m3u" -name "*.m3u" \
         -o -name "*.m3u_origin" | sort -d | sed 's,.*/,,'); do
-
+        
         [[ $REPLY != $((listTotal + 1)) ]] && {
 
             if [[ $(find . -name "${list}") ]]; then
@@ -47,7 +47,7 @@ _SaveCheck() {
                         printf '%s\n' " ${info}Link(s) added to $list.${nc}"
                         rm {"$CURRENT_LIST","$CURRENT_TITLES"}
                         sleep 2
-                        _Menu
+                        break
                     ;;
                     s|S)
                         __listAlreadyExists
@@ -58,7 +58,7 @@ _SaveCheck() {
                         break
                     ;;
                 esac
-
+                
             else
                 __
                 printf '%s\n' " ${critical}Wrong entry $REPLY, try again later...${nc}"

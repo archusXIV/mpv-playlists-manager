@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2164,SC2015
+# shellcheck disable=SC2154,SC2164,SC2015,SC1083,SC2317
 _ConvertAudio() {
 
     [[ -d "$audios_dir"/"${list%.*}" ]] \
@@ -10,9 +10,11 @@ _ConvertAudio() {
 
     if [[ -n $default_conversion_format ]]; then
         __
-        printf '%s\n' " ${task}Default format set to $default_conversion_format.${nc}"
+        printf '%s\n' \
+        " ${task}Default format set to $default_conversion_format.${nc}"
         __
-        printf '%s\n' " ${info}Converting files in ${task}$default_conversion_format${b}...${nb}${nc}"
+        printf '%s\n' \
+        " ${info}Converting files in ${task}$default_conversion_format${b}...${nb}${nc}"
         __
         if [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
             printf '%s\n' "${task}"' Parallel conversion enabled.'"${nc}"
@@ -35,26 +37,32 @@ _ConvertAudio() {
         __
         read -rn1 \
         -p "${info}"' Select an output format [1=mp3] [2=flac] [3=wav] [4=ogg]: '"${nc}"
-
+        
         case "$REPLY" in
-            [1-4])
+            [1-4])  
                 __
-                printf '%s\n' " ${info}Converting files in ${task}${formats[${REPLY}]}${b}...${nb}${nc}"
+                printf '%s\n' \
+                " ${info}Converting files in ${task}${formats[${REPLY}]}${b}...${nb}${nc}"
                 __
                 if [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
                     printf '%s\n' "${task}"' Parallel conversion enabled.'"${nc}"
-                    _"${formats[${REPLY}]}" -p
+                    parallel --delay 2.5 -j+0 \
+                    ffmpeg -y -i {} -qscale:a 0 {.}."${formats[${REPLY}]}" ::: ./*.webm 2>"$FFOP"
                 else
                     printf '%s\n' "${task}"' Parallel conversion disabled.'"${nc}"
-                    _"${formats[${REPLY}]}" -n
+                    _"${formats[${REPLY}]}"
                 fi
             ;;
-            *)  __; printf '%s\n' " ${critical}Wrong format or conversion aborted...${nc}"
+            *)
+                echo ""
+                printf '%s\n' " ${critical}Wrong format $REPLY..." \
+                " or conversion aborted...${nc}"
+                __
                 sleep 3
-                clear
+                return
             ;;
         esac
-
+        
     fi
 
     find . -iname "*.webm" -exec rm {} \;
