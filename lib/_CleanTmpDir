@@ -5,6 +5,7 @@
 # This function is called multiple times across this program,
 # but let's ensure temporary files are removed before we exit out. 
 _CleanTmpDir() {
+    [[ -s "$DEFAULTITLES" ]] && {
     if [[ $(_GetLinesList -q) -eq $(grep "" -c "$DEFAULTITLES") ]] ; then
         cp -f "$DEFAULTITLES" "$DEFAULTM3UTITLES"
     else
@@ -12,6 +13,7 @@ _CleanTmpDir() {
         sleep 1
         _GetMediaTitle -q > "$DEFAULTM3UTITLES"
     fi
+    }
     rm -f \
     {"$tmp_dir"/*,"$playlists_dir"/{1_Back_to_menu,*_tmp}} 2>/dev/null
 }
