@@ -22,7 +22,7 @@ _ConvertAudio() {
             ffmpeg -y -i {} -qscale:a 0 {.}."$default_conversion_format" ::: ./*.webm 2>"$FFOP"
         else
             printf '%s\n' "${task}"' Parallel conversion disabled.'"${nc}"
-            _"$default_conversion_format" -n
+            _"$default_conversion_format"
         fi
     else
         # functions _mp3 _flac _wav & _ogg are in ~/.config/mpm/mpmrc
