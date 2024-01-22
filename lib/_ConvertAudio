@@ -18,7 +18,8 @@ _ConvertAudio() {
         __
         if [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
             printf '%s\n' "${task}"' Parallel conversion enabled.'"${nc}"
-            _"$default_conversion_format" -p
+            parallel --delay 2.5 -j+0 \
+            ffmpeg -y -i {} -qscale:a 0 {.}."${formats[${REPLY}]}" ::: ./*.webm 2>"$FFOP"
         else
             printf '%s\n' "${task}"' Parallel conversion disabled.'"${nc}"
             _"$default_conversion_format" -n

@@ -17,7 +17,6 @@ _TitlesListCompare() {
             " ${task}${b}Updating titles...please wait.${nb}${nc}"
             _GetMediaTitle -l > "$titles_dir"/"$list".titles
             clear
-            [[ $1 = -e ]] && return
         fi
         __
         echo -e " ${info}Titles for $list.${nc}\n"
