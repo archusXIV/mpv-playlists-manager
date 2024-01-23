@@ -39,7 +39,7 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge 
   In addition you can also use the [ytfzf](https://github.com/pystardust/ytfzf) script
   if it is in your PATH.
 
-- In your mpmrc file activate it.
+- In your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L82) file activate it.
 
 ```
 use_fzf="yes"
@@ -47,7 +47,7 @@ use_fzf="yes"
 - Bugs fixed.
 - Refactoring some functions.
 - If installed, [parallel](https://www.gnu.org/software/parallel/) will launch multiple ffmpeg instances to speed up audio conversion.
-- Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L82) file
+- Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L101) file
 
 ## Themes
 - A [themerc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/themerc) file is available to insert as many as you want "themes" instead of bloating up your mpmrc.
