@@ -17,11 +17,11 @@ _SaveCheck() {
         [[ -f $list ]] && {
             __
             _Prompt -n " ${critical}$list ALREADY exists! Overwrite it?: ${nc}" && {
-                _SaveList && _Menu
+                _SaveList
             }
             _Menu
         }
-        _SaveList && _Menu
+        _SaveList
     )
 
     __
@@ -50,7 +50,7 @@ _SaveCheck() {
                         break
                     ;;
                     s|S)
-                        __listAlreadyExists
+                        __listAlreadyExists && break
                     ;;
                     *)
                         printf '%s\n' " ${critical}Wrong option, try again later...${nc}"
@@ -68,7 +68,7 @@ _SaveCheck() {
 
         }
 
-        __listAlreadyExists
+        __listAlreadyExists && break
 
     done
 }
