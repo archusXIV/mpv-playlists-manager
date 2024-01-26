@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.5-0)
+# ~/.config/mpm/mpmrc (version 1.5-1)
 
 ########################################################
 #                                                      #
@@ -59,16 +59,6 @@ keep_none_empty_playlist="yes"
 # (will appear in main menu)
 direct_download="no"
 
-# audio files (.webm) conversion.
-# (will appear in main menu)
-automatic_audio_conversion="no"
-
-# default audio conversion format {mp3,flac,wav,ogg},
-# mp3 & ogg in 320k, flac & wav are lossless.
-# if value is empty you will be prompted.
-# (will appear in main menu)
-default_conversion_format="mp3"
-
 # this takes place only after downloading/playing from a collection playlist.
 # (will appear in main menu)
 quit_after_task="no"
@@ -97,8 +87,17 @@ ytfzfOptions_X=( "${ytfzfOptions_YT[@]}" "${ytfzfOptions_PG[@]}" \
 # if the parallel package is installed then it will be used to launch
 # multiple conversions at once in the equivalent quality,
 # else files will be converted one by one.
-
 use_parallel="no"
+
+# audio files (.webm) conversion.
+# (will appear in main menu)
+automatic_audio_conversion="no"
+
+# default audio conversion format {mp3,flac,wav,ogg},
+# mp3 & ogg in 320k, flac & wav are lossless.
+# if value is empty you will be prompted.
+# (will appear in main menu)
+default_conversion_format="mp3"
 
 function _mp3 {
     find . -iname "*.webm" -exec \
@@ -109,7 +108,6 @@ function _mp3 {
 }
 
 function _flac {
-
     find . -iname "*.webm" -exec \
     bash -c 'FILE="$1"; \
         ffmpeg -i "${FILE}" \
@@ -118,7 +116,6 @@ function _flac {
 }
 
 function _wav {
-
     find . -iname "*.webm" -exec \
     bash -c 'FILE="$1"; \
         ffmpeg -i "${FILE}" \
@@ -127,7 +124,6 @@ function _wav {
 }
 
 function _ogg {
-
     find . -iname "*.webm" -exec \
     bash -c 'FILE="$1"; \
         ffmpeg -i "${FILE}" \
@@ -142,6 +138,7 @@ function _MpvAudioOptions {
     mpv \
     --input-ipc-server='/tmp/mpvsocket' \
     --no-config \
+    --no-resume-playback \
     --term-playing-msg="${info}"'Title: ${media-title}'"${nc}" \
     --ytdl-format='bestaudio/best' "$1"
 }
@@ -151,8 +148,11 @@ function _MpvVideoOptions {
     # same as above.
     mpv \
     --input-ipc-server='/tmp/mpvsocket' \
-    --cache \
+    --cache=yes \
+    --demuxer-max-bytes=300MiB \
+    --demuxer-readahead-secs=30 \
     --no-config \
+    --no-resume-playback \
     --term-playing-msg="${info}"'Title: ${media-title}'"${nc}" \
     --ytdl-format='299+251/298+251/137+251/136+251/best' "$1"
 }

@@ -1,7 +1,8 @@
 #!/bin/bash
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
-# version 1.5-0
+# version 1.5-1
 
+# shellcheck disable=SC2154
 _diffRc() {
     # we execute this file as root so we need to provide the right username
     read -r -p ' Please enter your username: ' username
@@ -9,7 +10,7 @@ _diffRc() {
     CONF_DIR="/home/$username/.config/mpm"
     MPMRC="$CONF_DIR/mpmrc"
     THEMERC="$CONF_DIR/themerc"
-
+    
     if [[ -f $MPMRC && -f $THEMERC ]]; then
 
         diff -U 9999999 "$MPMRC" \
@@ -26,14 +27,14 @@ _diffRc() {
         diff -U 9999999 "$MPMRC" \
         ./mpmrc > "$MPMRC".diff
 
-        cp ./themerc "$CONF_DIR"
+        cp ./themerc "$MPMRC_DIR"
 
         printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc.diff created.\e[0m\n'
         printf '\e[38;2;206;34;30m~/.config/mpm/themerc created.\e[0m\n'
     else
-        mkdir --parents "$CONF_DIR"
-        cp ./{mpmrc,themerc} "$CONF_DIR"
-
+        mkdir --parents "$MPMRC_DIR"
+        cp ./{mpmrc,themerc} "$MPMRC_DIR"
+        
         printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc created, edit your settings there.\e[0m\n'
     fi
 
@@ -46,7 +47,7 @@ _install() {
     mkdir -vp /usr/local/lib/mpm && \
     cp -vrf ./lib/* /usr/local/lib/mpm/
     mkdir --parents /usr/local/share/doc/mpm && \
-    cp -vf ./{help,mpmrc,README.md,themerc} /usr/local/share/doc/mpm
+    cp -vf ./{help,mpm_yt-videos.m3u,mpmrc,README.md,themerc} /usr/local/share/doc/mpm
 
     mkdir -vp /usr/share/licenses/mpm && \
     cp -vf ./LICENSE /usr/share/licenses/mpm/LICENSE

@@ -22,7 +22,7 @@
 
 trap "_CleanTmpDir; exit" SIGTERM EXIT
 
-VERSION="v.1.5-0"
+VERSION="v.1.5-1"
 
 : "${XDG_CONFIG_HOME:-$HOME/.config}"
 CONF_DIR="$XDG_CONFIG_HOME/mpm"
@@ -36,6 +36,9 @@ THEMERC="$CONF_DIR/themerc"
 
 ## summon our personal settings
 source "$MPMRC"; source "$THEMERC"
+
+[[ -n $playlists_dir ]] && \
+cp /usr/local/share/doc/mpm/mpm_yt-videos.m3u "$playlists_dir"
 
 ## prompts blinking
 b=$'\e[5m';

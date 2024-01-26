@@ -76,7 +76,7 @@ _CopyUrl() {
             fi
         )
         
-        while :; do
+        while true; do
             _ResizeWindow
             clear
             
@@ -124,7 +124,9 @@ _CopyUrl() {
                 7)  _Menu
                     __ ;;
             esac
+            
         done
+
     done
 
 }
