@@ -37,7 +37,7 @@ _SearchYoutubeWithFzf() {
     sanitizedResult=$(
         curl \
         -s "https://www.youtube.com/results?search_query=${sanitizedRequest}" | \
-        sed 's/\\./g'
+        sed 's/\\.//g'
     )
 
     if ! grep -q "$sanitizedRequest" <<< "$sanitizedResult"; then
