@@ -23,7 +23,10 @@ _SaveCheck() {
         }
         _SaveList
     )
-
+    __
+    printf '%s\n' " ${critical}Tip: If you want to add links to a playlist," \
+    " just select it and answer NO to the overwrite question," \
+    " you can now add your links by entering 'a'${nc}"
     __
     PS3=""$'\n'" ${info}Available playlists (type ${task}$((listTotal + 1)) ${info}to create a new one):${nc} "
     select list in $(find . -not -name "default.m3u" -name "*.m3u" \
@@ -45,7 +48,14 @@ _SaveCheck() {
                         perl -i -ne 'print if ! $a{$_}++' {"$list","$titles_dir/$list.titles"}
                         __
                         printf '%s\n' " ${info}Link(s) added to $list.${nc}"
-                        rm {"$CURRENT_LIST","$CURRENT_TITLES"}
+
+                        if [[ $CURRENT_LIST = "$QUEUE" ]]; then
+                            rm {"$CURRENT_LIST","$CURRENT_TITLES"}
+                            echo "#EXTM3U" > "$QUEUE"
+                        else
+                            rm {"$CURRENT_LIST","$CURRENT_TITLES"}
+                        fi
+
                         sleep 2
                         break
                     ;;
