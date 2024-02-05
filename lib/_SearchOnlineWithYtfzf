@@ -2,13 +2,13 @@
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
-_SearchYoutubeWithYtfzf() {
+_SearchOnlineWithYtfzf() {
     __
     printf '%s\n' " ${critical}Tip: To select mutiple links in the ytfzf menu press ${task}Tab" \
     " ${critical}on the desired ${Type} titles, ${task}Ctrl P${critical} to view next page...etc" \
     " then ${task}Enter ${critical}to confirm and go back in $menuTitleType OPTIONS menu.${nc}"
     __
-    read -rp " ${info}Search for youtube ${Type}: ${nc}" request
+    read -rp " ${info}Search for online ${Type} links: ${nc}" request
 
     if [[ -n $request ]]; then
         # ytfzf_options are defined in mpmrc

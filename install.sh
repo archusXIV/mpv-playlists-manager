@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
-# version 1.5-1
+# version 1.5-2
 
 # shellcheck disable=SC2154
 _diffRc() {
@@ -43,15 +43,15 @@ _diffRc() {
 }
 
 _install() {
-    cp -vf mpm /usr/local/bin
-    mkdir -vp /usr/local/lib/mpm && \
-    cp -vrf ./lib/* /usr/local/lib/mpm/
-    mkdir --parents /usr/local/share/doc/mpm && \
-    cp -vf ./{help,mpm_yt-videos.m3u,mpmrc,README.md,themerc} /usr/local/share/doc/mpm
-
-    mkdir -vp /usr/share/licenses/mpm && \
-    cp -vf ./LICENSE /usr/share/licenses/mpm/LICENSE
-
+    cp --verbose --force ./mpm /usr/local/bin
+    mkdir --verbose --parents /usr/local/lib/mpm && \
+    cp --verbose --recursive --force ./lib/* /usr/local/lib/mpm/
+    mkdir --verbose --parents /usr/local/share/doc/mpm && \
+    cp --verbose --force ./{help,mpm_yt-videos.m3u,mpmrc,README.md,themerc} \
+    /usr/local/share/doc/mpm
+    mkdir --verbose --parents /usr/share/licenses/mpm && \
+    cp --verbose --force ./LICENSE /usr/share/licenses/mpm/LICENSE
+    
     chmod 755 /usr/local/lib/mpm/*
     chmod 755 /usr/local/bin/mpm
 
@@ -60,10 +60,10 @@ _install() {
 }
 
 _uninstall() {
-    rm -vf /usr/local/bin/mpm
-    rm -vrf /usr/local/lib/mpm
-    rm -vrf /usr/share/licenses/mpm
-    rm -vrf /usr/local/share/doc/mpm
+    rm --verbose --recursive --force /usr/local/bin/mpm
+    rm --verbose --recursive --force /usr/local/lib/mpm
+    rm --verbose --recursive --force /usr/share/licenses/mpm
+    rm --verbose --recursive --force /usr/local/share/doc/mpm
 
     printf '%s\n' "hope you liked it anyway..."
 }

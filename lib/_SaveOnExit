@@ -29,14 +29,15 @@ _SaveOnExit() {
             "███████▄░░░░░░░░░░░▄███████" \
             "██████████▄▄▄▄▄▄▄██████████" \
         )
-        for skullParts in "${SKULL[@]}"; do
-            echo -e "$skullParts"
+        for skullPart in "${SKULL[@]}"; do
+            echo -e "$skullPart"
             sleep 0.05
         done
 
         printf '%s\n' " ${critical}TOO BAD...BYE${nc}"
         exit
     }
+    
     cd "$playlists_dir" || exit 1
 
     saveOnExitPrompt=( "[B]ack to menu" "Save [A]udio list" "Save [V]ideo list" )

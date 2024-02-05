@@ -11,10 +11,8 @@ _GetMediaTitle() {
         -v) LIST="$VIDEO_URLS" ;;
     esac
 
-    mapfile -t MEDIATITLES < <(grep '^https' "$LIST")
-
-    for line in "${MEDIATITLES[@]}"; do
+    while read -r line; do
         _YtdlGetTitle "$line" 2>/dev/null
-    done
+    done < <(grep '^https' "$LIST")
 
 }

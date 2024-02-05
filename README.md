@@ -31,14 +31,14 @@ mpm -v # prints mpm version
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
-## New in version 1.5-1
-- Major bug fixed when trying to save your first playlist (sorry for that).
+## New in version 1.5-2
+- After selected links downloads, the titles are now updated locally (faster method).
 - Using fzf functionality.
   Two methods are offered here:
   If the fzf package is installed it will be used
   to search and copy audio/video urls from youtube.
   In addition you can also use the [ytfzf](https://github.com/pystardust/ytfzf) script
-  if it is in your PATH.
+  if it is in your $PATH, it's options are available in the mpmrc file.
 
 - In your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L82) file activate it.
 
@@ -54,7 +54,7 @@ use_fzf="yes"
 
 default theme will use your ~/.Xresources colors or your terminal preferences.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.5-1.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.5-2.png)
 
 
 ```
@@ -99,7 +99,7 @@ Requests and contributions? Why not, have fun.
 
 # dependencies
 - [ffmpeg](https://ffmpeg.org/)
-- [fzf](https://github.com/junegunn/fzf) (optional)
+- [fzf](https://github.com/junegunn/fzf), [ytfzf](https://github.com/pystardust/ytfzf) (optional)
 - [jq](https://stedolan.github.io/jq/)
 - [mpv](https://mpv.io/)
 - [parallel](https://www.gnu.org/software/parallel/) (optional)

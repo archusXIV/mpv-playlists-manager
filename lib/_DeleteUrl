@@ -6,21 +6,25 @@ _DeleteUrl() {
 
     if (( $(_GetLinesList -q) == 0 )); then
 
+        [[ -s "$DEFAULTITLES" ]] && rm "$DEFAULTITLES"
+
         if [[ -n $(find "$tmp_dir" -name "*.m3u") ]]; then
             _CleanTmpDir
-            echo " ${critical}All tmp lists removed.${nc}"
+            echo " ${critical}All temporary lists cleared.${nc}"
             sleep 3
         else
-            echo " ${critical}There is nothing to do, no existing tmp lists...${nc}"
+            rm "$DEFAULTM3UTITLES" 2>/dev/null
+            echo " ${critical}There is nothing to do, no existing temporary lists...${nc}"
             sleep 3
             _Menu
         fi
 
     else
         __
+        [[ -s "$DEFAULTITLES" ]] && rm "$DEFAULTITLES"
         sed -i '/^[[:alpha:]]/d' "$QUEUE"
         _CleanTmpDir
-        echo " ${critical}All lists cleared...${nc}"
+        echo " ${critical}All temporary lists cleared...${nc}"
         sleep 3
         _Menu
     fi

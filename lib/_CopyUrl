@@ -89,12 +89,14 @@ _CopyUrl() {
             echo -e "                                                  ${mtitle}::${menuTitleType} OPTIONS::${nc}"
             echo -e "                               ┌──────────────────────────────────────────────────────┐"
             echo -e "                               │   1) Add ${Type} links         5) Play current list    │"
-            command -v fzf >/dev/null || echo -e "                               │   2) ${critical}Search Youtube ${Type}${nc}    6) View current list    │" \
-            && echo -e "                               │   2) Search Youtube ${Type}    6) View current list    │"
+            command -v fzf >/dev/null || echo -e "                               │   2) ${critical}Search online links ${nc}    6) View current list    │" \
+            && echo -e "                               │   2) Search online links     6) View current list    │"
             echo -e "                               │   3) Download current list   7) Back to main menu    │"
-            echo -e "                               │   4) Save current list as                            │"
+            echo -e "                               │   4) Save/Add current list                           │"
             echo -e "                               └──────────────────────────────────────────────────────┘"
-            echo -e "                                                   ${info}${b}Select an item${nb}${nc}"
+            [[ -s $URLS ]] \
+            && echo -e "                                                   ${info}Select an item${nc}" \
+            || echo -e "                                                   ${info}${b}Select an item${nb}${nc}"
             __
             read -rsn 1 copyUrlsOptions
             case "$copyUrlsOptions" in
@@ -103,7 +105,7 @@ _CopyUrl() {
                 2)
                     if [[ $use_fzf = yes ]]; then
                         clear
-                        _SearchYoutube
+                        _SearchOnline
                     else
                         __
                         printf '%s\n' \

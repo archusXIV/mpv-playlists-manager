@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.5-1)
+# ~/.config/mpm/mpmrc (version 1.5-2)
 
 ########################################################
 #                                                      #
@@ -71,13 +71,16 @@ quit_after_task="no"
 # <https://github.com/pystardust/ytfzf>
 use_fzf="no"
 
-# add/change your ytfzf preferences here
+## add/change your ytfzf preferences here
+# use odysee instead of youtube
+ytfzfOptions_SC=( --scrape=odysee )
+# force youtube search
 ytfzfOptions_YT=( --force-youtube )
-ytfzfOptions_PG=( --pages=3 )
+ytfzfOptions_PG=( --pages=5 )
 ytfzfOptions_VD=( --video-duration=long )
 ytfzfOptions_SB=( --sort-by=relevance )
 ytfzfOptions_TY=( --type=all )
-# array used in _SearchYoutube function
+# add your options in this array
 ytfzfOptions_X=( "${ytfzfOptions_YT[@]}" "${ytfzfOptions_PG[@]}" \
 "${ytfzfOptions_VD[@]}" "${ytfzfOptions_SB[@]}" "${ytfzfOptions_TY[@]}" )
 

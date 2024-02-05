@@ -12,6 +12,7 @@ _ChooseDownloadAudio() {
 
     clear
     cp -f "$list" "$list"_origin
+    cp -f "$SELECTEDTITLES" "$SELECTEDTITLES"_orgin
     mkdir --parents "$audios_dir"/"${list%.*}" \
     && cd "$audios_dir"/"${list%.*}"
 

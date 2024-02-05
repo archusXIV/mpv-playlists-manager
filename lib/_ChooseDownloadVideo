@@ -29,6 +29,7 @@ _ChooseDownloadVideo() {
             clear
 
             cp -f "$list" "$list"_origin
+            cp -f "$SELECTEDTITLES" "$SELECTEDTITLES"_orgin
             mkdir --parents "$videos_dir"/"${list%.*}" \
             && cd "$videos_dir"/"${list%.*}"
 

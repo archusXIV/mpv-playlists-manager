@@ -1,4 +1,4 @@
-mpm version 1.5-1
+mpm version 1.5-2
 
    MPV-PLAYLISTS-MANAGER usage:
 
@@ -140,9 +140,9 @@ mpm version 1.5-1
                                     ::AUDIO OPTIONS::
                    ┌──────────────────────────────────────────────────────┐
                    │   1) Add Audio links         5) Play current list    │
-                   │   2) Search Youtube Audio    6) View current list    │
+                   │   2) Search online links     6) View current list    │
                    │   3) Download current list   7) Back to main menu    │
-                   │   4) Save playlist as                                │
+                   │   4) Save/Add current list                           │
                    └──────────────────────────────────────────────────────┘
                                        Select an item
 

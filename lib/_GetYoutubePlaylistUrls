@@ -4,31 +4,29 @@
 # shellcheck disable=SC2154
 _GetYoutubePlaylistUrls() {
 
-    local URLS_INFO getYoutubePlaylistUrls
+    local URLS_INFO playlistUrls
     case "$1" in
         -a)
             URLS_INFO="$AUDIO_URLS"
         ;;
         -s)
             if [[ $Type = Audio ]]; then
-                getYoutubePlaylistUrls="$YTSEARCH"AudioPlaylists
+                playlistUrls="$YTSEARCH"AudioPlaylists
                 URLS_INFO="$AUDIO_URLS"
             else
-                getYoutubePlaylistUrls="$YTSEARCH"VideoPlaylists
+                playlistUrls="$YTSEARCH"VideoPlaylists
                 URLS_INFO="$VIDEO_URLS"
             fi
-
-            getYoutubePlaylistTitle=$(\
-                youtube-dl "${ytdlPreset_DW[@]}" -J \
-                --flat-playlist "$(cat "$getYoutubePlaylistUrls")" \
-                | jq -r .title \
-            )
             
             printf '%s\n' \
             " ${info}Please be patient while extracting urls/titles from:" \
-            " $getYoutubePlaylistTitle playlist...${nc}"
+            " $(\
+                youtube-dl "${ytdlPreset_DW[@]}" -J \
+                --flat-playlist "$(cat "$playlistUrls")" \
+                | jq -r .title \
+            ) playlist...${nc}"
             
-            mapfile -t < <(grep '^https' "$getYoutubePlaylistUrls")
+            mapfile -t < <(grep '^https' "$playlistUrls")
             # there might be several playlists urls selected in _SearchYoutube function
             for url in "${MAPFILE[@]}"; do
                 youtube-dl "${ytdlPreset_DW[@]}" -j "$url" \
@@ -37,11 +35,11 @@ _GetYoutubePlaylistUrls() {
                 sed -i '/playlist/d' {"$QUEUE","$URLS_INFO"}
             done
             
-            _YtdlGetTitle "$(cat "$getYoutubePlaylistUrls")" \
+            _YtdlGetTitle "$(cat "$playlistUrls")" \
             | tee -a "$TITLES" >> "$DEFAULTITLES"
             _RemoveCrap
 
-            rm "$getYoutubePlaylistUrls"; sleep 1s
+            rm "$playlistUrls"; sleep 1s
 
             clear && return
         ;;

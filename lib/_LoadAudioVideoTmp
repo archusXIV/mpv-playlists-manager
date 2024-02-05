@@ -4,6 +4,9 @@
 # shellcheck disable=SC2154,SC2015
 _LoadAudioVideoTmp() {
 
+    declare -a TMP=( "$AUDIO_URLS" "$AUDIO_TITLES" "$VIDEO_URLS" \
+                    "$VIDEO_TITLES" "$CHOOSE1" "$FFOP" "$YTOP" )
+    
     __LoadAudioVideoTmpNotice() (
         clear
         __
@@ -14,9 +17,6 @@ _LoadAudioVideoTmp() {
         }
     )
 
-    declare -a TMP=( "$AUDIO_URLS" "$AUDIO_TITLES" "$VIDEO_URLS" \
-                    "$VIDEO_TITLES" "$CHOOSE1" "$FFOP" "$YTOP" )
-
     case "$1" in
         -a)
             unset {TMP[2],TMP[3]}
@@ -25,7 +25,7 @@ _LoadAudioVideoTmp() {
         ;;
         -c)
             unset {TMP[0],TMP[1],TMP[2],TMP[3]}
-            rm "${TMP[@]}"
+            rm "${TMP[@]}" 2>/dev/null
         ;;
         -v)
             unset {TMP[0],TMP[1]}
@@ -33,7 +33,7 @@ _LoadAudioVideoTmp() {
             __LoadAudioVideoTmpNotice
         ;;
     esac
-
+    
     [[ $quit_after_task = yes ]] && exit || _Menu
 
 }
