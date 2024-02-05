@@ -35,13 +35,9 @@ _CopyUrl() {
 
             if [[ $copyUrl =~ 'playlist?list=' ]]; then
                 __
-                copyUrlPlaylisTitles=$(\
-                youtube-dl "${ytdlPreset_DW[@]}" -J \
-                --flat-playlist "$copyUrl" \
-                | jq -r .title \
-                )
-
-                printf '%s\n' " ${info}Getting titles & links from playlist: $copyUrlPlaylisTitles..." \
+                printf '%s\n' " ${info}Getting titles & links from playlist: $(\
+                youtube-dl "${ytdlPreset_DW[@]}" -J --flat-playlist "$copyUrl" \
+                | jq -r .title)..." \
                 "${b} Please be patient.${nb}${nc}"
                 
                 _YtdlGetTitle "$copyUrl" \
