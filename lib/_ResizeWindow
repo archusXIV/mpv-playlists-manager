@@ -1,0 +1,11 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_ResizeWindow() {
+    if [[ -n $width && -n $height ]]; then
+        wmctrl -r :ACTIVE: -e 5,-1,-1,"$width","$height"
+    else
+        wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738
+    fi
+}

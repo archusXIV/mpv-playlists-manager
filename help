@@ -1,4 +1,4 @@
-mpm version 1.5-2
+mpm version 1.5-3
 
    MPV-PLAYLISTS-MANAGER usage:
 
@@ -131,8 +131,8 @@ mpm version 1.5-2
 
    9) Edit mpm config (mpmrc):
 
-         We may want to edit this file for default directories & tasks preferences,
-         colors and better quality or results with mpv, ffmpeg and yt-dlp downloader options.
+         We may want to edit this file to define the mpm window size, default directories,
+         tasks preferences, theme, better quality or results with mpv, ffmpeg and yt-dlp options.
          After changing parameters and saving the file, they will be immediatly active.
 
    II) temporary audio/video lists options:
