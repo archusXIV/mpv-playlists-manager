@@ -166,8 +166,10 @@ function _MpvVideoOptions {
 # !!! do not change the name of the array (ytdlPreset_<*>) !!!
 # downloader name
 ytdlPreset_DN=( --downloader m3u8:ffmpeg )
-# downloader arguments
+# downloader arguments (do not redownload existing files)
 ytdlPreset_DA=( --downloader-args '-n' )
+# same as above but ffmeg isn't the downloader.
+ytdlPreset_BR=( --break-on-existing )
 # merge format
 ytdlPreset_MF=( --merge-output-format mp4 )
 # downloader warnings
@@ -178,7 +180,7 @@ ytdlPreset_DP=( --progress )
 # (this avoid the creation of subdirectories because of filenames containing '/').
 ytdlPreset_FS=( --compat-options filename-sanitization )
 # downloader without multiple format codes
-ytdlPreset_NC=( "${ytdlPreset_DW[@]}" "${ytdlPreset_DP[@]}" )
+ytdlPreset_NC=( "${ytdlPreset_BR[@]}" "${ytdlPreset_DW[@]}" "${ytdlPreset_DP[@]}" )
 # combined presets
 ytdlPreset_X=( "${ytdlPreset_DN[@]}" "${ytdlPreset_DA[@]}" \
 "${ytdlPreset_MF[@]}" "${ytdlPreset_DW[@]}" "${ytdlPreset_DP[@]}" )

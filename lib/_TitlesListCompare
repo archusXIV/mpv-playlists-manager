@@ -4,24 +4,47 @@
 # shellcheck disable=SC2154
 _TitlesListCompare() {
 
+    cd "$titles_dir" || return
+
     local titles
     titles="$titles_dir/$list.titles"
     titles="${titles##*/}"
-    # first test if "myplaylist".titles exist.
-    if [[ -f $titles_dir/$list.titles ]]; then
 
-        if [[ $(grep "" -c "$titles_dir/$list.titles") \
-            -ne $(_GetLinesList -l) ]]; then
+    # first test if "myplaylist".titles exist.
+    if [[ -s $titles ]]; then
+
+        if [[ $(grep "" -c "$titles") -ne $(_GetLinesList -l) ]]; then
             __
             printf '%s\n' " ${critical}${titles} is out of date...${nc}" \
             " ${task}${b}Updating titles...please wait.${nb}${nc}"
             _GetMediaTitle -l > "$titles_dir"/"$list".titles
             clear
         fi
-        __
-        echo -e " ${info}Titles for $list.${nc}\n"
-        cat -n "$titles_dir"/"$list".titles
-        __
+
+        if (( $(grep "" -c "$titles") > 25 )); then
+            echo -e " ${info}Titles for $list.${nc}\n"
+            sed -n '1,25p' "$titles" | cat -n
+            __
+            read -rsn 1 -p " ${info}Press 'n' for next page${nc} " nextpage
+            case "$nextpage" in
+                n|N)
+                    clear; __
+                    sed -n '26,$p' "$titles" | cat -n
+                    __
+                ;;
+                *)
+                    __
+                    printf '%s\n' " ${critical}Wrong option...${nc}"
+                    sleep 2s
+                    _Menu
+                ;;
+            esac
+        else
+            __
+            echo -e " ${info}Titles for $list.${nc}\n"
+            cat -n "$titles"
+            __
+        fi
 
     else
         printf '%s\n' " ${critical}${titles} does not exist...${nc}" \
@@ -30,7 +53,7 @@ _TitlesListCompare() {
         clear
         __
         echo -e " ${info}Titles for $list.${nc}\n"
-        cat -n "$titles_dir"/"$list".titles
+        cat -n "$titles"
         __
 
     fi

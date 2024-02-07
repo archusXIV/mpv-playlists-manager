@@ -5,7 +5,9 @@
 _LoadPlaylist() {
     cd "$playlists_dir" || exit 1
 
-    [[ -z $(find . -type f -not -name "default.m3u" -name "*.m3u") ]] && {
+    local list
+
+    [[ -z $(find . -type f -name "*.m3u") ]] && {
         clear; __
         printf '%s\n' " ${critical}No playlist found!${nc}" \
         " ${task}First make a temporary list using options 1 or 2," \
