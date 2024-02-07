@@ -55,7 +55,7 @@ use_fzf="yes"
 
 default theme will use your ~/.Xresources colors or your terminal preferences.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.5-2.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.5-3.png)
 
 
 ```
@@ -64,7 +64,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 # AVAILABLE THEMES: default, dracula, blacksea, chocolat-pistache,
 # gruvbox, gotham, monokai, TokyoNight, solarized, vacuous, zenburn
 
-THEME="default"
+THEME="monokai"
 ```
 
 - To find out how to convert hex colors in rgb colors, open your prefered color picker
