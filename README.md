@@ -32,7 +32,7 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
 ## New in version 1.5-3
-- Large collection playlists titles can be parsed in a more convenient way
+- Large collection playlists titles can be parsed in a more convenient way.
 - After selected links downloads, the titles are now updated locally (faster method).
 - Using fzf functionality.
   Two methods are offered here:
