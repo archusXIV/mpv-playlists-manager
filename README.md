@@ -31,7 +31,8 @@ mpm -v # prints mpm version
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
-## New in version 1.5-2
+## New in version 1.5-3
+- Large collection playlists titles can be parsed in a more convenient way
 - After selected links downloads, the titles are now updated locally (faster method).
 - Using fzf functionality.
   Two methods are offered here:
@@ -40,14 +41,14 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge 
   In addition you can also use the [ytfzf](https://github.com/pystardust/ytfzf) script
   if it is in your $PATH, it's options are available in the mpmrc file.
 
-- In your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L82) file activate it.
+- In your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L73) file activate it.
 
 ```
 use_fzf="yes"
 ```
 
 - If installed, [parallel](https://www.gnu.org/software/parallel/) will launch multiple ffmpeg instances to speed up audio conversion.
-- Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L101) file
+- Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L94) file
 
 ## Themes
 - A [themerc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/themerc) file is available to insert as many as you want "themes" instead of bloating up your mpmrc.
