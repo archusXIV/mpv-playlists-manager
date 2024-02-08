@@ -60,16 +60,16 @@ _LoadPlaylist() {
                     2) break ;;
                     *)
                         __
-                        printf '%s\n' " ${critical}Wrong option...${nc}"
-                        sleep 2
+                        printf '%s\n' " ${critical}Wrong option $loadPlaylistOptions...${nc}"
+                        sleep 3
                         return
                     ;;
                 esac
             ;;
             *)
                 __
-                printf '%s\n' " ${critical}Wrong option...${nc}"
-                sleep 2
+                printf '%s\n' " ${critical}Wrong option $submenu...${nc}"
+                sleep 3
                 return
             ;;
         esac

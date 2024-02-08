@@ -103,6 +103,9 @@ automatic_audio_conversion="no"
 # (will appear in main menu)
 default_conversion_format="mp3"
 
+# if you want to change ffmpeg codecs options...
+# example for mp3: -acodec libmp3lame -ar 48000 -ab 320k
+
 function _mp3 {
     find . -iname "*.webm" -exec \
     bash -c 'FILE="$1"; \

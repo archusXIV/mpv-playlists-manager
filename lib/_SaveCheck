@@ -63,7 +63,7 @@ _SaveCheck() {
                         __listAlreadyExists && break
                     ;;
                     *)
-                        printf '%s\n' " ${critical}Wrong option, try again later...${nc}"
+                        printf '%s\n' " ${critical}Wrong option $saveOrAddLinks, try again later...${nc}"
                         sleep 4
                         break
                     ;;

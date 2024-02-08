@@ -34,8 +34,8 @@ _TitlesListCompare() {
                 ;;
                 *)
                     __
-                    printf '%s\n' " ${critical}Wrong option...${nc}"
-                    sleep 2s
+                    printf '%s\n' " ${critical}Wrong option $nextpage...${nc}"
+                    sleep 3s
                     _Menu
                 ;;
             esac
