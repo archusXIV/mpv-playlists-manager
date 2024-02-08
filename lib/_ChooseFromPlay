@@ -5,7 +5,7 @@
 _ChooseFromPlay() {
     cd "$playlists_dir" || exit 1
     clear
-    _TitlesListCompare
+    _TitlesListCompare -l
 
     [[ -f $CHOOSE1 ]] && rm "$CHOOSE1"
 
