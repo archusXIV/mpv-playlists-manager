@@ -47,7 +47,7 @@ _LoadPlaylistMenu() {
                 _Menu
             ;;
             *)
-                printf '%s\n' " ${critical}Wrong option $loadPlaylistMenuOptions..."
+                printf '%s\n' " ${critical}Wrong option $loadPlaylistMenuOptions...${nc}"
                 sleep 3s && _Menu
             ;;
         esac
