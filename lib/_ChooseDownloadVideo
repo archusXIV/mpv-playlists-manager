@@ -24,7 +24,7 @@ _ChooseDownloadVideo() {
         b|B) clear; return ;;
         d|D) _ChooseDirectVideoDownload ;;
         s|S)
-            _TitlesListCompare
+            _TitlesListCompare -l
             _GetRange
             clear
 

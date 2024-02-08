@@ -7,7 +7,7 @@ _ChooseDownloadAudio() {
     local counter M3UFILE
     cd "$playlists_dir" || exit 1
     clear
-    _TitlesListCompare
+    _TitlesListCompare -l
     _GetRange
 
     clear

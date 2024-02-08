@@ -21,30 +21,34 @@ _TitlesListCompare() {
             clear
         fi
 
-        if (( $(grep "" -c "$titles") > 25 )); then
-            echo -e " ${info}Titles for $list.${nc}\n"
-            sed -n '1,25p' "$titles" | cat -n
-            __
-            read -rsn 1 -p " ${info}Press 'n' for next page${nc} " nextpage
-            case "$nextpage" in
-                n|N)
-                    clear; __
-                    sed -n '26,$p' "$titles" | cat -n
-                    __
-                ;;
-                *)
-                    __
-                    printf '%s\n' " ${critical}Wrong option $nextpage...${nc}"
-                    sleep 3s
-                    _Menu
-                ;;
-            esac
-        else
-            __
-            echo -e " ${info}Titles for $list.${nc}\n"
-            cat -n "$titles"
-            __
-        fi
+        case "$1" in
+            -g)
+                echo -e " ${info}Titles for $list.${nc}\n"
+                sed -n '1,25p' "$titles" | cat -n
+                # awk 'NR>=1&&NR<=25' "$titles" | cat -n
+                __
+                read -rsn 1 -p " ${info}Press 'n' for next page${nc} " nextpage
+                case "$nextpage" in
+                    n|N)
+                        clear; __
+                        sed -n '26,$p' "$titles" | cat -n
+                        __
+                    ;;
+                    *)
+                        __
+                        printf '%s\n' " ${critical}Wrong option $nextpage...${nc}"
+                        sleep 3s
+                        _Menu
+                    ;;
+                esac
+            ;;
+            -l)
+                __
+                echo -e " ${info}Titles for $list.${nc}\n"
+                cat -n "$titles"
+                __
+            ;;
+        esac
 
     else
         printf '%s\n' " ${critical}${titles} does not exist...${nc}" \

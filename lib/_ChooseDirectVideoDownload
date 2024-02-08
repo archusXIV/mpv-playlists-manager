@@ -7,7 +7,7 @@ _ChooseDirectVideoDownload() {
     local counter
     clear
     cd "$playlists_dir" || exit 1
-    _TitlesListCompare
+    _TitlesListCompare -l
     _GetRange
 
     clear

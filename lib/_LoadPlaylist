@@ -51,7 +51,13 @@ _LoadPlaylist() {
             ;;
             2)
                 clear
-                _TitlesListCompare
+
+                if (( $(grep "" -c "$titles_dir/$list.titles") > 25 )); then
+                    _TitlesListCompare -g
+                else
+                    _TitlesListCompare -l
+                fi
+                
                 read -rn 1 \
                 -p "${info}"' [1] Download/Play, [2] Back to menu: '"${nc}" loadPlaylistOptions
                 __
