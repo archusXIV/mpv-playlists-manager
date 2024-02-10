@@ -4,8 +4,8 @@
 # shellcheck disable=SC2154,SC2015
 _CopyUrl() {
 
-    local Type TITLES URLS menuTitleType arg copyUrl copyUrlPlaylisTitles
-
+    local Type TITLES URLS menuTitleType arg copyUrl
+    
     [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
 
     case "$1" in
@@ -80,7 +80,7 @@ _CopyUrl() {
             && __ && _GetYoutubePlaylistUrls -s
             __
             [[ -s $URLS ]] && \
-            echo -e " ${info}${Type} list:   $(_GetLinesList $arg) url(s)${nc}"
+            echo -e " ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}"
             __
             echo -e "                                                  ${mtitle}::${menuTitleType} OPTIONS::${nc}"
             echo -e "                               ┌──────────────────────────────────────────────────────┐"

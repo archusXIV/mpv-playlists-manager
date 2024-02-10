@@ -31,13 +31,14 @@ mpm -v # prints mpm version
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
-## New in version 1.5-3
+## New in version 1.5-4
+- We can now remove certain links in our temporary lists if we changed our minds.
 - Large collection playlists titles can be parsed in a more convenient way.
 - After selected links downloads, the titles are now updated locally (faster method).
-- Using fzf functionality.
-  Two methods are offered here:
-  If the fzf package is installed it will be used
-  to search and copy audio/video urls from youtube.
+
+## Using fzf
+- Two methods are offered here:
+  If the fzf package is installed it will be used to search and copy audio/video urls from youtube.
   In addition you can also use the [ytfzf](https://github.com/pystardust/ytfzf) script
   if it is in your $PATH, it's options are available in the mpmrc file.
 
@@ -50,12 +51,16 @@ use_fzf="yes"
 - If installed, [parallel](https://www.gnu.org/software/parallel/) will launch multiple ffmpeg instances to speed up audio conversion.
 - Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L94) file
 
+```
+use_parallel="yes"
+```
+
 ## Themes
 - A [themerc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/themerc) file is available to insert as many as you want "themes" instead of bloating up your mpmrc.
 
 default theme will use your ~/.Xresources colors or your terminal preferences.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.5-3.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.5-4.png)
 
 
 ```

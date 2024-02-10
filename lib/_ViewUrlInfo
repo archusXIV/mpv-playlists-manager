@@ -3,37 +3,38 @@
 
 # shellcheck disable=SC2154
 _ViewUrlInfo() {
-    # Normaly in Bash nested functions use parentheses instead of curly braces,
-    # but here it won't work because of the case statment right parenthese...
-    # They will close the block before it finishes.
 
     local stars
 
-    viewUrlInfoPrompt=( "[M]aim menu" "[B]ack to audio options" \
-                        "[B]ack to video options" "[D]ownload" \
-                        "[P]lay" "[S]ave as" "[R]emove list: " )
+    viewUrlInfoPrompt=( "[M]aim menu," "[A]dd more links," "[D]ownload," \
+                        "[P]lay," "[S]ave as," "[R]emove links/list: " )
 
     # let's play...
     stars=$(printf "%-54s" "*")
     
+    __audioVideoCommon() (
+        clear
+        __
+        echo " ${info}ORDER |  $menuTitleType PLAYLIST LINKS & TITLES.${nc}"
+        echo -e " ${info}${stars// /*}${nc}\n"
+        awk '$0 ~ /^https/{print $0}' "$menuTitleType_$URLS" \
+        | nl && {
+            __
+            nl "$menuTitleType_$TITLES"
+        __
+        }
+        echo "${info}" "${viewUrlInfoPrompt[@]}" "${nc}"
+    )
+
+    # Normaly in Bash nested functions use parentheses instead of curly braces,
+    # but here it won't work because of the case statment right parenthese...
+    # They will close the block before it finishes.
     __audio() {
         if [[ -s $AUDIO_URLS ]]; then
-            clear
-            __
-            echo " ${info}ORDER |  AUDIO PLAYLIST LINKS & TITLES.${nc}"
-            echo -e " ${info}${stars// /*}${nc}\n"
-            awk '$0 ~ /^https/{print $0}' "$AUDIO_URLS" \
-            | cat -n && {
-                __
-                cat -n "$AUDIO_TITLES"
-            __
-            }
-            unset {viewUrlInfoPrompt[2],viewUrlInfoPrompt[7]}
-            __
-            echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
-            read -rsn 1 opt
-            case "$opt" in
-                b|B) __; _CopyUrl -a ;;
+            __audioVideoCommon
+            read -rsn 1 audioOptions
+            case "$audioOptions" in
+                a|A) __; _CopyUrl -a ;;
                 m|M) _Menu ;;
                 d|D) _GetAudio -a ;;
                 p|P) _LoadAudioVideo -a ;;
@@ -48,22 +49,10 @@ _ViewUrlInfo() {
 
     __video() {
         if [[ -s $VIDEO_URLS ]]; then
-            clear
-            __
-            echo " ${info}ORDER |  VIDEO PLAYLIST LINKS & TITLES.${nc}"
-            echo -e " ${info}${stars// /*}${nc}\n"
-            awk '$0 ~ /^https/{print $0}' "$VIDEO_URLS" \
-            | cat -n && {
-                __
-                cat -n "$VIDEO_TITLES"
-            __
-            }
-            unset {viewUrlInfoPrompt[1],viewUrlInfoPrompt[7]}
-            __
-            echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
-            read -rsn 1 opt
-            case "$opt" in
-                b|B) __; _CopyUrl -v ;;
+            __audioVideoCommon
+            read -rsn 1 videoOptions
+            case "$videoOptions" in
+                a|A) __; _CopyUrl -v ;;
                 m|M) _Menu ;;
                 d|D) _GetVideo -v ;;
                 p|P) _LoadAudioVideo -v ;;
@@ -90,17 +79,17 @@ _ViewUrlInfo() {
             echo " ${info}ORDER |  DEFAULT PLAYLIST LINKS & TITLES.${nc}"
             echo -e " ${info}${stars// /*}${nc}\n"
             awk '$0 ~ /^https/{print $0}' "$QUEUE" \
-            | cat -n && {
-            __
-            cat -n "$DEFAULTITLES"
-            __
+            | nl && {
+                __
+                nl "$DEFAULTITLES"
+                __
             }
             
             while [[ -f $QUEUE ]]; do
-                unset {viewUrlInfoPrompt[1],viewUrlInfoPrompt[2],viewUrlInfoPrompt[7]}
+                unset 'viewUrlInfoPrompt[1]'
                 echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
-                read -rsn 1 opt
-                case "$opt" in
+                read -rsn 1 queueOptions
+                case "$queueOptions" in
                     d|D)
                         __
                         read -rsn 1 -p "${info}"' Download [A]udio, [V]ideo:'"${nc}" get

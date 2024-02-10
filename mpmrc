@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.5-3)
+# ~/.config/mpm/mpmrc (version 1.5-4)
 
 ########################################################
 #                                                      #
@@ -74,6 +74,7 @@ use_fzf="no"
 
 ## add/change your ytfzf preferences here
 # use odysee instead of youtube
+# see man ytfzf
 ytfzfOptions_SC=( --scrape=odysee )
 # force youtube search
 ytfzfOptions_YT=( --force-youtube )

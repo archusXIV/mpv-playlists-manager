@@ -4,30 +4,95 @@
 # shellcheck disable=SC2154,SC2086
 _Remove() {
 
+    cd "$tmp_dir" || exit 1
+
+    __removeTmpLinks() (
+        clear
+        __
+        cat -n "$tmpTitles"
+        RP=$(printf '%s\n' "Enter numbers separeted by commas or a dash for a range" \
+        " for example: ${task}1-4,6 8-11 or 1-4,6-8,10 or 2,3,5,6,1 : ${nc}")
+        __
+        IFS=", "; read -ra array -p " ${info}""$RP""${nc}"
+
+        for range in "${array[@]}"; do
+            IFS="- "; read -r start end <<< "$range"
+            [[ -z $start ]] && continue
+            [[ -z $end ]] && end="$start"
+            for ((i=start;i <= end;i++)); do
+                sed -n "${i}p" "$tmpList" >> "$tmpList"_tmp
+                sed -n "${i}p" "$tmpTitles" >> "$tmpTitles"_tmp
+            done
+        done
+
+        grep -v "$(grep '^https' "$tmpList"_tmp)" "$tmpList" >> "$tmpList"_tmp2
+        mv -f "$tmpList"_tmp2 "$tmpList"
+        grep -v "$(grep '^[[:print:]]' "$tmpTitles"_tmp)" "$tmpTitles" >> "$tmpTitles"_tmp2
+        mv -f "$tmpTitles"_tmp2 "$tmpTitles"
+        rm {"$tmpList"_tmp,"$tmpTitles"_tmp}
+        printf '%s\n' " ${critical}Selected links removed...${nc}"
+        unset IFS
+        sleep 3
+
+    )
+
     case "$1" in
-        -a) rm -f $AUDIO_{URLS,TITLES} \
-            {"$AUDIO_URLS"_origin,"$AUDIO_TITLES"_origin}
-            rm -rf "$HOME"/.parallel 2>/dev/null
+        -a)
+            tmpList="$AUDIO_URLS"
+            tmpTitles="$AUDIO_TITLES"
             __
-            echo " ${critical}Audio list removed...${nc}"
-            sleep 3
+            read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole list?: ${nc}"
+            if [[ $REPLY =~ l|L ]]; then
+                sed -i '1d' "$tmpList"
+                __removeTmpLinks
+                sed -i '1s/^/#EXTM3U\n/' "$tmpList"
+                _ViewUrlInfo -a
+            else
+                rm -f $AUDIO_{URLS,TITLES} \
+                {"$AUDIO_URLS"_origin,"$AUDIO_TITLES"_origin}
+                rm -rf "$HOME"/.parallel 2>/dev/null
+                __
+                echo " ${critical}Audio list removed...${nc}"
+            fi
         ;;
-        -q) sed -i '/^[[:alpha:]]/d' "$QUEUE"
-            rm -f {"$QUEUE"_origin,"$tmp_dir"/1} 2>/dev/null
-            rm -f {"$DEFAULTITLES"_origin,"$DEFAULTITLES"} 2>/dev/null
-            rm -f "$DEFAULTM3UTITLES" 2>/dev/null
-            rm -rf "$HOME"/.parallel 2>/dev/null
+        -q)
+            tmpList="$QUEUE"
+            tmpTitles="$DEFAULTITLES"
             __
-            echo " ${critical}Default list cleared...${nc}"
-            sleep 3
+            read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole list?: ${nc}"
+            if [[ $REPLY =~ l|L ]]; then
+                sed -i '1d' "$tmpList"
+                __removeTmpLinks
+                sed -i '1s/^/#EXTM3U\n/' "$tmpList"
+                _ViewUrlInfo -q
+            else
+                sed -i '/^[[:alpha:]]/d' "$QUEUE"
+                rm -f {"$QUEUE"_origin,"$tmp_dir"/1} 2>/dev/null
+                rm -f {"$DEFAULTITLES"_origin,"$DEFAULTITLES"} 2>/dev/null
+                rm -f "$DEFAULTM3UTITLES" 2>/dev/null
+                rm -rf "$HOME"/.parallel 2>/dev/null
+                __
+                echo " ${critical}Default list cleared...${nc}"
+            fi
         ;;
-        -v) rm -f $VIDEO_{URLS,TITLES} \
-            {"$VIDEO_URLS"_origin,"$VIDEO_TITLES"_origin}
+        -v)
+            tmpList="$VIDEO_URLS"
+            tmpTitles="$VIDEO_TITLES"
             __
-            echo " ${critical}Video list removed...${nc}"
-            sleep 3
+            read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole list?: ${nc}"
+            if [[ $REPLY =~ l|L ]]; then
+                __removeTmpLinks
+                _ViewUrlInfo -v
+            else
+                rm -f $VIDEO_{URLS,TITLES} \
+                {"$VIDEO_URLS"_origin,"$VIDEO_TITLES"_origin}
+                __
+                echo " ${critical}Video list removed...${nc}"
+            fi
         ;;
     esac
 
+    sleep 3
     _Menu
+
 }

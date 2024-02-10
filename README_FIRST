@@ -2,7 +2,7 @@ Author: Barret E (2020-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
 
 Dependencies: ffmpeg, jq, mpv, youtube-dl, yt-dlp.
-Optionals: parallel, ueberzug, ranger, vim (editor), w3m, wmctrl
+Optionals: fzf, parallel, ueberzug, ranger, vim (editor), w3m, wmctrl, ytfzf
 
 Youtube-dl is for now kind of unmaintained so install and make a symlink with
 https://github.com/yt-dlp/yt-dlp/releases
