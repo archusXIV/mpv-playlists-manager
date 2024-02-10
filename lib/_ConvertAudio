@@ -55,9 +55,13 @@ _ConvertAudio() {
                 fi
             ;;
             *)
-                echo ""
-                printf '%s\n' " ${critical}Wrong format $REPLY..." \
-                " or conversion aborted...${nc}"
+                __
+                find "$audios_dir" -maxdepth 2 -name "*.webm" >/dev/null && {
+                    mv ./*.webm ..
+                    printf '%s\n' " ${critical}Conversion aborted," \
+                    " All .webm files have been moved in ~/Music.${nc}"
+                    sleep 3
+                } || printf '%s\n' " ${critical}Wrong format $REPLY...${nc}"
                 __
                 sleep 3
                 return

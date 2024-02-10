@@ -43,9 +43,7 @@ _Remove() {
             __
             read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole list?: ${nc}"
             if [[ $REPLY =~ l|L ]]; then
-                sed -i '1d' "$tmpList"
                 __removeTmpLinks
-                sed -i '1s/^/#EXTM3U\n/' "$tmpList"
                 _ViewUrlInfo -a
             else
                 rm -f $AUDIO_{URLS,TITLES} \
