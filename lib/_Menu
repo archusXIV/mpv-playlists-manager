@@ -8,7 +8,8 @@ _Menu() {
         _ResizeWindow
         clear
         __
-        echo -e "                                           ${mtitle}::MPV-PLAYLISTS-MANAGER $VERSION::" "$(_CheckUpdate)"
+        [[ $check_updates = yes ]] && echo -e "                                           ${mtitle}::MPV-PLAYLISTS-MANAGER $VERSION::" "$(_CheckUpdate)" \
+        || echo -e "                                           ${mtitle}::MPV-PLAYLISTS-MANAGER $VERSION::"
         echo -e "                                          $(_LittleStars)"
         echo -e "                                        ${info}current theme: $THEME. ${critical}For usage type U${nc}"
         _ListsCount

@@ -32,6 +32,7 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
 ## New in version 1.5-4
+- Enable/disable checking for mpm updates in your mpmrc.
 - We can now remove certain links in our temporary lists if we changed our minds.
 - Large collection playlists titles can be parsed in a more convenient way.
 - After selected links downloads, the titles are now updated locally (faster method).
@@ -42,14 +43,14 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge 
   In addition you can also use the [ytfzf](https://github.com/pystardust/ytfzf) script
   if it is in your $PATH, it's options are available in the mpmrc file.
 
-- In your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L73) file activate it.
+- In your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L76) file activate it.
 
 ```
 use_fzf="yes"
 ```
 
 - If installed, [parallel](https://www.gnu.org/software/parallel/) will launch multiple ffmpeg instances to speed up audio conversion.
-- Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L95) file
+- Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L98) file
 
 ```
 use_parallel="yes"

@@ -17,6 +17,9 @@
 # shellcheck disable=SC2034,SC2016,SC2154,SC1083
 : "${XDG_DATA_HOME:-$HOME/.local/share}"
 
+# checking for mpm updates yes/no
+check_updates="yes"
+
 # change the main mpm window size. (the actual size is 1260x738)
 width=1260
 height=738
