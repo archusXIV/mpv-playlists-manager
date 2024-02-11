@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.5-4)
+# ~/.config/mpm/mpmrc (version 1.5-5)
 
 ########################################################
 #                                                      #
@@ -79,20 +79,23 @@ quit_after_task="no"
 # <https://github.com/pystardust/ytfzf>
 use_fzf="no"
 
-## add/change your ytfzf preferences here
+# add/change your ytfzf preferences here
 # use odysee instead of youtube
-# see man ytfzf
-ytfzfOptions_SC=( --scrape=odysee )
-# force youtube search
-ytfzfOptions_YT=( --force-youtube )
+# ytfzfOptions_SC=( --scrape=odysee )
+ytfzfOptions_SC=( --scrape=youtube )
+# ytfzfOptions_YT=( --force-youtube )
 ytfzfOptions_PG=( --pages=5 )
 ytfzfOptions_VD=( --video-duration=long )
 ytfzfOptions_SB=( --sort-by=relevance )
 ytfzfOptions_TY=( --type=all )
-# add your options in this array,
-# ytfzfOptions_SC & ytfzfOptions_YT are in conflict...
-ytfzfOptions_X=( "${ytfzfOptions_YT[@]}" "${ytfzfOptions_PG[@]}" \
-"${ytfzfOptions_VD[@]}" "${ytfzfOptions_SB[@]}" "${ytfzfOptions_TY[@]}" )
+# add your options in this array
+ytfzfOptions_X=(
+    "${ytfzfOptions_SC[@]}"
+    "${ytfzfOptions_PG[@]}"
+    "${ytfzfOptions_VD[@]}"
+    "${ytfzfOptions_SB[@]}"
+    "${ytfzfOptions_TY[@]}"
+)
 
 ############ FFMPEG SPECIFICS (audio conversion) ############
 # !!! You can change ffmpeg audio codec command line settings !!!
@@ -146,53 +149,54 @@ function _ogg {
         -y "${FILE%.webm}.ogg";' _ '{}' \; 2>"$FFOP"
 }
 
-## MPV SPECIFICS
-# mpv audio online playing command line
-function _MpvAudioOptions {
-    # change mpv audio settings here if needed but do not remove "$1"
-    mpv \
-    --input-ipc-server='/tmp/mpvsocket' \
-    --no-config \
-    --no-resume-playback \
-    --term-playing-msg="${info}"'Title: ${media-title}'"${nc}" \
-    --ytdl-format='bestaudio/best' "$1"
-}
+######## MPV SPECIFICS ########
+# mpv audio/video online playing command line
+mpvCacheOptions=( --cache=yes )
+mpvGenOptions_SV=( --input-ipc-server='/tmp/mpvsocket' )
+mpvGenOptions_CF=( --no-config )
+mpvGenOptions_RP=( --no-resume-playback )
+mpvGenOptions_MS=( --term-playing-msg="${info}"'Title: ${media-title}'"${nc}" )
+mpvGenOptions_X=(
+    "${mpvGenOptions_SV[@]}"
+    "${mpvGenOptions_CF[@]}"
+    "${mpvGenOptions_RP[@]}"
+    "${mpvGenOptions_MS[@]}"
+)
+# audio
+mpvAudioFormatOptions=( --ytdl-format='bestaudio/best' )
+# video
+mpvVideoOptions_DM=( --demuxer-max-bytes=500MiB )
+mpvVideoOptions_DR=( --demuxer-readahead-secs=30 )
+mpvVideoOptions_DB=( --demuxer-max-back-bytes=100MiB )
+mpvVideoOptions_FS=( --fullscreen=yes )
+mpvVideoFormatOptions=( --ytdl-format='299+251/298+251/137+251/136+251/best' )
+mpvVideoOptions_X=(
+    "${mpvCacheOptions[@]}"
+    "${mpvVideoOptions_FS[@]}"
+    "${mpvVideoOptions_DM[@]}"
+    "${mpvVideoOptions_DR[@]}"
+    "${mpvVideoOptions_DB[@]}"
+)
 
-# mpm video online playing command line
-function _MpvVideoOptions {
-    # same as above.
-    mpv \
-    --input-ipc-server='/tmp/mpvsocket' \
-    --cache=yes \
-    --demuxer-max-bytes=300MiB \
-    --demuxer-readahead-secs=30 \
-    --no-config \
-    --no-resume-playback \
-    --term-playing-msg="${info}"'Title: ${media-title}'"${nc}" \
-    --ytdl-format='299+251/298+251/137+251/136+251/best' "$1"
-}
-
+######## yt-dlp presets (youtube-dl) ########
 # change the yt-dlp downloader presets ONLY for youtube video downloads
 # (not tested elsewhere)
 # take a look at 'man yt-dlp'
 # !!! do not change the name of the array (ytdlPreset_<*>) !!!
-# downloader name
-ytdlPreset_DN=( --downloader m3u8:ffmpeg )
-# downloader arguments (do not redownload existing files)
-ytdlPreset_DA=( --downloader-args '-n' )
-# same as above but ffmeg isn't the downloader.
 ytdlPreset_BR=( --break-on-existing )
-# merge format
+ytdlPreset_DN=( --downloader m3u8:ffmpeg )
+ytdlPreset_DA=( --downloader-args '-n' )
 ytdlPreset_MF=( --merge-output-format mp4 )
-# downloader warnings
 ytdlPreset_DW=( --no-warnings )
-# downloader progress
 ytdlPreset_DP=( --progress )
-# downloader filename sanitization
-# (this avoid the creation of subdirectories because of filenames containing '/').
 ytdlPreset_FS=( --compat-options filename-sanitization )
 # downloader without multiple format codes
 ytdlPreset_NC=( "${ytdlPreset_BR[@]}" "${ytdlPreset_DW[@]}" "${ytdlPreset_DP[@]}" )
 # combined presets
-ytdlPreset_X=( "${ytdlPreset_DN[@]}" "${ytdlPreset_DA[@]}" \
-"${ytdlPreset_MF[@]}" "${ytdlPreset_DW[@]}" "${ytdlPreset_DP[@]}" )
+ytdlPreset_X=(
+    "${ytdlPreset_DN[@]}"
+    "${ytdlPreset_DA[@]}"
+    "${ytdlPreset_MF[@]}"
+    "${ytdlPreset_DW[@]}"
+    "${ytdlPreset_DP[@]}"
+)
