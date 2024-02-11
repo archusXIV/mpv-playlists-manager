@@ -13,16 +13,27 @@ _UpdateSelected() {
     # ...that we now rename with the original file name.
     mv -f "$CHOOSE2" "$list"
     rm "$CHOOSE1"
-
-    # same operation for titles.
     cd "$titles_dir" || exit 1
-    __
-    echo -e " ${task}${b}Refreshing titles...please wait.${nb}${nc}\n"
-    grep -v "$(grep '^[[:print:]]' "$SELECTEDTITLES"_orgin)" \
-    "$titles_dir"/"$list".titles >> "$SELECTEDTITLES"
-    perl -i -ne 'print if ! $a{$_}++' "$SELECTEDTITLES"
 
-    mv -f "$SELECTEDTITLES" "$titles_dir"/"$list".titles
-    rm "$SELECTEDTITLES"_orgin
+    case "$1" in
+        -e)
+            grep -v "$(grep '^[[:print:]]' "$SELECTEDTITLES")" \
+            "$titles_dir"/"$list".titles >> "$SELECTEDTITLES"_tmp
+            perl -i -ne 'print if ! $a{$_}++' "$SELECTEDTITLES"_tmp
+            mv -f "$SELECTEDTITLES"_tmp "$titles_dir"/"$list".titles
+            rm "$SELECTEDTITLES"
+            __
+            printf '%s\n' " ${info}Changes applied in $list.${nc}"
+            sleep 3
+        ;;
+        -u)
+            grep -v "$(grep '^[[:print:]]' "$SELECTEDTITLES"_orgin)" \
+            "$titles_dir"/"$list".titles >> "$SELECTEDTITLES"
+            perl -i -ne 'print if ! $a{$_}++' "$SELECTEDTITLES"
+            mv -f "$SELECTEDTITLES" "$titles_dir"/"$list".titles
+            rm "$SELECTEDTITLES"_orgin
+        ;;
+    esac
+    
     clear
 }

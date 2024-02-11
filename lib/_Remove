@@ -41,7 +41,7 @@ _Remove() {
             tmpList="$AUDIO_URLS"
             tmpTitles="$AUDIO_TITLES"
             __
-            read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole list?: ${nc}"
+            read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole audio list?: ${nc}"
             if [[ $REPLY =~ l|L ]]; then
                 __removeTmpLinks
                 _ViewUrlInfo -a
@@ -57,7 +57,7 @@ _Remove() {
             tmpList="$QUEUE"
             tmpTitles="$DEFAULTITLES"
             __
-            read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole list?: ${nc}"
+            read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole default list?: ${nc}"
             if [[ $REPLY =~ l|L ]]; then
                 sed -i '1d' "$tmpList"
                 __removeTmpLinks
@@ -65,9 +65,8 @@ _Remove() {
                 _ViewUrlInfo -q
             else
                 sed -i '/^[[:alpha:]]/d' "$QUEUE"
-                rm -f {"$QUEUE"_origin,"$tmp_dir"/1} 2>/dev/null
-                rm -f {"$DEFAULTITLES"_origin,"$DEFAULTITLES"} 2>/dev/null
-                rm -f "$DEFAULTM3UTITLES" 2>/dev/null
+                rm -f \
+                {"$QUEUE"_origin,"$tmp_dir"/1,"$DEFAULTITLES"{,_origin},"$DEFAULTM3UTITLES"} 2>/dev/null
                 rm -rf "$HOME"/.parallel 2>/dev/null
                 __
                 echo " ${critical}Default list cleared...${nc}"
@@ -77,7 +76,7 @@ _Remove() {
             tmpList="$VIDEO_URLS"
             tmpTitles="$VIDEO_TITLES"
             __
-            read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole list?: ${nc}"
+            read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole video list?: ${nc}"
             if [[ $REPLY =~ l|L ]]; then
                 __removeTmpLinks
                 _ViewUrlInfo -v

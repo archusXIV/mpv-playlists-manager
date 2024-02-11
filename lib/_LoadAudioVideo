@@ -32,12 +32,12 @@ _LoadAudioVideo() {
             _LoadAudioVideoTmp -c
         ;;
         -la)
-            m3uFile="$list"
+            m3uFile="$playlists_dir/$list"
             _LoadAudioVideoAdvice
             _MpvAudioOptions "$m3uFile"
         ;;
         -lv)
-            m3uFile="$list"
+            m3uFile="$playlists_dir/$list"
             _LoadAudioVideoAdvice
             _MpvVideoOptions "$m3uFile"
         ;;

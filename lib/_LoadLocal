@@ -5,10 +5,9 @@
 _LoadLocal() {
 
     local AUDIOS VIDEOS zic vid
-    # getting the right paths for french env too...
     # we use -maxdepth 2 in case our directories are in subdirectories.
-    AUDIOS=$(find "$HOME" -maxdepth 2 -type d -name "Music" -o -name "Musique")
-    VIDEOS=$(find "$HOME" -maxdepth 2 -type d -name "Videos" -o -name "Vidéos")
+    AUDIOS=$(find "$HOME" -maxdepth 2 -type d -wholename "$MUSIC_DIR")
+    VIDEOS=$(find "$HOME" -maxdepth 2 -type d -wholename "$VIDEO_DIR")
     zic=$(echo "$AUDIOS" | awk -F"/" '{print $NF}')
     vid=$(echo "$VIDEOS" | awk -F"/" '{print $NF}')
 

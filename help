@@ -1,4 +1,4 @@
-mpm version 1.5-4
+mpm version 1.5-5
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -34,7 +34,7 @@ mpm version 1.5-4
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.1.5-4::
+                                    ::MPV-PLAYLISTS-MANAGER v.1.5-5::
                                    ***********************************
                                 current theme: default. For usage type U
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -119,15 +119,16 @@ mpm version 1.5-4
         All links we enter are added in this file (default.m3u), at least we can save,
         download, play it and view titles in case we closed the program and forgot them.
     
-    7) Clear all tmp lists:
+    7) Clear all temporary lists:
 
         Sometimes it is preferable to clear everything and restart from the bottom ground.
 
     8) Edit a playlist:
 
-        Here is the place where by editing our collection we can add or remove links
-        directly or afterward then titles will be updated.
         Vim is set as the MPMEDITOR in your mpmrc file (change it if you will).
+        Here is the place where by editing our collection we can add or remove links
+        manually (titles will be updated online) or by removing titles from a prompt,
+        in that case corresponding urls will be removed.
 
     9) Edit mpm config (mpmrc):
 

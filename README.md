@@ -2,7 +2,7 @@
 ## Manage playlists for mpv from your linux terminal
 
 ## About mpm
-This program is just a personal project, and I wrote it as a normy Linux user (it is simple),
+This program is just a personal project, and I wrote it as a normy Linux user, it is simple (hum, not so much today lol)
 The goal is to manage self created playlists that mpv reads either online or from local files/directories, 
 youtube-dl/yp-dlp is used to download videos or just audio and in that case if
 we choose webm links, ffmpeg will (if you want to) convert them in four different formats,
@@ -31,11 +31,15 @@ mpm -v # prints mpm version
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
-## New in version 1.5-4
+## New in version 1.5-5
+- Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L46) file.
+- Editing playlists is done using two methods:
+
+  - firstly by adding or removing urls manually with your chosen editor.
+
+  - secondly by removing titles from a prompt (corresponding urls will be removed).
 - Enable/disable checking for mpm updates in your mpmrc.
 - We can now remove certain links in our temporary lists if we changed our minds.
-- Large collection playlists titles can be parsed in a more convenient way.
-- After selected links downloads, the titles are now updated locally (faster method).
 
 ## Using fzf
 - Two methods are offered here:
@@ -43,14 +47,14 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge 
   In addition you can also use the [ytfzf](https://github.com/pystardust/ytfzf) script
   if it is in your $PATH, it's options are available in the mpmrc file.
 
-- In your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L76) file activate it.
+- In your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L80) file activate it.
 
 ```
 use_fzf="yes"
 ```
 
 - If installed, [parallel](https://www.gnu.org/software/parallel/) will launch multiple ffmpeg instances to speed up audio conversion.
-- Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L98) file
+- Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L102) file
 
 ```
 use_parallel="yes"
@@ -61,7 +65,7 @@ use_parallel="yes"
 
 default theme will use your ~/.Xresources colors or your terminal preferences.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.5-4.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.5-5.png)
 
 
 ```

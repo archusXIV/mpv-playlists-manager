@@ -43,14 +43,18 @@ FILEMANAGER="ranger"
 # main_dir="$HOME/Documents/mpv-playlists-manager"
 main_dir="$XDG_DATA_HOME/mpv-playlists-manager"
 
+# define your multimedia directories according to your locales.
+MUSIC_DIR="$HOME/Music"
+VIDEO_DIR="$HOME/Videos"
+
 # The default playlist & all the created ones are stored here.
 playlists_dir="$main_dir/playlists"
 
 # Be carefull with this one because if you choose to use the conversion action,
 # ALL .webm files in that directory will be converted.
 # audios_dir="$HOME/Music/mpm_audios"
-audios_dir="$main_dir/mpm_audios"
-videos_dir="$main_dir/mpm_videos"
+audios_dir="$MUSIC_DIR/mpm_audios"
+videos_dir="$VIDEO_DIR/mpm_videos"
 titles_dir="$main_dir/titles"
 tmp_dir="$main_dir/tmp"
 
@@ -85,13 +89,13 @@ ytfzfOptions_PG=( --pages=5 )
 ytfzfOptions_VD=( --video-duration=long )
 ytfzfOptions_SB=( --sort-by=relevance )
 ytfzfOptions_TY=( --type=all )
-# add your options in this array
+# add your options in this array,
+# ytfzfOptions_SC & ytfzfOptions_YT are in conflict...
 ytfzfOptions_X=( "${ytfzfOptions_YT[@]}" "${ytfzfOptions_PG[@]}" \
 "${ytfzfOptions_VD[@]}" "${ytfzfOptions_SB[@]}" "${ytfzfOptions_TY[@]}" )
 
 ############ FFMPEG SPECIFICS (audio conversion) ############
 # !!! You can change ffmpeg audio codec command line settings !!!
-# (-acodec libmp3lame -ar 48000 -ab 320k) for example.
 # if the parallel package is installed then it will be used to launch
 # multiple conversions at once in the equivalent quality,
 # else files will be converted one by one.

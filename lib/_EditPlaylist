@@ -7,20 +7,33 @@ _EditPlaylist() {
         clear
         cd "$playlists_dir" || exit 1
         __
-        PS3=""$'\n'"${info}Choose a playlist to edit:${nc} "
+        PS3=""$'\n'" ${info}Choose a playlist to edit: ${nc}"
 
         select list in $(find . -not -name "default.m3u" -name "*.m3u" \
             -o -name "*.m3u_origin" | sort -d | sed 's,.*/,,'); do
             __
-            $MPMEDITOR "$list"
-            echo -e " ${info}$list saved${nc}\n"
-
-            [[ $(grep "" -c "$titles_dir/$list.titles") \
+            read -rsn 1 -p \
+            "${info}"' [E]dit urls manually, [R]emove titles.'"${nc}" edit
+            if [[ $edit =~ e|E ]]; then
+                $MPMEDITOR "$list"
+                echo -e " ${info}$list saved${nc}\n"
+                [[ $(grep "" -c "$titles_dir/$list.titles") \
                 -ne $(_GetLinesList -l) ]] && _TitlesListCompare
-
+            elif [[ $edit =~ r|R ]]; then
+                clear
+                _TitlesListCompare -l
+                _GetRange
+                unset IFS
+                _UpdateSelected -e
+            else
+                __
+                printf '%s\n' " ${critical}Wrong option $edit...${nc}"
+                sleep 3
+            fi
+            __
             read -rsn 1 \
-            -p "${info}"' [C]ontinue editing, [B]ack to menu or [Q]uit.'"${nc}" edit
-            case "$edit" in
+            -p "${info}"' [C]ontinue editing, [B]ack to menu or [Q]uit.'"${nc}" again
+            case "$again" in
                 c|C)
                     break
                 ;;
@@ -37,6 +50,10 @@ _EditPlaylist() {
                         clear
                         exit 0
                     fi
+                ;;
+                *)
+                    printf '%s\n' " ${critical}Wrong option $again...${nc}"
+                    sleep 3
                 ;;
             esac
         done

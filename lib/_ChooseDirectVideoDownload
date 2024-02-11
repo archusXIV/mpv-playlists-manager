@@ -9,16 +9,16 @@ _ChooseDirectVideoDownload() {
     cd "$playlists_dir" || exit 1
     _TitlesListCompare -l
     _GetRange
-
+    
     clear
     cp -f "$list" "$list"_origin
     cp -f "$SELECTEDTITLES" "$SELECTEDTITLES"_orgin
     mkdir --parents "$videos_dir"/"${list%.*}" \
     && cd "$videos_dir"/"${list%.*}"
-
+    
     readarray -t DIRECT < "$CHOOSE1"
     counter="${#DIRECT[@]}"
-
+    
     for line in "${DIRECT[@]}"; do
 
         if [[ $direct_download = yes ]]; then
@@ -49,7 +49,7 @@ _ChooseDirectVideoDownload() {
         clear
     done
 
-    unset line
+    unset IFS
     echo " ${info}All done${nc}"
     sleep 2
 
