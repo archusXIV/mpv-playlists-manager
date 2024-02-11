@@ -22,7 +22,7 @@
 
 trap "_CleanTmpDir; exit" SIGTERM EXIT
 
-VERSION="v.1.5-5"
+VERSION="v.1.6-0"
 
 : "${XDG_CONFIG_HOME:-$HOME/.config}"
 CONF_DIR="$XDG_CONFIG_HOME/mpm"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.5-5)
+# ~/.config/mpm/mpmrc (version 1.6-0)
 
 ########################################################
 #                                                      #
@@ -52,7 +52,8 @@ playlists_dir="$main_dir/playlists"
 
 # Be carefull with this one because if you choose to use the conversion action,
 # ALL .webm files in that directory will be converted.
-# audios_dir="$HOME/Music/mpm_audios"
+# audios_dir="$HOME/Documents/mpm_audios"
+# audios_dir="$main_dir/mpm_audios"
 audios_dir="$MUSIC_DIR/mpm_audios"
 videos_dir="$VIDEO_DIR/mpm_videos"
 titles_dir="$main_dir/titles"
@@ -114,42 +115,14 @@ automatic_audio_conversion="no"
 # (will appear in main menu)
 default_conversion_format="mp3"
 
-# if you want to change ffmpeg codecs options...
-# example for mp3: -acodec libmp3lame -ar 48000 -ab 320k
+# if use_parallel="no" then ffmpeg will convert audio files one by one,
+# so it will use those settings instead.
+ffmpegFlacCodecOptions=( -af aformat=s32:48000 )
+ffmpegMp3CodecOptions=( -acodec libmp3lame -ar 48000 -ab 320k )
+ffmpegOggCodecOptions=( -acodec libvorbis -ar 48000 -ab 320k )
+ffmpegWavCodecOptions=( -acodec pcm_s32le -ar 48000 )
 
-function _mp3 {
-    find . -iname "*.webm" -exec \
-    bash -c 'FILE="$1"; \
-        ffmpeg -i "${FILE}" \
-        -acodec libmp3lame -ar 48000 -ab 320k \
-        -y "${FILE%.webm}.mp3";' _ '{}' \; 2>"$FFOP"
-}
-
-function _flac {
-    find . -iname "*.webm" -exec \
-    bash -c 'FILE="$1"; \
-        ffmpeg -i "${FILE}" \
-        -af aformat=s32:48000 \
-        -y "${FILE%.webm}.flac";' _ '{}' \; 2>"$FFOP"
-}
-
-function _wav {
-    find . -iname "*.webm" -exec \
-    bash -c 'FILE="$1"; \
-        ffmpeg -i "${FILE}" \
-        -acodec pcm_s32le -ar 48000 \
-        -y "${FILE%.webm}.wav";' _ '{}' \; 2>"$FFOP"
-}
-
-function _ogg {
-    find . -iname "*.webm" -exec \
-    bash -c 'FILE="$1"; \
-        ffmpeg -i "${FILE}" \
-        -acodec libvorbis -ar 48000 -ab 320k \
-        -y "${FILE%.webm}.ogg";' _ '{}' \; 2>"$FFOP"
-}
-
-######## MPV SPECIFICS ########
+############### MPV SPECIFICS ###############
 # mpv audio/video online playing command line
 mpvCacheOptions=( --cache=yes )
 mpvGenOptions_SV=( --input-ipc-server='/tmp/mpvsocket' )
@@ -178,7 +151,7 @@ mpvVideoOptions_X=(
     "${mpvVideoOptions_DB[@]}"
 )
 
-######## yt-dlp presets (youtube-dl) ########
+##################### YT-DLP PRESETS (youtube-dl) #####################
 # change the yt-dlp downloader presets ONLY for youtube video downloads
 # (not tested elsewhere)
 # take a look at 'man yt-dlp'

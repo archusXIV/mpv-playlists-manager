@@ -1,4 +1,4 @@
-mpm version 1.5-5
+mpm version 1.6-0
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -34,7 +34,7 @@ mpm version 1.5-5
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.1.5-5::
+                                    ::MPV-PLAYLISTS-MANAGER v.1.6-0::
                                    ***********************************
                                 current theme: default. For usage type U
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -103,16 +103,17 @@ mpm version 1.5-5
     
     5) Load local dir/files:
 
-        the following method uses ranger.
+        The following method uses ranger.
         The possibility of watching or listening media files from disk is done with ranger
         as a dependency. The default music and video directories are ~/Music & ~/Videos,
-        Change the local variables in _LoadLocal function if needed.
-        To use ranger in this function, just get mpvc script, and place it in your PATH.
-        https://github.com/lwilletts/mpvc/blob/master/mpvc
+        Change the variables in your mpmrc if needed.
+        To use ranger in this function, just get mpvc script, and place it in your $PATH.
+        https://github.com/lwilletts/mpvc/blob/master/mpvc, this will queue files instead.
         Then in "$XDG_CONFIG_HOME"/ranger/rifle.conf:
-        change lines (124-125) 124) mpvc add -- "$@" 125) mpvc add --fs -- "$@"
+        change lines (127-128) 127) mpvc add -- "$@" 128) mpvc add --fs -- "$@" or use the provided
+        configuration in the mpv-playlists-manager/ranger directory previously cloned with git.
         Make sure that you have enabled; set preview_images_method ueberzug (has to be installed)
-        if you do not use URxvt for example (w3m works fine for URxvt/xterm).
+        if you do not use URxvt for example (w3m works fine in URxvt/Xterm).
 
     6) View default playlist:
 

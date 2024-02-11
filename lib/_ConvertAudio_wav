@@ -1,0 +1,12 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_ConvertAudio_wav() {
+    mapfile -t webmFiles < <(find "$audios_dir" -maxdepth 2 -iname "*.webm")
+    for w in "${webmFiles[@]}"; do
+        ffmpeg -i "${w}" \
+        "${ffmpegWavCodecOptions[@]}" \
+        -y "${w%.webm}.wav" 2>"$FFOP"
+    done
+}
