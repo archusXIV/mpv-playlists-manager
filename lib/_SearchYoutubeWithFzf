@@ -41,7 +41,7 @@ _SearchYoutubeWithFzf() {
     )
 
     if ! grep -q "$sanitizedRequest" <<< "$sanitizedResult"; then
-        echo "unable to fetch Youtube."
+        echo "unable to reach youtube.com"
         sleep 2s
         return
     fi
@@ -63,21 +63,11 @@ _SearchYoutubeWithFzf() {
     mediaPrefix="https://www.youtube.com/watch?v="
     playlistPrefix="https://www.youtube.com/playlist?list="
 
-    if [[ $Type = Audio ]]; then
-        URLS="$AUDIO_URLS"
-        TITLES="$AUDIO_TITLES"
-        Type=Audio
-    else
-        URLS="$VIDEO_URLS"
-        TITLES="$VIDEO_TITLES"
-        Type=Video
-    fi
-
-    while :; do
+    while true; do
         selection=$(echo -e "$IDS" | cut -d'	' -f2 \
         | fzf \
         --prompt='Filter: ' \
-        --header "${info}${b}"'Press Enter to copy, Escape to exit search: '"${nb}${nc}")
+        --header "${info}${b}"'Press Enter to copy, Escape to confirm & exit search: '"${nb}${nc}")
 
         # grep a fixed string that is a word and matches only one line in selection.
         id=$(echo -e "$IDS" | grep -Fwm1 "$selection" | cut -d'	' -f1)

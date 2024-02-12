@@ -103,17 +103,18 @@ mpm version 1.6-0
     
     5) Load local dir/files:
 
-        The following method uses ranger.
+        the following method uses ranger.
         The possibility of watching or listening media files from disk is done with ranger
         as a dependency. The default music and video directories are ~/Music & ~/Videos,
-        Change the variables in your mpmrc if needed.
-        To use ranger in this function, just get mpvc script, and place it in your $PATH.
-        https://github.com/lwilletts/mpvc/blob/master/mpvc, this will queue files instead.
+        Change the local variables in _LoadLocal function if needed.
+        To use ranger in this function, just get mpvc script, and place it in your PATH.
+        https://github.com/lwilletts/mpvc/blob/master/mpvc
         Then in "$XDG_CONFIG_HOME"/ranger/rifle.conf:
-        change lines (127-128) 127) mpvc add -- "$@" 128) mpvc add --fs -- "$@" or use the provided
-        configuration in the mpv-playlists-manager/ranger directory previously cloned with git.
+        change lines (127-128):
+            127) mpvc add -- "$@"
+            128) mpvc add --fs -- "$@"
         Make sure that you have enabled; set preview_images_method ueberzug (has to be installed)
-        if you do not use URxvt for example (w3m works fine in URxvt/Xterm).
+        if you do not use URxvt for example (w3m works fine for URxvt/xterm).
 
     6) View default playlist:
 
@@ -149,8 +150,11 @@ mpm version 1.6-0
                                     Select an item
 
         The same menu is also prensented in video section. New since version 1.4-9,
-        searching youtube audio/video is done by using the fzf package if installed,
-        and if the ytfzf script is in yout PATH then it will be used prioritarily. 
+        searching online audio/video is done by using the fzf package if installed,
+        and if the ytfzf script is in your $PATH then we will get a prompt to choose.
+        The fzf method only search youtube and ytfzf scraper can be change to other platforms,
+        see 'man ytfzf' and then in your mpmrc file use ytfzfOptions_SC=( --scrape=odysee ),
+        instead of ytfzfOptions_SC=( --scrape=youtube ) for example.
         All options are applied to the specific temporary file and we act directly on it.
         We can also add links to an existing playlist using option "Save playlist as" then
         in the menu we select the playlist, the prompt tells us if we want to overwrite it,
