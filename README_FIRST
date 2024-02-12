@@ -8,7 +8,7 @@ Youtube-dl is for now kind of unmaintained so install and make a symlink with
 https://github.com/yt-dlp/yt-dlp/releases
 sudo pacman -S yt-dlp
 ln -s /usr/bin/yt-dlp ~/.local/bin/youtube-dl (if ~/.local/bin is in your $PATH)
-we do this way because all the yt-dlp command lines are whritten like youtube-dl
+we do this way because all the yt-dlp command lines are whritten like youtube-dl.
 
 This script rips video urls from Youtube and so on.
 In our case we use ".m3u" files to store urls in and then be able
