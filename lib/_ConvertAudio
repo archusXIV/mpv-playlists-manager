@@ -26,7 +26,7 @@ _ConvertAudio() {
         fi
     else
         __
-        printf '%s\n' " ${critical}Conversion format isn't set...${nc}" \
+        printf '%s\n' " ${critical}Conversion format isn't set..." \
         " ${info}Press Enter to abort conversion.${nc}"
         declare -A formats=(
             [1]="flac"
@@ -69,15 +69,7 @@ _ConvertAudio() {
         
     fi
 
-    find . -iname "*.webm" -exec rm {} \;
-
-    if [[ -z $(find "$audios_dir" -maxdepth 2 -iname "*.webm" ) ]]; then
-        __
-        printf '%s\n' " ${info}Conversion done.${nc}"
-        sleep 2
-        clear
-    else
-        echo ""
-    fi
-
+    find . -iname "*.webm" -exec rm {} \; && \
+    __ && printf '%s\n' " ${info}Conversion done.${nc}" \
+    && sleep 2
 }

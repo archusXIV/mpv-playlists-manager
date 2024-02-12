@@ -4,16 +4,21 @@
 _RemoveCrap() {
     # After some tests it appears that a single link copied from a youtube playlist
     # causes the download of the entire playlist.
-    # So with sed & perl we cleanup the link to get the direct link to the desir video.
+    # So with sed & perl we cleanup the link to get the direct link to the desired video.
     # Note that this behavior does not appear during a simple viewing/listening.
 
     LISTS=( "$AUDIO_URLS" "$AUDIO_TITLES" \
             "$VIDEO_URLS" "$VIDEO_TITLES" \
             "$QUEUE" "$DEFAULTITLES" )
 
+    # sed will complain about the two //, so we escape them.
+    a="https:\/\/youtube.com"
+    b="https:\/\/www.youtube.com"
+
     for file in "${LISTS[@]}"; do
         # removing unwanted parts of links, blank lines & duplicates
         sed -i 's/&list.*//;/^\s*$/d' "$file"
+        sed -i "s/${a}/${b}/g" "$file"
         perl -i -ne 'print if ! $a{$_}++' "$file"
     done 2>/dev/null
 
