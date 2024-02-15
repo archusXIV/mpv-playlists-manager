@@ -22,7 +22,7 @@
 
 trap "_CleanTmpDir; exit" SIGTERM EXIT
 
-VERSION="v.1.6-0"
+VERSION="v.1.6-1"
 
 : "${XDG_CONFIG_HOME:-$HOME/.config}"
 CONF_DIR="$XDG_CONFIG_HOME/mpm"
@@ -35,7 +35,7 @@ THEMERC="$CONF_DIR/themerc"
 }
 
 ## summon our personal settings
-source "$MPMRC"; source "$THEMERC"
+. "$MPMRC"; . "$THEMERC"
 
 [[ -n $playlists_dir ]] && \
 cp /usr/local/share/doc/mpm/mpm_yt-videos.m3u "$playlists_dir"
@@ -47,7 +47,7 @@ nb=$'\e[25m';
 # shellcheck source=/dev/null
 ## First source our functions.
 for func in $(find /usr/local/lib/mpm/_*); do
-    source "$func"
+    . "$func"
 done
 
 # avoids running multiple instances

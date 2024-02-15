@@ -10,7 +10,7 @@ _GetAudio() {
     case "$1" in
         -a)
             [[ $(_GetLinesList -a) -eq 0 ]] && {
-                printf '%s\n' " ${critical}No links in the list${nc}"
+                printf '%s\n' " ${critical}No links in the $Type list${nc}"
                 sleep 2
                 return
             }

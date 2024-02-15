@@ -4,51 +4,50 @@
 # shellcheck disable=SC2154
 _GetYoutubePlaylistUrls() {
 
-    local URLS_INFO playlistUrls
+    __AudioVideoPlaylist() (
+        youtube-dl "${ytdlPreset_DW[@]}" -j "$mediaUrl" \
+        | jq '(.webpage_url)' | sed 's/"//g' \
+        | tee -a "$QUEUE" >> "$URLS"
+        sed -i '/playlist/d' {"$QUEUE","$URLS"}
+    )
+
     case "$1" in
         -a)
-            URLS_INFO="$AUDIO_URLS"
+            __AudioVideoPlaylist
         ;;
         -s)
-            if [[ $Type = Audio ]]; then
-                playlistUrls="$YTSEARCH"AudioPlaylists
-                URLS_INFO="$AUDIO_URLS"
-            else
-                playlistUrls="$YTSEARCH"VideoPlaylists
-                URLS_INFO="$VIDEO_URLS"
-            fi
-            
-            printf '%s\n' \
-            " ${info}Please be patient while extracting urls/titles from:" \
-            " $(youtube-dl "${ytdlPreset_DW[@]}" -J --flat-playlist \
-            "$(cat "$playlistUrls")" | jq -r .title) playlist...${nc}"
-            
-            mapfile -t < <(grep '^https' "$playlistUrls")
+            mapfile -t < <(grep '^https' "$YTSEARCH")
             # there might be several playlists urls selected in 
             # _Search{Online,Youtube}With functions so we enter in a loop.
             for url in "${MAPFILE[@]}"; do
+
+                __
+                printf '%s\n' \
+                " ${info}Please be patient while extracting urls/titles from:" \
+                " $(youtube-dl "${ytdlPreset_DW[@]}" -J --flat-playlist \
+                "$(sed -n '1p' "$YTSEARCH")" | jq -r .title) playlist...${nc}"
+
                 youtube-dl "${ytdlPreset_DW[@]}" -j "$url" \
                 | jq '(.webpage_url)' | sed 's/"//g' \
-                | tee -a "$QUEUE" >> "$URLS_INFO"
-                sed -i '/playlist/d' {"$QUEUE","$URLS_INFO"}
+                | tee -a "$QUEUE" >> "$URLS"
+                
+                _YtdlGetTitle "$(sed -n '1p' "$YTSEARCH")" \
+                | tee -a "$TITLES" >> "$DEFAULTITLES"
+                sed -i '1d' "$YTSEARCH"
+                clear
+                
             done
             
-            _YtdlGetTitle "$(cat "$playlistUrls")" \
-            | tee -a "$TITLES" >> "$DEFAULTITLES"
+            sed -i '/playlist/d' {"$QUEUE","$URLS"}
             _RemoveCrap
 
-            rm "$playlistUrls"; sleep 1s
+            rm "$YTSEARCH"; sleep 1s
 
             clear && return
         ;;
         -v)
-            URLS_INFO="$VIDEO_URLS"
+            __AudioVideoPlaylist
         ;;
     esac
-
-    youtube-dl "${ytdlPreset_DW[@]}" -j "$copyUrl" \
-    | jq '(.webpage_url)' | sed 's/"//g' \
-    | tee -a "$QUEUE" >> "$URLS_INFO"
-    sed -i '/playlist/d' {"$QUEUE","$URLS_INFO"}
 
 }

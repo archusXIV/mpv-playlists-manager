@@ -7,17 +7,17 @@ _LoadAudioVideo() {
     # change mpv settings in ~/.config/mpm/mpmrc
     local m3uFile
 
-    __MpvAudioOptions() (
+    __mpvOnlineAudio() (
         mpv \
         "${mpvGenOptions_X[@]}" \
         "${mpvAudioFormatOptions[@]}" "$1"
     )
 
-    __MpvVideoOptions() (
+    __mpvOnlineVideo() (
         mpv \
-            "${mpvGenOptions_X[@]}" \
-            "${mpvVideoOptions_X[@]}" \
-            "${mpvVideoFormatOptions[@]}" "$1"
+        "${mpvGenOptions_X[@]}" \
+        "${mpvVideoOptions_X[@]}" \
+        "${mpvVideoFormatOptions[@]}" "$1"
     )
 
     case "$1" in
@@ -25,53 +25,53 @@ _LoadAudioVideo() {
             if [[ -s $AUDIO_URLS ]]; then
                 m3uFile="$AUDIO_URLS"
                 _LoadAudioVideoAdvice
-                __MpvAudioOptions "$m3uFile"
+                __mpvOnlineAudio "$m3uFile"
                 _LoadAudioVideoTmp -a
             else
-                echo " ${critical}No links in the list${nc}"
+                echo " ${critical}No links in the $Type list${nc}"
                 sleep 2 && return
             fi
         ;;
         -ca)
             m3uFile="$CHOOSE1"
             _LoadAudioVideoAdvice
-            __MpvAudioOptions "$m3uFile"
+            __mpvOnlineAudio "$m3uFile"
             _LoadAudioVideoTmp -c
         ;;
         -cv)
             m3uFile="$CHOOSE1"
             _LoadAudioVideoAdvice
-            __MpvVideoOptions "$m3uFile"
+            __mpvOnlineVideo "$m3uFile"
             _LoadAudioVideoTmp -c
         ;;
         -la)
             m3uFile="$playlists_dir/$list"
             _LoadAudioVideoAdvice
-            __MpvAudioOptions "$m3uFile"
+            __mpvOnlineAudio "$m3uFile"
         ;;
         -lv)
             m3uFile="$playlists_dir/$list"
             _LoadAudioVideoAdvice
-            __MpvVideoOptions "$m3uFile"
+            __mpvOnlineVideo "$m3uFile"
         ;;
         -qa)
             m3uFile="$QUEUE"
             _LoadAudioVideoAdvice
-            __MpvAudioOptions "$m3uFile"
+            __mpvOnlineAudio "$m3uFile"
         ;;
         -qv)
             m3uFile="$QUEUE"
             _LoadAudioVideoAdvice
-            __MpvVideoOptions "$m3uFile"
+            __mpvOnlineVideo "$m3uFile"
         ;;
         -v)
             if [[ -s $VIDEO_URLS ]]; then
                 m3uFile="$VIDEO_URLS"
                 _LoadAudioVideoAdvice
-                __MpvVideoOptions "$m3uFile"
+                __mpvOnlineVideo "$m3uFile"
                 _LoadAudioVideoTmp -v
             else
-                echo " ${critical}No links in the list${nc}"
+                echo " ${critical}No links in the $Type list${nc}"
                 sleep 2 && return
             fi
         ;;

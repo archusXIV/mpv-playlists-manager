@@ -27,7 +27,7 @@ _GetVideo() {
         -v)
             __
             [[ $(_GetLinesList -v) -eq 0 ]] && {
-                echo " ${critical}No links in the list${nc}"
+                echo " ${critical}No links in the $Type list${nc}"
                 sleep 2
                 return
             }

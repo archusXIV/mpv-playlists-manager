@@ -1,5 +1,6 @@
 Author: Barret E (2020-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
+mpm version 1.6-1
 
 Dependencies: ffmpeg, jq, mpv, youtube-dl, yt-dlp.
 Optionals: fzf, parallel, ueberzug, ranger, vim (editor), w3m, wmctrl, ytfzf

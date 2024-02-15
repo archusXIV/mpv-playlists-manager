@@ -30,7 +30,7 @@ _ViewUrlInfo() {
     # but here it won't work because of the case statment right parenthese...
     # They will close the block before it finishes.
     __audio() {
-        if [[ -s $AUDIO_URLS ]]; then
+        if [[ -s $URLS ]]; then
             __audioVideoCommon
             read -rsn 1 audioOptions
             case "$audioOptions" in
@@ -42,13 +42,13 @@ _ViewUrlInfo() {
                 s|S) _Save -a ;;
             esac
         else
-            echo " ${critical}No links in the list${nc}"
+            echo " ${critical}No links in the $Type list${nc}"
             sleep 2 && return
         fi
     }
 
     __video() {
-        if [[ -s $VIDEO_URLS ]]; then
+        if [[ -s $URLS ]]; then
             __audioVideoCommon
             read -rsn 1 videoOptions
             case "$videoOptions" in
@@ -60,7 +60,7 @@ _ViewUrlInfo() {
                 s|S) _Save -v ;;
             esac
         else
-            echo " ${critical}No links in the list${nc}"
+            echo " ${critical}No links in the $Type list${nc}"
             sleep 2 && return
         fi
     }

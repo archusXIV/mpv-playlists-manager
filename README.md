@@ -31,7 +31,8 @@ mpm -v # prints mpm version
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
-## New in version 1.6-0
+## New in version 1.6-1
+- Bugs fixed.
 - ffmpeg, mpv, ytfzf & yt-dlp command line options can be set in your mpmrc through their respective bash arrays.
 - Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L46) file (change them according to your locales).
 - Editing playlists is done using two methods:
@@ -40,7 +41,6 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge 
 
   - secondly by removing titles from a prompt (corresponding urls will be removed).
 - Enable/disable checking for mpm updates in your mpmrc.
-- We can now remove certain links in our temporary lists if we changed our minds.
 
 ## Using fzf
 - Two methods are offered here:
@@ -54,6 +54,7 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge 
 use_fzf="yes"
 ```
 
+## Audio conversion done faster with parallel
 - If installed, [parallel](https://www.gnu.org/software/parallel/) will launch multiple ffmpeg instances to speed up audio conversion.
 - Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L105) file
 
@@ -66,7 +67,7 @@ use_parallel="yes"
 
 default theme will use your ~/.Xresources colors or your terminal preferences.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.6-0.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.6-1.png)
 
 
 ```
@@ -75,7 +76,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 # AVAILABLE THEMES: default, dracula, blacksea, chocolat-pistache,
 # gruvbox, gotham, monokai, TokyoNight, solarized, vacuous, zenburn
 
-THEME="monokai"
+THEME="default"
 ```
 
 - To find out how to convert hex colors in rgb colors, open your prefered color picker

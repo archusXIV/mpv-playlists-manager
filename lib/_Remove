@@ -41,16 +41,16 @@ _Remove() {
             tmpList="$AUDIO_URLS"
             tmpTitles="$AUDIO_TITLES"
             __
-            read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole audio list?: ${nc}"
+            read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole $Type list?: ${nc}"
             if [[ $REPLY =~ l|L ]]; then
                 __removeTmpLinks
                 _ViewUrlInfo -a
             else
-                rm -f $AUDIO_{URLS,TITLES} \
-                {"$AUDIO_URLS"_origin,"$AUDIO_TITLES"_origin}
+                rm -f {"$tmpList","$tmpTitles"} \
+                {"$tmpList"_origin,"$tmpTitles"_origin}
                 rm -rf "$HOME"/.parallel 2>/dev/null
                 __
-                echo " ${critical}Audio list removed...${nc}"
+                echo " ${critical}$Type list removed...${nc}"
             fi
         ;;
         -q)
@@ -64,9 +64,9 @@ _Remove() {
                 sed -i '1s/^/#EXTM3U\n/' "$tmpList"
                 _ViewUrlInfo -q
             else
-                sed -i '/^[[:alpha:]]/d' "$QUEUE"
+                sed -i '/^[[:alpha:]]/d' "$tmpList"
                 rm -f \
-                {"$QUEUE"_origin,"$tmp_dir"/1,"$DEFAULTITLES"{,_origin},"$DEFAULTM3UTITLES"} 2>/dev/null
+                {"$tmpList"_origin,"$tmp_dir"/1,"$DEFAULTITLES"{,_origin},"$DEFAULTM3UTITLES"} 2>/dev/null
                 rm -rf "$HOME"/.parallel 2>/dev/null
                 __
                 echo " ${critical}Default list cleared...${nc}"
@@ -76,15 +76,15 @@ _Remove() {
             tmpList="$VIDEO_URLS"
             tmpTitles="$VIDEO_TITLES"
             __
-            read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole video list?: ${nc}"
+            read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole $Type list?: ${nc}"
             if [[ $REPLY =~ l|L ]]; then
                 __removeTmpLinks
                 _ViewUrlInfo -v
             else
-                rm -f $VIDEO_{URLS,TITLES} \
-                {"$VIDEO_URLS"_origin,"$VIDEO_TITLES"_origin}
+                rm -f {"$tmpList","$tmpTitles"} \
+                {"$tmpList"_origin,"$tmpTitles"_origin}
                 __
-                echo " ${critical}Video list removed...${nc}"
+                echo " ${critical}$Type list removed...${nc}"
             fi
         ;;
     esac

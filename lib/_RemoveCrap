@@ -11,14 +11,10 @@ _RemoveCrap() {
             "$VIDEO_URLS" "$VIDEO_TITLES" \
             "$QUEUE" "$DEFAULTITLES" )
 
-    # sed will complain about the two //, so we escape them.
-    a="https:\/\/youtube.com"
-    b="https:\/\/www.youtube.com"
-
     for file in "${LISTS[@]}"; do
         # removing unwanted parts of links, blank lines & duplicates
         sed -i 's/&list.*//;/^\s*$/d' "$file"
-        sed -i "s/${a}/${b}/g" "$file"
+        sed -i 's|//youtube.com|//www.youtube.com|g' "$file"
         perl -i -ne 'print if ! $a{$_}++' "$file"
     done 2>/dev/null
 

@@ -7,7 +7,7 @@ _EditMpmConf() {
 
     $MPMEDITOR "$MPMRC"
     printf '%s\n' " ${info}mpm config saved! New changes actives.${nc}"
-    source "$MPMRC"
+    . "$MPMRC"
     _Theme "$THEME"
     sleep 3
     clear

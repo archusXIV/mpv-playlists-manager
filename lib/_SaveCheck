@@ -24,7 +24,7 @@ _SaveCheck() {
         _SaveList
     )
     __
-    printf '%s\n' " ${critical}Tip: If you want to add links to a playlist," \
+    printf '%s\n' " ${critical}Tip: If you want to add links to an existing playlist," \
     " just select it and answer NO to the overwrite question," \
     " you can now add your links by entering 'a'${nc}"
     __
@@ -44,19 +44,13 @@ _SaveCheck() {
                 case "$saveOrAddLinks" in
                     a|A)
                         cat "$CURRENT_LIST" >> "$list"
-                        # sed will complain about the two //, so we escape them.
-                        a="https:\/\/youtube.com"
-                        b="https:\/\/www.youtube.com"
-                        sed -i "s/${a}/${b}/g" "$list"
                         cat "$CURRENT_TITLES" >> "$titles_dir/$list.titles"
                         perl -i -ne 'print if ! $a{$_}++' {"$list","$titles_dir/$list.titles"}
                         __
                         printf '%s\n' " ${info}Link(s) added to $list.${nc}"
 
                         rm {"$CURRENT_LIST","$CURRENT_TITLES"}
-                        [[ $CURRENT_LIST = "$QUEUE" ]] \
-                            && echo "#EXTM3U" > "$QUEUE"
-
+                        [[ $CURRENT_LIST = "$QUEUE" ]] && echo "#EXTM3U" > "$QUEUE"
                         sleep 2
                         break
                     ;;
