@@ -31,8 +31,11 @@ mpm -v # prints mpm version
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
-## New in version 1.6-1
-- Bugs fixed.
+## New in version 1.6-2
+- Launching local folder/files function simplified.
+- Bugs fixed, little things here & there.
+
+## recent additions
 - ffmpeg, mpv, ytfzf & yt-dlp command line options can be set in your mpmrc through their respective bash arrays.
 - Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L46) file (change them according to your locales).
 - Editing playlists is done using two methods:
@@ -67,7 +70,7 @@ use_parallel="yes"
 
 default theme will use your ~/.Xresources colors or your terminal preferences.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.6-1.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.6-2.png)
 
 
 ```

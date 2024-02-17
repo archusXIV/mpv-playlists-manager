@@ -6,8 +6,10 @@ _ViewUrlInfo() {
 
     local stars
 
-    viewUrlInfoPrompt=( "[M]aim menu," "[A]dd more links," "[D]ownload," \
-                        "[P]lay," "[S]ave as," "[R]emove links/list: " )
+    viewUrlInfoPrompt=(
+        "[M]aim menu," "[A]dd more links," "[D]ownload,"
+        "[P]lay," "[S]ave as," "[R]emove links/list: "
+    )
 
     # let's play...
     stars=$(printf "%-54s" "*")

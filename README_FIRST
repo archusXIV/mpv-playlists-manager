@@ -14,6 +14,7 @@ we do this way because all the yt-dlp command lines are whritten like youtube-dl
 This script rips video urls from Youtube and so on.
 In our case we use ".m3u" files to store urls in and then be able
 to watch from the site itself or download videos or just the audio.
+Converting .webm files is done using ffmpeg directly or through the parallel program.
 We can save, remove or edit playlists, mpmrc (the mpm configuration file).
 
 The installation script will create two configuration files (mpmrc,themerc)

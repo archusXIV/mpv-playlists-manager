@@ -7,14 +7,17 @@ _RemoveCrap() {
     # So with sed & perl we cleanup the link to get the direct link to the desired video.
     # Note that this behavior does not appear during a simple viewing/listening.
 
-    LISTS=( "$AUDIO_URLS" "$AUDIO_TITLES" \
-            "$VIDEO_URLS" "$VIDEO_TITLES" \
-            "$QUEUE" "$DEFAULTITLES" )
+    LISTS=(
+        "$AUDIO_URLS" "$AUDIO_TITLES"
+        "$VIDEO_URLS" "$VIDEO_TITLES"
+        "$QUEUE" "$DEFAULTITLES"
+    )
 
     for file in "${LISTS[@]}"; do
         # removing unwanted parts of links, blank lines & duplicates
-        sed -i 's/&list.*//;/^\s*$/d' "$file"
-        sed -i 's|//youtube.com|//www.youtube.com|g' "$file"
+        sed -i '
+            s/&list.*//;/^\s*$/d;s|//youtube.com|//www.youtube.com|g
+        ' "$file"
         perl -i -ne 'print if ! $a{$_}++' "$file"
     done 2>/dev/null
 

@@ -120,6 +120,10 @@ _CopyUrl() {
                     __ ;;
                 7)  _Menu
                     __ ;;
+                *)
+                    printf '%s\n' " ${critical}Wrong option $copyUrlsOptions...${nc}"
+                    sleep 3s && continue
+                ;;
             esac
             
         done

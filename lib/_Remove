@@ -16,7 +16,7 @@ _Remove() {
         IFS=", "; read -ra array -p " ${info}""$RP""${nc}"
 
         for range in "${array[@]}"; do
-            IFS="- "; read -r start end <<< "$range"
+            IFS="-"; read -r start end <<< "$range"
             [[ -z $start ]] && continue
             [[ -z $end ]] && end="$start"
             for ((i=start;i <= end;i++)); do
@@ -25,11 +25,14 @@ _Remove() {
             done
         done
 
-        grep -v "$(grep '^https' "$tmpList"_tmp)" "$tmpList" >> "$tmpList"_tmp2
-        mv -f "$tmpList"_tmp2 "$tmpList"
-        grep -v "$(grep '^[[:print:]]' "$tmpTitles"_tmp)" "$tmpTitles" >> "$tmpTitles"_tmp2
-        mv -f "$tmpTitles"_tmp2 "$tmpTitles"
+        grep -v "$(grep '^https' "$tmpList"_tmp)" "$tmpList" \
+        >> "$tmpList"_tmp2 && mv -f "$tmpList"_tmp2 "$tmpList"
+
+        grep -v "$(grep '^[[:print:]]' "$tmpTitles"_tmp)" "$tmpTitles" \
+        >> "$tmpTitles"_tmp2 && mv -f "$tmpTitles"_tmp2 "$tmpTitles"
+
         rm {"$tmpList"_tmp,"$tmpTitles"_tmp}
+
         printf '%s\n' " ${critical}Selected links removed...${nc}"
         unset IFS
         sleep 3

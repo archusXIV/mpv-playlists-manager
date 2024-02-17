@@ -1,4 +1,4 @@
-mpm version 1.6-1
+mpm version 1.6-2
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -34,7 +34,7 @@ mpm version 1.6-1
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.1.6-1::
+                                    ::MPV-PLAYLISTS-MANAGER v.1.6-2::
                                    ***********************************
                                 current theme: default. For usage type U
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -52,7 +52,6 @@ mpm version 1.6-1
         └──────────────────────────────────────────────────────────────────────────────────────┘
                                             Select an item                                      
 
-
     1) Create/Add video playlist:
 
         Links saved here and in audio section too are not permanent, they will be erased
@@ -62,6 +61,7 @@ mpm version 1.6-1
         See https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md
         
         Once into the video options menu we can add tested links to a temporary list,
+        getting links can also be done in option 2) Search online links.
         YouTube playlists are supported, but the more playlist items there are,
         the longer it will take to analyze them. Now we have six dedicated options.
         See II) audio/video files options:
@@ -189,5 +189,6 @@ mpm version 1.6-1
 
     Author: Barret E (2024) <archus@protonmail.com>
     https://github.com/archusXIV/mpv-playlists-manager
+    https://www.youtube.com/@linuxinfrench9388/featured
 
     Press "q" to quit.

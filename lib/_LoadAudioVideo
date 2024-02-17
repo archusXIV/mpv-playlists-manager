@@ -7,6 +7,16 @@ _LoadAudioVideo() {
     # change mpv settings in ~/.config/mpm/mpmrc
     local m3uFile
 
+    __LoadAudioVideoAdvice() (
+        clear
+        __
+        printf '%s\n' " ${critical}Tip: You may want to put this in your mpv.conf:" \
+        " ${info}term-playing-msg='Tiltle: \${media-title}'"
+        echo -e " ${critical}Otherwise press I in mpv for more infos.${nc}\n"
+        file="${m3uFile##*/}" file="${file%%.*}"
+        printf '%s\n' " ${info}Playing: ${file}${nc}"
+        __
+    )
     __mpvOnlineAudio() (
         mpv \
         "${mpvGenOptions_X[@]}" \
@@ -24,7 +34,7 @@ _LoadAudioVideo() {
         -a)
             if [[ -s $AUDIO_URLS ]]; then
                 m3uFile="$AUDIO_URLS"
-                _LoadAudioVideoAdvice
+                __LoadAudioVideoAdvice
                 __mpvOnlineAudio "$m3uFile"
                 _LoadAudioVideoTmp -a
             else
@@ -34,40 +44,40 @@ _LoadAudioVideo() {
         ;;
         -ca)
             m3uFile="$CHOOSE1"
-            _LoadAudioVideoAdvice
+            __LoadAudioVideoAdvice
             __mpvOnlineAudio "$m3uFile"
             _LoadAudioVideoTmp -c
         ;;
         -cv)
             m3uFile="$CHOOSE1"
-            _LoadAudioVideoAdvice
+            __LoadAudioVideoAdvice
             __mpvOnlineVideo "$m3uFile"
             _LoadAudioVideoTmp -c
         ;;
         -la)
             m3uFile="$playlists_dir/$list"
-            _LoadAudioVideoAdvice
+            __LoadAudioVideoAdvice
             __mpvOnlineAudio "$m3uFile"
         ;;
         -lv)
             m3uFile="$playlists_dir/$list"
-            _LoadAudioVideoAdvice
+            __LoadAudioVideoAdvice
             __mpvOnlineVideo "$m3uFile"
         ;;
         -qa)
             m3uFile="$QUEUE"
-            _LoadAudioVideoAdvice
+            __LoadAudioVideoAdvice
             __mpvOnlineAudio "$m3uFile"
         ;;
         -qv)
             m3uFile="$QUEUE"
-            _LoadAudioVideoAdvice
+            __LoadAudioVideoAdvice
             __mpvOnlineVideo "$m3uFile"
         ;;
         -v)
             if [[ -s $VIDEO_URLS ]]; then
                 m3uFile="$VIDEO_URLS"
-                _LoadAudioVideoAdvice
+                __LoadAudioVideoAdvice
                 __mpvOnlineVideo "$m3uFile"
                 _LoadAudioVideoTmp -v
             else

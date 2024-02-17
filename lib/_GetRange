@@ -12,7 +12,7 @@ _GetRange() {
     IFS=", "; read -ra array -p " ${info}""$RP""${nc}"
     
     for range in "${array[@]}"; do
-        IFS="- "; read -r start end <<< "$range"
+        IFS="-"; read -r start end <<< "$range"
         [[ -z $start ]] && continue
         [[ -z $end ]] && end="$start"
         

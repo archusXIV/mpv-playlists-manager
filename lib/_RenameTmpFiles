@@ -4,8 +4,11 @@
 # shellcheck disable=SC2154
 _RenameTmpFiles() {
 
-    tmpFiles=( "$QUEUE" "$AUDIO_URLS" "$AUDIO_TITLES" \
-                "$VIDEO_URLS" "$VIDEO_TITLES" "$DEFAULTITLES" )
+    tmpFiles=(
+        "$AUDIO_URLS" "$AUDIO_TITLES"
+        "$VIDEO_URLS" "$VIDEO_TITLES"
+        "$DEFAULTITLES" "$QUEUE"
+    )
 
     for f in "${tmpFiles[@]}"; do
         [[ ! -f $f ]] && continue

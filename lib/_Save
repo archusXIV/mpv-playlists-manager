@@ -4,6 +4,8 @@
 # shellcheck disable=SC2034,SC2154,SC2086
 _Save() {
 
+    local CURRENT_LIST CURRENT_TITLES
+    
     cd "$playlists_dir" || exit 1
 
     case "$1" in
@@ -14,7 +16,7 @@ _Save() {
                 _SaveCheck
                 _ReplaceSpaces -s
             else
-                echo -e " ${critical}No links in the list${nc}"
+                printf '%s\n' " ${critical}No links in the $Type list${nc}"
                 sleep 2
                 return
             fi
@@ -36,7 +38,7 @@ _Save() {
                 _SaveCheck
                 _ReplaceSpaces -s
             else
-                echo -e " ${critical}No links in the list${nc}"
+                printf '%s\n' " ${critical}No links in the $Type list${nc}"
                 sleep 2
                 return
             fi
