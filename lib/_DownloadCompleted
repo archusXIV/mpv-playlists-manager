@@ -32,7 +32,8 @@ _DownloadCompleted() {
         if (( $(_GetLinesList -l) > 0 )); then
             __KeepItOrNot
         else
-            printf '%s\n' " ${info}Downloads completed, ${critical}$list is empty... $list removed.${nc}"
+            printf '%s\n' " ${info}Downloads completed," \
+            " ${critical}$list is empty... $list removed.${nc}"
             sleep 3
             rm -f "${FILES[@]}" 2>/dev/null
         fi

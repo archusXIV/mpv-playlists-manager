@@ -1,0 +1,59 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_DeleteUrls() {
+
+    cd "$tmp_dir" || exit 1
+    declare -a deleteUrlsFiles=(
+        "$AUDIO_URLS" "$AUDIO_TITLES"
+        "$VIDEO_URLS" "$VIDEO_TITLES"
+        "$FFOP" "$YTOP" "$DEFAULTITLES"
+        "$tmp_dir/nowPlaying" "$CHOOSE1"
+    )
+
+    __deleteUrlsWarnings() (
+        if [[ $(find . -name "*.m3u" | wc -l) -gt 1 ]]; then
+            __
+            printf '%s\n' " ${critical}All Temporary lists cleared," \
+            " except $(awk -F"/" '{print $NF}' "$tmp_dir"/nowPlaying).${nc}"
+            sleep 4
+        elif [[ $(find . -name "*.m3u" | wc -l) -eq 1 ]]; then
+            __
+            printf '%s\n' " ${critical}No Temporary lists found," \
+            " except $(awk -F"/" '{print $NF}' "$tmp_dir"/nowPlaying).${nc}"
+            sleep 4
+        else
+            __
+            printf '%s\n' " ${critical}All Temporary lists cleared.${nc}"
+            sleep 2
+        fi
+        rm "${deleteUrlsFiles[@]}" 2>/dev/null
+    )
+    
+    if [[ -f $tmp_dir/nowPlaying ]]; then
+        if [[ $(awk -F"/" '{print $NF}' "$tmp_dir"/nowPlaying) =~ Audio ]]; then
+            unset {deleteUrlsFiles[0],deleteUrlsFiles[1],deleteUrlsFiles[7]}
+            sed -i '/^[[:alpha:]]/d' "$QUEUE"
+            __deleteUrlsWarnings
+        elif [[ $(awk -F"/" '{print $NF}' "$tmp_dir"/nowPlaying) =~ Video ]]; then
+            unset {deleteUrlsFiles[2],deleteUrlsFiles[3],deleteUrlsFiles[7]}
+            sed -i '/^[[:alpha:]]/d' "$QUEUE"
+            __deleteUrlsWarnings
+        elif [[ $(awk -F"/" '{print $NF}' "$tmp_dir"/nowPlaying) =~ default ]]; then
+            unset {deleteUrlsFiles[6],deleteUrlsFiles[7]}
+            __deleteUrlsWarnings
+        elif [[ $(awk -F"/" '{print $NF}' "$tmp_dir"/nowPlaying) =~ temporarySelection ]]; then
+            unset {deleteUrlsFiles[7],deleteUrlsFiles[8]}
+            sed -i '/^[[:alpha:]]/d' "$QUEUE"
+            __deleteUrlsWarnings
+        fi
+    else
+        sed -i '/^[[:alpha:]]/d' "$QUEUE"
+        rm "${deleteUrlsFiles[@]}" 2>/dev/null
+        printf '%s\n' " ${critical}All Temporary lists cleared."
+        sleep 2
+    fi
+
+    _Menu
+}

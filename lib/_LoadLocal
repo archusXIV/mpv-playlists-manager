@@ -1,21 +1,28 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2034
 _LoadLocal() {
 
-    local AUDIOS VIDEOS MEDIA_DIR
+    local AUDIOS VIDEOS MEDIA_DIR use_mpvc_locally
     # we use -maxdepth 2 in case our directories are in subdirectories.
     AUDIOS=$(find "$HOME" -maxdepth 2 -type d -wholename "$MUSIC_DIR")
     VIDEOS=$(find "$HOME" -maxdepth 2 -type d -wholename "$VIDEO_DIR")
+    use_mpvc_locally="yes"
     
     __mpvDirCommand() (
         cd "$MEDIA_DIR"/"$dir" || return
-        __
-        find . -type f \
-        | sort \
-        | sed 's,.*/,,' \
-        | mpv "${mpvGenOptions_X[@]}" --playlist=-
+        if [[ $use_mpvc = yes ]]; then
+            __
+            find . -type f | sort | sed 's,.*/,,' \
+            | mpv --no-terminal "${mpvGenOptions_X[@]}" --playlist=- &
+            _Menu
+        else
+            __
+            find . -type f | sort | sed 's,.*/,,' \
+            | mpv "${mpvGenOptions_X[@]}" --playlist=-
+        fi
+        
     )
 
     __selectDir() (

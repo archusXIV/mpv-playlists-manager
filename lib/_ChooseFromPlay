@@ -11,7 +11,7 @@ _ChooseFromPlay() {
 
     read -rsn 1 \
     -p "${info}"" [B]ack to menu, Play all items as [A]udio, [V]ideo or ${b}[S]elect:${nb} ""${nc}" choice
-
+    
     case "$choice" in
         a|A)
             _LoadAudioVideo -la

@@ -14,7 +14,7 @@
 ##    In our case we use ".m3u" files to store urls in and then be able
 ##    to watch from the site itself or download videos or just the audio.
 ##    We can save, remove or edit playlists & mpm config file (mpmrc).
-##    It is recommanded to disable mpv cache for better results on direct streaming,
+##    It is recommended to disable mpv cache for better results on direct streaming,
 ##    or find a better cache parameter.
 
 # shellcheck source=/dev/null
@@ -22,7 +22,7 @@
 
 trap "_CleanTmpDir; exit" SIGTERM EXIT
 
-VERSION="v.1.6-2"
+VERSION="v.1.6-5"
 
 : "${XDG_CONFIG_HOME:-$HOME/.config}"
 CONF_DIR="$XDG_CONFIG_HOME/mpm"

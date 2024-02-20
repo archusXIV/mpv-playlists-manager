@@ -3,6 +3,7 @@
 
 # shellcheck disable=SC2154,SC2044
 _LoadPlaylist() {
+    
     cd "$playlists_dir" || exit 1
 
     local list
@@ -57,7 +58,7 @@ _LoadPlaylist() {
                 else
                     _TitlesListCompare -l
                 fi
-                
+
                 read -rn 1 \
                 -p "${info}"' [1] Download/Play, [2] Back to menu: '"${nc}" loadPlaylistOptions
                 __

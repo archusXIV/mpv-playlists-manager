@@ -39,12 +39,23 @@ _Remove() {
 
     )
 
+    __removeWarning() (
+        __
+        printf '%s\n' " ${critical}$tmpList is owned by mpv...retry later.${nc}"
+        sleep 4
+    )
+
     case "$1" in
         -a)
             tmpList="$AUDIO_URLS"
             tmpTitles="$AUDIO_TITLES"
             __
             read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole $Type list?: ${nc}"
+            [[ $(awk -F"/" '{print $NF}' "$tmp_dir"/nowPlaying 2>/dev/null) =~ Audio ]] && {
+                __removeWarning
+                return
+            }
+            
             if [[ $REPLY =~ l|L ]]; then
                 __removeTmpLinks
                 _ViewUrlInfo -a
@@ -61,6 +72,10 @@ _Remove() {
             tmpTitles="$DEFAULTITLES"
             __
             read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole default list?: ${nc}"
+            [[ $(awk -F"/" '{print $NF}' "$tmp_dir"/nowPlaying 2>/dev/null) =~ default ]] && {
+                __removeWarning
+                _ViewUrlInfo -q
+            }
             if [[ $REPLY =~ l|L ]]; then
                 sed -i '1d' "$tmpList"
                 __removeTmpLinks
@@ -80,6 +95,10 @@ _Remove() {
             tmpTitles="$VIDEO_TITLES"
             __
             read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole $Type list?: ${nc}"
+            [[ $(awk -F"/" '{print $NF}' "$tmp_dir"/nowPlaying 2>/dev/null) =~ Video ]] && {
+                __removeWarning
+                return
+            }
             if [[ $REPLY =~ l|L ]]; then
                 __removeTmpLinks
                 _ViewUrlInfo -v

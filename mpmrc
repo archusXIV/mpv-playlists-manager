@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.6-2)
+# ~/.config/mpm/mpmrc (version 1.6-5)
 
 ########################################################
 #                                                      #
@@ -21,6 +21,7 @@
 check_updates="yes"
 
 # change the main mpm window size. (the actual size is 1260x738)
+# recommended
 width=1260
 height=738
 
@@ -71,7 +72,7 @@ direct_download="no"
 # (will appear in main menu)
 quit_after_task="no"
 
-########### SEARCH YOUTUBE USING FZF FUNCTIONALITY ###########
+############### SEARCH YOUTUBE USING FZF FUNCTIONALITY ###############
 # Two methods are offered here:
 # If the fzf package is installed it will be used to search and copy 
 # audio/video urls from youtube in a simple but limited way.
@@ -121,28 +122,39 @@ ffmpegMp3CodecOptions=( -acodec libmp3lame -ar 48000 -ab 320k )
 ffmpegOggCodecOptions=( -acodec libvorbis -ar 48000 -ab 320k )
 ffmpegWavCodecOptions=( -acodec pcm_s32le -ar 48000 )
 
-############### MPV SPECIFICS ###############
-# mpv audio/video online playing command line
+#################### ONLINE MPV SPECIFICS ####################
+# see help section 9)
+# experimental!
+use_mpvc="no"
+# change your mpv terminal user interface here
+# mpvc_tui="ncmpvc"
+mpvc_tui="<your_mpv_tui_here>"
+
+# mpv online playing audio/video command line
 mpvGenOptions_CA=( --cache=yes )
-mpvGenOptions_SV=( --input-ipc-server='/tmp/mpvsocket' )
+mpvGenOptions_SK=( --input-ipc-server='/tmp/mpvsocket' ) # needed for use_mpvc="yes"
+mpvGenOptions_ID=( --idle )                              # needed for use_mpvc="yes"
 mpvGenOptions_CF=( --no-config )
 mpvGenOptions_RP=( --no-resume-playback )
 mpvGenOptions_MS=( --term-playing-msg='Title: ${media-title}' )
+
 mpvGenOptions_X=(
     "${mpvGenOptions_CA[@]}"
-    "${mpvGenOptions_SV[@]}"
+    "${mpvGenOptions_ID[@]}"
+    "${mpvGenOptions_SK[@]}"
     "${mpvGenOptions_CF[@]}"
     "${mpvGenOptions_RP[@]}"
     "${mpvGenOptions_MS[@]}"
 )
-# audio
+# audio/video rendering formats
 mpvAudioFormatOptions=( --ytdl-format='bestaudio/best' )
-# video
+mpvVideoFormatOptions=( --ytdl-format='299+251/298+251/137+251/136+251/best' )
+
 mpvVideoOptions_DM=( --demuxer-max-bytes=512MiB )
 mpvVideoOptions_DR=( --demuxer-readahead-secs=60 )
 mpvVideoOptions_DB=( --demuxer-max-back-bytes=128MiB )
 mpvVideoOptions_FS=( --fullscreen=yes )
-mpvVideoFormatOptions=( --ytdl-format='299+251/298+251/137+251/136+251/best' )
+
 mpvVideoOptions_X=(
     "${mpvVideoOptions_FS[@]}"
     "${mpvVideoOptions_DM[@]}"
@@ -163,7 +175,11 @@ ytdlPreset_DW=( --no-warnings )
 ytdlPreset_DP=( --progress )
 ytdlPreset_FS=( --compat-options filename-sanitization )
 # downloader without multiple format codes
-ytdlPreset_NC=( "${ytdlPreset_BR[@]}" "${ytdlPreset_DW[@]}" "${ytdlPreset_DP[@]}" )
+ytdlPreset_NC=(
+    "${ytdlPreset_BR[@]}"
+    "${ytdlPreset_DW[@]}"
+    "${ytdlPreset_DP[@]}"
+)
 # combined presets
 ytdlPreset_X=(
     "${ytdlPreset_DN[@]}"

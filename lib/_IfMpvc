@@ -1,0 +1,15 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_IfMpvc() {
+    if [[ -n $(pgrep -x mpv) && $use_mpvc_online = yes ]]; then
+        echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐" && \
+        echo -e "                  │           ${info}mpv is running, press N to launch the mpv tui or ${task}Q ${info}to quit mpv${nc}            │" && \
+        echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
+    elif [[ -n $(pgrep -x mpv) && $use_mpvc_locally = yes ]]; then
+        echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐" && \
+        echo -e "                  │           ${info}mpv is running, press N to launch the mpv tui or ${task}Z ${info}to quit mpv${nc}            │" && \
+        echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
+    fi
+}

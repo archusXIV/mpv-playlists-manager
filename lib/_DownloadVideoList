@@ -29,37 +29,40 @@ _DownloadVideoList() {
             cp -f "$list" "$list"_origin
             mkdir --parents "$videos_dir"/"${list%.*}" \
             && cd "$videos_dir"/"${list%.*}"
-
+            
             mapfile -t SELECTEDCODES < <(grep '^https' "$playlists_dir"/"$list")
             counter="${#SELECTEDCODES[@]}"
-
-            for downvideourl in "${SELECTEDCODES[@]}"; do
-
+            
+            for downloadVideoUrl in "${SELECTEDCODES[@]}"; do
+                
                 clear
                 __
-                youtube-dl -F "${ytdlPreset_DW[@]}" "$downvideourl" \
+                youtube-dl -F "${ytdlPreset_DW[@]}" "$downloadVideoUrl" \
                 | awk '$0 !~ /sb|youtube/{print $0}'
                 __
-                printf '%s\n' " ${info}Choose a format code for $(_GetLinkTitle -l)." \
+                printf '%s\n' " ${critical}If you pick a format from a none m3u8 protocol, download will fail " \
+                " if ffmpeg is set as downloader in your configuration file." \
+                " ${info}Choose a format code for: $(_GetLinkTitle -l)" \
                 " eg: 137+251 for merging, hls-1080p, 22 for single:${nc}"
+                
                 read -r code
                 clear
                 __
                 printf '%s\n' " ${info}$counter file(s) left to download." \
                 " Downloading $(_GetLinkTitle -l).${nc}"
-
+                
                 if [[ "$code" =~ '+' && $(_GetLinkTitle -l) =~ '/' ]]; then
                     youtube-dl "${ytdlPreset_FS[@]}" \
                     --format "$code" \
-                    "${ytdlPreset_X[@]}" "$downvideourl"
+                    "${ytdlPreset_X[@]}" "$downloadVideoUrl"
                 elif [[ "$code" =~ '+' ]]; then
                     youtube-dl --format "$code" \
                     --output "$(_GetLinkTitle -l).%(ext)s" \
-                    "${ytdlPreset_X[@]}" "$downvideourl"
+                    "${ytdlPreset_X[@]}" "$downloadVideoUrl"
                 else
                     youtube-dl --format "$code" \
                     --output "$(_GetLinkTitle -l).%(ext)s" \
-                    "${ytdlPreset_NC[@]}" "$downvideourl"
+                    "${ytdlPreset_NC[@]}" "$downloadVideoUrl"
                 fi
 
                 sed -i '2d' "$playlists_dir"/"$list"

@@ -6,13 +6,22 @@
 # but let's ensure temporary files are removed before we exit out. 
 _CleanTmpDir() {
 
+    cd "$tmp_dir" || exit 1
+    
     if [[ -s "$DEFAULTITLES" ]]; then
         cp -f "$DEFAULTITLES" "$DEFAULTM3UTITLES"
     elif [[ -f "$DEFAULTM3UTITLES" && ! -f "$DEFAULTITLES" ]]; then
         rm "$DEFAULTM3UTITLES"
     fi
-    
-    rm -f \
-    {"$tmp_dir"/*,"$playlists_dir"/{1_Back_to_menu,*_tmp}} 2>/dev/null
+
+    if [[ -f $CHOOSE1 ]]; then
+        find . -type f -not -name "temporarySelection.m3u" \
+        -not -name 'nowPlaying' -exec rm {} \;
+        rm -f \
+        "$playlists_dir"/{1_Back_to_menu,*_tmp} 2>/dev/null
+    else
+        rm -f \
+        {"$tmp_dir"/*,"$playlists_dir"/{1_Back_to_menu,*_tmp}} 2>/dev/null
+    fi
     
 }

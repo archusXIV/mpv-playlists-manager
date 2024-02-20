@@ -28,27 +28,45 @@ mpm -l # launches the play/download function
 mpm -p # launches the load local function
 mpm -v # prints mpm version
 ```
+
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
-## New in version 1.6-2
+## New in version 1.6-5
+- Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
+
+  Such as:
+  - [mpvc](https://github.com/lwilletts/mpvc)
+  - [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc)
+
+  as usual set it in your mpmrc file.
+```
+# experimental
+use_mpvc="no"
+# change your mpv terminal user interface here
+# mpvc_tui="<ncmpvc"
+mpvc_tui="<your_mpv_tui_here>"
+```
+
+[screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_intergration.png)
+
+- Refactoring a lot of functions (can create some bugs).
 - Launching local folder/files function simplified.
-- Bugs fixed, little things here & there.
 
 ## recent additions
+- Mpv TUI as mentioned above.
 - ffmpeg, mpv, ytfzf & yt-dlp command line options can be set in your mpmrc through their respective bash arrays.
-- Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L46) file (change them according to your locales).
+- Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L46)file (change them according to your locales).
 - Editing playlists is done using two methods:
 
   - firstly by adding or removing urls manually with your chosen editor.
 
   - secondly by removing titles from a prompt (corresponding urls will be removed).
-- Enable/disable checking for mpm updates in your mpmrc.
 
 ## Using fzf
 - Two methods are offered here:
-  If the fzf package is installed it will be used to search and copy audio/video urls from youtube.
-  In addition you can also use the [ytfzf](https://github.com/pystardust/ytfzf) script
+  - If the fzf package is installed it will be used to search and copy audio/video urls from youtube.
+  - In addition you can also use the [ytfzf](https://github.com/pystardust/ytfzf) script
   if it is in your $PATH, it's options are available in the mpmrc file.
 
 - In your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L80) file activate it.
@@ -70,7 +88,9 @@ use_parallel="yes"
 
 default theme will use your ~/.Xresources colors or your terminal preferences.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.6-2.png)
+- When we use a [terminal user interface](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png) for mpv, the main window looks like this.
+
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.6-5.png)
 
 
 ```
@@ -118,6 +138,7 @@ Requests and contributions? Why not, have fun.
 - [fzf](https://github.com/junegunn/fzf), [ytfzf](https://github.com/pystardust/ytfzf) (optional)
 - [jq](https://stedolan.github.io/jq/)
 - [mpv](https://mpv.io/)
+- [mpvc](https://github.com/lwilletts/mpvc) [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc) (optional)
 - [parallel](https://www.gnu.org/software/parallel/) (optional)
 - [ranger](https://github.com/ranger/ranger) (optional, see the help option for details)
 - [ueberzug](https://github.com/ueber-devel/ueberzug) (optional) might be in your distro's repo
@@ -140,3 +161,5 @@ cd mpv-playlists-manager
 chmod +x install.sh
 sudo ./install.sh
 ```
+## Credits
+I would like to thanks all the devs that put their great work in the softwares I use and that I have implemented in this project and especially mister Brian Jhan Fox the father of the Bourne-Again SHell, even if I don't always use it the right way.

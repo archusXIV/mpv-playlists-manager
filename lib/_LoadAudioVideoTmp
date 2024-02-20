@@ -10,27 +10,42 @@ _LoadAudioVideoTmp() {
     __LoadAudioVideoTmpNotice() (
         clear
         __
-        _Prompt " ${info}Temporary $tmpFile list still exist, KEEP it?:${nc}" || {
+        _Prompt " ${info}$tmpFile list still exist, KEEP it?:${nc}" || {
             rm -f "${TMP[@]}" 2>/dev/null
-            echo " ${critical}Temporary list removed...${nc}"
+            echo " ${critical}$tmpFile list removed...${nc}"
             sleep 3
         }
     )
 
     case "$1" in
         -a)
-            unset {TMP[2],TMP[3]}
-            tmpFile=audio
-            __LoadAudioVideoTmpNotice
+            if [[ -s ${TMP[0]} ]]; then
+                if [[ -n $(pidof mpv) && -f $CHOOSE1 ]]; then
+                    unset {TMP[2],TMP[3],TMP[4]}
+                else
+                    unset {TMP[2],TMP[3]}
+                fi
+                tmpFile=Audio
+                __LoadAudioVideoTmpNotice
+            fi
+            return
         ;;
         -c)
             unset {TMP[0],TMP[1],TMP[2],TMP[3]}
             rm "${TMP[@]}" 2>/dev/null
         ;;
         -v)
-            unset {TMP[0],TMP[1]}
-            tmpFile=video
-            __LoadAudioVideoTmpNotice
+            if [[ -s ${TMP[2]} ]]; then
+                if [[ -n $(pidof mpv) && -f $CHOOSE1 ]]; then
+                    unset {TMP[0],TMP[1],TMP[4]}
+                else
+                    unset {TMP[0],TMP[1]}
+                fi
+
+                tmpFile=Video
+                __LoadAudioVideoTmpNotice
+            fi
+            return
         ;;
     esac
     

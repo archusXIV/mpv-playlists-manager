@@ -72,12 +72,11 @@ _ChooseDownloadAudio() {
 
     done
 
-    _UpdateSelected -u && {
-        # if we don't unset IFS other functions will be messed up!
-        unset IFS
-        clear
-        echo -e " ${info}Done${nc}\n"
-        clear
-        _IfWebmFiles
-    }
+    _UpdateSelected -u
+    # if we don't unset IFS other functions will be messed up!
+    unset IFS
+    clear
+    echo -e " ${info}Done${nc}\n"
+    clear
+    _IfWebmFiles
 }

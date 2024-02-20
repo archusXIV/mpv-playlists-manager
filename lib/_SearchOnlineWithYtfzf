@@ -20,7 +20,7 @@ _SearchOnlineWithYtfzf() {
         while read -r line; do
 
             if [[ $line =~ 'playlist?list=' ]]; then
-                echo "$line" >> "$YTSEARCH""${Type}"Playlists
+                echo "$line" >> "$YTSEARCH"
             else
                 echo "$line" >> "$QUEUE"
                 __

@@ -1,12 +1,13 @@
-mpm version 1.6-2
+mpm version 1.6-5
 
     MPV-PLAYLISTS-MANAGER usage:
 
     !!! YOU CAN CHANGE MPM DIRECTORIES BY EDITING THE VARIABLES IN THE MPMRC FILE !!!
     By default "$HOME"/.local/share/
     Dependencies: ffmpeg, jq, mpv, vim, youtube-dl, yt-dlp (for better results).
-    Optionals: fzf, parallel, ranger (can be any terminal file manager),
-    ueberzug, wmctrl, w3m, ytfzf.
+    Optionals: fzf, mpvc, ncmpvc (mpv terminal user interface) parallel,
+    ranger (can be any terminal file manager), ueberzug, wmctrl, w3m, ytfzf.
+
     We possibly use some options to directly edit, load a playlist:
 
             . mpm -c: opens ~/.config/mpm/mpmrc
@@ -34,7 +35,7 @@ mpm version 1.6-2
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.1.6-2::
+                                    ::MPV-PLAYLISTS-MANAGER v.1.6-5::
                                    ***********************************
                                 current theme: default. For usage type U
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -51,6 +52,7 @@ mpm version 1.6-2
         │   5) Load local folder/files     X) Exit                    │ quit after task: yes   │
         └──────────────────────────────────────────────────────────────────────────────────────┘
                                             Select an item                                      
+
 
     1) Create/Add video playlist:
 
@@ -69,9 +71,9 @@ mpm version 1.6-2
     2) Create/Add audio playlist:
 
         Same as above but for audio only, for example after downloading, ffmpeg will
-        convert all .webm files into mp3, flac, ogg or wav if you wish (settings in mpmrc).
+        convert all .webm files into flac, mp3, ogg or wav if you wish (settings in mpmrc).
         Since version 1.4-2, parallel package (if installed) will speed up audio conversion.
-        Note that for youtube audio files the download is automatic (code 251 .webm).
+        Note that for youtube audio files the download is automatic (code 251 .webm/opus).
         See section III).
         
         Since version 1.4-9 you can add links from temporary lists in an existing collection
@@ -138,6 +140,18 @@ mpm version 1.6-2
         We may want to edit this file to define the mpm window size, default directories,
         tasks preferences, theme, better quality or results with mpv, ffmpeg and yt-dlp options.
         After changing parameters and saving the file, they will be immediatly active.
+        
+        Since version 1.6-3 we can use a terminal user interface (tui) to look, pick & choose
+        playlist items while mpv is running but for that a program must be installed such as:
+        mpvc <https://github.com/lwilletts/mpvc>
+        ncmpvc <https://gitlab.com/mpv-ipc/ncmpvc>
+        Just enable those settings: use_mpvc="yes" & mpvc_tui="ncmpvc"
+        if enabled this feature can be used to watch/listen temporary lists, collection playlists and
+        local directories. If everything is correct this will appear on the main window:
+            
+        ┌─────────────────────────────────────────────────────────────────────────────────────┐
+        │           mpv is running, press N to launch the mpv tui or Q to quit mpv            │
+        └─────────────────────────────────────────────────────────────────────────────────────┘
 
     II) temporary audio/video lists options:
 
@@ -153,13 +167,16 @@ mpm version 1.6-2
         The same menu is also prensented in video section. New since version 1.4-9,
         searching online audio/video is done by using the fzf package if installed,
         and if the ytfzf script is in your $PATH then we will get a prompt to choose.
+
         The fzf method only search youtube and ytfzf scraper can be change to other platforms,
         see 'man ytfzf' and then in your mpmrc file use ytfzfOptions_SC=( --scrape=odysee ),
         instead of ytfzfOptions_SC=( --scrape=youtube ) for example.
         All options are applied to the specific temporary file and we act directly on it.
+
         We can also add links to an existing playlist using option "Save playlist as" then
         in the menu we select the playlist, the prompt tells us if we want to overwrite it,
         answering no brings a new prompt where we can finaly add our links to.
+
         By entering '6' we will get more  infos (links & titles). A new prompt appears
         with the same options as in the above menu, but [R]emove links/list: is now available...
 
