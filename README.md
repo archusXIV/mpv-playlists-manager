@@ -48,7 +48,7 @@ use_mpvc="no"
 mpvc_tui="<your_mpv_tui_here>"
 ```
 
-[screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_intergration.png)
+[screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png)
 
 - Refactoring a lot of functions (can create some bugs).
 - Launching local folder/files function simplified.
