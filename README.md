@@ -56,7 +56,7 @@ mpvc_tui="<your_mpv_tui_here>"
 ## recent additions
 - Mpv TUI as mentioned above.
 - ffmpeg, mpv, ytfzf & yt-dlp command line options can be set in your mpmrc through their respective bash arrays.
-- Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L46)file (change them according to your locales).
+- Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L47)file (change them according to your locales).
 - Editing playlists is done using two methods:
 
   - firstly by adding or removing urls manually with your chosen editor.
@@ -69,7 +69,7 @@ mpvc_tui="<your_mpv_tui_here>"
   - In addition you can also use the [ytfzf](https://github.com/pystardust/ytfzf) script
   if it is in your $PATH, it's options are available in the mpmrc file.
 
-- In your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L80) file activate it.
+- In your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L81) file activate it.
 
 ```
 use_fzf="yes"
@@ -77,7 +77,7 @@ use_fzf="yes"
 
 ## Audio conversion done faster with parallel
 - If installed, [parallel](https://www.gnu.org/software/parallel/) will launch multiple ffmpeg instances to speed up audio conversion.
-- Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L105) file
+- Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L106) file
 
 ```
 use_parallel="yes"
