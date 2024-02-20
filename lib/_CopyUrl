@@ -114,7 +114,10 @@ _CopyUrl() {
                     __ ;;
                 4)  _Save $arg
                     __ ;;
-                5)  _LoadAudioVideo $arg
+                5)  [[ -n $(pidof mpv) ]] && {
+                        echo " ${critical}mpv is already running...${nc}"
+                        sleep 2
+                    } || _LoadAudioVideo $arg
                     __ ;;
                 6)  _ViewUrlInfo $arg
                     __ ;;

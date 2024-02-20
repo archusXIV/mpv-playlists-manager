@@ -53,10 +53,18 @@ _LoadAudioVideo() {
         fi
     )
 
+    __loadAudioVideoWarning() (
+        [[ -n $(pidof mpv) ]] && {
+            kill -SIGTERM "$(pidof mpv)"
+            rm "$tmp_dir"/nowPlaying
+        }
+    )
+
     case "$1" in
         -a)
             if [[ -s $AUDIO_URLS ]]; then
                 m3uFile="$AUDIO_URLS"
+                __loadAudioVideoWarning
                 __mpvOnlineAudioCommand "$m3uFile"
             else
                 echo " ${critical}No links in the $Type list${nc}"
@@ -65,31 +73,38 @@ _LoadAudioVideo() {
         ;;
         -ca)
             m3uFile="$CHOOSE1"
+            __loadAudioVideoWarning
             __mpvOnlineAudioCommand "$m3uFile"
         ;;
         -cv)
             m3uFile="$CHOOSE1"
+            __loadAudioVideoWarning
             __mpvOnlineVideoCommand "$m3uFile"
         ;;
         -la)
             m3uFile="$playlists_dir/$list"
+            __loadAudioVideoWarning
             __mpvOnlineAudioCommand "$m3uFile"
         ;;
         -lv)
             m3uFile="$playlists_dir/$list"
+            __loadAudioVideoWarning
             __mpvOnlineVideoCommand "$m3uFile"
         ;;
         -qa)
             m3uFile="$QUEUE"
+            __loadAudioVideoWarning
             __mpvOnlineAudioCommand "$m3uFile"
         ;;
         -qv)
             m3uFile="$QUEUE"
+            __loadAudioVideoWarning
             __mpvOnlineVideoCommand "$m3uFile"
         ;;
         -v)
             if [[ -s $VIDEO_URLS ]]; then
                 m3uFile="$VIDEO_URLS"
+                __loadAudioVideoWarning
                 __mpvOnlineVideoCommand "$m3uFile"
             else
                 echo " ${critical}No links in the $Type list${nc}"
