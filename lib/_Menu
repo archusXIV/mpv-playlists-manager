@@ -68,7 +68,7 @@ _Menu() {
             ;;
             q|Q)
                 [[ -n $(pidof mpv) ]] && {
-                    killall mpv
+                    kill -SIGTERM "$(pidof mpv)"
                     rm "$tmp_dir"/nowPlaying
                     _LoadAudioVideoTmp -c
                 }
@@ -90,7 +90,7 @@ _Menu() {
 
             z|Z)
                 # we now exit the subshell not the program
-                [[ -n $(pidof mpv) ]] && killall mpv && exit
+                [[ -n $(pidof mpv) ]] && kill -SIGTERM "$(pidof mpv)" && exit
             ;;
             *)
                 __
