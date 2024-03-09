@@ -126,7 +126,7 @@ ffmpegWavCodecOptions=( -acodec pcm_s32le -ar 48000 )
 use_mpvc="no"
 # change your mpv terminal user interface here
 # mpvc_tui="ncmpvc"
-mpvc_tui="<your_mpv_tui_here>"
+mpvc_tui=""
 
 # mpv audio/video online playing command line
 mpvGenOptions_CA=( --cache=yes )
