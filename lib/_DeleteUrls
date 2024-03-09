@@ -5,54 +5,53 @@
 _DeleteUrls() {
 
     cd "$tmp_dir" || exit 1
-    declare -a deleteUrlsFiles=(
+    declare -a tmps=(
         "$AUDIO_URLS" "$AUDIO_TITLES"
         "$VIDEO_URLS" "$VIDEO_TITLES"
         "$FFOP" "$YTOP" "$DEFAULTITLES"
-        "$tmp_dir/nowPlaying" "$CHOOSE1"
+        "$NOWPLAYING" "$tmp_dir/1" "$CHOOSE1"
         "Audio" "Video" "default" "temporarySelection"
     )
 
     __deleteUrlsWarnings() (
-        if [[ $(find . -name "*.m3u" | wc -l) -gt 1 ]]; then
+        if [[ -f $NOWPLAYING && $(find . -name "*.m3u" | wc -l) -ge 1 ]]; then
             __
             printf '%s\n' " ${critical}All Temporary lists cleared," \
-            " except $(awk -F"/" '{print $NF}' "$tmp_dir"/nowPlaying).${nc}"
+            " except $(awk -F"/" '{print $NF}' "$NOWPLAYING").${nc}"
             sleep 4
-        elif [[ $(find . -name "*.m3u" | wc -l) -eq 1 ]]; then
+        else
             __
             printf '%s\n' " ${critical}No Temporary lists found," \
-            " except $(awk -F"/" '{print $NF}' "$tmp_dir"/nowPlaying).${nc}"
-            sleep 4
-        elif [[ -z $(pidof mpv) ]]; then
-            __
-            printf '%s\n' " ${critical}All Temporary lists cleared.${nc}"
-            sleep 2
+            " except $(awk -F"/" '{print $NF}' "$NOWPLAYING")." \
+            " First quit mpv then try again.${nc}"
+            sleep 5
         fi
-        rm "${deleteUrlsFiles[@]}" 2>/dev/null
+        rm "${tmps[@]}" 2>/dev/null
     )
     
-    if [[ -f $tmp_dir/nowPlaying ]]; then
-        for w in "${deleteUrlsFiles[@]:9:12}"; do
-            if [[ $(awk -F"/" '{print $NF}' "$tmp_dir"/nowPlaying) =~ $w ]]; then
-                [[ $w = "${deleteUrlsFiles[9]}" ]] && \
-                unset {deleteUrlsFiles[0],deleteUrlsFiles[1],deleteUrlsFiles[7]} && \
-                sed -i '/^[[:alpha:]]/d' "$QUEUE"
-                [[ $w = "${deleteUrlsFiles[10]}" ]] && \
-                unset {deleteUrlsFiles[2],deleteUrlsFiles[3],deleteUrlsFiles[7]} && \
-                sed -i '/^[[:alpha:]]/d' "$QUEUE"
-                [[ $w = "${deleteUrlsFiles[11]}" ]] && \
-                unset {deleteUrlsFiles[6],deleteUrlsFiles[7]}
-                [[ $w = "${deleteUrlsFiles[12]}" ]] && \
-                unset {deleteUrlsFiles[7],deleteUrlsFiles[8]} && \
-                sed -i '/^[[:alpha:]]/d' "$QUEUE"
+    if [[ -f $NOWPLAYING ]]; then
+        for w in "${tmps[@]:10:13}"; do
+            if [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING") =~ $w ]]; then
+                [[ $w = "${tmps[10]}" ]] && {
+                    unset {tmps[0],tmps[1],tmps[7]}
+                    sed -i '/^[[:alpha:]]/d' "$QUEUE"
+                }
+                [[ $w = "${tmps[11]}" ]] && {
+                    unset {tmps[2],tmps[3],tmps[7]}
+                    sed -i '/^[[:alpha:]]/d' "$QUEUE"
+                }
+                [[ $w = "${tmps[12]}" ]] && unset {tmps[6],tmps[7]}
+                [[ $w = "${tmps[13]}" ]] && {
+                    unset {tmps[7],tmps[8]}
+                    sed -i '/^[[:alpha:]]/d' "$QUEUE"
+                }
             fi
         done
         __deleteUrlsWarnings
     else
         sed -i '/^[[:alpha:]]/d' "$QUEUE"
-        rm "${deleteUrlsFiles[@]}" 2>/dev/null
-        printf '%s\n' " ${critical}All Temporary lists cleared."
+        rm "${tmps[@]}" 2>/dev/null
+        printf '%s\n' " ${critical}All Temporary lists cleared.${nc}"
         sleep 2
     fi
 

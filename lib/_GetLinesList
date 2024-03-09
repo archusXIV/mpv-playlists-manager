@@ -9,5 +9,5 @@ _GetLinesList() {
         -q) FILE="$QUEUE" ;;
         -v) FILE="$VIDEO_URLS" ;;
     esac
-    grep -c '^https' "$FILE" 2>/dev/null
+    [[ -s $FILE ]] && grep -c '^https' "$FILE"
 }

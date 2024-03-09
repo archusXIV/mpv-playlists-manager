@@ -10,8 +10,7 @@ _Menu() {
         _ResizeWindow
         clear
         __
-        [[ $check_updates = yes ]] && echo -e "                                           ${mtitle}::MPV-PLAYLISTS-MANAGER $VERSION::" "$(_CheckUpdate)" \
-        || echo -e "                                           ${mtitle}::MPV-PLAYLISTS-MANAGER $VERSION::"
+        echo -e "                                           ${mtitle}::MPV-PLAYLISTS-MANAGER $VERSION::" "$(_CheckUpdate)"
         echo -e "                                          $(_LittleStars)"
         echo -e "                                        ${info}current theme: $THEME. ${critical}For usage type U${nc}"
         _ListsCount
@@ -67,12 +66,11 @@ _Menu() {
                 fi
             ;;
             q|Q)
-                [[ -n $(pidof mpv) ]] && {
+                while pidof mpv >/dev/null; do
                     kill -SIGTERM "$(pidof mpv)"
-                    rm "$tmp_dir"/nowPlaying
-                    _LoadAudioVideoTmp -c
-                }
-            ;;
+                    rm "$tmp_dir"/nowPlaying 2>/dev/null
+                done
+                ;;
             u|U)
                 less "$HELP"
             ;;

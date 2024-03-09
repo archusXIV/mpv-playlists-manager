@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.6-5)
+# ~/.config/mpm/mpmrc (version 1.6-6)
 
 ########################################################
 #                                                      #
@@ -21,7 +21,6 @@
 check_updates="yes"
 
 # change the main mpm window size. (the actual size is 1260x738)
-# recommended
 width=1260
 height=738
 
@@ -72,7 +71,7 @@ direct_download="no"
 # (will appear in main menu)
 quit_after_task="no"
 
-############### SEARCH YOUTUBE USING FZF FUNCTIONALITY ###############
+########### SEARCH YOUTUBE USING FZF FUNCTIONALITY ###########
 # Two methods are offered here:
 # If the fzf package is installed it will be used to search and copy 
 # audio/video urls from youtube in a simple but limited way.
@@ -122,15 +121,14 @@ ffmpegMp3CodecOptions=( -acodec libmp3lame -ar 48000 -ab 320k )
 ffmpegOggCodecOptions=( -acodec libvorbis -ar 48000 -ab 320k )
 ffmpegWavCodecOptions=( -acodec pcm_s32le -ar 48000 )
 
-#################### ONLINE MPV SPECIFICS ####################
-# see help section 9)
-# experimental!
+############### MPV SPECIFICS ###############
+# experimental
 use_mpvc="no"
 # change your mpv terminal user interface here
 # mpvc_tui="ncmpvc"
 mpvc_tui="<your_mpv_tui_here>"
 
-# mpv online playing audio/video command line
+# mpv audio/video online playing command line
 mpvGenOptions_CA=( --cache=yes )
 mpvGenOptions_SK=( --input-ipc-server='/tmp/mpvsocket' ) # needed for use_mpvc="yes"
 mpvGenOptions_ID=( --idle )                              # needed for use_mpvc="yes"

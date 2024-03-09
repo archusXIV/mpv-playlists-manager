@@ -70,7 +70,7 @@ _SaveRemove() {
                 | sort -d | sed 's,.*/,,'); do
                 [[ $(awk -F"/" '{print $NF}' "$tmp_dir"/nowPlaying 2>/dev/null) =~ temporarySelection|"$m3ufile" ]] && {
                     __
-                    printf '%s\n' " ${critical}$m3ufile is owned by mpv...retry later.${nc}"
+                    printf '%s\n' " ${critical}$m3ufile is owned by mpv......retry later.${nc}"
                     sleep 4
                     return
                 }

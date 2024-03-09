@@ -69,7 +69,7 @@ _ViewUrlInfo() {
 
     __queue() {
         if (($(_GetLinesList -q) > 0)); then
-            [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
+            rm "$tmp_dir"/1 2>/dev/null
             
             [[ $(grep "" -c "$DEFAULTITLES") -ne $(_GetLinesList -q) ]] && {
                 printf '%s\n' " ${critical}Default list as been modified," \

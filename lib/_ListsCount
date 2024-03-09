@@ -9,7 +9,7 @@ _ListsCount() {
             echo "0"
         else
             echo "${info}$(find "$playlists_dir" -not -name "default.m3u" \
-            -iname "*.m3u" -printf '.' | wc -c)${nc}"
+            -name "*.m3u" -printf '.' | wc -c)${nc}"
         fi
     )
     
@@ -41,7 +41,7 @@ _ListsCount() {
     
     sep="${task}*${nc}"
     echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
-    echo -e "                           Collection: $(__col) ${sep} Default list: $(__def) ${sep} Audio list: $(__aud) ${sep} Video list: $(__vid)"
+    echo -e "                            Collection: $(__col) ${sep} Default list: $(__def) ${sep} Audio list: $(__aud) ${sep} Video list: $(__vid)"
     echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
 
 }

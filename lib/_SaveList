@@ -21,5 +21,6 @@ _SaveList() {
         __
         printf '%s\n' " ${info}${CURRENT_LIST##*/} saved as $list${nc}"
     fi
+    
     sleep 3
 }

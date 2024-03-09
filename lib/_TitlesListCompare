@@ -10,7 +10,7 @@ _TitlesListCompare() {
     titles="$titles_dir/$list.titles"
     titles="${titles##*/}"
 
-    # first test if "myplaylist".titles exist & isn't empty.
+    # first test if "myplaylist".titles exist.
     if [[ -s $titles ]]; then
 
         if [[ $(grep "" -c "$titles") -ne $(_GetLinesList -l) ]]; then
@@ -25,6 +25,7 @@ _TitlesListCompare() {
             -g)
                 echo -e " ${info}Titles for $list.${nc}\n"
                 sed -n '1,25p' "$titles" | cat -n
+                # awk 'NR>=1&&NR<=25' "$titles" | cat -n
                 __
                 read -rsn 1 -p " ${info}Press 'n' for next page${nc} " nextpage
                 case "$nextpage" in
@@ -48,7 +49,7 @@ _TitlesListCompare() {
                 __
             ;;
         esac
-
+        
     else
         printf '%s\n' " ${critical}${titles} does not exist...${nc}" \
         " ${task}${b}Getting titles...please wait.${nb}${nc}"

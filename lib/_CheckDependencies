@@ -54,5 +54,4 @@ _CheckDependencies() {
     [[ ! -f $QUEUE ]] && echo "#EXTM3U" > "$QUEUE"
 
     _StartUp
-
 }

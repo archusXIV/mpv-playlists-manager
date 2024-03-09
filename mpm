@@ -20,9 +20,9 @@
 # shellcheck source=/dev/null
 # shellcheck disable=SC2034,SC2044,SC2086,SC2207,SC2154,SC2120,SC2119
 
-trap "_CleanTmpDir; exit" SIGTERM EXIT
+trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.1.6-5"
+VERSION="v.1.6-6"
 
 : "${XDG_CONFIG_HOME:-$HOME/.config}"
 CONF_DIR="$XDG_CONFIG_HOME/mpm"
@@ -64,7 +64,7 @@ pids=($(pidof -x $mpvmenu))
 __() { printf '\n'; }
 
 # global variables
-supportedsites="https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md"
+supportedSites="https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md"
 AUDIO_URLS="$tmp_dir/temporaryAudioUrls.m3u"
 AUDIO_TITLES="$tmp_dir/temporaryAudioTitles"
 CHOOSE1="$tmp_dir/temporarySelection.m3u"
@@ -73,6 +73,7 @@ DEFAULTITLES="$tmp_dir/DefaultTitles"
 DEFAULTM3UTITLES="$titles_dir/default.m3u.titles"
 FFOP="$tmp_dir/ffmpeg_output"
 HELP="/usr/local/share/doc/mpm/help"
+NOWPLAYING="$tmp_dir/nowPlaying"
 QUEUE="$playlists_dir/default.m3u"
 SELECTEDTITLES="$titles_dir/selected.titles"
 VIDEO_URLS="$tmp_dir/temporaryVideoUrls.m3u"

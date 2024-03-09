@@ -32,7 +32,9 @@ mpm -v # prints mpm version
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
 
-## New in version 1.6-5
+## New in version 1.6-6
+- fixed some bugs when quiting while mpv is running.
+## recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
 
   Such as:
@@ -44,24 +46,18 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge 
 # experimental
 use_mpvc="no"
 # change your mpv terminal user interface here
-# mpvc_tui="<ncmpvc"
+# mpvc_tui="ncmpvc"
 mpvc_tui="<your_mpv_tui_here>"
 ```
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png)
 
-- Refactoring a lot of functions (can create some bugs).
 - Launching local folder/files function simplified.
 
-## recent additions
+
 - Mpv TUI as mentioned above.
 - ffmpeg, mpv, ytfzf & yt-dlp command line options can be set in your mpmrc through their respective bash arrays.
-- Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L47)file (change them according to your locales).
-- Editing playlists is done using two methods:
-
-  - firstly by adding or removing urls manually with your chosen editor.
-
-  - secondly by removing titles from a prompt (corresponding urls will be removed).
+- Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L47) file (change them according to your locales).
 
 ## Using fzf
 - Two methods are offered here:
@@ -90,7 +86,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When we use a [terminal user interface](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png) for mpv, the main window looks like this.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.6-5.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.6-6.png)
 
 
 ```

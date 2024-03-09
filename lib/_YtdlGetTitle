@@ -3,8 +3,10 @@
 
 # shellcheck disable=SC2154
 _YtdlGetTitle() {
+
     youtube-dl \
     --skip-download \
     --get-title \
     "${ytdlPreset_DW[@]}" "$1"
+    
 }

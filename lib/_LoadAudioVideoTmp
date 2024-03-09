@@ -30,10 +30,6 @@ _LoadAudioVideoTmp() {
             fi
             return
         ;;
-        -c)
-            unset {TMP[0],TMP[1],TMP[2],TMP[3]}
-            rm "${TMP[@]}" 2>/dev/null
-        ;;
         -v)
             if [[ -s ${TMP[2]} ]]; then
                 if [[ -n $(pidof mpv) && -f $CHOOSE1 ]]; then

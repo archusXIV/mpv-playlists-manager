@@ -5,7 +5,7 @@
 # This function is called multiple times across this program,
 # but let's ensure temporary files are removed before we exit out. 
 _CleanTmpDir() {
-
+    
     cd "$tmp_dir" || exit 1
     
     if [[ -s "$DEFAULTITLES" ]]; then
@@ -14,8 +14,9 @@ _CleanTmpDir() {
         rm "$DEFAULTM3UTITLES"
     fi
 
-    if [[ -f $CHOOSE1 ]]; then
-        find . -type f -not -name "temporarySelection.m3u" \
+    if pgrep -x mpv >/dev/null; then
+        find . -type f -not \
+        -name "$(awk -F"/" '{print $NF}' "$NOWPLAYING")" \
         -not -name 'nowPlaying' -exec rm {} \;
         rm -f \
         "$playlists_dir"/{1_Back_to_menu,*_tmp} 2>/dev/null

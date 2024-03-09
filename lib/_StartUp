@@ -3,14 +3,12 @@
 
 # shellcheck disable=SC2154
 _StartUp() {
-    # we have to warn the user when the default list isn' t empty,
-    (($(_GetLinesList -q) >= 1)) && {
+    # needed to warn the user when the default list isn' t empty.
+    [[ -s $DEFAULTM3UTITLES && -s $QUEUE ]] && {
         touch "$tmp_dir"/1
         cp -f "$DEFAULTM3UTITLES" "$DEFAULTITLES"
         rm "$DEFAULTM3UTITLES"
     }
-
-    [[ -f $CHOOSE1 ]] && rm "$CHOOSE1"
 
     _Theme "$THEME"
     _Menu
