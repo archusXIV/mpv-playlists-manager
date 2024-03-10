@@ -3,7 +3,6 @@
 
 # shellcheck disable=SC2154
 _ConvertAudio_ogg() {
-    mapfile -t webmFiles < <(find "$audios_dir" -maxdepth 2 -iname "*.webm")
     for o in "${webmFiles[@]}"; do
         ffmpeg -i "${o}" \
         "${ffmpegOggCodecOptions[@]}" \

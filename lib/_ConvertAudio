@@ -1,12 +1,17 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2164,SC2015,SC1083
+# shellcheck disable=SC2154,SC2164,SC2015,SC2034,SC1083
 _ConvertAudio() {
+
+    local webmFiles
 
     [[ -d "$audios_dir"/"${list%.*}" ]] \
     && cd "$audios_dir"/"${list%.*}" \
     || cd "$audios_dir"
+
+    # because webmFiles is local child functions will inerite its value.
+    mapfile -t webmFiles < <(find "$audios_dir" -maxdepth 2 -iname "*.webm")
 
     if [[ -n $default_conversion_format ]]; then
         __

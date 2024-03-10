@@ -3,7 +3,6 @@
 
 # shellcheck disable=SC2154
 _ConvertAudio_flac() {
-    mapfile -t webmFiles < <(find "$audios_dir" -maxdepth 2 -iname "*.webm")
     for f in "${webmFiles[@]}"; do
         ffmpeg -i "${f}" \
         "${ffmpegFlacCodecOptions[@]}" \
