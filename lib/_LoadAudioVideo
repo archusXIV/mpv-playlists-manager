@@ -17,7 +17,7 @@ _LoadAudioVideo() {
         printf '%s\n' " ${info}Playing: ${file} playlist.${nc}"
         __
     )
-
+    
     # change mpv settings in ~/.config/mpm/mpmrc
     __mpvOnlineAudioCommand() (
         if [[ $use_mpvc = yes ]]; then

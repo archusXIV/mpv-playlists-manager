@@ -4,19 +4,22 @@
 # shellcheck disable=SC2154
 _IfMpvc() {
     
-    [[ -n $mpvc_tui ]] && {
-        if [[ -n $(pgrep -x mpv) && $use_mpvc_online = yes ]]; then
+    pgrep -x mpv >/dev/null && {
+        
+        if [[ $use_mpvc_online = yes ]]; then
             echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐" && \
             echo -e "                  │           ${info}mpv is running, press N to launch the mpv tui or ${task}Q ${info}to quit mpv${nc}            │" && \
             echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
-        elif [[ -n $(pgrep -x mpv) && $use_mpvc_locally = yes ]]; then
+        elif [[ $use_mpvc_locally = yes ]]; then
             echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐" && \
             echo -e "                  │           ${info}mpv is running, press N to launch the mpv tui or ${task}Z ${info}to quit mpv${nc}            │" && \
             echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
-        elif pgrep -x mpv >/dev/null; then
+        else
             echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐" && \
             echo -e "                  │           ${info}mpv is running, press N to launch the mpv tui or ${task}Q ${info}to quit mpv${nc}            │" && \
             echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
         fi
+
     }
+
 }

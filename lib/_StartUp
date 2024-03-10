@@ -10,6 +10,9 @@ _StartUp() {
         rm "$DEFAULTM3UTITLES"
     }
 
+    ! pgrep -x mpv >/dev/null && \
+    rm "$NOWPLAYING" "$tmp_dir"/temporary* 2>/dev/null
+
     _Theme "$THEME"
     _Menu
 }

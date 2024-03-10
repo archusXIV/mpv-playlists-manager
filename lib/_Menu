@@ -66,10 +66,10 @@ _Menu() {
                 fi
             ;;
             q|Q)
-                while pidof mpv >/dev/null; do
+                pgrep -x mpv >/dev/null && {
                     kill -SIGTERM "$(pidof mpv)"
-                    rm "$tmp_dir"/nowPlaying 2>/dev/null
-                done
+                    rm "$tmp_dir"/{nowPlaying,temporary*} 2>/dev/null
+                }
                 ;;
             u|U)
                 less "$HELP"
@@ -88,7 +88,10 @@ _Menu() {
 
             z|Z)
                 # we now exit the subshell not the program
-                [[ -n $(pidof mpv) ]] && kill -SIGTERM "$(pidof mpv)" && exit
+                pgrep -x mpv >/dev/null && {
+                    kill -SIGTERM "$(pidof mpv)"
+                    exit 0
+                }
             ;;
             *)
                 __

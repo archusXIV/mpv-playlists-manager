@@ -15,8 +15,8 @@ _CleanTmpDir() {
     fi
 
     if pgrep -x mpv >/dev/null; then
-        find . -type f -not \
-        -name "$(awk -F"/" '{print $NF}' "$NOWPLAYING")" \
+        find . -type f \
+        -not -name "$(awk -F"/" '{print $NF}' "$NOWPLAYING")" \
         -not -name 'nowPlaying' -exec rm {} \;
         rm -f \
         "$playlists_dir"/{1_Back_to_menu,*_tmp} 2>/dev/null
