@@ -38,14 +38,16 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge 
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
 
   Such as:
-  - [mpvc](https://github.com/lwilletts/mpvc)
-  - [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc)
+  - [mpvc](https://github.com/lwilletts/mpvc)   (available in the AUR)
+  - [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc) (available in the AUR)
 
   as usual set it in your mpmrc file.
 ```
 # experimental
+# can be yes/no (main menu will change),
+# or empty (mpv infos in the terminal).
 use_mpvc="no"
-# change your mpv terminal user interface here
+# change your mpv Terminal User Interface here
 # mpvc_tui="ncmpvc"
 mpvc_tui="<your_mpv_tui_here>"
 ```
