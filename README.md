@@ -107,6 +107,7 @@ and look at "red green blue" fields.
 
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
+## wmctrl settings
 For a better experience I **recommend** a minimum terminal size of 1260x738 because of the youtube-dl
 outputs that let you choose desired audio/video formats, if you want an automatic terminal
 resizing just install [wmctrl](https://github.com/dancor/wmctrl) an the script will take care of
