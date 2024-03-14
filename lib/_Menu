@@ -30,16 +30,16 @@ _Menu() {
         [[ $quit_after_task = yes ]] && echo -e "                  │  5) Load local folder/files     X) Exit                    │  quit after task: ${task}$quit_after_task${nc}  │"
         [[ $quit_after_task = no ]] && echo -e "                  │  5) Load local folder/files     X) Exit                    │  quit after task:  ${task}$quit_after_task${nc}  │"
         echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
-        _IfMpvc
+        pgrep -x mpv >/dev/null && _IfMpvc
         [[ -f $tmp_dir/1 ]] \
             && echo -e "                                                     ${info}Select an item${nc}" \
             || echo -e "                                                     ${info}${b}Select an item${nc}${nb}"
         __
         read -rsn 1 mainMenuOptions
         case "$mainMenuOptions" in
-            1)  _CopyUrl -v
+            1)  _CopyUrls -v
                 __  ;;
-            2)  _CopyUrl -a
+            2)  _CopyUrls -a
                 __  ;;
             3)  _SaveRemove
                 __  ;;
@@ -61,7 +61,7 @@ _Menu() {
                 else
                     printf '%s\n' " ${critical}No mpv interface setup in your config..." \
                     " use_mpvc must be set to 'yes' or mpvc_tui is empty${nc}"
-                    sleep 5
+                    sleep 7
                     continue
                 fi
             ;;
@@ -70,7 +70,7 @@ _Menu() {
                     kill -SIGTERM "$(pidof mpv)"
                     rm "$tmp_dir"/{nowPlaying,temporary*} 2>/dev/null
                 }
-                ;;
+            ;;
             u|U)
                 less "$HELP"
             ;;
@@ -84,14 +84,6 @@ _Menu() {
                     clear
                     exit 0
                 fi
-            ;;
-
-            z|Z)
-                # we now exit the subshell not the program
-                pgrep -x mpv >/dev/null && {
-                    kill -SIGTERM "$(pidof mpv)"
-                    exit 0
-                }
             ;;
             *)
                 __

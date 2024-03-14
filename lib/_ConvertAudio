@@ -10,7 +10,7 @@ _ConvertAudio() {
     && cd "$audios_dir"/"${list%.*}" \
     || cd "$audios_dir"
 
-    # because webmFiles is local child functions will inerite its value.
+    # because webmFiles is local child functions will inherite its value.
     mapfile -t webmFiles < <(find "$audios_dir" -maxdepth 2 -iname "*.webm")
 
     if [[ -n $default_conversion_format ]]; then

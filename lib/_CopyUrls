@@ -2,7 +2,7 @@
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2015
-_CopyUrl() {
+_CopyUrls() {
 
     local Type TITLES URLS menuTitleType arg mediaUrl
     

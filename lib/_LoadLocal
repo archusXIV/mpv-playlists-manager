@@ -4,54 +4,10 @@
 # shellcheck disable=SC2154,SC2034
 _LoadLocal() {
 
-    local AUDIOS VIDEOS MEDIA_DIR use_mpvc_locally
+    local AUDIOS VIDEOS MEDIA_DIR dir
     # we use -maxdepth 2 in case our directories are in subdirectories.
     AUDIOS=$(find "$HOME" -maxdepth 2 -type d -wholename "$MUSIC_DIR")
     VIDEOS=$(find "$HOME" -maxdepth 2 -type d -wholename "$VIDEO_DIR")
-    use_mpvc_locally="yes"
-    
-    __mpvDirCommand() (
-        cd "$MEDIA_DIR"/"$dir" || return
-        if [[ $use_mpvc = yes ]]; then
-            __
-            find . -type f | sort | sed 's,.*/,,' \
-            | mpv --no-terminal "${mpvGenOptions_X[@]}" --playlist=- &
-            _Menu
-        else
-            __
-            find . -type f | sort | sed 's,.*/,,' \
-            | mpv "${mpvGenOptions_X[@]}" --playlist=-
-        fi
-        
-    )
-
-    __selectDir() (
-        echo -e " ${info}Directories in $MEDIA_DIR: ${nc}\n"
-        PS3=""$'\n'"${info}Your selection number: ${nc}"
-        select dir in $(find -L "$MEDIA_DIR" -maxdepth 1 -type d -not -name \
-            "$(echo "$MEDIA_DIR" | awk -F"/" '{print $NF}')" | sort | sed 's,.*/,,'); do
-
-            if [[ $(find "$MEDIA_DIR"/"$dir" -type d -empty) ]]; then
-                __
-                printf '%s\n' " ${critical}$dir is empty. Wait and try again...${nc}"
-                sleep 4
-                continue
-            else
-                # checking for content in symlinked directories.
-                command ls "$MEDIA_DIR"/"$dir" >/dev/null || {
-                    __
-                    printf '%s\n' " ${critical}This symlink points to an empty" \
-                    " or none existing directory, wait and try again...${nc}"
-                    sleep 4
-                    continue
-                }
-                clear
-                __mpvDirCommand
-                break
-            fi
-
-        done
-    )
 
     read -rsn 1 \
     -p " ${info}Play: [1] Audio dir, [2] Audio files, [3] Video dir or [4] Video files?: ${nc}"
@@ -62,7 +18,7 @@ _LoadLocal() {
             _ReplaceSpaces -l
             clear
             __
-            __selectDir
+            _SelectLocalDir
         ;;
         2)
             clear; "$FILEMANAGER" "$AUDIOS"; _Menu
@@ -72,7 +28,7 @@ _LoadLocal() {
             _ReplaceSpaces -l
             clear
             __
-            __selectDir
+            _SelectLocalDir
         ;;
         4)
             clear; "$FILEMANAGER" "$VIDEOS"; _Menu

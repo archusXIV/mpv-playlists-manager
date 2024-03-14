@@ -4,54 +4,7 @@
 # shellcheck disable=SC2154,SC2015,SC2034
 _LoadAudioVideo() {
 
-    local m3uFile use_mpvc_online
-    use_mpvc_online="yes"
-
-    __LoadAudioVideoAdvice() (
-        clear
-        __
-        printf '%s\n' " ${critical}Tip: You may want to put this in your mpv.conf:" \
-        " ${info}term-playing-msg='Tiltle: \${media-title}'"
-        echo -e " ${critical}Otherwise press I in mpv for more infos.${nc}\n"
-        file="${m3uFile##*/}" file="${file%%.*}"
-        printf '%s\n' " ${info}Playing: ${file} playlist.${nc}"
-        __
-    )
-    
-    # change mpv settings in ~/.config/mpm/mpmrc
-    __mpvOnlineAudioCommand() (
-        if [[ $use_mpvc = yes ]]; then
-            mpv \
-            --no-terminal \
-            "${mpvGenOptions_X[@]}" \
-            "${mpvAudioFormatOptions[@]}" "$1" &
-            echo "$m3uFile" > "$NOWPLAYING"
-        else
-            __LoadAudioVideoAdvice
-            mpv \
-            "${mpvGenOptions_X[@]}" \
-            "${mpvAudioFormatOptions[@]}" "$1"
-            _LoadAudioVideoTmp -a
-        fi
-    )
-
-    __mpvOnlineVideoCommand() (
-        if [[ $use_mpvc = yes ]]; then
-            mpv \
-            --no-terminal \
-            "${mpvGenOptions_X[@]}" \
-            "${mpvVideoOptions_X[@]}" \
-            "${mpvVideoFormatOptions[@]}" "$1" &
-            echo "$m3uFile" > "$NOWPLAYING"
-        else
-            __LoadAudioVideoAdvice
-            mpv \
-            "${mpvGenOptions_X[@]}" \
-            "${mpvVideoOptions_X[@]}" \
-            "${mpvVideoFormatOptions[@]}" "$1"
-            _LoadAudioVideoTmp -v
-        fi
-    )
+    local m3uFile
 
     __killMpvPid() (
         while pidof mpv >/dev/null; do
@@ -66,7 +19,7 @@ _LoadAudioVideo() {
             if [[ -s $AUDIO_URLS ]]; then
                 m3uFile="$AUDIO_URLS"
                 __killMpvPid
-                __mpvOnlineAudioCommand "$m3uFile"
+                _MpvcTest -a
             else
                 echo " ${critical}No links in the $Type list${nc}"
                 sleep 2 && return
@@ -75,38 +28,38 @@ _LoadAudioVideo() {
         -ca)
             m3uFile="$CHOOSE1"
             __killMpvPid
-            __mpvOnlineAudioCommand "$m3uFile"
+            _MpvcTest -a
         ;;
         -cv)
             m3uFile="$CHOOSE1"
             __killMpvPid
-            __mpvOnlineVideoCommand "$m3uFile"
+            _MpvcTest -v
         ;;
         -la)
             m3uFile="$playlists_dir/$list"
             __killMpvPid
-            __mpvOnlineAudioCommand "$m3uFile"
+            _MpvcTest -a
         ;;
         -lv)
             m3uFile="$playlists_dir/$list"
             __killMpvPid
-            __mpvOnlineVideoCommand "$m3uFile"
+            _MpvcTest -v
         ;;
         -qa)
             m3uFile="$QUEUE"
             __killMpvPid
-            __mpvOnlineAudioCommand "$m3uFile"
+            _MpvcTest -a
         ;;
         -qv)
             m3uFile="$QUEUE"
             __killMpvPid
-            __mpvOnlineVideoCommand "$m3uFile"
+            _MpvcTest -v
         ;;
         -v)
             if [[ -s $VIDEO_URLS ]]; then
                 m3uFile="$VIDEO_URLS"
                 __killMpvPid
-                __mpvOnlineVideoCommand "$m3uFile"
+                _MpvcTest -v
             else
                 echo " ${critical}No links in the $Type list${nc}"
                 sleep 2 && return

@@ -36,7 +36,7 @@ _ViewUrlInfo() {
             __audioVideoCommon
             read -rsn 1 audioOptions
             case "$audioOptions" in
-                a|A) __; _CopyUrl -a ;;
+                a|A) __; _CopyUrls -a ;;
                 m|M) _Menu ;;
                 d|D) _GetAudio -a ;;
                 p|P) _LoadAudioVideo -a ;;
@@ -54,7 +54,7 @@ _ViewUrlInfo() {
             __audioVideoCommon
             read -rsn 1 videoOptions
             case "$videoOptions" in
-                a|A) __; _CopyUrl -v ;;
+                a|A) __; _CopyUrls -v ;;
                 m|M) _Menu ;;
                 d|D) _GetVideo -v ;;
                 p|P) _LoadAudioVideo -v ;;

@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.6-6)
+# ~/.config/mpm/mpmrc (version 1.6-7)
 
 ########################################################
 #                                                      #
@@ -121,8 +121,9 @@ ffmpegMp3CodecOptions=( -acodec libmp3lame -ar 48000 -ab 320k )
 ffmpegOggCodecOptions=( -acodec libvorbis -ar 48000 -ab 320k )
 ffmpegWavCodecOptions=( -acodec pcm_s32le -ar 48000 )
 
-############### MPV SPECIFICS ###############
-# experimental
+############################ MPV SPECIFICS ############################
+# can be yes (mpvc tui) no (stop mpv by typing Q),
+# or empty (mpv infos in the terminal).
 use_mpvc="no"
 # change your mpv terminal user interface here
 # mpvc_tui="ncmpvc"

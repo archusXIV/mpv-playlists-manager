@@ -1,0 +1,26 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_MpvcTest() {
+    case "$1" in
+        -a)
+            if [[ $use_mpvc = yes ]]; then
+                _MakeMpvPlaylist --online-audio
+            elif [[ $use_mpvc = no ]]; then
+                _MakeMpvPlaylist --online-audio
+            else
+                _MakeMpvPlaylist --terminal-audio
+            fi
+        ;;
+        -v)
+            if [[ $use_mpvc = yes ]]; then
+                _MakeMpvPlaylist --online-video
+            elif [[ $use_mpvc = no ]]; then
+                _MakeMpvPlaylist --online-video
+            else
+                _MakeMpvPlaylist --terminal-video
+            fi
+        ;;
+    esac
+}

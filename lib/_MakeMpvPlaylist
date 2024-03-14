@@ -1,0 +1,91 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2034
+_MakeMpvPlaylist() {
+
+    # change mpv settings in ~/.config/mpm/mpmrc
+    case "$1" in
+        --local-background)
+
+            cd "$MEDIA_DIR"/"$dir" || exit 1
+
+            use_mpvc_locally="yes"
+
+            find . -type f | sort | sed 's,.*/,,' \
+            | mpv --no-terminal "${mpvGenOptions_X[@]}" --playlist=- &
+
+            echo "local-background" > "$NOWPLAYING"
+
+            _Menu
+
+        ;;
+        --local-foreground)
+
+            cd "$MEDIA_DIR"/"$dir" || exit 1
+
+            use_mpvc_locally="no"
+
+            echo "local-foreground" > "$NOWPLAYING"
+
+            _LoadAudioVideoAdvice
+
+            find . -type f | sort | sed 's,.*/,,' \
+            | mpv "${mpvGenOptions_X[@]}" --playlist=-
+
+        ;;
+        --online-audio)
+
+            use_mpvc_online="yes"
+
+            mpv \
+            --no-terminal \
+            "${mpvGenOptions_X[@]}" \
+            "${mpvAudioFormatOptions[@]}" "$m3uFile" &
+
+            echo "$m3uFile" > "$NOWPLAYING"
+
+        ;;
+        --online-video)
+
+            use_mpvc_online="yes"
+            
+            mpv \
+            --no-terminal \
+            "${mpvGenOptions_X[@]}" \
+            "${mpvVideoOptions_X[@]}" \
+            "${mpvVideoFormatOptions[@]}" "$m3uFile" &
+
+            echo "$m3uFile" > "$NOWPLAYING"
+
+        ;;
+        --terminal-audio)
+
+            echo "$m3uFile" > "$NOWPLAYING"
+
+            _LoadAudioVideoAdvice
+
+            mpv \
+            "${mpvGenOptions_X[@]}" \
+            "${mpvAudioFormatOptions[@]}" "$m3uFile"
+
+            _LoadAudioVideoTmp -a
+
+        ;;
+        --terminal-video)
+
+            echo "$m3uFile" > "$NOWPLAYING"
+
+            _LoadAudioVideoAdvice
+
+            mpv \
+            "${mpvGenOptions_X[@]}" \
+            "${mpvVideoOptions_X[@]}" \
+            "${mpvVideoFormatOptions[@]}" "$m3uFile"
+
+            _LoadAudioVideoTmp -v
+
+        ;;
+    esac
+
+}

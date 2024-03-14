@@ -11,7 +11,7 @@ _SearchOnlineWithYtfzf() {
     read -rp " ${info}Search for online ${Type} links: ${nc}" request
 
     if [[ -n $request ]]; then
-        # ytfzf_options are defined in mpmrc
+        # ytfzf_options are defined in ~/.config/mpm/mpmrc
         ytfzf -tL "${ytfzfOptions_X[@]}" "$request$*" >> "$URLS"
 
         clear

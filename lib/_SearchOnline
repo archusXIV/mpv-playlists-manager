@@ -18,7 +18,7 @@ _SearchOnline() {
                 _SearchOnlineWithYtfzf
             ;;
             *)
-                __; printf '%s\n' " ${critical}Wrong option $searchYoutubeOptions...${nc}"
+                __; printf '%s\n' " ${critical}Wrong option $searchOnlineOptions...${nc}"
                 sleep 3
                 clear
             ;;

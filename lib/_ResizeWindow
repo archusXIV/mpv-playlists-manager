@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154
 _ResizeWindow() {
-    # width & height are defined in mpmrc
+    # width & height are defined in ~/.config/mpm/mpmrc
     if [[ -n $width && -n $height ]]; then
         wmctrl -r :ACTIVE: -e 5,-1,-1,"$width","$height"
     else

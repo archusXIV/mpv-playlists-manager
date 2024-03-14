@@ -1,0 +1,45 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_SelectLocalDir() {
+        
+    cd "$MEDIA_DIR"/"$dir" || exit 1
+
+    echo -e " ${info}Directories in ${MEDIA_DIR##*/}: ${nc}\n"
+
+    PS3=""$'\n'" ${info}Your selection number: ${nc}"
+
+    select dir in $(find -L "$MEDIA_DIR" -maxdepth 1 -type d -not -name \
+        "$(echo "$MEDIA_DIR" | awk -F"/" '{print $NF}')" | sort | sed 's,.*/,,'); do
+        
+        if [[ $(find "$MEDIA_DIR"/"$dir" -type d -empty) ]]; then
+            __
+            printf '%s\n' " ${critical}$dir is empty. Wait and try again...${nc}"
+            sleep 3
+            continue
+        else
+            # checking if the content of directory is audio.
+            ! find "$MEDIA_DIR"/"$dir" -type f -exec file -N -i -- {} + | grep audio && {
+                __
+                printf '%s\n' " ${critical}$dir does not contain supported formats by mpv" \
+                " wait and try again...${nc}"
+                sleep 3
+                continue
+            }
+
+            clear
+
+            if [[ $use_mpvc = yes ]]; then
+                _MakeMpvPlaylist --local-background
+            elif [[ $use_mpvc = no ]]; then
+                _MakeMpvPlaylist --local-background
+            else
+                _MakeMpvPlaylist --local-foreground
+            fi
+            break
+        fi
+
+    done
+
+}

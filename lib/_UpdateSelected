@@ -13,6 +13,7 @@ _UpdateSelected() {
     # ...that we now rename with the original file name.
     mv -f "$CHOOSE2" "$list"
     rm "$CHOOSE1"
+    
     cd "$titles_dir" || exit 1
 
     case "$1" in

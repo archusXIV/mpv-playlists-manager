@@ -1,4 +1,4 @@
-mpm version 1.6-6
+mpm version 1.6-7
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -35,7 +35,7 @@ mpm version 1.6-6
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.1.6-5::
+                                    ::MPV-PLAYLISTS-MANAGER v.1.6-7::
                                    ***********************************
                                 current theme: default. For usage type U
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -143,8 +143,9 @@ mpm version 1.6-6
         
         Since version 1.6-3 we can use a terminal user interface (tui) to look, pick & choose
         playlist items while mpv is running but for that a program must be installed such as:
-        mpvc <https://github.com/lwilletts/mpvc>
-        ncmpvc <https://gitlab.com/mpv-ipc/ncmpvc>
+        mpvc <https://github.com/lwilletts/mpvc> (AUR package available)
+        ncmpvc <https://gitlab.com/mpv-ipc/ncmpvc> (AUR package available)
+
         Just enable those settings: use_mpvc="yes" & mpvc_tui="ncmpvc"
         if enabled this feature can be used to watch/listen temporary lists, collection playlists and
         local directories. If everything is correct this will appear on the main window:
@@ -187,7 +188,7 @@ mpm version 1.6-6
         the quality is an equivalent to the original (youtube webm=opus).
 
         a)
-            if automatic_audio_conversion="no" && default_conversion_format=""
+            if automatic_audio_conversion="no" && default_conversion_format="<empty>"
             then you will be prompted to proceed or not to your downloads conversion.
             Another question will ask for a particular format.
         b)
@@ -197,7 +198,7 @@ mpm version 1.6-6
             If not all .webm files will be moved in ~/Music (this is defined in mpmrc).
             
         c)
-            if automatic_audio_conversion="yes" && default_conversion_format=""
+            if automatic_audio_conversion="yes" && default_conversion_format="<empty>"
             then you will be asked to abort conversion and all .webm files will be moved in ~/Music,
             or to choose a particular format.
         d)

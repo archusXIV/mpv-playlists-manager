@@ -20,6 +20,8 @@ ln -s /usr/bin/yt-dlp ~/.local/bin/youtube-dl # (if ~/.local/bin is in your $PAT
 
 Older version but still valide video (french spoken) link: https://www.youtube.com/watch?v=7OWO1vRL77A
 
+New one coming soon...
+
 ```
 mpm -c # edit mpm config
 mpm -e # edit a playlist from a list
@@ -30,11 +32,13 @@ mpm -v # prints mpm version
 ```
 
 ## Please update your mpmrc file on each release
-When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions.
+When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are crucial...
 
-## New in version 1.6-6
+## Changelog
+- As we use ncmpvc or any other mpv interface, the main window will change if our settings are yes/no or empty (see below).
 - fixed some bugs when quiting while mpv is running.
-## recent additions
+
+## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
 
   Such as:
@@ -44,7 +48,7 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge 
   as usual set it in your mpmrc file.
 ```
 # experimental
-# can be yes/no (main menu will change),
+# can be yes (mpvc tui) no (stop mpv by typing Q),
 # or empty (mpv infos in the terminal).
 use_mpvc="no"
 # change your mpv Terminal User Interface here
@@ -107,7 +111,7 @@ and look at "red green blue" fields.
 
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
-## wmctrl settings
+## Wmctrl settings
 For a better experience I **recommend** a minimum terminal size of 1260x738 because of the youtube-dl
 outputs that let you choose desired audio/video formats, if you want an automatic terminal
 resizing just install [wmctrl](https://github.com/dancor/wmctrl) an the script will take care of
@@ -132,7 +136,7 @@ I also provide my ranger config directory to get you started if you're noob, dra
 
 Requests and contributions? Why not, have fun.
 
-# dependencies
+# Dependencies
 - [ffmpeg](https://ffmpeg.org/)
 - [fzf](https://github.com/junegunn/fzf), [ytfzf](https://github.com/pystardust/ytfzf) (optional)
 - [jq](https://stedolan.github.io/jq/)
@@ -147,7 +151,7 @@ Requests and contributions? Why not, have fun.
 - [youtube-dl](https://github.com/ytdl-org/youtube-dl)
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
-# installation
+# Installation
 Run the install.sh script as root, by default /usr/local/bin /usr/local/lib are the
 respective used locations.
 The install script will detect if mpm is already installed and in that case the prompt will be: [R]emove or [U]pgrade mpm? 
