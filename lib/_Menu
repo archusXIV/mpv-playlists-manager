@@ -73,7 +73,12 @@ _Menu() {
                 }
             ;;
             u|U)
+                lessColor=$'\e[0m';
+                # back to default terminal text color
+                echo "${lessColor}"
                 less "$HELP"
+                # apply again custom color
+                echo "${nc}"
             ;;
             x|X)
                 __;__
