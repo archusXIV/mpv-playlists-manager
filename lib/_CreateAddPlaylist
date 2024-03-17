@@ -2,11 +2,11 @@
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2015
-_CopyUrls() {
+_CreateAddPlaylist() {
 
     local Type TITLES URLS menuTitleType arg mediaUrl
     
-    [[ -f $tmp_dir/1 ]] && rm "$tmp_dir"/1
+    test -f "$tmp_dir"/1 && rm "$tmp_dir"/1
 
     case "$1" in
         -a)
@@ -86,8 +86,8 @@ _CopyUrls() {
             echo -e "                               │   1) Add ${Type} links         5) Play current list    │"
             command -v fzf >/dev/null || echo -e "                               │   2) ${critical}Search online links ${nc}    6) View current list    │" \
             && echo -e "                               │   2) Search online links     6) View current list    │"
-            echo -e "                               │   3) Download current list   7) Back to main menu    │"
-            echo -e "                               │   4) Save/Add current list                           │"
+            echo -e "                               │   3) Download current list   7) Clear current list   │"
+            echo -e "                               │   4) Save/Add current list   8) Back to main menu    │"
             echo -e "                               └──────────────────────────────────────────────────────┘"
             [[ -s $URLS ]] \
             && echo -e "                                                   ${info}Select an item${nc}" \
@@ -121,7 +121,9 @@ _CopyUrls() {
                     __ ;;
                 6)  _ViewUrlInfo $arg
                     __ ;;
-                7)  _Menu
+                7)  _Remove $arg
+                    __ ;;
+                8)  _Menu
                     __ ;;
                 *)
                     printf '%s\n' " ${critical}Wrong option $copyUrlsOptions...${nc}"

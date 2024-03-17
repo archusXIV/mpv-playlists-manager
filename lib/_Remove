@@ -6,64 +6,56 @@ _Remove() {
 
     cd "$tmp_dir" || exit 1
 
-    __removeTmpLinks() (
-        clear
-        __
-        cat -n "$tmpTitles"
-        removeRange=$(printf '%s\n' "Enter numbers separeted by commas or a dash for a range" \
-        " for example: ${task}1-4,6 8-11 or 1-4,6-8,10 or 2,3,5,6,1 : ${nc}")
-        __
-        IFS=", "; read -ra array -p " ${info}""$removeRange""${nc}"
+    local tmpList tmpTitles
 
-        for range in "${array[@]}"; do
-            IFS="-"; read -r start end <<< "$range"
-            [[ -z $start ]] && continue
-            [[ -z $end ]] && end="$start"
-            for ((i=start;i <= end;i++)); do
-                sed -n "${i}p" "$tmpList" >> "$tmpList"_tmp
-                sed -n "${i}p" "$tmpTitles" >> "$tmpTitles"_tmp
-            done
-        done
+    __removeWarning() {
+        case "$1" in
+            --empty)
+                test ! -s $tmpList && {
+                    printf '%s\n' " ${critical}No links in the $Type list${nc}"
+                    sleep 2
+                    _CreateAddPlaylist $arg
+                }
+            ;;
+            --mpv)
+                pgrep -x mpv >/dev/null && \
+                __
+                printf '%s\n' " ${critical}${tmpList##*/} is owned by mpv...retry later.${nc}"
+                sleep 4
+            ;;
+        esac
+    }
 
-        grep -v "$(grep '^https' "$tmpList"_tmp)" "$tmpList" \
-        >> "$tmpList"_tmp2 && mv -f "$tmpList"_tmp2 "$tmpList"
-
-        grep -v "$(grep '^[[:print:]]' "$tmpTitles"_tmp)" "$tmpTitles" \
-        >> "$tmpTitles"_tmp2 && mv -f "$tmpTitles"_tmp2 "$tmpTitles"
-
-        rm {"$tmpList"_tmp,"$tmpTitles"_tmp}
-
-        printf '%s\n' " ${critical}Selected links removed...${nc}"
-        unset IFS
-        sleep 3
-
+    __ifTmpListEqualsOne() (
+        (($(grep "" -c "$tmpList") == 1)) && {
+            rm {"$tmpList","$tmpTitles"}
+            __
+            printf '%s\n' " ${critical}${tmpList##*/} cleared.${nc}"
+            sleep 2
+            return
+        }
     )
-
-    __removeWarning() (
-        pgrep -x mpv >/dev/null && \
-        __
-        printf '%s\n' " ${critical}$tmpList is owned by mpv...retry later.${nc}"
-        sleep 4
-    )
-
+    
     case "$1" in
         -a)
             tmpList="$AUDIO_URLS"
             tmpTitles="$AUDIO_TITLES"
+            __removeWarning --empty
             __
             read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole $Type list?: ${nc}"
-            [[ $(awk -F"/" '{print $NF}' "$tmp_dir"/nowPlaying 2>/dev/null) =~ Audio ]] && {
-                __removeWarning
+            [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ Audio ]] && {
+                __removeWarning --mpv
                 return
             }
             
             if [[ $REPLY =~ l|L ]]; then
-                __removeTmpLinks
-                _ViewUrlInfo -a
+                __ifTmpListEqualsOne || {
+                    _RemoveTmpLinks
+                    _ViewUrlInfo -a
+                }
             else
-                rm -f {"$tmpList","$tmpTitles"} \
-                {"$tmpList"_origin,"$tmpTitles"_origin}
-                rm -rf "$HOME"/.parallel 2>/dev/null
+                rm \
+                -rf {"$tmpList"{,_origin},"$tmpTitles"{,_origin},"$HOME"/.parallel} 2>/dev/null
                 __
                 echo " ${critical}$Type list removed...${nc}"
             fi
@@ -73,15 +65,24 @@ _Remove() {
             tmpTitles="$DEFAULTITLES"
             __
             read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole default list?: ${nc}"
-            [[ $(awk -F"/" '{print $NF}' "$tmp_dir"/nowPlaying 2>/dev/null) =~ default ]] && {
-                __removeWarning
-                _ViewUrlInfo -q
+            [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ default ]] && {
+                __removeWarning --mpv
+                _ViewUrlInfo $arg
             }
             if [[ $REPLY =~ l|L ]]; then
+                (($(grep '^https' -c "$tmpList") == 1)) && {
+                    sed -i '2d' "$tmpList"
+                    rm "$DEFAULTITLES"
+                    __
+                    printf '%s\n' " ${critical}${tmpList##*/} cleared.${nc}"
+                    sleep 2
+                    _Menu
+                }
                 sed -i '1d' "$tmpList"
-                __removeTmpLinks
+                _RemoveTmpLinks
                 sed -i '1s/^/#EXTM3U\n/' "$tmpList"
                 _ViewUrlInfo -q
+                
             else
                 sed -i '/^[[:alpha:]]/d' "$tmpList"
                 rm -f \
@@ -94,18 +95,20 @@ _Remove() {
         -v)
             tmpList="$VIDEO_URLS"
             tmpTitles="$VIDEO_TITLES"
+            __removeWarning --empty
             __
             read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole $Type list?: ${nc}"
-            [[ $(awk -F"/" '{print $NF}' "$tmp_dir"/nowPlaying 2>/dev/null) =~ Video ]] && {
-                __removeWarning
+            [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ Video ]] && {
+                __removeWarning --mpv
                 return
             }
             if [[ $REPLY =~ l|L ]]; then
-                __removeTmpLinks
-                _ViewUrlInfo -v
+                __ifTmpListEqualsOne || {
+                    _RemoveTmpLinks
+                    _ViewUrlInfo -v
+                }
             else
-                rm -f {"$tmpList","$tmpTitles"} \
-                {"$tmpList"_origin,"$tmpTitles"_origin}
+                rm {"$tmpList"{,_origin},"$tmpTitles"{,_origin}} 2>/dev/null
                 __
                 echo " ${critical}$Type list removed...${nc}"
             fi

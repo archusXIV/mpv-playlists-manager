@@ -37,9 +37,9 @@ _Menu() {
         __
         read -rsn 1 mainMenuOptions
         case "$mainMenuOptions" in
-            1)  _CopyUrls -v
+            1)  _CreateAddPlaylist -v
                 __  ;;
-            2)  _CopyUrls -a
+            2)  _CreateAddPlaylist -a
                 __  ;;
             3)  _SaveRemove
                 __  ;;
@@ -68,7 +68,8 @@ _Menu() {
             q|Q)
                 pgrep -x mpv >/dev/null && {
                     kill -SIGTERM "$(pidof mpv)"
-                    rm "$tmp_dir"/{nowPlaying,temporary*} 2>/dev/null
+                    rm {"$CHOOSE1","$NOWPLAYING"} 2>/dev/null
+                    unset m3uFile
                 }
             ;;
             u|U)

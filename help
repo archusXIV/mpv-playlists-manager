@@ -1,4 +1,4 @@
-mpm version 1.6-7
+mpm version 1.6-8
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -160,8 +160,8 @@ mpm version 1.6-7
                 ┌──────────────────────────────────────────────────────┐
                 │   1) Add Audio links         5) Play current list    │
                 │   2) Search online links     6) View current list    │
-                │   3) Download current list   7) Back to main menu    │
-                │   4) Save/Add current list                           │
+                │   3) Download current list   7) Clear current list   │
+                │   4) Save/Add current list   8) Back to main menu    │
                 └──────────────────────────────────────────────────────┘
                                     Select an item
 
@@ -179,7 +179,7 @@ mpm version 1.6-7
         answering no brings a new prompt where we can finaly add our links to.
 
         By entering '6' we will get more  infos (links & titles). A new prompt appears
-        with the same options as in the above menu, but [R]emove links/list: is now available...
+        with the same options as in the above menu.
 
     III) Audio conversion settings in mpmrc:
 

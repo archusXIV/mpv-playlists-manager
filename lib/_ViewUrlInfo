@@ -36,7 +36,7 @@ _ViewUrlInfo() {
             __audioVideoCommon
             read -rsn 1 audioOptions
             case "$audioOptions" in
-                a|A) __; _CopyUrls -a ;;
+                a|A) __; _CreateAddPlaylist -a ;;
                 m|M) _Menu ;;
                 d|D) _GetAudio -a ;;
                 p|P) _LoadAudioVideo -a ;;
@@ -44,7 +44,7 @@ _ViewUrlInfo() {
                 s|S) _Save -a ;;
             esac
         else
-            echo " ${critical}No links in the $Type list${nc}"
+            printf '%s\n' " ${critical}No links in the $Type list${nc}"
             sleep 2 && return
         fi
     }
@@ -54,7 +54,7 @@ _ViewUrlInfo() {
             __audioVideoCommon
             read -rsn 1 videoOptions
             case "$videoOptions" in
-                a|A) __; _CopyUrls -v ;;
+                a|A) __; _CreateAddPlaylist -v ;;
                 m|M) _Menu ;;
                 d|D) _GetVideo -v ;;
                 p|P) _LoadAudioVideo -v ;;
@@ -62,7 +62,7 @@ _ViewUrlInfo() {
                 s|S) _Save -v ;;
             esac
         else
-            echo " ${critical}No links in the $Type list${nc}"
+            printf '%s\n' " ${critical}No links in the $Type list${nc}"
             sleep 2 && return
         fi
     }
