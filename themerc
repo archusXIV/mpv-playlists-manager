@@ -93,14 +93,14 @@ _Theme() {
         ;;
         monokai)
             # Using RGB colors for array 'customColors'
-            nc=$'\e[38;2;161;239;228m';      #A1EFE4 "0xa1 0xef 0xe4"
+            nc=$'\e[38;2;102;217;239m';      #66d9ef "0x66 0xd9 0xef"
             critical=$'\e[38;2;249;38;114m'; #F92672 "0xf9 0x26 0x72"
             info=$'\e[38;2;166;226;46m';     #A6E22E "0xa6 0xe2 0x2e"
             mtitle=$'\e[38;2;244;191;171m';  #F4BF75 "0xf4 0xbf 0x75"
             task=$'\e[38;2;248;248;242m';    #F8F8F2 "0xf8 0xf8 0xf2"
             # enter the last three numbers of your custom sequence.
                         #   normal text   critical      info          mtitle       task
-            customColors=( "161;239;228" "249;38;114" "166;226;46" "244;191;171" "248;248;242" )
+            customColors=( "102;217;239" "249;38;114" "166;226;46" "244;191;171" "248;248;242" )
         ;;
         TokyoNight)
             nc=$'\e[38;2;169;177;214m';       #A9B1D6 "0xa9 0xb1 0xd6"
