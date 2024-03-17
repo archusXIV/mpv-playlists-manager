@@ -12,10 +12,10 @@ _SearchOnlineWithYtfzf() {
 
     if [[ -n $request ]]; then
         # ytfzf_options are defined in ~/.config/mpm/mpmrc
-        ytfzf -tL "${ytfzfOptions_X[@]}" "$request$*" >> "$URLS"
+        ytfzf -tL "${ytfzfOptions_X[@]}" "$request$*" >> "$tmp_dir"/fzf.urls
 
         clear
-        [[ ! -s $URLS ]] && return
+        [[ ! -s $tmp_dir/fzf.urls ]] && return
 
         while read -r line; do
 
@@ -25,16 +25,20 @@ _SearchOnlineWithYtfzf() {
                 echo "$line" >> "$QUEUE"
                 __
                 printf '%s\n' " ${info}Getting $line title...${nc}"
-                _YtdlGetTitle "$line" | tee -a "$TITLES" >> "$DEFAULTITLES"
+                _YtdlGetTitle "$line" | tee -a "$tmp_dir"/fzf.titles >> "$DEFAULTITLES"
                 sleep 1
                 clear
             fi
 
-        done < "$URLS"
+        done < "$tmp_dir"/fzf.urls
 
+        cat "$tmp_dir"/fzf.urls >> "$URLS"
+        cat "$tmp_dir"/fzf.titles >> "$TITLES"
+        rm "$tmp_dir"/fzf.{titles,urls}
         _RemoveCrap
 
     else
         return
     fi
+    
 }

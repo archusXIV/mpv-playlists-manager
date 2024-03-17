@@ -17,15 +17,24 @@ _ViewUrlInfo() {
     __audioVideoCommon() (
         clear
         __
-        echo " ${info}ORDER |  $menuTitleType PLAYLIST LINKS & TITLES.${nc}"
-        echo -e " ${info}${stars// /*}${nc}\n"
-        awk '$0 ~ /^https/{print $0}' "$menuTitleType_$URLS" \
-        | nl && {
-            __
+        if (($(grep -c '^https' "$menuTitleType_$URLS") > 12)); then
+            echo " ${info}ORDER |  $menuTitleType PLAYLIST TITLES.${nc}"
+            echo -e " ${info}${stars// /*}${nc}\n"
             nl "$menuTitleType_$TITLES"
             __
-        }
+        else
+            echo " ${info}ORDER |  $menuTitleType PLAYLIST LINKS & TITLES.${nc}"
+            echo -e " ${info}${stars// /*}${nc}\n"
+            awk '$0 ~ /^https/{print $0}' "$menuTitleType_$URLS" \
+            | nl && {
+                __
+                nl "$menuTitleType_$TITLES"
+                __
+            }
+        fi
+
         echo "${info}" "${viewUrlInfoPrompt[@]}" "${nc}"
+        
     )
 
     # Normaly in Bash nested functions use parentheses instead of curly braces,
@@ -90,14 +99,22 @@ _ViewUrlInfo() {
             }
             clear
             __
-            echo " ${info}ORDER |  DEFAULT PLAYLIST LINKS & TITLES.${nc}"
-            echo -e " ${info}${stars// /*}${nc}\n"
-            awk '$0 ~ /^https/{print $0}' "$QUEUE" \
-            | nl && {
-                __
+            
+            if (($(grep -c '^https' "$QUEUE") > 12)); then
+                echo " ${info}ORDER |  DEFAULT PLAYLIST TITLES.${nc}"
+                echo -e " ${info}${stars// /*}${nc}\n"
                 nl "$DEFAULTITLES"
                 __
-            }
+            else
+                echo " ${info}ORDER |  DEFAULT PLAYLIST LINKS & TITLES.${nc}"
+                echo -e " ${info}${stars// /*}${nc}\n"
+                awk '$0 ~ /^https/{print $0}' "$QUEUE" \
+                | nl && {
+                    __
+                    nl "$DEFAULTITLES"
+                    __
+                }
+            fi
             
             while [[ -f $QUEUE ]]; do
                 unset 'viewUrlInfoPrompt[1]'
