@@ -26,8 +26,8 @@ height=738
 
 # edit your own theme in "$XDG_CONFIG_HOME"/mpm/themerc.
 # apply your prefered colorscheme...
-# AVAILABLE THEMES: default, dracula, blacksea, chocolat-pistache,
-# gruvbox, gotham, monokai, TokyoNight, solarized, vacuous, zenburn
+# AVAILABLE THEMES: blacksea, chocolat-pistache, default, dracula, gruvbox,
+# gotham, jellybeans, monokai, TokyoNight, solarized, vacuous, zenburn
 THEME="default"
 
 ## default editor

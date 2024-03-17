@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/themerc (version 1.6-8)
+# ~/.config/mpm/themerc (version 1.6-6)
 
 ######################################################################
 #                                                                    #
@@ -62,13 +62,13 @@ _Theme() {
             "0xf1 0xfa 0x8c" "0xbf 0xbf 0xbf" )
         ;;
         gotham)
-            nc=$'\e[38;2;136;139;165m';     #888BA5 "0x88 0x8b 0xa5"
-            critical=$'\e[38;2;195;48;39m'; #C33027 "0xc3 0x30 0x27"
-            info=$'\e[38;2;38;169;139m';    #26A98B "0x26 0xa9 0x8b"
-            mtitle=$'\e[38;2;237;181;75m';  #EDB54B "0xed 0xb5 0x4b"
-            task=$'\e[38;2;152;209;206m';   #98D1CE "0x98 0xd1 0xce"
-            customColors=( "0x88 0x8b 0xa5" "0xc3 0x30 0x27" "0x26 0xa9 0x8b" \
-            "0xed 0xb5 0x4b" "0x98 0xd1 0xce" )
+            nc=$'\e[38;2;25;84;101m';        #195465 "0x19 0x54 0x65"
+            critical=$'\e[38;2;210;105;57m'; #d26939 "0xd2 0x69 0x39"
+            info=$'\e[38;2;38;169;139m';     #26A98B "0x26 0xa9 0x8b"
+            mtitle=$'\e[38;2;237;181;75m';   #EDB54B "0xed 0xb5 0x4b"
+            task=$'\e[38;2;89;156;170m';     #599caa "0x59 0x9c 0xaa"
+            customColors=( "0x19 0x54 0x65" "0xd2 0x69 0x39" "0x26 0xa9 0x8b" \
+            "0xed 0xb5 0x4b" "0x59 0x9c 0xaa" )
         ;;
         gruvbox)
             # Using RGB colors for array 'customColors'
@@ -81,7 +81,18 @@ _Theme() {
                         #   normal text  critical      info          mtitle       task
             customColors=( "69;133;136" "204;36;29" "104;157;106" "215;153;33" "235;219;178" )
         ;;
+        jellybeans)
+            # Using HEX colors for array 'customColors'
+            nc=$'\e[38;2;89;123;197m';       #597bc5 "0x59 0x7b 0xc5"
+            critical=$'\e[38;2;207;106;76m'; #cf6a4c "0xcf 0x6a 0x4c"
+            info=$'\e[38;2;153;173;106m';    #99ad6a "0x99 0xad 0x6a"
+            mtitle=$'\e[38;2;216;173;76m';   #d8ad4c "0xd8 0xad 0x4c"
+            task=$'\e[38;2;113;185;248m';    #a9a9a9 "0xa9 0xa9 0xa9"
+            customColors=( "0x59 0x7b 0xc5" "0xcf 0x6a 0x4c" "0x99 0xad 0x6a" \
+            "0xd8 0xad 0x4c" "0xa9 0xa9 0xa9" )
+        ;;
         monokai)
+            # Using RGB colors for array 'customColors'
             nc=$'\e[38;2;161;239;228m';      #A1EFE4 "0xa1 0xef 0xe4"
             critical=$'\e[38;2;249;38;114m'; #F92672 "0xf9 0x26 0x72"
             info=$'\e[38;2;166;226;46m';     #A6E22E "0xa6 0xe2 0x2e"
@@ -128,5 +139,5 @@ _Theme() {
             "0xf0 0xdf 0xaf" "0x4f 0x7a 0xa7" )
         ;;
     esac
-
+    
 }
