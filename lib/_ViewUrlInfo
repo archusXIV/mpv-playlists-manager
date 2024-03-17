@@ -23,7 +23,7 @@ _ViewUrlInfo() {
         | nl && {
             __
             nl "$menuTitleType_$TITLES"
-        __
+            __
         }
         echo "${info}" "${viewUrlInfoPrompt[@]}" "${nc}"
     )
@@ -42,6 +42,12 @@ _ViewUrlInfo() {
                 p|P) _LoadAudioVideo -a ;;
                 r|R) _Remove -a ;;
                 s|S) _Save -a ;;
+                *)
+                    __
+                    printf '%s\n' " ${critical}Wrong option $audioOptions, try again.${nc}"
+                    sleep 3
+                    return
+                ;;
             esac
         else
             printf '%s\n' " ${critical}No links in the $Type list${nc}"
@@ -60,6 +66,12 @@ _ViewUrlInfo() {
                 p|P) _LoadAudioVideo -v ;;
                 r|R) _Remove -v ;;
                 s|S) _Save -v ;;
+                *)
+                    __
+                    printf '%s\n' " ${critical}Wrong option $videoOptions, try again.${nc}"
+                    sleep 3
+                    return
+                ;;
             esac
         else
             printf '%s\n' " ${critical}No links in the $Type list${nc}"
@@ -123,6 +135,12 @@ _ViewUrlInfo() {
                             | cat -n >/dev/null 2>&1
                             _Save -q
                         fi
+                    ;;
+                    *)
+                        __
+                        printf '%s\n' " ${critical}Wrong option $queueOptions, try again.${nc}"
+                        sleep 3
+                        return
                     ;;
                 esac
             done

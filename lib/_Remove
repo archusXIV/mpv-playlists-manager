@@ -27,7 +27,7 @@ _Remove() {
     }
 
     __ifTmpListEqualsOne() (
-        (($(grep "" -c "$tmpList") == 1)) && {
+        (($(grep -c '^https' "$tmpList") == 1)) && {
             rm {"$tmpList","$tmpTitles"}
             __
             printf '%s\n' " ${critical}${tmpList##*/} cleared.${nc}"
