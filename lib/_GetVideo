@@ -41,9 +41,7 @@ _GetVideo() {
     clear
 
     __ChooseFormatMessages() (
-        printf '%s\n' " ${critical}If you pick a format from a none m3u8 protocol, download will fail " \
-        " if ffmpeg is set as downloader in your configuration file." \
-        " ${info}Choose a format code for: $(sed -n '1p' "$TITLES")." \
+        printf '%s\n' " ${info}Choose a format code for: $(sed -n '1p' "$TITLES")." \
         " eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
     )
 

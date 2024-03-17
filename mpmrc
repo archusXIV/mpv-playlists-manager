@@ -167,8 +167,7 @@ mpvVideoOptions_X=(
 # take a look at 'man yt-dlp'
 # !!! do not change the name of the array (ytdlPreset_<*>) !!!
 ytdlPreset_BR=( --break-on-existing )
-ytdlPreset_DN=( --downloader m3u8:ffmpeg )
-ytdlPreset_DA=( --downloader-args '-n' )
+ytdlPreset_DN=( --downloader m3u8:native )
 ytdlPreset_MF=( --merge-output-format mp4 )
 ytdlPreset_DW=( --no-warnings )
 ytdlPreset_DP=( --progress )
@@ -182,7 +181,7 @@ ytdlPreset_NC=(
 # combined presets
 ytdlPreset_X=(
     "${ytdlPreset_DN[@]}"
-    "${ytdlPreset_DA[@]}"
+    "${ytdlPreset_BR[@]}"
     "${ytdlPreset_MF[@]}"
     "${ytdlPreset_DW[@]}"
     "${ytdlPreset_DP[@]}"
