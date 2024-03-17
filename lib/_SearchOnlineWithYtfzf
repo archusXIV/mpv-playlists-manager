@@ -15,7 +15,7 @@ _SearchOnlineWithYtfzf() {
         ytfzf -tL "${ytfzfOptions_X[@]}" "$request$*" >> "$tmp_dir"/fzf.urls
 
         clear
-        [[ ! -s $tmp_dir/fzf.urls ]] && return
+        test ! -s "$tmp_dir"/fzf.urls  && return
 
         while read -r line; do
 
