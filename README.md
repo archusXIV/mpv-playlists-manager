@@ -22,7 +22,7 @@ Older version but still valide video (french spoken) link: https://www.youtube.c
 
 New one coming soon...
 
-# can be launch also from these commands
+## can be launch also from these commands
 
 ```
 mpm -c # edit mpm config
