@@ -10,13 +10,13 @@ _ChooseFromPlay() {
     [[ -f $CHOOSE1 ]] && rm "$CHOOSE1"
 
     read -rsn 1 \
-    -p "${info}"" [B]ack to menu, Play all items as [A]udio, [V]ideo or ${b}[S]elect:${nb} ""${nc}" choice
+    -p "${info}"" Play all items as [A]udio, [V]ideo or ${b}[S]elect:${nb} ""${nc}" choice
     
     case "$choice" in
         a|A)
             _LoadAudioVideo -la
         ;;
-        b|B)
+        c|C)
             _Menu 
         ;;
         v|V)

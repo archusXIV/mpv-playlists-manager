@@ -13,6 +13,12 @@ _GetRange() {
     
     for range in "${array[@]}"; do
         IFS="-"; read -r start end <<< "$range"
+        # cancel option from _TitlesListCompare
+        [[ $range =~ c|C ]] && {
+            unset IFS
+            rm "$list"_tmp
+            _Menu
+        }
         [[ -z $start ]] && continue
         [[ -z $end ]] && end="$start"
         

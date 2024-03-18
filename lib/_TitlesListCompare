@@ -43,7 +43,7 @@ _TitlesListCompare() {
             ;;
             -l)
                 __
-                echo -e " ${info}Titles for $list.${nc}\n"
+                echo -e " ${info}Titles for $list ( ${mtitle}Enter C to cancel${nc} )\n"
                 cat -n "$titles"
                 __
             ;;
