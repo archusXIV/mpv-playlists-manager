@@ -23,7 +23,6 @@ _EditPlaylist() {
                 clear
                 _TitlesListCompare -l
                 _GetRange
-                unset IFS
                 _UpdateSelected -e
             else
                 __

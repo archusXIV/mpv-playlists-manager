@@ -6,6 +6,7 @@ _ChooseFromPlay() {
     cd "$playlists_dir" || exit 1
     clear
     _TitlesListCompare -l
+    __
 
     [[ -f $CHOOSE1 ]] && rm "$CHOOSE1"
 
@@ -26,7 +27,6 @@ _ChooseFromPlay() {
             __
             _GetRange
             rm "$SELECTEDTITLES"
-            unset IFS
             __
             read -rsn 1 -p "${info}"' load [A]udio, [V]ideo: '"${nc}" load
             case "$load" in

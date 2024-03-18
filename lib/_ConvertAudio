@@ -1,18 +1,17 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2164,SC2015,SC2034,SC1083
+# shellcheck disable=SC2034,SC2154,SC2164,SC2015,SC1083
 _ConvertAudio() {
 
     local webmFiles
-
     [[ -d "$audios_dir"/"${list%.*}" ]] \
     && cd "$audios_dir"/"${list%.*}" \
     || cd "$audios_dir"
 
     # because webmFiles is local child functions will inherite its value.
     mapfile -t webmFiles < <(find "$audios_dir" -maxdepth 2 -iname "*.webm")
-
+    
     if [[ -n $default_conversion_format ]]; then
         __
         printf '%s\n' \
@@ -34,17 +33,18 @@ _ConvertAudio() {
         printf '%s\n' " ${critical}Conversion format isn't set..." \
         " ${info}Press Enter to abort conversion.${nc}"
         declare -A formats=(
-            [1]="flac"
-            [2]="mp3"
-            [3]="ogg"
-            [4]="wav"
+            [1]="aac"
+            [2]="flac"
+            [3]="mp3"
+            [4]="ogg"
+            [5]="wav"
         )
         __
         read -rn1 \
-        -p " ${info}Select an output format [1=flac] [2=mp3] [3=ogg] [4=wav]: ${nc}"
+        -p " ${info}Select an output format [1=aac] [2=flac] [3=mp3] [4=ogg] [5=wav]: ${nc}"
         
         case "$REPLY" in
-            [1-4])
+            [1-5])
                 __
                 printf '%s\n' \
                 " ${info}Converting files in ${task}${b}${formats[${REPLY}]}...${nb}"

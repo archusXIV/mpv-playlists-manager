@@ -5,8 +5,8 @@
 This program is just a personal project, and I wrote it as a normy Linux user, it is simple (hum, not so much today lol)
 The goal is to manage playlists that mpv reads either online or from local files/directories, 
 youtube-dl/yt-dlp is used to download videos or just audio and in that case if
-we choose webm links, ffmpeg will (if you want to) convert them in four different formats,
-mp3, flac, ogg, or wav. You can switch encoders by editing the config file (mpmrc).
+we choose webm links, ffmpeg will (if you want to) convert them in five different formats,
+aac, flac, mp3, ogg, or wav. You can switch encoders by editing the config file (mpmrc).
 
 In order to use mpm you **have** to create a symlink as follow:
 ```
@@ -37,11 +37,10 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog
+- AAC audio conversion now available.
+- New themes, nord & zorange.
 - Add cancel option when choosing titles in different functions.
 - Parsing the help page with the terminal default foreground color.
-- Avoiding duplicate links from ytfzf search option.
-- Refactored the _Remove function.
-- As we use ncmpvc or any other mpv interface, the main window will change if our settings are yes/no or empty (see below).
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -93,7 +92,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When we use a [terminal user interface](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png) for mpv, the main window looks like this.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.6-8.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.6-9.png)
 
 
 ```

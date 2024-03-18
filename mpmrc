@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.6-8)
+# ~/.config/mpm/mpmrc (version 1.6-9)
 
 ########################################################
 #                                                      #
@@ -26,8 +26,8 @@ height=738
 
 # edit your own theme in "$XDG_CONFIG_HOME"/mpm/themerc.
 # apply your prefered colorscheme...
-# AVAILABLE THEMES: blacksea, chocolat-pistache, default, dracula, gruvbox,
-# gotham, jellybeans, monokai, TokyoNight, solarized, vacuous, zenburn
+# AVAILABLE THEMES: default, dracula, blacksea, chocolat-pistache, gruvbox, gotham,
+# jellybeans, monokai, nord, TokyoNight, solarized, vacuous, zenburn, zorange
 THEME="default"
 
 ## default editor
@@ -116,6 +116,7 @@ default_conversion_format="mp3"
 
 # if use_parallel="no" then ffmpeg will convert audio files one by one,
 # so it will use those settings instead.
+ffmpegAacCodecOptions=( -acodec aac -ar 48000 -ab 320k )
 ffmpegFlacCodecOptions=( -af aformat=s32:48000 )
 ffmpegMp3CodecOptions=( -acodec libmp3lame -ar 48000 -ab 320k )
 ffmpegOggCodecOptions=( -acodec libvorbis -ar 48000 -ab 320k )
@@ -124,7 +125,7 @@ ffmpegWavCodecOptions=( -acodec pcm_s32le -ar 48000 )
 ############################ MPV SPECIFICS ############################
 # can be yes (mpvc tui) no (stop mpv by typing Q),
 # or empty (mpv infos in the terminal).
-use_mpvc="no"
+use_mpvc=""
 # change your mpv terminal user interface here
 # mpvc_tui="ncmpvc"
 mpvc_tui=""

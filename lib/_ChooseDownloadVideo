@@ -83,7 +83,6 @@ _ChooseDownloadVideo() {
     esac
 
     _UpdateSelected -u
-    unset IFS
     clear
     _DownloadCompleted
 

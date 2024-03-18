@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/themerc (version 1.6-6)
+# ~/.config/mpm/themerc (version 1.6-9)
 
 ######################################################################
 #                                                                    #
@@ -102,6 +102,17 @@ _Theme() {
                         #   normal text   critical      info          mtitle       task
             customColors=( "102;217;239" "249;38;114" "166;226;46" "244;191;171" "248;248;242" )
         ;;
+        nord)
+            # Using RGB colors for array 'customColors'
+            nc=$'\e[38;2;129;161;193m';      #81a1c1 "0x81 0xa1 0xc1"
+            critical=$'\e[38;2;191;97;106m'; #bf616a "0xbf 0x61 0x6a"
+            info=$'\e[38;2;163;190;140m';    #a3be8c "0xa3 0xbe 0x8c"
+            mtitle=$'\e[38;2;235;203;139m';  #ebcb8b "0xeb 0xcb 0x8b"
+            task=$'\e[38;2;136;192;208m';    #88c0d0 "0x88 0xc0 0xd0"
+            # enter the last three numbers of your custom sequence.
+                        #   normal text   critical      info          mtitle       task
+            customColors=( "129;161;193" "191;97;106" "163;190;140" "235;203;139" "136;192;208" )
+        ;;
         TokyoNight)
             nc=$'\e[38;2;169;177;214m';       #A9B1D6 "0xa9 0xb1 0xd6"
             critical=$'\e[38;2;247;118;142m'; #F7768E "0xf7 0x76 0x8e"
@@ -137,6 +148,15 @@ _Theme() {
             task=$'\e[38;2;79;122;167m';    #4F7AA7 "0x4f 0x7a 0xa7"
             customColors=( "0xdc 0xdc 0xcc" "0xc6 0x5c 0x5c" "0x60 0xb4 0x8a" \
             "0xf0 0xdf 0xaf" "0x4f 0x7a 0xa7" )
+        ;;
+        zorange)
+            nc=$'\e[38;2;248;116;0m';       #f87400 "0xf8 0x74 0x00"
+            critical=$'\e[38;2;248;66;0m';  #f84200 "0xf8 0x42 0x00"
+            info=$'\e[38;2;248;155;41m';    #f89b29 "0xf8 0x9b 0x29"
+            mtitle=$'\e[38;2;240;187;17m';  #f0bb11 "0xf0 0xbb 0x11"
+            task=$'\e[38;2;240;162;17m';    #f0a211 "0xf0 0xa2 0x11"
+            customColors=( "0xf8 0x74 0x00" "0xf8 0x42 0x00" "0xf8 0x9b 0x29" \
+            "0xf0 0xbb 0x11" "0xf0 0xa2 0x11" )
         ;;
     esac
     

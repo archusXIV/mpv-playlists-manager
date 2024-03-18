@@ -9,7 +9,7 @@ _EditMpmConf() {
     printf '%s\n' " ${info}mpm config saved! New changes actives.${nc}"
     . "$MPMRC"
     _Theme "$THEME"
-    sleep 3
+    sleep 2
     clear
     _Menu
 
