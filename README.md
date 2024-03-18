@@ -5,7 +5,7 @@
 This program is just a personal project, and I wrote it as a normy Linux user, it is simple (hum, not so much today lol)
 The goal is to manage playlists that mpv reads either online or from local files/directories, 
 youtube-dl/yt-dlp is used to download videos or just audio and in that case if
-we choose webm links, ffmpeg will (if you want to) convert them in five different formats,
+we choose webm links, ffmpeg will (if you want to) convert them in five different formats:
 aac, flac, mp3, ogg, or wav. You can switch encoders by editing the config file (mpmrc).
 
 In order to use mpm you **have** to create a symlink as follow:
