@@ -62,7 +62,9 @@ mpvc_tui="<your_mpv_tui_here>"
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png)
 
-- ffmpeg, mpv, ytfzf & yt-dlp command line options can be set in your mpmrc through their respective bash arrays.
+## Integrated programs settings in mpmrc file
+- As mentioned above mpv command line tools and terminal interface.
+- ffmpeg, mpv, ytfzf & yt-dlp options can be set in your mpmrc through their respective bash arrays.
 - Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L47) file (change them according to your locales).
 
 ## Using fzf
