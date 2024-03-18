@@ -35,6 +35,7 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are crucial...
 
 ## Changelog
+- Add cancel option when choosing titles in different functions.
 - Parsing the help page with the terminal default foreground color.
 - Avoiding duplicate links from ytfzf search option.
 - Refactored the _Remove function.
