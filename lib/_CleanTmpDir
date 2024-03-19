@@ -19,10 +19,10 @@ _CleanTmpDir() {
         -not -name "$(awk -F"/" '{print $NF}' "$NOWPLAYING")" \
         -not -name 'nowPlaying' -exec rm {} \;
         rm -f \
-        "$playlists_dir"/{1_Back_to_menu,*_tmp} 2>/dev/null
+        "$playlists_dir"/*_tmp 2>/dev/null
     else
         rm -f \
-        {"$tmp_dir"/*,"$playlists_dir"/{1_Back_to_menu,*_tmp}} 2>/dev/null
+        {"$tmp_dir"/*,"$playlists_dir"/*_tmp} 2>/dev/null
     fi
     
 }
