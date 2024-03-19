@@ -23,14 +23,13 @@ _LoadPlaylist() {
     done
 
     clear
-    touch 1_Back_to_menu
     __
-
-    PS3=""$'\n'"${info}Select a playlist to load or hit 1) for main menu:${nc} "
+    
+    PS3=""$'\n'"${info}Select a playlist to load or enter ${mtitle}C ${info}to cancel: ${nc}"
     select list in $(find . -type f -not -name "default.m3u" \
         | sort -d | sed 's,.*/,,'); do
-
-        [[ $list = 1_Back_to_menu ]] && rm 1_Back_to_menu && break
+        
+        [[ $REPLY =~ c|C ]] && break
 
         [[ $(_GetLinesList -l) -eq 0 ]] && {
             echo " ${critical}No links found in $list (empty or does not contains #EXTM3U header)."
@@ -39,7 +38,6 @@ _LoadPlaylist() {
             return
         }
 
-        rm 1_Back_to_menu
         clear
         __
         printf '%s\n' " ${info}Choose an option for${nc} $list ($(grep -v '#EXTM3U' -c "$list") urls)."
