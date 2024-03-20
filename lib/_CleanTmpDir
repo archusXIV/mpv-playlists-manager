@@ -18,8 +18,7 @@ _CleanTmpDir() {
         find . -type f \
         -not -name "$(awk -F"/" '{print $NF}' "$NOWPLAYING")" \
         -not -name 'nowPlaying' -exec rm {} \;
-        rm -f \
-        "$playlists_dir"/*_tmp 2>/dev/null
+        rm -f "$playlists_dir"/*_tmp 2>/dev/null
     else
         rm -f \
         {"$tmp_dir"/*,"$playlists_dir"/*_tmp} 2>/dev/null
