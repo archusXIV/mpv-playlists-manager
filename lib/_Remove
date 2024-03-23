@@ -1,121 +1,31 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2086
+# shellcheck disable=SC2154,SC2086,SC2015,SC2034
 _Remove() {
 
     cd "$tmp_dir" || exit 1
 
     local tmpList tmpTitles
 
-    __removeWarning() {
-        case "$1" in
-            --empty)
-                test ! -s $tmpList && {
-                    printf '%s\n' " ${critical}No links in the $Type list${nc}"
-                    sleep 2
-                    _CreateAddPlaylist $arg
-                }
-            ;;
-            --mpv)
-                pgrep -x mpv >/dev/null && \
-                __
-                printf '%s\n' " ${critical}${tmpList##*/} is owned by mpv...retry later.${nc}"
-                sleep 4
-            ;;
-        esac
-    }
-
-    __ifTmpListEqualsOne() (
-        (($(grep -c '^https' "$tmpList") == 1)) && {
-            rm {"$tmpList","$tmpTitles"}
-            __
-            printf '%s\n' " ${critical}${tmpList##*/} cleared.${nc}"
-            sleep 2
-            return
-        }
-    )
-    
     case "$1" in
         -a)
             tmpList="$AUDIO_URLS"
             tmpTitles="$AUDIO_TITLES"
-            __removeWarning --empty
-            __
-            read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole $Type list?: ${nc}"
-            [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ Audio ]] && {
-                __removeWarning --mpv
-                return
-            }
-            
-            if [[ $REPLY =~ l|L ]]; then
-                __ifTmpListEqualsOne || {
-                    _RemoveTmpLinks
-                    _ViewUrlInfo -a
-                }
-            else
-                rm \
-                -rf {"$tmpList"{,_origin},"$tmpTitles"{,_origin},"$HOME"/.parallel} 2>/dev/null
-                __
-                echo " ${critical}$Type list removed...${nc}"
-            fi
+            _RemoveAudioVideoCommon
         ;;
         -q)
             tmpList="$QUEUE"
             tmpTitles="$DEFAULTITLES"
-            __
-            read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole default list?: ${nc}"
-            [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ default ]] && {
-                __removeWarning --mpv
-                _ViewUrlInfo $arg
-            }
-            if [[ $REPLY =~ l|L ]]; then
-                (($(grep '^https' -c "$tmpList") == 1)) && {
-                    sed -i '2d' "$tmpList"
-                    rm "$DEFAULTITLES"
-                    __
-                    printf '%s\n' " ${critical}${tmpList##*/} cleared.${nc}"
-                    sleep 2
-                    _Menu
-                }
-                sed -i '1d' "$tmpList"
-                _RemoveTmpLinks
-                sed -i '1s/^/#EXTM3U\n/' "$tmpList"
-                _ViewUrlInfo -q
-                
-            else
-                sed -i '/^[[:alpha:]]/d' "$tmpList"
-                rm -f \
-                {"$tmpList"_origin,"$tmp_dir"/1,"$DEFAULTITLES"{,_origin},"$DEFAULTM3UTITLES"} 2>/dev/null
-                rm -rf "$HOME"/.parallel 2>/dev/null
-                __
-                echo " ${critical}Default list cleared...${nc}"
-            fi
+            _RemoveDefaultList
         ;;
         -v)
             tmpList="$VIDEO_URLS"
             tmpTitles="$VIDEO_TITLES"
-            __removeWarning --empty
-            __
-            read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole $Type list?: ${nc}"
-            [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ Video ]] && {
-                __removeWarning --mpv
-                return
-            }
-            if [[ $REPLY =~ l|L ]]; then
-                __ifTmpListEqualsOne || {
-                    _RemoveTmpLinks
-                    _ViewUrlInfo -v
-                }
-            else
-                rm {"$tmpList"{,_origin},"$tmpTitles"{,_origin}} 2>/dev/null
-                __
-                echo " ${critical}$Type list removed...${nc}"
-            fi
+            _RemoveAudioVideoCommon
         ;;
     esac
 
-    sleep 3
     _Menu
 
 }

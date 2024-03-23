@@ -4,10 +4,10 @@
 # shellcheck disable=SC2154
 _CheckDependencies() {
     ## Checking dependencies: softwares, directories and files.
-    declare -a DEPS=( "ffmpeg" "jq" "mpv" "youtube-dl" "yt-dlp" \
-                    "fzf" "parallel" "ueberzug" "wmctrl" "w3m" )
+    declare -a DEPS=( "ffmpeg" "jq" "mpv" "yt-dlp" \
+                    "fzf" "parallel" "ueberzug" "wmctrl" "w3m" "youtube-dl" )
 
-    for dep in "${DEPS[@]:0:5}"; do
+    for dep in "${DEPS[@]:0:4}"; do
         [[ -z $(command -v "$dep") ]] && {
             printf '%s\n' " $dep isn 't installed,...exiting!"
             notify-send -t 0 -u critical "$dep isn 't installed,...exiting!"
@@ -15,10 +15,16 @@ _CheckDependencies() {
         }
     done
 
-    for optional in "${DEPS[@]:5:10}"; do
-        [[ -z $(command -v "$optional") ]] && {
-            printf '%s\n' " For better experience consider installing $optional."
-            sleep 4
+    for opt in "${DEPS[@]:4:10}"; do
+        [[ -z $(command -v "$opt") ]] && {
+            if [[ $opt = youtube-dl ]]; then
+                mkdir -p "$HOME"/.local/bin
+                PATH="$HOME/.local/bin:$PATH"
+                ln -s /usr/bin/yt-dlp "$HOME"/.local/bin/youtube-dl
+            else
+                printf '%s\n' " For better experience consider installing $opt."
+                sleep 4
+            fi
         }
     done
     

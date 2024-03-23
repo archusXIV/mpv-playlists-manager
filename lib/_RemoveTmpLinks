@@ -18,8 +18,11 @@ _RemoveTmpLinks() {
     IFS=", "; read -ra array -p " ${info}""$removeRange""${nc}"
     for range in "${array[@]}"; do
         IFS="-"; read -r start end <<< "$range"
-        [[ $range =~ c|C ]] && {
+        [[ $range =~ [a-zA-Z] ]] && {
             [[ $tmpList = "$QUEUE" ]] && sed -i '1s/^/#EXTM3U\n/' "$tmpList"
+            __
+            printf '%s\n' " ${critical}Deletion aborted...${nc}"
+            sleep 3
             unset IFS
             _Menu
         }
@@ -33,11 +36,11 @@ _RemoveTmpLinks() {
 
     grep -v "$(grep '^https' "$tmpList"_tmp)" "$tmpList" \
     >> "$tmpList"_tmp2 && mv -f "$tmpList"_tmp2 "$tmpList"
-    grep -v "$(grep '^[[:print:]]' "$tmpTitles"_tmp)" "$tmpTitles" \
+    grep -v -F "$(grep '^[[:print:]]' "$tmpTitles"_tmp)" "$tmpTitles" \
     >> "$tmpTitles"_tmp2 && mv -f "$tmpTitles"_tmp2 "$tmpTitles"
 
     rm {"$tmpList"_tmp,"$tmpTitles"_tmp}
     printf '%s\n' " ${critical}Selected links removed...${nc}"
     unset IFS
-    sleep 3
+    sleep 2
 }

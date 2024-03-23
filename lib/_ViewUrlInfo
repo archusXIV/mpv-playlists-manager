@@ -14,7 +14,7 @@ _ViewUrlInfo() {
     # let's play...
     stars=$(printf "%-54s" "*")
     
-    __audioVideoCommon() (
+    __listHeader() (
         clear
         __
         if (($(grep -c '^https' "$menuTitleType_$URLS") > 12)); then
@@ -33,24 +33,29 @@ _ViewUrlInfo() {
             }
         fi
 
-        echo "${info}" "${viewUrlInfoPrompt[@]}" "${nc}"
+        if [[ $URLS = "$QUEUE" ]]; then
+            unset 'viewUrlInfoPrompt[1]'
+            echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
+        else
+            echo "${info}" "${viewUrlInfoPrompt[@]}" "${nc}"
+        fi
         
     )
 
     # Normaly in Bash nested functions use parentheses instead of curly braces,
     # but here it won't work because of the case statment right parenthese...
     # They will close the block before it finishes.
-    __audio() {
+    __audioVideoCommon() {
         if [[ -s $URLS ]]; then
-            __audioVideoCommon
+            __listHeader
             read -rsn 1 audioOptions
             case "$audioOptions" in
-                a|A) __; _CreateAddPlaylist -a ;;
+                a|A) __; _CreateAddPlaylist "$arg" ;;
                 m|M) _Menu ;;
-                d|D) _GetAudio -a ;;
-                p|P) _LoadAudioVideo -a ;;
-                r|R) _Remove -a ;;
-                s|S) _Save -a ;;
+                d|D) _GetAudio "$arg" ;;
+                p|P) _LoadAudioVideo "$arg" ;;
+                r|R) _Remove "$arg" ;;
+                s|S) _Save "$arg" ;;
                 *)
                     __
                     printf '%s\n' " ${critical}Wrong option $audioOptions, try again.${nc}"
@@ -64,31 +69,8 @@ _ViewUrlInfo() {
         fi
     }
 
-    __video() {
-        if [[ -s $URLS ]]; then
-            __audioVideoCommon
-            read -rsn 1 videoOptions
-            case "$videoOptions" in
-                a|A) __; _CreateAddPlaylist -v ;;
-                m|M) _Menu ;;
-                d|D) _GetVideo -v ;;
-                p|P) _LoadAudioVideo -v ;;
-                r|R) _Remove -v ;;
-                s|S) _Save -v ;;
-                *)
-                    __
-                    printf '%s\n' " ${critical}Wrong option $videoOptions, try again.${nc}"
-                    sleep 3
-                    return
-                ;;
-            esac
-        else
-            printf '%s\n' " ${critical}No links in the $Type list${nc}"
-            sleep 2 && return
-        fi
-    }
-
     __queue() {
+        
         if (($(_GetLinesList -q) > 0)); then
             rm "$tmp_dir"/1 2>/dev/null
             
@@ -98,27 +80,13 @@ _ViewUrlInfo() {
                 _GetMediaTitle -q > "$DEFAULTITLES"
             }
             clear
-            __
-            
-            if (($(grep -c '^https' "$QUEUE") > 12)); then
-                echo " ${info}ORDER |  DEFAULT PLAYLIST TITLES.${nc}"
-                echo -e " ${info}${stars// /*}${nc}\n"
-                nl "$DEFAULTITLES"
-                __
-            else
-                echo " ${info}ORDER |  DEFAULT PLAYLIST LINKS & TITLES.${nc}"
-                echo -e " ${info}${stars// /*}${nc}\n"
-                awk '$0 ~ /^https/{print $0}' "$QUEUE" \
-                | nl && {
-                    __
-                    nl "$DEFAULTITLES"
-                    __
-                }
-            fi
             
             while [[ -f $QUEUE ]]; do
-                unset 'viewUrlInfoPrompt[1]'
-                echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
+                menuTitleType=DEFAULT
+                URLS="$QUEUE"
+                TITLES="$DEFAULTITLES"
+                __
+                __listHeader
                 read -rsn 1 queueOptions
                 case "$queueOptions" in
                     d|D)
@@ -168,8 +136,7 @@ _ViewUrlInfo() {
     }
 
     case "$1" in
-        -a) __audio ;;
-        -v) __video ;;
+        -a|-v) __audioVideoCommon ;;
         -q) __queue ;;
     esac
 }

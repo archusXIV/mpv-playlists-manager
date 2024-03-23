@@ -1,8 +1,8 @@
 Author: Barret E (2020-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 1.6-9
+mpm version 1.7-0
 
-Dependencies: ffmpeg, jq, mpv, youtube-dl, yt-dlp.
+Dependencies: ffmpeg, jq, mpv, yt-dlp.
 Optionals: fzf, mpvc, ncmpvc, parallel, ranger ueberzug, vim (editor), w3m, wmctrl, ytfzf
 
 Youtube-dl is for now kind of unmaintained so install and make a symlink with

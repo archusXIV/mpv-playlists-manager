@@ -8,12 +8,7 @@ youtube-dl/yt-dlp is used to download videos or just audio and in that case if
 we choose webm links, ffmpeg will (if you want to) convert them in five different formats:
 aac, flac, mp3, ogg, or wav. You can switch encoders by editing the config file (mpmrc).
 
-**Please read it before first run and change settings to your liking.**
-
-In order to use mpm you **have** to create a symlink as follow:
-```
-ln -s /usr/bin/yt-dlp ~/.local/bin/youtube-dl # (if ~/.local/bin is in your $PATH)
-```
+**Please read it before first run and change settings to your likings.**
 
 - [help](https://github.com/archusXIV/mpv-playlists-manager/blob/main/help)
 
@@ -39,10 +34,10 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog
+- Fixed removing links titles including special characters.
+- Refactored _Remove & _ViewUrlInfo function.
 - AAC audio conversion now available.
-- New themes, nord & zorange.
 - Add cancel option when choosing titles in different functions.
-- Parsing the help page with the terminal default foreground color.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -145,22 +140,24 @@ Requests and contributions? Why not, have fun.
 
 # Dependencies
 - [ffmpeg](https://ffmpeg.org/)
-- [fzf](https://github.com/junegunn/fzf), [ytfzf](https://github.com/pystardust/ytfzf) (optional)
 - [jq](https://stedolan.github.io/jq/)
 - [mpv](https://mpv.io/)
-- [mpvc](https://github.com/lwilletts/mpvc) [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc) (optional)
-- [parallel](https://www.gnu.org/software/parallel/) (optional)
-- [ranger](https://github.com/ranger/ranger) (optional, see the help option for details)
-- [ueberzug](https://github.com/ueber-devel/ueberzug) (optional) might be in your distro's repo
-- [vim](https://www.vim.org/) (set as the MPMEDITOR)
-- [w3m](https://w3m.sourceforge.net/) (optional)
-- [wmctrl](https://github.com/dancor/wmctrl) (optional)
-- [youtube-dl](https://github.com/ytdl-org/youtube-dl)
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+
+# Optionals
+- [fzf](https://github.com/junegunn/fzf), [ytfzf](https://github.com/pystardust/ytfzf)
+- [mpvc](https://github.com/lwilletts/mpvc) [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc)
+- [parallel](https://www.gnu.org/software/parallel/)
+- [ranger](https://github.com/ranger/ranger) (see the help option for details)
+- [ueberzug](https://github.com/ueber-devel/ueberzug) (might be in your distro's repo)
+- [vim](https://www.vim.org/) (set as the MPMEDITOR)
+- [w3m](https://w3m.sourceforge.net/) (to display thumbnails in URxvt/xterm)
+- [wmctrl](https://github.com/dancor/wmctrl)
+- [youtube-dl](https://github.com/ytdl-org/youtube-dl) (see below)
 
 # Installation
 Run the install.sh script as root, by default /usr/local/bin /usr/local/lib are the
-respective used locations.
+respective destinations.
 The install script will detect if mpm is already installed and in that case the prompt will be: [R]emove or [U]pgrade mpm? 
 
 Otherwise the simple install function will run and create ~/.config/mpm/{mpmrc,themerc} files.
@@ -170,6 +167,7 @@ git clone https://github.com/archusXIV/mpv-playlists-manager.git
 cd mpv-playlists-manager
 chmod +x install.sh
 sudo ./install.sh
+ln -s /usr/bin/yt-dlp ~/.local/bin/youtube-dl
 ```
 ## Credits
 I would like to thanks all the devs that put their great work in the softwares I use and that I have implemented in this project and especially mister Brian Jhan Fox the father of the Bourne-Again SHell, even if I don't always use it the right way.

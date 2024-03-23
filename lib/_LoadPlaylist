@@ -29,7 +29,7 @@ _LoadPlaylist() {
     select list in $(find . -type f -not -name "default.m3u" \
         | sort -d | sed 's,.*/,,'); do
         
-        [[ $REPLY =~ c|C ]] && break
+        [[ $REPLY =~ [a-zA-Z] ]] && break
 
         [[ $(_GetLinesList -l) -eq 0 ]] && {
             echo " ${critical}No links found in $list (empty or does not contains #EXTM3U header)."
@@ -55,6 +55,7 @@ _LoadPlaylist() {
                     _TitlesListCompare -g
                 else
                     _TitlesListCompare -l
+                    __
                 fi
 
                 read -rn 1 \
