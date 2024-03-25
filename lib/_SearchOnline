@@ -3,7 +3,6 @@
 
 # shellcheck disable=SC2154,SC2015
 _SearchOnline() {
-    
     __
     command -v ytfzf >/dev/null && {
         read -rsn1 \
@@ -18,8 +17,7 @@ _SearchOnline() {
                 _SearchOnlineWithYtfzf
             ;;
             *)
-                __; printf '%s\n' " ${critical}Wrong option $searchOnlineOptions...${nc}"
-                sleep 3
+                _WrongOption "$searchOnlineOptions"
                 clear
             ;;
         esac

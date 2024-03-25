@@ -93,8 +93,8 @@ _CreateAddPlaylist() {
             && echo -e "                                                   ${info}Select an item${nc}" \
             || echo -e "                                                   ${info}${b}Select an item${nb}${nc}"
             __
-            read -rsn 1 copyUrlsOptions
-            case "$copyUrlsOptions" in
+            read -rsn 1 createAddPlaylistOptions
+            case "$createAddPlaylistOptions" in
                 1)  __CopyLinks
                     __ ;;
                 2)
@@ -126,8 +126,7 @@ _CreateAddPlaylist() {
                 8)  _Menu
                     __ ;;
                 *)
-                    printf '%s\n' " ${critical}Wrong option $copyUrlsOptions...${nc}"
-                    sleep 3s && continue
+                    _WrongOption "$createAddPlaylistOptions" && continue
                 ;;
             esac
             

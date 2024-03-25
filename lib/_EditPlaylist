@@ -25,9 +25,7 @@ _EditPlaylist() {
                 _GetRange
                 _UpdateSelected -e
             else
-                __
-                printf '%s\n' " ${critical}Wrong option $edit...${nc}"
-                sleep 3
+                _WrongOption "$edit"
             fi
             __
             read -rsn 1 \
@@ -51,8 +49,7 @@ _EditPlaylist() {
                     fi
                 ;;
                 *)
-                    printf '%s\n' " ${critical}Wrong option $again...${nc}"
-                    sleep 3
+                    _WrongOption "$again"
                 ;;
             esac
         done

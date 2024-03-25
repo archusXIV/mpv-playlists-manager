@@ -92,9 +92,8 @@ _Menu() {
                 fi
             ;;
             *)
-                __
-                printf '%s\n' " ${critical}Wrong option $mainMenuOptions...${nc}"
-                sleep 3s && continue
+                _WrongOption "$mainMenuOptions"
+                continue
             ;;
         esac
     done

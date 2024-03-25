@@ -26,7 +26,7 @@ _RemoveDefaultList() {
         sed -i '1s/^/#EXTM3U\n/' "$tmpList"
         _ViewUrlInfo -q
         
-    elif [[ $REPLY =~ [w|W] ]]; then
+    elif [[ $REPLY =~ w|W ]]; then
         sed -i '/^[[:alpha:]]/d' "$tmpList"
         rm -f \
         {"$tmpList"_origin,"$DEFAULTITLES"{,_origin},"$DEFAULTM3UTITLES"} 2>/dev/null
@@ -35,8 +35,6 @@ _RemoveDefaultList() {
         printf '%s\n' " ${critical}${tmpList##*/} cleared.${nc}"
         sleep 2
     else
-        __
-        printf '%s\n' " ${critical}Wrong option $REPLY...${nc}"
-        sleep 2
+        _WrongOption "$REPLY"
     fi
 }

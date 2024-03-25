@@ -11,7 +11,7 @@ _GetCompleted() {
     else
         _Prompt -n " ${info}Downloads completed, KEEP playlist?: ${nc}" && {
             __
-            echo " ${critical}If it was a temporary list, don't forget to save it.${nc}"
+            echo " ${critical}It was a temporary list, don't forget to save it.${nc}"
             sleep 4
             _RenameTmpFiles
             rm -rf "$HOME"/.parallel 2>/dev/null

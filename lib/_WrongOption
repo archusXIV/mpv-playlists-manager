@@ -1,0 +1,10 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_WrongOption() {
+    # appears 21 times in 14 files
+    __
+    printf '%s\n' " ${critical}Wrong option $1 ${nc}"
+    sleep 3
+}

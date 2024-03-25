@@ -38,17 +38,13 @@ _ChooseFromPlay() {
                     _LoadAudioVideo -cv
                 ;;
                 *)
-                    __
-                    printf '%s\n' " ${critical}Wrong option $load...${nc}"
-                    sleep 3s
+                    _WrongOption "$load"
                     _LoadPlaylistMenu
                 ;;
             esac
         ;;
         *)
-            __
-            printf '%s\n' " ${critical}Wrong option $choice...${nc}"
-            sleep 3s
+            _WrongOption "$choice"
             _LoadPlaylistMenu
         ;;
     esac

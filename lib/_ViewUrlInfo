@@ -18,12 +18,12 @@ _ViewUrlInfo() {
         clear
         __
         if (($(grep -c '^https' "$menuTitleType_$URLS") > 12)); then
-            echo " ${info}ORDER |  $menuTitleType PLAYLIST TITLES.${nc}"
+            printf '%s\n' " ${info}ORDER |  $menuTitleType PLAYLIST TITLES.${nc}"
             echo -e " ${info}${stars// /*}${nc}\n"
             nl "$menuTitleType_$TITLES"
             __
         else
-            echo " ${info}ORDER |  $menuTitleType PLAYLIST LINKS & TITLES.${nc}"
+            printf '%s\n' " ${info}ORDER |  $menuTitleType PLAYLIST LINKS & TITLES.${nc}"
             echo -e " ${info}${stars// /*}${nc}\n"
             awk '$0 ~ /^https/{print $0}' "$menuTitleType_$URLS" \
             | nl && {
@@ -57,9 +57,7 @@ _ViewUrlInfo() {
                 r|R) _Remove "$arg" ;;
                 s|S) _Save "$arg" ;;
                 *)
-                    __
-                    printf '%s\n' " ${critical}Wrong option $audioOptions, try again.${nc}"
-                    sleep 3
+                    _WrongOption "$audioOptions"
                     return
                 ;;
             esac
@@ -95,6 +93,11 @@ _ViewUrlInfo() {
                         case "$get" in
                             a|A) __; _GetAudio -q ;;
                             v|V) __; _GetVideo -q ;;
+                            *)
+                                __
+                                _WrongOption "$get"
+                                return
+                            ;;
                         esac
                     ;;
                     m|M)
@@ -106,6 +109,10 @@ _ViewUrlInfo() {
                         case "$play" in
                             a|A) _LoadAudioVideo -qa ;;
                             v|V) _LoadAudioVideo -qv ;;
+                            *)
+                                _WrongOption "$play"
+                                return
+                            ;;
                         esac
                     ;;
                     r|R) _Remove -q ;;
@@ -122,9 +129,7 @@ _ViewUrlInfo() {
                         fi
                     ;;
                     *)
-                        __
-                        printf '%s\n' " ${critical}Wrong option $queueOptions, try again.${nc}"
-                        sleep 3
+                        _WrongOption "$queueOptions"
                         return
                     ;;
                 esac

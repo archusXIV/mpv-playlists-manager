@@ -34,10 +34,10 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog
+- Using jq's magick to parse ytfzf output to grab video/audio urls/titles in _SearchOnlineWithYtfzf function.
 - Fixed removing links titles including special characters.
 - Refactored _Remove & _ViewUrlInfo function.
 - AAC audio conversion now available.
-- Add cancel option when choosing titles in different functions.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.

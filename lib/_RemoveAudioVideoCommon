@@ -12,14 +12,15 @@ _RemoveAudioVideoCommon() {
     __
     read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole $Type list?: ${nc}"
     [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ $Type ]] && {
-        pgrep -x mpv >/dev/null && \
-            __
-            printf '%s\n' " ${critical}${tmpList##*/} is owned by mpv...retry later.${nc}"
-            sleep 3
-            _Menu
+        pgrep -x mpv >/dev/null &&
+        __
+        printf '%s\n' " ${critical}${tmpList##*/} is owned by mpv...retry later.${nc}"
+        sleep 3
+        _Menu
     }
-    
+
     if [[ $REPLY =~ l|L ]]; then
+
         [[ $(grep -c '^https' "$tmpList") -eq 1 ]] && {
             rm {"$tmpList","$tmpTitles"}
             __
@@ -29,14 +30,15 @@ _RemoveAudioVideoCommon() {
             _RemoveTmpLinks
             [[ $tmpList = "$AUDIO_URLS" ]] && _ViewUrlInfo -a || _ViewUrlInfo -v
         }
-    elif [[ $REPLY =~ [w|W] ]]; then
+        
+    elif [[ $REPLY =~ w|W ]]; then
         rm \
-        -rf {"$tmpList"{,_origin},"$tmpTitles"{,_origin},"$HOME"/.parallel} 2>/dev/null
+            -rf {"$tmpList"{,_origin},"$tmpTitles"{,_origin},"$HOME"/.parallel} 2>/dev/null
         __
         printf '%s\n' " ${critical}$Type list removed...${nc}"
-    else
-        __
-        printf '%s\n' " ${critical}Wrong option $REPLY...${nc}"
         sleep 2
+    else
+        _WrongOption "$REPLY"
     fi
+
 }

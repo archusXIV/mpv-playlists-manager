@@ -34,8 +34,7 @@ _LoadLocal() {
             clear; "$FILEMANAGER" "$VIDEOS"; _Menu
         ;;
         *)
-            printf '%s\n' " ${critical}Wrong option $choice!${nc}"
-            sleep 3
+            _WrongOption "$choice"
             return
         ;;
     esac

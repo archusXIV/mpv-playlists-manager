@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.7-0)
+# ~/.config/mpm/mpmrc (version 1.7-1)
 
 ########################################################
 #                                                      #
@@ -82,15 +82,16 @@ use_fzf="no"
 # add/change your ytfzf preferences here
 # use odysee instead of youtube
 # ytfzfOptions_SC=( --scrape=odysee )
-ytfzfOptions_SC=( --scrape=youtube )
-# ytfzfOptions_YT=( --force-youtube )
+ytfzfOptions_YT=( --force-youtube )
+ytfzfOptions_KC=( --keep-cache )
 ytfzfOptions_PG=( --pages=5 )
 ytfzfOptions_VD=( --video-duration=long )
 ytfzfOptions_SB=( --sort-by=relevance )
 ytfzfOptions_TY=( --type=all )
 # add your options in this array
 ytfzfOptions_X=(
-    "${ytfzfOptions_SC[@]}"
+    "${ytfzfOptions_KC[@]}"
+    "${ytfzfOptions_YT[@]}"
     "${ytfzfOptions_PG[@]}"
     "${ytfzfOptions_VD[@]}"
     "${ytfzfOptions_SB[@]}"

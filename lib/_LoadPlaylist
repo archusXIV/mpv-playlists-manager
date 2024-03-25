@@ -65,17 +65,13 @@ _LoadPlaylist() {
                     1) clear; _LoadPlaylistMenu ;;
                     2) break ;;
                     *)
-                        __
-                        printf '%s\n' " ${critical}Wrong option $loadPlaylistOptions...${nc}"
-                        sleep 3
+                        _WrongOption "$loadPlaylistOptions"
                         return
                     ;;
                 esac
             ;;
             *)
-                __
-                printf '%s\n' " ${critical}Wrong option $submenu...${nc}"
-                sleep 3
+                _WrongOption "$submenu"
                 return
             ;;
         esac
