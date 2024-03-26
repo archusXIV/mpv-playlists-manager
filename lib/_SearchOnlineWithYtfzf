@@ -12,14 +12,15 @@ _SearchOnlineWithYtfzf() {
 
     if [[ -n $request ]]; then
         # ytfzf_options are defined in ~/.config/mpm/mpmrc
-        ytfzf -tI VJ "${ytfzfOptions_X[@]}" "$request$*" >> "$tmp_dir"/ytfzf.infos
+        # those flags will display thumbnails and whrite a json file
+        ytfzf -tI VJ "${ytfzfOptions_X[@]}" "$request$*" >> "$tmp_dir"/ytfzf.json
         
         clear
-        test ! -s "$tmp_dir"/ytfzf.infos && return
+        test ! -s "$tmp_dir"/ytfzf.json && return
 
-        jq '.[].url' "$tmp_dir"/ytfzf.infos | sed 's/"//g' \
+        jq '.[].url' "$tmp_dir"/ytfzf.json | sed 's/"//g' \
         | tee -a "$QUEUE" >> "$URLS"
-        jq '.[].title' "$tmp_dir"/ytfzf.infos | sed 's/"//g' \
+        jq '.[].title' "$tmp_dir"/ytfzf.json | sed 's/"//g' \
         | tee -a "$DEFAULTITLES" >> "$TITLES"
         _RemoveCrap
 
@@ -30,9 +31,11 @@ _SearchOnlineWithYtfzf() {
             done < "${file}"
         done
 
-        perl -i -ne 'print if ! $a{$_}++' "$YTSEARCH"
+        perl -i -ne 'print if ! $a{$_}++' "$YTSEARCH" 2>/dev/null
         sed -i '/playlist/d' {"$QUEUE","$URLS"}
-        rm "$tmp_dir"/ytfzf.infos
+        __; printf '%s\n' " ${info}Links added to $Type list${nc}"
+        sleep 2
+        rm "$tmp_dir"/ytfzf.json
 
     else
         return
