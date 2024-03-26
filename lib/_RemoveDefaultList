@@ -34,6 +34,7 @@ _RemoveDefaultList() {
         __
         printf '%s\n' " ${critical}${tmpList##*/} cleared.${nc}"
         sleep 2
+        _Menu
     else
         _WrongOption "$REPLY"
     fi
