@@ -20,7 +20,7 @@ _SelectLocalDir() {
             continue
         else
             # checking if the content of directory is audio.
-            ! find "$MEDIA_DIR"/"$dir" -type f -exec file -N -i -- {} + | grep audio && {
+            ! find "$MEDIA_DIR"/"$dir" -type f -exec file -N -i -- {} + | grep 'audio\|video' && {
                 __
                 printf '%s\n' " ${critical}$dir does not contain supported formats by mpv" \
                 " wait and try again...${nc}"
