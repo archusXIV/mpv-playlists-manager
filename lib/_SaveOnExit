@@ -60,6 +60,7 @@ _SaveOnExit() {
         a|A) _Save -a ;;
         b|B) _Menu ;;
         v|V) _Save -v ;;
+        *) _WrongOption "$saveOnExitOptions" && _Menu ;;
     esac
 
 }

@@ -34,17 +34,16 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog
+- Added parallel conversion progress bar
+- If we pass a argument that does not exist, ensure we get a warning.
 - Using jq's magick to parse ytfzf output to grab video/audio urls/titles in _SearchOnlineWithYtfzf function.
-- Fixed removing links titles including special characters.
-- Refactored _Remove & _ViewUrlInfo function.
-- AAC audio conversion now available.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
 
   Such as:
   - [mpvc](https://github.com/lwilletts/mpvc)   (available in the AUR)
-  - [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc) (available in the AUR)
+  - [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc) (available in the AUR) ([cheatsheet](https://github.com/archusXIV/mpv-playlists-manager/blob/main/ncmpvc_cheatsheet))
 
   as usual set it in your mpmrc file.
 ```
@@ -91,14 +90,14 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When we use a [terminal user interface](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png) for mpv, the main window looks like this.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.7-1_.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.7-2_.png)
 
 
 ```
 # edit your own theme in "$XDG_CONFIG_HOME"/mpm/themerc.
 # apply your prefered colorscheme...
-# AVAILABLE THEMES: default, dracula, blacksea, chocolat-pistache,
-# gruvbox, gotham, monokai, TokyoNight, solarized, vacuous, zenburn
+# AVAILABLE THEMES: default, dracula, blacksea, chocolat-pistache, gruvbox,
+# gotham, monokai, nord, TokyoNight, solarized, vacuous, zenburn, zorange
 
 THEME="default"
 ```

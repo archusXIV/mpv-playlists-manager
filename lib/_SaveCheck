@@ -12,7 +12,7 @@ _SaveCheck() {
 
     __listAlreadyExists() (
         __
-        read -rp "${info}"' Enter the new playlist name (do not use extension): '"${nc}" list
+        read -rp "${info}"' Enter the new playlist name (do not type extension): '"${nc}" list
         list="$list.m3u"
         [[ -f $list ]] && {
             __
@@ -26,7 +26,7 @@ _SaveCheck() {
     __
     printf '%s\n' " ${critical}Tip: If you want to add links to an existing playlist," \
     " just select it and answer NO to the overwrite question," \
-    " you can now add your links by entering 'a'${nc}"
+    " you can now add your links by entering ${task}'a'${nc}"
     __
     PS3=""$'\n'" ${info}Available playlists (type ${task}$((listTotal + 1)) ${info}to create a new one):${nc} "
     select list in $(find . -not -name "default.m3u" -name "*.m3u" \

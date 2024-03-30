@@ -1,4 +1,4 @@
-mpm version 1.7-1
+mpm version 1.7-2
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -35,7 +35,7 @@ mpm version 1.7-1
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.1.7-1::
+                                    ::MPV-PLAYLISTS-MANAGER v.1.7-2::
                                    ***********************************
                                 current theme: default. For usage type U
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -146,9 +146,10 @@ mpm version 1.7-1
         mpvc <https://github.com/lwilletts/mpvc> (AUR package available)
         ncmpvc <https://gitlab.com/mpv-ipc/ncmpvc> (AUR package available)
 
-        Just enable those settings: use_mpvc="yes" & mpvc_tui="ncmpvc"
-        if enabled this feature can be used to watch/listen temporary lists, collection playlists and
-        local directories. If everything is correct this will appear on the main window:
+        Just enable those settings: use_mpvc="yes" & mpvc_tui="ncmpvc" (ncmpvc cheatsheet is
+        located in /usr/local/share/doc/mpm/), if enabled this feature can be used to watch/listen
+        temporary lists, collection playlists and local directories.
+        If everything is correct this will appear on the main window:
             
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
         │           mpv is running, press N to launch the mpv tui or Q to quit mpv            │

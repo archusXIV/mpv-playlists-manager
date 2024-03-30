@@ -20,7 +20,7 @@ _ChooseDownloadAudio() {
     readarray -t SELECTEDAUDIO < "$M3UFILE"
     counter="${#SELECTEDAUDIO[@]}"
     
-    __ChooseDownloadAudioMessage() (
+    __chooseDownloadAudioMessage() (
         printf '%s\n' " ${info}$counter file(s) left to downloads." \
         " Downloading: $(_GetLinkTitle -s)${nc}"
     )
@@ -33,7 +33,7 @@ _ChooseDownloadAudio() {
 
             printf '%s\n' " ${task}Direct download enabled.${nc}"
             __
-            __ChooseDownloadAudioMessage
+            __chooseDownloadAudioMessage
             youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
             --format 251 "${ytdlPreset_NC[@]}" "$url"
 
@@ -48,7 +48,7 @@ _ChooseDownloadAudio() {
             read -r code
             clear
             __
-            __ChooseDownloadAudioMessage
+            __chooseDownloadAudioMessage
             
             youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
             --format "$code" "${ytdlPreset_NC[@]}" "$url"
@@ -60,7 +60,7 @@ _ChooseDownloadAudio() {
             read -r code
             clear
             __
-            __ChooseDownloadAudioMessage
+            __chooseDownloadAudioMessage
             youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
             --format "$code" "${ytdlPreset_NC[@]}" "$url"
 

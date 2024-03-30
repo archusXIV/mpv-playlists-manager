@@ -40,12 +40,12 @@ _GetVideo() {
     cp -f "$TITLES" "$TITLES"_origin
     clear
 
-    __ChooseFormatMessages() (
+    __chooseFormatMessages() (
         printf '%s\n' " ${info}Choose a format code for: $(sed -n '1p' "$TITLES")." \
         " eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
     )
 
-    __DownloadMessages() (
+    __downloadMessages() (
         [[ $TITLES = "$DEFAULTITLES" ]] && {
             printf '%s\n' " ${info}$(_GetLinesList -q) video file(s) left to download." \
             " Downloading:  $(sed -n '1p' "$TITLES")${nc}"

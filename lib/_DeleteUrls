@@ -12,24 +12,9 @@ _DeleteUrls() {
         "$NOWPLAYING" "$tmp_dir/1" "$CHOOSE1"
         "Audio" "Video" "default" "temporarySelection"
     )
-
-    __deleteUrlsWarnings() (
-        if [[ -f $NOWPLAYING && $(find . -name "*.m3u" | wc -l) -ge 1 ]]; then
-            __
-            printf '%s\n' " ${critical}All Temporary lists cleared," \
-            " except $(awk -F"/" '{print $NF}' "$NOWPLAYING").${nc}"
-            sleep 4
-        else
-            __
-            printf '%s\n' " ${critical}No Temporary lists found," \
-            " except $(awk -F"/" '{print $NF}' "$NOWPLAYING")." \
-            " First quit mpv then try again.${nc}"
-            sleep 5
-        fi
-        rm "${tmps[@]}" 2>/dev/null
-    )
     
     if [[ -f $NOWPLAYING ]]; then
+        
         for w in "${tmps[@]:10:13}"; do
             if [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING") =~ $w ]]; then
                 [[ $w = "${tmps[10]}" ]] && {
@@ -47,7 +32,21 @@ _DeleteUrls() {
                 }
             fi
         done
-        __deleteUrlsWarnings
+        
+        if [[ -f $NOWPLAYING && $(find . -name "*.m3u" | wc -l) -ge 1 ]]; then
+            __
+            printf '%s\n' " ${critical}All Temporary lists cleared," \
+            " except $(awk -F"/" '{print $NF}' "$NOWPLAYING").${nc}"
+            sleep 4
+        else
+            __
+            printf '%s\n' " ${critical}No Temporary lists found," \
+            " except $(awk -F"/" '{print $NF}' "$NOWPLAYING")." \
+            " First quit mpv then try again.${nc}"
+            sleep 5
+        fi
+        rm "${tmps[@]}" 2>/dev/null
+        
     else
         sed -i '/^[[:alpha:]]/d' "$QUEUE"
         rm "${tmps[@]}" 2>/dev/null

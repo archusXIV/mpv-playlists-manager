@@ -12,9 +12,12 @@ _GetRange() {
     IFS=", "; read -ra array -p " ${info}""$rangePrompt""${nc}"
     for range in "${array[@]}"; do
         IFS="-"; read -r start end <<< "$range"
-        [[ $range =~ c|C ]] && {
+        [[ $range =~ [a-zA-Z] ]] && {
             unset IFS
             rm "$list"_tmp
+            __
+            printf '%s\n' " ${critical}Selection aborted.${nc}"
+            sleep 2
             _Menu
         }
         [[ -z $start ]] && continue

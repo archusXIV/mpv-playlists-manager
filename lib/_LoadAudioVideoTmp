@@ -7,7 +7,7 @@ _LoadAudioVideoTmp() {
     declare -a TMP=( "$AUDIO_URLS" "$AUDIO_TITLES" "$VIDEO_URLS" \
                     "$VIDEO_TITLES" "$CHOOSE1" "$FFOP" "$YTOP" )
     
-    __LoadAudioVideoTmpNotice() (
+    __loadAudioVideoTmpNotice() (
         clear
         __
         _Prompt " ${info}$tmpFile list still exist, KEEP it?:${nc}" || {
@@ -26,7 +26,7 @@ _LoadAudioVideoTmp() {
                     unset {TMP[2],TMP[3]}
                 fi
                 tmpFile=Audio
-                __LoadAudioVideoTmpNotice
+                __loadAudioVideoTmpNotice
             fi
             return
         ;;
@@ -39,7 +39,7 @@ _LoadAudioVideoTmp() {
                 fi
 
                 tmpFile=Video
-                __LoadAudioVideoTmpNotice
+                __loadAudioVideoTmpNotice
             fi
             return
         ;;

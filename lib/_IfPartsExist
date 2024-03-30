@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154
 _IfPartsExist() {
 
-    __IfPartsExistInfo() (
+    __ifPartsExistInfo() (
         clear
         echo -e " ${critical}Incomplete files in audio/video directories:\n${nc}"
         find {"$audios_dir","$videos_dir"} -name "*.part" 2>/dev/null \
@@ -21,11 +21,11 @@ _IfPartsExist() {
             "$playlists_dir"/"$list"
             mv "$titles_dir"/"$list".titles_origin \
             "$titles_dir"/"$list".titles
-            __IfPartsExistInfo
+            __ifPartsExistInfo
         ;;
         -t)
             _RenameTmpFiles
-            __IfPartsExistInfo
+            __ifPartsExistInfo
         ;;
     esac
 

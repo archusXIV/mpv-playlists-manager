@@ -13,11 +13,11 @@ _GetVideoDownload() {
         youtube-dl -F "${ytdlPreset_DW[@]}" "$getVideoUrl" \
         | awk '$0 !~ /sb|youtube/{print $0}'
         __
-        __ChooseFormatMessages
+        __chooseFormatMessages
         read -r code
         clear
         __
-        __DownloadMessages
+        __downloadMessages
 
         # it seems that only youtube uses merging options
         if [[ "$code" =~ '+' ]]; then

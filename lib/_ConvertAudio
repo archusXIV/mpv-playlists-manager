@@ -22,8 +22,11 @@ _ConvertAudio() {
         __
         if [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
             printf '%s\n' " Parallel conversion enabled."
-            parallel --delay 2.5 -j+0 \
-            ffmpeg -y -i {} -qscale:a 0 {.}."$default_conversion_format" ::: ./*.webm 2>"$FFOP"
+            parallel --delay 2.5 -j+0 --bar \
+            ffmpeg \
+                -hide_banner -loglevel error \
+                -y -i {} -qscale:a 0 {.}."$default_conversion_format" ::: ./*.webm
+            rm -rf "$HOME"/.parallel
         else
             printf '%s\n' " Parallel conversion disabled.${nc}"
             _ConvertAudio_"$default_conversion_format"
@@ -51,8 +54,11 @@ _ConvertAudio() {
                 __
                 if [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
                     printf '%s\n' " Parallel conversion enabled."
-                    parallel --delay 2.5 -j+0 \
-                    ffmpeg -y -i {} -qscale:a 0 {.}."${formats[${REPLY}]}" ::: ./*.webm 2>"$FFOP"
+                    parallel --delay 2.5 -j+0 --bar \
+                    ffmpeg \
+                        -hide_banner -loglevel error \
+                        -y -i {} -qscale:a 0 {.}."${formats[${REPLY}]}" ::: ./*.webm
+                    rm -rf "$HOME"/.parallel
                 else
                     printf '%s\n' " Parallel conversion disabled.${nc}"
                     _ConvertAudio_"${formats[${REPLY}]}"
@@ -67,7 +73,7 @@ _ConvertAudio() {
                     sleep 3
                 } || printf '%s\n' " ${critical}Wrong format $REPLY...${nc}"
                 __
-                sleep 3
+                sleep 2
                 return
             ;;
         esac

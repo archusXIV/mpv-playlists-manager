@@ -4,8 +4,8 @@
 # shellcheck disable=SC2154,SC2015
 _CreateAddPlaylist() {
 
-    local Type TITLES URLS menuTitleType arg mediaUrl
-    
+    local Type TITLES URLS menuTitleType arg mediaUrl supportedSites
+    supportedSites="https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md"
     test -f "$tmp_dir"/1 && rm "$tmp_dir"/1
 
     case "$1" in
@@ -27,7 +27,7 @@ _CreateAddPlaylist() {
 
     while (( $(grep "" -c "$QUEUE") > 0 )); do
     
-        __CopyLinks() (
+        __copyLinks() (
             __
             echo -e " Paste an url to fill the ${info}${Type}${nc} playlist:\n"
             read -r mediaUrl
@@ -95,7 +95,7 @@ _CreateAddPlaylist() {
             __
             read -rsn 1 createAddPlaylistOptions
             case "$createAddPlaylistOptions" in
-                1)  __CopyLinks
+                1)  __copyLinks
                     __ ;;
                 2)
                     if [[ $use_fzf = yes ]]; then

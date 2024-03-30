@@ -24,10 +24,8 @@ _GetAudio() {
             TITLES="$titles_dir"/"$list".titles
         ;;
         -q)
-            if [[ ! -f $DEFAULTITLES && \
-                -f $DEFAULTM3UTITLES ]]; then
-                cat "$DEFAULTM3UTITLES" > \
-                "$DEFAULTITLES"
+            if [[ ! -f $DEFAULTITLES && -f $DEFAULTM3UTITLES ]]; then
+                cat "$DEFAULTM3UTITLES" > "$DEFAULTITLES"
             elif [[ -f $DEFAULTITLES ]]; then
                 printf '%s\n' " ${info}Fetching titles file...${nc}"
                 sleep 1

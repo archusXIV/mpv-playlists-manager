@@ -1,28 +1,37 @@
 #!/bin/bash
 
-##    Author: Barret E (2021-23) <archus@protonmail.com>
+##    Author: Barret E (2021-24) <archus@protonmail.com>
 ##    https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-##    Dependencies: ffmpeg, jq, mpv, youtube-dl.
-##    Optionals: ranger, w3m, wmctrl
+##    Dependencies: ffmpeg, jq, mpv, yt-dlp.
+##    Optionals: fzf, parallel, ueberzug, ranger, w3m, wmctrl, ytfzf
 ##
 ##    Youtube-dl is for now kind of unmaintained so install and make a symlink with
 ##    https://github.com/yt-dlp/yt-dlp/releases
-##    sudo pacman -S yt-dlp youtube-dl
+##    sudo pacman -S yt-dlp
 ##    ln -s /usr/bin/yt-dlp ~/.local/bin/youtube-dl (if ~/.local/bin is in your $PATH)
 ##
 ##    This script rips video urls from Youtube and so on.
 ##    In our case we use ".m3u" files to store urls in and then be able
 ##    to watch from the site itself or download videos or just the audio.
 ##    We can save, remove or edit playlists & mpm config file (mpmrc).
-##    It is recommended to disable mpv cache for better results on direct streaming,
+##    It is recommanded to disable mpv cache for better results on direct streaming,
 ##    or find a better cache parameter.
 
 # shellcheck source=/dev/null
 # shellcheck disable=SC2034,SC2044,SC2086,SC2207,SC2154,SC2120,SC2119
+# avoids running multiple instances
+mpvmenu=$(basename $0)
+pids=($(pidof -x $mpvmenu))
+
+[[ ${#pids[@]} -gt 1 ]] && {
+    printf '%s\n' 'mpm is already running...'
+    notify-send -t 0 -u critical "mpm is already running..."
+    exit 1
+}
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.1.7-1"
+VERSION="v.1.7-2"
 
 : "${XDG_CONFIG_HOME:-$HOME/.config}"
 CONF_DIR="$XDG_CONFIG_HOME/mpm"
@@ -38,33 +47,23 @@ THEMERC="$CONF_DIR/themerc"
 . "$MPMRC"; . "$THEMERC"
 
 [[ -n $playlists_dir ]] && \
-cp /usr/local/share/doc/mpm/mpm_yt-videos.m3u "$playlists_dir"
+cp -f /usr/local/share/doc/mpm/mpm_yt-videos.m3u "$playlists_dir"
 
 ## prompts blinking
 b=$'\e[5m';
 nb=$'\e[25m';
 
-# shellcheck source=/dev/null
 ## First source our functions.
-for func in $(find /usr/local/lib/mpm/_*); do
+for func in $(find /usr/local/lib/mpm/ -name "_*"); do
     . "$func"
 done
 
-# avoids running multiple instances
-mpvmenu=$(basename $0)
-pids=($(pidof -x $mpvmenu))
-
-[[ ${#pids[@]} -gt 1 ]] && {
-    printf '%s\n' " ${critical}mpm is already running...${nc}"
-    notify-send -t 0 -u critical "mpm is already running..."
-    exit
-}
+unset func
 
 # creates a blank line
 __() { printf '\n'; }
 
 # global variables
-supportedSites="https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md"
 AUDIO_URLS="$tmp_dir/temporaryAudioUrls.m3u"
 AUDIO_TITLES="$tmp_dir/temporaryAudioTitles"
 CHOOSE1="$tmp_dir/temporarySelection.m3u"
@@ -88,13 +87,16 @@ _LaunchMpm() {
     _CheckDependencies "${@}"
 }
 
-case "$1" in
-    -c) $MPMEDITOR "$MPMRC" && _LaunchMpm "$@";;
-    -e) _EditPlaylist ;;
-    -l) _LoadPlaylist ;;
-    -p) _LoadLocal ;;
-    -v) echo "mpm $VERSION" && _LaunchMpm "$@";;
-    -h|--help) less "$HELP" && _LaunchMpm "$@";;
-esac
+[[ $# -eq 1 ]] && {
+    case "$1" in
+        -c) $MPMEDITOR "$MPMRC" && _LaunchMpm "$@" ;;
+        -e) _EditPlaylist ;;
+        -l) _LoadPlaylist ;;
+        -p) _LoadLocal ;;
+        -v) echo "mpm $VERSION" && _LaunchMpm "$@" ;;
+        -h|--help) less "$HELP" && _LaunchMpm "$@" ;;
+        *)  echo " Wrong option $1, try mpm -h" && exit 1 ;;
+    esac
+}
 
 _CheckDependencies "${@}"

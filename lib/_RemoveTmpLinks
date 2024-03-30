@@ -22,7 +22,7 @@ _RemoveTmpLinks() {
             [[ $tmpList = "$QUEUE" ]] && sed -i '1s/^/#EXTM3U\n/' "$tmpList"
             __
             printf '%s\n' " ${critical}Deletion aborted...${nc}"
-            sleep 3
+            sleep 2
             unset IFS
             _Menu
         }

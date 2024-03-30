@@ -18,9 +18,9 @@ _SearchOnlineWithYtfzf() {
         clear
         test ! -s "$tmp_dir"/ytfzf.json && return
 
-        jq '.[].url' "$tmp_dir"/ytfzf.json | sed 's/"//g' \
+        jq --raw-output '.[].url' "$tmp_dir"/ytfzf.json \
         | tee -a "$QUEUE" >> "$URLS"
-        jq '.[].title' "$tmp_dir"/ytfzf.json | sed 's/"//g' \
+        jq --raw-output '.[].title' "$tmp_dir"/ytfzf.json \
         | tee -a "$DEFAULTITLES" >> "$TITLES"
         _RemoveCrap
 

@@ -90,6 +90,7 @@ _SaveRemove() {
             done
         ;;
         v|V) _Save -v ;;
+        *) _WrongOption "$opt" ;;
     esac
     _Menu
 }

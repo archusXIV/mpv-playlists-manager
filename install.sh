@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
-# version 1.7-1
+# version 1.7-2
 
 # shellcheck disable=SC2154
 _diffRc() {
@@ -47,7 +47,7 @@ _install() {
     mkdir --verbose --parents /usr/local/lib/mpm && \
     cp --verbose --recursive --force ./lib/* /usr/local/lib/mpm/
     mkdir --verbose --parents /usr/local/share/doc/mpm && \
-    cp --verbose --force ./{help,mpm_yt-videos.m3u,mpmrc,README.md,themerc} \
+    cp --verbose --force ./{help,mpm_yt-videos.m3u,mpmrc,ncmpvc_cheatsheet,README.md,themerc} \
     /usr/local/share/doc/mpm
     mkdir --verbose --parents /usr/share/licenses/mpm && \
     cp --verbose --force ./LICENSE /usr/share/licenses/mpm/LICENSE

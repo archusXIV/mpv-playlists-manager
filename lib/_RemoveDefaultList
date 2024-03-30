@@ -30,7 +30,6 @@ _RemoveDefaultList() {
         sed -i '/^[[:alpha:]]/d' "$tmpList"
         rm -f \
         {"$tmpList"_origin,"$DEFAULTITLES"{,_origin},"$DEFAULTM3UTITLES"} 2>/dev/null
-        rm -rf "$HOME"/.parallel 2>/dev/null
         __
         printf '%s\n' " ${critical}${tmpList##*/} cleared.${nc}"
         sleep 2

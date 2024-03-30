@@ -13,14 +13,13 @@ _SaveList() {
     (( $(grep -c -w '#EXTM3U' "$list") > 1 )) \
         && sed -i '1d' "$list"
 
-    if [[ $CURRENT_LIST = "$QUEUE" ]]; then
-        __
-        printf '%s\n' " ${info}default list saved as $list${nc}"
+    if [[ $current_list = "$QUEUE" ]]; then
+        rm "$current_titles"
     else
-        rm {"$CURRENT_LIST","$CURRENT_TITLES"}
-        __
-        printf '%s\n' " ${info}${CURRENT_LIST##*/} saved as $list${nc}"
+        rm {"$current_list","$current_titles"}
     fi
+    __
+    printf '%s\n' " ${info}${current_list##*/} saved as $list${nc}"
     
     sleep 3
 }
