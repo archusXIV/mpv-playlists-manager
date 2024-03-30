@@ -46,10 +46,10 @@ _install() {
     cp --verbose --force ./mpm /usr/local/bin
     mkdir --verbose --parents /usr/local/lib/mpm && \
     cp --verbose --recursive --force ./lib/* /usr/local/lib/mpm/
-    mkdir --verbose --parents /usr/local/share/doc/mpm && \
-    cp --verbose --force doc/{help,mpm_yt-videos.m3u{,.titles},mpmrc,ncmpvc_cheatsheet,themerc} \
-    /usr/local/share/doc/mpm
-    cp --verbose --force README.md /usr/local/share/doc/mpm
+    mkdir --verbose --parents /usr/local/share/doc/mpm && {
+        cp --verbose --force doc/* /usr/local/share/doc/mpm/
+        cp --verbose --force README.md /usr/local/share/doc/mpm
+    }
     mkdir --verbose --parents /usr/share/licenses/mpm && \
     cp --verbose --force ./LICENSE /usr/share/licenses/mpm/LICENSE
     
