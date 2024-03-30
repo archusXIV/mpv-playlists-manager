@@ -47,8 +47,9 @@ _install() {
     mkdir --verbose --parents /usr/local/lib/mpm && \
     cp --verbose --recursive --force ./lib/* /usr/local/lib/mpm/
     mkdir --verbose --parents /usr/local/share/doc/mpm && \
-    cp --verbose --force ./{help,mpm_yt-videos.m3u,mpmrc,ncmpvc_cheatsheet,README.md,themerc} \
+    cp --verbose --force doc/{help,mpm_yt-videos.m3u{,.titles},mpmrc,ncmpvc_cheatsheet,themerc} \
     /usr/local/share/doc/mpm
+    cp --verbose --force README.md /usr/local/share/doc/mpm
     mkdir --verbose --parents /usr/share/licenses/mpm && \
     cp --verbose --force ./LICENSE /usr/share/licenses/mpm/LICENSE
     
@@ -62,8 +63,8 @@ _install() {
 _uninstall() {
     rm --verbose --recursive --force /usr/local/bin/mpm
     rm --verbose --recursive --force /usr/local/lib/mpm
-    rm --verbose --recursive --force /usr/share/licenses/mpm
     rm --verbose --recursive --force /usr/local/share/doc/mpm
+    rm --verbose --recursive --force /usr/share/licenses/mpm
 
     printf '%s\n' "hope you liked it anyway..."
 }

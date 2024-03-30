@@ -30,7 +30,7 @@ height=738
 # jellybeans, monokai, nord, TokyoNight, solarized, vacuous, zenburn, zorange
 THEME="default"
 
-## default editor
+## default editor used to edit this file.
 MPMEDITOR="${EDITOR:-vim}"
 
 ## default file manager (can be any terminal file manager)

@@ -10,7 +10,7 @@ aac, flac, mp3, ogg, or wav. You can switch encoders by editing the config file 
 
 **Please read it before first run and change settings to your likings.**
 
-- [help](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/help)
+- [help](https://github.com/archusXIV/mpv-playlists-manager/blob/main/help)
 
 - [Supported websites](https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md)
 
@@ -34,8 +34,7 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog
-- Added parallel conversion progress bar.
-- Fixed some bugs and improve some functions.
+- Added parallel conversion progress bar
 - If we pass a argument that does not exist, ensure we get a warning.
 - Using jq's magick to parse ytfzf output to grab video/audio urls/titles in _SearchOnlineWithYtfzf function.
 
@@ -44,7 +43,7 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge 
 
   Such as:
   - [mpvc](https://github.com/lwilletts/mpvc)   (available in the AUR)
-  - [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc) (available in the AUR) ([cheatsheet](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/ncmpvc_cheatsheet))
+  - [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc) (available in the AUR) ([cheatsheet](https://github.com/archusXIV/mpv-playlists-manager/blob/main/ncmpvc_cheatsheet))
 
   as usual set it in your mpmrc file.
 ```
@@ -62,7 +61,7 @@ mpvc_tui="<your_mpv_tui_here>"
 ## Integrated programs settings in mpmrc file
 - As mentioned above mpv command line tools and terminal interface.
 - ffmpeg, mpv, ytfzf & yt-dlp options can be set in your mpmrc through their respective bash arrays.
-- Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L47) file (change them according to your locales).
+- Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L47) file (change them according to your locales).
 
 ## Using fzf
 - Two methods are offered here:
@@ -70,7 +69,7 @@ mpvc_tui="<your_mpv_tui_here>"
   - In addition you can also use the [ytfzf](https://github.com/pystardust/ytfzf) script
   if it is in your $PATH, it's options are available in the mpmrc file.
 
-- In your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L80) file activate it.
+- In your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L80) file activate it.
 
 ```
 use_fzf="yes"
@@ -78,20 +77,20 @@ use_fzf="yes"
 
 ## Audio conversion done faster with parallel
 - If installed, [parallel](https://www.gnu.org/software/parallel/) will launch multiple ffmpeg instances to speed up audio conversion.
-- Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L105) file
+- Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpmrc#L105) file
 
 ```
 use_parallel="yes"
 ```
 
 ## Themes
-- A [themerc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/themerc) file is available to insert as many as you want "themes" instead of bloating up your mpmrc.
+- A [themerc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/themerc) file is available to insert as many as you want "themes" instead of bloating up your mpmrc.
 
 default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When we use a [terminal user interface](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png) for mpv, the main window looks like this.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.7-2.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.7-2_.png)
 
 
 ```
