@@ -46,9 +46,6 @@ THEMERC="$CONF_DIR/themerc"
 ## summon our personal settings
 . "$MPMRC"; . "$THEMERC"
 
-[[ -n $playlists_dir ]] && \
-cp -f /usr/local/share/doc/mpm/mpm_yt-videos.m3u "$playlists_dir"
-
 ## prompts blinking
 b=$'\e[5m';
 nb=$'\e[25m';
