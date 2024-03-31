@@ -22,8 +22,7 @@ _DirectVideoDownload() {
         " Downloading: $(_GetLinkTitle -l)${nc}"
         
         if [[ $line =~ 'youtube.com' && $(_GetLinkTitle -l) =~ '/' ]]; then
-            youtube-dl "${ytdlPreset_FS[@]}" \
-            "${ytdlPreset_X[@]}" "$line"
+            youtube-dl "${ytdlPreset_X[@]}" "$line"
         elif [[ $line =~ 'youtube.com' ]]; then
             youtube-dl \
             --output "$(_GetLinkTitle -l).%(ext)s" \

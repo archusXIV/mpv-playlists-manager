@@ -52,8 +52,7 @@ _DownloadVideoList() {
                 " Downloading $(_GetLinkTitle -l).${nc}"
                 
                 if [[ "$code" =~ '+' && $(_GetLinkTitle -l) =~ '/' ]]; then
-                    youtube-dl "${ytdlPreset_FS[@]}" \
-                    --format "$code" \
+                    youtube-dl --format "$code" \
                     "${ytdlPreset_X[@]}" "$downloadVideoUrl"
                 elif [[ "$code" =~ '+' ]]; then
                     youtube-dl --format "$code" \

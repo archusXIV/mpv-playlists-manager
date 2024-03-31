@@ -34,8 +34,8 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog
+- Fixed bugs in _ChooseDownloadVideo function.
 - Added parallel conversion progress bar.
-- Fixed some bugs and improve some functions.
 - If we pass a argument that does not exist, ensure we get a warning.
 - Using jq's magick to parse ytfzf output to grab video/audio urls/titles in _SearchOnlineWithYtfzf function.
 
@@ -91,7 +91,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When we use a [terminal user interface](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png) for mpv, the main window looks like this.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.7-2.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.7-3.png)
 
 
 ```

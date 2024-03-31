@@ -179,12 +179,14 @@ ytdlPreset_NC=(
     "${ytdlPreset_BR[@]}"
     "${ytdlPreset_DW[@]}"
     "${ytdlPreset_DP[@]}"
+    "${ytdlPreset_FS[@]}"
 )
 # combined presets
 ytdlPreset_X=(
-    "${ytdlPreset_DN[@]}"
-    "${ytdlPreset_BR[@]}"
     "${ytdlPreset_MF[@]}"
+    "${ytdlPreset_DN[@]}"
+    "${ytdlPreset_FS[@]}"
+    "${ytdlPreset_BR[@]}"
     "${ytdlPreset_DW[@]}"
     "${ytdlPreset_DP[@]}"
 )

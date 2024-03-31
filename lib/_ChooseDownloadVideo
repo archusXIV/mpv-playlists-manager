@@ -57,18 +57,17 @@ _ChooseDownloadVideo() {
                 printf '%s\n' " ${info}$counter file(s) left to downloads." \
                 " Downloading: $(_GetLinkTitle -s)${nc}"
                 
-                if [[ $line =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]; then
+                if [[ $url =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]; then
                     # downloader presets described in ~/.config/mpm/mpmrc
-                    youtube-dl "${ytdlPreset_FS[@]}" \
-                    --format "$code" "${ytdlPreset_X[@]}" "$line"
-                elif [[ $line =~ 'youtube.com' ]]; then
+                    youtube-dl --format "$code" "${ytdlPreset_X[@]}" "$url"
+                elif [[ $url =~ 'youtube.com' ]]; then
                     youtube-dl \
                     --output "$(_GetLinkTitle -s).%(ext)s" \
-                    --format "$code" "${ytdlPreset_X[@]}" "$line"
+                    --format "$code" "${ytdlPreset_X[@]}" "$url"
                 else
                     youtube-dl \
                     --output "$(_GetLinkTitle -s).%(ext)s" \
-                    --format "$code" "${ytdlPreset_NC[@]}" "$line"
+                    --format "$code" "${ytdlPreset_NC[@]}" "$url"
                 fi
 
                 sed -i '1d' "$SELECTEDTITLES"

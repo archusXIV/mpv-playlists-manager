@@ -13,8 +13,7 @@ _ChooseDirectVideoDownload() {
     clear
     cp -f "$list" "$list"_origin
     cp -f "$SELECTEDTITLES" "$SELECTEDTITLES"_orgin
-    mkdir --parents "$videos_dir"/"${list%.*}" \
-    && cd "$videos_dir"/"${list%.*}"
+    mkdir --parents "$videos_dir"/"${list%.*}" && cd "$videos_dir"/"${list%.*}"
     
     readarray -t DIRECT < "$CHOOSE1"
     counter="${#DIRECT[@]}"
@@ -32,8 +31,7 @@ _ChooseDirectVideoDownload() {
 
         if [[ $line =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]; then
             # downloader presets described in ~/.config/mpm/mpmrc
-            youtube-dl "${ytdlPreset_FS[@]}" \
-            "${ytdlPreset_X[@]}" "$line"
+            youtube-dl "${ytdlPreset_X[@]}" "$line"
         elif [[ $line =~ 'youtube.com' ]]; then
             youtube-dl \
             --output "$(_GetLinkTitle -s).%(ext)s" \
