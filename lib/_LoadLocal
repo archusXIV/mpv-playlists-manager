@@ -1,11 +1,12 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2034
+# shellcheck disable=SC2015,SC2154,SC2034
 _LoadLocal() {
 
     local AUDIOS VIDEOS MEDIA_DIR dir
     # we use -maxdepth 2 in case our directories are in subdirectories.
+    # like ~/Documents/Music instead of ~/Music
     AUDIOS=$(find "$HOME" -maxdepth 2 -type d -wholename "$MUSIC_DIR")
     VIDEOS=$(find "$HOME" -maxdepth 2 -type d -wholename "$VIDEO_DIR")
 
@@ -13,25 +14,17 @@ _LoadLocal() {
     -p " ${info}Play: [1] Audio dir, [2] Audio files, [3] Video dir or [4] Video files?: ${nc}"
 
     case "$REPLY" in
-        1)
-            MEDIA_DIR="$AUDIOS"
+        1|3)
+            [[ $REPLY = 1 ]] && MEDIA_DIR="$AUDIOS" || MEDIA_DIR="$VIDEOS"
             _ReplaceSpaces -l
             clear
             __
             _SelectLocalDir
         ;;
-        2)
-            clear; "$FILEMANAGER" "$AUDIOS"; _Menu
-        ;;
-        3)
-            MEDIA_DIR="$VIDEOS"
-            _ReplaceSpaces -l
-            clear
-            __
-            _SelectLocalDir
-        ;;
-        4)
-            clear; "$FILEMANAGER" "$VIDEOS"; _Menu
+        2|4)
+            [[ $REPLY = 2 ]] && {
+                clear; "$FILEMANAGER" "$AUDIOS"; _Menu
+            } || clear; "$FILEMANAGER" "$VIDEOS"; _Menu
         ;;
         *)
             _WrongOption "$choice"

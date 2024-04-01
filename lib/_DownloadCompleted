@@ -12,7 +12,7 @@ _DownloadCompleted() {
                 "$titles_dir"/"$list".titles_origin "$CHOOSE1" "$CHOOSE2" )
 
         # _GetLinesList only counts lines starting with 'https'
-        if (( $(_GetLinesList -l) > 0 )); then
+        if [[ $(_GetLinesList -l) -gt 0 ]]; then
             if [[ $keep_none_empty_playlist = yes ]]; then
                 unset {FILES[0],FILES[2]}
                 rm -f "${FILES[@]}" 2>/dev/null

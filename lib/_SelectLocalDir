@@ -4,16 +4,16 @@
 # shellcheck disable=SC2154
 _SelectLocalDir() {
         
-    cd "$MEDIA_DIR"/"$dir" || exit 1
+    cd "$MEDIA_DIR" || exit 1
 
     echo -e " ${info}Directories in ${MEDIA_DIR##*/}: ${nc}\n"
 
-    PS3=""$'\n'" ${info}Your selection number: ${nc}"
+    PS3=""$'\n'" ${info}Select a directory number: ${nc}"
 
     select dir in $(find -L "$MEDIA_DIR" -maxdepth 1 -type d -not -name \
         "$(echo "$MEDIA_DIR" | awk -F"/" '{print $NF}')" | sort | sed 's,.*/,,'); do
         
-        if [[ $(find "$MEDIA_DIR"/"$dir" -type d -empty) ]]; then
+        if [[ $(find "$MEDIA_DIR"/"$dir" -type d -name "$dir" -empty) ]]; then
             __
             printf '%s\n' " ${critical}$dir is empty. Wait and try again...${nc}"
             sleep 3
@@ -25,14 +25,17 @@ _SelectLocalDir() {
             printf '%s\n' " ${info}Scanning $dir supported formats by mpv${nc}"
             sleep 1
             ! find "$MEDIA_DIR"/"$dir" -maxdepth 1 -type f \
-            -exec file -N -i -- {} + | grep -q -E 'audio|video' && {
+            -exec file -N -i -- {} + | grep -q -E '[aA]udio|[vV]ideo' && {
                 __
                 printf '%s\n' " ${critical}$dir does not contain supported formats by mpv" \
-                " wait and try again...${nc}"
-                sleep 3
-                continue
+                " or some files aren't audio/video stuff," \
+                " they may be in subdirectories...${nc}"; __
+                _Prompt " ${info}Do you want to open $dir and try again? ${nc}" || {
+                    continue
+                }
+                "$FILEMANAGER" "$dir"
             }
-
+            
             clear
 
             if [[ $use_mpvc = yes ]]; then
@@ -44,7 +47,7 @@ _SelectLocalDir() {
             fi
             break
         fi
-
+        
     done
 
 }

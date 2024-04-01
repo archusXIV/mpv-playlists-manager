@@ -13,12 +13,22 @@ _EditPlaylist() {
             -o -name "*.m3u_origin" | sort -d | sed 's,.*/,,'); do
             __
             read -rsn 1 -p \
-            "${info}"' [E]dit urls manually, [R]emove titles.'"${nc}" edit
+            "${info}"' [E]dit urls manually, re[N]ame playlist, [R]emove titles.'"${nc}" edit
+            __
             if [[ $edit =~ e|E ]]; then
                 $MPMEDITOR "$list"
                 echo -e " ${info}$list saved${nc}\n"
                 [[ $(grep "" -c "$titles_dir/$list.titles") \
                 -ne $(_GetLinesList -l) ]] && _TitlesListCompare
+            elif [[ $edit =~ n|N ]]; then
+                __
+                read -r -p " ${info}Enter a new name for $list: ${nc}" newname
+                mv "$list" "$newname".m3u
+                mv "$titles_dir/$list.titles" "$titles_dir/$newname.m3u.titles"
+                _ReplaceSpaces -s
+                __
+                printf '%s\n' " ${critical}${list%%.*} renamed as $newname.${nc}"
+                sleep 2
             elif [[ $edit =~ r|R ]]; then
                 clear
                 _TitlesListCompare -l
@@ -29,24 +39,13 @@ _EditPlaylist() {
             fi
             __
             read -rsn 1 \
-            -p "${info}"' [C]ontinue editing, [B]ack to menu or [Q]uit.'"${nc}" again
+            -p "${info}"' [C]ontinue editing, [B]ack to menu.'"${nc}" again
             case "$again" in
                 c|C)
                     break
                 ;;
                 b|B)
                     _Menu
-                ;;
-                q|Q)
-                    __;__
-                    if [[ -s "$AUDIO_URLS" || -s "$VIDEO_URLS" ]]; then
-                        _SaveOnExit
-                    else
-                        nc=$'\e[0m';
-                        echo "${nc}"
-                        clear
-                        exit 0
-                    fi
                 ;;
                 *)
                     _WrongOption "$again"
