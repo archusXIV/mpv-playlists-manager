@@ -149,7 +149,7 @@ Requests and contributions? Why not, have fun.
 - [mpv](https://mpv.io/)
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
-# Optionals
+# Optionals (but recommanded for better experience)
 - [fzf](https://github.com/junegunn/fzf), [ytfzf](https://github.com/pystardust/ytfzf)
 - [mpvc](https://github.com/lwilletts/mpvc) [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc)
 - [parallel](https://www.gnu.org/software/parallel/)
