@@ -8,20 +8,17 @@ _CleanTmpDir() {
     
     cd "$tmp_dir" || exit 1
     
-    if [[ -s "$DEFAULTITLES" ]]; then
-        cp -f "$DEFAULTITLES" "$DEFAULTM3UTITLES"
-    elif [[ -f "$DEFAULTM3UTITLES" && ! -f "$DEFAULTITLES" ]]; then
-        rm "$DEFAULTM3UTITLES"
-    fi
+    test -s "$DEFAULTITLES" && \
+    cp -f "$DEFAULTITLES" "$DEFAULTM3UTITLES"
 
     if pgrep -x mpv >/dev/null; then
         find . -type f \
         -not -name "$(awk -F"/" '{print $NF}' "$NOWPLAYING")" \
         -not -name 'nowPlaying' -exec rm {} \;
-        rm -f "$playlists_dir"/*_tmp 2>/dev/null
+        rm -f "$playlists_dir"/*_tmp
     else
         rm -f \
-        {"$tmp_dir"/*,"$playlists_dir"/*_tmp} 2>/dev/null
-    fi
+        {"$tmp_dir"/*,"$playlists_dir"/*_tmp}
+    fi 2>/dev/null
     
 }

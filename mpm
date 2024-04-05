@@ -31,7 +31,7 @@ pids=($(pidof -x $mpvmenu))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.1.7-4"
+VERSION="v.1.7-5"
 
 : "${XDG_CONFIG_HOME:-$HOME/.config}"
 CONF_DIR="$XDG_CONFIG_HOME/mpm"

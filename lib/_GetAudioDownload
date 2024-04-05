@@ -6,20 +6,20 @@ _GetAudioDownload() {
     
     mapfile -t AUDIOLINKS < <(grep '^https' "$M3UFILE")
     
-    for getAudioUrl in "${AUDIOLINKS[@]}"; do
+    for url in "${AUDIOLINKS[@]}"; do
         _GetAudioDownloadMessages
-        if [[ $(youtube-dl -F "${ytdlPreset_DW[@]}" "$getAudioUrl" \
+        if [[ $(youtube-dl -F "${ytdlPreset_DW[@]}" "$url" \
             | grep '^251') ]]; then
             __
             if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
-                youtube-dl --format 251 "${ytdlPreset_FS[@]}" \
-                "${ytdlPreset_NC[@]}" "$getAudioUrl"
+                youtube-dl --format 251 \
+                "${ytdlPreset_NC[@]}" "$url"
             else
                 youtube-dl --output "$(sed -n '1p' "$TITLES").%(ext)s" \
-                --format 251 "${ytdlPreset_NC[@]}" "$getAudioUrl"
+                --format 251 "${ytdlPreset_NC[@]}" "$url"
             fi
         else
-            youtube-dl -F "${ytdlPreset_DW[@]}" "$getAudioUrl" \
+            youtube-dl -F "${ytdlPreset_DW[@]}" "$url" \
             | awk '/audio only|PROTO|^[-]/ {sub("^[sb*]",""); print $0}'
             __
             printf '%s\n' " ${info}Choose a format code: ${nc}"
@@ -28,10 +28,10 @@ _GetAudioDownload() {
             __
             if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
                 youtube-dl --format "$code" "${ytdlPreset_FS[@]}" \
-                "${ytdlPreset_NC[@]}" "$getAudioUrl"
+                "${ytdlPreset_NC[@]}" "$url"
             else
                 youtube-dl --output "$(sed -n '1p' "$TITLES").%(ext)s" \
-                --format "$code" "${ytdlPreset_NC[@]}" "$getAudioUrl"
+                --format "$code" "${ytdlPreset_NC[@]}" "$url"
             fi
         fi
 
@@ -45,4 +45,5 @@ _GetAudioDownload() {
         clear
 
     done
+    unset url
 }

@@ -5,6 +5,7 @@
 _DeleteUrls() {
 
     cd "$tmp_dir" || exit 1
+    
     declare -a tmps=(
         "$AUDIO_URLS" "$AUDIO_TITLES"
         "$VIDEO_URLS" "$VIDEO_TITLES"
@@ -18,22 +19,22 @@ _DeleteUrls() {
         for w in "${tmps[@]:10:13}"; do
             if [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING") =~ $w ]]; then
                 [[ $w = "${tmps[10]}" ]] && {
-                    unset {tmps[0],tmps[1],tmps[7]}
+                    unset {tmps[0],tmps[1],tmps[7],tmps[10]}
                     sed -i '/^[[:alpha:]]/d' "$QUEUE"
                 }
                 [[ $w = "${tmps[11]}" ]] && {
-                    unset {tmps[2],tmps[3],tmps[7]}
+                    unset {tmps[2],tmps[3],tmps[7],tmps[11]}
                     sed -i '/^[[:alpha:]]/d' "$QUEUE"
                 }
-                [[ $w = "${tmps[12]}" ]] && unset {tmps[6],tmps[7]}
+                [[ $w = "${tmps[12]}" ]] && unset {tmps[6],tmps[7],tmps[12]}
                 [[ $w = "${tmps[13]}" ]] && {
-                    unset {tmps[7],tmps[8]}
+                    unset {tmps[7],tmps[9],tmps[13]}
                     sed -i '/^[[:alpha:]]/d' "$QUEUE"
                 }
             fi
         done
         
-        if [[ -f $NOWPLAYING && $(find . -name "*.m3u" | wc -l) -ge 1 ]]; then
+        if [[ -f $NOWPLAYING && $(find . -name "*.m3u" | wc -l) -ge 2 ]]; then
             __
             printf '%s\n' " ${critical}All Temporary lists cleared," \
             " except $(awk -F"/" '{print $NF}' "$NOWPLAYING").${nc}"
@@ -54,5 +55,4 @@ _DeleteUrls() {
         sleep 2
     fi
 
-    _Menu
 }

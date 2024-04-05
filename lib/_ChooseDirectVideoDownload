@@ -13,40 +13,36 @@ _ChooseDirectVideoDownload() {
     clear
     cp -f "$list" "$list"_origin
     cp -f "$SELECTEDTITLES" "$SELECTEDTITLES"_orgin
-    mkdir --parents "$videos_dir"/"${list%.*}" && cd "$videos_dir"/"${list%.*}"
+    mkdir --parents "$videos_dir"/"${list%.*}" \
+    && cd "$videos_dir"/"${list%.*}"
     
-    readarray -t DIRECT < "$CHOOSE1"
-    counter="${#DIRECT[@]}"
+    counter=$(grep "" -c "$CHOOSE1")
     
-    for line in "${DIRECT[@]}"; do
-
-        if [[ $direct_download = yes ]]; then
-            printf '%s\n' " ${task}Direct download enabled.${nc}"
-        else
+    while read -r url; do
+        [[ $direct_download = yes ]] && \
+            printf '%s\n' " ${task}Direct download enabled.${nc}" || \
             printf '%s\n' " ${task}Download method = direct.${nc}"
-        fi
         __
         printf '%s\n' " ${info}$counter file(s) left to downloads." \
         " Downloading: $(_GetLinkTitle -s)${nc}"
 
-        if [[ $line =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]; then
+        if [[ $url =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]; then
             # downloader presets described in ~/.config/mpm/mpmrc
-            youtube-dl "${ytdlPreset_X[@]}" "$line"
-        elif [[ $line =~ 'youtube.com' ]]; then
-            youtube-dl \
-            --output "$(_GetLinkTitle -s).%(ext)s" \
-            "${ytdlPreset_X[@]}" "$line"
+            youtube-dl "${ytdlPreset_BF[@]}" "${ytdlPreset_X[@]}" "$url"
+        elif [[ $url =~ 'youtube.com' ]]; then
+            youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
+            "${ytdlPreset_X[@]}" "$url"
         else
-            youtube-dl \
-            --output "$(_GetLinkTitle -s).%(ext)s" \
-            "${ytdlPreset_NC[@]}" "$line"
+            youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
+            "${ytdlPreset_NC[@]}" "$url"
         fi
 
         sed -i '1d' "$SELECTEDTITLES"
         ((counter--))
         clear
-    done
+    done < "$CHOOSE1"
 
+    unset url
     echo " ${info}All done${nc}"
     sleep 2
 

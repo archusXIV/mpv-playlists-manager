@@ -33,17 +33,17 @@ _DownloadVideoList() {
             mapfile -t SELECTEDCODES < <(grep '^https' "$playlists_dir"/"$list")
             counter="${#SELECTEDCODES[@]}"
             
-            for downloadVideoUrl in "${SELECTEDCODES[@]}"; do
+            for url in "${SELECTEDCODES[@]}"; do
                 
                 clear
                 __
-                youtube-dl -F "${ytdlPreset_DW[@]}" "$downloadVideoUrl" \
+                youtube-dl -F "${ytdlPreset_DW[@]}" "$url" \
                 | awk '$0 !~ /sb|youtube/{print $0}'
                 __
                 printf '%s\n' " ${critical}If you pick a format from a none m3u8 protocol, download will fail " \
                 " if ffmpeg is set as downloader in your configuration file." \
                 " ${info}Choose a format code for: $(_GetLinkTitle -l)" \
-                " eg: 137+251 for merging, hls-1080p, 22 for single:${nc}"
+                " eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
                 
                 read -r code
                 clear
@@ -53,15 +53,15 @@ _DownloadVideoList() {
                 
                 if [[ "$code" =~ '+' && $(_GetLinkTitle -l) =~ '/' ]]; then
                     youtube-dl --format "$code" \
-                    "${ytdlPreset_X[@]}" "$downloadVideoUrl"
+                    "${ytdlPreset_X[@]}" "$url"
                 elif [[ "$code" =~ '+' ]]; then
                     youtube-dl --format "$code" \
                     --output "$(_GetLinkTitle -l).%(ext)s" \
-                    "${ytdlPreset_X[@]}" "$downloadVideoUrl"
+                    "${ytdlPreset_X[@]}" "$url"
                 else
                     youtube-dl --format "$code" \
                     --output "$(_GetLinkTitle -l).%(ext)s" \
-                    "${ytdlPreset_NC[@]}" "$downloadVideoUrl"
+                    "${ytdlPreset_NC[@]}" "$url"
                 fi
 
                 sed -i '2d' "$playlists_dir"/"$list"
@@ -70,6 +70,7 @@ _DownloadVideoList() {
                 clear
 
             done
+            unset url
         ;;
     esac
 

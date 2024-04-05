@@ -32,7 +32,7 @@ _UpdateSelected() {
             "$titles_dir"/"$list".titles >> "$SELECTEDTITLES"_tmp
             perl -i -ne 'print if ! $a{$_}++' "$SELECTEDTITLES"_tmp
             mv -f "$SELECTEDTITLES"_tmp "$titles_dir"/"$list".titles
-            rm "$SELECTEDTITLES"_orgin
+            rm "$SELECTEDTITLES"{,_orgin}
         ;;
     esac
     

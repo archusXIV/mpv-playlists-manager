@@ -9,10 +9,8 @@ _GetVideo() {
     case "$1" in
         -q)
             __
-            if [[ ! -f $DEFAULTITLES && \
-                -f $DEFAULTM3UTITLES ]]; then
-                cat "$DEFAULTM3UTITLES" > \
-                "$DEFAULTITLES"
+            if [[ ! -f $DEFAULTITLES && -f $DEFAULTM3UTITLES ]]; then
+                cat "$DEFAULTM3UTITLES" > "$DEFAULTITLES"
             elif [[ -f $DEFAULTITLES ]]; then
                 printf '%s\n' " ${info}Fetching titles file...${nc}"
                 sleep 1
@@ -55,8 +53,6 @@ _GetVideo() {
             " Downloading:  $(sed -n '1p' "$TITLES")${nc}"
         }
     )
-
-    cd "$videos_dir" || exit 1
 
     _GetVideoDownload && {
         echo -e " ${info}Done.\n${nc}"

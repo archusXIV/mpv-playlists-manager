@@ -42,6 +42,7 @@ _ChooseDownloadVideo() {
                     __
                     youtube-dl -F "${ytdlPreset_DW[@]}" "$url" \
                     | awk '$0 !~ /sb|youtube/{print $0}'
+                    
                 else
                     youtube-dl -F "${ytdlPreset_DW[@]}" "$url"
                 fi
@@ -76,8 +77,11 @@ _ChooseDownloadVideo() {
 
             done
 
+            unset url
             echo " ${info}All done${nc}"
             sleep 2
+        ;;
+        *) _WrongOption "$choice" && return
         ;;
     esac
 

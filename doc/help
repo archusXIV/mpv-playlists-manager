@@ -1,4 +1,4 @@
-mpm version 1.7-4
+mpm version 1.7-5
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -35,7 +35,7 @@ mpm version 1.7-4
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.1.7-4::
+                                    ::MPV-PLAYLISTS-MANAGER v.1.7-5::
                                    ***********************************
                                 current theme: default. For usage type U
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -134,6 +134,7 @@ mpm version 1.7-4
         Here is the place where by editing our collection we can add or remove links
         manually (titles will be updated online) or by removing titles from a prompt,
         in that case corresponding urls will be removed.
+        Renaming the playlist is also provided (choose option 'n').
 
     9) Edit mpm config (mpmrc):
 

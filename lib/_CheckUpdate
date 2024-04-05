@@ -5,12 +5,14 @@
 _CheckUpdate() {
 
     local UPD
-    UPD=$(curl -sL "https://raw.githubusercontent.com/archusXIV/mpv-playlists-manager/main/version")
+    UPD=$(
+        curl \
+        -sL "https://raw.githubusercontent.com/archusXIV/mpv-playlists-manager/main/version"
+    )
     
-    if [[ $check_updates = yes ]]; then
+    [[ $check_updates = yes ]] && {
         [[ $UPD != "$VERSION" ]] && \
         printf '%s\n' " ${critical}${b}$UPD available${nb}${nc}"
-    else
-        echo ""
-    fi
+    }
+
 }

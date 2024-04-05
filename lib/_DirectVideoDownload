@@ -13,32 +13,31 @@ _DirectVideoDownload() {
     mkdir --parents "$videos_dir"/"${list%.*}" \
     && cd "$videos_dir"/"${list%.*}"
 
-    mapfile -t DIRECT < <(grep '^https' "$playlists_dir"/"$list")
-    counter="${#DIRECT[@]}"
-    
-    for line in "${DIRECT[@]}"; do
+    counter=$(grep '^https' -c "$playlists_dir"/"$list")
 
+    while read -r url; do
+        
         printf '%s\n' " ${info}$counter file(s) left to download." \
         " Downloading: $(_GetLinkTitle -l)${nc}"
         
-        if [[ $line =~ 'youtube.com' && $(_GetLinkTitle -l) =~ '/' ]]; then
-            youtube-dl "${ytdlPreset_X[@]}" "$line"
-        elif [[ $line =~ 'youtube.com' ]]; then
+        if [[ $url =~ 'youtube.com' && $(_GetLinkTitle -l) =~ '/' ]]; then
+            youtube-dl "${ytdlPreset_X[@]}" "$url"
+        elif [[ $url =~ 'youtube.com' ]]; then
             youtube-dl \
             --output "$(_GetLinkTitle -l).%(ext)s" \
-            "${ytdlPreset_X[@]}" "$line"
+            "${ytdlPreset_X[@]}" "$url"
         else
             youtube-dl \
             --output "$(_GetLinkTitle -l).%(ext)s" \
-            "${ytdlPreset_NC[@]}" "$line"
+            "${ytdlPreset_NC[@]}" "$url"
         fi
-
-        ((counter--))
 
         sed -i '2d' "$playlists_dir"/"$list"
         sed -i '1d' "$titles_dir"/"$list".titles
+        ((counter--))
         clear
 
-    done
+    done < <(grep '^https' "$playlists_dir"/"$list")
 
+    unset url
 }

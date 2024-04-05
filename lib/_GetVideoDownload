@@ -8,9 +8,9 @@ _GetVideoDownload() {
 
     mapfile -t VIDEOLINKS < <(grep '^https' "$M3UFILE")
     
-    for getVideoUrl in "${VIDEOLINKS[@]}"; do
+    for url in "${VIDEOLINKS[@]}"; do
         __
-        youtube-dl -F "${ytdlPreset_DW[@]}" "$getVideoUrl" \
+        youtube-dl -F "${ytdlPreset_DW[@]}" "$url" \
         | awk '$0 !~ /sb|youtube/{print $0}'
         __
         __chooseFormatMessages
@@ -25,22 +25,22 @@ _GetVideoDownload() {
             # we have to differenciate titles files because of _GetLinkTitle function.
             if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
                 youtube-dl --format "$code" "${ytdlPreset_FS[@]}" \
-                "${ytdlPreset_X[@]}" "$getVideoUrl"
+                "${ytdlPreset_X[@]}" "$url"
             else
                 youtube-dl --format "$code" \
                 --output "$(sed -n '1p' "$TITLES").%(ext)s" \
-                "${ytdlPreset_X[@]}" "$getVideoUrl"
+                "${ytdlPreset_X[@]}" "$url"
             fi
             
         else
         
             if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
                 youtube-dl --format "$code" "${ytdlPreset_FS[@]}" \
-                "${ytdlPreset_NC[@]}" "$getVideoUrl"
+                "${ytdlPreset_NC[@]}" "$url"
             else
                 youtube-dl --format "$code" \
                 --output "$(sed -n '1p' "$TITLES").%(ext)s" \
-                "${ytdlPreset_NC[@]}" "$getVideoUrl"
+                "${ytdlPreset_NC[@]}" "$url"
             fi
             
         fi
@@ -55,5 +55,6 @@ _GetVideoDownload() {
         fi
 
     done
+    unset url
 
 }

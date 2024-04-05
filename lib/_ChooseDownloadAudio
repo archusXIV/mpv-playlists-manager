@@ -21,21 +21,39 @@ _ChooseDownloadAudio() {
     counter="${#SELECTEDAUDIO[@]}"
     
     __chooseDownloadAudioMessage() (
+        __
         printf '%s\n' " ${info}$counter file(s) left to downloads." \
         " Downloading: $(_GetLinkTitle -s)${nc}"
     )
     
-    for url in "${SELECTEDAUDIO[@]}"; do
+    __chooseDownloadAudioFormat() (
+        __
+        printf '%s\n' " ${info}Choose a format code for: $(_GetLinkTitle -s)${nc}"
+        read -r code
+        clear
+        __chooseDownloadAudioMessage
+        if [[ $(_GetLinkTitle -s) =~ '/' ]]; then
+            youtube-dl --format "$code" "${ytdlPreset_NC[@]}" "$url"
+        else
+            youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
+            --format "$code" "${ytdlPreset_NC[@]}" "$url"
+        fi
+    )
 
+    for url in "${SELECTEDAUDIO[@]}"; do
+        # [[ $url =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]
         if [[ $direct_download = yes ]] && \
             [[ $(youtube-dl -F "${ytdlPreset_DW[@]}" "$url" \
             | grep '^251') ]]; then
 
             printf '%s\n' " ${task}Direct download enabled.${nc}"
-            __
             __chooseDownloadAudioMessage
-            youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
-            --format 251 "${ytdlPreset_NC[@]}" "$url"
+            if [[ $(_GetLinkTitle -s) =~ '/' ]]; then
+                youtube-dl --format 251 "${ytdlPreset_NC[@]}" "$url"
+            else
+                youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
+                --format 251 "${ytdlPreset_NC[@]}" "$url"
+            fi
 
         elif [[ $direct_download = no ]] && [[ $url =~ 'youtube.com' ]]; then
             __
@@ -43,27 +61,10 @@ _ChooseDownloadAudio() {
             __
             youtube-dl -F "${ytdlPreset_DW[@]}" "$url" \
             | awk '/audio only|PROTO|^[-]/ {sub("^[sb*]",""); print $0}'
-            __
-            printf '%s\n' " ${info}Choose a format code for: $(_GetLinkTitle -s)${nc}"
-            read -r code
-            clear
-            __
-            __chooseDownloadAudioMessage
-            
-            youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
-            --format "$code" "${ytdlPreset_NC[@]}" "$url"
-
+            __chooseDownloadAudioFormat
         else
-
             youtube-dl -F "${ytdlPreset_DW[@]}" "$url"
-            printf '%s\n' " ${info}Choose a format code for: $(_GetLinkTitle -s)${nc}"
-            read -r code
-            clear
-            __
-            __chooseDownloadAudioMessage
-            youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
-            --format "$code" "${ytdlPreset_NC[@]}" "$url"
-
+            __chooseDownloadAudioFormat
         fi
 
         sed -i '1d' "$SELECTEDTITLES"
@@ -72,6 +73,7 @@ _ChooseDownloadAudio() {
 
     done
 
+    unset url
     _UpdateSelected -u
     clear
     echo -e " ${info}Done${nc}\n"
