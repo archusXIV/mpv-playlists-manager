@@ -3,9 +3,19 @@
 
 # shellcheck disable=SC2154
 _CheckDependencies() {
-    ## Checking dependencies: softwares, directories and files.
-    declare -a DEPS=( "ffmpeg" "jq" "mpv" "yt-dlp" \
-                    "fzf" "parallel" "ueberzug" "wmctrl" "w3m" "youtube-dl" )
+    ## Checking dependencies: softwares, directories, files & variables.
+    declare -a DEPS=(
+        "ffmpeg"
+        "jq"
+        "mpv"
+        "yt-dlp"
+        "fzf"
+        "parallel"
+        "ueberzug"
+        "wmctrl"
+        "w3m"
+        "youtube-dl"
+    )
 
     for dep in "${DEPS[@]:0:4}"; do
         ! command -v "$dep" >/dev/null && {
@@ -37,8 +47,8 @@ _CheckDependencies() {
     }
 
     command -v "$FILEMANAGER" >/dev/null || {
-        printf '%s\n' " No terminal file manager found."
-        notify-send -t 0 -u critical "No terminal file manager found."
+        printf '%s\n' " ${critical}$FILEMANAGER not found.${nc}"
+        notify-send -t 0 -u critical "$FILEMANAGER not found."
         sleep 3
     }
 
@@ -58,7 +68,7 @@ _CheckDependencies() {
     
     cp -f /usr/local/share/doc/mpm/mpm_yt-videos.m3u "$playlists_dir"
     cp -f /usr/local/share/doc/mpm/mpm_yt-videos.m3u.titles "$titles_dir"
-
+    
     [[ ! -f $QUEUE ]] && echo "#EXTM3U" > "$QUEUE"
 
     _StartUp
