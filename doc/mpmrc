@@ -109,8 +109,8 @@ use_parallel="no"
 # (will appear in main menu)
 automatic_audio_conversion="no"
 
-# default audio conversion format {mp3,flac,wav,ogg},
-# mp3 & ogg in 320k, flac & wav are lossless.
+# default audio conversion format {aac,mp3,flac,wav,ogg},
+# aac, mp3 & ogg in 320k, flac & wav are lossless.
 # if value is empty you will be prompted.
 # (will appear in main menu)
 default_conversion_format="mp3"
