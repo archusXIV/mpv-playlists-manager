@@ -15,9 +15,7 @@ aac, flac, mp3, ogg, or wav. You can switch encoders by editing the config file 
 - [Supported websites](https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md)
 
 
-Older version but still valide video (french spoken) link: https://www.youtube.com/watch?v=7OWO1vRL77A
-
-New one coming soon...
+[Youtube dedicated channel](https://www.youtube.com/@mpv-playlists-manager-mv8sh/featured)
 
 ## can be launch also from these commands
 
