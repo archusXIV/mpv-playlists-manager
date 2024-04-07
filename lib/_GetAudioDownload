@@ -45,5 +45,10 @@ _GetAudioDownload() {
         clear
 
     done
+
     unset url
+    echo -e " ${info}Done\n${nc}"
+    sleep 2
+    _IfWebmFiles
+
 }

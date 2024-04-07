@@ -51,8 +51,4 @@ _GetAudio() {
 
     _GetAudioDownload
 
-    echo -e " ${info}Done\n${nc}"
-
-    _IfWebmFiles
-
 }

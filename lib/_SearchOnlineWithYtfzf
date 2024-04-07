@@ -3,17 +3,20 @@
 
 # shellcheck disable=SC2154
 _SearchOnlineWithYtfzf() {
+    clear
     __
     printf '%s\n' " ${critical}Tip: To select mutiple links in the ytfzf menu press ${task}Tab" \
     " ${critical}on the desired ${Type} titles, ${task}Ctrl P${critical} to view next page...etc" \
-    " then ${task}Enter ${critical}to confirm and go back in $menuTitleType OPTIONS menu.${nc}"
+    " then ${task}Enter ${critical}to confirm and go back in $menuTitleType OPTIONS menu." \
+    " ${mtitle}Use quotes for multiple search terms.${nc}"
     __
     read -rp " ${info}Search for online ${Type} links: ${nc}" request
 
     if [[ -n $request ]]; then
-        # ytfzf_options are defined in ~/.config/mpm/mpmrc
-        # those flags will display thumbnails and whrite a json file
-        ytfzf -tI VJ "${ytfzfOptions_X[@]}" "$request$*" >> "$tmp_dir"/ytfzf.json
+        # ytfzfOptions_X are defined in ~/.config/mpm/mpmrc
+        ytfzf \
+            --show-thumbnails \
+            -I VJ "${ytfzfOptions_X[@]}" "$request$*" >> "$tmp_dir"/ytfzf.json
         
         clear
         test ! -s "$tmp_dir"/ytfzf.json && return

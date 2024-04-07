@@ -5,7 +5,7 @@
 _RemoveAudioVideoCommon() {
 
     test ! -s $tmpList && {
-        printf '%s\n' " ${critical}No links in the $Type list${nc}"
+        printf '%s\n' " ${critical}No more links in the $Type list${nc}"
         sleep 2
         _CreateAddPlaylist $arg
     }

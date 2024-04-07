@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2015
 _ViewUrlInfo() {
 
     local stars
@@ -48,16 +48,16 @@ _ViewUrlInfo() {
     __audioVideoCommon() {
         if [[ -s $URLS ]]; then
             __listHeader
-            read -rsn 1 audioOptions
-            case "$audioOptions" in
+            read -rsn 1 audioVideoCommonOptions
+            case "$audioVideoCommonOptions" in
                 a|A) __; _CreateAddPlaylist "$arg" ;;
                 m|M) _Menu ;;
-                d|D) _GetAudio "$arg" ;;
+                d|D) [[ $arg = '-a' ]] && _GetAudio -a || _GetVideo -v ;;
                 p|P) _LoadAudioVideo "$arg" ;;
                 r|R) _Remove "$arg" ;;
                 s|S) _Save "$arg" ;;
                 *)
-                    _WrongOption "$audioOptions"
+                    _WrongOption "$audioVideoCommonOptions"
                     return
                 ;;
             esac

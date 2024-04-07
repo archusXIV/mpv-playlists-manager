@@ -17,8 +17,7 @@ _CleanTmpDir() {
         -not -name 'nowPlaying' -exec rm {} \;
         rm -f "$playlists_dir"/*_tmp
     else
-        rm -f \
-        {"$tmp_dir"/*,"$playlists_dir"/*_tmp}
+        rm -f {"$tmp_dir"/*,"$playlists_dir"/*_tmp}
     fi 2>/dev/null
     
 }

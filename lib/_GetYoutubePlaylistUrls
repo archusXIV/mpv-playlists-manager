@@ -20,30 +20,28 @@ _GetYoutubePlaylistUrls() {
             # there might be several playlists urls selected in 
             # _Search{Online,Youtube}With functions so we enter in a loop.
             for url in "${MAPFILE[@]}"; do
-
                 __
                 printf '%s\n' \
                 " ${info}Please be patient while extracting urls/titles from:" \
-                " $(youtube-dl "${ytdlPreset_DW[@]}" -J --flat-playlist \
-                "$(sed -n '1p' "$YTSEARCH")" | jq -r .title) playlist...${nc}"
+                " $(youtube-dl "${ytdlPreset_DW[@]}" -J --flat-playlist "$url" \
+                | jq --raw-output .title) playlist...${nc}"
 
                 youtube-dl "${ytdlPreset_DW[@]}" -j "$url" \
-                | jq '(.webpage_url)' | sed 's/"//g' \
+                | jq --raw-output '(.webpage_url)' \
                 | tee -a "$QUEUE" >> "$URLS"
                 
-                _YtdlGetTitle "$(sed -n '1p' "$YTSEARCH")" \
+                _YtdlGetTitle "$url" \
                 | tee -a "$TITLES" >> "$DEFAULTITLES"
                 sed -i '1d' "$YTSEARCH"
                 clear
-                
             done
             
+            unset url
             sed -i '/playlist/d' {"$QUEUE","$URLS"}
             _RemoveCrap
-
-            rm "$YTSEARCH"; sleep 1s
-
+            rm "$YTSEARCH"
             clear && return
+            
         ;;
         -v)
             __audioVideoPlaylist

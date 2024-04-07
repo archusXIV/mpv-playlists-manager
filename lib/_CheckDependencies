@@ -31,6 +31,7 @@ _CheckDependencies() {
                 # should run only once
                 mkdir -p "$HOME"/.local/bin
                 PATH="$HOME/.local/bin:$PATH"
+                export PATH
                 ln -s /usr/bin/yt-dlp "$HOME"/.local/bin/youtube-dl
             else
                 printf '%s\n' " For better experience consider installing $opt."

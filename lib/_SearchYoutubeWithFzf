@@ -15,10 +15,11 @@ _SearchYoutubeWithFzf() {
     mediaLinkIDS mediaPrefix playlistLinkIDS playlistPrefix
 
     if [[ -z $* ]]; then
+        clear
         __
         printf '%s\n' " ${critical}Tip: To copy links in the fzf menu press ${task}Enter" \
         " ${critical}on the desired ${Type} titles (can be a playlist)," \
-        " note that multi selection is not implemented" \
+        " note that multi selection is not supported," \
         " so ${task}press Enter ${critical}on each title and then press ${task}Escape ${critical}to confirm.${nc}"
         __
         read -rp " ${info}Search for youtube ${Type} (no quotes): ${nc}" request
@@ -64,10 +65,12 @@ _SearchYoutubeWithFzf() {
     playlistPrefix="https://www.youtube.com/playlist?list="
 
     while true; do
-        selection=$(echo -e "$IDS" | cut -d'	' -f2 \
-        | fzf \
-        --prompt='Filter: ' \
-        --header "${info}${b}"'Press Enter to copy, Escape to confirm & exit search: '"${nb}${nc}")
+        selection=$(
+            echo -e "$IDS" | cut -d'	' -f2 \
+            | fzf \
+            --prompt='Filter: ' \
+            --header "${info}${b}"'Press Enter to copy, Escape to confirm & exit search: '"${nb}${nc}"
+        )
 
         # grep a fixed string that is a word and matches only one line in selection.
         id=$(echo -e "$IDS" | grep -Fwm1 "$selection" | cut -d'	' -f1)

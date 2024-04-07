@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.7-5)
+# ~/.config/mpm/mpmrc (version 1.7-6)
 
 ########################################################
 #                                                      #
@@ -149,7 +149,9 @@ mpvGenOptions_X=(
 )
 # audio/video rendering formats
 mpvAudioFormatOptions=( --ytdl-format='bestaudio/best' )
-mpvVideoFormatOptions=( --ytdl-format='299+251/298+251/137+251/136+251/best' )
+# mpvVideoFormatOptions=( --ytdl-format='299+251/298+251/137+251/136+251/best' )
+# should run smoothly
+mpvVideoFormatOptions=( --ytdl-format='bestvideo+bestaudio/best' )
 
 mpvVideoOptions_DM=( --demuxer-max-bytes=512MiB )
 mpvVideoOptions_DR=( --demuxer-readahead-secs=60 )

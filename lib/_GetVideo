@@ -54,9 +54,6 @@ _GetVideo() {
         }
     )
 
-    _GetVideoDownload && {
-        echo -e " ${info}Done.\n${nc}"
-        sleep 2
-        _GetCompleted -v
-    }
+    _GetVideoDownload
+    
 }
