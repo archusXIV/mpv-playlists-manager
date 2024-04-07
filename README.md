@@ -143,6 +143,7 @@ Requests and contributions? Why not, have fun.
 - [ffmpeg](https://ffmpeg.org/)
 - [jq](https://stedolan.github.io/jq/)
 - [mpv](https://mpv.io/)
+- [vim](https://www.vim.org/) (or any terminal text editor)
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
 # Optionals
@@ -152,7 +153,6 @@ Requests and contributions? Why not, have fun.
 - [parallel](https://www.gnu.org/software/parallel/)
 - [ranger](https://github.com/ranger/ranger) (see the help option for details)
 - [ueberzug](https://github.com/ueber-devel/ueberzug) (might be in your distro's repo)
-- [vim](https://www.vim.org/) (set as the MPMEDITOR)
 - [w3m](https://w3m.sourceforge.net/) (to display thumbnails in URxvt/xterm)
 - [wmctrl](https://github.com/dancor/wmctrl)
 - [youtube-dl](https://github.com/ytdl-org/youtube-dl) (see below)
