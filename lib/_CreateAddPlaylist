@@ -75,12 +75,32 @@ _CreateAddPlaylist() {
             _ResizeWindow
             clear
             
-            [[ -s $YTSEARCH ]] \
-            && _GetYoutubePlaylistUrls -s
+            test -s "$YTSEARCH" && _GetYoutubePlaylistUrls -s
             __
-            [[ -s $URLS ]] && \
+            test -s "$URLS"  && \
             echo -e " ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}"
             __
+            [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ $Type ]] && {
+                pgrep -x mpv >/dev/null && {
+                    printf '%s\n' " ${critical}$Type list is owned by mpv..." \
+                                    " if you want to perform any action on it," \
+                                    " just quit mpv first to continue.${nc}"
+                    __
+                    read -rsn 1 -p " ${info}[Q]uit mpv, [A]bort: ${nc}" quitMpv
+                    case "$quitMpv" in
+                        q|Q)
+                            kill -SIGTERM "$(pidof mpv)" && continue
+                        ;;
+                        a|A)
+                            _Menu
+                        ;;
+                        *)
+                            _WrongOption "$quitMpv" && _Menu
+                        ;;
+                    esac
+                }
+                rm "$NOWPLAYING"
+            }
             echo -e "                                                  ${mtitle}::${menuTitleType} OPTIONS::${nc}"
             echo -e "                               ┌──────────────────────────────────────────────────────┐"
             echo -e "                               │   1) Add ${Type} links         5) Play current list    │"
@@ -89,7 +109,7 @@ _CreateAddPlaylist() {
             echo -e "                               │   3) Download current list   7) Clear current list   │"
             echo -e "                               │   4) Save/Add current list   8) Back to main menu    │"
             echo -e "                               └──────────────────────────────────────────────────────┘"
-            [[ -s $URLS ]] \
+            test -s "$URLS"  \
             && echo -e "                                                   ${info}Select an item${nc}" \
             || echo -e "                                                   ${info}${b}Select an item${nb}${nc}"
             __

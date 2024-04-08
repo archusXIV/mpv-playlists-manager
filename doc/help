@@ -1,4 +1,4 @@
-mpm version 1.7-6
+mpm version 1.7-7
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -35,7 +35,7 @@ mpm version 1.7-6
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.1.7-6::
+                                    ::MPV-PLAYLISTS-MANAGER v.1.7-7::
                                    ***********************************
                                 current theme: default. For usage type U
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -182,6 +182,9 @@ mpm version 1.7-6
 
         By entering '6' we will get more  infos (links & titles). A new prompt appears
         with the same options as in the above menu.
+
+        Since version 1.7-7 we get a prompt when mpv is holding the current list, so we can continue
+        listening/watching content or quit mpv and do stuff on the list (remove,save,download etc...)
 
     III) Audio conversion settings in mpmrc:
 

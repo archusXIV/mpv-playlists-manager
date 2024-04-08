@@ -10,16 +10,20 @@ _RemoveAudioVideoCommon() {
         rm {"$tmpList"{,_origin},"$tmpTitles"{,_origin}}
         _CreateAddPlaylist $arg
     }
-    __
-    read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole $Type list?: ${nc}"
+    
     [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ $Type ]] && {
-        pgrep -x mpv >/dev/null &&
-        __
-        printf '%s\n' " ${critical}${tmpList##*/} is owned by mpv...retry later.${nc}"
-        sleep 3
-        _Menu
+        pgrep -x mpv >/dev/null && {
+            __
+            printf '%s\n' " ${critical}${tmpList##*/} is owned by mpv...retry later.${nc}"
+            sleep 3
+            _Menu
+        }
+        rm "$NOWPLAYING"
     }
 
+    __
+    read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole $Type list?: ${nc}"
+    
     if [[ $REPLY =~ l|L ]]; then
 
         [[ $(grep -c '^https' "$tmpList") -eq 1 ]] && {
@@ -33,8 +37,7 @@ _RemoveAudioVideoCommon() {
         }
         
     elif [[ $REPLY =~ w|W ]]; then
-        rm \
-            -rf {"$tmpList"{,_origin},"$tmpTitles"{,_origin},"$HOME"/.parallel} 2>/dev/null
+        rm {"$tmpList","$tmpTitles"}
         __
         printf '%s\n' " ${critical}$Type list removed...${nc}"
         sleep 2

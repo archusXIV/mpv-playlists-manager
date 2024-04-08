@@ -32,13 +32,13 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog
+- Added prompt when mpv holds the temporary list.
 - Bug fixed in function _CreateAddPlaylist when typing 'D' in submenu.
 - Bug fixed in function _ChooseDownloadAudio using yt-dlp option:
 ```
 --compat-options filename-sanitization
 ```
 - Fixed removing temporary file containing titles from a downloaded playlist.
-- Add renaming a playlist option in _EditPlaylist function.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -92,7 +92,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When we use a [terminal user interface](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png) for mpv, the main window looks like this.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.7-6.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.7-7.png)
 
 
 ```
