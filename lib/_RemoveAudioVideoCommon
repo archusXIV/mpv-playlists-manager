@@ -4,9 +4,10 @@
 # shellcheck disable=SC2154,SC2086,SC2015
 _RemoveAudioVideoCommon() {
 
-    test ! -s $tmpList && {
+    test ! -s "$tmpList" && {
         printf '%s\n' " ${critical}No more links in the $Type list${nc}"
         sleep 2
+        rm {"$tmpList"{,_origin},"$tmpTitles"{,_origin}}
         _CreateAddPlaylist $arg
     }
     __

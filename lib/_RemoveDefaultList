@@ -3,6 +3,15 @@
 
 # shellcheck disable=SC2154,SC2086
 _RemoveDefaultList() {
+
+    # the default list, at least contains one line (header #EXTM3U)
+    [[ $(grep "" -c "$tmpList") -eq 1 ]] && {
+        __
+        printf '%s\n' " ${critical}No more links in the default list${nc}"
+        sleep 2
+        rm {"$tmpList"_origin,"$tmpTitles"{,_origin}}
+        _Menu
+    }
     __
     read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole default list?: ${nc}"
     [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ default ]] && {
@@ -37,4 +46,5 @@ _RemoveDefaultList() {
     else
         _WrongOption "$REPLY"
     fi
+    
 }
