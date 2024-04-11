@@ -37,7 +37,7 @@ _DownloadVideoList() {
                 
                 clear
                 __
-                youtube-dl -F "${ytdlPreset_DW[@]}" "$url" \
+                yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
                 | awk '$0 !~ /sb|youtube/{print $0}'
                 __
                 printf '%s\n' " ${critical}If you pick a format from a none m3u8 protocol, download will fail " \
@@ -52,14 +52,14 @@ _DownloadVideoList() {
                 " Downloading $(_GetLinkTitle -l).${nc}"
                 
                 if [[ "$code" =~ '+' && $(_GetLinkTitle -l) =~ '/' ]]; then
-                    youtube-dl --format "$code" \
+                    yt-dlp --format "$code" \
                     "${ytdlPreset_X[@]}" "$url"
                 elif [[ "$code" =~ '+' ]]; then
-                    youtube-dl --format "$code" \
+                    yt-dlp --format "$code" \
                     --output "$(_GetLinkTitle -l).%(ext)s" \
                     "${ytdlPreset_X[@]}" "$url"
                 else
-                    youtube-dl --format "$code" \
+                    yt-dlp --format "$code" \
                     --output "$(_GetLinkTitle -l).%(ext)s" \
                     "${ytdlPreset_NC[@]}" "$url"
                 fi

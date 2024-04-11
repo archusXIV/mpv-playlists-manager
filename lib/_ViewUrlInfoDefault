@@ -3,7 +3,11 @@
 
 # shellcheck disable=SC2154,SC2015,SC2034
 _ViewUrlInfoDefault() {
-        
+    
+    local file Type
+    file="${QUEUE##*/}" file="${file%%.*}"
+    Type=default
+
     if (($(_GetLinesList -q) > 0)); then
         rm "$tmp_dir"/1 2>/dev/null
         
@@ -18,32 +22,11 @@ _ViewUrlInfoDefault() {
             menuTitleType=DEFAULT
             URLS="$QUEUE"
             TITLES="$DEFAULTITLES"
-            [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ default ]] && {
-                pgrep -x mpv >/dev/null && {
-                    __
-                    printf '%s\n' " ${critical}default list is owned by mpv..." \
-                                    " if you want to perform any action on it," \
-                                    " just quit mpv first to continue.${nc}"
-                    __
-                    read -rsn 1 -p " ${info}[Q]uit mpv, [A]bort: ${nc}" quitMpv
-                    case "$quitMpv" in
-                        q|Q)
-                            kill -SIGTERM "$(pidof mpv)" && continue
-                        ;;
-                        a|A)
-                            return
-                        ;;
-                        *)
-                            _WrongOption "$quitMpv" && return
-                        ;;
-                    esac
-                }
-                rm "$NOWPLAYING"
-            }
+            _MpvOwnsTmpList
             __
             __listHeader
-            read -rsn 1 queueOptions
-            case "$queueOptions" in
+            read -rsn 1 viewUrlInfoDefaultOptions
+            case "$viewUrlInfoDefaultOptions" in
                 d|D)
                     __
                     read -rsn 1 -p "${info}"' Download [A]udio, [V]ideo:'"${nc}" get
@@ -57,9 +40,7 @@ _ViewUrlInfoDefault() {
                         ;;
                     esac
                 ;;
-                m|M)
-                    _Menu
-                ;;
+                m|M) _Menu ;;
                 p|P)
                     __
                     read -rsn 1 -p "${info}"' Play [A]udio, [V]ideo?: '"${nc}" play
@@ -74,8 +55,7 @@ _ViewUrlInfoDefault() {
                 ;;
                 r|R) _Remove -q ;;
                 s|S)
-                    if [[ -f $DEFAULTM3UTITLES \
-                        || -f  $DEFAULTITLES ]]; then
+                    if [[ -f $DEFAULTITLES ]]; then
                         _Save -q
                     else
                         printf '%s\n' " ${task}${b}Updating Default list titles...${nb}${nc}"
@@ -86,7 +66,7 @@ _ViewUrlInfoDefault() {
                     fi
                 ;;
                 *)
-                    _WrongOption "$queueOptions"
+                    _WrongOption "$viewUrlInfoDefaultOptions"
                     return
                 ;;
             esac

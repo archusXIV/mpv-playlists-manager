@@ -22,7 +22,7 @@ _SelectLocalDir() {
             find "$MEDIA_DIR"/"$dir" -maxdepth 1 -type d -empty -exec rmdir {} \;
             # checking if the content of directory is audio/video.
             __
-            printf '%s\n' " ${info}Scanning $dir supported formats by mpv${nc}"
+            printf '%s\n' " ${info}Scanning $dir for supported formats by mpv${nc}"
             sleep 1
             ! find "$MEDIA_DIR"/"$dir" -maxdepth 1 -type f \
             -exec file -N -i -- {} + | grep -q -E '[aA]udio|[vV]ideo' && {

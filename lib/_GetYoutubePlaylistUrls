@@ -5,7 +5,7 @@
 _GetYoutubePlaylistUrls() {
 
     __audioVideoPlaylist() (
-        youtube-dl "${ytdlPreset_DW[@]}" -j "$mediaUrl" \
+        yt-dlp "${ytdlPreset_DW[@]}" -j "$mediaUrl" \
         | jq '(.webpage_url)' | sed 's/"//g' \
         | tee -a "$QUEUE" >> "$URLS"
         sed -i '/playlist/d' {"$QUEUE","$URLS"}
@@ -23,10 +23,10 @@ _GetYoutubePlaylistUrls() {
                 __
                 printf '%s\n' \
                 " ${info}Please be patient while extracting urls/titles from:" \
-                " $(youtube-dl "${ytdlPreset_DW[@]}" -J --flat-playlist "$url" \
+                " $(yt-dlp "${ytdlPreset_DW[@]}" -J --flat-playlist "$url" \
                 | jq --raw-output .title) playlist...${nc}"
 
-                youtube-dl "${ytdlPreset_DW[@]}" -j "$url" \
+                yt-dlp "${ytdlPreset_DW[@]}" -j "$url" \
                 | jq --raw-output '(.webpage_url)' \
                 | tee -a "$QUEUE" >> "$URLS"
                 

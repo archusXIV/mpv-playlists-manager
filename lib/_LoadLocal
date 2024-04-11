@@ -27,7 +27,7 @@ _LoadLocal() {
             } || clear; "$FILEMANAGER" "$VIDEOS"; _Menu
         ;;
         *)
-            _WrongOption "$choice"
+            _WrongOption "$REPLY"
             return
         ;;
     esac

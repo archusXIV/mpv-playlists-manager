@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.7-7)
+# ~/.config/mpm/mpmrc (version 1.7-8)
 
 ########################################################
 #                                                      #
@@ -165,7 +165,7 @@ mpvVideoOptions_X=(
     "${mpvVideoOptions_DB[@]}"
 )
 
-##################### YT-DLP PRESETS (youtube-dl) #####################
+##################### YT-DLP PRESETS (yt-dlp) #####################
 # change the yt-dlp downloader presets ONLY for youtube video downloads
 # (not tested elsewhere)
 # take a look at 'man yt-dlp'

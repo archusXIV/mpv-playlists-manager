@@ -53,8 +53,8 @@ _SaveRemove() {
         __
     fi
 
-    read -rsn 1 opt
-    case "$opt" in
+    read -rsn 1 saveRemoveOptions
+    case "$saveRemoveOptions" in
         a|A) _Save -a ;;
         b|B) _Menu ;;
         d|D)
@@ -90,7 +90,7 @@ _SaveRemove() {
             done
         ;;
         v|V) _Save -v ;;
-        *) _WrongOption "$opt" ;;
+        *) _WrongOption "$saveRemoveOptions" ;;
     esac
     _Menu
 }

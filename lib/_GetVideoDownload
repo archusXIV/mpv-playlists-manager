@@ -10,7 +10,7 @@ _GetVideoDownload() {
     
     for url in "${VIDEOLINKS[@]}"; do
         __
-        youtube-dl -F "${ytdlPreset_DW[@]}" "$url" \
+        yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
         | awk '$0 !~ /sb|youtube/{print $0}'
         __
         __chooseFormatMessages
@@ -24,10 +24,10 @@ _GetVideoDownload() {
             # downloader presets described in ~/.config/mpm/mpmrc
             # we have to differenciate titles files because of _GetLinkTitle function.
             if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
-                youtube-dl --format "$code" "${ytdlPreset_FS[@]}" \
+                yt-dlp --format "$code" "${ytdlPreset_FS[@]}" \
                 "${ytdlPreset_X[@]}" "$url"
             else
-                youtube-dl --format "$code" \
+                yt-dlp --format "$code" \
                 --output "$(sed -n '1p' "$TITLES").%(ext)s" \
                 "${ytdlPreset_X[@]}" "$url"
             fi
@@ -35,10 +35,10 @@ _GetVideoDownload() {
         else
         
             if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
-                youtube-dl --format "$code" "${ytdlPreset_FS[@]}" \
+                yt-dlp --format "$code" "${ytdlPreset_FS[@]}" \
                 "${ytdlPreset_NC[@]}" "$url"
             else
-                youtube-dl --format "$code" \
+                yt-dlp --format "$code" \
                 --output "$(sed -n '1p' "$TITLES").%(ext)s" \
                 "${ytdlPreset_NC[@]}" "$url"
             fi

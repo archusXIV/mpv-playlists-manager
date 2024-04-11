@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154
 _YtdlGetTitle() {
-    youtube-dl \
+    yt-dlp \
     --skip-download \
     --get-title \
     --flat-playlist \

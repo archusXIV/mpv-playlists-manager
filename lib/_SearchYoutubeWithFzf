@@ -68,6 +68,7 @@ _SearchYoutubeWithFzf() {
         selection=$(
             echo -e "$IDS" | cut -d'	' -f2 \
             | fzf \
+            --reverse \
             --prompt='Filter: ' \
             --header "${info}${b}"'Press Enter to copy, Escape to confirm & exit search: '"${nb}${nc}"
         )

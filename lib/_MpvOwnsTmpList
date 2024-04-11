@@ -1,0 +1,37 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_MpvOwnsTmpList() {
+
+    [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ $Type ]] && {
+        pgrep -x mpv >/dev/null && {
+            __
+            printf '%s\n' " ${critical}${file} list is owned by mpv..." \
+                            " if you want to perform any action on it," \
+                            " just quit mpv first to continue.${nc}"
+            __
+            read -rsn 1 -p " ${info}[Q]uit mpv, [A]bort: ${nc}" quitMpv
+            case "$quitMpv" in
+                q|Q)
+                    if [[ $file = "default" ]]; then
+                        kill -SIGTERM "$(pidof mpv)"
+                        return
+                    else
+                        kill -SIGTERM "$(pidof mpv)"
+                        clear; __
+                        return
+                    fi
+                ;;
+                a|A)
+                    _Menu
+                ;;
+                *)
+                    _WrongOption "$quitMpv" && _Menu
+                ;;
+            esac
+        }
+        rm "$NOWPLAYING"
+    }
+
+}

@@ -4,11 +4,11 @@
 # shellcheck disable=SC2154
 _SaveList() {
     cd "$playlists_dir" || exit 1
-    cp -f "$CURRENT_LIST" "$list"
-    cp -f "$CURRENT_TITLES" "$titles_dir"/"$list".titles 2>/dev/null
+    cp -f "$current_list" "$list"
+    cp -f "$current_titles" "$titles_dir"/"$list".titles 2>/dev/null
 
     sed -i '1s/^/#EXTM3U\n/' "$list"
-    sed -i '/^[[:alpha:]]/d' "$CURRENT_LIST"
+    sed -i '/^[[:alpha:]]/d' "$current_list"
 
     (( $(grep -c -w '#EXTM3U' "$list") > 1 )) \
         && sed -i '1d' "$list"
@@ -20,6 +20,6 @@ _SaveList() {
     fi
     __
     printf '%s\n' " ${info}${current_list##*/} saved as $list${nc}"
-    
+    _mpmIpc
     sleep 3
 }

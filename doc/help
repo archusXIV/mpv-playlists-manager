@@ -1,10 +1,10 @@
-mpm version 1.7-7
+mpm version 1.7-8
 
     MPV-PLAYLISTS-MANAGER usage:
 
     !!! YOU CAN CHANGE MPM DIRECTORIES BY EDITING THE VARIABLES IN THE MPMRC FILE !!!
     By default "$HOME"/.local/share/
-    Dependencies: ffmpeg, jq, mpv, vim, youtube-dl, yt-dlp (for better results).
+    Dependencies: ffmpeg, jq, mpv, vim, yt-dlp.
     Optionals: fzf, mpvc, ncmpvc (mpv terminal user interface) parallel,
     ranger (can be any terminal file manager), ueberzug, wmctrl, w3m, ytfzf.
 
@@ -35,7 +35,7 @@ mpm version 1.7-7
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.1.7-7::
+                                    ::MPV-PLAYLISTS-MANAGER v.1.7-8::
                                    ***********************************
                                 current theme: default. For usage type U
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -59,7 +59,7 @@ mpm version 1.7-7
         Links saved here and in audio section too are not permanent, they will be erased
         when closing the program...unless you answer yes when prompted to save them.
         In this section we will be able to create a temporary video playlist by "copy/paste"
-        urls from Youtube.com or any other supported web site by youtube-dl/yt-dlp packages.
+        urls from Youtube.com or any other supported web site by yt-dlp/yt-dlp packages.
         See https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md
         
         Once into the video options menu we can add tested links to a temporary list,
@@ -71,7 +71,7 @@ mpm version 1.7-7
     2) Create/Add audio playlist:
 
         Same as above but for audio only, for example after downloading, ffmpeg will
-        convert all .webm files into flac, mp3, ogg or wav if you wish (settings in mpmrc).
+        convert all .webm files into aac, flac, mp3, ogg or wav if you wish (settings in mpmrc).
         Since version 1.4-2, parallel package (if installed) will speed up audio conversion.
         Note that for youtube audio files the download is automatic (code 251 .webm/opus).
         See section III).
@@ -123,6 +123,7 @@ mpm version 1.7-7
 
         All links we enter are added in this file (default.m3u), at least we can save,
         download, play it and view titles in case we closed the program and forgot them.
+        Note that over 12 links, this board only displays the titles.
     
     7) Clear all temporary lists:
 
@@ -182,6 +183,7 @@ mpm version 1.7-7
 
         By entering '6' we will get more  infos (links & titles). A new prompt appears
         with the same options as in the above menu.
+        Note that over 12 links, this board only displays the titles.
 
         Since version 1.7-7 we get a prompt when mpv is holding the current list, so we can continue
         listening/watching content or quit mpv and do stuff on the list (remove,save,download etc...)

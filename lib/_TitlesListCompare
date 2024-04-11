@@ -13,13 +13,13 @@ _TitlesListCompare() {
     # first test if "myplaylist".titles exist.
     if [[ -s $titles ]]; then
 
-        if [[ $(grep "" -c "$titles") -ne $(_GetLinesList -l) ]]; then
+        [[ $(grep "" -c "$titles") -ne $(_GetLinesList -l) ]] && {
             __
             printf '%s\n' " ${critical}${titles} is out of date...${nc}" \
             " ${task}${b}Updating titles...please wait.${nb}${nc}"
             _GetMediaTitle -l > "$titles_dir"/"$list".titles
             clear
-        fi
+        }
 
         case "$1" in
             -g)
@@ -27,8 +27,9 @@ _TitlesListCompare() {
                 # sed -n '1,25p' "$titles" | cat -n
                 awk 'NR>=1&&NR<=25' "$titles" | cat -n
                 __
-                read -rsn 1 -p " ${info}Press 'n' for next page${nc} " nextpage
+                read -rsn 1 -p " ${info}[N]ext page, [B]ack to menu.${nc} " nextpage
                 case "$nextpage" in
+                    b|B) _Menu ;;
                     n|N)
                         clear; __
                         # sed -n '26,$p' "$titles" | cat -n
@@ -45,6 +46,7 @@ _TitlesListCompare() {
                 __
                 echo -e " ${info}Titles for $list${nc}\n"
                 cat -n "$titles"
+                __
             ;;
         esac
         

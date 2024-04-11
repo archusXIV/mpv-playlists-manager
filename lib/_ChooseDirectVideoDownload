@@ -28,12 +28,12 @@ _ChooseDirectVideoDownload() {
 
         if [[ $url =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]; then
             # downloader presets described in ~/.config/mpm/mpmrc
-            youtube-dl "${ytdlPreset_BF[@]}" "${ytdlPreset_X[@]}" "$url"
+            yt-dlp "${ytdlPreset_BF[@]}" "${ytdlPreset_X[@]}" "$url"
         elif [[ $url =~ 'youtube.com' ]]; then
-            youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
+            yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
             "${ytdlPreset_X[@]}" "$url"
         else
-            youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
+            yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
             "${ytdlPreset_NC[@]}" "$url"
         fi
 

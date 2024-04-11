@@ -12,13 +12,13 @@ _ViewUrlInfo() {
     )
 
     # let's play...
-    stars=$(printf "%-54s" "*")
+    stars=$(printf "%-56s" "*")
     
     __listHeader() (
         clear
         __
         if (($(grep -c '^https' "$menuTitleType_$URLS") > 12)); then
-            printf '%s\n' " ${info}ORDER |  $menuTitleType PLAYLIST TITLES.${nc}"
+            printf '%s\n' " ${info}ORDER | $menuTitleType PLAYLIST TITLES (to many urls to show).${nc}"
             echo -e " ${info}${stars// /*}${nc}\n"
             nl "$menuTitleType_$TITLES"
             __

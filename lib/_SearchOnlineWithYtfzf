@@ -5,7 +5,7 @@
 _SearchOnlineWithYtfzf() {
     clear
     __
-    printf '%s\n' " ${critical}Tip: To select mutiple links in the ytfzf menu press ${task}Tab" \
+    printf '%s\n' " ${critical}Tip: To select mutiple links in the ytfzf menu, press ${task}Tab" \
     " ${critical}on the desired ${Type} titles, ${task}Ctrl P${critical} to view next page...etc" \
     " then ${task}Enter ${critical}to confirm and go back in $menuTitleType OPTIONS menu." \
     " ${mtitle}Use quotes for multiple search terms.${nc}"

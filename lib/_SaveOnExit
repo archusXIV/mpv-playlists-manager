@@ -4,6 +4,8 @@
 # shellcheck disable=SC2154,SC2086,SC2184
 _SaveOnExit() {
 
+    cd "$playlists_dir" || exit 1
+
     _Prompt -n \
         " ${critical}Some temporary lists aren't saved, quit anyway?: ${nc}" && {
         clear
@@ -37,8 +39,6 @@ _SaveOnExit() {
         printf '%s\n' " ${critical}TOO BAD...BYE${nc}"
         exit
     }
-    
-    cd "$playlists_dir" || exit 1
 
     saveOnExitPrompt=( "[B]ack to menu" "Save [A]udio list" "Save [V]ideo list" )
 

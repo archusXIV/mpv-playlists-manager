@@ -40,11 +40,11 @@ _ChooseDownloadVideo() {
 
                 if [[ $url =~ 'youtube.com' ]]; then
                     __
-                    youtube-dl -F "${ytdlPreset_DW[@]}" "$url" \
+                    yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
                     | awk '$0 !~ /sb|youtube/{print $0}'
                     
                 else
-                    youtube-dl -F "${ytdlPreset_DW[@]}" "$url"
+                    yt-dlp -F "${ytdlPreset_DW[@]}" "$url"
                 fi
                 __
                 printf '%s\n' " ${critical}If you pick a format from a none m3u8 protocol, download will fail " \
@@ -60,13 +60,13 @@ _ChooseDownloadVideo() {
                 
                 if [[ $url =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]; then
                     # downloader presets described in ~/.config/mpm/mpmrc
-                    youtube-dl --format "$code" "${ytdlPreset_X[@]}" "$url"
+                    yt-dlp --format "$code" "${ytdlPreset_X[@]}" "$url"
                 elif [[ $url =~ 'youtube.com' ]]; then
-                    youtube-dl \
+                    yt-dlp \
                     --output "$(_GetLinkTitle -s).%(ext)s" \
                     --format "$code" "${ytdlPreset_X[@]}" "$url"
                 else
-                    youtube-dl \
+                    yt-dlp \
                     --output "$(_GetLinkTitle -s).%(ext)s" \
                     --format "$code" "${ytdlPreset_NC[@]}" "$url"
                 fi

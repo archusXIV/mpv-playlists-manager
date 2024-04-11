@@ -39,7 +39,7 @@ _RemoveTmpLinks() {
     grep -v -F "$(grep '^[[:print:]]' "$tmpTitles"_tmp)" "$tmpTitles" \
     >> "$tmpTitles"_tmp2 && mv -f "$tmpTitles"_tmp2 "$tmpTitles"
 
-    rm {"$tmpList"_tmp,"$tmpTitles"_tmp}
+    rm {"$tmpList","$tmpTitles"}_tmp
     printf '%s\n' " ${critical}Selected links removed...${nc}"
     unset IFS
     sleep 2

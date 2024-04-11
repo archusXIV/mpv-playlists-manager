@@ -43,14 +43,14 @@ _SaveCheck() {
                 read -rp " ${info}[S]ave playlist as a new one or [A]dd links to $list?: ${nc}" saveOrAddLinks
                 case "$saveOrAddLinks" in
                     a|A)
-                        cat "$CURRENT_LIST" >> "$list"
-                        cat "$CURRENT_TITLES" >> "$titles_dir/$list.titles"
+                        cat "$current_list" >> "$list"
+                        cat "$current_titles" >> "$titles_dir/$list.titles"
                         perl -i -ne 'print if ! $a{$_}++' {"$list","$titles_dir/$list.titles"}
                         __
                         printf '%s\n' " ${info}Link(s) added to $list.${nc}"
 
-                        rm {"$CURRENT_LIST","$CURRENT_TITLES"}
-                        [[ $CURRENT_LIST = "$QUEUE" ]] && echo "#EXTM3U" > "$QUEUE"
+                        rm {"$current_list","$current_titles"}
+                        [[ $current_list = "$QUEUE" ]] && echo "#EXTM3U" > "$QUEUE"
                         sleep 2
                         break
                     ;;

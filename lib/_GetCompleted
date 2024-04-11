@@ -14,7 +14,6 @@ _GetCompleted() {
             echo " ${critical}It was a temporary list, don't forget to save it.${nc}"
             sleep 4
             _RenameTmpFiles
-            rm -rf "$HOME"/.parallel 2>/dev/null
             _Menu
         }
 

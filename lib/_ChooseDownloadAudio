@@ -33,9 +33,9 @@ _ChooseDownloadAudio() {
         clear
         __chooseDownloadAudioMessage
         if [[ $(_GetLinkTitle -s) =~ '/' ]]; then
-            youtube-dl --format "$code" "${ytdlPreset_NC[@]}" "$url"
+            yt-dlp --format "$code" "${ytdlPreset_NC[@]}" "$url"
         else
-            youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
+            yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
             --format "$code" "${ytdlPreset_NC[@]}" "$url"
         fi
     )
@@ -43,15 +43,15 @@ _ChooseDownloadAudio() {
     for url in "${SELECTEDAUDIO[@]}"; do
         # [[ $url =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]
         if [[ $direct_download = yes ]] && \
-            [[ $(youtube-dl -F "${ytdlPreset_DW[@]}" "$url" \
+            [[ $(yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
             | grep '^251') ]]; then
 
             printf '%s\n' " ${task}Direct download enabled.${nc}"
             __chooseDownloadAudioMessage
             if [[ $(_GetLinkTitle -s) =~ '/' ]]; then
-                youtube-dl --format 251 "${ytdlPreset_NC[@]}" "$url"
+                yt-dlp --format 251 "${ytdlPreset_NC[@]}" "$url"
             else
-                youtube-dl --output "$(_GetLinkTitle -s).%(ext)s" \
+                yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
                 --format 251 "${ytdlPreset_NC[@]}" "$url"
             fi
 
@@ -59,11 +59,11 @@ _ChooseDownloadAudio() {
             __
             printf '%s\n' " ${task}Direct download disabled.${nc}"
             __
-            youtube-dl -F "${ytdlPreset_DW[@]}" "$url" \
+            yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
             | awk '/audio only|PROTO|^[-]/ {sub("^[sb*]",""); print $0}'
             __chooseDownloadAudioFormat
         else
-            youtube-dl -F "${ytdlPreset_DW[@]}" "$url"
+            yt-dlp -F "${ytdlPreset_DW[@]}" "$url"
             __chooseDownloadAudioFormat
         fi
 

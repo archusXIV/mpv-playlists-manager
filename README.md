@@ -32,9 +32,11 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog
-- Added prompt when mpv holds the temporary list.
-- Bug fixed in function _CreateAddPlaylist when typing 'D' in submenu.
-- Bug fixed in function _ChooseDownloadAudio using yt-dlp option:
+- Bug fixed in _SaveList function (wrong variable name).
+- No need to symlink yt-dlp to youtube-dl anymore except if you're used to, at the command line.
+- Added prompt when mpv owns the temporary list.
+- Bug fixed in _CreateAddPlaylist function when typing 'D' in submenu.
+- Bug fixed in _ChooseDownloadAudio function using yt-dlp option:
 ```
 --compat-options filename-sanitization
 ```
@@ -92,7 +94,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When we use a [terminal user interface](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png) for mpv, the main window looks like this.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.7-7.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.7-8.png)
 
 
 ```
@@ -155,7 +157,7 @@ Requests and contributions? Why not, have fun.
 - [ueberzug](https://github.com/ueber-devel/ueberzug) (might be in your distro's repo)
 - [w3m](https://w3m.sourceforge.net/) (to display thumbnails in URxvt/xterm)
 - [wmctrl](https://github.com/dancor/wmctrl)
-- [youtube-dl](https://github.com/ytdl-org/youtube-dl) (see below)
+- [youtube-dl](https://github.com/ytdl-org/youtube-dl)
 
 # Installation
 Run the install.sh script as root, by default /usr/local/bin /usr/local/lib are the
@@ -169,7 +171,6 @@ git clone https://github.com/archusXIV/mpv-playlists-manager.git
 cd mpv-playlists-manager
 chmod +x install.sh
 sudo ./install.sh
-ln -s /usr/bin/yt-dlp ~/.local/bin/youtube-dl
 ```
 ## Credits
 I would like to thanks all the devs that put their great work in the softwares I use and that I have implemented in this project and especially mister Brian Jhan Fox the father of the Bourne-Again SHell, even if I don't always use it the right way.

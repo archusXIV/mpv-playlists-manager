@@ -3,7 +3,12 @@
 
 # shellcheck disable=SC2154
 _IfMpvc() {
-    if [[ $use_mpvc = yes && $use_mpvc_online = yes ]] || [[ $use_mpvc = yes && $use_mpvc_locally = yes ]]; then
+    if [[ $use_mpvc = yes && -z $mpvc_tui ]] || [[ $use_mpvc = no && $use_mpvc_locally = yes ]]; then
+        # no access to mpvc_tui & playing online
+        echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
+        echo -e "                  │                        ${info}mpv is running, press ${task}Q ${info}to quit mpv${nc}                          │"
+        echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
+    elif [[ $use_mpvc = yes && $use_mpvc_online = yes ]] || [[ $use_mpvc = yes && $use_mpvc_locally = yes ]]; then
         # access to mpvc_tui & playing online
         echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
         echo -e "                  │           ${info}mpv is running, press ${task}N ${info}to launch the mpv tui or ${task}Q ${info}to quit mpv${nc}            │"

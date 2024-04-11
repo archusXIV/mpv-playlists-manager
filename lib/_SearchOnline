@@ -6,7 +6,7 @@ _SearchOnline() {
     __
     command -v ytfzf >/dev/null && {
         read -rsn1 \
-        -p " ${info}Search ${Type} with regular [f]zf or [y]tfzf script?: ${nc}" \
+        -p " ${info}Search ${Type} with regular [F]zf or [Y]tfzf script?: ${nc}" \
         searchOnlineOptions
         
         case "$searchOnlineOptions" in
