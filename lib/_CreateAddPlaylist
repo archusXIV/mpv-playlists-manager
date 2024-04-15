@@ -81,9 +81,6 @@ _CreateAddPlaylist() {
             __
             test -s "$URLS"  && \
             echo -e " ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}"
-            
-            _MpvOwnsTmpList --list && continue
-
             echo -e "                                                  ${mtitle}::${menuTitleType} OPTIONS::${nc}"
             echo -e "                               ┌──────────────────────────────────────────────────────┐"
             echo -e "                               │   1) Add ${Type} links         5) Play current list    │"
@@ -117,10 +114,9 @@ _CreateAddPlaylist() {
                     __ ;;
                 4)  _Save $arg
                     __ ;;
-                5)  [[ -n $(pidof mpv) ]] && {
-                        printf '%s\n' " ${critical}mpv is already running...${nc}"
-                        sleep 2
-                    } || _LoadAudioVideo $arg
+                5)
+                    _MpvOwnsTmpList --list
+                    _LoadAudioVideo $arg
                     __ ;;
                 6)  _ViewUrlInfo $arg
                     __ ;;

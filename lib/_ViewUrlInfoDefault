@@ -22,7 +22,6 @@ _ViewUrlInfoDefault() {
             menuTitleType=DEFAULT
             URLS="$QUEUE"
             TITLES="$DEFAULTITLES"
-            _MpvOwnsTmpList --list
             __
             __listHeader
             read -rsn 1 viewUrlInfoDefaultOptions
@@ -42,6 +41,7 @@ _ViewUrlInfoDefault() {
                 ;;
                 m|M) _Menu ;;
                 p|P)
+                    _MpvOwnsTmpList --list
                     __
                     read -rsn 1 -p "${info}"' Play [A]udio, [V]ideo?: '"${nc}" play
                     case "$play" in

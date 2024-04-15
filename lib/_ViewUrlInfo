@@ -53,7 +53,10 @@ _ViewUrlInfo() {
                 a|A) __; _CreateAddPlaylist "$arg" ;;
                 m|M) _Menu ;;
                 d|D) [[ $arg = '-a' ]] && _GetAudio -a || _GetVideo -v ;;
-                p|P) _LoadAudioVideo "$arg" ;;
+                p|P)
+                    _MpvOwnsTmpList --list
+                    _LoadAudioVideo "$arg"
+                ;;
                 r|R) _Remove "$arg" ;;
                 s|S) _Save "$arg" ;;
                 *)

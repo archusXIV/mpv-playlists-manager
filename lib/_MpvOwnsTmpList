@@ -4,19 +4,25 @@
 # shellcheck disable=SC2154
 _MpvOwnsTmpList() {
 
+    __quitMpv() (
+        kill -SIGTERM "$(pidof mpv)"
+        rm "$(readlink -f "$tmp_dir"/fzfEnqueue)" 2>/dev/null
+        clear; __
+    )
+
     [[ -f $NOWPLAYING || -f $m3uFile ]] && {
         pgrep -x mpv >/dev/null && {
 
             case "$1" in
                 --list)
-                    action=" if you want to perform any action on it,"
+                    action=" if you want to play the current list,"
                 ;;
                 --local)
                     action=" if you want to queue or parse another directory,"
                 ;;
             esac
             __
-            printf '%s\n' " ${critical}${file} list is owned by mpv..." \
+            printf '%s\n' " ${critical}mpv is already running..." \
             "$action" \
             " just quit mpv first to continue.${nc}"
             __
@@ -24,14 +30,7 @@ _MpvOwnsTmpList() {
             -p " ${info}[Q]uit mpv, [A]bort: ${nc}" mpvOwnsTmpListOptions
             case "$mpvOwnsTmpListOptions" in
                 q|Q)
-                    if [[ $file = "default" ]]; then
-                        kill -SIGTERM "$(pidof mpv)"
-                        return
-                    else
-                        kill -SIGTERM "$(pidof mpv)"
-                        clear; __
-                        return
-                    fi
+                    __quitMpv && return
                 ;;
                 a|A)
                     _Menu
