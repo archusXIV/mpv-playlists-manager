@@ -4,15 +4,25 @@
 # shellcheck disable=SC2154
 _MpvOwnsTmpList() {
 
-    [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ $Type ]] && {
+    [[ -f "$NOWPLAYING" ]] && {
         pgrep -x mpv >/dev/null && {
+
+            case "$1" in
+                --list)
+                    action=" if you want to perform any action on it,"
+                ;;
+                --local)
+                    action=" if you want to queue or parse another directory,"
+                ;;
+            esac
             __
             printf '%s\n' " ${critical}${file} list is owned by mpv..." \
-                            " if you want to perform any action on it," \
-                            " just quit mpv first to continue.${nc}"
+            "$action" \
+            " just quit mpv first to continue.${nc}"
             __
-            read -rsn 1 -p " ${info}[Q]uit mpv, [A]bort: ${nc}" quitMpv
-            case "$quitMpv" in
+            read -rsn 1 \
+            -p " ${info}[Q]uit mpv, [A]bort: ${nc}" mpvOwnsTmpListOptions
+            case "$mpvOwnsTmpListOptions" in
                 q|Q)
                     if [[ $file = "default" ]]; then
                         kill -SIGTERM "$(pidof mpv)"
@@ -27,7 +37,7 @@ _MpvOwnsTmpList() {
                     _Menu
                 ;;
                 *)
-                    _WrongOption "$quitMpv" && _Menu
+                    _WrongOption "$mpvOwnsTmpListOptions" && _Menu
                 ;;
             esac
         }

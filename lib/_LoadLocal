@@ -4,12 +4,15 @@
 # shellcheck disable=SC2015,SC2154,SC2034
 _LoadLocal() {
 
-    local AUDIOS VIDEOS MEDIA_DIR dir
+    local AUDIOS VIDEOS MEDIA_DIR dir file m3uFile
     # we use -maxdepth 2 in case our directories are in subdirectories.
     # like ~/Documents/Music instead of ~/Music
     AUDIOS=$(find "$HOME" -maxdepth 2 -type d -wholename "$MUSIC_DIR")
     VIDEOS=$(find "$HOME" -maxdepth 2 -type d -wholename "$VIDEO_DIR")
+    m3uFile="$MEDIA_DIR/$dir/nowPlaying.m3u"
+    file="${m3uFile##*/}" file="${file%%.*}"
 
+    _MpvOwnsTmpList --local
     read -rsn 1 \
     -p " ${info}Play: [1] Audio dir, [2] Audio files, [3] Video dir or [4] Video files?: ${nc}"
 
@@ -19,12 +22,16 @@ _LoadLocal() {
             _ReplaceSpaces -l
             clear
             __
-            _SelectLocalDir
+            _SelectLocalDir -d
         ;;
         2|4)
-            [[ $REPLY = 2 ]] && {
-                clear; "$FILEMANAGER" "$AUDIOS"; _Menu
-            } || clear; "$FILEMANAGER" "$VIDEOS"; _Menu
+            [[ $REPLY = 2 ]] && MEDIA_DIR="$AUDIOS" || MEDIA_DIR="$VIDEOS" && {
+                [[ $use_fzf = yes ]] && {
+                    clear; __; _SelectLocalDir -f; _Menu
+                } || \
+                clear; "$FILEMANAGER" "$AUDIOS"; _Menu \
+                || clear; "$FILEMANAGER" "$VIDEOS"; _Menu
+            }
         ;;
         *)
             _WrongOption "$REPLY"

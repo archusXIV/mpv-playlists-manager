@@ -6,13 +6,13 @@ _GetYoutubePlaylistUrls() {
 
     __audioVideoPlaylist() (
         yt-dlp "${ytdlPreset_DW[@]}" -j "$mediaUrl" \
-        | jq '(.webpage_url)' | sed 's/"//g' \
+        | jq --raw-output '(.webpage_url)' \
         | tee -a "$QUEUE" >> "$URLS"
         sed -i '/playlist/d' {"$QUEUE","$URLS"}
     )
 
     case "$1" in
-        -a)
+        -a|-v)
             __audioVideoPlaylist
         ;;
         -s)
@@ -42,9 +42,6 @@ _GetYoutubePlaylistUrls() {
             rm "$YTSEARCH"
             clear && return
             
-        ;;
-        -v)
-            __audioVideoPlaylist
         ;;
     esac
 

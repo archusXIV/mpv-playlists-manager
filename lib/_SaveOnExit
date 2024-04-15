@@ -10,6 +10,7 @@ _SaveOnExit() {
         " ${critical}Some temporary lists aren't saved, quit anyway?: ${nc}" && {
         clear
         nc=$'\e[0m';
+        
         SKULL=(
             "███████████████████████████" \
             "███████▀▀▀░░░░░░░▀▀▀███████" \
@@ -31,6 +32,7 @@ _SaveOnExit() {
             "███████▄░░░░░░░░░░░▄███████" \
             "██████████▄▄▄▄▄▄▄██████████" \
         )
+
         for skullPart in "${SKULL[@]}"; do
             echo -e "$skullPart"
             sleep 0.05
@@ -40,7 +42,7 @@ _SaveOnExit() {
         exit
     }
 
-    saveOnExitPrompt=( "[B]ack to menu" "Save [A]udio list" "Save [V]ideo list" )
+    saveOnExitPrompt=( "[B]ack to menu," "Save [A]udio list." "Save [V]ideo list." )
 
     if [[ -s $AUDIO_URLS && -s $VIDEO_URLS ]]; then
         __

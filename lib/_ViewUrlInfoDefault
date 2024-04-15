@@ -22,7 +22,7 @@ _ViewUrlInfoDefault() {
             menuTitleType=DEFAULT
             URLS="$QUEUE"
             TITLES="$DEFAULTITLES"
-            _MpvOwnsTmpList
+            _MpvOwnsTmpList --list
             __
             __listHeader
             read -rsn 1 viewUrlInfoDefaultOptions

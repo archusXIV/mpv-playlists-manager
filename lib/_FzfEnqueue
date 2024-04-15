@@ -1,0 +1,22 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2034
+_FzfEnqueue() {
+
+    cd "$MEDIA_DIR"/"$dir" || return
+    rm nowPlaying.m3u 2>/dev/null
+
+    command ls "$MEDIA_DIR"/"$dir" | fzf \
+    --border rounded \
+    --prompt=Search: \
+    --header "${info}${b}"'Press Enter to enqueue, Escape to confirm & exit: '"${nb}${nc}" \
+    --reverse \
+    --bind "enter:execute-silent(echo {} >> nowPlaying.m3u)"
+
+    [[ ! -s nowPlaying.m3u ]] && return
+    mpv --no-terminal "${mpvGenOptions_X[@]}" nowPlaying.m3u &
+    use_mpvc_locally="yes"
+    cp nowPlaying.m3u "$tmp_dir"/nowPlaying
+
+}
