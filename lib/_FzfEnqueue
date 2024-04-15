@@ -17,6 +17,6 @@ _FzfEnqueue() {
     [[ ! -s fzfEnqueue.m3u ]] && return
     mpv --no-terminal "${mpvGenOptions_X[@]}" fzfEnqueue.m3u &
     use_mpvc_locally="yes"
-    ln -sr fzfEnqueue.m3u "$tmp_dir"/nowPlaying
+    ln -sr fzfEnqueue.m3u "$tmp_dir"/fzfEnqueue
 
 }
