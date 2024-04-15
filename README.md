@@ -37,11 +37,6 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge 
 - No need to symlink yt-dlp to youtube-dl anymore except if you're used to, at the command line.
 - Added prompt when mpv owns the temporary list.
 
-```
---compat-options filename-sanitization
-```
-- Fixed removing temporary file containing titles from a downloaded playlist.
-
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
 
