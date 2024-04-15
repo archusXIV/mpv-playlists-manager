@@ -17,6 +17,7 @@ _CleanTmpDir() {
         -not -name 'nowPlaying' -exec rm {} \;
         rm -f "$playlists_dir"/*_tmp
     else
+        rm "$(readlink -f "$tmp_dir"/nowPlaying)" 2>/dev/null
         rm -f {"$tmp_dir"/*,"$playlists_dir"/*_tmp}
     fi 2>/dev/null
     

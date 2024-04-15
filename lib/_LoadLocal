@@ -9,7 +9,7 @@ _LoadLocal() {
     # like ~/Documents/Music instead of ~/Music
     AUDIOS=$(find "$HOME" -maxdepth 2 -type d -wholename "$MUSIC_DIR")
     VIDEOS=$(find "$HOME" -maxdepth 2 -type d -wholename "$VIDEO_DIR")
-    m3uFile="$MEDIA_DIR/$dir/nowPlaying.m3u"
+    m3uFile="$MEDIA_DIR/$dir/fzfEnqueue.m3u"
     file="${m3uFile##*/}" file="${file%%.*}"
 
     _MpvOwnsTmpList --local

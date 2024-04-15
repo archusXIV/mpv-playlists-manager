@@ -5,18 +5,18 @@
 _FzfEnqueue() {
 
     cd "$MEDIA_DIR"/"$dir" || return
-    rm nowPlaying.m3u 2>/dev/null
+    rm fzfEnqueue.m3u 2>/dev/null
 
     command ls "$MEDIA_DIR"/"$dir" | fzf \
     --border rounded \
     --prompt=Search: \
-    --header "${info}${b}"'Press Enter to enqueue, Escape to confirm & exit: '"${nb}${nc}" \
+    --header "${info}${b}"'Press Enter on desired files, Escape to confirm & exit: '"${nb}${nc}" \
     --reverse \
-    --bind "enter:execute-silent(echo {} >> nowPlaying.m3u)"
+    --bind "enter:execute-silent(echo {} >> fzfEnqueue.m3u)"
 
-    [[ ! -s nowPlaying.m3u ]] && return
-    mpv --no-terminal "${mpvGenOptions_X[@]}" nowPlaying.m3u &
+    [[ ! -s fzfEnqueue.m3u ]] && return
+    mpv --no-terminal "${mpvGenOptions_X[@]}" fzfEnqueue.m3u &
     use_mpvc_locally="yes"
-    cp nowPlaying.m3u "$tmp_dir"/nowPlaying
+    ln -sr fzfEnqueue.m3u "$tmp_dir"/nowPlaying
 
 }

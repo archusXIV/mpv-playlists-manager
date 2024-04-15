@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154
 _MpvOwnsTmpList() {
 
-    [[ -f "$NOWPLAYING" ]] && {
+    [[ -f $NOWPLAYING || -f $m3uFile ]] && {
         pgrep -x mpv >/dev/null && {
 
             case "$1" in
