@@ -67,7 +67,7 @@ mpvc_tui="<your_mpv_tui_here>"
   - If the fzf package is installed it will be used to search and copy audio/video urls from youtube,
   and to queue up local files.
   - In addition you can also use the [ytfzf](https://github.com/pystardust/ytfzf) script
-  if it is in your $PATH, it's options are available in the mpmrc file.
+  if it is in your $PATH, options are available in the mpmrc file.
 
 - In your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L80) file activate it.
 
