@@ -4,16 +4,12 @@
 # shellcheck disable=SC2154
 _GetYoutubePlaylistUrls() {
 
-    __audioVideoPlaylist() (
-        yt-dlp "${ytdlPreset_DW[@]}" -j "$mediaUrl" \
-        | jq --raw-output '(.webpage_url)' \
-        | tee -a "$QUEUE" >> "$URLS"
-        sed -i '/playlist/d' {"$QUEUE","$URLS"}
-    )
-
     case "$1" in
         -a|-v)
-            __audioVideoPlaylist
+            yt-dlp "${ytdlPreset_DW[@]}" -j "$mediaUrl" \
+            | jq --raw-output '(.webpage_url)' \
+            | tee -a "$QUEUE" >> "$URLS"
+            sed -i '/playlist/d' {"$QUEUE","$URLS"}
         ;;
         -s)
             mapfile -t < <(grep '^https' "$YTSEARCH")

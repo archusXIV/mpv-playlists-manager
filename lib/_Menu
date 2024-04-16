@@ -68,7 +68,7 @@ _Menu() {
             q|Q)
                 pgrep -x mpv >/dev/null && {
                     kill -SIGTERM "$(pidof mpv)"
-                    rm {"$CHOOSE1","$NOWPLAYING"} 2>/dev/null
+                    rm {"$(readlink -f "$tmp_dir"/fzfEnqueue)","$CHOOSE1","$NOWPLAYING"} 2>/dev/null
                     unset m3uFile
                 }
             ;;

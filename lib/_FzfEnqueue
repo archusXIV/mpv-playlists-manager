@@ -5,7 +5,6 @@
 _FzfEnqueue() {
 
     cd "$MEDIA_DIR"/"$dir" || return
-    rm fzfEnqueue.m3u 2>/dev/null
 
     command ls "$MEDIA_DIR"/"$dir" | fzf \
     --border rounded \

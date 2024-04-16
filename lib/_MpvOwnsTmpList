@@ -4,13 +4,8 @@
 # shellcheck disable=SC2154
 _MpvOwnsTmpList() {
 
-    __quitMpv() (
-        kill -SIGTERM "$(pidof mpv)"
-        rm "$(readlink -f "$tmp_dir"/fzfEnqueue)" 2>/dev/null
-        clear; __
-    )
-
-    [[ -f $NOWPLAYING || -f $m3uFile ]] && {
+    [[ -f $NOWPLAYING || -f $tmp_dir/fzfEnqueue ]] && {
+        
         pgrep -x mpv >/dev/null && {
 
             case "$1" in
@@ -30,7 +25,9 @@ _MpvOwnsTmpList() {
             -p " ${info}[Q]uit mpv, [A]bort: ${nc}" mpvOwnsTmpListOptions
             case "$mpvOwnsTmpListOptions" in
                 q|Q)
-                    __quitMpv && return
+                    kill -SIGTERM "$(pidof mpv)"
+                    rm "$(readlink -f "$tmp_dir"/fzfEnqueue)" 2>/dev/null
+                    return
                 ;;
                 a|A)
                     _Menu
@@ -41,6 +38,7 @@ _MpvOwnsTmpList() {
             esac
         }
         rm "$NOWPLAYING"
+
     }
 
 }
