@@ -27,6 +27,8 @@ _MpvOwnsTmpList() {
                 q|Q)
                     kill -SIGTERM "$(pidof mpv)"
                     rm "$(readlink -f "$tmp_dir"/fzfEnqueue)" 2>/dev/null
+                    clear
+                    __
                     return
                 ;;
                 a|A)
