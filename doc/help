@@ -1,4 +1,4 @@
-mpm version 1.7-9
+mpm version 1.8-0
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -35,7 +35,7 @@ mpm version 1.7-9
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.1.7-9::
+                                    ::MPV-PLAYLISTS-MANAGER v.1.8-0::
                                    ***********************************
                                 current theme: default. For usage type U
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -120,8 +120,7 @@ mpm version 1.7-9
         if you do not use URxvt for example (w3m works fine for URxvt/xterm).
         
         Since version 1.7-9, if use_fzf is set to yes then we can enqueue files through an fzf board,
-        by typing enter on each file name and then Escape to confirm and go back to main menu.
-        Note that multi selection is not supported.
+        by typing tab on each file name (multi selection) and then Enter to confirm.
 
     6) View default playlist:
 
@@ -221,4 +220,3 @@ mpm version 1.7-9
     https://www.youtube.com/@linuxinfrench9388/featured
 
     Press "q" to quit.
-

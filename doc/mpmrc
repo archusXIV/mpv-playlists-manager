@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.7-9)
+# ~/.config/mpm/mpmrc (version 1.8-0)
 
 ########################################################
 #                                                      #
@@ -77,7 +77,12 @@ quit_after_task="no"
 # audio/video urls from youtube in a simple but limited way.
 # In addition you can also use the ytfzf script if it is in your $PATH.
 # <https://github.com/pystardust/ytfzf>
+# yes/no
 use_fzf="no"
+
+# preview local files details while queueing them in option 5)
+# fzf_preview="mediainfo"
+fzf_preview="exiftool"
 
 # add/change your ytfzf preferences here
 # use odysee instead of youtube

@@ -3,8 +3,9 @@
 
 # shellcheck disable=SC2154,SC2015
 _SearchOnline() {
-    __
-    command -v ytfzf >/dev/null && {
+
+    if command -v ytfzf >/dev/null; then
+        __
         read -rsn1 \
         -p " ${info}Search ${Type} with regular [F]zf or [Y]tfzf script?: ${nc}" \
         searchOnlineOptions
@@ -21,6 +22,8 @@ _SearchOnline() {
                 clear
             ;;
         esac
-    } || _SearchYoutubeWithFzf
+    else
+        _SearchYoutubeWithFzf
+    fi
 
 }

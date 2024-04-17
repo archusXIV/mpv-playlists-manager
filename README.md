@@ -32,10 +32,13 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog
+- Added fzf multi-selection in _LoadLocal (option 5, queuing file).
+
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/fzf_multi-selection.png)
+
 - Added fzf functionality for files in _LoadLocal function.
 - Bug fixed in _SaveList function (wrong variable name).
-- No need to symlink yt-dlp to youtube-dl anymore except if you're used to, at the command line.
-- Added prompt when mpv owns the temporary list.
+- No need to symlink yt-dlp to youtube-dl anymore except if you're used to at the command line.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -90,7 +93,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When we use a [terminal user interface](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png) for mpv, the main window looks like this.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.7-9.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.8-0.png)
 
 
 ```

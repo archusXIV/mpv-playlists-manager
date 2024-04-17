@@ -84,8 +84,7 @@ _CreateAddPlaylist() {
             echo -e "                                                  ${mtitle}::${menuTitleType} OPTIONS::${nc}"
             echo -e "                               ┌──────────────────────────────────────────────────────┐"
             echo -e "                               │   1) Add ${Type} links         5) Play current list    │"
-            command -v fzf >/dev/null || echo -e "                               │   2) ${critical}Search online links ${nc}    6) View current list    │" \
-            && echo -e "                               │   2) Search online links     6) View current list    │"
+            echo -e "                               │   2) Search online links     6) View current list    │"
             echo -e "                               │   3) Download current list   7) Clear current list   │"
             echo -e "                               │   4) Save/Add current list   8) Back to main menu    │"
             echo -e "                               └──────────────────────────────────────────────────────┘"
@@ -98,15 +97,19 @@ _CreateAddPlaylist() {
                 1)  __copyLinks
                     __ ;;
                 2)
-                    if [[ $use_fzf = yes ]]; then
+                    if [[ -n $use_fzf && $use_fzf = yes ]]; then
                         clear
                         _SearchOnline
-                    else
+                    elif [[ -n $use_fzf ]]; then
                         __
                         printf '%s\n' \
-                            " ${critical}fzf is set to NO in your mpmrc file..." \
+                            " ${critical}use_fzf is set to NO in your mpmrc file..." \
                             " no way to search on youtube!${nc}"
                         sleep 5
+                    else
+                        __
+                        printf '%s\n' " ${critical}use_fzf is not set in your mpmrc..."
+                        sleep 3
                     fi
                 ;;
                 3)

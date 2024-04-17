@@ -19,7 +19,7 @@ _SearchYoutubeWithFzf() {
         __
         printf '%s\n' " ${critical}Tip: To copy links in the fzf menu press ${task}Enter" \
         " ${critical}on the desired ${Type} titles (can be a playlist)," \
-        " note that multi selection is not supported," \
+        " note that multi selection is NOT supported," \
         " so ${task}press Enter ${critical}on each title and then press ${task}Escape ${critical}to confirm.${nc}"
         __
         read -rp " ${info}Search for youtube ${Type} (no quotes): ${nc}" request
