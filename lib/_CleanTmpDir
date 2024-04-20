@@ -2,8 +2,7 @@
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
-# This function is called multiple times across this program,
-# but let's ensure temporary files are removed before we exit out. 
+# This function is executed by the trap command before we exit out. 
 _CleanTmpDir() {
     
     cd "$tmp_dir" || exit 1

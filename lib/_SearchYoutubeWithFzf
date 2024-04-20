@@ -4,28 +4,10 @@
 # shellcheck disable=SC2154
 _SearchYoutubeWithFzf() {
 
-    ! command -v fzf >/dev/null && {
-        __
-        printf '%s\n' " ${critical}fzf package is not installed...${nc}"
-        sleep 2
-        return
-    }
-
-    local sanitizedRequest sanitizedResult grabLink grabPlaylist IDS id selection \
-    mediaLinkIDS mediaPrefix playlistLinkIDS playlistPrefix
-
-    if [[ -z $* ]]; then
-        clear
-        __
-        printf '%s\n' " ${critical}Tip: To copy links in the fzf menu press ${task}Enter" \
-        " ${critical}on the desired ${Type} titles (can be a playlist)," \
-        " note that multi selection is NOT supported," \
-        " so ${task}press Enter ${critical}on each title and then press ${task}Escape ${critical}to confirm.${nc}"
-        __
-        read -rp " ${info}Search for youtube ${Type} (no quotes): ${nc}" request
-    else
-        request="$*"
-    fi
+    local sanitizedRequest sanitizedResult grabLink grabPlaylist IDS id \
+    mediaLinkIDS mediaPrefix playlistLinkIDS playlistPrefix playlistName
+    __
+    read -rp " ${info}Search for youtube ${Type} (no quotes): ${nc}" request
 
     [[ -z $request ]] && return
 
@@ -64,39 +46,45 @@ _SearchYoutubeWithFzf() {
     mediaPrefix="https://www.youtube.com/watch?v="
     playlistPrefix="https://www.youtube.com/playlist?list="
 
-    while true; do
-        selection=$(
-            echo -e "$IDS" | cut -d'	' -f2 \
-            | fzf \
-            --reverse \
-            --prompt='Filter: ' \
-            --header "${info}${b}"'Press Enter to copy, Escape to confirm & exit search: '"${nb}${nc}"
-        )
+    echo -e "$IDS" | cut -d'	' -f2 \
+    | fzf -m \
+    --prompt='Filter: ' \
+    --header "${info}${b}"'Select with Tab, Enter to confirm: '"${nb}${nc}" \
+    --border rounded \
+    --reverse \
+    | sed 's/\[.*]\s//' > "$TITLES"_tmp
+    clear
+    __
+    printf '%s\n' " ${info}Links added to $Type list, please wait...${nc}"
+    
+    while read -r line; do
 
         # grep a fixed string that is a word and matches only one line in selection.
-        id=$(echo -e "$IDS" | grep -Fwm1 "$selection" | cut -d'	' -f1)
+        id=$(echo -e "$IDS" | grep -Fwm1 "$line" | cut -d'	' -f1)
 
-        if [[ -z $selection ]]; then
-            return
-        else
-            notify-send "copied: $(echo -e "$selection" | sed "s/\[.*\]\s//")"
-        fi
+        playlistName=$(
+            yt-dlp "${ytdlPreset_DW[@]}" \
+            -J --flat-playlist "$playlistPrefix$id" 2>/dev/null \
+            | jq --raw-output .title
+        )
 
         case "$id" in
-            # 11 digits id = media
+            # 11 characters id = media
             ???????????)
                 echo "$mediaPrefix$id" | tee -a "$URLS" >> "$QUEUE"
-                echo -e "$selection" | sed "s/\[.*\]\s//" \
-                | tee -a "$TITLES" >> "$DEFAULTITLES"
+                echo -e "$line" | tee -a "$TITLES" >> "$DEFAULTITLES"
+                sed -i "/${playlistName}/d" {"$TITLES","$DEFAULTITLES"}
                 _RemoveCrap
             ;;
-            # 34 digits id = playlist
+            # 34 characters id = playlist
             ??????????????????????????????????)
                 echo "$playlistPrefix$id" >> "$YTSEARCH"
-            ;;
-            *)
-                return
+                _RemoveCrap
             ;;
         esac
-    done
+
+    done < "$TITLES"_tmp
+
+    rm "$TITLES"_tmp
+
 }

@@ -4,7 +4,18 @@
 # shellcheck disable=SC2154,SC2015
 _SearchOnline() {
 
-    if command -v ytfzf >/dev/null; then
+    local pkg
+
+    __searchOnlineTips() (
+        clear
+        __
+        printf '%s\n' " ${critical}Tip: To copy links in the ${pkg} menu press ${task}Tab" \
+        " ${critical}on the desired ${Type} titles," \
+        " note that multi selection is supported," \
+        " then press ${task}Enter ${critical}to confirm.${nc}"
+    )
+
+    if [[ -n $(command -v fzf) && -n $(command -v ytfzf) ]]; then
         __
         read -rsn1 \
         -p " ${info}Search ${Type} with regular [F]zf or [Y]tfzf script?: ${nc}" \
@@ -12,9 +23,13 @@ _SearchOnline() {
         
         case "$searchOnlineOptions" in
             f|F)
+                pkg="fzf"
+                __searchOnlineTips
                 _SearchYoutubeWithFzf
             ;;
             y|Y)
+                pkg="ytfzf"
+                __searchOnlineTips
                 _SearchOnlineWithYtfzf
             ;;
             *)
@@ -22,8 +37,19 @@ _SearchOnline() {
                 clear
             ;;
         esac
-    else
+
+    elif command -v fzf >/dev/null; then
+        pkg="fzf"
+        __searchOnlineTips
         _SearchYoutubeWithFzf
+    elif command -v ytfzf >/dev/null; then
+        pkg="ytfzf"
+        __searchOnlineTips
+        _SearchOnlineWithYtfzf
+    else
+        printf '%s\n' " ${critical}neither fzf nor ytfzf are installed..."
+        sleep 3
+        return
     fi
 
 }

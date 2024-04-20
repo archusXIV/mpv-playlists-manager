@@ -100,7 +100,7 @@ _CreateAddPlaylist() {
                     if [[ -n $use_fzf && $use_fzf = yes ]]; then
                         clear
                         _SearchOnline
-                    elif [[ -n $use_fzf ]]; then
+                    elif [[ -n $use_fzf && $use_fzf = no ]]; then
                         __
                         printf '%s\n' \
                             " ${critical}use_fzf is set to NO in your mpmrc file..." \

@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154
 _MpvOwnsTmpList() {
 
-    [[ -f $NOWPLAYING || -f $tmp_dir/fzfEnqueue ]] && {
+    [[ -f $NOWPLAYING || -e $tmp_dir/fzfEnqueue ]] && {
         
         pgrep -x mpv >/dev/null && {
 

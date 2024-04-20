@@ -32,13 +32,15 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog
+- Fixed bug using diff in install/upgrade process.
+- Refactored _SearchOnline function including more tests.
+- Added fzf multi-selection in _SearchYoutubeWithFzf
+  - ytfzf has this option by default so why not my own Youtube search function...
 - Added fzf multi-selection in _LoadLocal (option 5, queuing file).
 
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/fzf_multi-selection.png)
 
 - Added fzf functionality for files in _LoadLocal function.
-- Bug fixed in _SaveList function (wrong variable name).
-- No need to symlink yt-dlp to youtube-dl anymore except if you're used to at the command line.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.

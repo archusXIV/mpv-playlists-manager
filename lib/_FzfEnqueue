@@ -5,11 +5,13 @@
 _FzfEnqueue() {
 
     cd "$MEDIA_DIR"/"$dir" || return
-    rm fzfEnqueue.m3u 2>/dev/null
 
     ! command -v "$fzf_preview" && fzf_preview=(file -N -i --)
     
-    command ls "$MEDIA_DIR"/"$dir" | sed '/fzfEnqueue.m3u/d' | fzf -m \
+    command ls "$MEDIA_DIR"/"$dir" \
+    | sed '/fzfEnqueue.m3u/d' \
+    | fzf \
+    --multi \
     --border rounded \
     --prompt='Search: ' \
     --header "${info}${b}"'Press Tab on desired files, Enter to confirm: '"${nb}${nc}" \
@@ -20,6 +22,6 @@ _FzfEnqueue() {
     [[ ! -s fzfEnqueue.m3u ]] && return
     mpv --no-terminal "${mpvGenOptions_X[@]}" fzfEnqueue.m3u &
     use_mpvc_locally="yes"
-    ln -sr fzfEnqueue.m3u "$tmp_dir"/fzfEnqueue
+    ln -sr fzfEnqueue.m3u "$NOWPLAYING"
 
 }

@@ -31,7 +31,7 @@ _Menu() {
         [[ $quit_after_task = no ]] && echo -e "                  │  5) Load local folder/files     X) Exit                    │  quit after task:  ${task}$quit_after_task${nc}  │"
         echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
         pgrep -x mpv >/dev/null && _IfMpvc
-        [[ -f $tmp_dir/1 ]] \
+        test -f "$tmp_dir"/1 \
             && echo -e "                                                     ${info}Select an item${nc}" \
             || echo -e "                                                     ${info}${b}Select an item${nc}${nb}"
         __
@@ -68,7 +68,7 @@ _Menu() {
             q|Q)
                 pgrep -x mpv >/dev/null && {
                     kill -SIGTERM "$(pidof mpv)"
-                    rm {"$(readlink -f "$tmp_dir"/fzfEnqueue)","$CHOOSE1","$NOWPLAYING"} 2>/dev/null
+                    rm {"$(readlink -f "$NOWPLAYING")","$CHOOSE1","$NOWPLAYING"} 2>/dev/null
                     unset m3uFile
                 }
             ;;

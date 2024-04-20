@@ -14,7 +14,7 @@ _CheckDependencies() {
         "ueberzug"
         "wmctrl"
         "w3m"
-        "youtube-dl"
+        "ytfzf"
     )
 
     for dep in "${DEPS[@]:0:4}"; do
@@ -27,16 +27,8 @@ _CheckDependencies() {
 
     for opt in "${DEPS[@]:4:10}"; do
         ! command -v "$opt" >/dev/null && {
-            if [[ $opt = youtube-dl ]]; then
-                # should run only once
-                mkdir -p "$HOME"/.local/bin
-                PATH="$HOME/.local/bin:$PATH"
-                export PATH
-                ln -s /usr/bin/yt-dlp "$HOME"/.local/bin/youtube-dl
-            else
-                printf '%s\n' " For better experience consider installing $opt."
-                sleep 4
-            fi
+            printf '%s\n' " For better experience consider installing $opt."
+            sleep 4
         }
     done
     
