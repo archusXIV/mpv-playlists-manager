@@ -72,8 +72,9 @@ _SearchYoutubeWithFzf() {
             # 11 characters id = media
             ???????????)
                 echo "$mediaPrefix$id" | tee -a "$URLS" >> "$QUEUE"
-                echo -e "$line" | tee -a "$TITLES" >> "$DEFAULTITLES"
-                sed -i "/${playlistName}/d" {"$TITLES","$DEFAULTITLES"}
+                echo -e "$line" \
+                | sed "/${playlistName}/d" \
+                | tee -a "$TITLES" >> "$DEFAULTITLES"
                 _RemoveCrap
             ;;
             # 34 characters id = playlist

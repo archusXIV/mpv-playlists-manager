@@ -135,7 +135,6 @@ wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738
 Because we are terminal users so we can navigate across our local media files to queue them in mpv.
 You will also need some dependencies to make it functional, for example displaying image/video thumbnails preview
 with [ffmpegthumbnailer](https://github.com/dirkvdb/ffmpegthumbnailer). Make sure $XDG_CONFIG_HOME/ranger/scope.sh is executable.
-I also provide my ranger config directory to get you started if you're noob, drag it in ~/.config. Please use the help option for more information.
 ```
 FILEMANAGER="ranger"
 ```

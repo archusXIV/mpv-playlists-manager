@@ -106,17 +106,12 @@ mpm version 1.8-1
     
     5) Load local dir/files:
 
-        the following method uses ranger.
-        The possibility of watching or listening media files from disk is done with ranger
-        as a dependency. The default music and video directories are ~/Music & ~/Videos,
-        Change the local variables in _LoadLocal function if needed.
-        To use ranger in this function, just get mpvc script, and place it in your PATH.
-        https://github.com/lwilletts/mpvc/blob/master/mpvc
-        Then in "$XDG_CONFIG_HOME"/ranger/rifle.conf:
-        change lines (127-128):
-            127) mpvc add -- "$@"
-            128) mpvc add --fs -- "$@"
-        Make sure that you have enabled; set preview_images_method ueberzug (has to be installed)
+        The following method uses ranger.
+        The possibility of watching or listening media files from disk is done with any
+        terminal file manager. Please configure it properly.
+        The default music and video directories are ~/Music & ~/Videos.
+        To use ranger in this function, make sure that you have enabled;
+        'set preview_images_method ueberzug' (has to be installed),
         if you do not use URxvt for example (w3m works fine for URxvt/xterm).
         
         Since version 1.7-9, if use_fzf is set to yes then we can enqueue files through an fzf board,
