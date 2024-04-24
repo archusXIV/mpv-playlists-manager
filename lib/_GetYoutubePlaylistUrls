@@ -6,21 +6,40 @@ _GetYoutubePlaylistUrls() {
 
     case "$1" in
         -a|-v)
-            yt-dlp "${ytdlPreset_DW[@]}" -j "$mediaUrl" \
-            | jq --raw-output '(.webpage_url)' \
-            | tee -a "$QUEUE" >> "$URLS"
-            sed -i '/playlist/d' {"$QUEUE","$URLS"}
+            if [[ -n $(command -v ytfzf) && $use_fzf = yes ]]; then
+
+                ytfzf -A -I VJ --scrape=youtube-playlist \
+                "$mediaUrl" > "$YTFZFJSON"
+                clear
+                jq --raw-output '.[].url' "$YTFZFJSON" \
+                | tee -a "$QUEUE" >> "$URLS"
+                jq --raw-output '.[].title' "$YTFZFJSON" \
+                | tee -a "$DEFAULTITLES" >> "$TITLES"
+                rm "$YTFZFJSON"
+
+            else
+
+                _YtdlGetTitle "$mediaUrl" \
+                | tee -a "$TITLES" >> "$DEFAULTITLES"
+                
+                yt-dlp "${ytdlPreset_DW[@]}" -j "$mediaUrl" \
+                | jq --raw-output '(.webpage_url)' \
+                | tee -a "$QUEUE" >> "$URLS"
+
+            fi
         ;;
         -s)
             mapfile -t < <(grep '^https' "$YTSEARCH")
             # there might be several playlists urls selected in 
             # _Search{Online,Youtube}With functions so we enter in a loop.
             for url in "${MAPFILE[@]}"; do
+
+                playlistName=$(yt-dlp "${ytdlPreset_DW[@]}" -J \
+                --flat-playlist "$url" | jq --raw-output .title)
                 __
                 printf '%s\n' \
                 " ${info}Please be patient while extracting urls/titles from:" \
-                " $(yt-dlp "${ytdlPreset_DW[@]}" -J --flat-playlist "$url" \
-                | jq --raw-output .title) playlist...${nc}"
+                " $playlistName playlist...${nc}"
 
                 yt-dlp "${ytdlPreset_DW[@]}" -j "$url" \
                 | jq --raw-output '(.webpage_url)' \
@@ -28,17 +47,17 @@ _GetYoutubePlaylistUrls() {
                 
                 _YtdlGetTitle "$url" \
                 | tee -a "$TITLES" >> "$DEFAULTITLES"
-                sed -i '1d' "$YTSEARCH"
                 clear
             done
             
             unset url
-            sed -i '/playlist/d' {"$QUEUE","$URLS"}
             _RemoveCrap
             rm "$YTSEARCH"
             clear && return
             
         ;;
     esac
+
+    sed -i '/playlist/d' {"$QUEUE","$URLS"}
 
 }

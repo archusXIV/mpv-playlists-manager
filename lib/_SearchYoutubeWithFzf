@@ -24,7 +24,7 @@ _SearchYoutubeWithFzf() {
     )
 
     if ! grep -q "$sanitizedRequest" <<< "$sanitizedResult"; then
-        echo "unable to reach youtube.com"
+        printf '%s\n' " ${critical}Unable to reach youtube.com${nc}"
         sleep 2s
         return
     fi
@@ -47,19 +47,25 @@ _SearchYoutubeWithFzf() {
     playlistPrefix="https://www.youtube.com/playlist?list="
 
     echo -e "$IDS" | cut -d'	' -f2 \
-    | fzf -m \
+    | fzf --multi \
     --prompt='Filter: ' \
     --header "${info}${b}"'Select with Tab, Enter to confirm: '"${nb}${nc}" \
     --border rounded \
     --reverse \
     | sed 's/\[.*]\s//' > "$TITLES"_tmp
+
+    test ! -s "$TITLES"_tmp && {
+        rm "$TITLES"_tmp
+        return
+    }
+    
     clear
     __
     printf '%s\n' " ${info}Links added to $Type list, please wait...${nc}"
     
     while read -r line; do
 
-        # grep a fixed string that is a word and matches only one line in selection.
+        # grep a fixed string that is a word and matches only one line.
         id=$(echo -e "$IDS" | grep -Fwm1 "$line" | cut -d'	' -f1)
 
         playlistName=$(
@@ -75,17 +81,16 @@ _SearchYoutubeWithFzf() {
                 echo -e "$line" \
                 | sed "/${playlistName}/d" \
                 | tee -a "$TITLES" >> "$DEFAULTITLES"
-                _RemoveCrap
             ;;
             # 34 characters id = playlist
             ??????????????????????????????????)
                 echo "$playlistPrefix$id" >> "$YTSEARCH"
-                _RemoveCrap
             ;;
         esac
 
     done < "$TITLES"_tmp
 
+    _RemoveCrap
     rm "$TITLES"_tmp
 
 }

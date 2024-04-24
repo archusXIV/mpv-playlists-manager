@@ -6,6 +6,7 @@ _CreateAddPlaylist() {
 
     local Type TITLES URLS menuTitleType arg mediaUrl supportedSites file
     supportedSites="https://github.com/ytdl-org/yt-dlp/blob/master/docs/supportedsites.md"
+    
     test -f "$tmp_dir"/1 && rm "$tmp_dir"/1
 
     case "$1" in
@@ -27,113 +28,104 @@ _CreateAddPlaylist() {
         ;;
     esac
 
-    while (( $(grep "" -c "$QUEUE") > 0 )); do
-    
-        __copyLinks() (
-            __
-            echo -e " Paste an url to fill the ${info}${Type}${nc} playlist:\n"
-            read -r mediaUrl
+    __copyLinks() (
+        __
+        echo -e " Paste an url to fill the ${info}${Type}${nc} playlist:\n"
+        read -r mediaUrl
 
-            if [[ $mediaUrl =~ 'playlist?list=' ]]; then
+        if [[ $mediaUrl =~ 'playlist?list=' ]]; then
+            __
+            printf '%s\n' " ${info}Getting titles & links from playlist: $(\
+            yt-dlp "${ytdlPreset_DW[@]}" -J --flat-playlist "$mediaUrl" \
+            | jq -r .title)..." \
+            "${b} Please be patient.${nb}${nc}" && sleep 1
+            _GetYoutubePlaylistUrls $arg
+            
+        else
+            echo "$mediaUrl" >> "$URLS"
+            _RemoveCrap
+            __
+            printf '%s\n' " ${info}Testing url...${nc}"
+            mediaUrl=$(sed -n '$p' "$URLS")
+            yt-dlp -F "${ytdlPreset_DW[@]}" "$mediaUrl" > "$YTOP"
+
+            if [[ $? -eq 1 ]]; then
                 __
-                printf '%s\n' " ${info}Getting titles & links from playlist: $(\
-                yt-dlp "${ytdlPreset_DW[@]}" -J --flat-playlist "$mediaUrl" \
-                | jq -r .title)..." \
-                "${b} Please be patient.${nb}${nc}"
-                
-                _YtdlGetTitle "$mediaUrl" \
-                | tee -a "$TITLES" >> "$DEFAULTITLES"
-                _GetYoutubePlaylistUrls $arg
-                _RemoveCrap
+                echo -e " ${critical}${b}No format code found!${nb}\n$mediaUrl will be removed."
+                printf '%s\n' " ${info}Please visit: $supportedSites${nc}"
+                sed -i '$d' "$URLS"
+                sleep 7
+                [[ $(_GetLinesList $arg) -eq 0 ]] && return
             else
-
-                echo "$mediaUrl" >> "$URLS"
-                __
-                echo -e " ${info}Testing url...${nc}"
+                echo "$mediaUrl" >> "$QUEUE"
+                echo -e " ${info}Getting ${Type} title...${nc}\n"
+                _YtdlGetTitle "$(sed -n '$p' "$URLS")" \
+                | tee -a "$TITLES" >> "$DEFAULTITLES"
                 _RemoveCrap
-                mediaUrl=$(sed -n '$p' "$URLS")
-                yt-dlp -F "${ytdlPreset_DW[@]}" "$mediaUrl" > "$YTOP"
-
-                if [[ $? -eq 1 ]]; then
-                    __
-                    echo -e " ${critical}${b}No format code found!${nb}\n$mediaUrl will be removed."
-                    echo " ${info}Please visit: $supportedSites${nc}"
-                    sed -i '$d' "$URLS"
-                    _RemoveCrap
-                    sleep 7
-                    [[ $(_GetLinesList $arg) -eq 0 ]] && return
-                else
-                    echo "$mediaUrl" >> "$QUEUE"
-                    echo -e " ${info}Getting ${Type} title...${nc}\n"
-                    _YtdlGetTitle "$mediaUrl" \
-                    | tee -a "$TITLES" >> "$DEFAULTITLES"
-                    _RemoveCrap
-                fi
-
             fi
-        )
-        
-        while true; do
-            _ResizeWindow
-            clear
-            
-            test -s "$YTSEARCH" && _GetYoutubePlaylistUrls -s
-            __
-            test -s "$URLS"  && \
-            echo -e " ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}"
-            echo -e "                                                  ${mtitle}::${menuTitleType} OPTIONS::${nc}"
-            echo -e "                               ┌──────────────────────────────────────────────────────┐"
-            echo -e "                               │   1) Add ${Type} links         5) Play current list    │"
-            echo -e "                               │   2) Search online links     6) View current list    │"
-            echo -e "                               │   3) Download current list   7) Clear current list   │"
-            echo -e "                               │   4) Save/Add current list   8) Back to main menu    │"
-            echo -e "                               └──────────────────────────────────────────────────────┘"
-            test -s "$URLS"  \
-            && echo -e "                                                   ${info}Select an item${nc}" \
-            || echo -e "                                                   ${info}${b}Select an item${nb}${nc}"
-            __
-            read -rsn 1 createAddPlaylistOptions
-            case "$createAddPlaylistOptions" in
-                1)  __copyLinks
-                    __ ;;
-                2)
-                    if [[ -n $use_fzf && $use_fzf = yes ]]; then
-                        clear
-                        _SearchOnline
-                    elif [[ -n $use_fzf && $use_fzf = no ]]; then
-                        __
-                        printf '%s\n' \
-                            " ${critical}use_fzf is set to NO in your mpmrc file..." \
-                            " no way to search on youtube!${nc}"
-                        sleep 5
-                    else
-                        __
-                        printf '%s\n' " ${critical}use_fzf is not set in your mpmrc..."
-                        sleep 3
-                    fi
-                ;;
-                3)
-                    [[ $arg = '-a' ]] && _GetAudio -a || _GetVideo -v
-                    __ ;;
-                4)  _Save $arg
-                    __ ;;
-                5)
-                    _MpvOwnsTmpList --list
-                    _LoadAudioVideo $arg
-                    __ ;;
-                6)  _ViewUrlInfo $arg
-                    __ ;;
-                7)  _Remove $arg
-                    __ ;;
-                8)  _Menu
-                    __ ;;
-                *)
-                    _WrongOption "$createAddPlaylistOptions" && continue
-                ;;
-            esac
-            
-        done
+        fi
 
+    )
+
+    while true; do
+        _ResizeWindow
+        clear
+        
+        test -s "$YTSEARCH" && _GetYoutubePlaylistUrls -s
+        __
+        test -s "$URLS"  && \
+        echo -e " ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}"
+        echo -e "                                                  ${mtitle}::${menuTitleType} OPTIONS::${nc}"
+        echo -e "                               ┌──────────────────────────────────────────────────────┐"
+        echo -e "                               │   1) Add ${Type} links         5) Play current list    │"
+        echo -e "                               │   2) Search online links     6) View current list    │"
+        echo -e "                               │   3) Download current list   7) Clear current list   │"
+        echo -e "                               │   4) Save/Add current list   8) Back to main menu    │"
+        echo -e "                               └──────────────────────────────────────────────────────┘"
+        test -s "$URLS"  \
+        && echo -e "                                                   ${info}Select an item${nc}" \
+        || echo -e "                                                   ${info}${b}Select an item${nb}${nc}"
+        __
+        read -rsn 1 createAddPlaylistOptions
+        case "$createAddPlaylistOptions" in
+            1)  __copyLinks
+                __ ;;
+            2)
+                if [[ $use_fzf = yes ]]; then
+                    clear
+                    _SearchOnline
+                elif [[ $use_fzf = no ]]; then
+                    __
+                    printf '%s\n' \
+                        " ${critical}use_fzf is set to NO in your mpmrc file..." \
+                        " no way to search online!${nc}"
+                    sleep 5
+                else
+                    __
+                    printf '%s\n' " ${critical}use_fzf is not set in your mpmrc..."
+                    sleep 3
+                fi
+            ;;
+            3)
+                [[ $arg = '-a' ]] && _GetAudio -a || _GetVideo -v
+                __ ;;
+            4)  _Save $arg
+                __ ;;
+            5)
+                _MpvOwnsTmpList --list
+                _LoadAudioVideo $arg
+                __ ;;
+            6)  _ViewUrlInfo $arg
+                __ ;;
+            7)  _Remove $arg
+                __ ;;
+            8)  _Menu
+                __ ;;
+            *)
+                _WrongOption "$createAddPlaylistOptions" && continue
+            ;;
+        esac
+        
     done
 
 }

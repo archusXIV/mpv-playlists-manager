@@ -31,7 +31,7 @@ pids=($(pidof -x $mpvmenu))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.1.8-1"
+VERSION="v.1.8-2"
 
 : "${XDG_CONFIG_HOME:-$HOME/.config}"
 CONF_DIR="$XDG_CONFIG_HOME/mpm"
@@ -76,6 +76,7 @@ VIDEO_URLS="$tmp_dir/temporaryVideoUrls.m3u"
 VIDEO_TITLES="$tmp_dir/temporaryVideoTitles"
 YTOP="$tmp_dir/youtube-dl_output"
 YTSEARCH="$tmp_dir/youtubeSearch"
+YTFZFJSON="$tmp_dir/ytfzf.json"
 
 _LaunchMpm() {
     _Prompt " ${info}Launch mpm? ${nc}" || {

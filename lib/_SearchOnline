@@ -9,10 +9,10 @@ _SearchOnline() {
     __searchOnlineTips() (
         clear
         __
-        printf '%s\n' " ${critical}Tip: To copy links in the ${pkg} menu press ${task}Tab" \
-        " ${critical}on the desired ${Type} titles," \
-        " note that multi selection is supported," \
-        " then press ${task}Enter ${critical}to confirm.${nc}"
+        printf '%s\n' \
+        " ${critical}Tip: In the ${pkg} menu press ${task}Tab ${critical}on the desired ${Type} titles," \
+            " then press ${task}Enter ${critical}to confirm. Press ${task}Escape ${critical}to cancel." \
+            " (note that multi selection is supported)${nc}"
     )
 
     if [[ -n $(command -v fzf) && -n $(command -v ytfzf) ]]; then
@@ -47,7 +47,7 @@ _SearchOnline() {
         __searchOnlineTips
         _SearchOnlineWithYtfzf
     else
-        printf '%s\n' " ${critical}neither fzf nor ytfzf are installed..."
+        printf '%s\n' " ${critical}neither fzf nor ytfzf are installed...${nc}"
         sleep 3
         return
     fi
