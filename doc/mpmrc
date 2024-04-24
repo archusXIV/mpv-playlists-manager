@@ -41,7 +41,7 @@ FILEMANAGER="ranger"
 
 # The main directory can be renamed but must be present for mpm to work.
 # main_dir="$HOME/Documents/mpv-playlists-manager"
-main_dir="$HOME/*local/share/mpv-playlists-manager"
+main_dir="$HOME/.local/share/mpv-playlists-manager"
 
 # define your multimedia directories according to your locales.
 MUSIC_DIR="$HOME/Music"
