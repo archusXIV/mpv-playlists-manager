@@ -31,7 +31,7 @@ _diffRc() {
         printf '\e[38;2;206;34;30m~/.config/mpm/themerc created.\e[0m\n'
     else
         mkdir --parents "$CONF_DIR"
-        cp ./{mpmrc,themerc} "$CONF_DIR"
+        cp doc/{mpmrc,themerc} "$CONF_DIR"
         
         printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc created, edit your settings there.\e[0m\n'
     fi
