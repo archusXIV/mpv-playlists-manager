@@ -31,7 +31,7 @@ height=738
 THEME="default"
 
 ## default editor used to edit this file.
-MPMEDITOR="${EDITOR:-vim}"
+MPMEDITOR="vim"
 
 ## default file manager (can be any terminal file manager)
 ## used in option 5) Load local dir/files
