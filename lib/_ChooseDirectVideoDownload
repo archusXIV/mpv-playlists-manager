@@ -43,7 +43,5 @@ _ChooseDirectVideoDownload() {
     done < "$CHOOSE1"
 
     unset url
-    echo " ${info}All done${nc}"
-    sleep 2
 
 }

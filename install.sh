@@ -22,8 +22,7 @@ _diffRc() {
 
     elif [[ -f $MPMRC && ! -f $THEMERC ]]; then
 
-        diff -U 9999999 "$MPMRC" \
-        ./mpmrc > "$MPMRC".diff
+        diff -U 9999999 "$MPMRC" doc/mpmrc > "$MPMRC".diff
 
         cp doc/themerc "$CONF_DIR"
 

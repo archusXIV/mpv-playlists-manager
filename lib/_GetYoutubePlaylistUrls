@@ -9,13 +9,13 @@ _GetYoutubePlaylistUrls() {
             if [[ -n $(command -v ytfzf) && $use_fzf = yes ]]; then
 
                 ytfzf -A -I VJ --scrape=youtube-playlist \
-                "$mediaUrl" > "$YTFZFJSON"
-                clear
+                "$mediaUrl" > "$YTFZFJSON";clear
                 jq --raw-output '.[].url' "$YTFZFJSON" \
                 | tee -a "$QUEUE" >> "$URLS"
                 jq --raw-output '.[].title' "$YTFZFJSON" \
                 | tee -a "$DEFAULTITLES" >> "$TITLES"
                 rm "$YTFZFJSON"
+                _RemoveCrap
 
             else
 
@@ -30,7 +30,7 @@ _GetYoutubePlaylistUrls() {
         ;;
         -s)
             mapfile -t < <(grep '^https' "$YTSEARCH")
-            # there might be several playlists urls selected in 
+            # there might be several playlists urls selected in
             # _Search{Online,Youtube}With functions so we enter in a loop.
             for url in "${MAPFILE[@]}"; do
 

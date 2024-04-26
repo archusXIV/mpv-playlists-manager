@@ -27,21 +27,18 @@ _ViewUrlInfoDefault() {
             read -rsn 1 viewUrlInfoDefaultOptions
             case "$viewUrlInfoDefaultOptions" in
                 d|D)
+                    _MpvOwnsTmpList --default || \
                     __
-                    read -rsn 1 -p "${info}"' Download [A]udio, [V]ideo:'"${nc}" get
+                    read -rsn 1 -p "${info}"' Download [A]udio, [V]ideo, [C]ancel: '"${nc}" get
                     case "$get" in
                         a|A) __; _GetAudio -q ;;
                         v|V) __; _GetVideo -q ;;
-                        *)
-                            __
-                            _WrongOption "$get"
-                            return
-                        ;;
+                        *) _ViewUrlInfo -q ;;
                     esac
                 ;;
                 m|M) _Menu ;;
                 p|P)
-                    _MpvOwnsTmpList --list
+                    _MpvOwnsTmpList --default || \
                     __
                     read -rsn 1 -p "${info}"' Play [A]udio, [V]ideo?: '"${nc}" play
                     case "$play" in
@@ -53,8 +50,11 @@ _ViewUrlInfoDefault() {
                         ;;
                     esac
                 ;;
-                r|R) _Remove -q ;;
+                r|R)
+                    _MpvOwnsTmpList --default || _Remove -q
+                ;;
                 s|S)
+                    _MpvOwnsTmpList --default || \
                     if [[ -f $DEFAULTITLES ]]; then
                         _Save -q
                     else

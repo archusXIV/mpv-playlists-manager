@@ -29,9 +29,14 @@ _CreateAddPlaylist() {
     esac
 
     __copyLinks() (
-        __
-        echo -e " Paste an url to fill the ${info}${Type}${nc} playlist:\n"
-        read -r mediaUrl
+        
+        if [[ -n $(command -v xclip) ]]; then
+            read -r mediaUrl < <(xclip -o)
+        else
+            __
+            echo -e " Paste an url to fill the ${info}${Type}${nc} playlist:\n"
+            read -r mediaUrl
+        fi
 
         if [[ $mediaUrl =~ 'playlist?list=' ]]; then
             __
@@ -46,7 +51,7 @@ _CreateAddPlaylist() {
             _RemoveCrap
             __
             printf '%s\n' " ${info}Testing url...${nc}"
-            mediaUrl=$(sed -n '$p' "$URLS")
+            # mediaUrl=$(sed -n '$p' "$URLS")
             yt-dlp -F "${ytdlPreset_DW[@]}" "$mediaUrl" > "$YTOP"
 
             if [[ $? -eq 1 ]]; then
@@ -59,9 +64,10 @@ _CreateAddPlaylist() {
             else
                 echo "$mediaUrl" >> "$QUEUE"
                 echo -e " ${info}Getting ${Type} title...${nc}\n"
-                _YtdlGetTitle "$(sed -n '$p' "$URLS")" \
+                _YtdlGetTitle "$mediaUrl" \
                 | tee -a "$TITLES" >> "$DEFAULTITLES"
                 _RemoveCrap
+                
             fi
         fi
 
@@ -74,7 +80,10 @@ _CreateAddPlaylist() {
         test -s "$YTSEARCH" && _GetYoutubePlaylistUrls -s
         __
         test -s "$URLS"  && \
-        echo -e " ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}"
+        echo -e " ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}\n"
+        [[ -n $(command -v xclip) ]] && \
+        printf '%s\n' "                                  ${info}xclip is installed, first copy a link then press 1)${nc}"
+        __
         echo -e "                                                  ${mtitle}::${menuTitleType} OPTIONS::${nc}"
         echo -e "                               ┌──────────────────────────────────────────────────────┐"
         echo -e "                               │   1) Add ${Type} links         5) Play current list    │"
@@ -107,17 +116,19 @@ _CreateAddPlaylist() {
                 fi
             ;;
             3)
+                _MpvOwnsTmpList --list || \
                 [[ $arg = '-a' ]] && _GetAudio -a || _GetVideo -v
                 __ ;;
-            4)  _Save $arg
+            4)
+                _MpvOwnsTmpList --list || _Save $arg
                 __ ;;
             5)
-                _MpvOwnsTmpList --list
-                _LoadAudioVideo $arg
+                _MpvOwnsTmpList --list || _LoadAudioVideo $arg
                 __ ;;
             6)  _ViewUrlInfo $arg
                 __ ;;
-            7)  _Remove $arg
+            7)
+                _MpvOwnsTmpList --list || _Remove $arg
                 __ ;;
             8)  _Menu
                 __ ;;

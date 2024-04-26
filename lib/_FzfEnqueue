@@ -5,6 +5,8 @@
 _FzfEnqueue() {
 
     cd "$MEDIA_DIR"/"$dir" || return
+    _ResizeWindow
+    rm fzfEnqueue.m3u 2>/dev/null
 
     ! command -v "$fzf_preview" && fzf_preview=(file -N -i --)
     
@@ -19,9 +21,13 @@ _FzfEnqueue() {
     --preview-window=right:55% \
     --preview="$fzf_preview {}" >> fzfEnqueue.m3u
 
-    [[ ! -s fzfEnqueue.m3u ]] && return
-    mpv --no-terminal "${mpvGenOptions_X[@]}" fzfEnqueue.m3u &
+    [[ ! -s fzfEnqueue.m3u ]] && {
+        rm fzfEnqueue.m3u
+        return
+    }
+
     use_mpvc_locally="yes"
+    mpv --no-terminal "${mpvGenOptions_X[@]}" fzfEnqueue.m3u &
     ln -sr fzfEnqueue.m3u "$NOWPLAYING"
 
 }
