@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2015
 _MpvOwnsTmpList() {
 
     [[ -f $NOWPLAYING || -e $tmp_dir/fzfEnqueue ]] && {
@@ -9,37 +9,54 @@ _MpvOwnsTmpList() {
         pgrep -x mpv >/dev/null && {
 
             case "$1" in
+                --default)
+                    if [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ 'default' ]]; then
+                        name="default"
+                        action=" if you want to download/remove/save the $name list,"
+                    else
+                        return
+                    fi
+                ;;
                 --list)
-                    action=" if you want to play the current list,"
+                    if [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ $Type ]]; then
+                        name="$Type"
+                        action=" if you want to download/remove/save the $name list,"
+                    else
+                        return
+                    fi
                 ;;
                 --local)
-                    action=" if you want to queue or parse another directory,"
+                    if [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ default|$Type ]]; then
+                        name="another"
+                        action=" if you want to queue a directory/file(s),"
+                    else
+                        return
+                    fi
                 ;;
             esac
             __
-            printf '%s\n' " ${critical}mpv is already running..." \
+            printf '%s\n' " ${critical}mpv owns $name playlist..." \
             "$action" \
-            " just quit mpv first to continue.${nc}"
+            " just quit mpv first to proceed.${nc}"
             __
             read -rsn 1 \
             -p " ${info}[Q]uit mpv, [A]bort: ${nc}" mpvOwnsTmpListOptions
             case "$mpvOwnsTmpListOptions" in
                 q|Q)
                     kill -SIGTERM "$(pidof mpv)"
-                    rm "$(readlink -f "$tmp_dir"/fzfEnqueue)" 2>/dev/null
+                    rm "$(readlink -f "$tmp_dir"/fzfEnqueue)" "$NOWPLAYING" 2>/dev/null
                     clear
                     __
                     return
                 ;;
                 a|A)
-                    _Menu
+                    return
                 ;;
                 *)
                     _WrongOption "$mpvOwnsTmpListOptions" && _Menu
                 ;;
             esac
         }
-        rm "$NOWPLAYING"
 
     }
 
