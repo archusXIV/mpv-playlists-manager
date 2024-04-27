@@ -3,14 +3,14 @@
 
 # shellcheck disable=SC2154,SC2015
 _MpvOwnsTmpList() {
-
+    
     [[ -f $NOWPLAYING || -e $tmp_dir/fzfEnqueue ]] && {
         
         pgrep -x mpv >/dev/null && {
 
             case "$1" in
                 --default)
-                    if [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ 'default' ]]; then
+                    if [[ $(sed -n '1p' "$NOWPLAYING") =~ default ]]; then
                         name="default"
                         action=" if you want to download/remove/save the $name list,"
                     else
@@ -18,7 +18,7 @@ _MpvOwnsTmpList() {
                     fi
                 ;;
                 --list)
-                    if [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ $Type ]]; then
+                    if [[ $(sed -n '1p' "$NOWPLAYING") =~ $Type ]]; then
                         name="$Type"
                         action=" if you want to download/remove/save the $name list,"
                     else
@@ -26,9 +26,13 @@ _MpvOwnsTmpList() {
                     fi
                 ;;
                 --local)
-                    if [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ default|$Type ]]; then
-                        name="another"
-                        action=" if you want to queue a directory/file(s),"
+                    action=" if you want to queue a directory/file(s),"
+                    if [[ -L $NOWPLAYING ]]; then
+                        name="a local"
+                    elif [[ $(sed -n '1p' "$NOWPLAYING") =~ $Type ]]; then
+                        name="$Type"
+                    elif [[ $(sed -n '1p' "$NOWPLAYING") =~ temporarySelection ]]; then
+                        name="a collection"
                     else
                         return
                     fi
@@ -44,13 +48,12 @@ _MpvOwnsTmpList() {
             case "$mpvOwnsTmpListOptions" in
                 q|Q)
                     kill -SIGTERM "$(pidof mpv)"
-                    rm "$(readlink -f "$tmp_dir"/fzfEnqueue)" "$NOWPLAYING" 2>/dev/null
+                    rm {"$MEDIA_DIR"/"$dir"/fzfEnqueue.m3u,"$NOWPLAYING"} 2>/dev/null
                     clear
                     __
-                    return
                 ;;
                 a|A)
-                    return
+                    _Menu
                 ;;
                 *)
                     _WrongOption "$mpvOwnsTmpListOptions" && _Menu
