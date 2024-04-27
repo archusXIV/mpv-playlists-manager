@@ -50,13 +50,19 @@ _CheckDependencies() {
         exit 1
     }
     
+    __createSubdirs() (
+        [[ ! -d $audios_dir ]] && mkdir --parents "$audios_dir"
+        [[ ! -d $playlist_dir ]] && mkdir --parents "$playlist_dir"
+        [[ ! -d $titles_dir ]] && mkdir --parents "$titles_dir"
+        [[ ! -d $tmp_dir ]] && mkdir --parents "$tmp_dir"
+        [[ ! -d $videos_dir ]] && mkdir --parents "$videos_dir"
+    ) 2>/dev/null
+
     if [[ ! -d $main_dir ]]; then
-        mpmDirs=( "$audios_dir" "$playlists_dir"
-        "$titles_dir" "$tmp_dir" "$videos_dir" )
-        
-        for dir in "${mpmDirs[@]}"; do
-            [[ ! -d $dir ]] && mkdir --parents "$dir"
-        done
+        mkdir --parents "$main_dir"
+        __createSubdirs
+    else
+        __createSubdirs
     fi
     
     cp -f /usr/local/share/doc/mpm/mpm_yt-videos.m3u "$playlists_dir"

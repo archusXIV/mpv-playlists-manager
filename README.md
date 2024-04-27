@@ -32,11 +32,10 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog
+- Fixed bug in _CheckDependencies & _ConvertAudio
 - Fixed bug in _ChooseDownloadVideo
 - Added faster youtube playlist analysis using ytfzf if installed.
 - Fixed bug using diff in install/upgrade process.
-- Added fzf multi-selection in _SearchYoutubeWithFzf
-  - ytfzf has this option by default so why not my own Youtube search function...
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.

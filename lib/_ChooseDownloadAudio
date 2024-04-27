@@ -13,8 +13,15 @@ _ChooseDownloadAudio() {
     clear
     cp -f "$list" "$list"_origin
     cp -f "$SELECTEDTITLES" "$SELECTEDTITLES"_orgin
-    mkdir --parents "$audios_dir"/"${list%.*}" \
-    && cd "$audios_dir"/"${list%.*}"
+
+    mkdir --parents "$audios_dir"/"${list%.*}"
+    AUDIO_DIR="$audios_dir"/"${list%.*}"
+    cd "$AUDIO_DIR" || {
+        printf '%s\n' \
+        " ${critical}Failed to access audio directory.${nc}"
+        sleep 4
+        _Menu
+    }
 
     M3UFILE="$CHOOSE1"
     readarray -t SELECTEDAUDIO < "$M3UFILE"
@@ -41,7 +48,7 @@ _ChooseDownloadAudio() {
     )
 
     for url in "${SELECTEDAUDIO[@]}"; do
-        # [[ $url =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]
+
         if [[ $direct_download = yes ]] && \
             [[ $(yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
             | grep '^251') ]]; then

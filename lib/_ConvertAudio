@@ -1,16 +1,20 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2034,SC2154,SC2164,SC2015,SC1083
+# shellcheck disable=SC2034,SC2154,SC2015,SC1083
 _ConvertAudio() {
 
     local webmFiles
-    [[ -d "$audios_dir"/"${list%.*}" ]] \
-    && cd "$audios_dir"/"${list%.*}" \
-    || cd "$audios_dir"
+
+    cd "$AUDIO_DIR" || {
+        printf '%s\n' \
+        " ${critical}Failed to access audio directory.${nc}"
+        sleep 4
+        _Menu
+    }
 
     # because webmFiles is local child functions will inherite its value.
-    mapfile -t webmFiles < <(find "$audios_dir" -maxdepth 2 -iname "*.webm")
+    mapfile -t webmFiles < <(find . -iname "*.webm")
     
     if [[ -n $default_conversion_format ]]; then
         __
@@ -34,7 +38,7 @@ _ConvertAudio() {
     else
         __
         printf '%s\n' " ${critical}Conversion format isn't set..." \
-        " ${info}Press Enter to abort conversion.${nc}"
+        " ${info}(Press Enter to abort conversion.)${nc}"
         declare -A formats=(
             [1]="aac"
             [2]="flac"
@@ -44,7 +48,7 @@ _ConvertAudio() {
         )
         __
         read -rn1 \
-        -p " ${info}Select an output format [1=aac] [2=flac] [3=mp3] [4=ogg] [5=wav]: ${nc}"
+        -p " ${info}Select an output format [1]=aac [2]=flac [3]=mp3 [4]=ogg [5]=wav: ${nc}"
         
         case "$REPLY" in
             [1-5])
@@ -65,16 +69,18 @@ _ConvertAudio() {
                 fi
             ;;
             *)
+                _WrongOption "$REPLY"
                 __
                 find "$audios_dir" -maxdepth 2 -name "*.webm" >/dev/null && {
                     mv ./*.webm "$MUSIC_DIR"
+                    # we have moved the files that could be found in a subfolder,
+                    # because $AUDIO_DIR can be "$audios_dir" or "$audios_dir"/"${list%.*}",
+                    # we now delete this empty folder.
+                    find "$audios_dir" -maxdepth 2 -type d -empty -exec rmdir {} \; 2>/dev/null
                     printf '%s\n' " ${critical}Conversion aborted," \
                     " All .webm files have been moved in $MUSIC_DIR.${nc}"
-                    sleep 3
-                } || printf '%s\n' " ${critical}Wrong format $REPLY...${nc}"
-                __
-                sleep 2
-                return
+                    sleep 2
+                }
             ;;
         esac
         
