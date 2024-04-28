@@ -34,7 +34,7 @@ _SelectLocalDir() {
                 " or some files aren't audio/video stuff," \
                 " they may be in subdirectories...${nc}"
                 __
-                _Prompt " ${info}Do you want to open $dir and try again? ${nc}" || {
+                _Prompt " ${info}Do you want to open $dir and try again?${nc}" || {
                     continue
                 }
                 "$FILEMANAGER" "$dir"

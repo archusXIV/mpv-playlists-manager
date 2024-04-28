@@ -79,7 +79,7 @@ YTSEARCH="$tmp_dir/youtubeSearch"
 YTFZFJSON="$tmp_dir/ytfzf.json"
 
 _LaunchMpm() {
-    _Prompt " ${info}Launch mpm? ${nc}" || {
+    _Prompt " ${info}Launch mpm?${nc}" || {
         exit
     }
     _CheckDependencies "${@}"

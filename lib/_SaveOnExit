@@ -7,7 +7,7 @@ _SaveOnExit() {
     cd "$playlists_dir" || exit 1
 
     _Prompt -n \
-        " ${critical}Some temporary lists aren't saved, quit anyway?: ${nc}" && {
+        " ${critical}Some temporary lists aren't saved, quit anyway?:${nc}" && {
         clear
         nc=$'\e[0m';
         

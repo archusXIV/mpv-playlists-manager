@@ -19,7 +19,7 @@ _DownloadCompleted() {
             else
                 echo -e " ${critical}keep_none_empty_playlist is set to 'no'.${nc}\n"
                 _Prompt \
-                " ${info}Downloads completed but $list is not empty, do you want to KEEP it?: ${nc}" || {
+                " ${info}Downloads completed but $list is not empty, do you want to KEEP it?:${nc}" || {
                     rm -f "${FILES[@]}" 2>/dev/null
                     printf '%s\n' " ${critical}$list removed...${nc}"
                     sleep 3

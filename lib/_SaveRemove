@@ -76,7 +76,7 @@ _SaveRemove() {
                 }
                 __
                 _Prompt -n \
-                " ${critical}Are you sure you want to remove $m3ufile?: ${nc}" && {
+                " ${critical}Are you sure you want to remove $m3ufile?:${nc}" && {
                     rm {"$m3ufile","$titles_dir"/"$m3ufile".titles}
                     __
                     echo " ${critical}$m3ufile removed.${nc}"

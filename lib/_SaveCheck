@@ -16,7 +16,7 @@ _SaveCheck() {
         list="$list.m3u"
         [[ -f $list ]] && {
             __
-            _Prompt -n " ${critical}$list ALREADY exists! Overwrite it?: ${nc}" && {
+            _Prompt -n " ${critical}$list ALREADY exists! Overwrite it?:${nc}" && {
                 _SaveList
             }
             _Menu
@@ -36,7 +36,7 @@ _SaveCheck() {
 
             if [[ $(find . -name "${list}") ]]; then
                 __
-                _Prompt -n " ${critical}$list already exists! Overwrite it?: ${nc}" && {
+                _Prompt -n " ${critical}$list already exists! Overwrite it?:${nc}" && {
                     _SaveList && break
                 }
                 __

@@ -32,11 +32,11 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog
+- Added warning before clearing all temporary playlists.
 - Fixed messages when trying to play/download/save/remove a 'tmp' playlist while mpv owns the current one.
 - Fixed messages when trying to play a 'local' playlist while mpv owns another one.
 - Fixed bug in _CheckDependencies & _ConvertAudio.
 - Fixed bug in _ChooseDownloadVideo.
-- Added faster youtube playlist analysis using ytfzf if installed.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
