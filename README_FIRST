@@ -2,10 +2,10 @@ Author: Barret E (2020-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
 mpm version 1.8-4
 
-Dependencies: ffmpeg, jq, mpv, yt-dlp.
-Optionals: (
-    fzf, mpvc, ncmpvc, parallel, ranger
-    ueberzug, vim, w3m, wmctrl, ytfzf
+Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
+Optionals but recommanded: (
+    fzf, mpvc, ncmpvc (may use socat), parallel, ranger (terminal file manager)
+    ueberzug/ffmpegthumbnailer, w3m, wmctrl, ytfzf
 )
 
 Youtube-dl is for now kind of unmaintained so install yt-dlp
@@ -21,3 +21,10 @@ We can save, remove or edit playlists, mpmrc (the mpm configuration file).
 The installation script will create two configuration files (mpmrc,themerc)
 as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
 the directory structure is ok for you.
+
+Changelog:
+version 1.8-5 - Fixed messages when trying to play/download/save/remove a 'tmp' playlist while mpv owns the current one.
+version 1.8-4 - Fixed messages when trying to play a 'local' playlist while mpv owns another one.
+version 1.8-4 - Fixed bug in _CheckDependencies & _ConvertAudio.
+version 1.8-3 - Fixed bug in _ChooseDownloadVideo.
+version 1.8-3 - Added faster youtube playlist analysis using ytfzf if installed.

@@ -9,7 +9,7 @@ _LoadAudioVideo() {
     __killMpvPid() (
         while pidof mpv >/dev/null; do
             kill -SIGTERM "$(pidof mpv)"
-            rm "$NOWPLAYING"
+            rm {"$(readlink -f "$NOWPLAYING")","$NOWPLAYING"} 2>/dev/null
             sleep 0.5
         done
     )

@@ -3,10 +3,10 @@
 
 # shellcheck disable=SC2154,SC2015
 _MpvOwnsTmpList() {
-    
-    [[ -f $NOWPLAYING || -e $tmp_dir/fzfEnqueue ]] && {
+
+    pgrep -x mpv >/dev/null && {
         
-        pgrep -x mpv >/dev/null && {
+        [[ -f $NOWPLAYING || -L $NOWPLAYING ]] && {
 
             case "$1" in
                 --default)
@@ -27,7 +27,7 @@ _MpvOwnsTmpList() {
                 ;;
                 --local)
                     action=" if you want to queue a directory/file(s),"
-                    if [[ -L $NOWPLAYING ]]; then
+                    if [[ -L $NOWPLAYING || $(sed -n '1p' "$NOWPLAYING") =~ local ]]; then
                         name="a local"
                     elif [[ $(sed -n '1p' "$NOWPLAYING") =~ $Type ]]; then
                         name="$Type"
@@ -41,7 +41,7 @@ _MpvOwnsTmpList() {
             __
             printf '%s\n' " ${critical}mpv owns $name playlist..." \
             "$action" \
-            " just quit mpv first to proceed.${nc}"
+            " just quit mpv first to proceed."
             __
             read -rsn 1 \
             -p " ${info}[Q]uit mpv, [A]bort: ${nc}" mpvOwnsTmpListOptions

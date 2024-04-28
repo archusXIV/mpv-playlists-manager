@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.8-4)
+# ~/.config/mpm/mpmrc (version 1.8-5)
 
 ########################################################
 #                                                      #
@@ -15,7 +15,9 @@
 #~~~~~ change the values, not the variables names ~~~~~#
 
 # shellcheck disable=SC2034,SC2016,SC2154,SC1083
-: "${XDG_DATA_HOME:-$HOME/.local/share}"
+# Your environment variables may not be set,
+# please check those using the env command.
+# : "${XDG_DATA_HOME:-$HOME/.local/share}"
 
 # checking for mpm updates yes/no
 check_updates="yes"
@@ -44,6 +46,8 @@ FILEMANAGER="ranger"
 main_dir="$HOME/.local/share/mpv-playlists-manager"
 
 # define your multimedia directories according to your locales.
+# MUSIC_DIR="$HOME/Musique"
+# VIDEO_DIR="$HOME/Vidéos"
 MUSIC_DIR="$HOME/Music"
 VIDEO_DIR="$HOME/Videos"
 
@@ -84,9 +88,7 @@ use_fzf="no"
 # fzf_preview="mediainfo"
 fzf_preview="exiftool"
 
-# add/change your ytfzf preferences here
-# use odysee instead of youtube
-# ytfzfOptions_SC=( --scrape=odysee )
+# add/change your ytfzf preferences here.
 ytfzfOptions_YT=( --force-youtube )
 ytfzfOptions_KC=( --keep-cache )
 ytfzfOptions_PG=( --pages=5 )
@@ -155,7 +157,7 @@ mpvGenOptions_X=(
 # audio/video rendering formats
 mpvAudioFormatOptions=( --ytdl-format='bestaudio/best' )
 # mpvVideoFormatOptions=( --ytdl-format='299+251/298+251/137+251/136+251/best' )
-# should run smoothly
+# should run nicely...
 mpvVideoFormatOptions=( --ytdl-format='bestvideo+bestaudio/best' )
 
 mpvVideoOptions_DM=( --demuxer-max-bytes=512MiB )

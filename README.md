@@ -32,11 +32,11 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog
-- Fixed messages when trying to play a local playlist while mpv owns another one.
-- Fixed bug in _CheckDependencies & _ConvertAudio
-- Fixed bug in _ChooseDownloadVideo
+- Fixed messages when trying to play/download/save/remove a 'tmp' playlist while mpv owns the current one.
+- Fixed messages when trying to play a 'local' playlist while mpv owns another one.
+- Fixed bug in _CheckDependencies & _ConvertAudio.
+- Fixed bug in _ChooseDownloadVideo.
 - Added faster youtube playlist analysis using ytfzf if installed.
-- Fixed bug using diff in install/upgrade process.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -91,7 +91,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When we use a [terminal user interface](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png) for mpv, the main window looks like this.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.8-4.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.8-5.png)
 
 
 ```

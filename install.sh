@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
-# version 1.8-4
+# version 1.8-5
 
 # shellcheck disable=SC2154
 _diffRc() {

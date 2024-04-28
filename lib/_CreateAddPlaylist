@@ -7,8 +7,6 @@ _CreateAddPlaylist() {
     local Type TITLES URLS menuTitleType arg mediaUrl supportedSites file
     supportedSites="https://github.com/ytdl-org/yt-dlp/blob/master/docs/supportedsites.md"
     
-    test -f "$tmp_dir"/1 && rm "$tmp_dir"/1
-
     case "$1" in
         -a)
             Type=Audio
@@ -16,7 +14,6 @@ _CreateAddPlaylist() {
             URLS="$AUDIO_URLS"
             menuTitleType=AUDIO
             arg="-a"
-            file="${AUDIO_URLS##*/}" file="${file%%.*}"
         ;;
         -v)
             Type=Video
@@ -24,9 +21,10 @@ _CreateAddPlaylist() {
             URLS="$VIDEO_URLS"
             menuTitleType=VIDEO
             arg="-v"
-            file="${VIDEO_URLS##*/}" file="${file%%.*}"
         ;;
     esac
+
+    file="${URLS##*/}" file="${file%%.*}"
 
     __copyLinks() (
         
@@ -111,8 +109,9 @@ _CreateAddPlaylist() {
                     sleep 5
                 else
                     __
-                    printf '%s\n' " ${critical}use_fzf is not set in your mpmrc..."
-                    sleep 3
+                    printf '%s\n' " ${critical}use_fzf is not set in your mpmrc..." \
+                    " no way to search online!${nc}"
+                    sleep 5
                 fi
             ;;
             3)
