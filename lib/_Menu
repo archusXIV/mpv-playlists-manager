@@ -45,7 +45,7 @@ _Menu() {
                 __  ;;
             4)  _LoadPlaylist
                 __  ;;
-            5)  _LoadLocal
+            5)  _MpvOwnsTmpList --local || _LoadLocal
                 __  ;;
             6)  _ViewUrlInfo -q
                 __  ;;
