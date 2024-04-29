@@ -27,7 +27,7 @@ _MpvOwnsTmpList() {
                 ;;
                 --local)
                     action=" if you want to queue a directory/file(s),"
-                    if [[ -L $NOWPLAYING || $(sed -n '1p' "$NOWPLAYING") =~ local ]]; then
+                    if [[ -L $NOWPLAYING || $(awk -F"/" '{print $NF}' "$NOWPLAYING") =~ local ]]; then
                         name="a local"
                     elif [[ $(sed -n '1p' "$NOWPLAYING") =~ $Type ]]; then
                         name="$Type"

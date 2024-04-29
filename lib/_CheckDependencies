@@ -25,7 +25,7 @@ _CheckDependencies() {
         }
     done
 
-    for opt in "${DEPS[@]:4:10}"; do
+    for opt in "${DEPS[@]:4:9}"; do
         ! command -v "$opt" >/dev/null && {
             printf '%s\n' " For better experience consider installing $opt."
             sleep 4

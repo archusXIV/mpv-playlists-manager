@@ -51,6 +51,7 @@ _SearchYoutubeWithFzf() {
     --prompt='Filter: ' \
     --header "${info}${b}"'Select with Tab, Enter to confirm: '"${nb}${nc}" \
     --border rounded \
+    --scroll-off=5 \
     --reverse \
     | sed 's/\[.*]\s//' > "$TITLES"_tmp
 

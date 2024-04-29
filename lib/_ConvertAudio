@@ -74,7 +74,7 @@ _ConvertAudio() {
                     # we have moved the files that could be found in a subfolder,
                     # because $AUDIO_DIR can be "$audios_dir" or "$audios_dir"/"${list%.*}",
                     # we now delete this empty folder.
-                    find "$audios_dir" -maxdepth 2 -type d -empty -exec rmdir {} \; 2>/dev/null
+                    rmdir "$audios_dir"/*/ 2>/dev/null
                     __
                     printf '%s\n' " ${critical}Conversion aborted or wrong option," \
                     " All .webm files have been moved in $MUSIC_DIR.${nc}"

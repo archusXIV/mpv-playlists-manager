@@ -27,7 +27,8 @@ _FzfEnqueue() {
     }
 
     use_mpvc_locally="yes"
-    mpv --no-terminal "${mpvGenOptions_X[@]}" fzfEnqueue.m3u &
+    mpv --no-terminal "${mpvGenOptions_SK[@]}" \
+    "${mpvGenOptions_ID[@]}" fzfEnqueue.m3u &
     ln -sr ./fzfEnqueue.m3u "$NOWPLAYING"
 
 }
