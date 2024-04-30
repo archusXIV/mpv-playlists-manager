@@ -28,8 +28,8 @@ _CreateAddPlaylist() {
 
     __copyLinks() (
         
-        if [[ -n $(command -v xclip) ]]; then
-            read -r mediaUrl < <(xclip -o)
+        if [[ -n "${clipboardCmd[*]}" && -n $(command -v "${clipboardCmd[0]}") ]]; then
+            read -r mediaUrl < <("${clipboardCmd[@]}")
         else
             __
             echo -e " Paste an url to fill the ${info}${Type}${nc} playlist:\n"
@@ -79,8 +79,8 @@ _CreateAddPlaylist() {
         __
         test -s "$URLS"  && \
         echo -e " ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}\n"
-        [[ -n $(command -v xclip) ]] && \
-        printf '%s\n' "                                  ${info}xclip is installed, first copy a link then press 1)${nc}"
+        [[ -n "${clipboardCmd[*]}" && -n $(command -v "${clipboardCmd[0]}") ]] && \
+        printf '%s\n' "                                  ${info}${clipboardCmd[0]} is installed, first copy a link then press 1)${nc}"
         __
         echo -e "                                                  ${mtitle}::${menuTitleType} OPTIONS::${nc}"
         echo -e "                               ┌──────────────────────────────────────────────────────┐"

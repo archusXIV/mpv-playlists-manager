@@ -18,7 +18,7 @@ _FzfEnqueue() {
     --border rounded \
     --prompt='Search: ' \
     --header "${info}${b}"'Press Tab to select, Enter to confirm: '"${nb}${nc}" \
-    --preview-window=right:55% \
+    --preview-window="$fzf_preview_layout:$fzf_preview_size" \
     --preview="$fzf_preview {}" >> fzfEnqueue.m3u
 
     [[ ! -s ./fzfEnqueue.m3u ]] && {
