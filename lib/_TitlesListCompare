@@ -46,6 +46,7 @@ _TitlesListCompare() {
                 __
                 echo -e " ${info}Titles for $list${nc}\n"
                 cat -n "$titles"
+                __
             ;;
         esac
         
