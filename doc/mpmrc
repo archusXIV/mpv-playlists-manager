@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.8-6)
+# ~/.config/mpm/mpmrc (version 1.8-7)
 
 ########################################################
 #                                                      #
@@ -15,8 +15,6 @@
 #~~~~~ change the values, not the variables names ~~~~~#
 
 # shellcheck disable=SC2034,SC2016,SC2154,SC1083
-# Your environment variables may not be set,
-# please check those using the env command.
 # : "${XDG_DATA_HOME:-$HOME/.local/share}"
 
 # checking for mpm updates yes/no
@@ -32,12 +30,19 @@ height=738
 # jellybeans, monokai, nord, TokyoNight, solarized, vacuous, zenburn, zorange
 THEME="default"
 
-## default editor used to edit this file.
+####################### SYSTEM TOOLS ######################
+## default editor used to edit this file and playlist urls.
 MPMEDITOR="vim"
 
 ## default file manager (can be any terminal file manager)
 ## used in option 5) Load local dir/files
 FILEMANAGER="ranger"
+
+# the clipboard command to use to paste links in option 1)
+# xorg users
+clipboardCmd=( xclip -o )
+# wayland users
+# clipboardCmd=( wl-paste --no-newline )
 
 ## THESE ARE BY DEFAULT DIRECTORIES USED BY MPM.
 
@@ -46,8 +51,6 @@ FILEMANAGER="ranger"
 main_dir="$HOME/.local/share/mpv-playlists-manager"
 
 # define your multimedia directories according to your locales.
-# MUSIC_DIR="$HOME/Musique"
-# VIDEO_DIR="$HOME/Vidéos"
 MUSIC_DIR="$HOME/Music"
 VIDEO_DIR="$HOME/Videos"
 
@@ -62,11 +65,11 @@ videos_dir="$VIDEO_DIR/mpm_videos"
 titles_dir="$main_dir/titles"
 tmp_dir="$main_dir/tmp"
 
+###################### DEFAULT TASKS SETTINGS ######################
 # some links may still be present in playlist files...
 # if value is 'no' you will be prompted.
 keep_none_empty_playlist="yes"
 
-## DEFAULT TASKS ANSWERS
 # from download tasks (option 4) we are prompted or not to choose formats.
 # (will appear in main menu)
 direct_download="no"
@@ -75,20 +78,25 @@ direct_download="no"
 # (will appear in main menu)
 quit_after_task="no"
 
-########### SEARCH YOUTUBE USING FZF FUNCTIONALITY ###########
+######################### FZF FUNCTIONALITY #########################
 # Two methods are offered here:
 # If the fzf package is installed it will be used to search and copy 
 # audio/video urls from youtube in a simple but limited way.
 # In addition you can also use the ytfzf script if it is in your $PATH.
 # <https://github.com/pystardust/ytfzf>
-# yes/no
 use_fzf="no"
 
-# preview local files details while queueing them in option 5)
-# fzf_preview="mediainfo"
-fzf_preview="exiftool"
+# preview local files details while queuing them in option 5)
+# preview tools have to be installed
+fzf_preview="mediainfo"
+# fzf_preview="exiftool"
+fzf_preview_size="40%"
+# right, left, up and down
+fzf_preview_layout="down"
 
-# add/change your ytfzf preferences here.
+# add/change your ytfzf preferences here
+# use odysee instead of youtube
+# ytfzfOptions_SC=( --scrape=odysee )
 ytfzfOptions_YT=( --force-youtube )
 ytfzfOptions_KC=( --keep-cache )
 ytfzfOptions_PG=( --pages=5 )
@@ -105,7 +113,7 @@ ytfzfOptions_X=(
     "${ytfzfOptions_TY[@]}"
 )
 
-############ FFMPEG SPECIFICS (audio conversion) ############
+################ FFMPEG SPECIFICS (audio conversion) ################
 # !!! You can change ffmpeg audio codec command line settings !!!
 # if the parallel package is installed then it will be used to launch
 # multiple conversions at once in the equivalent quality,
@@ -116,8 +124,8 @@ use_parallel="no"
 # (will appear in main menu)
 automatic_audio_conversion="no"
 
-# default audio conversion format {aac,mp3,flac,wav,ogg},
-# aac, mp3 & ogg in 320k, flac & wav are lossless.
+# default audio conversion format {mp3,flac,wav,ogg},
+# mp3 & ogg in 320k, flac & wav are lossless.
 # if value is empty you will be prompted.
 # (will appear in main menu)
 default_conversion_format="mp3"
@@ -157,7 +165,7 @@ mpvGenOptions_X=(
 # audio/video rendering formats
 mpvAudioFormatOptions=( --ytdl-format='bestaudio/best' )
 # mpvVideoFormatOptions=( --ytdl-format='299+251/298+251/137+251/136+251/best' )
-# should run nicely...
+# should run smoothly
 mpvVideoFormatOptions=( --ytdl-format='bestvideo+bestaudio/best' )
 
 mpvVideoOptions_DM=( --demuxer-max-bytes=512MiB )
@@ -172,7 +180,7 @@ mpvVideoOptions_X=(
     "${mpvVideoOptions_DB[@]}"
 )
 
-##################### YT-DLP PRESETS (yt-dlp) #####################
+########################### YT-DLP PRESETS ###########################
 # change the yt-dlp downloader presets ONLY for youtube video downloads
 # (not tested elsewhere)
 # take a look at 'man yt-dlp'

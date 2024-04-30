@@ -1,4 +1,4 @@
-mpm version 1.8-6
+mpm version 1.8-7
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -35,7 +35,7 @@ mpm version 1.8-6
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.1.8-6::
+                                    ::MPV-PLAYLISTS-MANAGER v.1.8-7::
                                    ***********************************
                                 current theme: default. For usage type U
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -128,6 +128,7 @@ mpm version 1.8-6
     7) Clear all temporary lists:
 
         Sometimes it is preferable to clear everything and restart from the bottom ground.
+        A confirmation prompt will appear so you can decline.
 
     8) Edit a playlist:
 

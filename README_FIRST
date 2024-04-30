@@ -1,6 +1,6 @@
 Author: Barret E (2020-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 1.8-5
+mpm version 1.8-7
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -23,8 +23,7 @@ as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
 the directory structure is ok for you.
 
 Changelog:
+version 1.8-7 - Added fzf preview options in mpmrc.
+version 1.8-7 - Added clipboard tools options.
 version 1.8-6 - Fixed bug in _LoadLocal to access video files when use_fzf="no".
 version 1.8-6 - Added empty directories listing in _SelectLocalDir.
-version 1.8-5 - Added warning before clearing all temporary playlists.
-version 1.8-5 - Fixed messages when trying to play/download/save/remove
-                a 'tmp' playlist while mpv owns the current one.
