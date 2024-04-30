@@ -52,7 +52,7 @@ _CheckDependencies() {
     
     __createSubdirs() (
         [[ ! -d $audios_dir ]] && mkdir --parents "$audios_dir"
-        [[ ! -d $playlist_dir ]] && mkdir --parents "$playlist_dir"
+        [[ ! -d $playlists_dir ]] && mkdir --parents "$playlists_dir"
         [[ ! -d $titles_dir ]] && mkdir --parents "$titles_dir"
         [[ ! -d $tmp_dir ]] && mkdir --parents "$tmp_dir"
         [[ ! -d $videos_dir ]] && mkdir --parents "$videos_dir"
