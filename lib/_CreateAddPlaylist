@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2015
+# shellcheck disable=SC2154,SC2015,SC2034
 _CreateAddPlaylist() {
 
     local Type TITLES URLS menuTitleType arg mediaUrl supportedSites file
@@ -26,50 +26,9 @@ _CreateAddPlaylist() {
 
     file="${URLS##*/}" file="${file%%.*}"
 
-    __copyLinks() (
-        
-        if [[ -n "${clipboardCmd[*]}" && -n $(command -v "${clipboardCmd[0]}") ]]; then
-            read -r mediaUrl < <("${clipboardCmd[@]}")
-        else
-            __
-            echo -e " Paste an url to fill the ${info}${Type}${nc} playlist:\n"
-            read -r mediaUrl
-        fi
-
-        if [[ $mediaUrl =~ 'playlist?list=' ]]; then
-            __
-            printf '%s\n' " ${info}Getting titles & links from playlist: $(\
-            yt-dlp "${ytdlPreset_DW[@]}" -J --flat-playlist "$mediaUrl" \
-            | jq -r .title)..." \
-            "${b} Please be patient.${nb}${nc}" && sleep 1
-            _GetYoutubePlaylistUrls $arg
-            
-        else
-            echo "$mediaUrl" >> "$URLS"
-            _RemoveCrap
-            __
-            printf '%s\n' " ${info}Testing url...${nc}"
-            # mediaUrl=$(sed -n '$p' "$URLS")
-            yt-dlp -F "${ytdlPreset_DW[@]}" "$mediaUrl" > "$YTOP"
-
-            if [[ $? -eq 1 ]]; then
-                __
-                echo -e " ${critical}${b}No format code found!${nb}\n$mediaUrl will be removed."
-                printf '%s\n' " ${info}Please visit: $supportedSites${nc}"
-                sed -i '$d' "$URLS"
-                sleep 7
-                [[ $(_GetLinesList $arg) -eq 0 ]] && return
-            else
-                echo "$mediaUrl" >> "$QUEUE"
-                echo -e " ${info}Getting ${Type} title...${nc}\n"
-                _YtdlGetTitle "$mediaUrl" \
-                | tee -a "$TITLES" >> "$DEFAULTITLES"
-                _RemoveCrap
-                
-            fi
-        fi
-
-    )
+    __clipboardCmdTest() {
+        [[ -n "${clipboardCmd[*]}" && -n $(command -v "${clipboardCmd[0]}") ]]
+    }
 
     while true; do
         _ResizeWindow
@@ -79,8 +38,7 @@ _CreateAddPlaylist() {
         __
         test -s "$URLS"  && \
         echo -e " ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}\n"
-        [[ -n "${clipboardCmd[*]}" && -n $(command -v "${clipboardCmd[0]}") ]] && \
-        printf '%s\n' "                                  ${info}${clipboardCmd[0]} is installed, first copy a link then press 1)${nc}"
+        __clipboardCmdTest && printf '%s\n' "                                  ${info}${clipboardCmd[0]} is installed, first copy a link then press 1)${nc}"
         __
         echo -e "                                                  ${mtitle}::${menuTitleType} OPTIONS::${nc}"
         echo -e "                               ┌──────────────────────────────────────────────────────┐"
@@ -95,7 +53,7 @@ _CreateAddPlaylist() {
         __
         read -rsn 1 createAddPlaylistOptions
         case "$createAddPlaylistOptions" in
-            1)  __copyLinks
+            1)  _CopyMediaUrl
                 __ ;;
             2)
                 if [[ $use_fzf = yes ]]; then

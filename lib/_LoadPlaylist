@@ -55,7 +55,6 @@ _LoadPlaylist() {
                     _TitlesListCompare -g
                 else
                     _TitlesListCompare -l
-                    __
                 fi
 
                 read -rn 1 \

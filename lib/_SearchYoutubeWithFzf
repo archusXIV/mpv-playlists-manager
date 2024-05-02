@@ -53,7 +53,7 @@ _SearchYoutubeWithFzf() {
     --border rounded \
     --scroll-off=5 \
     --reverse \
-    | sed 's/\[.*]\s//' > "$TITLES"_tmp
+    | sed 's/\[.*]\s//;s/-\s//' > "$TITLES"_tmp
 
     test ! -s "$TITLES"_tmp && {
         rm "$TITLES"_tmp

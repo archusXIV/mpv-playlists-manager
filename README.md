@@ -32,7 +32,9 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog
-- Added fzf preview options in mpmrc.
+- Added more mpmrc settings in the [main menu](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.8-8.png), just so you know what's in there.
+- Fixed _RemoveCrap function to remove slashes from titles.
+- Added fzf preview options in mpmrc (size, layout).
 - Added clipboard tools options in mpmrc.
 - Fixed bug in _LoadLocal when trying to access video files if use_fzf="no".
 - Added empty directories listing in _SelectLocalDir.
@@ -90,7 +92,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When we use a [terminal user interface](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png) for mpv, the main window looks like this.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.8-7.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.8-8.png)
 
 
 ```

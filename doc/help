@@ -1,4 +1,4 @@
-mpm version 1.8-7
+mpm version 1.8-8
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -35,7 +35,7 @@ mpm version 1.8-7
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.1.8-7::
+                                    ::MPV-PLAYLISTS-MANAGER v.1.8-8::
                                    ***********************************
                                 current theme: default. For usage type U
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -63,11 +63,15 @@ mpm version 1.8-7
         See https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md.
         Since version 1.8-2 adding youtube playlists is done faster when pasting url with
         option 1) if ytfzf is installed and use_fzf is set to 'yes' in your mpmrc.
+
+        If packages xclip/wl-clipboard are installed they will be used to paste copied urls
+        in our temporary lists, settings can be change in ~/.config/mpm/mpmrc.
         
         Once into the video options menu we can add tested links to a temporary list,
         getting links can also be done in option 2) Search online links.
         YouTube playlists are supported, but the more playlist items there are,
-        the longer it will take to analyze them. Now we have six dedicated options.
+        the longer it will take to analyze them, unless ytfzf is installed and use_fzf Variables
+        is set to "yes". Now we have six dedicated options.
         See II) audio/video files options:
 
     2) Create/Add audio playlist:
@@ -113,7 +117,7 @@ mpm version 1.8-7
         terminal file manager. Please configure it properly.
         The default music and video directories are ~/Music & ~/Videos.
         To use ranger in this function, make sure that you have enabled;
-        'set preview_images_method ueberzug' (has to be installed),
+        'set preview_images_method ueberzug' (has to be installed, but it is sometimes broken),
         if you do not use URxvt for example (w3m works fine for URxvt/xterm).
         
         Since version 1.7-9, if use_fzf is set to yes then we can enqueue files through an fzf board,

@@ -1,8 +1,11 @@
 #!/bin/bash
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
-# version 1.8-7
+# version 1.8-8
 
 # shellcheck disable=SC2154
+red=$'\e[38;2;206;34;30m';
+endColor=$'\e[0m';
+
 _diffRc() {
     # we execute this file as root so we need to provide the right username
     read -r -p ' Please enter your username: ' username
@@ -10,32 +13,46 @@ _diffRc() {
     CONF_DIR="/home/$username/.config/mpm"
     MPMRC="$CONF_DIR/mpmrc"
     THEMERC="$CONF_DIR/themerc"
-    
+    grpuser=$(
+        awk -F':' -v user="$username" '$0 ~ user { print $3":"$4 }' < /etc/passwd
+    )
+
     if [[ -f $MPMRC && -f $THEMERC ]]; then
 
-        diff -U 9999999 "$MPMRC" doc/mpmrc > "$MPMRC".diff
+        diff -u "$MPMRC" doc/mpmrc > "$MPMRC".diff
 
-        diff -U 9999999 "$THEMERC" doc/themerc > "$THEMERC".diff
+        patch -b "$MPMRC" < "$MPMRC".diff
 
-        printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc.diff created.\e[0m\n'
-        printf '\e[38;2;206;34;30m~/.config/mpm/themerc.diff created.\e[0m\n'
-
-    elif [[ -f $MPMRC && ! -f $THEMERC ]]; then
-
-        diff -U 9999999 "$MPMRC" doc/mpmrc > "$MPMRC".diff
-
-        cp doc/themerc "$CONF_DIR"
-
-        printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc.diff created.\e[0m\n'
-        printf '\e[38;2;206;34;30m~/.config/mpm/themerc created.\e[0m\n'
+        printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
+        " original file has been saved as mpmrc.orig." \
+        " Please edit or update your mpmrc file before first run.${endColor}"
+        printf '\n'
+        read -r -p " ${red}Edit $MPMRC now? [Y/n] enter editor name: ${endColor}" edit editor
+        case "$edit" in
+            Y|y)
+                cd "$CONF_DIR" || exit 0
+                if [[ $editor = vim ]]; then
+                    vim -d "$MPMRC" "$MPMRC".orig
+                else
+                    "$editor" "$MPMRC" "$MPMRC".orig
+                fi
+            ;;
+            n|N)
+                chown -R "$grpuser" "$CONF_DIR" && exit 0
+            ;;
+            *)
+                printf '%s\n' " ${red}Ok don't forget to update it before first run.${endColor}"
+            ;;
+        esac
     else
         mkdir --parents "$CONF_DIR"
         cp doc/{mpmrc,themerc} "$CONF_DIR"
         
-        printf '\e[38;2;206;34;30m~/.config/mpm/mpmrc created, edit your settings there.\e[0m\n'
+        printf '%s\n' " ${red}~/.config/mpm/mpmrc created." \
+        " Please edit your mpmrc file before first run.${endColor}"
     fi
 
-    chown -R 1000:1000 "$CONF_DIR"
+    chown -R "$grpuser" "$CONF_DIR"
 
 }
 

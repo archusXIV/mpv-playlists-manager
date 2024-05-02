@@ -1,0 +1,47 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_CopyMediaUrl() {
+        
+    if __clipboardCmdTest; then
+        read -r mediaUrl < <("${clipboardCmd[@]}")
+    else
+        __
+        echo -e " Paste an url to fill the ${info}${Type}${nc} playlist:\n"
+        read -r mediaUrl
+    fi
+
+    if [[ $mediaUrl =~ 'playlist?list=' ]]; then
+        __
+        printf '%s\n' " ${info}Getting titles & links from playlist: $(\
+        yt-dlp "${ytdlPreset_DW[@]}" -J --flat-playlist "$mediaUrl" \
+        | jq -r .title)..." \
+        "${b} Please be patient.${nb}${nc}" && sleep 1
+        _GetYoutubePlaylistUrls "$arg"
+        
+    else
+        echo "$mediaUrl" | sed 's/&list=.*//;s/&pp=.*//' >> "$URLS"
+        __
+        printf '%s\n' " ${info}Testing url...${nc}"
+        mediaUrl=$(sed -n '$p' "$URLS")
+        yt-dlp -F "${ytdlPreset_DW[@]}" "$mediaUrl" > "$YTOP"
+
+        if [[ $? -eq 1 ]]; then
+            __
+            echo -e " ${critical}${b}No format code found!${nb}\n$mediaUrl will be removed."
+            printf '%s\n' " ${info}Please visit: $supportedSites${nc}"
+            sed -i '$d' "$URLS"
+            sleep 7
+            [[ $(_GetLinesList "$arg") -eq 0 ]] && return
+        else
+            echo "$mediaUrl" >> "$QUEUE"
+            echo -e " ${info}Getting ${Type} title...${nc}\n"
+            _YtdlGetTitle "$mediaUrl" \
+            | tee -a "$TITLES" >> "$DEFAULTITLES"
+            _RemoveCrap
+            
+        fi
+    fi
+
+}

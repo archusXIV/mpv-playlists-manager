@@ -5,22 +5,26 @@ _RemoveCrap() {
     # After some tests it appears that a single link copied from a youtube playlist
     # causes the download of the entire playlist.
     # So with sed & perl we cleanup the link to get the direct link to the desired video.
-    # Note that this behavior does not appear during a simple viewing/listening.
+    # Note that this behavior does not occur during a simple viewing/listening.
 
     LISTS=(
-        "$AUDIO_URLS" "$AUDIO_TITLES"
-        "$VIDEO_URLS" "$VIDEO_TITLES"
-        "$QUEUE" "$DEFAULTITLES"
+        "$URLS"
+        "$TITLES"
+        "$QUEUE"
+        "$DEFAULTITLES"
     )
-
+    
     for file in "${LISTS[@]}"; do
         # removing unwanted parts of links, blank lines & duplicates
-        # we use commas as separators.
         sed -i '
-        s/&pp=.*//;s/&list.*//;/^\s*$/d;
-        s|//youtube.com|//www.youtube.com|g
+            s/&list=.*//;s/&pp=.*//;/^\s*$/d;
+            s|//youtube.com|//www.youtube.com|g
         ' "$file"
         perl -i -ne 'print if ! $a{$_}++' "$file"
+
+        [[ $file = "$TITLES" || $file = "$DEFAULTITLES" ]] \
+            && sed -i 's/-\s//;s/\//_/g;/^\s*$/d;' "$file"
+
     done 2>/dev/null
 
 }
