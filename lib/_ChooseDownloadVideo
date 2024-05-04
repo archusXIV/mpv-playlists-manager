@@ -18,7 +18,7 @@ _ChooseDownloadVideo() {
         " on Youtube webm may be the best one but we'll merge files in mp4." \
         " ${info}[B]ack to download options, choose [S]pecific codes or [D]irect download?:${nc}"
         __
-        read -rsn 1 choice*
+        read -rsn 1 choice
     fi
 
     case "$choice" in
