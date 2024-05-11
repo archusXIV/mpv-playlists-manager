@@ -4,34 +4,31 @@
 # shellcheck disable=SC2154
 _ParallelAnimation() {
 
-    __spinners() (
-        local delay spinners
+    case "$parallel_animation" in
+        spinners)
+            local delay spinners
 
-        delay=0.1
-        spinners="|/-\\"
+            delay=0.1
+            spinners="|/-\\"
 
-        while [[ -s $spinnersTitle ]]; do
-            local temp=${spinners#?}
-            printf " [${task}%c${nc}]  " "$spinners"
-            local spinners=$temp${spinners%"$temp"}
-            sleep "$delay"
-            printf "\b\b\b\b\b\b"
-        done
-        clear
-    )
+            while [[ -s $animationTitles ]]; do
+                local temp=${spinners#?}
+                printf " [${task}%c${nc}]  " "$spinners"
+                local spinners=$temp${spinners%"$temp"}
+                sleep "$delay"
+                printf "\b\b\b\b\b\b"
+            done
+            clear
+        ;;
+        progress)
+            printf "["
 
-    __progress() (
-
-        printf "["
-
-        while [[ -s $spinnersTitle ]]; do 
-            printf  "▓"
-            sleep 0.50
-        done
-        clear
-    )
-
-    [[ $parallel_animation = spinners ]] && __spinners
-    [[ $parallel_animation = progress ]] && __progress
+            while [[ -s $animationTitles ]]; do 
+                printf  "▓"
+                sleep 0.50
+            done
+            clear
+        ;;
+    esac
 
 }
