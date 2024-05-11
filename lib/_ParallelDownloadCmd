@@ -5,13 +5,12 @@
 _ParallelDownloadCmd() {
 
     declare -a ytf=(
-        "yt-dlp --format"
-        "bestaudio\/best"
-        "bestvideo+bestaudio\/best"
+        "yt-dlp --format bestaudio\/best"
+        "yt-dlp --format bestvideo+bestaudio\/best"
     )
     
-    __sedAudioCmd() { sed -i "s/^/${ytf[0]} ${ytf[1]} ${ytdlPreset_NC[*]} /" "$1"; }
-    __sedVideoCmd() { sed -i "s/^/${ytf[0]} ${ytf[2]} ${ytdlPreset_X[*]} /" "$1"; }
+    __sedAudioCmd() { sed -i "s/^/${ytf[0]} ${ytdlPreset_NC[*]} /" "$1"; }
+    __sedVideoCmd() { sed -i "s/^/${ytf[1]} ${ytdlPreset_X[*]} /" "$1"; }
 
     __getM3ufileTest() (
         if [[ $M3UFILE = "$QUEUE" ]]; then
