@@ -47,7 +47,7 @@ _ParallelDownloadCmd() {
             cp "$M3UFILE" "$tmp_dir"/parallel_list
             __sedVideoCmd "$tmp_dir"/parallel_list
             {
-                parallel --delay 2 --jobs 4 < "$tmp_dir"/parallel_list
+                parallel --delay 2.5 --jobs 4 < "$tmp_dir"/parallel_list
                 sed -i '1,$d' "$SELECTEDTITLES"
                 rm -rf "$HOME"/.parallel
                 clear
