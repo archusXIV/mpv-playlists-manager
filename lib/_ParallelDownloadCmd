@@ -4,13 +4,25 @@
 # shellcheck disable=SC2154,SC2034
 _ParallelDownloadCmd() {
 
-    declare -a formats=(
+    declare -a ytf=(
+        "yt-dlp --format"
         "bestaudio\/best"
         "bestvideo+bestaudio\/best"
     )
+    
+    __sedAudioCmd() { sed -i "s/^/${ytf[0]} ${ytf[1]} ${ytdlPreset_NC[*]} /" "$1"; }
+    __sedVideoCmd() { sed -i "s/^/${ytf[0]} ${ytf[2]} ${ytdlPreset_X[*]} /" "$1"; }
 
-    __sedAudioCmd() { sed -i "s/^/yt-dlp --format ${formats[0]} ${ytdlPreset_NC[*]} /" "$1"; }
-    __sedVideoCmd() { sed -i "s/^/yt-dlp --format ${formats[1]} ${ytdlPreset_X[*]} /" "$1"; }
+    __getM3ufileTest() (
+        if [[ $M3UFILE = "$QUEUE" ]]; then
+            sed -i '1,$d' {"$M3UFILE","$TITLES"}
+            echo "#EXTM3U" > "$M3UFILE"
+        else
+            sed -i '1,$d' {"$M3UFILE","$TITLES"}
+        fi
+        rm -rf "$HOME"/.parallel
+        clear
+    )
 
     case "$1" in
         --convert)
@@ -57,14 +69,7 @@ _ParallelDownloadCmd() {
             __sedAudioCmd "$M3UFILE"
             {
                 parallel --delay 1.5 --jobs 4 < "$M3UFILE"
-                if [[ $M3UFILE = "$QUEUE" ]]; then
-                    sed -i '1,$d' {"$M3UFILE","$TITLES"}
-                    echo "#EXTM3U" > "$M3UFILE"
-                else
-                    sed -i '1,$d' {"$M3UFILE","$TITLES"}
-                fi
-                rm -rf "$HOME"/.parallel
-                clear
+                __getM3ufileTest
             } &
         ;;
         --get-video)
@@ -72,14 +77,7 @@ _ParallelDownloadCmd() {
             __sedVideoCmd "$M3UFILE"
             {
                 parallel --delay 2.5 --jobs 4 < "$M3UFILE"
-                if [[ $M3UFILE = "$QUEUE" ]]; then
-                    sed -i '1,$d' {"$M3UFILE","$TITLES"}
-                    echo "#EXTM3U" > "$M3UFILE"
-                else
-                    sed -i '1,$d' {"$M3UFILE","$TITLES"}
-                fi
-                rm -rf "$HOME"/.parallel
-                clear
+                __getM3ufileTest
             } &
         ;;
     esac
