@@ -1,18 +1,18 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2034,SC2154,SC2015,SC1083
+# shellcheck disable=SC2034,SC2154,SC1083,SC2181
 _ConvertAudio() {
 
     local webmFiles
 
-    cd "$AUDIO_DIR" || {
+    cd "$mediaDir" || {
         printf '%s\n' \
         " ${critical}Failed to access audio directory.${nc}"
         sleep 4
         _Menu
     }
-
+    
     # because webmFiles is local child functions will inherite its value.
     mapfile -t webmFiles < <(find . -iname "*.webm")
     
@@ -24,9 +24,12 @@ _ConvertAudio() {
         printf '%s\n' \
         " Converting files in ${task}${b}$default_conversion_format...${nb}"
         __
-        if [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
+        
+        _ParallelDownloadCmd --convert
+
+        if [[ $? = 0 ]]; then
             printf '%s\n' " Parallel conversion enabled."
-            parallel --delay 2.5 -j+0 --bar \
+            parallel --delay 2.5 --jobs "$parallel_threads" --bar \
             ffmpeg \
                 -hide_banner -loglevel error \
                 -y -i {} -qscale:a 0 {.}."$default_conversion_format" ::: ./*.webm
@@ -56,9 +59,11 @@ _ConvertAudio() {
                 printf '%s\n' \
                 " ${info}Converting files in ${task}${b}${formats[${REPLY}]}...${nb}"
                 __
-                if [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
+                _ParallelDownloadCmd --convert
+
+                if [[ $? = 0 ]]; then
                     printf '%s\n' " Parallel conversion enabled."
-                    parallel --delay 2.5 -j+0 --bar \
+                    parallel --delay 2.5 --jobs "$parallel_threads" --bar \
                     ffmpeg \
                         -hide_banner -loglevel error \
                         -y -i {} -qscale:a 0 {.}."${formats[${REPLY}]}" ::: ./*.webm
@@ -71,14 +76,10 @@ _ConvertAudio() {
             *)
                 find "$audios_dir" -maxdepth 2 -name "*.webm" >/dev/null && {
                     mv ./*.webm "$MUSIC_DIR"
-                    # we have moved the files that could be found in a subfolder,
-                    # because $AUDIO_DIR can be "$audios_dir" or "$audios_dir"/"${list%.*}",
-                    # we now delete this empty folder.
-                    rmdir "$audios_dir"/*/ 2>/dev/null
                     __
                     printf '%s\n' " ${critical}Conversion aborted or wrong option," \
                     " All .webm files have been moved in $MUSIC_DIR.${nc}"
-                    sleep 2
+                    __
                 }
             ;;
         esac

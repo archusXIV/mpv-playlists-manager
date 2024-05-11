@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.8-8)
+# ~/.config/mpm/mpmrc (version 1.9-0)
 
 ########################################################
 #                                                      #
@@ -59,13 +59,13 @@ playlists_dir="$main_dir/playlists"
 
 # Be carefull with this one because if you choose to use the conversion action,
 # ALL .webm files in that directory will be converted.
-# audios_dir="$HOME/Music/mpm_audios"
+# audios_dir="$HOME/Documents/Music/mpm_audios"
 audios_dir="$MUSIC_DIR/mpm_audios"
 videos_dir="$VIDEO_DIR/mpm_videos"
 titles_dir="$main_dir/titles"
 tmp_dir="$main_dir/tmp"
 
-###################### DEFAULT TASKS SETTINGS ######################
+##################### DEFAULT TASKS SETTINGS #####################
 # some links may still be present in playlist files...
 # if value is 'no' you will be prompted.
 keep_none_empty_playlist="yes"
@@ -77,6 +77,23 @@ direct_download="no"
 # this takes place only after downloading/playing from a collection playlist.
 # (will appear in main menu)
 quit_after_task="no"
+
+#####################  GNU PARALLEL OPTIONS #####################
+# Of course the parallel package have to be installed.
+# (will appear in main menu)
+use_parallel="no"
+
+# use_parallel must be also set to 'yes',
+# if you want to use parallel downloads.
+use_parallel_downloads="yes"
+# fancy animations while downloading.
+parallel_animation="progress"
+#parallel_animation="spinners"
+
+# the total of cpu threads allocated for audio convertions,
+# (when use_parallel="yes", default is 4 if not set.
+# parallel_threads=""
+parallel_threads="$(nproc)" # total number of cpu cores.
 
 ######################### FZF FUNCTIONALITY #########################
 # Two methods are offered here:
@@ -118,14 +135,13 @@ ytfzfOptions_X=(
 # if the parallel package is installed then it will be used to launch
 # multiple conversions at once in the equivalent quality,
 # else files will be converted one by one.
-use_parallel="no"
 
 # audio files (.webm) conversion.
 # (will appear in main menu)
 automatic_audio_conversion="no"
 
-# default audio conversion format {mp3,flac,wav,ogg},
-# mp3 & ogg in 320k, flac & wav are lossless.
+# default audio conversion format {aac,flac,mp3,ogg,wav},
+# aac, mp3 & ogg in 320k, flac & wav are lossless.
 # if value is empty you will be prompted.
 # (will appear in main menu)
 default_conversion_format="mp3"

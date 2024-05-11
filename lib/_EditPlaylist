@@ -7,10 +7,12 @@ _EditPlaylist() {
         clear
         cd "$playlists_dir" || exit 1
         __
-        PS3=""$'\n'" ${info}Choose a playlist to edit: ${nc}"
+        PS3=""$'\n'" ${info}Choose a playlist to edit, [C]ancel: ${nc}"
 
         select list in $(find . -not -name "default.m3u" -name "*.m3u" \
             -o -name "*.m3u_origin" | sort -d | sed 's,.*/,,'); do
+
+            case "$REPLY" in c|C) return ;; esac
             __
             read -rsn 1 -p \
             "${info}"' [E]dit urls manually, re[N]ame playlist, [R]emove titles.'"${nc}" edit

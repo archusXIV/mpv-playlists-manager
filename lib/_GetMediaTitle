@@ -10,7 +10,7 @@ _GetMediaTitle() {
         -q) LIST="$QUEUE" ;;
         -v) LIST="$VIDEO_URLS" ;;
     esac
-
+    
     while read -r line; do
         _YtdlGetTitle "$line" 2>/dev/null
     done < <(grep '^https' "$LIST")

@@ -1,0 +1,28 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2001
+_RemoveAudioVideoIds() {
+    
+    cd "$mediaDir" && {
+        printf '%s\n' " ${info}renaming files in ${mediaDir##*/}${nc}"
+        sleep 2; clear
+        find . -maxdepth 1 -type f \
+        | sort -d \
+        | sed '
+            s,.*/,,;s/ \[.*\]//;/^\s*$/d
+        ' > "$tmp_dir"/renamedFiles
+    }
+    mapfile \
+        -t downloadedFiles < <(
+            find "$mediaDir" -maxdepth 1 -type f | sort -d | sed 's,.*/,,'
+        )
+              
+    for file in "${downloadedFiles[@]}"; do
+        mv "$file" \
+        "$(sed -n '1p' "$tmp_dir"/renamedFiles)" 2>/dev/null
+        sed -i '1d' "$tmp_dir"/renamedFiles
+    done
+
+    unset file
+}

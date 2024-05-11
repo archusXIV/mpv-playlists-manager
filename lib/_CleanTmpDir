@@ -5,19 +5,19 @@
 # This function is executed by the trap command before we exit out. 
 _CleanTmpDir() {
     
-    cd "$tmp_dir" || exit 1
-    
     test -s "$DEFAULTITLES" && \
     cp -f "$DEFAULTITLES" "$DEFAULTM3UTITLES"
 
     if pgrep -x mpv >/dev/null; then
-        find . -type f \
+        find "$tmp_dir" -type f \
         -not -name "$(awk -F"/" '{print $NF}' "$NOWPLAYING")" \
         -not -name 'nowPlaying' -exec rm {} \;
         rm -f "$playlists_dir"/*_tmp
+        rmdir {"$audios_dir"/*/,"$videos_dir"/*/}
     else
-        rm "$(readlink -f "$tmp_dir"/fzfEnqueue)"
+        rm "$(readlink -f "$tmp_dir"/"fzfEnqueue")"
         rm -f {"$tmp_dir"/*,"$playlists_dir"/*_tmp}
+        rmdir {"$audios_dir"/*/,"$videos_dir"/*/}
     fi 2>/dev/null
-    
+
 }

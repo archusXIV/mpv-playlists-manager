@@ -1,10 +1,10 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2076,SC2154,SC2164
+# shellcheck disable=SC2076,SC2154,SC2164,SC2034,SC2181
 _ChooseDirectVideoDownload() {
 
-    local counter
+    local counter animationTitles mediaDir
     clear
     cd "$playlists_dir" || exit 1
     _TitlesListCompare -l
@@ -13,35 +13,50 @@ _ChooseDirectVideoDownload() {
     clear
     cp -f "$list" "$list"_origin
     cp -f "$SELECTEDTITLES" "$SELECTEDTITLES"_orgin
-    mkdir --parents "$videos_dir"/"${list%.*}" \
-    && cd "$videos_dir"/"${list%.*}"
+    mkdir --parents "$videos_dir"/"${list%.*}"
+    mediaDir="$videos_dir"/"${list%.*}"
+    cd "$mediaDir"
     
+    M3UFILE="$CHOOSE1"
     counter=$(grep "" -c "$CHOOSE1")
-    
-    while read -r url; do
-        [[ $direct_download = yes ]] && \
-            printf '%s\n' " ${task}Direct download enabled.${nc}" || \
-            printf '%s\n' " ${task}Download method = direct.${nc}"
-        __
-        printf '%s\n' " ${info}$counter file(s) left to downloads." \
-        " Downloading: $(_GetLinkTitle -s)${nc}"
 
-        if [[ $url =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]; then
-            # downloader presets described in ~/.config/mpm/mpmrc
-            yt-dlp "${ytdlPreset_X[@]}" "$url"
-        elif [[ $url =~ 'youtube.com' ]]; then
-            yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
-            "${ytdlPreset_X[@]}" "$url"
-        else
-            yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
-            "${ytdlPreset_NC[@]}" "$url"
-        fi
+    _ParallelDownloadCmd --download
 
-        sed -i '1d' "$SELECTEDTITLES"
-        ((counter--))
-        clear
-    done < "$CHOOSE1"
+    if [[ $? = 0 ]]; then
+        animationTitles="$SELECTEDTITLES"
+        _ParallelDownloadCmd --choose-video
+        _DownloadMessages --choose-video
+        _ParallelAnimation
+    else
+        while read -r url; do
+            [[ $direct_download = yes ]] || \
+                printf '%s\n' " ${task}Download method = direct.${nc}"
+
+                _DownloadMessages --choose-video
+
+            if [[ $url =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]; then
+                yt-dlp "${ytdlPreset_X[@]}" "$url"
+            elif [[ $url =~ 'youtube.com' ]]; then
+                yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
+                "${ytdlPreset_X[@]}" "$url"
+            else
+                yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
+                "${ytdlPreset_NC[@]}" "$url"
+            fi
+
+            sed -i '1d' "$SELECTEDTITLES"
+            ((counter--))
+            clear
+        done < "$CHOOSE1"
+    fi
 
     unset url
+    __
+    _RemoveAudioVideoIds
+    _UpdateSelected -u
+    echo " ${info}All done${nc}"
+    sleep 2
+    clear
+    _DownloadCompleted
 
 }

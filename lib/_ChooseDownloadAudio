@@ -1,11 +1,13 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2013,SC2154,SC2143,SC2076,SC2164
+# shellcheck disable=SC2154,SC2143,SC2076,SC2034,SC1001,SC2181
 _ChooseDownloadAudio() {
 
-    local counter M3UFILE
     cd "$playlists_dir" || exit 1
+
+    local counter M3UFILE animationTitles mediaDir
+    
     clear
     _TitlesListCompare -l
     _GetRange
@@ -15,8 +17,9 @@ _ChooseDownloadAudio() {
     cp -f "$SELECTEDTITLES" "$SELECTEDTITLES"_orgin
 
     mkdir --parents "$audios_dir"/"${list%.*}"
-    AUDIO_DIR="$audios_dir"/"${list%.*}"
-    cd "$AUDIO_DIR" || {
+    mediaDir="$audios_dir"/"${list%.*}"
+
+    cd "$mediaDir" || {
         printf '%s\n' \
         " ${critical}Failed to access audio directory.${nc}"
         sleep 4
@@ -27,18 +30,12 @@ _ChooseDownloadAudio() {
     readarray -t SELECTEDAUDIO < "$M3UFILE"
     counter="${#SELECTEDAUDIO[@]}"
     
-    __chooseDownloadAudioMessage() (
-        __
-        printf '%s\n' " ${info}$counter file(s) left to downloads." \
-        " Downloading: $(_GetLinkTitle -s)${nc}"
-    )
-    
     __chooseDownloadAudioFormat() (
         __
         printf '%s\n' " ${info}Choose a format code for: $(_GetLinkTitle -s)${nc}"
         read -r code
         clear
-        __chooseDownloadAudioMessage
+        _DownloadMessages --choose-audio
         if [[ $(_GetLinkTitle -s) =~ '/' ]]; then
             yt-dlp --format "$code" "${ytdlPreset_NC[@]}" "$url"
         else
@@ -47,43 +44,51 @@ _ChooseDownloadAudio() {
         fi
     )
 
-    for url in "${SELECTEDAUDIO[@]}"; do
+    _ParallelDownloadCmd --download
 
-        if [[ $direct_download = yes ]] && \
-            [[ $(yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
-            | grep '^251') ]]; then
+    if [[ $? = 0 ]]; then
+        animationTitles="$SELECTEDTITLES"
+        _ParallelDownloadCmd --choose-audio
+        _DownloadMessages --choose-audio
+        _ParallelAnimation
+    else
+        for url in "${SELECTEDAUDIO[@]}"; do
 
-            printf '%s\n' " ${task}Direct download enabled.${nc}"
-            __chooseDownloadAudioMessage
-            if [[ $(_GetLinkTitle -s) =~ '/' ]]; then
-                yt-dlp --format 251 "${ytdlPreset_NC[@]}" "$url"
+            if [[ $direct_download = yes ]] && \
+                [[ $(yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
+                | grep '^251') ]]; then
+
+                _DownloadMessages --choose-audio
+
+                if [[ $(_GetLinkTitle -s) =~ '/' ]]; then
+                    yt-dlp --format 251 "${ytdlPreset_NC[@]}" "$url"
+                else
+                    yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
+                    --format 251 "${ytdlPreset_NC[@]}" "$url"
+                fi
+
+            elif [[ $direct_download = no ]] && [[ $url =~ 'youtube.com' ]]; then
+                __
+                yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
+                | awk '/audio only|PROTO|^[-]/ {sub("^[sb*]",""); print $0}'
+                __chooseDownloadAudioFormat
             else
-                yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
-                --format 251 "${ytdlPreset_NC[@]}" "$url"
+                yt-dlp -F "${ytdlPreset_DW[@]}" "$url"
+                __chooseDownloadAudioFormat
             fi
 
-        elif [[ $direct_download = no ]] && [[ $url =~ 'youtube.com' ]]; then
-            __
-            printf '%s\n' " ${task}Direct download disabled.${nc}"
-            __
-            yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
-            | awk '/audio only|PROTO|^[-]/ {sub("^[sb*]",""); print $0}'
-            __chooseDownloadAudioFormat
-        else
-            yt-dlp -F "${ytdlPreset_DW[@]}" "$url"
-            __chooseDownloadAudioFormat
-        fi
+            sed -i '1d' "$SELECTEDTITLES"
+            ((counter--))
+            clear
 
-        sed -i '1d' "$SELECTEDTITLES"
-        ((counter--))
-        clear
-
-    done
+        done
+    fi
 
     unset url
+
     _UpdateSelected -u
     clear
     echo -e " ${info}Done${nc}\n"
-    clear
+    sleep 2
     _IfWebmFiles
 }

@@ -1,11 +1,11 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2013,SC2015,SC2154,SC2143,SC2164,SC2317
+# shellcheck disable=SC2015,SC2154,SC2164,SC2034
 _GetAudio() {
 
     cd "$audios_dir" || exit 1
-    local AUDIO_DIR M3UFILE TITLES
+    local M3UFILE TITLES mediaDir
 
     case "$1" in
         -a)
@@ -14,14 +14,14 @@ _GetAudio() {
                 sleep 2
                 return
             }
-            AUDIO_DIR="$audios_dir"
             M3UFILE="$AUDIO_URLS"
             TITLES="$AUDIO_TITLES"
+            mediaDir="$audios_dir"
         ;;
         -l)
-            AUDIO_DIR="$audios_dir"/"${list%.*}"
             M3UFILE="$playlists_dir"/"$list"
             TITLES="$titles_dir"/"$list".titles
+            mediaDir="$audios_dir"/"${list%.*}"
         ;;
         -q)
             if [[ ! -f $DEFAULTITLES && -f $DEFAULTM3UTITLES ]]; then
@@ -34,9 +34,9 @@ _GetAudio() {
                 _GetMediaTitle -q > "$DEFAULTITLES"
                 clear
             fi
-            AUDIO_DIR="$audios_dir"
             M3UFILE="$QUEUE"
             TITLES="$DEFAULTITLES"
+            mediaDir="$audios_dir"
         ;;
     esac
 
@@ -44,10 +44,10 @@ _GetAudio() {
     cp -f "$TITLES" "$TITLES"_origin
     clear
 
-    [[ ! -d $AUDIO_DIR ]] && {
-        mkdir --parents "$AUDIO_DIR"
-        cd "$AUDIO_DIR"
-    } || cd "$AUDIO_DIR"
+    [[ ! -d $mediaDir ]] && {
+        mkdir --parents "$mediaDir"
+        cd "$mediaDir"
+    } || cd "$mediaDir"
 
     _GetAudioDownload
 

@@ -1,0 +1,87 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2034
+_ParallelDownloadCmd() {
+
+    declare -a formats=(
+        "bestaudio\/best"
+        "bestvideo+bestaudio\/best"
+    )
+
+    __sedAudioCmd() { sed -i "s/^/yt-dlp --format ${formats[0]} ${ytdlPreset_NC[*]} /" "$1"; }
+    __sedVideoCmd() { sed -i "s/^/yt-dlp --format ${formats[1]} ${ytdlPreset_X[*]} /" "$1"; }
+
+    case "$1" in
+        --convert)
+            [[ -n $(command -v parallel) && $use_parallel = yes ]]
+        ;;
+        --download)
+            [[ -n $(command -v parallel) \
+            && $use_parallel = yes \
+            && $use_parallel_downloads = yes ]]
+        ;;
+        --choose-audio)
+            cp "$M3UFILE" "$tmp_dir"/parallel_list
+            __sedAudioCmd "$tmp_dir"/parallel_list
+            {
+                parallel --delay 1.5 --jobs 4 < "$tmp_dir"/parallel_list
+                sed -i '1,$d' "$SELECTEDTITLES"
+                rm -rf "$HOME"/.parallel
+                clear
+            } &
+        ;;
+        --choose-video)
+            cp "$M3UFILE" "$tmp_dir"/parallel_list
+            __sedVideoCmd "$tmp_dir"/parallel_list
+            {
+                parallel --delay 2 --jobs 4 < "$tmp_dir"/parallel_list
+                sed -i '1,$d' "$SELECTEDTITLES"
+                rm -rf "$HOME"/.parallel
+                clear
+            } &
+        ;;
+        --direct-video)
+            sed -i '1d' "$playlists_dir"/"$list"
+            __sedVideoCmd "$playlists_dir"/"$list"
+            {
+                parallel --delay 2.5 --jobs 4 < "$playlists_dir"/"$list"
+                sed -i '1,$d' {"$playlists_dir"/"$list","$titles_dir"/"$list".titles}
+                rm -rf "$HOME"/.parallel
+                clear
+            } &
+        ;;
+        --get-audio)
+            [[ $M3UFILE = "$QUEUE" || $M3UFILE = "$playlists_dir"/"$list" ]] && \
+            sed -i '1d' "$M3UFILE"
+            __sedAudioCmd "$M3UFILE"
+            {
+                parallel --delay 1.5 --jobs 4 < "$M3UFILE"
+                if [[ $M3UFILE = "$QUEUE" ]]; then
+                    sed -i '1,$d' {"$M3UFILE","$TITLES"}
+                    echo "#EXTM3U" > "$M3UFILE"
+                else
+                    sed -i '1,$d' {"$M3UFILE","$TITLES"}
+                fi
+                rm -rf "$HOME"/.parallel
+                clear
+            } &
+        ;;
+        --get-video)
+            [[ $M3UFILE = "$QUEUE" ]] && sed -i '1d' "$M3UFILE"
+            __sedVideoCmd "$M3UFILE"
+            {
+                parallel --delay 2.5 --jobs 4 < "$M3UFILE"
+                if [[ $M3UFILE = "$QUEUE" ]]; then
+                    sed -i '1,$d' {"$M3UFILE","$TITLES"}
+                    echo "#EXTM3U" > "$M3UFILE"
+                else
+                    sed -i '1,$d' {"$M3UFILE","$TITLES"}
+                fi
+                rm -rf "$HOME"/.parallel
+                clear
+            } &
+        ;;
+    esac
+
+} >/dev/null 2>&1

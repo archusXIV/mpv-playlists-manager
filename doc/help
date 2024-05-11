@@ -1,4 +1,4 @@
-mpm version 1.8-8
+mpm version 1.9-0
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -35,22 +35,24 @@ mpm version 1.8-8
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.1.8-8::
+                                    ::MPV-PLAYLISTS-MANAGER v.1.9-0::
                                    ***********************************
-                                current theme: default. For usage type U
+                                        current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
-                Collection: 26 * Default list: 2 * Audio list: 2  * Video list: 1        
+                  Collection: 37 * Default list: 4 * Audio list: 3 * Video list: 1
         └─────────────────────────────────────────────────────────────────────────────────────┘
-        ┌──────────────────────────────────────────────────────────────────────────────────────┐
-        │                      GENERAL OPTIONS                        │     MPMRC SETTINGS     │
-        └──────────────────────────────────────────────────────────────────────────────────────┘
-        ┌──────────────────────────────────────────────────────────────────────────────────────┐
-        │   1) Create/Add video playlist   6) View default playlist   │ use parallel:    yes   │
-        │   2) Create/Add audio playlist   7) Clear all tmp lists     │ direct download:  no   │
-        │   3) Save tmp/Del collection     8) Edit a playlist         │ conversion auto: yes   │
-        │   4) Play/Download a playlist    9) Edit mpm config (mpmrc) │ audio format:    mp3   │
-        │   5) Load local folder/files     X) Exit                    │ quit after task: yes   │
-        └──────────────────────────────────────────────────────────────────────────────────────┘
+        ┌─────────────────────────────────────────────────────────────────────────────────────┐
+        │                      GENERAL OPTIONS                       │     MPMRC SETTINGS     │
+        └─────────────────────────────────────────────────────────────────────────────────────┘
+        ┌─────────────────────────────────────────────────────────────────────────────────────┐
+        │                      For usage type U                      │  use mpvc:         no  │
+        │  ────────────────────────────────────────────────────────  │  use fzf:          no  │
+        │  1)  Create/Add video playlist  6)  View default playlist  │  use parallel:     no  │
+        │  2)  Create/Add audio playlist  7)  Clear all tmp lists    │  direct download:  no  │
+        │  3)  Save as/Delete a playlist  8)  Edit a playlist        │  conversion auto:  no  │
+        │  4)  Play/Download a playlist   9)  Edit mpm config file   │  audio format:    mp3  │
+        │  5)  Load local folder/files    X)  Exit                   │  quit after task:  no  │
+        └─────────────────────────────────────────────────────────────────────────────────────┘
                                             Select an item                                      
 
 
@@ -109,6 +111,10 @@ mpm version 1.8-8
                     1-4,6 8-11 # range,single range
                     1-4,6-8,10 # range,range,single
                     2,3,5,6,1  # random singles
+
+        Since version 1.9-0 the GNU parallel package can be use to download audio/video files,
+        to use this functionality just enable it in the mpmrc file: use_parallel_downloads="yes",
+        and since the output is hidden an animation is displayed: parallel_animation="<progress/spinners>".
     
     5) Load local dir/files:
 
@@ -192,6 +198,8 @@ mpm version 1.8-8
 
         Since version 1.7-7 we get a prompt when mpv is holding the current list, so we can continue
         listening/watching content or quit mpv and do stuff on the list (remove,save,download etc...)
+
+        See section 4) Play/Download a playlist: for parallel downloads.
 
     III) Audio conversion settings in mpmrc:
 

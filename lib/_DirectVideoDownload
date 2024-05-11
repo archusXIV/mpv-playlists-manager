@@ -1,43 +1,56 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2076,SC2015,SC2164
+# shellcheck disable=SC2154,SC2076,SC2164,SC2034,SC2181
 _DirectVideoDownload() {
 
     cd "$playlists_dir" || exit 1
-    local counter
-    __
-    printf '%s\n' " ${task}Direct download enabled.${nc}"
-    __
+    local counter animationTitles mediaDir
+
     cp -f "$list" "$list"_origin
-    mkdir --parents "$videos_dir"/"${list%.*}" \
-    && cd "$videos_dir"/"${list%.*}"
+    cp -f "$titles_dir"/"$list".titles "$titles_dir"/"$list".titles_origin
+    
+    mkdir --parents "$videos_dir"/"${list%.*}"
+    mediaDir="$videos_dir"/"${list%.*}"
+    cd "$mediaDir"
 
     counter=$(grep '^https' -c "$playlists_dir"/"$list")
 
-    while read -r url; do
-        
-        printf '%s\n' " ${info}$counter file(s) left to download." \
-        " Downloading: $(_GetLinkTitle -l)${nc}"
-        
-        if [[ $url =~ 'youtube.com' && $(_GetLinkTitle -l) =~ '/' ]]; then
-            yt-dlp "${ytdlPreset_X[@]}" "$url"
-        elif [[ $url =~ 'youtube.com' ]]; then
-            yt-dlp \
-            --output "$(_GetLinkTitle -l).%(ext)s" \
-            "${ytdlPreset_X[@]}" "$url"
-        else
-            yt-dlp \
-            --output "$(_GetLinkTitle -l).%(ext)s" \
-            "${ytdlPreset_NC[@]}" "$url"
-        fi
+    _ParallelDownloadCmd --download
 
-        sed -i '2d' "$playlists_dir"/"$list"
-        sed -i '1d' "$titles_dir"/"$list".titles
-        ((counter--))
-        clear
+    if [[ $? = 0 ]]; then
+        animationTitles="$titles_dir"/"$list".titles
+        _ParallelDownloadCmd --direct-video
+        _DownloadMessages --direct-video
+        _ParallelAnimation
+    else
+        while read -r url; do
 
-    done < <(grep '^https' "$playlists_dir"/"$list")
+            _DownloadMessages --direct-video
+
+            if [[ $url =~ 'youtube.com' && $(_GetLinkTitle -l) =~ '/' ]]; then
+                yt-dlp "${ytdlPreset_X[@]}" "$url"
+            elif [[ $url =~ 'youtube.com' ]]; then
+                yt-dlp \
+                --output "$(_GetLinkTitle -l).%(ext)s" \
+                "${ytdlPreset_X[@]}" "$url"
+            else
+                yt-dlp \
+                --output "$(_GetLinkTitle -l).%(ext)s" \
+                "${ytdlPreset_NC[@]}" "$url"
+            fi
+
+            sed -i '2d' "$playlists_dir"/"$list"
+            sed -i '1d' "$titles_dir"/"$list".titles
+            ((counter--))
+            clear
+
+        done < <(grep '^https' "$playlists_dir"/"$list")
+    fi
 
     unset url
+    _RemoveAudioVideoIds
+    echo " ${info}All done${nc}"
+    sleep 2
+
 }

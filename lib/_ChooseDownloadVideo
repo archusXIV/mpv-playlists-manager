@@ -4,24 +4,21 @@
 # shellcheck disable=SC2013,SC2076,SC2034,SC2154,SC2164
 _ChooseDownloadVideo() {
 
-    local counter
+    local counter mediaDir
     cd "$playlists_dir" || exit 1
     clear
 
     if [[ $direct_download = yes ]]; then
         _ChooseDirectVideoDownload
     else
-        __
-        printf '%s\n' " ${task}Direct download disabled."
-        __
-        printf '%s\n' " ${critical}Tip: direct download will always pick the best format," \
-        " on Youtube webm may be the best one but we'll merge files in mp4." \
-        " ${info}[B]ack to download options, choose [S]pecific codes or [D]irect download?:${nc}"
-        __
-        read -rsn 1 choice
+        _DownloadMessages --choice
+        read -rsn 1 choiceChooseDownloadVideo
     fi
 
-    case "$choice" in
+    mkdir --parents "$videos_dir"/"${list%.*}"
+    mediaDir="$videos_dir"/"${list%.*}"
+
+    case "$choiceChooseDownloadVideo" in
         b|B) clear; return ;;
         d|D) _ChooseDirectVideoDownload ;;
         s|S)
@@ -47,11 +44,7 @@ _ChooseDownloadVideo() {
                 else
                     yt-dlp -F "${ytdlPreset_DW[@]}" "$url"
                 fi
-                __
-                printf '%s\n' " ${critical}If you pick a format from a none m3u8 protocol, download will fail " \
-                " if ffmpeg is set as downloader in your configuration file." \
-                " ${info}Choose a format code for: $(_GetLinkTitle -s)" \
-                " eg: 137+251 for merging, hls-1080p, 22 for single:${nc}"
+                _DownloadMessages --m3u8
                 
                 read -r code
                 sleep 0.5
@@ -80,8 +73,13 @@ _ChooseDownloadVideo() {
 
             unset url
         ;;
+        *)
+            _WrongOption "$choiceChooseDownloadVideo"
+            _LoadPlaylistMenu
+        ;;
     esac
 
+    _RemoveAudioVideoIds
     _UpdateSelected -u
     echo " ${info}All done${nc}"
     sleep 2

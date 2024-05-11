@@ -76,14 +76,14 @@ _SearchYoutubeWithFzf() {
         )
 
         case "$id" in
-            # 11 characters id = media
+            # 11 characters=id (uniq audio/video link)
             ???????????)
                 echo "$mediaPrefix$id" | tee -a "$URLS" >> "$QUEUE"
                 echo -e "$line" \
                 | sed "/${playlistName}/d" \
                 | tee -a "$TITLES" >> "$DEFAULTITLES"
             ;;
-            # 34 characters id = playlist
+            # 34 characters=id (playlist link)
             ??????????????????????????????????)
                 echo "$playlistPrefix$id" >> "$YTSEARCH"
             ;;

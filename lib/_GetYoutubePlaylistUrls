@@ -33,21 +33,30 @@ _GetYoutubePlaylistUrls() {
             # there might be several playlists urls selected in
             # _Search{Online,Youtube}With functions so we enter in a loop.
             for url in "${MAPFILE[@]}"; do
+                if [[ -n $(command -v ytfzf) && $use_fzf = yes ]]; then
+                    ytfzf -A -I VJ --scrape=youtube-playlist \
+                    "$url" > "$YTFZFJSON";clear
+                    jq --raw-output '.[].url' "$YTFZFJSON" \
+                    | tee -a "$QUEUE" >> "$URLS"
+                    jq --raw-output '.[].title' "$YTFZFJSON" \
+                    | tee -a "$DEFAULTITLES" >> "$TITLES"
+                    rm "$YTFZFJSON"
+                    _RemoveCrap
+                else
+                    playlistName=$(yt-dlp "${ytdlPreset_DW[@]}" -J \
+                    --flat-playlist "$url" | jq --raw-output .title)
+                    __
+                    printf '%s\n' \
+                    " ${info}Please be patient while extracting urls/titles from:" \
+                    " $playlistName playlist...${nc}"
+                    _YtdlGetTitle "$url" \
+                    | tee -a "$TITLES" >> "$DEFAULTITLES"
 
-                playlistName=$(yt-dlp "${ytdlPreset_DW[@]}" -J \
-                --flat-playlist "$url" | jq --raw-output .title)
-                __
-                printf '%s\n' \
-                " ${info}Please be patient while extracting urls/titles from:" \
-                " $playlistName playlist...${nc}"
-
-                yt-dlp "${ytdlPreset_DW[@]}" -j "$url" \
-                | jq --raw-output '(.webpage_url)' \
-                | tee -a "$QUEUE" >> "$URLS"
-                
-                _YtdlGetTitle "$url" \
-                | tee -a "$TITLES" >> "$DEFAULTITLES"
-                clear
+                    yt-dlp "${ytdlPreset_DW[@]}" -j "$url" \
+                    | jq --raw-output '(.webpage_url)' \
+                    | tee -a "$QUEUE" >> "$URLS"
+                    clear
+                fi
             done
             
             unset url

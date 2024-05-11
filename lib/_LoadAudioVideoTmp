@@ -20,11 +20,13 @@ _LoadAudioVideoTmp() {
     case "$1" in
         -a)
             if [[ -s ${TMP[0]} ]]; then
+
                 if [[ -n $(pidof mpv) && -f $CHOOSE1 ]]; then
                     unset {TMP[2],TMP[3],TMP[4]}
                 else
                     unset {TMP[2],TMP[3]}
                 fi
+
                 tmpFile=Audio
                 __loadAudioVideoTmpNotice
             fi
@@ -32,6 +34,7 @@ _LoadAudioVideoTmp() {
         ;;
         -v)
             if [[ -s ${TMP[2]} ]]; then
+            
                 if [[ -n $(pidof mpv) && -f $CHOOSE1 ]]; then
                     unset {TMP[0],TMP[1],TMP[4]}
                 else

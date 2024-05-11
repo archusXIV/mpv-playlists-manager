@@ -1,0 +1,37 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_ParallelAnimation() {
+
+    __spinners() (
+        local delay spinners
+
+        delay=0.1
+        spinners="|/-\\"
+
+        while [[ -s $spinnersTitle ]]; do
+            local temp=${spinners#?}
+            printf " [${task}%c${nc}]  " "$spinners"
+            local spinners=$temp${spinners%"$temp"}
+            sleep "$delay"
+            printf "\b\b\b\b\b\b"
+        done
+        clear
+    )
+
+    __progress() (
+
+        printf "["
+
+        while [[ -s $spinnersTitle ]]; do 
+            printf  "▓"
+            sleep 0.50
+        done
+        clear
+    )
+
+    [[ $parallel_animation = spinners ]] && __spinners
+    [[ $parallel_animation = progress ]] && __progress
+
+}

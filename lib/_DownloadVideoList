@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2013,SC2154,SC2076,SC2031,SC2030,SC2164
+# shellcheck disable=SC2154,SC2076,SC2164
 _DownloadVideoList() {
     cd "$playlists_dir" || exit 1
 
@@ -13,22 +13,18 @@ _DownloadVideoList() {
         _DirectVideoDownload
     else
         clear
-        printf '%s\n' " ${task}Direct download disabled."
-        __
-        printf '%s\n' " ${critical}Tip: direct download will always pick the best format," \
-        " on Youtube webm may be the best one but we'll merge files in mp4."
-        echo -e " ${info}[B]ack to download options, choose [S]pecific codes or [D]irect download?:\n${nc}"
-        read -rsn 1 choice
+        _DownloadMessages --choice
+        read -rsn 1 choiceDownloadVideoList
     fi
 
-    case "$choice" in
-        b|B) clear; return ;;
+    case "$choiceDownloadVideoList" in
+        b|B) clear; _LoadPlaylistMenu ;;
         d|D) clear; _DirectVideoDownload ;;
         s|S)
             clear
             cp -f "$list" "$list"_origin
-            mkdir --parents "$videos_dir"/"${list%.*}" \
-            && cd "$videos_dir"/"${list%.*}"
+            cp -f "$titles_dir"/"$list".titles "$titles_dir"/"$list".titles_origin
+            mkdir --parents "$videos_dir"/"${list%.*}" && cd "$videos_dir"/"${list%.*}"
             
             mapfile -t SELECTEDCODES < <(grep '^https' "$playlists_dir"/"$list")
             counter="${#SELECTEDCODES[@]}"
@@ -37,8 +33,7 @@ _DownloadVideoList() {
                 
                 clear
                 __
-                yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
-                | awk '$0 !~ /sb|youtube/{print $0}'
+                yt-dlp -F "${ytdlPreset_DW[@]}" "$url" | awk '$0 !~ /sb|youtube/{print $0}'
                 __
                 printf '%s\n' " ${critical}If you pick a format from a none m3u8 protocol, download will fail " \
                 " if ffmpeg is set as downloader in your configuration file." \
@@ -52,8 +47,7 @@ _DownloadVideoList() {
                 " Downloading $(_GetLinkTitle -l).${nc}"
                 
                 if [[ "$code" =~ '+' && $(_GetLinkTitle -l) =~ '/' ]]; then
-                    yt-dlp --format "$code" \
-                    "${ytdlPreset_X[@]}" "$url"
+                    yt-dlp --format "$code" "${ytdlPreset_X[@]}" "$url"
                 elif [[ "$code" =~ '+' ]]; then
                     yt-dlp --format "$code" \
                     --output "$(_GetLinkTitle -l).%(ext)s" \
@@ -72,10 +66,12 @@ _DownloadVideoList() {
             done
             unset url
         ;;
+        *)
+            _WrongOption "$choiceDownloadVideoList"
+            _LoadPlaylistMenu
+        ;;
     esac
 
-    echo " ${info}All done${nc}"
-    sleep 2
     _DownloadCompleted
 
 }

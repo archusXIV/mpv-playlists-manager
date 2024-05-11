@@ -32,12 +32,10 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog
-- Added more mpmrc settings in the [main menu](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.8-8.png), just so you know what's in there.
-- Fixed _RemoveCrap function to remove slashes from titles.
-- Added fzf preview options in mpmrc (size, layout).
-- Added clipboard tools options in mpmrc.
-- Fixed bug in _LoadLocal when trying to access video files if use_fzf="no".
-- Added empty directories listing in _SelectLocalDir.
+- Added user choice (mpmrc) for animations when parallel_downloads is set to 'yes'.
+- Added option for audio conversion with multi cpu threads (mpmrc).
+- Added multi-downloads functionality using GNU Parallel.
+- Added more mpmrc settings in the [main menu](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.9-0.png), just so you know what's in there.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -71,7 +69,7 @@ mpvc_tui="<your_mpv_tui_here>"
   - In addition you can also use the [ytfzf](https://github.com/pystardust/ytfzf) script
   if it is in your $PATH, options are available in the mpmrc file.
 
-- In your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L87) file activate it.
+- In your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L104) file activate it.
 
 ```
 use_fzf="yes"
@@ -79,7 +77,7 @@ use_fzf="yes"
 
 ## Audio conversion done faster with parallel
 - If installed, [parallel](https://www.gnu.org/software/parallel/) will launch multiple ffmpeg instances to speed up audio conversion.
-- Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L121) file
+- Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L76) file
 
 ```
 use_parallel="yes"
@@ -92,7 +90,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When we use a [terminal user interface](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png) for mpv, the main window looks like this.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.8-8.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.9-0.png)
 
 
 ```

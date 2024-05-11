@@ -5,7 +5,7 @@ _RemoveCrap() {
     # After some tests it appears that a single link copied from a youtube playlist
     # causes the download of the entire playlist.
     # So with sed & perl we cleanup the link to get the direct link to the desired video.
-    # Note that this behavior does not occur during a simple viewing/listening.
+    # Note that this behavior does not appear during a simple viewing/listening.
 
     LISTS=(
         "$URLS"

@@ -31,7 +31,7 @@ pids=($(pidof -x $mpvmenu))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.1.8-8"
+VERSION="v.1.9-0"
 
 # : "${XDG_CONFIG_HOME:-$HOME/.config}"
 CONF_DIR="$HOME/.config/mpm"
@@ -71,12 +71,14 @@ FFOP="$tmp_dir/ffmpeg_output"
 HELP="/usr/local/share/doc/mpm/help"
 NOWPLAYING="$tmp_dir/nowPlaying"
 QUEUE="$playlists_dir/default.m3u"
-SELECTEDTITLES="$titles_dir/selected.titles"
+SELECTEDTITLES="$tmp_dir/selected.titles"
 VIDEO_URLS="$tmp_dir/temporaryVideoUrls.m3u"
 VIDEO_TITLES="$tmp_dir/temporaryVideoTitles"
-YTOP="$tmp_dir/youtube-dl_output"
+YTOP="$tmp_dir/yt-dlp_output"
 YTSEARCH="$tmp_dir/youtubeSearch"
 YTFZFJSON="$tmp_dir/ytfzf.json"
+
+[[ -z $parallel_threads ]] && parallel_threads=4
 
 _LaunchMpm() {
     _Prompt " ${info}Launch mpm?${nc}" || {

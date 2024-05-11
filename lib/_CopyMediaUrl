@@ -16,7 +16,7 @@ _CopyMediaUrl() {
         __
         printf '%s\n' " ${info}Getting titles & links from playlist: $(\
         yt-dlp "${ytdlPreset_DW[@]}" -J --flat-playlist "$mediaUrl" \
-        | jq -r .title)..." \
+        | jq --raw-output .title)..." \
         "${b} Please be patient.${nb}${nc}" && sleep 1
         _GetYoutubePlaylistUrls "$arg"
         

@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2086
+# shellcheck disable=SC2154
 _RemoveDefaultList() {
 
     # the default list, at least contains one line (header #EXTM3U)

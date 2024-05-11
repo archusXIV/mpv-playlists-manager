@@ -1,64 +1,74 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2013,SC2154,SC2143,SC2164,SC2317,SC2076
+# shellcheck disable=SC2154,SC2076,SC2034,SC2181
 _GetVideoDownload() {
 
-    cd "$videos_dir" || exit 1
+    cd "$mediaDir" || exit 1
+    local animationTitles
 
-    mapfile -t VIDEOLINKS < <(grep '^https' "$M3UFILE")
-    
-    for url in "${VIDEOLINKS[@]}"; do
-        __
-        yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
-        | awk '$0 !~ /sb|youtube/{print $0}'
-        __
-        __chooseFormatMessages
-        read -r code
-        clear
-        __
-        __downloadMessages
+    _ParallelDownloadCmd --download
 
-        # it seems that only youtube uses merging options
-        if [[ "$code" =~ '+' ]]; then
-            # downloader presets described in ~/.config/mpm/mpmrc
-            # we have to differenciate titles files because of _GetLinkTitle function.
-            if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
-                yt-dlp --format "$code" "${ytdlPreset_FS[@]}" \
-                "${ytdlPreset_X[@]}" "$url"
-            else
-                yt-dlp --format "$code" \
-                --output "$(sed -n '1p' "$TITLES").%(ext)s" \
-                "${ytdlPreset_X[@]}" "$url"
-            fi
-            
-        else
-        
-            if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
-                yt-dlp --format "$code" "${ytdlPreset_FS[@]}" \
-                "${ytdlPreset_NC[@]}" "$url"
-            else
-                yt-dlp --format "$code" \
-                --output "$(sed -n '1p' "$TITLES").%(ext)s" \
-                "${ytdlPreset_NC[@]}" "$url"
-            fi
-            
-        fi
-
-        if [[ $M3UFILE = "$VIDEO_URLS" ]]; then
-            sed -i '1d' {"$M3UFILE","$TITLES"}
+    if [[ $? = 0 ]]; then
+        animationTitles="$TITLES"
+        _GetVideoDownloadMessages
+        _ParallelDownloadCmd --get-video
+        _ParallelAnimation
+    else
+        mapfile -t VIDEOLINKS < <(grep '^https' "$M3UFILE")
+        for url in "${VIDEOLINKS[@]}"; do
+            __
+            yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
+            | awk '$0 !~ /sb|youtube/{print $0}'
+            __
+            __chooseFormatMessages
+            read -r code
             clear
-        else
-            sed -i '2d' "$M3UFILE"
-            sed -i '1d' "$TITLES"
-            clear
-        fi
+            __
+            _GetVideoDownloadMessages
 
-    done
+            # it seems that only youtube uses merging options
+            if [[ "$code" =~ '+' ]]; then
+                # downloader presets described in ~/.config/mpm/mpmrc
+                # we have to differenciate titles files because of _GetLinkTitle function.
+                if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
+                    yt-dlp --format "$code" "${ytdlPreset_FS[@]}" \
+                    "${ytdlPreset_X[@]}" "$url"
+                else
+                    yt-dlp --format "$code" \
+                    --output "$(sed -n '1p' "$TITLES").%(ext)s" \
+                    "${ytdlPreset_X[@]}" "$url"
+                fi
+
+            else
+
+                if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
+                    yt-dlp --format "$code" "${ytdlPreset_FS[@]}" \
+                    "${ytdlPreset_NC[@]}" "$url"
+                else
+                    yt-dlp --format "$code" \
+                    --output "$(sed -n '1p' "$TITLES").%(ext)s" \
+                    "${ytdlPreset_NC[@]}" "$url"
+                fi
+
+            fi
+
+            if [[ $M3UFILE = "$VIDEO_URLS" ]]; then
+                sed -i '1d' {"$M3UFILE","$TITLES"}
+                clear
+            else
+                sed -i '2d' "$M3UFILE"
+                sed -i '1d' "$TITLES"
+                clear
+            fi
+
+        done
+    fi
 
     unset url
     echo -e " ${info}Done.\n${nc}"
     sleep 2
+    _RemoveAudioVideoIds
     _GetCompleted -v
 
 }

@@ -8,10 +8,7 @@ _LoadPlaylistMenu() {
     while :; do
         _ResizeWindow
         clear
-        [[ $direct_download = yes ]] && {
-            __
-            printf '%s\n' " ${task}Direct download enabled.${nc}"
-        }
+        _DownloadMessages --menu
         __
         echo " ${info}$list: $(grep -c '^https' "$list") url(s).${nc}"
         __

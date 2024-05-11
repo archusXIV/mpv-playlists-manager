@@ -1,54 +1,67 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2013,SC2154,SC2143,SC2164,SC2317
+# shellcheck disable=SC2154,SC2143,SC2034,SC2181
 _GetAudioDownload() {
     
-    mapfile -t AUDIOLINKS < <(grep '^https' "$M3UFILE")
+    local animationTitles
+    animationTitles="$TITLES"
     
-    for url in "${AUDIOLINKS[@]}"; do
+    _ParallelDownloadCmd --download
+
+    if [[ $? = 0 ]]; then
         _GetAudioDownloadMessages
-        if [[ $(yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
-            | grep '^251') ]]; then
-            __
-            if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
-                yt-dlp --format 251 \
-                "${ytdlPreset_NC[@]}" "$url"
+        _ParallelDownloadCmd --get-audio
+        _ParallelAnimation
+    else
+        mapfile -t AUDIOLINKS < <(grep '^https' "$M3UFILE")
+        for url in "${AUDIOLINKS[@]}"; do
+
+            _GetAudioDownloadMessages
+
+            if [[ $(yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
+                | grep '^251') ]]; then
+                __
+                if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
+                    yt-dlp --format bestaudio/best \
+                    "${ytdlPreset_NC[@]}" "$url"
+                else
+                    yt-dlp --output "$(sed -n '1p' "$TITLES").%(ext)s" \
+                    --format bestaudio/best "${ytdlPreset_NC[@]}" "$url"
+                fi
             else
-                yt-dlp --output "$(sed -n '1p' "$TITLES").%(ext)s" \
-                --format 251 "${ytdlPreset_NC[@]}" "$url"
+                yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
+                | awk '/audio only|PROTO|^[-]/ {sub("^[sb*]",""); print $0}'
+                __
+                printf '%s\n' " ${info}Choose a format code: ${nc}"
+                read -r code
+                clear
+                __
+                if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
+                    yt-dlp --format "$code" "${ytdlPreset_FS[@]}" \
+                    "${ytdlPreset_NC[@]}" "$url"
+                else
+                    yt-dlp --output "$(sed -n '1p' "$TITLES").%(ext)s" \
+                    --format "$code" "${ytdlPreset_NC[@]}" "$url"
+                fi
             fi
-        else
-            yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
-            | awk '/audio only|PROTO|^[-]/ {sub("^[sb*]",""); print $0}'
-            __
-            printf '%s\n' " ${info}Choose a format code: ${nc}"
-            read -r code
+
+            if [[ $M3UFILE = "$AUDIO_URLS" ]]; then
+                sed -i '1d' {"$M3UFILE","$TITLES"}
+            else
+                sed -i '2d' "$M3UFILE"
+                sed -i '1d' "$TITLES"
+            fi
+
             clear
-            __
-            if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
-                yt-dlp --format "$code" "${ytdlPreset_FS[@]}" \
-                "${ytdlPreset_NC[@]}" "$url"
-            else
-                yt-dlp --output "$(sed -n '1p' "$TITLES").%(ext)s" \
-                --format "$code" "${ytdlPreset_NC[@]}" "$url"
-            fi
-        fi
 
-        if [[ $M3UFILE = "$AUDIO_URLS" ]]; then
-            sed -i '1d' {"$M3UFILE","$TITLES"}
-        else
-            sed -i '2d' "$M3UFILE"
-            sed -i '1d' "$TITLES"
-        fi
-
-        clear
-
-    done
+        done
+    fi
 
     unset url
+    
     echo -e " ${info}Done\n${nc}"
     sleep 2
     _IfWebmFiles
-
+    
 }

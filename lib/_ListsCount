@@ -24,19 +24,16 @@ _ListsCount() {
     )
     
     __aud() (
-        if [[ -s $AUDIO_URLS ]]; then
-            echo "${info}$(_GetLinesList -a)${nc}"
-        else
+        test -s "$AUDIO_URLS" && \
+            echo "${info}$(_GetLinesList -a)${nc}" || \
             echo "0"
-        fi
     )
-    
+
     __vid() (
-        if [[ -s $VIDEO_URLS ]]; then
-            echo "${info}$(_GetLinesList -v)${nc}"
-        else
+        test -s "$VIDEO_URLS" && \
+            echo "${info}$(_GetLinesList -v)${nc}" || \
             echo "0"
-        fi
+
     )
     
     sep="${task}*${nc}"

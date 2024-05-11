@@ -6,7 +6,7 @@ _LoadAudioVideoAdvice() {
     clear
     __
     printf '%s\n' " ${critical}Tip: You may want to put this in your mpv.conf:" \
-    " ${info}term-playing-msg='Tiltle: \${media-title}'"
+    " ${info}term-playing-msg='[Tiltle]: \${media-title}'"
     echo -e " ${critical}Otherwise press I in mpv for more infos, or Q to quit mpv.${nc}\n"
 
     if grep -q -e 'm3u' "$NOWPLAYING"; then
