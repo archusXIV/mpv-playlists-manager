@@ -52,7 +52,7 @@ _Menu() {
                 __  ;;
             5)  _MpvOwnsTmpList --local || _LoadLocal
                 __  ;;
-            6)  _ViewUrlInfo -q
+            6)  _ViewAudioVideoUrlsInfo -q
                 __  ;;
             7)  _DeleteUrls
                 __  ;;
@@ -77,6 +77,8 @@ _Menu() {
                     unset m3uFile
                 }
             ;;
+            t|T) _MpvDisplayTitle
+                __ ;;
             u|U)
                 lessColor=$'\e[0m';
                 # back to default terminal text color

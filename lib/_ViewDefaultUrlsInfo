@@ -2,7 +2,7 @@
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
-_ViewUrlInfoDefault() {
+_ViewDefaultUrlsInfo() {
     
     local file Type
     file="${QUEUE##*/}" file="${file%%.*}"
@@ -11,10 +11,10 @@ _ViewUrlInfoDefault() {
     if (($(_GetLinesList -q) > 0)); then
         rm "$tmp_dir"/1 2>/dev/null
         
-        [[ $(grep "" -c "$DEFAULTITLES") -ne $(_GetLinesList -q) ]] && {
+        [[ $(grep "" -c "$DEFAULTITLES" 2>/dev/null) -ne $(_GetLinesList -q) ]] && {
             printf '%s\n' " ${critical}Default list as been modified," \
             " ${task}${b}Updating Default list titles...${nb}${nc}"
-            _GetMediaTitle -q > "$DEFAULTITLES"
+            _GetMediaTitle -q
         }
         clear
         
@@ -33,7 +33,7 @@ _ViewUrlInfoDefault() {
                     case "$get" in
                         a|A) __; _GetAudio -q ;;
                         v|V) __; _GetVideo -q ;;
-                        *) _ViewUrlInfo -q ;;
+                        *) _ViewAudioVideoUrlsInfo -q ;;
                     esac
                 ;;
                 m|M) _Menu ;;
@@ -58,10 +58,10 @@ _ViewUrlInfoDefault() {
                     if [[ -f $DEFAULTITLES ]]; then
                         _Save -q
                     else
-                        printf '%s\n' " ${task}${b}Updating Default list titles...${nb}${nc}"
-                        _GetMediaTitle -q \
-                        | tee -a "$DEFAULTITLES" \
-                        | cat -n >/dev/null 2>&1
+                        printf '%s\n' " ${critical}Default list does not exist," \
+                        " ${task}${b}Updating Default list titles...${nb}${nc}"
+                        _GetMediaTitle -q
+                        cat -n < "$DEFAULTITLES"
                         _Save -q
                     fi
                 ;;

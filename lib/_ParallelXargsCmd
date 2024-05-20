@@ -1,0 +1,61 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2002
+_ParallelXargsCmd() {
+
+    case "$1" in
+        --choose-audio)
+            grep '^https' "$M3UFILE" >> "$tmp_dir"/xargs.m3u
+            cp "$M3UFILE" "$tmp_dir"/xargs.m3u
+            cat "$tmp_dir"/xargs.m3u \
+            | xargs -I '{}' -P 5 \
+            yt-dlp --format bestaudio/best "${ytdlPreset_NC[@]}" {}
+            sed -i '1,$d' "$SELECTEDTITLES"
+        ;;
+        --choose-video)
+            grep '^https' "$M3UFILE" >> "$tmp_dir"/xargs.m3u
+            cp "$M3UFILE" "$tmp_dir"/xargs.m3u
+            cat "$tmp_dir"/xargs.m3u \
+            | xargs -I '{}' -P 5 \
+            yt-dlp --format bestvideo+bestaudio/best "${ytdlPreset_X[@]}" {}
+            sed -i '1,$d' "$SELECTEDTITLES"
+        ;;
+        --direct-video)
+            cat "$playlists_dir"/"$list" \
+            | xargs -I '{}' -P 5 \
+            yt-dlp --format bestvideo+bestaudio/best "${ytdlPreset_X[@]}" {}
+            sed -i '1,$d' {"$playlists_dir"/"$list","$titles_dir"/"$list".titles}
+        ;;
+        --get-audio)
+            grep '^https' "$M3UFILE" >> "$tmp_dir"/xargs.m3u
+            cat "$tmp_dir"/xargs.m3u \
+            | xargs -I '{}' -P 5 \
+            yt-dlp --format bestaudio/best "${ytdlPreset_NC[@]}" {}
+
+            if [[ $M3UFILE = "$AUDIO_URLS" ]]; then
+                sed -i '1,$d' {"$M3UFILE","$TITLES"}
+            else
+                sed -i '2,$d' "$M3UFILE"
+                sed -i '1,$d' "$TITLES"
+            fi
+        ;;
+        --get-video)
+            grep '^https' "$M3UFILE" >> "$tmp_dir"/xargs.m3u
+            cat "$tmp_dir"/xargs.m3u \
+            | xargs -I '{}' -P 5 \
+            yt-dlp --format bestvideo+bestaudio/best "${ytdlPreset_X[@]}" {}
+
+            if [[ $M3UFILE = "$VIDEO_URLS" ]]; then
+                sed -i '1,$d' {"$M3UFILE","$TITLES"}
+                clear
+            else
+                sed -i '2,$d' "$M3UFILE"
+                sed -i '1,$d' "$TITLES"
+                clear
+            fi
+        ;;
+    esac
+
+    rm "$tmp_dir"/xargs.m3u
+} >/dev/null 2>&1

@@ -1,12 +1,11 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
-# [[ $use_parallel = yes && $use_parallel_downloads = yes ]]
-# shellcheck disable=SC2154,SC2181
+
+# shellcheck disable=SC2154
 _GetAudioDownloadMessages() {
 
-    _ParallelDownloadCmd --download
-
-        if [[ $? = 0 ]]; then
+    case "$1" in
+        --parallel)
             [[ $M3UFILE = "$AUDIO_URLS" ]] && {
                 __
                 printf '%s\n' " ${info}$(_GetLinesList -a) audio file(s) left to download." \
@@ -14,15 +13,16 @@ _GetAudioDownloadMessages() {
             }
             [[ $M3UFILE = "$playlists_dir"/"$list" ]] && {
                 __
-            printf '%s\n' " ${info}$(_GetLinesList -l) audio file(s) left to download." \
-            " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
+                printf '%s\n' " ${info}$(_GetLinesList -l) audio file(s) left to download." \
+                " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
             }
             [[ $M3UFILE = "$QUEUE" ]] && {
                 __
                 printf '%s\n' " ${info}$(_GetLinesList -q) audio file(s) left to download." \
                 " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
             }
-        else
+        ;;
+        --onebyone)
             [[ $M3UFILE = "$AUDIO_URLS" ]] && {
                 __
                 printf '%s\n' " ${info}$(_GetLinesList -a) audio file(s) left to download." \
@@ -41,7 +41,25 @@ _GetAudioDownloadMessages() {
                 " Downloading:  $(_GetLinkTitle -q)" \
                 " ${task}Searching for webm format...${nc}"
             }
-        fi
+        ;;
+        --xargs)
+            [[ $M3UFILE = "$AUDIO_URLS" ]] && {
+                __
+                printf '%s\n' " ${info}$(_GetLinesList -a) audio file(s) left to download." \
+                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
+            }
+            [[ $M3UFILE = "$playlists_dir"/"$list" ]] && {
+                __
+                printf '%s\n' " ${info}$(_GetLinesList -l) audio file(s) left to download." \
+                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
+            }
+            [[ $M3UFILE = "$QUEUE" ]] && {
+                __
+                printf '%s\n' " ${info}$(_GetLinesList -q) audio file(s) left to download." \
+                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
+            }
+        ;;
+    esac
 
 }
 

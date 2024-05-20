@@ -14,10 +14,13 @@ _FzfEnqueue() {
     | fzf \
     --multi \
     --reverse \
+    --pointer '<>' \
     --scroll-off=5 \
+    --no-scrollbar \
     --border rounded \
+    --border-label "| ${PWD##*/} |" \
     --prompt='Search: ' \
-    --header "${info}${b}"'Press Tab to select, Enter to confirm: '"${nb}${nc}" \
+    --header "${info}${b}"'Press Tab to select, Enter to confirm, Escape to cancel: '"${nb}${nc}" \
     --preview-window="$fzf_preview_layout:$fzf_preview_size" \
     --preview="$fzf_preview {}" >> fzfEnqueue.m3u
 

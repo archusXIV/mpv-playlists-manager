@@ -18,7 +18,7 @@ _GetVideo() {
                 sleep 1
             else
                 printf '%s\n' " ${info}Getting titles...${nc}"
-                _GetMediaTitle -q > "$DEFAULTITLES"
+                _GetMediaTitle -q
                 clear
             fi
             M3UFILE="$QUEUE"

@@ -3,10 +3,11 @@
 
 # shellcheck disable=SC2154,SC2076,SC2164
 _DownloadVideoList() {
+    
     cd "$playlists_dir" || exit 1
 
     _TitlesListCompare
-    local counter
+    local counter mediaDir
 
     if [[ $direct_download = yes ]]; then
         clear
@@ -15,63 +16,59 @@ _DownloadVideoList() {
         clear
         _DownloadMessages --choice
         read -rsn 1 choiceDownloadVideoList
+
+        case "$choiceDownloadVideoList" in
+            b|B) clear; _LoadPlaylistMenu ;;
+            d|D) clear; _DirectVideoDownload ;;
+            s|S)
+                clear
+                cp -f "$list" "$list"_origin
+                cp -f "$titles_dir"/"$list".titles "$titles_dir"/"$list".titles_origin
+                mediaDir="$videos_dir"/"${list%.*}"
+                mkdir --parents "$mediaDir" && cd "$mediaDir"
+            
+                mapfile -t SELECTEDCODES < <(grep '^https' "$playlists_dir"/"$list")
+                counter="${#SELECTEDCODES[@]}"
+
+                for url in "${SELECTEDCODES[@]}"; do
+
+                    clear
+                    __
+                    yt-dlp -F "${ytdlPreset_DW[@]}" "$url" | awk '$0 !~ /sb|youtube/{print $0}'
+                    _DownloadMessages --m3u8
+
+                    read -r code
+                    clear
+                    _DownloadMessages --choose-video
+
+                    if [[ "$code" =~ '+' && $(_GetLinkTitle -l) =~ '/' ]]; then
+                        yt-dlp --format "$code" "${ytdlPreset_X[@]}" "$url"
+                    elif [[ "$code" =~ '+' ]]; then
+                        yt-dlp --format "$code" \
+                        --output "$(_GetLinkTitle -l).%(ext)s" \
+                        "${ytdlPreset_X[@]}" "$url"
+                    else
+                        yt-dlp --format "$code" \
+                        --output "$(_GetLinkTitle -l).%(ext)s" \
+                        "${ytdlPreset_NC[@]}" "$url"
+                    fi
+
+                    sed -i '2d' "$playlists_dir"/"$list"
+                    sed -i '1d' "$titles_dir"/"$list".titles
+                    ((counter--))
+                    clear
+
+                done
+                unset url
+            ;;
+            *)
+                _WrongOption "$choiceDownloadVideoList"
+                _LoadPlaylistMenu
+            ;;
+        esac
+        _RemoveAudioVideoIds
     fi
-
-    case "$choiceDownloadVideoList" in
-        b|B) clear; _LoadPlaylistMenu ;;
-        d|D) clear; _DirectVideoDownload ;;
-        s|S)
-            clear
-            cp -f "$list" "$list"_origin
-            cp -f "$titles_dir"/"$list".titles "$titles_dir"/"$list".titles_origin
-            mkdir --parents "$videos_dir"/"${list%.*}" && cd "$videos_dir"/"${list%.*}"
-            
-            mapfile -t SELECTEDCODES < <(grep '^https' "$playlists_dir"/"$list")
-            counter="${#SELECTEDCODES[@]}"
-            
-            for url in "${SELECTEDCODES[@]}"; do
-                
-                clear
-                __
-                yt-dlp -F "${ytdlPreset_DW[@]}" "$url" | awk '$0 !~ /sb|youtube/{print $0}'
-                __
-                printf '%s\n' " ${critical}If you pick a format from a none m3u8 protocol, download will fail " \
-                " if ffmpeg is set as downloader in your configuration file." \
-                " ${info}Choose a format code for: $(_GetLinkTitle -l)" \
-                " eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
-                
-                read -r code
-                clear
-                __
-                printf '%s\n' " ${info}$counter file(s) left to download." \
-                " Downloading $(_GetLinkTitle -l).${nc}"
-                
-                if [[ "$code" =~ '+' && $(_GetLinkTitle -l) =~ '/' ]]; then
-                    yt-dlp --format "$code" "${ytdlPreset_X[@]}" "$url"
-                elif [[ "$code" =~ '+' ]]; then
-                    yt-dlp --format "$code" \
-                    --output "$(_GetLinkTitle -l).%(ext)s" \
-                    "${ytdlPreset_X[@]}" "$url"
-                else
-                    yt-dlp --format "$code" \
-                    --output "$(_GetLinkTitle -l).%(ext)s" \
-                    "${ytdlPreset_NC[@]}" "$url"
-                fi
-
-                sed -i '2d' "$playlists_dir"/"$list"
-                sed -i '1d' "$titles_dir"/"$list".titles
-                ((counter--))
-                clear
-
-            done
-            unset url
-        ;;
-        *)
-            _WrongOption "$choiceDownloadVideoList"
-            _LoadPlaylistMenu
-        ;;
-    esac
-
+    
     _DownloadCompleted
 
 }

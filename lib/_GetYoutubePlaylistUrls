@@ -4,6 +4,15 @@
 # shellcheck disable=SC2154
 _GetYoutubePlaylistUrls() {
 
+    __getYoutubePlaylistUrlsInfo() (
+        playlistName=$(yt-dlp "${ytdlPreset_DW[@]}" -J \
+        --flat-playlist "$url" | jq --raw-output .title)
+        __
+        printf '%s\n' \
+        " ${info}Please be patient while extracting urls/titles from:" \
+        " $playlistName playlist...${nc}"
+    )
+
     case "$1" in
         -a|-v)
             if [[ -n $(command -v ytfzf) && $use_fzf = yes ]]; then
@@ -12,20 +21,21 @@ _GetYoutubePlaylistUrls() {
                 "$mediaUrl" > "$YTFZFJSON";clear
                 jq --raw-output '.[].url' "$YTFZFJSON" \
                 | tee -a "$QUEUE" >> "$URLS"
+                
                 jq --raw-output '.[].title' "$YTFZFJSON" \
                 | tee -a "$DEFAULTITLES" >> "$TITLES"
                 rm "$YTFZFJSON"
-                _RemoveCrap
 
+            elif [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
+                url="$mediaUrl"
+                export url
+                _ParallelDownloadCmd --yt-playlist
             else
-
                 _YtdlGetTitle "$mediaUrl" \
                 | tee -a "$TITLES" >> "$DEFAULTITLES"
-                
                 yt-dlp "${ytdlPreset_DW[@]}" -j "$mediaUrl" \
                 | jq --raw-output '(.webpage_url)' \
                 | tee -a "$QUEUE" >> "$URLS"
-
             fi
         ;;
         -s)
@@ -41,14 +51,12 @@ _GetYoutubePlaylistUrls() {
                     jq --raw-output '.[].title' "$YTFZFJSON" \
                     | tee -a "$DEFAULTITLES" >> "$TITLES"
                     rm "$YTFZFJSON"
-                    _RemoveCrap
+                elif [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
+                    __getYoutubePlaylistUrlsInfo
+                    export url
+                    _ParallelDownloadCmd --yt-playlist
                 else
-                    playlistName=$(yt-dlp "${ytdlPreset_DW[@]}" -J \
-                    --flat-playlist "$url" | jq --raw-output .title)
-                    __
-                    printf '%s\n' \
-                    " ${info}Please be patient while extracting urls/titles from:" \
-                    " $playlistName playlist...${nc}"
+                    __getYoutubePlaylistUrlsInfo
                     _YtdlGetTitle "$url" \
                     | tee -a "$TITLES" >> "$DEFAULTITLES"
 
@@ -60,13 +68,13 @@ _GetYoutubePlaylistUrls() {
             done
             
             unset url
-            _RemoveCrap
             rm "$YTSEARCH"
             clear && return
             
         ;;
     esac
 
+    _RemoveCrap
     sed -i '/playlist/d' {"$QUEUE","$URLS"}
 
 }

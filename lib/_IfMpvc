@@ -4,9 +4,9 @@
 # shellcheck disable=SC2154
 _IfMpvc() {
     if [[ $use_mpvc = yes && -z $mpvc_tui ]] || [[ $use_mpvc = no && $use_mpvc_locally = yes ]]; then
-        # no access to mpvc_tui & playing online
+        # # no access to mpvc_tui & playing online
         echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
-        echo -e "                  │                        ${info}mpv is running, press ${task}Q ${info}to quit mpv${nc}                          │"
+        echo -e "                  │            ${info}mpv is running, press ${task}Q ${info}to quit mpv, ${task}T${info} to view current title${nc}             │"
         echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
     elif [[ $use_mpvc = yes && $use_mpvc_online = yes ]] || [[ $use_mpvc = yes && $use_mpvc_locally = yes ]]; then
         # access to mpvc_tui & playing online
@@ -16,7 +16,7 @@ _IfMpvc() {
     elif [[ $use_mpvc = no && $use_mpvc_online = yes ]] || [[ $use_mpvc = no && $use_mpvc_locally = yes ]]; then
         # no access to mpvc_tui & playing online
         echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
-        echo -e "                  │                        ${info}mpv is running, press ${task}Q ${info}to quit mpv${nc}                          │"
+        echo -e "                  │            ${info}mpv is running, press ${task}Q ${info}to quit mpv, ${task}T${info} to view current title${nc}             │"
         echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
     elif [[ $use_mpvc = yes && -f $NOWPLAYING ]]; then
         # showing these outputs when closing and re-opening the program while mpv is running
@@ -25,7 +25,7 @@ _IfMpvc() {
         echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
     elif [[ $use_mpvc = no && -f $NOWPLAYING ]] || [[ -z $use_mpvc && -f $NOWPLAYING ]]; then
         echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
-        echo -e "                  │                        ${info}mpv is running, press ${task}Q ${info}to quit mpv${nc}                          │"
+        echo -e "                  │            ${info}mpv is running, press ${task}Q ${info}to quit mpv, ${task}T${info} to view current title${nc}             │"
         echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
     fi
 }

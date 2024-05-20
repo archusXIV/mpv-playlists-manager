@@ -18,7 +18,7 @@ _SelectLocalDir() {
     select dir in $(find -L "$MEDIA_DIR" -maxdepth 1 -type d -not -name \
         "$(echo "$MEDIA_DIR" | awk -F"/" '{print $NF}')" | sort | sed 's,.*/,,'); do
         
-        case "$REPLY" in c|C) return ;; esac
+        case "$REPLY" in [a-zA-Z]) return ;; esac
 
         if [[ $(find ./"$dir" -type d -name "$dir" -empty) ]]; then
             __

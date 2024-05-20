@@ -1,0 +1,30 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2001
+_MpvDisplayTitle() {
+
+    local socket
+
+    if [[ -n $(pgrep -x mpv) && -z $(command -v socat) ]]; then
+        printf '%s\n' \
+        " ${critical}Package socat must be installed to display mpv title.${nc}"
+        sleep 4
+        return
+    elif [[ -n $(pgrep -x mpv) ]]; then
+        # the mpv socket directory may change in mpmrc definition, so we have to know it.
+        socket=$(echo "${mpvGenOptions_SK[*]}" | sed 's/--input-ipc-server=//')
+
+        echo '{ "command": ["get_property", "media-title"] }' \
+        | socat - "${socket}" | awk -F'"' '{print $4}' > "$tmp_dir"/mpvtitle
+        sed -i "s/^/ ${info}Now playing: ${mtitle}/" "$tmp_dir"/mpvtitle
+        cat "$tmp_dir"/mpvtitle
+        sleep 5
+    else
+        printf '%s\n' \
+        " ${critical}mpv isn't running, nothing to display...${nc}"
+        sleep 4
+        return
+    fi
+
+}

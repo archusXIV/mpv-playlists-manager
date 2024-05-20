@@ -1,32 +1,46 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2181
+# shellcheck disable=SC2154
 _GetVideoDownloadMessages() {
 
-    _ParallelDownloadCmd --download
+    case "$1" in
+        --parallel)
+            [[ $TITLES = "$DEFAULTITLES" ]] && {
+                __
+                printf '%s\n' " ${info}$(_GetLinesList -q) video file(s) left to download."
+                printf '%s\n' " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
+            }
+            [[ $TITLES = "$VIDEO_TITLES" ]] && {
+                __
+                printf '%s\n' " ${info}$(_GetLinesList -v) video file(s) left to download."
+                printf '%s\n' " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
+            }
+        ;;
+        --onebyone)
+            [[ $TITLES = "$DEFAULTITLES" ]] && {
+                __
+                printf '%s\n' " ${info}$(_GetLinesList -q) video file(s) left to download." \
+                " Downloading:  $(sed -n '1p' "$TITLES")${nc}"
+            }
+            [[ $TITLES = "$VIDEO_TITLES" ]] && {
+                __
+                printf '%s\n' " ${info}$(_GetLinesList -v) video file(s) left to download." \
+                " Downloading:  $(sed -n '1p' "$TITLES")${nc}"
+            }
+        ;;
+        --xargs)
+            [[ $TITLES = "$DEFAULTITLES" ]] && {
+                __
+                printf '%s\n' " ${info}$(_GetLinesList -q) video file(s) left to download."
+                printf '%s\n' " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
+            }
+            [[ $TITLES = "$VIDEO_TITLES" ]] && {
+                __
+                printf '%s\n' " ${info}$(_GetLinesList -v) video file(s) left to download."
+                printf '%s\n' " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
+            }
+        ;;
+    esac
 
-     if [[ $? = 0 ]]; then
-        [[ $TITLES = "$DEFAULTITLES" ]] && {
-            __
-            printf '%s\n' " ${info}$(_GetLinesList -q) video file(s) left to download."
-            printf '%s\n' " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
-        }
-        [[ $TITLES = "$VIDEO_TITLES" ]] && {
-            __
-            printf '%s\n' " ${info}$(_GetLinesList -v) video file(s) left to download."
-            printf '%s\n' " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
-        }
-    else
-        [[ $TITLES = "$DEFAULTITLES" ]] && {
-            __
-            printf '%s\n' " ${info}$(_GetLinesList -q) video file(s) left to download." \
-            " Downloading:  $(sed -n '1p' "$TITLES")${nc}"
-        }
-        [[ $TITLES = "$VIDEO_TITLES" ]] && {
-            __
-            printf '%s\n' " ${info}$(_GetLinesList -v) video file(s) left to download." \
-            " Downloading:  $(sed -n '1p' "$TITLES")${nc}"
-        }
-    fi
 }

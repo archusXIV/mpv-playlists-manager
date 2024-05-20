@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2034
+# shellcheck disable=SC2154,SC2002
 _ParallelDownloadCmd() {
 
     declare -a ytf=(
@@ -19,36 +19,25 @@ _ParallelDownloadCmd() {
         else
             sed -i '1,$d' {"$M3UFILE","$TITLES"}
         fi
-        rm -rf "$HOME"/.parallel
         clear
     )
 
     case "$1" in
-        --convert)
-            [[ -n $(command -v parallel) && $use_parallel = yes ]]
-        ;;
-        --download)
-            [[ -n $(command -v parallel) \
-            && $use_parallel = yes \
-            && $use_parallel_downloads = yes ]]
-        ;;
         --choose-audio)
-            cp "$M3UFILE" "$tmp_dir"/parallel_list
-            __sedAudioCmd "$tmp_dir"/parallel_list
+            cp "$M3UFILE" "$JOBSLIST"
+            __sedAudioCmd "$JOBSLIST"
             {
-                parallel --delay 1.5 --jobs 4 < "$tmp_dir"/parallel_list
+                parallel --delay 1.75 --jobs 4 < "$JOBSLIST"
                 sed -i '1,$d' "$SELECTEDTITLES"
-                rm -rf "$HOME"/.parallel
                 clear
             } &
         ;;
         --choose-video)
-            cp "$M3UFILE" "$tmp_dir"/parallel_list
-            __sedVideoCmd "$tmp_dir"/parallel_list
+            cp "$M3UFILE" "$JOBSLIST"
+            __sedVideoCmd "$JOBSLIST"
             {
-                parallel --delay 2.5 --jobs 4 < "$tmp_dir"/parallel_list
+                parallel --delay 2.5 --jobs 4 < "$JOBSLIST"
                 sed -i '1,$d' "$SELECTEDTITLES"
-                rm -rf "$HOME"/.parallel
                 clear
             } &
         ;;
@@ -58,7 +47,6 @@ _ParallelDownloadCmd() {
             {
                 parallel --delay 2.5 --jobs 4 < "$playlists_dir"/"$list"
                 sed -i '1,$d' {"$playlists_dir"/"$list","$titles_dir"/"$list".titles}
-                rm -rf "$HOME"/.parallel
                 clear
             } &
         ;;
@@ -67,7 +55,7 @@ _ParallelDownloadCmd() {
             sed -i '1d' "$M3UFILE"
             __sedAudioCmd "$M3UFILE"
             {
-                parallel --delay 1.5 --jobs 4 < "$M3UFILE"
+                parallel --delay 1.75 --jobs 4 < "$M3UFILE"
                 __getM3ufileTest
             } &
         ;;
@@ -79,6 +67,27 @@ _ParallelDownloadCmd() {
                 __getM3ufileTest
             } &
         ;;
+        --yt-playlist)
+            yt-dlp --flat-playlist "$url" | parallel --tagstring '{#}' --lb -j0 \
+            yt-dlp --get-title --get-id --ignore-errors --no-warnings \
+            --playlist-start '{#}' --playlist-end '{#}' "$url" \
+            > "$tmp_dir"/playlist.txt
+
+            sort -ns "$tmp_dir"/playlist.txt \
+            | tee -a "$tmp_dir"/playlist.m3u >> "$tmp_dir"/playlist.titles
+            sed -i '
+                s/^[[:digit:]]*//;
+                s/^\s//;
+                s/^/https:\/\/www.youtube.com\/watch?v=/;1~2d
+            ' "$tmp_dir"/playlist.m3u
+            cat "$tmp_dir"/playlist.m3u | tee -a "$QUEUE" >> "$URLS"
+            sed -i 's/^[[:digit:]]*//;s/^\s//;2~2d' "$tmp_dir"/playlist.titles
+            cat "$tmp_dir"/playlist.titles | tee -a "$DEFAULTITLES" >> "$TITLES"
+        ;;
     esac
+
+    rm -rf "$HOME"/.parallel
+    rm "$tmp_dir"/playlist.*
+    rm "$JOBSLIST"
 
 } >/dev/null 2>&1

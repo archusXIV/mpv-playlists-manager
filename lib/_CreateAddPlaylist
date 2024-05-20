@@ -82,7 +82,7 @@ _CreateAddPlaylist() {
             5)
                 _MpvOwnsTmpList --list || _LoadAudioVideo $arg
                 __ ;;
-            6)  _ViewUrlInfo $arg
+            6)  _ViewAudioVideoUrlsInfo $arg
                 __ ;;
             7)
                 _MpvOwnsTmpList --list || _Remove $arg

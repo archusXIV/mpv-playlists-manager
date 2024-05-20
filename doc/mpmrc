@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.9-0)
+# ~/.config/mpm/mpmrc (version 1.9-1)
 
 ########################################################
 #                                                      #
@@ -38,7 +38,7 @@ MPMEDITOR="vim"
 ## used in option 5) Load local dir/files
 FILEMANAGER="ranger"
 
-# the clipboard command to use to paste links in option 1)
+# the clipboard command to use to paste links in option 1) or 2)
 # xorg users
 clipboardCmd=( xclip -o )
 # wayland users
@@ -120,6 +120,8 @@ ytfzfOptions_PG=( --pages=5 )
 ytfzfOptions_VD=( --video-duration=long )
 ytfzfOptions_SB=( --sort-by=relevance )
 ytfzfOptions_TY=( --type=all )
+# add this in the below array in case your ytfzf thumbnail preview in broken.
+# ytfzfOptions_TV=( --thumb-viewer=mpv )
 # add your options in this array
 ytfzfOptions_X=(
     "${ytfzfOptions_KC[@]}"
@@ -135,6 +137,7 @@ ytfzfOptions_X=(
 # if the parallel package is installed then it will be used to launch
 # multiple conversions at once in the equivalent quality,
 # else files will be converted one by one.
+parallel_conversion="yes"
 
 # audio files (.webm) conversion.
 # (will appear in main menu)

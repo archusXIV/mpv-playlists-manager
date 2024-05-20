@@ -2,7 +2,7 @@
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
-_ViewUrlInfo() {
+_ViewAudioVideoUrlsInfo() {
 
     local stars
 
@@ -68,6 +68,6 @@ _ViewUrlInfo() {
 
     case "$1" in
         -a|-v) __audioVideoCommon ;;
-        -q) _ViewUrlInfoDefault ;;
+        -q) _ViewDefaultUrlsInfo ;;
     esac
 }

@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2143,SC2076,SC2034,SC1001,SC2181
+# shellcheck disable=SC2154,SC2143,SC2076,SC2034
 _ChooseDownloadAudio() {
 
     cd "$playlists_dir" || exit 1
@@ -29,6 +29,7 @@ _ChooseDownloadAudio() {
     M3UFILE="$CHOOSE1"
     readarray -t SELECTEDAUDIO < "$M3UFILE"
     counter="${#SELECTEDAUDIO[@]}"
+    animationTitles="$SELECTEDTITLES"
     
     __chooseDownloadAudioFormat() (
         __
@@ -44,13 +45,20 @@ _ChooseDownloadAudio() {
         fi
     )
 
-    _ParallelDownloadCmd --download
+    if [[ -n $(command -v parallel) \
+        && $use_parallel = yes \
+        && $use_parallel_downloads = yes ]]; then
 
-    if [[ $? = 0 ]]; then
-        animationTitles="$SELECTEDTITLES"
         _ParallelDownloadCmd --choose-audio
         _DownloadMessages --choose-audio
         _ParallelAnimation
+
+    elif [[ -n $(command -v xargs) && $use_parallel_downloads = yes ]]; then
+
+        _DownloadMessages --choose-audio
+        _ParallelAnimation &
+        _ParallelXargsCmd --choose-audio
+        
     else
         for url in "${SELECTEDAUDIO[@]}"; do
 

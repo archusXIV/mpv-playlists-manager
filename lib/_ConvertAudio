@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2034,SC2154,SC1083,SC2181
+# shellcheck disable=SC2034,SC2154,SC1083,SC2038
 _ConvertAudio() {
 
     local webmFiles
@@ -13,6 +13,31 @@ _ConvertAudio() {
         _Menu
     }
     
+    __xargsParallelConversion() {
+        case "$1" in
+            --default)
+                find . -iname "*.webm" | xargs -I % -P 5 \
+                    ffmpeg -hide_banner -loglevel error \
+                    -y -i % %."$default_conversion_format"
+            ;;
+            --chosen)
+                find . -iname "*.webm" | xargs -I % -P 5 \
+                    ffmpeg -hide_banner -loglevel error \
+                    -y -i % %."${formats[${REPLY}]}"
+            ;;
+        esac
+
+        find . -iname "*.webm" -exec rm {} \;
+        # now let's cleam the suffix of our converted files (.webm.{aac,mp3,flac,ogg,wav})
+        find . -maxdepth 1 -type f -name "* *" -exec \
+            bash -c '
+                for dot in "$@"; do
+                    n="${dot##*/}"
+                    mv -n "$dot" "${dot%/*}/${n//.webm/}"
+                done >/dev/null 2>&1
+            ' dummy {} +
+    }
+
     # because webmFiles is local child functions will inherite its value.
     mapfile -t webmFiles < <(find . -iname "*.webm")
     
@@ -24,16 +49,18 @@ _ConvertAudio() {
         printf '%s\n' \
         " Converting files in ${task}${b}$default_conversion_format...${nb}"
         __
-        
-        _ParallelDownloadCmd --convert
+        if [[ -n $(command -v parallel) \
+            && $use_parallel = yes \
+            && $parallel_conversion = yes ]]; then
 
-        if [[ $? = 0 ]]; then
             printf '%s\n' " Parallel conversion enabled."
             parallel --delay 2.5 --jobs "$parallel_threads" --bar \
             ffmpeg \
                 -hide_banner -loglevel error \
                 -y -i {} -qscale:a 0 {.}."$default_conversion_format" ::: ./*.webm
-            rm -rf "$HOME"/.parallel
+
+        elif [[ -n $(command -v xargs) && $parallel_conversion = yes ]]; then
+            __xargsParallelConversion --default
         else
             printf '%s\n' " Parallel conversion disabled.${nc}"
             _ConvertAudio_"$default_conversion_format"
@@ -59,15 +86,18 @@ _ConvertAudio() {
                 printf '%s\n' \
                 " ${info}Converting files in ${task}${b}${formats[${REPLY}]}...${nb}"
                 __
-                _ParallelDownloadCmd --convert
+                if [[ -n $(command -v parallel) \
+                    && $use_parallel = yes \
+                    && $parallel_conversion = yes ]]; then
 
-                if [[ $? = 0 ]]; then
                     printf '%s\n' " Parallel conversion enabled."
                     parallel --delay 2.5 --jobs "$parallel_threads" --bar \
                     ffmpeg \
                         -hide_banner -loglevel error \
                         -y -i {} -qscale:a 0 {.}."${formats[${REPLY}]}" ::: ./*.webm
-                    rm -rf "$HOME"/.parallel
+
+                elif [[ -n $(command -v xargs) && $parallel_conversion = yes ]]; then
+                    __xargsParallelConversion --chosen
                 else
                     printf '%s\n' " Parallel conversion disabled.${nc}"
                     _ConvertAudio_"${formats[${REPLY}]}"
@@ -85,8 +115,9 @@ _ConvertAudio() {
         esac
         
     fi
-
+    rm -rf "$HOME"/.parallel 2>/dev/null
+    clear; __
     find . -iname "*.webm" -exec rm {} \; && \
-    __ && printf '%s\n' " ${info}Conversion done.${nc}" \
+    printf '%s\n' " ${info}Conversion done.${nc}" \
     && sleep 2
 }

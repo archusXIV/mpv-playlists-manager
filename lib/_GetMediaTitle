@@ -1,18 +1,40 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2002
 _GetMediaTitle() {
 
+    local listFile titlesFile
+
     case "$1" in
-        -a) LIST="$AUDIO_URLS" ;;
-        -l) LIST="$playlists_dir"/"$list" ;;
-        -q) LIST="$QUEUE" ;;
-        -v) LIST="$VIDEO_URLS" ;;
+        -a)
+            listFile="$AUDIO_URLS"
+            titlesFile="$AUDIO_TITLES"
+        ;;
+        -l)
+            listFile="$playlists_dir"/"$list"
+            titlesFile="$titles_dir/$list.titles"
+        ;;
+        -q)
+            listFile="$QUEUE"
+            titlesFile="$DEFAULTITLES"
+        ;;
+        -v)
+            listFile="$VIDEO_URLS"
+            titlesFile="$VIDEO_TITLES"
+        ;;
     esac
     
-    while read -r line; do
-        _YtdlGetTitle "$line" 2>/dev/null
-    done < <(grep '^https' "$LIST")
+    if [[ -n $(command -v parallel) ]]; then
+        grep '^https' "$listFile" \
+        | parallel --tagstring '{#}' --lb -j0 yt-dlp --get-title --no-warnings \
+        | sort -ns | sed 's/^[[:digit:]]*//;s/^\s//' > "$titlesFile"
+        rm -rf "$HOME"/.parallel
+    else
+        sed -i '1,$d' "$titlesFile"
+        while read -r line; do
+            _YtdlGetTitle "$line" >> "$titlesFile"
+        done < <(grep '^https' "$listFile")
+    fi
 
 }

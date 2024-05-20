@@ -23,7 +23,7 @@ _ParallelAnimation() {
         progress)
             printf "["
 
-            while [[ -s $animationTitles ]]; do 
+            while [[ -s $animationTitles ]]; do
                 printf  "▓"
                 sleep 0.50
             done

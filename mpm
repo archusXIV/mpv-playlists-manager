@@ -31,7 +31,7 @@ pids=($(pidof -x $mpvmenu))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.1.9-0"
+VERSION="v.1.9-1"
 
 # : "${XDG_CONFIG_HOME:-$HOME/.config}"
 CONF_DIR="$HOME/.config/mpm"
@@ -69,6 +69,7 @@ DEFAULTITLES="$tmp_dir/DefaultTitles"
 DEFAULTM3UTITLES="$titles_dir/default.m3u.titles"
 FFOP="$tmp_dir/ffmpeg_output"
 HELP="/usr/local/share/doc/mpm/help"
+JOBSLIST="$tmp_dir/parallel_list"
 NOWPLAYING="$tmp_dir/nowPlaying"
 QUEUE="$playlists_dir/default.m3u"
 SELECTEDTITLES="$tmp_dir/selected.titles"

@@ -1,19 +1,27 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2076,SC2034,SC2181
+# shellcheck disable=SC2154,SC2076,SC2034
 _GetVideoDownload() {
 
     cd "$mediaDir" || exit 1
     local animationTitles
+    animationTitles="$TITLES"
 
-    _ParallelDownloadCmd --download
+    if [[ -n $(command -v parallel) \
+        && $use_parallel = yes \
+        && $use_parallel_downloads = yes ]]; then
 
-    if [[ $? = 0 ]]; then
-        animationTitles="$TITLES"
-        _GetVideoDownloadMessages
+        _GetVideoDownloadMessages --parallel
         _ParallelDownloadCmd --get-video
         _ParallelAnimation
+
+    elif [[ -n $(command -v xargs) && $use_parallel_downloads = yes ]]; then
+
+        _GetVideoDownloadMessages --xargs
+        _ParallelAnimation &
+        _ParallelXargsCmd --get-video
+
     else
         mapfile -t VIDEOLINKS < <(grep '^https' "$M3UFILE")
         for url in "${VIDEOLINKS[@]}"; do
@@ -24,8 +32,7 @@ _GetVideoDownload() {
             __chooseFormatMessages
             read -r code
             clear
-            __
-            _GetVideoDownloadMessages
+            _GetVideoDownloadMessages --onebyone
 
             # it seems that only youtube uses merging options
             if [[ "$code" =~ '+' ]]; then

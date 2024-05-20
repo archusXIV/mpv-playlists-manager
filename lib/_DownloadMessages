@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2181
+# shellcheck disable=SC2154
 _DownloadMessages() {
     case "$1" in
         --choice)
@@ -9,7 +9,7 @@ _DownloadMessages() {
             printf '%s\n' " ${critical}Tip: In this section you will have to enter specific ID codes" \
             " for all urls, direct download will always pick the best format," \
             " on Youtube webm may be the best one but we'll merge files in ${ytdlPreset_MF[1]}.${nc}"
-            [[ $(grep -c '^https' "$playlists_dir"/"$list") -gt 10 ]] && {
+            [[ $(_GetLinesList -l) -gt 10 ]] && {
                 __
                 printf '%s\n' \
                 " ${critical}This playlist contains more than ${task}10 urls," \
@@ -20,11 +20,14 @@ _DownloadMessages() {
             " [B]ack to download options, choose [S]pecific codes or [D]irect download?: ${nc}"
         ;;
         --choose-audio)
-            _ParallelDownloadCmd --download
-            if [[ $? = 0 ]]; then
+            if [[ $use_parallel = yes ]]; then
                 __
                 printf '%s\n' " ${task}Parallel downloads enabled," \
                 " ${info}$counter audio file(s) left to downloads., please be patient${b}...${nb}${nc}"
+            elif [[ -n $(command -v xargs) && $use_parallel_downloads = yes ]]; then
+                __
+                printf '%s\n' " ${info}$counter audio file(s) left to download." \
+                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
             else
                 __
                 printf '%s\n' " ${info}$counter audio file(s) left to downloads." \
@@ -32,11 +35,14 @@ _DownloadMessages() {
             fi
         ;;
         --choose-video)
-            _ParallelDownloadCmd --download
-            if [[ $? = 0 ]]; then
+            if [[ $use_parallel = yes ]]; then
                 __
                 printf '%s\n' " ${task}Parallel downloads enabled," \
                 " ${info}$counter video file(s) left to downloads., please be patient${b}...${nb}${nc}"
+            elif [[ -n $(command -v xargs) && $use_parallel_downloads = yes ]]; then
+                __
+                printf '%s\n' " ${info}$counter video file(s) left to download." \
+                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
             else
                 __
                 printf '%s\n' " ${info}$counter video file(s) left to downloads." \
@@ -44,11 +50,14 @@ _DownloadMessages() {
             fi
         ;;
         --direct-video)
-            _ParallelDownloadCmd --download
-            if [[ $? = 0 ]]; then
+            if [[ $use_parallel = yes ]]; then
                 __
                 printf '%s\n' " ${task}Parallel downloads enabled," \
                 " ${info}$counter video file(s) left to downloads., please be patient${b}...${nb}${nc}"
+            elif [[ -n $(command -v xargs) && $use_parallel_downloads = yes ]]; then
+                __
+                printf '%s\n' " ${info}$counter video file(s) left to download." \
+                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
             else
                 __
                 printf '%s\n' " ${info}$counter video file(s) left to downloads." \
@@ -74,3 +83,4 @@ _DownloadMessages() {
         ;;
     esac
 }
+

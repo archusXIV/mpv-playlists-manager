@@ -1,23 +1,31 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2143,SC2034,SC2181
+# shellcheck disable=SC2154,SC2143,SC2034
 _GetAudioDownload() {
     
     local animationTitles
     animationTitles="$TITLES"
-    
-    _ParallelDownloadCmd --download
 
-    if [[ $? = 0 ]]; then
-        _GetAudioDownloadMessages
+    if [[ -n $(command -v parallel) \
+        && $use_parallel = yes \
+        && $use_parallel_downloads = yes ]]; then
+
+        _GetAudioDownloadMessages --parallel
         _ParallelDownloadCmd --get-audio
         _ParallelAnimation
+        
+    elif [[ -n $(command -v xargs) && $use_parallel_downloads = yes ]]; then
+
+        _GetAudioDownloadMessages --xargs
+        _ParallelAnimation &
+        _ParallelXargsCmd --get-audio
+
     else
         mapfile -t AUDIOLINKS < <(grep '^https' "$M3UFILE")
         for url in "${AUDIOLINKS[@]}"; do
 
-            _GetAudioDownloadMessages
+            _GetAudioDownloadMessages --onebyone
 
             if [[ $(yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
                 | grep '^251') ]]; then

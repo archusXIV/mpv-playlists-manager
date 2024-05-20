@@ -32,6 +32,10 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog
+- Added few changes in ~/.config/mpm/mpmrc, please update that file.
+- Added xargs multi-process in case the parallel package isn't installed.
+- Few bugs fixed.
+- Added option 'T' to display mpv title in main window (socat must be installed).
 - Added user choice (mpmrc) for animations when parallel_downloads is set to 'yes'.
 - Added option for audio conversion with multi cpu threads (mpmrc).
 - Added multi-downloads functionality using GNU Parallel.
@@ -90,7 +94,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When we use a [terminal user interface](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png) for mpv, the main window looks like this.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.9-0.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.9-1.png)
 
 
 ```
