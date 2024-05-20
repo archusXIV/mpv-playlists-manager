@@ -86,6 +86,10 @@ use_fzf="yes"
 ```
 use_parallel="yes"
 ```
+- If not installed then we'll use xargs -P (number of process) {} ffmpeg....which is also fast, otherwise ffmpeg treat files one by one. Make sure parallel_conversion is set to yes in your mpmrc file.
+```
+parallel_conversion="yes"
+```
 
 ## Themes
 - A [themerc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/themerc) file is available to insert as many as you want "themes" instead of bloating up your mpmrc.
