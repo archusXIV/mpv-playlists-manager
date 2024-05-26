@@ -12,13 +12,13 @@ _ChooseDownloadVideo() {
         _ChooseDirectVideoDownload
     else
         _DownloadMessages --choice
-        read -rsn 1 choiceChooseDownloadVideo
+        read -rsn 1 chooseDownloadVideoOptions
     fi
 
     mkdir --parents "$videos_dir"/"${list%.*}"
     mediaDir="$videos_dir"/"${list%.*}"
 
-    case "$choiceChooseDownloadVideo" in
+    case "$chooseDownloadVideoOptions" in
         b|B) clear; return ;;
         d|D) _ChooseDirectVideoDownload ;;
         s|S)
@@ -37,6 +37,7 @@ _ChooseDownloadVideo() {
             for url in "${CHOSENCODES[@]}"; do
 
                 if [[ $url =~ 'youtube.com' ]]; then
+                    youtube="yes"
                     __
                     yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
                     | awk '$0 !~ /sb|youtube/{print $0}'
@@ -44,24 +45,19 @@ _ChooseDownloadVideo() {
                 else
                     yt-dlp -F "${ytdlPreset_DW[@]}" "$url"
                 fi
+
                 _DownloadMessages --m3u8
-                
                 read -r code
-                sleep 0.5
                 clear
+                __
                 printf '%s\n' " ${info}$counter file(s) left to downloads." \
                 " Downloading: $(_GetLinkTitle -s)${nc}"
                 
-                if [[ $url =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]; then
-                    # downloader presets described in ~/.config/mpm/mpmrc
-                    yt-dlp --format "$code" "${ytdlPreset_X[@]}" "$url"
-                elif [[ $url =~ 'youtube.com' ]]; then
-                    yt-dlp \
-                    --output "$(_GetLinkTitle -s).%(ext)s" \
+                if [[ $youtube = yes ]]; then
+                    yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
                     --format "$code" "${ytdlPreset_X[@]}" "$url"
                 else
-                    yt-dlp \
-                    --output "$(_GetLinkTitle -s).%(ext)s" \
+                    yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
                     --format "$code" "${ytdlPreset_NC[@]}" "$url"
                 fi
 
@@ -74,7 +70,7 @@ _ChooseDownloadVideo() {
             unset url
         ;;
         *)
-            _WrongOption "$choiceChooseDownloadVideo"
+            _WrongOption "$chooseDownloadVideoOptions"
             _LoadPlaylistMenu
         ;;
     esac

@@ -1,0 +1,42 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2038,SC1083
+_ParallelConversion() {
+    case "$1" in
+        --parallel-default)
+            printf '%s\n' " Parallel conversion enabled."
+            parallel --delay 2.5 --jobs "$parallel_threads" --bar \
+            ffmpeg \
+            -hide_banner -loglevel error \
+            -y -i {} -qscale:a 0 {.}."$default_conversion_format" ::: ./*.webm
+        ;;
+        --parallel-chosen)
+            printf '%s\n' " Parallel conversion enabled."
+            parallel --delay 2.5 --jobs "$parallel_threads" --bar \
+            ffmpeg \
+            -hide_banner -loglevel error \
+            -y -i {} -qscale:a 0 {.}."${formats[${REPLY}]}" ::: ./*.webm
+        ;;
+        --xargs-default)
+            find . -iname "*.webm" | xargs -I % -P 5 \
+            ffmpeg -hide_banner -loglevel error \
+            -y -i % %."$default_conversion_format"
+        ;;
+        --xargs-chosen)
+            find . -iname "*.webm" | xargs -I % -P 5 \
+            ffmpeg -hide_banner -loglevel error \
+            -y -i % %."${formats[${REPLY}]}"
+        ;;
+    esac
+
+    find . -iname "*.webm" -exec rm {} \;
+    # now let's cleam the suffix of our converted files (.webm.{aac,mp3,flac,ogg,wav})
+    find . -maxdepth 1 -type f -name "*.webm.*" -exec \
+    bash -c '
+        for dot in "$@"; do
+            n="${dot##*/}"
+            mv -n "$dot" "${dot%/*}/${n//.webm/}"
+        done >/dev/null 2>&1
+    ' dummy {} +
+}

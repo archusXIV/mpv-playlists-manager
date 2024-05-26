@@ -23,10 +23,10 @@ as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
 the directory structure is ok for you.
 
 Changelog:
+version 1.9-2 - Added explainations in mpmrc for parallel downloads.
+version 1.9-2 - if the themerc file is missing, then the default theme is used.
+version 1.9-2 - Some functions optimyzations.
 version 1.9-1 - Added few changes in ~/.config/mpm/mpmrc, please update that file.
 version 1.9-1 - Added xargs multi-process in case the parallel package isn't installed.
 version 1.9-1 - Few bugs fixed.
 version 1.9-1 - Added option 'T' to display mpv title in main window (socat must be installed).
-version 1.9-0 - Added user choice (mpmrc) for animations when parallel_downloads is set to 'yes'.
-version 1.9-0 - Added option for audio conversion with multi cpu threads (mpmrc).
-version 1.9-0 - Added multi-downloads functionality using GNU Parallel.

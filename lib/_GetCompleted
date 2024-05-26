@@ -19,16 +19,11 @@ _GetCompleted() {
         }
 
         case "$1" in
-            -a)
+            -a|-v)
                 if [[ -f "$QUEUE"_origin ]]; then
                     _Remove -q
-                else
+                elif [[ -f "$AUDIO_URLS"_origin ]]; then
                     _Remove -a
-                fi
-            ;;
-            -v)
-                if [[ -f "$QUEUE"_origin ]]; then
-                    _Remove -q
                 else
                     _Remove -v
                 fi

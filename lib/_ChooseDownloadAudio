@@ -37,12 +37,8 @@ _ChooseDownloadAudio() {
         read -r code
         clear
         _DownloadMessages --choose-audio
-        if [[ $(_GetLinkTitle -s) =~ '/' ]]; then
-            yt-dlp --format "$code" "${ytdlPreset_NC[@]}" "$url"
-        else
-            yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
-            --format "$code" "${ytdlPreset_NC[@]}" "$url"
-        fi
+        yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
+        --format "$code" "${ytdlPreset_NC[@]}" "$url"
     )
 
     if [[ -n $(command -v parallel) \
@@ -68,14 +64,10 @@ _ChooseDownloadAudio() {
 
                 _DownloadMessages --choose-audio
 
-                if [[ $(_GetLinkTitle -s) =~ '/' ]]; then
-                    yt-dlp --format 251 "${ytdlPreset_NC[@]}" "$url"
-                else
-                    yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
-                    --format 251 "${ytdlPreset_NC[@]}" "$url"
-                fi
+                yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
+                --format 251 "${ytdlPreset_NC[@]}" "$url"
 
-            elif [[ $direct_download = no ]] && [[ $url =~ 'youtube.com' ]]; then
+            elif [[ $direct_download = no && $url =~ 'youtube.com' ]]; then
                 __
                 yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
                 | awk '/audio only|PROTO|^[-]/ {sub("^[sb*]",""); print $0}'

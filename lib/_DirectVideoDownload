@@ -36,9 +36,7 @@ _DirectVideoDownload() {
 
             _DownloadMessages --direct-video
 
-            if [[ $url =~ 'youtube.com' && $(_GetLinkTitle -l) =~ '/' ]]; then
-                yt-dlp "${ytdlPreset_X[@]}" "$url"
-            elif [[ $url =~ 'youtube.com' ]]; then
+            if [[ $url =~ 'youtube.com' ]]; then
                 yt-dlp \
                 --output "$(_GetLinkTitle -l).%(ext)s" \
                 "${ytdlPreset_X[@]}" "$url"

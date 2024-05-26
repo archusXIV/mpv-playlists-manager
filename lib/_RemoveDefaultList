@@ -26,29 +26,32 @@ _RemoveDefaultList() {
     __
     read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole default list?: ${nc}"
 
-    if [[ $REPLY =~ l|L ]]; then
-        [[ $(grep '^https' -c "$tmpList") -eq 1 ]] && {
-            sed -i '2d' "$tmpList"
+    case "$REPLY" in
+        l|L)
+            [[ $(grep '^https' -c "$tmpList") -eq 1 ]] && {
+                sed -i '2d' "$tmpList"
+                rm "$tmpTitles"
+                __
+                printf '%s\n' " ${critical}${tmpList##*/} cleared.${nc}"
+                sleep 2
+                _Menu
+            }
+            sed -i '1d' "$tmpList"
+            _RemoveTmpLinks
+            sed -i '1s/^/#EXTM3U\n/' "$tmpList"
+            _ViewAudioVideoUrlsInfo -q
+        ;;
+        w|W)
+            sed -i '/^[[:alpha:]]/d' "$tmpList"
             rm "$tmpTitles"
             __
             printf '%s\n' " ${critical}${tmpList##*/} cleared.${nc}"
             sleep 2
             _Menu
-        }
-        sed -i '1d' "$tmpList"
-        _RemoveTmpLinks
-        sed -i '1s/^/#EXTM3U\n/' "$tmpList"
-        _ViewAudioVideoUrlsInfo -q
-        
-    elif [[ $REPLY =~ w|W ]]; then
-        sed -i '/^[[:alpha:]]/d' "$tmpList"
-        rm "$tmpTitles"
-        __
-        printf '%s\n' " ${critical}${tmpList##*/} cleared.${nc}"
-        sleep 2
-        _Menu
-    else
-        _WrongOption "$REPLY"
-    fi
+        ;;
+        *)
+            _WrongOption "$REPLY"
+        ;;
+    esac
 
 }

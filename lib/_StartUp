@@ -3,6 +3,7 @@
 
 # shellcheck disable=SC2154
 _StartUp() {
+    
     # needed to warn the user when the default list isn' t empty.
     [[ -s $DEFAULTM3UTITLES && -s $QUEUE ]] && {
         touch "$tmp_dir"/1
@@ -12,7 +13,6 @@ _StartUp() {
 
     ! pgrep -x mpv >/dev/null && \
     rm "$NOWPLAYING" "$tmp_dir"/temporary* 2>/dev/null
-
-    _Theme "$THEME"
+    
     _Menu
 }

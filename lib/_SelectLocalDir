@@ -27,7 +27,6 @@ _SelectLocalDir() {
             continue
         else
             find ./"$dir" -maxdepth 1 -type d -empty -exec rmdir {} \;
-            # checking if the content of directory is audio/video.
             __
             printf '%s\n' " ${info}Scanning $dir for mpv supported formats...${nc}"
             sleep 1

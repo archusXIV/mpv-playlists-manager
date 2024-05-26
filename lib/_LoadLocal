@@ -12,7 +12,7 @@ _LoadLocal() {
     file="${m3uFile##*/}" file="${file%%.*}"
 
     read -rsn 1 \
-    -p " ${info}[C]ancel, Play: [1] Audio dir, [2] Audio files, [3] Video dir or [4] Video files?: ${nc}"
+    -p " ${info}[${mtitle}C${info}]ancel, Play: [1] Audio dir, [2] Audio files, [3] Video dir or [4] Video files?: ${nc}"
 
     case "$REPLY" in
         1|3)

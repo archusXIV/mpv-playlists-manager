@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2002
+# shellcheck disable=SC2154
 _ParallelDownloadCmd() {
 
     declare -a ytf=(
@@ -9,8 +9,8 @@ _ParallelDownloadCmd() {
         "yt-dlp --format bestvideo+bestaudio\/best"
     )
     
-    __sedAudioCmd() { sed -i "s/^/${ytf[0]} ${ytdlPreset_NC[*]} /" "$1"; }
-    __sedVideoCmd() { sed -i "s/^/${ytf[1]} ${ytdlPreset_X[*]} /" "$1"; }
+    __sedAudioCmd() ( sed -i "s/^/${ytf[0]} ${ytdlPreset_NC[*]} /" "$1"; )
+    __sedVideoCmd() ( sed -i "s/^/${ytf[1]} ${ytdlPreset_X[*]} /" "$1"; )
 
     __getM3ufileTest() (
         if [[ $M3UFILE = "$QUEUE" ]]; then
@@ -67,27 +67,9 @@ _ParallelDownloadCmd() {
                 __getM3ufileTest
             } &
         ;;
-        --yt-playlist)
-            yt-dlp --flat-playlist "$url" | parallel --tagstring '{#}' --lb -j0 \
-            yt-dlp --get-title --get-id --ignore-errors --no-warnings \
-            --playlist-start '{#}' --playlist-end '{#}' "$url" \
-            > "$tmp_dir"/playlist.txt
-
-            sort -ns "$tmp_dir"/playlist.txt \
-            | tee -a "$tmp_dir"/playlist.m3u >> "$tmp_dir"/playlist.titles
-            sed -i '
-                s/^[[:digit:]]*//;
-                s/^\s//;
-                s/^/https:\/\/www.youtube.com\/watch?v=/;1~2d
-            ' "$tmp_dir"/playlist.m3u
-            cat "$tmp_dir"/playlist.m3u | tee -a "$QUEUE" >> "$URLS"
-            sed -i 's/^[[:digit:]]*//;s/^\s//;2~2d' "$tmp_dir"/playlist.titles
-            cat "$tmp_dir"/playlist.titles | tee -a "$DEFAULTITLES" >> "$TITLES"
-        ;;
     esac
 
     rm -rf "$HOME"/.parallel
-    rm "$tmp_dir"/playlist.*
     rm "$JOBSLIST"
 
 } >/dev/null 2>&1

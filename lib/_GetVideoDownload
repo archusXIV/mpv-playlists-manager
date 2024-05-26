@@ -36,28 +36,13 @@ _GetVideoDownload() {
 
             # it seems that only youtube uses merging options
             if [[ "$code" =~ '+' ]]; then
-                # downloader presets described in ~/.config/mpm/mpmrc
-                # we have to differenciate titles files because of _GetLinkTitle function.
-                if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
-                    yt-dlp --format "$code" "${ytdlPreset_FS[@]}" \
-                    "${ytdlPreset_X[@]}" "$url"
-                else
-                    yt-dlp --format "$code" \
-                    --output "$(sed -n '1p' "$TITLES").%(ext)s" \
-                    "${ytdlPreset_X[@]}" "$url"
-                fi
-
+                yt-dlp --format "$code" \
+                --output "$(sed -n '1p' "$TITLES").%(ext)s" \
+                "${ytdlPreset_X[@]}" "$url"
             else
-
-                if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
-                    yt-dlp --format "$code" "${ytdlPreset_FS[@]}" \
-                    "${ytdlPreset_NC[@]}" "$url"
-                else
-                    yt-dlp --format "$code" \
-                    --output "$(sed -n '1p' "$TITLES").%(ext)s" \
-                    "${ytdlPreset_NC[@]}" "$url"
-                fi
-
+                yt-dlp --format "$code" \
+                --output "$(sed -n '1p' "$TITLES").%(ext)s" \
+                "${ytdlPreset_NC[@]}" "$url"
             fi
 
             if [[ $M3UFILE = "$VIDEO_URLS" ]]; then

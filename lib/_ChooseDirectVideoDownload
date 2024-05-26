@@ -37,14 +37,8 @@ _ChooseDirectVideoDownload() {
         
     else
         while read -r url; do
-            [[ $direct_download = yes ]] || \
-                printf '%s\n' " ${task}Download method = direct.${nc}"
-
-                _DownloadMessages --choose-video
-
-            if [[ $url =~ 'youtube.com' && $(_GetLinkTitle -s) =~ '/' ]]; then
-                yt-dlp "${ytdlPreset_X[@]}" "$url"
-            elif [[ $url =~ 'youtube.com' ]]; then
+            _DownloadMessages --choose-video
+            if [[ $url =~ 'youtube.com' ]]; then
                 yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
                 "${ytdlPreset_X[@]}" "$url"
             else

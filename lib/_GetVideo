@@ -11,7 +11,7 @@ _GetVideo() {
         -q)
             __
             if [[ ! -f $DEFAULTITLES && -f $DEFAULTM3UTITLES ]]; then
-                cat "$DEFAULTM3UTITLES" > "$DEFAULTITLES"
+                cp "$DEFAULTM3UTITLES" "$DEFAULTITLES"
                 rm "$DEFAULTM3UTITLES"
             elif [[ -f $DEFAULTITLES ]]; then
                 printf '%s\n' " ${info}Fetching titles...${nc}"

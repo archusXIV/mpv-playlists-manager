@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2184
+# shellcheck disable=SC2154
 _SaveRemove() {
 
     cd "$playlists_dir" || exit 1
@@ -12,7 +12,7 @@ _SaveRemove() {
     if [[ -f $AUDIO_URLS ]] && [[ -f $VIDEO_URLS ]]; then
 
         if (( $(_GetLinesList -q) < 1 )); then
-            unset saveRemovePrompts[1]
+            unset 'saveRemovePrompts[1]'
             echo "${info}" "${saveRemovePrompts[*]}" "${nc}"
             __
         else
@@ -26,7 +26,7 @@ _SaveRemove() {
             unset {saveRemovePrompts[1],saveRemovePrompts[3]}
             echo "${info}" "${saveRemovePrompts[*]}" "${nc}"
         else
-            unset saveRemovePrompts[3]
+            unset 'saveRemovePrompts[3]'
             echo "${info}" "${saveRemovePrompts[*]}" "${nc}"
             __
         fi
@@ -37,7 +37,7 @@ _SaveRemove() {
             unset {saveRemovePrompts[1],saveRemovePrompts[2]}
             echo "${info}" "${saveRemovePrompts[*]}" "${nc}"
         else
-            unset saveRemovePrompts[2]
+            unset 'saveRemovePrompts[2]'
             echo "${info}" "${saveRemovePrompts[*]}" "${nc}"
             __
         fi

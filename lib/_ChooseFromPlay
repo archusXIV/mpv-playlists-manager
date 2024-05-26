@@ -7,8 +7,6 @@ _ChooseFromPlay() {
     clear
     _TitlesListCompare -l
 
-    [[ -f $CHOOSE1 ]] && rm "$CHOOSE1"
-
     read -rsn 1 \
     -p "${info}"" Play all items as [A]udio, [V]ideo or ${b}[S]elect:${nb} ""${nc}" choice
     
@@ -24,6 +22,7 @@ _ChooseFromPlay() {
         ;;
         s|S)
             __
+            [[ -f $CHOOSE1 ]] && rm "$CHOOSE1"
             _GetRange
             rm "$SELECTEDTITLES"
             __

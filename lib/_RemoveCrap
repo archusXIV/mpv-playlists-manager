@@ -9,11 +9,13 @@ _RemoveCrap() {
 
     LISTS=(
         "$URLS"
-        "$TITLES"
         "$QUEUE"
+        "$TITLES"
         "$DEFAULTITLES"
     )
     
+    sed -i 's/-\s//;s/\//_/g' "${LISTS[@]:2:3}"
+
     for file in "${LISTS[@]}"; do
         # removing unwanted parts of links, blank lines & duplicates
         sed -i '
@@ -21,10 +23,6 @@ _RemoveCrap() {
             s|//youtube.com|//www.youtube.com|g
         ' "$file"
         perl -i -ne 'print if ! $a{$_}++' "$file"
-
-        [[ $file = "$TITLES" || $file = "$DEFAULTITLES" ]] \
-            && sed -i 's/-\s//;s/\//_/g;/^\s*$/d;' "$file"
-
     done 2>/dev/null
 
 }

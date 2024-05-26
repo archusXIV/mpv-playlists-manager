@@ -32,14 +32,13 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog
+- Added explainations in mpmrc for parallel downloads.
+- If the themerc file is missing, then the default theme is used.
+- Some functions optimyzations
 - Added few changes in ~/.config/mpm/mpmrc, please update that file.
 - Added xargs multi-process in case the parallel package isn't installed.
 - Few bugs fixed.
 - Added option 'T' to display mpv title in main window (socat must be installed).
-- Added user choice (mpmrc) for animations when parallel_downloads is set to 'yes'.
-- Added option for audio conversion with multi cpu threads (mpmrc).
-- Added multi-downloads functionality using GNU Parallel.
-- Added more mpmrc settings in the [main menu](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.9-0.png), just so you know what's in there.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -68,20 +67,20 @@ mpvc_tui="<your_mpv_tui_here>"
 
 ## Using fzf
 - Two methods are offered here:
-  - If the fzf package is installed it will be used to search and copy audio/video urls from youtube,
+  - If the **fzf** package is installed it will be used to search and copy audio/video urls from youtube,
   and to queue up local files.
-  - In addition you can also use the [ytfzf](https://github.com/pystardust/ytfzf) script
+  - In addition you can also use the **ytfzf** script
   if it is in your $PATH, options are available in the mpmrc file.
 
-- In your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L104) file activate it.
+- In your mpmrc file activate it.
 
 ```
 use_fzf="yes"
 ```
 
 ## Audio conversion done faster with parallel
-- If installed, [parallel](https://www.gnu.org/software/parallel/) will launch multiple ffmpeg instances to speed up audio conversion.
-- Just enable it in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L84) file
+- If installed, **parallel** will launch multiple ffmpeg instances to speed up audio conversion.
+- Just enable it in your mpmrc file
 
 ```
 use_parallel="yes"
@@ -96,9 +95,9 @@ parallel_conversion="yes"
 
 default theme will use your ~/.Xresources colors or your terminal preferences.
 
-- When we use a [terminal user interface](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png) for mpv, the main window looks like this.
+- When we use a terminal user interface (tui) for mpv, the main window looks like this.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.9-1.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.9-2.png)
 
 
 ```
@@ -120,8 +119,7 @@ More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/
 ## Wmctrl settings
 For a better experience I **recommend** a minimum terminal size of 1260x738 because of the youtube-dl
 outputs that let you choose desired audio/video formats, if you want an automatic terminal
-resizing just install [wmctrl](https://github.com/dancor/wmctrl) an the script will take care of
-that for you.
+resizing just install **wmctrl** an the script will take care of that for you.
 If you're a tiling window manager user, make it float or give it more room in the stack.
 ```
 wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738

@@ -4,38 +4,63 @@
 # shellcheck disable=SC2154
 _GetYoutubePlaylistUrls() {
 
+    local playlist
+
     __getYoutubePlaylistUrlsInfo() (
         playlistName=$(yt-dlp "${ytdlPreset_DW[@]}" -J \
-        --flat-playlist "$url" | jq --raw-output .title)
+        --flat-playlist "$playlist" | jq --raw-output .title)
         __
         printf '%s\n' \
         " ${info}Please be patient while extracting urls/titles from:" \
         " $playlistName playlist...${nc}"
     )
 
+    __ytfzf() (
+        ytfzf -A -I VJ --scrape=youtube-playlist \
+        "$playlist" > "$YTFZFJSON";clear
+        jq --raw-output '.[].url' "$YTFZFJSON" \
+        | tee -a "$QUEUE" >> "$URLS"
+        jq --raw-output '.[].title' "$YTFZFJSON" \
+        | tee -a "$DEFAULTITLES" >> "$TITLES"
+    )
+
+    __parallel() (
+        cd "$tmp_dir" && {
+            yt-dlp --flat-playlist "$playlist" | parallel --tagstring '{#}' --lb -j0 \
+            yt-dlp --get-title --get-id --ignore-errors --no-warnings \
+            --playlist-start '{#}' --playlist-end '{#}' "$playlist" \
+            > playlist.txt
+
+            sort -ns playlist.txt \
+            | tee -a playlist.m3u >> playlist.titles
+            sed -i '
+                s/^[[:digit:]]*//;
+                s/^\s//;
+                s/^/https:\/\/www.youtube.com\/watch?v=/;1~2d
+            ' playlist.m3u
+            tee -a "$QUEUE" >> "$URLS" < playlist.m3u
+            sed -i 's/^[[:digit:]]*//;s/^\s//;2~2d' playlist.titles
+            tee -a "$DEFAULTITLES" >> "$TITLES" < playlist.titles
+        }
+    )
+
+    __native() (
+        _YtdlGetTitle "$playlist" \
+        | tee -a "$TITLES" >> "$DEFAULTITLES"
+        yt-dlp "${ytdlPreset_DW[@]}" -j "$mediaUrl" \
+        | jq --raw-output '(.webpage_url)' \
+        | tee -a "$QUEUE" >> "$URLS"
+    )
+
     case "$1" in
         -a|-v)
+            playlist="$mediaUrl"
             if [[ -n $(command -v ytfzf) && $use_fzf = yes ]]; then
-
-                ytfzf -A -I VJ --scrape=youtube-playlist \
-                "$mediaUrl" > "$YTFZFJSON";clear
-                jq --raw-output '.[].url' "$YTFZFJSON" \
-                | tee -a "$QUEUE" >> "$URLS"
-                
-                jq --raw-output '.[].title' "$YTFZFJSON" \
-                | tee -a "$DEFAULTITLES" >> "$TITLES"
-                rm "$YTFZFJSON"
-
+                __ytfzf
             elif [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
-                url="$mediaUrl"
-                export url
-                _ParallelDownloadCmd --yt-playlist
+                __parallel
             else
-                _YtdlGetTitle "$mediaUrl" \
-                | tee -a "$TITLES" >> "$DEFAULTITLES"
-                yt-dlp "${ytdlPreset_DW[@]}" -j "$mediaUrl" \
-                | jq --raw-output '(.webpage_url)' \
-                | tee -a "$QUEUE" >> "$URLS"
+                __native
             fi
         ;;
         -s)
@@ -43,38 +68,27 @@ _GetYoutubePlaylistUrls() {
             # there might be several playlists urls selected in
             # _Search{Online,Youtube}With functions so we enter in a loop.
             for url in "${MAPFILE[@]}"; do
+                playlist="$url"
                 if [[ -n $(command -v ytfzf) && $use_fzf = yes ]]; then
-                    ytfzf -A -I VJ --scrape=youtube-playlist \
-                    "$url" > "$YTFZFJSON";clear
-                    jq --raw-output '.[].url' "$YTFZFJSON" \
-                    | tee -a "$QUEUE" >> "$URLS"
-                    jq --raw-output '.[].title' "$YTFZFJSON" \
-                    | tee -a "$DEFAULTITLES" >> "$TITLES"
-                    rm "$YTFZFJSON"
+                    __ytfzf
                 elif [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
                     __getYoutubePlaylistUrlsInfo
-                    export url
-                    _ParallelDownloadCmd --yt-playlist
+                    __parallel
                 else
                     __getYoutubePlaylistUrlsInfo
-                    _YtdlGetTitle "$url" \
-                    | tee -a "$TITLES" >> "$DEFAULTITLES"
-
-                    yt-dlp "${ytdlPreset_DW[@]}" -j "$url" \
-                    | jq --raw-output '(.webpage_url)' \
-                    | tee -a "$QUEUE" >> "$URLS"
-                    clear
+                    __native
                 fi
             done
             
             unset url
-            rm "$YTSEARCH"
+            
             clear && return
             
         ;;
     esac
 
     _RemoveCrap
-    sed -i '/playlist/d' {"$QUEUE","$URLS"}
+    rm {"$YTSEARCH","$YTFZFJSON","$tmp_dir"/playlist.{txt,m3u,titles}}
+    rm -rf "$HOME"/.parallel
 
-}
+} 2>/dev/null

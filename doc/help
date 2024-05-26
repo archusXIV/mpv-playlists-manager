@@ -1,4 +1,4 @@
-mpm version 1.9-1
+mpm version 1.9-2
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -35,7 +35,7 @@ mpm version 1.9-1
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.1.9-1::
+                                    ::MPV-PLAYLISTS-MANAGER v.1.9-2::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -64,16 +64,15 @@ mpm version 1.9-1
         urls from Youtube.com or any other supported web site by yt-dlp/yt-dlp packages.
         See https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md.
         Since version 1.8-2 adding youtube playlists is done faster when pasting url with
-        option 1) if ytfzf is installed and use_fzf is set to 'yes' in your mpmrc.
+        option 1) if ytfzf is installed and use_fzf is set to 'yes' in your mpmrc,
+        if not then parallel (if installed) does the job at last yt-dlp is used.
 
         If packages xclip/wl-clipboard are installed they will be used to paste copied urls
         in our temporary lists, settings can be change in ~/.config/mpm/mpmrc.
         
         Once into the video options menu we can add tested links to a temporary list,
-        getting links can also be done in option 2) Search online links.
-        YouTube playlists are supported, but the more playlist items there are,
-        the longer it will take to analyze them, unless ytfzf is installed and use_fzf Variables
-        is set to "yes". Now we have six dedicated options.
+        getting links can also be done in option 2) Search online links. YouTube playlists
+        are supported only if you choose [f]zf option.
         See II) audio/video files options:
 
     2) Create/Add audio playlist:
@@ -190,8 +189,8 @@ mpm version 1.9-1
         and if the ytfzf script is in your $PATH then we will get a prompt to choose.
 
         The fzf method only search youtube and ytfzf scraper can be change to other platforms,
-        see 'man ytfzf' and then in your mpmrc file use ytfzfOptions_SC=( --scrape=odysee ),
-        instead of ytfzfOptions_SC=( --scrape=youtube ) for example.
+        see 'man ytfzf' and then in your mpmrc file use ytfzfOptions_SC=( -c odysee ),
+        instead of ytfzfOptions_SC=( -c youtube ) for example.
         All options are applied to the specific temporary file and we act directly on it.
 
         We can also add links to an existing playlist using option "Save playlist as" then
@@ -209,7 +208,8 @@ mpm version 1.9-1
 
     III) Audio conversion settings in mpmrc:
 
-        If use_parallel="no" then your ffmpeg command line is applied,
+        If use_parallel="no" then xargs is used instead if you set use_parallel_conversion="yes",
+        or your ffmpeg command line is applied,
         else the parallel program launches multiple ffmpeg instances to speed up conversion,
         the quality is an equivalent to the original (youtube webm=opus).
 

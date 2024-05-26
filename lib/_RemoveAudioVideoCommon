@@ -24,25 +24,29 @@ _RemoveAudioVideoCommon() {
     __
     read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole $Type list?: ${nc}"
     
-    if [[ $REPLY =~ l|L ]]; then
-
-        [[ $(grep -c '^https' "$tmpList") -eq 1 ]] && {
+    case "$REPLY" in
+        l|L)
+            if [[ $(grep -c '^https' "$tmpList") -eq 1 ]]; then
+                rm {"$tmpList","$tmpTitles"}
+                __
+                printf '%s\n' " ${critical}${tmpList##*/} cleared.${nc}"
+                sleep 2
+            else
+                _RemoveTmpLinks
+                [[ $tmpList = "$AUDIO_URLS" ]] && \
+                _ViewAudioVideoUrlsInfo -a || \
+                _ViewAudioVideoUrlsInfo -v
+            fi
+        ;;
+        w|W)
             rm {"$tmpList","$tmpTitles"}
             __
-            printf '%s\n' " ${critical}${tmpList##*/} cleared.${nc}"
+            printf '%s\n' " ${critical}$Type list removed...${nc}"
             sleep 2
-        } || {
-            _RemoveTmpLinks
-            [[ $tmpList = "$AUDIO_URLS" ]] && _ViewAudioVideoUrlsInfo -a || _ViewAudioVideoUrlsInfo -v
-        }
-        
-    elif [[ $REPLY =~ w|W ]]; then
-        rm {"$tmpList","$tmpTitles"}
-        __
-        printf '%s\n' " ${critical}$Type list removed...${nc}"
-        sleep 2
-    else
-        _WrongOption "$REPLY"
-    fi
+        ;;
+        *)
+            _WrongOption "$REPLY"
+        ;;
+    esac
 
 }

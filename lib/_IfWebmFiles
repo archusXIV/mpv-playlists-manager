@@ -9,7 +9,7 @@ _IfWebmFiles() {
         __
         echo " ${critical}ADVISORY: if you choose conversion, all downloaded files (.webm)"
         echo -e " will be converted in the chosen format.${nc}\n"
-        find "$audios_dir" -maxdepth 2 -iname "*.webm" | sed 's,.*/,,' | sort | cat -n
+        find "$audios_dir" -maxdepth 2 -iname "*.webm" | sed 's,.*/,,' | sort | nl
 
         if [[ $automatic_audio_conversion = yes ]]; then
             __

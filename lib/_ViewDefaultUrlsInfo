@@ -61,7 +61,7 @@ _ViewDefaultUrlsInfo() {
                         printf '%s\n' " ${critical}Default list does not exist," \
                         " ${task}${b}Updating Default list titles...${nb}${nc}"
                         _GetMediaTitle -q
-                        cat -n < "$DEFAULTITLES"
+                        nl < "$DEFAULTITLES"
                         _Save -q
                     fi
                 ;;

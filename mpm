@@ -1,5 +1,12 @@
 #!/bin/bash
 
+##    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+##    
+##    Copyright (C) 1989, 1991 Free Software Foundation, Inc.,
+##    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+##    Everyone is permitted to copy and distribute verbatim copies
+##    of this license document, but changing it is not allowed.
+##
 ##    Author: Barret E (2021-24) <archus@protonmail.com>
 ##    https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
 ##    Dependencies: ffmpeg, jq, mpv, yt-dlp.
@@ -8,7 +15,6 @@
 ##    Youtube-dl is for now kind of unmaintained so install and make a symlink with
 ##    https://github.com/yt-dlp/yt-dlp/releases
 ##    sudo pacman -S yt-dlp
-##    ln -s /usr/bin/yt-dlp ~/.local/bin/youtube-dl (if ~/.local/bin is in your $PATH)
 ##
 ##    This script rips video urls from Youtube and so on.
 ##    In our case we use ".m3u" files to store urls in and then be able
@@ -31,20 +37,29 @@ pids=($(pidof -x $mpvmenu))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.1.9-1"
+VERSION="v.1.9-2"
 
-# : "${XDG_CONFIG_HOME:-$HOME/.config}"
 CONF_DIR="$HOME/.config/mpm"
-MPMRC="$CONF_DIR/mpmrc"
-THEMERC="$CONF_DIR/themerc"
 
 [[ ! -d $CONF_DIR ]] && {
     mkdir -p "$CONF_DIR"
     cp /usr/local/share/doc/mpm/{mpmrc,themerc} "$CONF_DIR"
 }
 
-## summon our personal settings
-. "$MPMRC"; . "$THEMERC"
+MPMRC="$CONF_DIR/mpmrc"
+THEMERC="$CONF_DIR/themerc"
+. "$MPMRC"
+if [[ ! -f $THEMERC && -n $THEME ]]; then
+    THEME="default"
+    nc=$'\e[0m';
+    critical=$'\e[31m';
+    info=$'\e[32m';
+    mtitle=$'\e[33m';
+    task=$'\e[37m';
+else
+    . "$THEMERC"
+    _Theme "$THEME"
+fi
 
 ## prompts blinking
 b=$'\e[5m';
@@ -82,22 +97,24 @@ YTFZFJSON="$tmp_dir/ytfzf.json"
 [[ -z $parallel_threads ]] && parallel_threads=4
 
 _LaunchMpm() {
-    _Prompt " ${info}Launch mpm?${nc}" || {
-        exit
+    _Prompt " Launch mpm_test?" || {
+        clear
+        exit 0
     }
     _CheckDependencies "${@}"
 }
 
 [[ $# -eq 1 ]] && {
     case "$1" in
-        -c) $MPMEDITOR "$MPMRC" && _LaunchMpm "$@" ;;
+        -c) $MPMEDITOR "$MPMRC" ;;
         -e) _EditPlaylist ;;
         -l) _LoadPlaylist ;;
         -p) _LoadLocal ;;
-        -v) echo "mpm $VERSION" && _LaunchMpm "$@" ;;
-        -h|--help) less "$HELP" && _LaunchMpm "$@" ;;
+        -v) echo "mpm $VERSION" && exit 0 ;;
+        -h|--help) less "$HELP" ;;
         *)  echo " Wrong option $1, try mpm -h" && exit 1 ;;
     esac
+    _LaunchMpm "${@}"
 }
 
 _CheckDependencies "${@}"

@@ -6,19 +6,16 @@ _LoadAudioVideo() {
 
     local m3uFile
 
-    __killMpvPid() (
-        while pidof mpv >/dev/null; do
-            kill -SIGTERM "$(pidof mpv)"
-            rm {"$(readlink -f "$NOWPLAYING")","$NOWPLAYING"} 2>/dev/null
-            sleep 0.5
-        done
-    )
+    pidof mpv >/dev/null && {
+        kill -SIGTERM "$(pidof mpv)"
+        rm {"$(readlink -f "$NOWPLAYING")","$NOWPLAYING"} 2>/dev/null
+        sleep 0.5
+    }
 
     case "$1" in
         -a)
             if [[ -s $AUDIO_URLS ]]; then
                 m3uFile="$AUDIO_URLS"
-                __killMpvPid
                 _MpvcTest -a
             else
                 echo " ${critical}No links in the $Type list${nc}"
@@ -27,38 +24,31 @@ _LoadAudioVideo() {
         ;;
         -ca)
             m3uFile="$CHOOSE1"
-            __killMpvPid
             _MpvcTest -a
         ;;
         -cv)
             m3uFile="$CHOOSE1"
-            __killMpvPid
             _MpvcTest -v
         ;;
         -la)
             m3uFile="$playlists_dir/$list"
-            __killMpvPid
             _MpvcTest -a
         ;;
         -lv)
             m3uFile="$playlists_dir/$list"
-            __killMpvPid
             _MpvcTest -v
         ;;
         -qa)
             m3uFile="$QUEUE"
-            __killMpvPid
             _MpvcTest -a
         ;;
         -qv)
             m3uFile="$QUEUE"
-            __killMpvPid
             _MpvcTest -v
         ;;
         -v)
             if [[ -s $VIDEO_URLS ]]; then
                 m3uFile="$VIDEO_URLS"
-                __killMpvPid
                 _MpvcTest -v
             else
                 echo " ${critical}No links in the $Type list${nc}"

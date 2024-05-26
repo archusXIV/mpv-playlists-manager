@@ -13,7 +13,7 @@ _SearchYoutubeWithFzf() {
 
     sanitizedRequest=$(
         sed -e '
-        s/+/%2B/g;s/#/%23/g;s/&/%26/g;s/\s/+/g
+            s/+/%2B/g;s/#/%23/g;s/&/%26/g;s/\s/+/g
         ' <<< "$request"
     )
 
@@ -48,10 +48,13 @@ _SearchYoutubeWithFzf() {
 
     echo -e "$IDS" | cut -d'	' -f2 \
     | fzf --multi \
+    --pointer '<>' \
+    --scroll-off=5 \
+    --no-scrollbar \
     --prompt='Filter: ' \
     --header "${info}${b}"'Select with Tab, Enter to confirm: '"${nb}${nc}" \
     --border rounded \
-    --scroll-off=5 \
+    --border-label "| Youtube search |" \
     --reverse \
     | sed 's/\[.*]\s//;s/-\s//' > "$TITLES"_tmp
 

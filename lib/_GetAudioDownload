@@ -30,13 +30,8 @@ _GetAudioDownload() {
             if [[ $(yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
                 | grep '^251') ]]; then
                 __
-                if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
-                    yt-dlp --format bestaudio/best \
-                    "${ytdlPreset_NC[@]}" "$url"
-                else
-                    yt-dlp --output "$(sed -n '1p' "$TITLES").%(ext)s" \
-                    --format bestaudio/best "${ytdlPreset_NC[@]}" "$url"
-                fi
+                yt-dlp --output "$(sed -n '1p' "$TITLES").%(ext)s" \
+                --format bestaudio/best "${ytdlPreset_NC[@]}" "$url"
             else
                 yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
                 | awk '/audio only|PROTO|^[-]/ {sub("^[sb*]",""); print $0}'
@@ -45,13 +40,8 @@ _GetAudioDownload() {
                 read -r code
                 clear
                 __
-                if [[ $(sed -n '1p' "$TITLES") =~ '/' ]]; then
-                    yt-dlp --format "$code" "${ytdlPreset_FS[@]}" \
-                    "${ytdlPreset_NC[@]}" "$url"
-                else
                     yt-dlp --output "$(sed -n '1p' "$TITLES").%(ext)s" \
                     --format "$code" "${ytdlPreset_NC[@]}" "$url"
-                fi
             fi
 
             if [[ $M3UFILE = "$AUDIO_URLS" ]]; then

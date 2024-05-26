@@ -18,6 +18,6 @@ _CleanTmpDir() {
         rm "$(readlink -f "$tmp_dir"/"fzfEnqueue")"
         rm -f {"$tmp_dir"/*,"$playlists_dir"/*_tmp}
         rmdir {"$audios_dir"/*/,"$videos_dir"/*/}
-    fi 2>/dev/null
+    fi
 
-}
+} 2>/dev/null

@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2002
+# shellcheck disable=SC2154
 _GetMediaTitle() {
 
     local listFile titlesFile
@@ -27,8 +27,14 @@ _GetMediaTitle() {
     
     if [[ -n $(command -v parallel) ]]; then
         grep '^https' "$listFile" \
-        | parallel --tagstring '{#}' --lb -j0 yt-dlp --get-title --no-warnings \
-        | sort -ns | sed 's/^[[:digit:]]*//;s/^\s//' > "$titlesFile"
+        | parallel --tagstring '{#}' --lb -j0 yt-dlp --get-title \
+        --no-warnings --ignore-errors \
+        | sort -ns | sed '
+            s/^[[:digit:]]*//;
+            s/^\s//;
+            s/^-\s//;
+            s/\//_/g
+        ' > "$titlesFile"
         rm -rf "$HOME"/.parallel
     else
         sed -i '1,$d' "$titlesFile"

@@ -8,39 +8,31 @@ _LoadPlaylist() {
 
     local list
 
-    [[ -z $(find . -type f -name "*.m3u") ]] && {
-        clear; __
-        printf '%s\n' " ${critical}No playlist found!${nc}" \
-        " ${task}First make a temporary list using options 1 or 2," \
-        " save it as wathever you like, then come back to play/download it.${nc}"
-        sleep 8 && return
-
-    }
-
-    for dotM3uFile in $(find . -type f -name "*.m3u"); do
-        [[ -f "$dotM3uFile"_origin ]] \
-        && mv "$dotM3uFile"_origin "$dotM3uFile"
+    for l in $(find . -type f -name "*.m3u"); do
+        [[ -f "$l"_origin ]] \
+        && mv "$l"_origin "$l"
     done
 
     clear
     __
     
-    PS3=""$'\n'"${info}Select a playlist to load or enter ${mtitle}C ${info}to cancel: ${nc}"
-    select list in $(find . -type f -not -name "default.m3u" \
-        | sort -d | sed 's,.*/,,'); do
+    PS3=""$'\n'"${info}Select a playlist to load, [${mtitle}C${info}]ancel: ${nc}"
+    select list in $(find . -type f -not -name "default.m3u" | sort -d | sed 's,.*/,,'); do
         
         [[ $REPLY =~ [a-zA-Z] ]] && break
 
         [[ $(_GetLinesList -l) -eq 0 ]] && {
-            echo " ${critical}No links found in $list (empty or does not contains #EXTM3U header)."
-            echo " You can edit and fix it in option 8) Edit a playlist.${nc}"
+            printf '%s\n' \
+            " ${critical}No links found in $list (empty or does not contains #EXTM3U header)." \
+            " You can edit and fix it in option 8) Edit a playlist.${nc}"
             sleep 8
             return
         }
 
         clear
         __
-        printf '%s\n' " ${info}Choose an option for${nc} $list ($(grep -v '#EXTM3U' -c "$list") urls)."
+        printf '%s\n' \
+        " ${info}Choose an option for${nc} $list ($(grep -v '#EXTM3U' -c "$list") urls)."
         __
         read -rn 1 -p "${info}"' [1] Download/Play, [2] View titles: '"${nc}" submenu
         __

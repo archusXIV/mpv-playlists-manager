@@ -1,10 +1,8 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2184
+# shellcheck disable=SC2154
 _SaveOnExit() {
-
-    cd "$playlists_dir" || exit 1
 
     _Prompt -n \
         " ${critical}Some temporary lists aren't saved, quit anyway?:${nc}" && {
@@ -48,11 +46,11 @@ _SaveOnExit() {
         __
         echo -e " ${info}${saveOnExitPrompt[*]}${nc}"
     elif [[ -s $AUDIO_URLS && ! -f $VIDEO_URLS ]]; then
-        unset saveOnExitPrompt[2]
+        unset 'saveOnExitPrompt[2]'
         __
         echo -e " ${info}${saveOnExitPrompt[*]}${nc}"
     elif [[ -s $VIDEO_URLS && ! -f $AUDIO_URLS ]]; then
-        unset saveOnExitPrompt[1]
+        unset 'saveOnExitPrompt[1]'
         __
         echo -e " ${info}${saveOnExitPrompt[*]}${nc}"
     fi

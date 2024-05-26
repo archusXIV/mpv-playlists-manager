@@ -10,14 +10,12 @@ _TitlesListCompare() {
     titles="$titles_dir/$list.titles"
     titles="${titles##*/}"
 
-    # first test if "myplaylist".titles exist and isn't empty.
     if [[ -s $titles ]]; then
 
         [[ $(grep "" -c "$titles") -ne $(_GetLinesList -l) ]] && {
             __
             printf '%s\n' " ${critical}${titles} is out of date...${nc}" \
             " ${task}${b}Updating $(_GetLinesList -l) titles...please wait.${nb}${nc}"
-            
             _GetMediaTitle -l
             clear
         }
@@ -25,16 +23,16 @@ _TitlesListCompare() {
         case "$1" in
             -g)
                 echo -e " ${info}Titles for $list.${nc}\n"
-                # sed -n '1,25p' "$titles" | cat -n
-                awk 'NR>=1&&NR<=25' "$titles" | cat -n
+                sed -n '1,25p' "$titles" | nl
+                # awk 'NR>=1&&NR<=25' "$titles" | nl
                 __
                 read -rsn 1 -p " ${info}[N]ext page, [B]ack to menu.${nc} " nextpage
                 case "$nextpage" in
                     b|B) _Menu ;;
                     n|N)
                         clear; __
-                        # sed -n '26,$p' "$titles" | cat -n
-                        awk 'NR>=26&&NR' "$titles" | cat -n
+                        sed -n '26,$p' "$titles" | nl
+                        # awk 'NR>=26&&NR' "$titles" | nl
                         __
                     ;;
                     *)
@@ -46,7 +44,7 @@ _TitlesListCompare() {
             -l)
                 __
                 echo -e " ${info}Titles for $list${nc}\n"
-                cat -n "$titles"
+                nl "$titles"
                 __
             ;;
         esac
@@ -59,7 +57,7 @@ _TitlesListCompare() {
         clear
         __
         echo -e " ${info}Titles for $list.${nc}\n"
-        cat -n "$titles"
+        nl "$titles"
         __
     fi
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
-# version 1.9-1
+# version 1.9-2
 
 # shellcheck disable=SC2154
 red=$'\e[38;2;206;34;30m';
@@ -9,15 +9,14 @@ endColor=$'\e[0m';
 _diffRc() {
     # we execute this file as root so we need to provide the right username
     read -r -p ' Please enter your username: ' username
-    local CONF_DIR MPMRC THEMERC
+    local CONF_DIR MPMRC grpuser
     CONF_DIR="/home/$username/.config/mpm"
     MPMRC="$CONF_DIR/mpmrc"
-    THEMERC="$CONF_DIR/themerc"
     grpuser=$(
         awk -F':' -v user="$username" '$0 ~ user { print $3":"$4 }' < /etc/passwd
     )
 
-    if [[ -f $MPMRC && -f $THEMERC ]]; then
+    if [[ -f $MPMRC ]]; then
 
         diff -u "$MPMRC" doc/mpmrc > "$MPMRC".diff
 
@@ -26,7 +25,7 @@ _diffRc() {
         printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
         " original file has been saved as mpmrc.orig.${endColor}"
         printf '\n'
-        tail -n7 ./README_FIRST
+        tail -n8 ./README_FIRST
         printf '\n'
         printf '%s\n' " ${red}Please edit or update your mpmrc file before first run.${endColor}"
         printf '\n'
@@ -74,7 +73,6 @@ _install() {
     chmod 755 /usr/local/bin/mpm
 
     _diffRc
-    printf '%s\n' "for usage run: mpm --help"
 }
 
 _uninstall() {
@@ -82,8 +80,6 @@ _uninstall() {
     rm --verbose --recursive --force /usr/local/lib/mpm
     rm --verbose --recursive --force /usr/local/share/doc/mpm
     rm --verbose --recursive --force /usr/share/licenses/mpm
-
-    printf '%s\n' "hope you liked it anyway..."
 }
 
 date
@@ -93,17 +89,12 @@ if [[ -x /usr/local/bin/mpm ]] && [[ -d /usr/local/lib/mpm ]]; then
     case "$REPLY" in
         r|R)
             _uninstall
+            printf '%s\n' "hope you liked it anyway..."
         ;;
         u|U)
-            if [[ $(find ./lib -type f | wc -l) = \
-                $(find /usr/local/lib/mpm -type f | wc -l) ]]; then
-                _uninstall
-                _install
-            elif [[ $(find ./lib -type f | wc -l) != \
-                $(find /usr/local/lib/mpm -type f | wc -l) ]]; then
-                _uninstall
-                _install
-            fi
+            _uninstall
+            _install
+            printf '%s\n' "for usage run: mpm --help"
         ;;
         *)
             echo " Wrong option $REPLY, try again." && exit 1

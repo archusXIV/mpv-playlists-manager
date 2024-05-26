@@ -41,9 +41,7 @@ _DownloadVideoList() {
                     clear
                     _DownloadMessages --choose-video
 
-                    if [[ "$code" =~ '+' && $(_GetLinkTitle -l) =~ '/' ]]; then
-                        yt-dlp --format "$code" "${ytdlPreset_X[@]}" "$url"
-                    elif [[ "$code" =~ '+' ]]; then
+                    if [[ "$code" =~ '+' ]]; then
                         yt-dlp --format "$code" \
                         --output "$(_GetLinkTitle -l).%(ext)s" \
                         "${ytdlPreset_X[@]}" "$url"

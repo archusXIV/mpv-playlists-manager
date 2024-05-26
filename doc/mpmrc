@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.9-1)
+# ~/.config/mpm/mpmrc (version 1.9-2)
 
 ########################################################
 #                                                      #
@@ -84,9 +84,10 @@ quit_after_task="no"
 use_parallel="no"
 
 # use_parallel must be also set to 'yes',
-# if you want to use parallel downloads.
+# if you want to use parallel_downloads,
+# or if use_parallel="no" and use_parallel_downloads="yes",
+# we will use 'xargs' as multiple yt-dlp instances launcher.
 use_parallel_downloads="yes"
-# fancy animations while downloading.
 parallel_animation="progress"
 #parallel_animation="spinners"
 
