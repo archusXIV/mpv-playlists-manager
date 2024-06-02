@@ -12,7 +12,7 @@ _Menu() {
         __
         echo -e "                                            ${mtitle}::MPV-PLAYLISTS-MANAGER $VERSION::" "$(_CheckUpdate)"
         echo -e "                                           $(_LittleStars)"
-        echo -e "                                                ${info}current theme: $THEME.${nc}"
+        echo -e "                                                 ${info}current theme: $THEME.${nc}"
         _ListsCount
         echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
         echo -e "                  │                      GENERAL OPTIONS                       │     ${mtitle}MPMRC SETTINGS${nc}     │"

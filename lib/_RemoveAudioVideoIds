@@ -11,9 +11,10 @@ _RemoveAudioVideoIds() {
 
     mapfile \
         -t downloadedFiles < <(
-            find "$mediaDir" -maxdepth 1 -type f \
-            | sort -d | sed 's,.*/,,'
-        )
+            find . -maxdepth 1 \
+            -regextype egrep -regex '.*(\[|\]).*' \
+            | sed 's/.\///'
+    )
     
     for file in "${downloadedFiles[@]}"; do
         mv "$file" \
@@ -21,4 +22,5 @@ _RemoveAudioVideoIds() {
     done
 
     unset file
+
 }

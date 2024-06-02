@@ -1,10 +1,10 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2034
 _SearchOnline() {
 
-    local pkg
+    local pkg platform
 
     __searchOnlineTips() (
         clear
@@ -14,6 +14,36 @@ _SearchOnline() {
             " then press ${task}Enter ${critical}to confirm. Press ${task}Escape ${critical}to cancel." \
             " (note that multi selection is supported)${nc}"
     )
+
+    __searchOnlinePlatform() {
+        __
+        read -rsn1 \
+        -p " ${info}Search ${Type} on [Y]outube, [O]dysee, [P]eertube: ${nc}" \
+        platformOptions
+        
+        case "$platformOptions" in
+            o|O)
+                platform=Odysee
+                __searchOnlineTips
+                _SearchOnlineWithYtfzf -o
+            ;;
+            p|P)
+                platform=Peertube
+                __searchOnlineTips
+                _SearchOnlineWithYtfzf -p
+            ;;
+            y|Y)
+                platform=YouTube
+                __searchOnlineTips
+                _SearchOnlineWithYtfzf -y
+            ;;
+            *)
+                _WrongOption "$platformOptions"
+                clear
+            ;;
+        esac
+
+    }
 
     if [[ -n $(command -v fzf) && -n $(command -v ytfzf) ]]; then
         __
@@ -29,8 +59,8 @@ _SearchOnline() {
             ;;
             y|Y)
                 pkg="ytfzf"
+                __searchOnlinePlatform
                 __searchOnlineTips
-                _SearchOnlineWithYtfzf
             ;;
             *)
                 _WrongOption "$searchOnlineOptions"
@@ -44,8 +74,8 @@ _SearchOnline() {
         _SearchYoutubeWithFzf
     elif command -v ytfzf >/dev/null; then
         pkg="ytfzf"
+        __searchOnlinePlatform
         __searchOnlineTips
-        _SearchOnlineWithYtfzf
     else
         printf '%s\n' " ${critical}neither fzf nor ytfzf are installed...${nc}"
         sleep 3

@@ -1,6 +1,6 @@
 Author: Barret E (2020-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 1.9-1
+mpm version 1.9-3
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -23,10 +23,8 @@ as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
 the directory structure is ok for you.
 
 Changelog:
-version 1.9-2 - Added explainations in mpmrc for parallel downloads.
-version 1.9-2 - if the themerc file is missing, then the default theme is used.
+version 1.9-3 - Some functions optimyzations & bugs fixed.
+version 1.9-3 - Ytfzf scraper options removed from the mpmrc file but now hardcoded.
+                Please edit your config or/and watch the latest mpm video.
+version 1.9-2 - If the themerc file is missing, then the default theme is used.
 version 1.9-2 - Some functions optimyzations.
-version 1.9-1 - Added few changes in ~/.config/mpm/mpmrc, please update that file.
-version 1.9-1 - Added xargs multi-process in case the parallel package isn't installed.
-version 1.9-1 - Few bugs fixed.
-version 1.9-1 - Added option 'T' to display mpv title in main window (socat must be installed).

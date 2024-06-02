@@ -6,16 +6,14 @@ _ParallelAnimation() {
 
     case "$parallel_animation" in
         spinners)
-            local delay spinners
-
-            delay=0.1
+            local spinners
             spinners="|/-\\"
 
             while [[ -s $animationTitles ]]; do
                 local temp=${spinners#?}
                 printf " [${task}%c${nc}]  " "$spinners"
                 local spinners=$temp${spinners%"$temp"}
-                sleep "$delay"
+                sleep 0.1
                 printf "\b\b\b\b\b\b"
             done
             clear

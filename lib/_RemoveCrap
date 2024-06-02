@@ -23,6 +23,6 @@ _RemoveCrap() {
             s|//youtube.com|//www.youtube.com|g
         ' "$file"
         perl -i -ne 'print if ! $a{$_}++' "$file"
-    done 2>/dev/null
+    done
 
-}
+} 2>/dev/null

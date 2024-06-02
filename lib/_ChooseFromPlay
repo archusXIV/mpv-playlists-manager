@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154
 _ChooseFromPlay() {
-    cd "$playlists_dir" || exit 1
+    
     clear
     _TitlesListCompare -l
 
@@ -11,15 +11,9 @@ _ChooseFromPlay() {
     -p "${info}"" Play all items as [A]udio, [V]ideo or ${b}[S]elect:${nb} ""${nc}" choice
     
     case "$choice" in
-        a|A)
-            _LoadAudioVideo -la
-        ;;
-        c|C)
-            _Menu 
-        ;;
-        v|V)
-            _LoadAudioVideo -lv
-        ;;
+        a|A) _LoadAudioVideo -la ;;
+        c|C) _Menu ;;
+        v|V) _LoadAudioVideo -lv ;;
         s|S)
             __
             [[ -f $CHOOSE1 ]] && rm "$CHOOSE1"
@@ -28,9 +22,7 @@ _ChooseFromPlay() {
             __
             read -rsn 1 -p "${info}"' load [A]udio, [V]ideo: '"${nc}" load
             case "$load" in
-                a|A)
-                    _LoadAudioVideo -ca
-                ;;
+                a|A) _LoadAudioVideo -ca ;;
                 v|V)
                     clear
                     _LoadAudioVideo -cv

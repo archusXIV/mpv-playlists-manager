@@ -34,9 +34,9 @@ _LoadPlaylist() {
         printf '%s\n' \
         " ${info}Choose an option for${nc} $list ($(grep -v '#EXTM3U' -c "$list") urls)."
         __
-        read -rn 1 -p "${info}"' [1] Download/Play, [2] View titles: '"${nc}" submenu
+        read -rn 1 -p "${info}"' [1] Download/Play, [2] View titles: '"${nc}" loadPlaylistOptions
         __
-        case "$submenu" in
+        case "$loadPlaylistOptions" in
             1)
                 clear; _LoadPlaylistMenu
             ;;
@@ -50,19 +50,19 @@ _LoadPlaylist() {
                 fi 2>/dev/null
 
                 read -rn 1 \
-                -p "${info}"' [1] Download/Play, [2] Back to menu: '"${nc}" loadPlaylistOptions
+                -p "${info}"' [1] Download/Play, [2] Back to menu: '"${nc}" loadPlaylistSubmenuOptions
                 __
-                case "$loadPlaylistOptions" in
+                case "$loadPlaylistSubmenuOptions" in
                     1) clear; _LoadPlaylistMenu ;;
                     2) break ;;
                     *)
-                        _WrongOption "$loadPlaylistOptions"
+                        _WrongOption "$loadPlaylistSubmenuOptions"
                         return
                     ;;
                 esac
             ;;
             *)
-                _WrongOption "$submenu"
+                _WrongOption "$loadPlaylistOptions"
                 return
             ;;
         esac

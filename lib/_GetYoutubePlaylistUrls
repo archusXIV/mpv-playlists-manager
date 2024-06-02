@@ -16,12 +16,11 @@ _GetYoutubePlaylistUrls() {
     )
 
     __ytfzf() (
-        ytfzf -A -I VJ --scrape=youtube-playlist \
-        "$playlist" > "$YTFZFJSON";clear
-        jq --raw-output '.[].url' "$YTFZFJSON" \
-        | tee -a "$QUEUE" >> "$URLS"
-        jq --raw-output '.[].title' "$YTFZFJSON" \
-        | tee -a "$DEFAULTITLES" >> "$TITLES"
+        ytfzf -A -I VJ --scrape=youtube-playlist "$playlist" > "$YTFZFJSON" || \
+        invidious_instance="https://vid.puffyan.us" \
+        ytfzf -A -I VJ --scrape=youtube-playlist "$playlist" > "$YTFZFJSON";clear
+        jq --raw-output '.[].url' "$YTFZFJSON" | tee -a "$QUEUE" >> "$URLS"
+        jq --raw-output '.[].title' "$YTFZFJSON" | tee -a "$DEFAULTITLES" >> "$TITLES"
     )
 
     __parallel() (
@@ -82,7 +81,7 @@ _GetYoutubePlaylistUrls() {
             
             unset url
             
-            clear && return
+            clear # && return
             
         ;;
     esac

@@ -8,7 +8,7 @@ _MakeMpvPlaylist() {
     case "$1" in
         --local-background)
 
-            cd "$MEDIA_DIR"/"$dir" || exit 1
+            cd "$localDir"/"$dir" || exit 1
             use_mpvc_locally="yes"
             
             find . -type f | sort | sed 's,.*/,,' \
@@ -16,12 +16,10 @@ _MakeMpvPlaylist() {
 
             echo "local-background" > "$NOWPLAYING"
 
-            _Menu
-
         ;;
         --local-foreground)
 
-            cd "$MEDIA_DIR"/"$dir" || exit 1
+            cd "$localDir"/"$dir" || exit 1
             use_mpvc_locally="no"
 
             echo "local-foreground" > "$NOWPLAYING"
@@ -33,7 +31,7 @@ _MakeMpvPlaylist() {
 
         ;;
         --online-audio)
-
+        
             use_mpvc_online="yes"
 
             mpv \
@@ -42,7 +40,7 @@ _MakeMpvPlaylist() {
             "${mpvAudioFormatOptions[@]}" "$m3uFile" &
 
             echo "$m3uFile" > "$NOWPLAYING"
-
+            
         ;;
         --online-video)
 
@@ -58,19 +56,16 @@ _MakeMpvPlaylist() {
 
         ;;
         --terminal-audio)
-
+        
             echo "$m3uFile" > "$NOWPLAYING"
             _LoadAudioVideoAdvice
 
             mpv \
             "${mpvGenOptions_X[@]}" \
             "${mpvAudioFormatOptions[@]}" "$m3uFile"
-
-            _LoadAudioVideoTmp -a
-
         ;;
         --terminal-video)
-
+        
             echo "$m3uFile" > "$NOWPLAYING"
             _LoadAudioVideoAdvice
 
@@ -78,9 +73,6 @@ _MakeMpvPlaylist() {
             "${mpvGenOptions_X[@]}" \
             "${mpvVideoOptions_X[@]}" \
             "${mpvVideoFormatOptions[@]}" "$m3uFile"
-
-            _LoadAudioVideoTmp -v
-
         ;;
     esac
 

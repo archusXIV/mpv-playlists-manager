@@ -40,8 +40,8 @@ _GetAudioDownload() {
                 read -r code
                 clear
                 __
-                    yt-dlp --output "$(sed -n '1p' "$TITLES").%(ext)s" \
-                    --format "$code" "${ytdlPreset_NC[@]}" "$url"
+                yt-dlp --output "$(sed -n '1p' "$TITLES").%(ext)s" \
+                --format "$code" "${ytdlPreset_NC[@]}" "$url"
             fi
 
             if [[ $M3UFILE = "$AUDIO_URLS" ]]; then

@@ -25,24 +25,12 @@ _LoadPlaylistMenu() {
         __
         read -rsn 1 loadPlaylistMenuOptions
         case "$loadPlaylistMenuOptions" in
-            1)
-                _ChooseDownloadAudio
-            ;;
-            2)
-                _ChooseDownloadVideo
-            ;;
-            3)
-                _GetAudio -l
-            ;;
-            4)
-                _DownloadVideoList
-            ;;
-            5)
-                _ChooseFromPlay
-            ;;
-            6)
-                _Menu
-            ;;
+            1) _ChooseDownloadAudio ;;
+            2) _ChooseDownloadVideo ;;
+            3) _GetAudio -l ;;
+            4) _DownloadVideoList ;;
+            5) _ChooseFromPlay ;;
+            6) _Menu ;;
             *)
                 _WrongOption "$loadPlaylistMenuOptions"
                 continue

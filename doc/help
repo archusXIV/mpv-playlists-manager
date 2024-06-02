@@ -1,4 +1,4 @@
-mpm version 1.9-2
+mpm version 1.9-3
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -35,7 +35,7 @@ mpm version 1.9-2
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.1.9-2::
+                                    ::MPV-PLAYLISTS-MANAGER v.1.9-3::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -79,7 +79,7 @@ mpm version 1.9-2
 
         Same as above but for audio only, for example after downloading, ffmpeg will
         convert all .webm files into aac, flac, mp3, ogg or wav if you wish (settings in mpmrc).
-        Since version 1.4-2, parallel package (if installed) will speed up audio conversion.
+        Since version 1.4-2, the parallel package (if installed) will speed up audio conversion.
         Note that for youtube audio files the download is automatic (code 251 .webm/opus).
         See section III).
         
@@ -151,7 +151,7 @@ mpm version 1.9-2
 
         We may want to edit this file to define the mpm window size, default directories,
         tasks preferences, theme, better quality or results with mpv, ffmpeg and yt-dlp options.
-        After changing parameters and saving the file, they will be immediatly active.
+        After changing parameters and saving the file, they will be immediatly actives.
         
         Since version 1.6-3 we can use a terminal user interface (tui) to look, pick & choose
         playlist items while mpv is running but for that a program must be installed such as:
@@ -160,7 +160,7 @@ mpm version 1.9-2
 
         Just enable those settings: use_mpvc="yes" & mpvc_tui="ncmpvc" (ncmpvc cheatsheet is
         located in /usr/local/share/doc/mpm/), if enabled this feature can be used to watch/listen
-        temporary lists, collection playlists and local directories.
+        temporary lists, collection playlists and local directories/files.
         If everything is correct this will appear on the main window:
             
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -188,9 +188,8 @@ mpm version 1.9-2
         searching online audio/video is done by using the fzf package if installed,
         and if the ytfzf script is in your $PATH then we will get a prompt to choose.
 
-        The fzf method only search youtube and ytfzf scraper can be change to other platforms,
-        see 'man ytfzf' and then in your mpmrc file use ytfzfOptions_SC=( -c odysee ),
-        instead of ytfzfOptions_SC=( -c youtube ) for example.
+        The fzf method only search youtube and ytfzf scraper will let you choose between 3 platforms:
+        Odysee, Peertube and Youtube.
         All options are applied to the specific temporary file and we act directly on it.
 
         We can also add links to an existing playlist using option "Save playlist as" then

@@ -4,9 +4,9 @@
 # shellcheck disable=SC2154
 _SelectLocalDir() {
     
-    cd "$MEDIA_DIR" || exit 1
+    cd "$localDir" || exit 1
 
-    printf '%s\n' " ${info}Directories in ${MEDIA_DIR##*/}: ${nc}"
+    printf '%s\n' " ${info}Directories in ${localDir##*/}: ${nc}"
     __
     for d in $(find ./* -type d -empty | sed 's,.*/,,'); do
         echo " ${critical}Empty: ${info}$d${nc}"
@@ -15,8 +15,8 @@ _SelectLocalDir() {
 
     PS3=""$'\n'" ${info}Select a directory number to queue/parse, [C]ancel: ${nc}"
 
-    select dir in $(find -L "$MEDIA_DIR" -maxdepth 1 -type d -not -name \
-        "$(echo "$MEDIA_DIR" | awk -F"/" '{print $NF}')" | sort | sed 's,.*/,,'); do
+    select dir in $(find -L "$localDir" -maxdepth 1 -type d -not -name \
+        "$(echo "$localDir" | awk -F"/" '{print $NF}')" | sort | sed 's,.*/,,'); do
         
         case "$REPLY" in [a-zA-Z]) return ;; esac
 
@@ -29,10 +29,9 @@ _SelectLocalDir() {
             find ./"$dir" -maxdepth 1 -type d -empty -exec rmdir {} \;
             __
             printf '%s\n' " ${info}Scanning $dir for mpv supported formats...${nc}"
-            sleep 1
 
-            ! find -L ./"$dir" -maxdepth 1 -type f \
-            -exec file -N -i -- {} + | grep -q -E '[aA]udio|[vV]ideo' && {
+            ! find -L ./"$dir" -maxdepth 1 -type f -exec file -N -i -- {} + \
+            | grep -q -E '[aA]udio|[vV]ideo' && {
                 __
                 printf '%s\n' " ${critical}$dir does not contain supported formats by mpv" \
                 " or some files aren't audio/video stuff," \

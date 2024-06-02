@@ -4,14 +4,31 @@
 # shellcheck disable=SC2154
 _SearchOnlineWithYtfzf() {
     __
-    read -rp " ${info}Search for ${Type} links (Use quotes for multiple search terms): ${nc}" request
+    read -rp " ${info}Search ${platform} for ${Type} links (Use quotes for multiple search terms): ${nc}" request
 
     [[ -z $request ]] && return
 
     # ytfzfOptions_X are defined in ~/.config/mpm/mpmrc
-    ytfzf \
-        --show-thumbnails \
-        -I VJ "${ytfzfOptions_X[@]}" "$request$*" >> "$YTFZFJSON"
+    case "$1" in
+        -o)
+            ytfzf --show-thumbnails \
+            -I VJ -c odysee "${ytfzfOptions_X[@]}" "$request$*" >> "$YTFZFJSON"
+        ;;
+        -p)
+            ytfzf --show-thumbnails \
+            -I VJ -c peertube "${ytfzfOptions_X[@]}" "$request$*" >> "$YTFZFJSON"
+        ;;
+        -y)
+            ytfzf --show-thumbnails \
+            -I VJ -c youtube "${ytfzfOptions_X[@]}" "$request$*" >> "$YTFZFJSON" || \
+            invidious_instance="https://vid.puffyan.us" ytfzf --show-thumbnails \
+            -I VJ "${ytfzfOptions_X[@]}" "$request$*" >> "$YTFZFJSON"
+        ;;
+        *)
+            _WrongOption "$platformOptions"
+            clear
+        ;;
+    esac
         
     clear
     test ! -s "$YTFZFJSON" && {

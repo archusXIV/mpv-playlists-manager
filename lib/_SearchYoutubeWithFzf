@@ -56,7 +56,7 @@ _SearchYoutubeWithFzf() {
     --border rounded \
     --border-label "| Youtube search |" \
     --reverse \
-    | sed 's/\[.*]\s//;s/-\s//' > "$TITLES"_tmp
+    | sed 's/\[.*\]\s//;s/-\s//' > "$TITLES"_tmp
 
     test ! -s "$TITLES"_tmp && {
         rm "$TITLES"_tmp

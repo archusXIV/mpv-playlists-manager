@@ -4,8 +4,8 @@
 # shellcheck disable=SC2076,SC2034,SC2154,SC2164
 _ChooseDownloadVideo() {
 
-    local counter mediaDir
-    cd "$playlists_dir" || exit 1
+    local counter mediaDir youtube
+    
     clear
 
     if [[ $direct_download = yes ]]; then
@@ -26,7 +26,7 @@ _ChooseDownloadVideo() {
             _GetRange
             clear
             
-            cp -f "$list" "$list"_origin
+            cp -f "$playlists_dir"/"$list" "$playlists_dir"/"$list"_origin
             cp -f "$SELECTEDTITLES" "$SELECTEDTITLES"_orgin
             mkdir --parents "$videos_dir"/"${list%.*}" \
             && cd "$videos_dir"/"${list%.*}"
@@ -41,7 +41,6 @@ _ChooseDownloadVideo() {
                     __
                     yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
                     | awk '$0 !~ /sb|youtube/{print $0}'
-                    
                 else
                     yt-dlp -F "${ytdlPreset_DW[@]}" "$url"
                 fi

@@ -13,7 +13,6 @@ _ConvertAudio() {
     
     local webmFiles
 
-    # because webmFiles is local child functions will inherite its value.
     mapfile -t webmFiles < <(find . -iname "*.webm")
     
     if [[ -n $default_conversion_format ]]; then
@@ -33,11 +32,14 @@ _ConvertAudio() {
         else
             printf '%s\n' " Parallel conversion disabled.${nc}"
             _ConvertAudio_"$default_conversion_format"
+            __
+            printf '%s\n' " ${info}Conversion done.${nc}"
+            sleep 2
         fi
     else
         __
         printf '%s\n' " ${critical}Conversion format isn't set..." \
-        " ${info}(Press Enter to abort conversion.)${nc}"
+        " ${info}(Press Enter to abort conversion)${nc}"
         declare -A formats=(
             [1]="aac"
             [2]="flac"
@@ -64,6 +66,9 @@ _ConvertAudio() {
                 else
                     printf '%s\n' " Parallel conversion disabled.${nc}"
                     _ConvertAudio_"${formats[${REPLY}]}"
+                    __
+                    printf '%s\n' " ${info}Conversion done.${nc}"
+                    sleep 2
                 fi
             ;;
             *)
@@ -80,15 +85,10 @@ _ConvertAudio() {
         
     fi
 
-    rm -rf "$HOME"/.parallel 2>/dev/null
-    clear
-    find . -iname "*.webm" -exec rm {} \;
-
     if [[ $(find . -name "*.aac" -o -name "*.flac" \
         -o -name "*.mp3" -o -name "*.ogg" -o -name "*.wav") ]]; then
-        __
-        printf '%s\n' " ${info}Conversion done.${nc}"
-        sleep 2
+        clear
+        find . -iname "*.webm" -exec rm {} \;
     fi
     
 }

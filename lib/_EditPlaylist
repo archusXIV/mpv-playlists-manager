@@ -3,13 +3,14 @@
 
 # shellcheck disable=SC2154
 _EditPlaylist() {
+
     while true; do
         clear
         cd "$playlists_dir" || exit 1
         __
         PS3=""$'\n'" ${info}Choose a playlist to edit, [${mtitle}C${info}]ancel: ${nc}"
 
-        select list in $(find . -not -name "default.m3u" -name "*.m3u" \
+        select list in $(find "$playlists_dir" -not -name "default.m3u" -name "*.m3u" \
             -o -name "*.m3u_origin" | sort -d | sed 's,.*/,,'); do
 
             [[ $REPLY =~ [a-zA-Z] ]] && return
@@ -17,28 +18,33 @@ _EditPlaylist() {
             read -rsn 1 -p \
             "${info}"' [E]dit urls manually, re[N]ame playlist, [R]emove titles.'"${nc}" edit
             __
-            if [[ $edit =~ e|E ]]; then
-                $MPMEDITOR "$list"
-                echo -e " ${info}$list saved${nc}\n"
-                [[ $(grep "" -c "$titles_dir/$list.titles") \
-                -ne $(_GetLinesList -l) ]] && _TitlesListCompare
-            elif [[ $edit =~ n|N ]]; then
-                __
-                read -r -p " ${info}Enter a new name for $list: ${nc}" newname
-                mv "$list" "$newname".m3u
-                mv "$titles_dir/$list.titles" "$titles_dir/$newname.m3u.titles"
-                _ReplaceSpaces -s
-                __
-                printf '%s\n' " ${critical}${list%%.*} renamed as $newname.${nc}"
-                sleep 2
-            elif [[ $edit =~ r|R ]]; then
-                clear
-                _TitlesListCompare -l
-                _GetRange
-                _UpdateSelected -e
-            else
-                _WrongOption "$edit"
-            fi
+            case "$edit" in
+                e|E)
+                    "$MPMEDITOR" "$list"
+                    echo -e " ${info}$list saved${nc}\n"
+                    [[ $(grep "" -c "$titles_dir/$list.titles") \
+                    -ne $(_GetLinesList -l) ]] && _TitlesListCompare
+                ;;
+                n|N)
+                    __
+                    read -r -p " ${info}Enter a new name for $list: ${nc}" newname
+                    mv "$list" "$newname".m3u
+                    mv "$titles_dir/$list.titles" "$titles_dir/$newname.m3u.titles"
+                    _ReplaceSpaces -s
+                    __
+                    printf '%s\n' " ${critical}${list%%.*} renamed as $newname.${nc}"
+                    sleep 2
+                ;;
+                r|R)
+                    clear
+                    _TitlesListCompare -l
+                    _GetRange
+                    _UpdateSelected -e
+                ;;
+                *)
+                    _WrongOption "$edit"
+                ;;
+            esac
             __
             read -rsn 1 \
             -p "${info}"' [C]ontinue editing, [B]ack to menu.'"${nc}" again

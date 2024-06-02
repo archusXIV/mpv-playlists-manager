@@ -3,8 +3,6 @@
 
 # shellcheck disable=SC2154,SC2076,SC2164
 _DownloadVideoList() {
-    
-    cd "$playlists_dir" || exit 1
 
     _TitlesListCompare
     local counter mediaDir
@@ -22,7 +20,7 @@ _DownloadVideoList() {
             d|D) clear; _DirectVideoDownload ;;
             s|S)
                 clear
-                cp -f "$list" "$list"_origin
+                cp -f "$playlists_dir"/"$list" "$playlists_dir"/"$list"_origin
                 cp -f "$titles_dir"/"$list".titles "$titles_dir"/"$list".titles_origin
                 mediaDir="$videos_dir"/"${list%.*}"
                 mkdir --parents "$mediaDir" && cd "$mediaDir"
@@ -34,7 +32,8 @@ _DownloadVideoList() {
 
                     clear
                     __
-                    yt-dlp -F "${ytdlPreset_DW[@]}" "$url" | awk '$0 !~ /sb|youtube/{print $0}'
+                    yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
+                    | awk '$0 !~ /sb|youtube/{print $0}'
                     _DownloadMessages --m3u8
 
                     read -r code

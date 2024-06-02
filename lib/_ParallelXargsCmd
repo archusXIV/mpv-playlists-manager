@@ -4,43 +4,45 @@
 # shellcheck disable=SC2154
 _ParallelXargsCmd() {
 
+    __sedRemoveAll() (
+        if [[ $M3UFILE = "$AUDIO_URLS" || $M3UFILE = "$VIDEO_URLS" ]]; then
+            sed -i '1,$d' {"$M3UFILE","$TITLES"}
+        elif [[ $M3UFILE = "$QUEUE" ]]; then
+            sed -i '2,$d' "$M3UFILE"
+            sed -i '1,$d' "$TITLES"
+        elif [[ $M3UFILE = "$CHOOSE1" ]]; then
+            sed -i '1,$d' "$SELECTEDTITLES"
+        else
+            sed -i '1,$d' \
+            {"$playlists_dir"/"$list","$titles_dir"/"$list".titles}
+        fi
+    )
+
     case "$1" in
         --choose-audio)
             grep '^https' "$M3UFILE" | xargs -I '{}' -P 5 \
             yt-dlp --format bestaudio/best "${ytdlPreset_NC[@]}" {}
-            sed -i '1,$d' "$SELECTEDTITLES"
+            __sedRemoveAll
         ;;
         --choose-video)
-            grep '^https' "$M3UFILE" | xargs -I '{}' -P 5 \
+            grep '^https' "$M3UFILE" | xargs -I '{}' -P 4 \
             yt-dlp --format bestvideo+bestaudio/best "${ytdlPreset_X[@]}" {}
-            sed -i '1,$d' "$SELECTEDTITLES"
+            __sedRemoveAll
         ;;
         --direct-video)
-            grep '^https' "$playlists_dir"/"$list" | xargs -I '{}' -P 5 \
+            grep '^https' "$playlists_dir"/"$list" | xargs -I '{}' -P 4 \
             yt-dlp --format bestvideo+bestaudio/best "${ytdlPreset_X[@]}" {}
-            sed -i '1,$d' {"$playlists_dir"/"$list","$titles_dir"/"$list".titles}
+            __sedRemoveAll
         ;;
         --get-audio)
             grep '^https' "$M3UFILE" | xargs -I '{}' -P 5 \
             yt-dlp --format bestaudio/best "${ytdlPreset_NC[@]}" {}
-            if [[ $M3UFILE = "$AUDIO_URLS" ]]; then
-                sed -i '1,$d' {"$M3UFILE","$TITLES"}
-            else
-                sed -i '2,$d' "$M3UFILE"
-                sed -i '1,$d' "$TITLES"
-            fi
+            __sedRemoveAll
         ;;
         --get-video)
-            grep '^https' "$M3UFILE" | xargs -I '{}' -P 5 \
+            grep '^https' "$M3UFILE" | xargs -I '{}' -P 4 \
             yt-dlp --format bestvideo+bestaudio/best "${ytdlPreset_X[@]}" {}
-            if [[ $M3UFILE = "$VIDEO_URLS" ]]; then
-                sed -i '1,$d' {"$M3UFILE","$TITLES"}
-                clear
-            else
-                sed -i '2,$d' "$M3UFILE"
-                sed -i '1,$d' "$TITLES"
-                clear
-            fi
+            __sedRemoveAll
         ;;
     esac
 

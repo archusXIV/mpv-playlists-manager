@@ -48,7 +48,7 @@ _MpvOwnsTmpList() {
             case "$mpvOwnsTmpListOptions" in
                 q|Q)
                     kill -SIGTERM "$(pidof mpv)"
-                    rm {"$MEDIA_DIR"/"$dir"/fzfEnqueue.m3u,"$NOWPLAYING"} 2>/dev/null
+                    rm {"$localDir"/"$dir"/fzfEnqueue.m3u,"$NOWPLAYING"} 2>/dev/null
                     clear
                     __
                 ;;

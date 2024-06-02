@@ -18,7 +18,7 @@ _CheckDependencies() {
     )
 
     for dep in "${DEPS[@]:0:4}"; do
-        ! command -v "$dep" >/dev/null && {
+        command -v "$dep" >/dev/null || {
             printf '%s\n' " $dep isn 't installed,...exiting!"
             notify-send -t 0 -u critical "$dep isn 't installed,...exiting!"
             exit 127
@@ -26,22 +26,21 @@ _CheckDependencies() {
     done
 
     for opt in "${DEPS[@]:4:9}"; do
-        ! command -v "$opt" >/dev/null && {
+        command -v "$opt" >/dev/null || {
             printf '%s\n' " For better experience consider installing $opt."
             sleep 4
         }
     done
     
-    # MPMEDITOR & FILEMANAGER must be defined in ~/.config/mpm/mpmrc
-    [[ -z $MPMEDITOR ]] && {
-        printf '%s\n' " The config EDITOR is not set...exiting!"
+    command -v "$MPMEDITOR" >/dev/null || {
+        printf '%s\n' " The config EDITOR is not installed...exiting!"
         notify-send -t 0 -u critical "The config EDITOR is not set...exiting!"
         exit 1
     }
 
     command -v "$FILEMANAGER" >/dev/null || {
-        printf '%s\n' " ${critical}$FILEMANAGER not found.${nc}"
-        notify-send -t 0 -u critical "$FILEMANAGER not found."
+        printf '%s\n' " ${critical}$FILEMANAGER is not installed.${nc}"
+        notify-send -t 0 -u critical "$FILEMANAGER is not installed."
         sleep 3
     }
 

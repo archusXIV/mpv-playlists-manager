@@ -9,28 +9,28 @@ _DeleteUrls() {
     declare -a tmps=(
         "$AUDIO_URLS" "$AUDIO_TITLES"
         "$VIDEO_URLS" "$VIDEO_TITLES"
-        "$FFOP" "$YTOP" "$DEFAULTITLES"
+        "$FFOP" "$DEFAULTITLES"
         "$NOWPLAYING" "$tmp_dir/1" "$CHOOSE1"
         "Audio" "Video" "default" "temporarySelection"
     )
 
-    [[ -s "${tmps[0]}" || -s "${tmps[2]}" || -s "${tmps[6]}" ]] && {
+    [[ -s "${tmps[0]}" || -s "${tmps[2]}" || -s "${tmps[5]}" ]] && {
         _Prompt -n " ${critical}Clear all temporary playlists?${nc}" && {
             if [[ -f $NOWPLAYING ]]; then
 
-                for w in "${tmps[@]:10:13}"; do
+                for w in "${tmps[@]:9:12}"; do
                     if [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING") =~ $w ]]; then
+                        [[ $w = "${tmps[9]}" ]] && {
+                            unset {tmps[0],tmps[1],tmps[6],tmps[9]}
+                            sed -i '/^[[:alpha:]]/d' "$QUEUE"
+                        }
                         [[ $w = "${tmps[10]}" ]] && {
-                            unset {tmps[0],tmps[1],tmps[7],tmps[10]}
+                            unset {tmps[2],tmps[3],tmps[6],tmps[10]}
                             sed -i '/^[[:alpha:]]/d' "$QUEUE"
                         }
-                        [[ $w = "${tmps[11]}" ]] && {
-                            unset {tmps[2],tmps[3],tmps[7],tmps[11]}
-                            sed -i '/^[[:alpha:]]/d' "$QUEUE"
-                        }
-                        [[ $w = "${tmps[12]}" ]] && unset {tmps[6],tmps[7],tmps[12]}
-                        [[ $w = "${tmps[13]}" ]] && {
-                            unset {tmps[7],tmps[9],tmps[13]}
+                        [[ $w = "${tmps[11]}" ]] && unset {tmps[5],tmps[6],tmps[11]}
+                        [[ $w = "${tmps[12]}" ]] && {
+                            unset {tmps[6],tmps[8],tmps[12]}
                             sed -i '/^[[:alpha:]]/d' "$QUEUE"
                         }
                     fi

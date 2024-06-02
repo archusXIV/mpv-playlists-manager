@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.9-2)
+# ~/.config/mpm/mpmrc (version 1.9-3)
 
 ########################################################
 #                                                      #
@@ -15,7 +15,6 @@
 #~~~~~ change the values, not the variables names ~~~~~#
 
 # shellcheck disable=SC2034,SC2016,SC2154,SC1083
-# : "${XDG_DATA_HOME:-$HOME/.local/share}"
 
 # checking for mpm updates yes/no
 check_updates="yes"
@@ -74,7 +73,7 @@ keep_none_empty_playlist="yes"
 # (will appear in main menu)
 direct_download="no"
 
-# this takes place only after downloading/playing from a collection playlist.
+# this takes place only after downloading from a collection playlist.
 # (will appear in main menu)
 quit_after_task="no"
 
@@ -88,6 +87,7 @@ use_parallel="no"
 # or if use_parallel="no" and use_parallel_downloads="yes",
 # we will use 'xargs' as multiple yt-dlp instances launcher.
 use_parallel_downloads="yes"
+# fancy animations while downloading.
 parallel_animation="progress"
 #parallel_animation="spinners"
 
@@ -113,9 +113,6 @@ fzf_preview_size="40%"
 fzf_preview_layout="down"
 
 # add/change your ytfzf preferences here
-# use odysee instead of youtube
-# ytfzfOptions_SC=( --scrape=odysee )
-ytfzfOptions_YT=( --force-youtube )
 ytfzfOptions_KC=( --keep-cache )
 ytfzfOptions_PG=( --pages=5 )
 ytfzfOptions_VD=( --video-duration=long )
@@ -126,7 +123,6 @@ ytfzfOptions_TY=( --type=all )
 # add your options in this array
 ytfzfOptions_X=(
     "${ytfzfOptions_KC[@]}"
-    "${ytfzfOptions_YT[@]}"
     "${ytfzfOptions_PG[@]}"
     "${ytfzfOptions_VD[@]}"
     "${ytfzfOptions_SB[@]}"

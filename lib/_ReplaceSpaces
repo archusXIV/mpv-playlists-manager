@@ -7,7 +7,7 @@ _ReplaceSpaces() {
     # if we don't replace spaces with underscores
     case "$1" in
         -l)
-            find "$MEDIA_DIR" -maxdepth 1 \
+            find "$localDir" -maxdepth 1 \
             -type d -name "* *" -exec \
             bash -c '
                 for d in "$@"; do
