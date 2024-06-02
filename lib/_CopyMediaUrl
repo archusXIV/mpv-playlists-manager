@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154
 _CopyMediaUrl() {
-        
+
     if __clipboardCmdTest; then
         read -r mediaUrl < <("${clipboardCmd[@]}")
     else
@@ -24,9 +24,8 @@ _CopyMediaUrl() {
         __
         printf '%s\n' " ${info}Testing url...${nc}"
         mediaUrl=$(sed -n '$p' "$URLS")
-        yt-dlp --print formats_table "$mediaUrl" > "$tmp_dir"/ytdl_output
 
-        if [[ $? -eq 1 ]]; then
+        if [[ ! $(yt-dlp --print formats_table "$mediaUrl") ]]; then
             __
             printf '%s\n' " ${critical}${b}No format code found!${nb}"\
             " $mediaUrl will be removed." \
