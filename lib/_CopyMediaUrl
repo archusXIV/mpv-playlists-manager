@@ -20,21 +20,16 @@ _CopyMediaUrl() {
         "${b} Please be patient.${nb}${nc}"
         _GetYoutubePlaylistUrls "$arg"
     else
-        echo "$mediaUrl" | sed 's/&list=.*//;s/&pp=.*//' >> "$URLS"
         __
         printf '%s\n' " ${info}Testing url...${nc}"
-        mediaUrl=$(sed -n '$p' "$URLS")
-
         if [[ ! $(yt-dlp --print formats_table "$mediaUrl") ]]; then
             __
             printf '%s\n' " ${critical}${b}No format code found!${nb}"\
             " $mediaUrl will be removed." \
             " ${info}Please visit: $supportedSites${nc}"
-            sed -i '$d' "$URLS"
-            [[ ! -s "$URLS" ]] && rm "$URLS"
             sleep 7
         else
-            echo "$mediaUrl" >> "$QUEUE"
+            echo "$mediaUrl" | tee -a "$URLS" >> "$QUEUE"
             echo -e " ${info}Getting ${Type} title...${nc}\n"
             _YtdlGetTitle "$mediaUrl" \
             | tee -a "$TITLES" >> "$DEFAULTITLES"

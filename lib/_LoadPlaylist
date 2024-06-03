@@ -47,7 +47,7 @@ _LoadPlaylist() {
                     _TitlesListCompare -g
                 else
                     _TitlesListCompare -l
-                fi 2>/dev/null
+                fi
 
                 read -rn 1 \
                 -p "${info}"' [1] Download/Play, [2] Back to menu: '"${nc}" loadPlaylistSubmenuOptions

@@ -51,7 +51,7 @@ _SearchOnlineWithYtfzf() {
 
     perl -i -ne 'print if ! $a{$_}++' "$YTSEARCH" 2>/dev/null
     __; printf '%s\n' " ${info}Links added to $Type list${nc}"
-    sleep 2
+    sleep 2; clear
     rm "$YTFZFJSON"
     
 }

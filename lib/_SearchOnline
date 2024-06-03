@@ -12,74 +12,79 @@ _SearchOnline() {
         printf '%s\n' \
         " ${critical}Tip: In the ${pkg} menu press ${task}Tab ${critical}on the desired ${Type} titles," \
             " then press ${task}Enter ${critical}to confirm. Press ${task}Escape ${critical}to cancel." \
-            " (note that multi selection is supported)${nc}"
+            " (note that multi-selection is supported)${nc}"
     )
 
-    __searchOnlinePlatform() {
+    __isPkgInstalled() {
+        case "$1" in
+            -f)
+                ! command -v fzf && {
+                    printf '%s\n' " ${critical}$pkg isn't installed...${nc}"
+                    sleep 2
+                    _CreateAddPlaylist "$arg"
+                }
+            ;;
+            -y)
+                ! command -v ytfzf && {
+                    printf '%s\n' " ${critical}$pkg isn't installed...${nc}"
+                    sleep 2
+                    _CreateAddPlaylist "$arg"
+                }
+            ;;
+        esac
+    }
+
+    while true; do
         __
-        read -rsn1 \
-        -p " ${info}Search ${Type} on [Y]outube, [O]dysee, [P]eertube: ${nc}" \
-        platformOptions
-        
-        case "$platformOptions" in
-            o|O)
-                platform=Odysee
+        test -s "$URLS"  && \
+        echo -e " ${info}${Type} list: $(_GetLinesList "$arg") url(s)${nc}\n"
+        __
+        echo -e "                                            ${mtitle}::SEARCH ONLINE $menuTitleType OPTIONS::${nc}"
+        echo -e "                                 ┌──────────────────────────────────────────────────┐"
+        echo -e "                                 │   1) Fzf Youtube search   4) Ytfzf PeerTube      │"
+        echo -e "                                 │   2) Ytfzf Youtube        5) Back to ${Type} menu  │"
+        echo -e "                                 │   3) Ytfzf Odysee         6) Back to main menu   │"
+        echo -e "                                 └──────────────────────────────────────────────────┘"
+        echo -e "                                                   ${info}Select an item${nc}"
+
+        read -rsn1 searchOnlineOptions
+        case "$searchOnlineOptions" in
+            1)
+                pkg="fzf"
+                __isPkgInstalled -f
+                platform=YouTube
                 __searchOnlineTips
-                _SearchOnlineWithYtfzf -o
+                _SearchYoutubeWithFzf
             ;;
-            p|P)
-                platform=Peertube
-                __searchOnlineTips
-                _SearchOnlineWithYtfzf -p
-            ;;
-            y|Y)
+            2)
+                pkg="ytfzf"
+                __isPkgInstalled -y
+                
                 platform=YouTube
                 __searchOnlineTips
                 _SearchOnlineWithYtfzf -y
             ;;
-            *)
-                _WrongOption "$platformOptions"
-                clear
-            ;;
-        esac
-
-    }
-
-    if [[ -n $(command -v fzf) && -n $(command -v ytfzf) ]]; then
-        __
-        read -rsn1 \
-        -p " ${info}Search ${Type} with regular [F]zf or [Y]tfzf script?: ${nc}" \
-        searchOnlineOptions
-        
-        case "$searchOnlineOptions" in
-            f|F)
-                pkg="fzf"
-                __searchOnlineTips
-                _SearchYoutubeWithFzf
-            ;;
-            y|Y)
+            3)
                 pkg="ytfzf"
-                __searchOnlinePlatform
+                __isPkgInstalled -y
+                platform=Odysee
                 __searchOnlineTips
+                _SearchOnlineWithYtfzf -o
             ;;
+            4)
+                pkg="ytfzf"
+                __isPkgInstalled -y
+                platform=Peertube
+                __searchOnlineTips
+                _SearchOnlineWithYtfzf -p
+            ;;
+            5)  return ;;
+            6)  _Menu ;;
             *)
                 _WrongOption "$searchOnlineOptions"
                 clear
             ;;
         esac
-
-    elif command -v fzf >/dev/null; then
-        pkg="fzf"
-        __searchOnlineTips
-        _SearchYoutubeWithFzf
-    elif command -v ytfzf >/dev/null; then
-        pkg="ytfzf"
-        __searchOnlinePlatform
-        __searchOnlineTips
-    else
-        printf '%s\n' " ${critical}neither fzf nor ytfzf are installed...${nc}"
-        sleep 3
-        return
-    fi
+    done
 
 }
