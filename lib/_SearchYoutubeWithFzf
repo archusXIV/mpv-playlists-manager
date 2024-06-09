@@ -50,6 +50,7 @@ _SearchYoutubeWithFzf() {
     | fzf --multi \
     --pointer '<>' \
     --scroll-off=5 \
+    --no-scrollbar \
     --prompt='Filter: ' \
     --header "${info}${b}"'Select with Tab, Enter to confirm: '"${nb}${nc}" \
     --border rounded \

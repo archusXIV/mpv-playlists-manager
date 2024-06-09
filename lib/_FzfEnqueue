@@ -16,6 +16,7 @@ _FzfEnqueue() {
     --reverse \
     --pointer '<>' \
     --scroll-off=5 \
+    --no-scrollbar \
     --border rounded \
     --border-label "| ${PWD##*/} |" \
     --prompt='Search: ' \
