@@ -23,6 +23,7 @@ _GetVideo() {
             fi
             M3UFILE="$QUEUE"
             TITLES="$DEFAULTITLES"
+            _CheckParallelDownloads
         ;;
         -v)
             __
@@ -33,6 +34,7 @@ _GetVideo() {
             }
             M3UFILE="$VIDEO_URLS"
             TITLES="$VIDEO_TITLES"
+            _CheckParallelDownloads
         ;;
     esac
 

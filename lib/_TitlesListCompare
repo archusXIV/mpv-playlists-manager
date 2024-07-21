@@ -26,7 +26,7 @@ _TitlesListCompare() {
                 # sed -n '1,25p' "$titles" | nl
                 awk 'NR>=1&&NR<=25' "$titles" | nl
                 __
-                read -rsn 1 -p " ${info}[N]ext page, [B]ack to menu.${nc} " nextpage
+                read -rsn 1 -p " ${info}[N]ext page, [B]ack to menu.${nc}" nextpage
                 case "$nextpage" in
                     b|B) _Menu ;;
                     n|N)

@@ -37,7 +37,7 @@ pids=($(pidof -x $mpvmenu))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.1.9-3"
+VERSION="v.1.9-5"
 
 CONF_DIR="$HOME/.config/mpm"
 

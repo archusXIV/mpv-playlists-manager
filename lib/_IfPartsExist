@@ -7,10 +7,11 @@ _IfPartsExist() {
     __ifPartsExistInfo() (
         clear
         echo -e " ${critical}Incomplete files in audio/video directories:\n${nc}"
-        find {"$audios_dir","$videos_dir"} -name "*.part" 2>/dev/null \
+        find "$mediaDir" -name "*.part" 2>/dev/null \
         | sort -d | sed 's,.*/,,' | nl
         __
         echo " ${info}Try again now or later, choose an option.${nc}"
+        sleep 3
         __
         return
     )

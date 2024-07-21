@@ -1,0 +1,21 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2034
+_IfQuitAfterTask() {
+    if [[ $quit_after_task = yes ]]; then
+        __
+        if [[ -s "$AUDIO_URLS" || -s "$VIDEO_URLS" ]]; then
+            _SaveOnExit
+        else
+            nc=$'\e[0m';
+            echo "${nc}"
+            clear
+            exit 0
+        fi
+    else
+        [[ $(awk -F= '/use_parallel_downloads/{gsub(/"/,""); print $2}' "$MPMRC") = yes ]] \
+            && use_parallel_downloads="yes"
+        _Menu
+    fi
+}

@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2115
 # This function is executed by the trap command before we exit out. 
 _CleanTmpDir() {
     
@@ -12,12 +12,12 @@ _CleanTmpDir() {
         find "$tmp_dir" -type f \
         -not -name "$(awk -F"/" '{print $NF}' "$NOWPLAYING")" \
         -not -name 'nowPlaying' -exec rm {} \;
-        rm -f "$playlists_dir"/*_tmp
-        rmdir {"$audios_dir"/*/,"$videos_dir"/*/}
     else
         rm "$(readlink -f "$tmp_dir"/"fzfEnqueue")"
-        rm -f {"$tmp_dir"/*,"$playlists_dir"/*_tmp}
-        rmdir {"$audios_dir"/*/,"$videos_dir"/*/}
+        rm -f "$tmp_dir"/*
     fi
+
+    rm -rf {"$HOME"/.parallel,"$playlists_dir"/*_tmp}
+    rmdir {"$audios_dir"/*/,"$videos_dir"/*/}
 
 } 2>/dev/null

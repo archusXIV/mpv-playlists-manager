@@ -17,11 +17,13 @@ _GetAudio() {
             M3UFILE="$AUDIO_URLS"
             TITLES="$AUDIO_TITLES"
             mediaDir="$audios_dir"
+            _CheckParallelDownloads
         ;;
         -l)
             M3UFILE="$playlists_dir"/"$list"
             TITLES="$titles_dir"/"$list".titles
             mediaDir="$audios_dir"/"${list%.*}"
+            _CheckParallelDownloads
         ;;
         -q)
             if [[ ! -f $DEFAULTITLES && -f $DEFAULTM3UTITLES ]]; then
@@ -37,6 +39,7 @@ _GetAudio() {
             M3UFILE="$QUEUE"
             TITLES="$DEFAULTITLES"
             mediaDir="$audios_dir"
+            _CheckParallelDownloads
         ;;
     esac
 

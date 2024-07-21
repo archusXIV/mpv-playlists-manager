@@ -54,7 +54,7 @@ _Menu() {
                 __  ;;
             6)  _ViewAudioVideoUrlsInfo -q
                 __  ;;
-            7)  _DeleteUrls
+            7)  _ClearAllTmpLists
                 __  ;;
             8)  _EditPlaylist
                 __  ;;
@@ -88,15 +88,7 @@ _Menu() {
                 echo "${nc}"
             ;;
             x|X)
-                __;__
-                if [[ -s "$AUDIO_URLS" || -s "$VIDEO_URLS" ]]; then
-                    _SaveOnExit
-                else
-                    nc=$'\e[0m';
-                    echo "${nc}"
-                    clear
-                    exit 0
-                fi
+                _IfQuitAfterTask
             ;;
             *)
                 _WrongOption "$mainMenuOptions"

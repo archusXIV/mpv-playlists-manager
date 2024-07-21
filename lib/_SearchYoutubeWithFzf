@@ -7,8 +7,8 @@ _SearchYoutubeWithFzf() {
     local sanitizedRequest sanitizedResult grabLink grabPlaylist IDS id \
     mediaLinkIDS mediaPrefix playlistLinkIDS playlistPrefix playlistName
     __
-    read -rp " ${info}Search for youtube ${Type} (no quotes): ${nc}" request
-
+    read -rp " ${info}Search for ${platform} ${Type} (no quotes): ${nc}" request
+    clear
     [[ -z $request ]] && return
 
     sanitizedRequest=$(
@@ -96,5 +96,6 @@ _SearchYoutubeWithFzf() {
 
     _RemoveCrap
     rm "$TITLES"_tmp
+    _CreateAddPlaylist "$arg"
 
 }

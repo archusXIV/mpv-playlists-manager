@@ -1,10 +1,13 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2034
 _LoadPlaylistMenu() {
 
     cd "$playlists_dir" || return
+
+    M3UFILE="$playlists_dir/$list"
+    
     while :; do
         _ResizeWindow
         clear
@@ -25,10 +28,10 @@ _LoadPlaylistMenu() {
         __
         read -rsn 1 loadPlaylistMenuOptions
         case "$loadPlaylistMenuOptions" in
-            1) _ChooseDownloadAudio ;;
-            2) _ChooseDownloadVideo ;;
+            1) _CheckParallelDownloads; _ChooseDownloadAudio ;;
+            2) _CheckParallelDownloads; _ChooseDownloadVideo ;;
             3) _GetAudio -l ;;
-            4) _DownloadVideoList ;;
+            4) _CheckParallelDownloads; _DownloadVideoList ;;
             5) _ChooseFromPlay ;;
             6) _Menu ;;
             *)

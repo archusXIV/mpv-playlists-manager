@@ -1,0 +1,19 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_CheckParallelDownloads() {
+    clear;__
+    if [[ $use_parallel_downloads = yes ]]; then
+        # for sure youtube supports multiple downloads at once,
+        # but some other platforms don't, so we notice the user.
+        if ! grep -q 'youtube.com' "$M3UFILE"; then
+            printf '%s\n' " ${critical}use_parallel_downloads is set to ${task}'yes'" \
+            " ${critical}Some platforms do not support this feature...," \
+            " (answering no will download files one by one)."
+            _Prompt -n " ${info}Continue with parallel downloads?${nc}" || {
+                use_parallel_downloads="no"
+            }
+        fi
+    fi
+}

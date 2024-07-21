@@ -13,8 +13,8 @@ _GetRange() {
     for range in "${array[@]}"; do
         IFS="-"; read -r start end <<< "$range"
         [[ $range =~ [a-zA-Z] ]] && {
-            unset IFS
             rm "$list"_tmp
+            unset IFS
             __
             printf '%s\n' " ${critical}Selection aborted.${nc}"
             sleep 2

@@ -3,20 +3,20 @@
 
 # shellcheck disable=SC2154
 _IfWebmFiles() {
-    if [[ -n $(find "$audios_dir" -maxdepth 2 -iname "*.webm") ]]; then
+    if [[ -n $(find "$mediaDir" -iname "*.webm") ]]; then
 
         _RemoveAudioVideoIds
         __
         echo " ${critical}ADVISORY: if you choose conversion, all downloaded files (.webm)"
         echo -e " will be converted in the chosen format.${nc}\n"
-        find "$audios_dir" -maxdepth 2 -iname "*.webm" | sed 's,.*/,,' | sort | nl
+        find "$mediaDir" -iname "*.webm" | sed 's,.*/,,' | sort | nl
 
         if [[ $automatic_audio_conversion = yes ]]; then
             __
             printf '%s\n' " ${task}Automatic audio conversion enabled.${nc}"
             sleep 2
             [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
-            && _ConvertAudio && _GetCompleted -a
+            && _ConvertAudio && _GetCompleted
             [[ $M3UFILE = "$playlists_dir"/"$list" ]] || [[ $M3UFILE = "$CHOOSE1" ]] \
             && _ConvertAudio && _DownloadCompleted
         else
@@ -28,19 +28,19 @@ _IfWebmFiles() {
                 sleep 1
                 __
                 [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
-                && _GetCompleted -a
+                && _GetCompleted
                 [[ $M3UFILE = "$playlists_dir"/"$list" ]] || [[ $M3UFILE = "$CHOOSE1" ]] \
                 && _DownloadCompleted
             }
             [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
-            && _ConvertAudio && _GetCompleted -a
+            && _ConvertAudio && _GetCompleted
             [[ $M3UFILE = "$playlists_dir"/"$list" ]] || [[ $M3UFILE = "$CHOOSE1" ]] \
             && _ConvertAudio && _DownloadCompleted
         fi
 
     else
         [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
-        && _GetCompleted -a
+        && _GetCompleted
         [[ $M3UFILE = "$playlists_dir"/"$list" ]] || [[ $M3UFILE = "$CHOOSE1" ]] \
         && _DownloadCompleted
     fi

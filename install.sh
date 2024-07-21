@@ -25,27 +25,8 @@ _diffRc() {
         printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
         " original file has been saved as mpmrc.orig.${endColor}"
         printf '\n'
-        tail -n8 ./README_FIRST
+        tail -n6 ./README_FIRST
         printf '\n'
-        printf '%s\n' " ${red}Please edit or update your mpmrc file before first run.${endColor}"
-        printf '\n'
-        read -r -p " ${red}Edit $MPMRC now? [Y/n] enter editor name: ${endColor}" edit editor
-        case "$edit" in
-            Y|y)
-                cd "$CONF_DIR" || exit 0
-                if [[ $editor = vim ]]; then
-                    vim -d "$MPMRC" "$MPMRC".orig
-                else
-                    "$editor" "$MPMRC" "$MPMRC".orig
-                fi
-            ;;
-            n|N)
-                chown -R "$grpuser" "$CONF_DIR" && exit 0
-            ;;
-            *)
-                printf '%s\n' " ${red}Ok don't forget to update it before first run.${endColor}"
-            ;;
-        esac
     else
         mkdir --parents "$CONF_DIR"
         cp doc/{mpmrc,themerc} "$CONF_DIR"

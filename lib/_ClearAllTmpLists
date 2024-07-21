@@ -1,0 +1,56 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_ClearAllTmpLists() {
+
+    cd "$tmp_dir" || exit 1
+
+    declare -a tmps=(
+        "$AUDIO_URLS" "$AUDIO_TITLES"
+        "$VIDEO_URLS" "$VIDEO_TITLES"
+        "$FFOP" "$DEFAULTITLES"
+        "$tmp_dir/1" "$CHOOSE1"
+        "Audio" "Video" "default" "temporarySelection"
+    )
+
+    [[ -s "${tmps[0]}" || -s "${tmps[2]}" || -s "${tmps[5]}" ]] && {
+        _Prompt -n " ${critical}Clear all temporary playlists? ${nc}" && {
+            if [[ -f $NOWPLAYING ]]; then
+
+                for w in "${tmps[@]:8:11}"; do
+                    if [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING") =~ $w ]]; then
+                        [[ $w = "${tmps[8]}" ]] && {
+                            unset {tmps[0],tmps[1],tmps[8]}
+                            sed -i '/^[[:alpha:]]/d' "$QUEUE"
+                        }
+                        [[ $w = "${tmps[9]}" ]] && {
+                            unset {tmps[2],tmps[3],tmps[9]}
+                            sed -i '/^[[:alpha:]]/d' "$QUEUE"
+                        }
+                        [[ $w = "${tmps[10]}" ]] && unset {tmps[5],tmps[10]}
+                        [[ $w = "${tmps[11]}" ]] && {
+                            unset {tmps[7],tmps[11]}
+                            sed -i '/^[[:alpha:]]/d' "$QUEUE"
+                        }
+                    fi
+                done
+                
+                rm "${tmps[@]}"
+                __
+                printf '%s\n' " ${critical}All Temporary lists cleared," \
+                " except $(awk -F"/" '{print $NF}' "$NOWPLAYING").${nc}"
+                sleep 4
+
+            else
+                sed -i '/^[[:alpha:]]/d' "$QUEUE"
+                rm "${tmps[@]}" 2>/dev/null
+                printf '%s\n' " ${critical}All Temporary lists cleared.${nc}"
+                sleep 2
+            fi
+        }
+        return
+    }
+    printf '%s\n' " ${critical}No Temporary lists found...${nc}"
+    sleep 2
+}

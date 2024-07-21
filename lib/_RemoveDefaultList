@@ -7,7 +7,7 @@ _RemoveDefaultList() {
     # the default list, at least contains one line (header #EXTM3U)
     [[ $(grep "" -c "$tmpList") -eq 1 ]] && {
         __
-        printf '%s\n' " ${critical}$tmpList list is empty.${nc}"
+        printf '%s\n' " ${critical}${tmpList##*/} list is empty.${nc}"
         sleep 2
         rm {"$tmpList"_origin,"$tmpTitles"{,_origin}}
         _Menu

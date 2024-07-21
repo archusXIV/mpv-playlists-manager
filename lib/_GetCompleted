@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2034
 _GetCompleted() {
 
     cd "$main_dir" || exit 1
@@ -15,20 +15,18 @@ _GetCompleted() {
             echo " ${critical}It was a temporary list, don't forget to save it.${nc}"
             sleep 3
             _RenameTmpFiles
+            [[ $(awk -F= '/use_parallel_downloads/{gsub(/"/,""); print $2}' "$MPMRC") = yes ]] \
+            && use_parallel_downloads="yes"
             _Menu
         }
-
-        case "$1" in
-            -a|-v)
-                if [[ -f "$QUEUE"_origin ]]; then
-                    _Remove -q
-                elif [[ -f "$AUDIO_URLS"_origin ]]; then
-                    _Remove -a
-                else
-                    _Remove -v
-                fi
-            ;;
-        esac
+        
+        if [[ -f "$QUEUE"_origin ]]; then
+            _Remove -q
+        elif [[ -f "$AUDIO_URLS"_origin ]]; then
+            _Remove -a
+        else
+            _Remove -v
+        fi
     fi
 
 }

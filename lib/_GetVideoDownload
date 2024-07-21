@@ -61,6 +61,6 @@ _GetVideoDownload() {
     echo -e " ${info}Done.\n${nc}"
     sleep 2
     _RemoveAudioVideoIds
-    _GetCompleted -v
+    _GetCompleted
 
 }

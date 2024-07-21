@@ -5,7 +5,7 @@
 _CreateAddPlaylist() {
 
     local Type TITLES URLS menuTitleType arg mediaUrl supportedSites file
-    supportedSites="https://github.com/ytdl-org/yt-dlp/blob/master/docs/supportedsites.md"
+    supportedSites="https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md"
     
     case "$1" in
         -a)

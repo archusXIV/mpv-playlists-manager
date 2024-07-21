@@ -65,7 +65,7 @@ _GetYoutubePlaylistUrls() {
         -s)
             mapfile -t < <(grep '^https' "$YTSEARCH")
             # there might be several playlists urls selected in
-            # _Search{Online,Youtube}With functions so we enter in a loop.
+            # _SearchYoutubeWithFzf function so we enter in a loop.
             for url in "${MAPFILE[@]}"; do
                 playlist="$url"
                 if [[ -n $(command -v ytfzf) && $use_fzf = yes ]]; then

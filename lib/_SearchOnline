@@ -11,27 +11,18 @@ _SearchOnline() {
         __
         printf '%s\n' \
         " ${critical}Tip: In the ${pkg} menu press ${task}Tab ${critical}on the desired ${Type} titles," \
-            " then press ${task}Enter ${critical}to confirm. Press ${task}Escape ${critical}to cancel." \
+            " then press ${task}Enter ${critical}to confirm, ${task}Escape ${critical}to cancel." \
             " (note that multi-selection is supported)${nc}"
     )
 
     __isPkgInstalled() {
-        case "$1" in
-            -f)
-                ! command -v fzf && {
-                    printf '%s\n' " ${critical}$pkg isn't installed...${nc}"
-                    sleep 2
-                    _CreateAddPlaylist "$arg"
-                }
-            ;;
-            -y)
-                ! command -v ytfzf && {
-                    printf '%s\n' " ${critical}$pkg isn't installed...${nc}"
-                    sleep 2
-                    _CreateAddPlaylist "$arg"
-                }
-            ;;
-        esac
+
+        ! command -v "$pkg" && {
+            printf '%s\n' " ${critical}$pkg isn't installed...${nc}"
+            sleep 2
+            _CreateAddPlaylist "$arg"
+        }
+
     }
 
     while true; do
@@ -50,30 +41,29 @@ _SearchOnline() {
         read -rsn1 searchOnlineOptions
         case "$searchOnlineOptions" in
             1)
-                pkg="fzf"
-                __isPkgInstalled -f
+                pkg=fzf
+                __isPkgInstalled
                 platform=YouTube
                 __searchOnlineTips
                 _SearchYoutubeWithFzf
             ;;
             2)
-                pkg="ytfzf"
-                __isPkgInstalled -y
-                
+                pkg=ytfzf
+                __isPkgInstalled
                 platform=YouTube
                 __searchOnlineTips
                 _SearchOnlineWithYtfzf -y
             ;;
             3)
-                pkg="ytfzf"
-                __isPkgInstalled -y
+                pkg=ytfzf
+                __isPkgInstalled
                 platform=Odysee
                 __searchOnlineTips
                 _SearchOnlineWithYtfzf -o
             ;;
             4)
-                pkg="ytfzf"
-                __isPkgInstalled -y
+                pkg=ytfzf
+                __isPkgInstalled
                 platform=Peertube
                 __searchOnlineTips
                 _SearchOnlineWithYtfzf -p

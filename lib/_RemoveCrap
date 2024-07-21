@@ -19,7 +19,7 @@ _RemoveCrap() {
     for file in "${LISTS[@]}"; do
         # removing unwanted parts of links, blank lines & duplicates
         sed -i '
-            s/&list=.*//;s/&pp=.*//;/^\s*$/d;
+            s/&list=.*//;s/&pp=.*//;s/&t=.*//;/^\s*$/d;
             s|//youtube.com|//www.youtube.com|g
         ' "$file"
         perl -i -ne 'print if ! $a{$_}++' "$file"
