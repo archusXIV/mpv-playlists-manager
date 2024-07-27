@@ -6,7 +6,7 @@ _LoadPlaylist() {
     
     cd "$playlists_dir" || exit 1
 
-    local list
+    local list titlesFile
 
     for l in $(find . -type f -name "*.m3u"); do
         [[ -f "$l"_origin ]] \
@@ -29,6 +29,7 @@ _LoadPlaylist() {
             return
         }
 
+        titlesFile="$titles_dir/$list.titles"
         clear
         __
         printf '%s\n' \
@@ -43,7 +44,7 @@ _LoadPlaylist() {
             2)
                 clear
 
-                if [[ $(grep "" -c "$titles_dir/$list.titles") -gt 25 ]]; then
+                if [[ -f "$titlesFile" && $(grep "" -c "$titlesFile") -gt 25 ]]; then
                     _TitlesListCompare -g
                 else
                     _TitlesListCompare -l

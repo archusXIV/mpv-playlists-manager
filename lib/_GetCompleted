@@ -16,7 +16,7 @@ _GetCompleted() {
             sleep 3
             _RenameTmpFiles
             [[ $(awk -F= '/use_parallel_downloads/{gsub(/"/,""); print $2}' "$MPMRC") = yes ]] \
-            && use_parallel_downloads="yes"
+                && use_parallel_downloads="yes"
             _Menu
         }
         

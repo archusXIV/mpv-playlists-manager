@@ -1,6 +1,6 @@
 Author: Barret E (2020-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 1.9-5
+mpm version 1.9-6
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -24,8 +24,7 @@ the directory structure is ok for you.
 
 Changelog:
 --------------- NO CHANGE IN THE CONFIG FILE (mpmrc) ---------------
+version 1.9-6 - Improved _CheckParallelDownloads function.
 version 1.9-5 - Added a prompt to save tmp/list when quit_after_task is set to 'yes'
 version 1.9-5 - Checking none youtube platforms for parallel downloads.
 version 1.9-5 - bugs fixed.
-version 1.9-3 - Some functions optimyzations & bugs fixed.
-version 1.9-3 - Ytfzf scraper options removed from the mpmrc file but now hardcoded.

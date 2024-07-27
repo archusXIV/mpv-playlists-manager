@@ -30,7 +30,7 @@ _LoadPlaylistMenu() {
         case "$loadPlaylistMenuOptions" in
             1) _CheckParallelDownloads; _ChooseDownloadAudio ;;
             2) _CheckParallelDownloads; _ChooseDownloadVideo ;;
-            3) _GetAudio -l ;;
+            3) _CheckParallelDownloads; _GetAudio -l ;;
             4) _CheckParallelDownloads; _DownloadVideoList ;;
             5) _ChooseFromPlay ;;
             6) _Menu ;;

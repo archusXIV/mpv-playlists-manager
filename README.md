@@ -31,10 +31,11 @@ mpm -v # prints mpm version
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
-## Changelog
-- Added a prompt to save tmp/list when quit_after_task is set to 'yes'
-- Checking none youtube platforms for parallel downloads.
-- bugs fixed.
+## Changelog:
+version 1.9-6 - Improved _CheckParallelDownloads function.
+version 1.9-5 - Added a prompt to save tmp/list when quit_after_task is set to 'yes'
+version 1.9-5 - Checking none youtube platforms for parallel downloads.
+version 1.9-5 - bugs fixed.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -93,7 +94,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When we use a terminal user interface (tui) for mpv, the main window looks like this.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.9-5.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.9-6.png)
 
 
 ```

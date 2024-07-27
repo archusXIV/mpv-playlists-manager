@@ -13,9 +13,8 @@ _IfQuitAfterTask() {
             clear
             exit 0
         fi
-    else
-        [[ $(awk -F= '/use_parallel_downloads/{gsub(/"/,""); print $2}' "$MPMRC") = yes ]] \
-            && use_parallel_downloads="yes"
+    elif [[ $(awk -F= '/use_parallel_downloads/{gsub(/"/,""); print $2}' "$MPMRC") = yes ]]; then
+        use_parallel_downloads="yes"
         _Menu
     fi
 }
