@@ -32,6 +32,7 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog:
+- Fixed bug when trying to quit mpm if quit_after_task="no"
 - Improved _CheckParallelDownloads function.
 - Added a prompt to save tmp/list when quit_after_task is set to 'yes'.
 - Checking none youtube platforms for parallel downloads.
@@ -94,7 +95,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When we use a terminal user interface (tui) for mpv, the main window looks like this.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.9-6.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.9-7.png)
 
 
 ```
