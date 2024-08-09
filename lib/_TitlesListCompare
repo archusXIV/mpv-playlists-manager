@@ -52,6 +52,7 @@ _TitlesListCompare() {
     else
         printf '%s\n' " ${critical}${titles} does not exist...${nc}" \
         " ${task}${b}Getting $(_GetLinesList -l) titles...please wait.${nb}${nc}"
+        sleep 2
         touch "$titles_dir/$list.titles"
         _GetMediaTitle -l
         clear

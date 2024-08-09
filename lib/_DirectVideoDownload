@@ -16,20 +16,14 @@ _DirectVideoDownload() {
     animationTitles="$titles_dir"/"$list".titles
     counter=$(grep '^https' -c "$playlists_dir"/"$list")
 
-    if [[ -n $(command -v parallel) \
-        && $use_parallel = yes \
-        && $use_parallel_downloads = yes ]]; then
-
+    if _TestParallelCommand; then
         _ParallelDownloadCmd --direct-video
         _DownloadMessages --direct-video
         _ParallelAnimation
-
-    elif [[ -n $(command -v xargs) && $use_parallel_downloads = yes ]]; then
-
+    elif _TestXargsCommand; then
         _DownloadMessages --direct-video
         _ParallelAnimation &
         _ParallelXargsCmd --direct-video
-        
     else
         while read -r url; do
 

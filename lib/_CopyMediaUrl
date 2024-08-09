@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2001
 _CopyMediaUrl() {
 
     if __clipboardCmdTest; then
@@ -20,9 +20,10 @@ _CopyMediaUrl() {
         "${b} Please be patient.${nb}${nc}"
         _GetYoutubePlaylistUrls "$arg"
     else
+        mediaUrl=$(echo "$mediaUrl" | sed 's/&list=.*//')
         __
         printf '%s\n' " ${info}Testing url...${nc}"
-        if [[ ! $(yt-dlp --print formats_table "$mediaUrl") ]]; then
+        if [[ ! $(yt-dlp --no-warnings --print formats_table "$mediaUrl") ]]; then
             __
             printf '%s\n' " ${critical}${b}No format code found!${nb}"\
             " $mediaUrl will be removed." \
@@ -31,7 +32,7 @@ _CopyMediaUrl() {
         else
             echo "$mediaUrl" | tee -a "$URLS" >> "$QUEUE"
             echo -e " ${info}Getting ${Type} title...${nc}\n"
-            _YtdlGetTitle "$mediaUrl" \
+            _YtdlGetTitle "$(sed -n '$p' "$URLS")" \
             | tee -a "$TITLES" >> "$DEFAULTITLES"
             _RemoveCrap
         fi

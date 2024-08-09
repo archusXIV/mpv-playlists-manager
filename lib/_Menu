@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2034
 _Menu() {
 
     cd "$main_dir" || exit 1
@@ -67,7 +67,6 @@ _Menu() {
                     printf '%s\n' " ${critical}No mpv interface setup in your config..." \
                     " use_mpvc must be set to 'yes' or mpvc_tui is empty${nc}"
                     sleep 7
-                    continue
                 fi
             ;;
             q|Q)
@@ -76,6 +75,11 @@ _Menu() {
                     rm {"$(readlink -f "$NOWPLAYING")","$CHOOSE1","$NOWPLAYING"} 2>/dev/null
                     unset m3uFile
                 }
+            ;;
+            r|R)
+                mpv_is_running=no
+                rm {"$(readlink -f "$NOWPLAYING")","$CHOOSE1","$NOWPLAYING"} 2>/dev/null
+                unset m3uFile
             ;;
             t|T) _MpvDisplayTitle
                 __ ;;
@@ -88,19 +92,10 @@ _Menu() {
                 echo "${nc}"
             ;;
             x|X)
-                __
-                if [[ -s "$AUDIO_URLS" || -s "$VIDEO_URLS" ]]; then
-                    _SaveOnExit
-                else
-                    nc=$'\e[0m';
-                    echo "${nc}"
-                    clear
-                    exit 0
-                fi
+                _IfQuitAfterTask -x
             ;;
             *)
                 _WrongOption "$mainMenuOptions"
-                continue
             ;;
         esac
     done

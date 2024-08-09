@@ -13,7 +13,7 @@ _SelectLocalDir() {
     done
     __
 
-    PS3=""$'\n'" ${info}Select a directory number to queue/parse, [C]ancel: ${nc}"
+    PS3=""$'\n'" ${info}Select a directory number to queue/parse, [${mtitle}C${info}]ancel: ${nc}"
 
     select dir in $(find -L "$localDir" -maxdepth 1 -type d -not -name \
         "$(echo "$localDir" | awk -F"/" '{print $NF}')" | sort | sed 's,.*/,,'); do

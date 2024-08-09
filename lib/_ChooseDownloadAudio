@@ -39,20 +39,14 @@ _ChooseDownloadAudio() {
         --format "$code" "${ytdlPreset_NC[@]}" "$url"
     )
 
-    if [[ -n $(command -v parallel) \
-        && $use_parallel = yes \
-        && $use_parallel_downloads = yes ]]; then
-
+    if _TestParallelCommand; then
         _ParallelDownloadCmd --choose-audio
         _DownloadMessages --choose-audio
         _ParallelAnimation
-
-    elif [[ -n $(command -v xargs) && $use_parallel_downloads = yes ]]; then
-
+    elif _TestXargsCommand; then
         _DownloadMessages --choose-audio
         _ParallelAnimation &
         _ParallelXargsCmd --choose-audio
-        
     else
         for url in "${SELECTEDAUDIO[@]}"; do
 

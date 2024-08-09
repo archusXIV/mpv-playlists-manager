@@ -81,7 +81,7 @@ _GetYoutubePlaylistUrls() {
             
             unset url
             
-            clear # && return
+            clear
             
         ;;
     esac

@@ -36,7 +36,7 @@ _ClearAllTmpLists() {
                     fi
                 done
                 
-                rm "${tmps[@]}"
+                rm "${tmps[@]}" 2>/dev/null
                 __
                 printf '%s\n' " ${critical}All Temporary lists cleared," \
                 " except $(awk -F"/" '{print $NF}' "$NOWPLAYING").${nc}"

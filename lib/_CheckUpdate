@@ -6,8 +6,8 @@ _CheckUpdate() {
 
     local UPD
     UPD=$(
-        curl \
-        -sL "https://raw.githubusercontent.com/archusXIV/mpv-playlists-manager/main/version"
+        curl -sL \
+        "https://raw.githubusercontent.com/archusXIV/mpv-playlists-manager/main/version"
     )
     
     [[ $check_updates = yes ]] && {

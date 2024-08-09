@@ -7,15 +7,13 @@ _ParallelConversion() {
         --parallel-default)
             printf '%s\n' " Parallel conversion enabled."
             parallel --delay 2 --jobs "$parallel_threads" --bar \
-            ffmpeg \
-            -hide_banner -loglevel error \
+            ffmpeg -hide_banner -loglevel error \
             -y -i {} -qscale:a 0 {.}."$default_conversion_format" ::: ./*.webm
         ;;
         --parallel-chosen)
             printf '%s\n' " Parallel conversion enabled."
             parallel --delay 2 --jobs "$parallel_threads" --bar \
-            ffmpeg \
-            -hide_banner -loglevel error \
+            ffmpeg -hide_banner -loglevel error \
             -y -i {} -qscale:a 0 {.}."${formats[${REPLY}]}" ::: ./*.webm
         ;;
         --xargs-default)
@@ -31,7 +29,7 @@ _ParallelConversion() {
     esac
 
     find . -iname "*.webm" -exec rm {} \;
-    # now let's cleam the suffix of our converted files (.webm.{aac,mp3,flac,ogg,wav})
+    # now let's clean the suffix of our converted files (.webm.{aac,mp3,flac,ogg,wav})
     find . -maxdepth 1 -type f -name "*.webm.*" -exec \
     bash -c '
         for dot in "$@"; do

@@ -5,18 +5,10 @@
 _CheckDependencies() {
     ## Checking dependencies: softwares, directories, files & variables.
     declare -a DEPS=(
-        "ffmpeg"
-        "jq"
-        "mpv"
-        "yt-dlp"
-        "exiftool"
-        "fzf"
-        "mediainfo"
-        "parallel"
-        "ueberzug"
-        "wmctrl"
-        "w3m"
-        "ytfzf"
+        "ffmpeg" "jq" "mpv" "yt-dlp"
+        "exiftool" "fzf" "mediainfo"
+        "parallel" "ueberzug" "wmctrl"
+        "w3m" "ytfzf"
     )
 
     for dep in "${DEPS[@]:0:4}"; do

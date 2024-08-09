@@ -7,20 +7,14 @@ _GetAudioDownload() {
     local animationTitles
     animationTitles="$TITLES"
 
-    if [[ -n $(command -v parallel) \
-        && $use_parallel = yes \
-        && $use_parallel_downloads = yes ]]; then
-
+    if _TestParallelCommand; then
         _GetAudioDownloadMessages --parallel
         _ParallelDownloadCmd --get-audio
         _ParallelAnimation
-        
-    elif [[ -n $(command -v xargs) && $use_parallel_downloads = yes ]]; then
-
+    elif _TestXargsCommand; then
         _GetAudioDownloadMessages --xargs
         _ParallelAnimation &
         _ParallelXargsCmd --get-audio
-
     else
         mapfile -t AUDIOLINKS < <(grep '^https' "$M3UFILE")
         for url in "${AUDIOLINKS[@]}"; do

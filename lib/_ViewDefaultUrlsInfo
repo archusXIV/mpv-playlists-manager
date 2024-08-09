@@ -29,7 +29,7 @@ _ViewDefaultUrlsInfo() {
                 d|D)
                     _MpvOwnsTmpList --default || \
                     __
-                    read -rsn 1 -p "${info}"' Download [A]udio, [V]ideo, [C]ancel: '"${nc}" get
+                    read -rsn 1 -p "${info} Download [A]udio, [V]ideo, [${mtitle}C${info}]ancel: ${nc}" get
                     case "$get" in
                         a|A) __; _GetAudio -q ;;
                         v|V) __; _GetVideo -q ;;

@@ -33,6 +33,6 @@ _DownloadCompleted() {
             rm -f "${FILES[@]}" 2>/dev/null
         fi
         
-        _IfQuitAfterTask
+        _IfQuitAfterTask -d
     fi
 }

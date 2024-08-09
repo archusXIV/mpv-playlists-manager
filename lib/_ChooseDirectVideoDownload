@@ -21,20 +21,14 @@ _ChooseDirectVideoDownload() {
     counter=$(grep "" -c "$CHOOSE1")
     animationTitles="$SELECTEDTITLES"
 
-    if [[ -n $(command -v parallel) \
-        && $use_parallel = yes \
-        && $use_parallel_downloads = yes ]]; then
-        
+    if _TestParallelCommand; then
         _ParallelDownloadCmd --choose-video
         _DownloadMessages --choose-video
         _ParallelAnimation
-
-    elif [[ -n $(command -v xargs) && $use_parallel_downloads = yes ]]; then
-
+    elif _TestXargsCommand; then
         _DownloadMessages --choose-video
         _ParallelAnimation &
         _ParallelXargsCmd --choose-video
-        
     else
         while read -r url; do
             _DownloadMessages --choose-video

@@ -15,6 +15,7 @@ _MakeMpvPlaylist() {
             | mpv --no-terminal "${mpvGenOptions_X[@]}" --playlist=- &
 
             echo "local-background" > "$NOWPLAYING"
+            _WhileMpvIsRunning &
 
         ;;
         --local-foreground)
@@ -40,6 +41,7 @@ _MakeMpvPlaylist() {
             "${mpvAudioFormatOptions[@]}" "$m3uFile" &
 
             echo "$m3uFile" > "$NOWPLAYING"
+            _WhileMpvIsRunning &
             
         ;;
         --online-video)
@@ -53,6 +55,7 @@ _MakeMpvPlaylist() {
             "${mpvVideoFormatOptions[@]}" "$m3uFile" &
 
             echo "$m3uFile" > "$NOWPLAYING"
+            _WhileMpvIsRunning &
 
         ;;
         --terminal-audio)

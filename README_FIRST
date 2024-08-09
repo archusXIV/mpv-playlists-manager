@@ -1,6 +1,6 @@
 Author: Barret E (2020-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 1.9-7
+mpm version 1.9-8
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -24,7 +24,10 @@ the directory structure is ok for you.
 
 Changelog:
 --------------- NO CHANGE IN THE CONFIG FILE (mpmrc) ---------------
+version 1.9-8 - When mpv stops you can press 'r' to refresh the main menu,
+                the mpv tui program (if launched) exits and the main menu
+                appears again.
+version 1.9-8 - Fixed rm messages in _ClearAllTmpLists function
+                when trying to remove none existing files in tmp_dir.
 version 1.9-7 - Fixed bug when trying to quit mpm if quit_after_task="no"
 version 1.9-6 - Improved _CheckParallelDownloads function.
-version 1.9-5 - Added a prompt to save tmp/list when quit_after_task is set to 'yes'
-version 1.9-5 - Checking none youtube platforms for parallel downloads.

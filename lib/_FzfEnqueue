@@ -33,5 +33,6 @@ _FzfEnqueue() {
     mpv --no-terminal "${mpvGenOptions_SK[@]}" \
     "${mpvGenOptions_ID[@]}" fzfEnqueue.m3u &
     ln -sr ./fzfEnqueue.m3u "$NOWPLAYING"
+    _WhileMpvIsRunning &
 
 }
