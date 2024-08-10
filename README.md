@@ -34,7 +34,7 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge 
 ## Changelog:
 - When mpv stops you can press 'r' to refresh the main menu,
     - the mpv tui program (if launched) exits and the main menu refresh itself.
-    - so mpvGenOptions_ID=( --idle=no ) in mpmrc.
+    - so turn mpvGenOptions_ID=( --idle ) to mpvGenOptions_ID=( --idle=no ) in mpmrc.
 - Fixed rm messages in _ClearAllTmpLists function when trying to remove none existing files in tmp_dir.
 - Fixed bug when trying to quit mpm if quit_after_task="no"
 - Improved _CheckParallelDownloads function.
