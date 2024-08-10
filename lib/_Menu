@@ -72,6 +72,7 @@ _Menu() {
             q|Q)
                 pgrep -x mpv >/dev/null && {
                     kill -SIGTERM "$(pidof mpv)"
+                    mpv_is_running="no"
                     rm {"$(readlink -f "$NOWPLAYING")","$CHOOSE1","$NOWPLAYING"} 2>/dev/null
                     unset m3uFile
                 }
