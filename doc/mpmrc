@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 1.9-8)
+# ~/.config/mpm/mpmrc (version 1.9-9)
 
 ########################################################
 #                                                      #
@@ -165,7 +165,7 @@ mpvc_tui=""
 # mpv audio/video online playing command line
 mpvGenOptions_CA=( --cache=yes )
 mpvGenOptions_SK=( --input-ipc-server='/tmp/mpvsocket' ) # needed for use_mpvc="yes"
-mpvGenOptions_ID=( --idle=no )                           # needed for use_mpvc="yes"
+mpvGenOptions_ID=( --idle=no )
 mpvGenOptions_CF=( --no-config )
 mpvGenOptions_RP=( --no-resume-playback )
 mpvGenOptions_MS=( --term-playing-msg='Title: ${media-title}' )

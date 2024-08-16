@@ -5,16 +5,14 @@
 _TitlesListCompare() {
 
     cd "$titles_dir" || return
+    
+    titlesFile="${titlesFile##*/}"
 
-    local titles
-    titles="$titles_dir/$list.titles"
-    titles="${titles##*/}"
+    if [[ -s $titlesFile ]]; then
 
-    if [[ -s $titles ]]; then
-
-        [[ $(grep "" -c "$titles") -ne $(_GetLinesList -l) ]] && {
+        [[ $(grep "" -c "$titlesFile") -ne $(_GetLinesList -l) ]] && {
             __
-            printf '%s\n' " ${critical}${titles} is out of date...${nc}" \
+            printf '%s\n' " ${critical}${titlesFile} is out of date...${nc}" \
             " ${task}${b}Updating $(_GetLinesList -l) titles...please wait.${nb}${nc}"
             _GetMediaTitle -l
             clear
@@ -22,17 +20,18 @@ _TitlesListCompare() {
 
         case "$1" in
             -g)
+                __
                 echo -e " ${info}Titles for $list.${nc}\n"
-                # sed -n '1,25p' "$titles" | nl
-                awk 'NR>=1&&NR<=25' "$titles" | nl
+                # sed -n '1,25p' "$titlesFile" | nl
+                awk 'NR>=1&&NR<=25' "$titlesFile" | nl
                 __
                 read -rsn 1 -p " ${info}[N]ext page, [B]ack to menu.${nc}" nextpage
                 case "$nextpage" in
                     b|B) _Menu ;;
                     n|N)
                         clear; __
-                        # sed -n '26,$p' "$titles" | nl
-                        awk 'NR>=26&&NR' "$titles" | nl
+                        # sed -n '26,$p' "$titlesFile" | nl
+                        awk 'NR>=26&&NR' "$titlesFile" | nl
                         __
                     ;;
                     *)
@@ -44,21 +43,21 @@ _TitlesListCompare() {
             -l)
                 __
                 echo -e " ${info}Titles for $list${nc}\n"
-                nl "$titles"
+                nl "$titlesFile"
                 __
             ;;
         esac
         
     else
-        printf '%s\n' " ${critical}${titles} does not exist...${nc}" \
+        printf '%s\n' " ${critical}${titlesFile} does not exist...${nc}" \
         " ${task}${b}Getting $(_GetLinesList -l) titles...please wait.${nb}${nc}"
         sleep 2
-        touch "$titles_dir/$list.titles"
+        touch "$titlesFile"
         _GetMediaTitle -l
         clear
         __
         echo -e " ${info}Titles for $list.${nc}\n"
-        nl "$titles"
+        nl "$titlesFile"
         __
     fi
 

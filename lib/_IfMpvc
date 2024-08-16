@@ -4,8 +4,8 @@
 # shellcheck disable=SC2154
 _IfMpvc() {
     if [[ $mpv_is_running = yes ]]; then
-        kill -15 "$(pidof -x "$mpvc_tui")"
-        mpv_is_running=no
+        kill -SIGTERM "$(pidof -x "$mpvc_tui")"
+        _RmMpvTmp
         clear; __; __
         echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
         echo -e "                  │              ${info}mpv isn't running anymore, press ${task}R ${info}to refresh the screen${nc}               │"
@@ -15,7 +15,7 @@ _IfMpvc() {
         echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
         echo -e "                  │            ${info}mpv is running, press ${task}Q ${info}to quit mpv, ${task}T${info} to view current title${nc}             │"
         echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
-    elif [[ $use_mpvc = yes && $use_mpvc_online = yes ]] || [[ $use_mpvc = yes && $use_mpvc_locally = yes ]]; then
+    elif [[ $use_mpvc = yes && -n $mpvc_tui && $use_mpvc_online = yes ]] || [[ $use_mpvc = yes && -n $mpvc_tui && $use_mpvc_locally = yes ]]; then
         # access to mpvc_tui & playing online
         echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
         echo -e "                  │           ${info}mpv is running, press ${task}N ${info}to launch the mpv tui or ${task}Q ${info}to quit mpv${nc}            │"
@@ -25,7 +25,7 @@ _IfMpvc() {
         echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
         echo -e "                  │            ${info}mpv is running, press ${task}Q ${info}to quit mpv, ${task}T${info} to view current title${nc}             │"
         echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
-    elif [[ $use_mpvc = yes && -f $NOWPLAYING ]]; then
+    elif [[ $use_mpvc = yes && -n $mpvc_tui && -f $NOWPLAYING ]]; then
         # showing these outputs when closing and re-opening the program while mpv is running
         echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
         echo -e "                  │           ${info}mpv is running, press ${task}N ${info}to launch the mpv tui or ${task}Q ${info}to quit mpv${nc}            │"

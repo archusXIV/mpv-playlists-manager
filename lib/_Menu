@@ -50,7 +50,7 @@ _Menu() {
                 __  ;;
             4)  _LoadPlaylist
                 __  ;;
-            5)  _MpvOwnsTmpList --local || _LoadLocal
+            5)  _MpvOwnsTmpList --local || _LoadLocalMenu
                 __  ;;
             6)  _ViewAudioVideoUrlsInfo -q
                 __  ;;
@@ -61,7 +61,7 @@ _Menu() {
             9)  _EditMpmConf
                 __  ;;
             n|N)
-                if [[ $use_mpvc = yes ]] && [[ -n $mpvc_tui ]]; then
+                if [[ $use_mpvc = yes && -n $mpvc_tui ]]; then
                     "$mpvc_tui"
                 else
                     printf '%s\n' " ${critical}No mpv interface setup in your config..." \
@@ -72,16 +72,10 @@ _Menu() {
             q|Q)
                 pgrep -x mpv >/dev/null && {
                     kill -SIGTERM "$(pidof mpv)"
-                    mpv_is_running="no"
-                    rm {"$(readlink -f "$NOWPLAYING")","$CHOOSE1","$NOWPLAYING"} 2>/dev/null
-                    unset m3uFile
+                    _RmMpvTmp
                 }
             ;;
-            r|R)
-                mpv_is_running=no
-                rm {"$(readlink -f "$NOWPLAYING")","$CHOOSE1","$NOWPLAYING"} 2>/dev/null
-                unset m3uFile
-            ;;
+            r|R) _RmMpvTmp ;;
             t|T) _MpvDisplayTitle
                 __ ;;
             u|U)

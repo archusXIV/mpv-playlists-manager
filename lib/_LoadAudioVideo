@@ -8,15 +8,18 @@ _LoadAudioVideo() {
 
     pidof mpv >/dev/null && {
         kill -SIGTERM "$(pidof mpv)"
-        rm {"$(readlink -f "$NOWPLAYING")","$NOWPLAYING"} 2>/dev/null
+        _RmMpvTmp
         sleep 0.5
     }
 
     case "$1" in
-        -a)
-            if [[ -s $AUDIO_URLS ]]; then
+        -a|-v)
+            if [[ $arg = -a && -s $AUDIO_URLS ]]; then
                 m3uFile="$AUDIO_URLS"
                 _MpvcTest -a
+            elif [[ $arg = -v && -s $VIDEO_URLS ]]; then
+                m3uFile="$VIDEO_URLS"
+                _MpvcTest -v
             else
                 echo " ${critical}No links in the $Type list${nc}"
                 sleep 2 && return
@@ -46,16 +49,8 @@ _LoadAudioVideo() {
             m3uFile="$QUEUE"
             _MpvcTest -v
         ;;
-        -v)
-            if [[ -s $VIDEO_URLS ]]; then
-                m3uFile="$VIDEO_URLS"
-                _MpvcTest -v
-            else
-                echo " ${critical}No links in the $Type list${nc}"
-                sleep 2 && return
-            fi
-        ;;
     esac
     
     _Menu
+    
 }

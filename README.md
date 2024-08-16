@@ -32,12 +32,12 @@ mpm -v # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog:
+- Added an option to queue more files in _LoadLocalMenu function.
+- Added _LoadLocalMenu function.
 - When mpv stops you can press 'r' to refresh the main menu,
-    - the mpv tui program (if launched) exits and the main menu refresh itself.
+    - the mpv tui program (if launched) exits and the main menu refresh itself,
     - so turn mpvGenOptions_ID=( --idle ) to mpvGenOptions_ID=( --idle=no ) in mpmrc.
 - Fixed rm messages in _ClearAllTmpLists function when trying to remove none existing files in tmp_dir.
-- Fixed bug when trying to quit mpm if quit_after_task="no"
-- Improved _CheckParallelDownloads function.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -96,7 +96,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When we use a terminal user interface (tui) for mpv, the main window looks like this.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.9-8.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v1.9-9.png)
 
 
 ```

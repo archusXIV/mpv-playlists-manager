@@ -37,7 +37,7 @@ pids=($(pidof -x $mpvmenu))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.1.9-8"
+VERSION="v.1.9-9"
 
 CONF_DIR="$HOME/.config/mpm"
 
@@ -86,6 +86,7 @@ FFOP="$tmp_dir/ffmpeg_output"
 HELP="/usr/local/share/doc/mpm/help"
 JOBSLIST="$tmp_dir/parallel_list"
 NOWPLAYING="$tmp_dir/nowPlaying"
+FZFENQUEUE="$tmp_dir/fzfEnqueue.m3u"
 QUEUE="$playlists_dir/default.m3u"
 SELECTEDTITLES="$tmp_dir/selected.titles"
 VIDEO_URLS="$tmp_dir/temporaryVideoUrls.m3u"

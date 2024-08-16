@@ -90,7 +90,7 @@ _CreateAddPlaylist() {
             8)  _Menu
                 __ ;;
             *)
-                _WrongOption "$createAddPlaylistOptions" && continue
+                _WrongOption "$createAddPlaylistOptions"
             ;;
         esac
         

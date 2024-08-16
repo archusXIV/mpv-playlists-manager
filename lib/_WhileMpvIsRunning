@@ -1,10 +1,9 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2001,SC2034
+# shellcheck disable=SC2034
 _WhileMpvIsRunning() {
-    mpv_is_running=yes
-
+    mpv_is_running="yes"
     while [[ -n $(pidof mpv) ]]; do
         sleep 1
     done
