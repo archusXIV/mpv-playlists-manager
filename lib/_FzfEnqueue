@@ -45,11 +45,15 @@ _FzfEnqueue() {
                 sed -i "s/^/${localDirPath}\//" fzfEnqueue.m3u
 
                 if [[ -f "$FZFENQUEUE" ]]; then
+
                     cat "$FZFENQUEUE" fzfEnqueue.m3u > ./tmpfile
                     mv -f ./tmpfile "$FZFENQUEUE"
+                    ln -sfr "$FZFENQUEUE" "$NOWPLAYING"
+
                     mpv --no-terminal "${mpvGenOptions_SK[@]}" \
                     "${mpvGenOptions_ID[@]}" "$FZFENQUEUE" &
                     rm fzfEnqueue.m3u
+                    
                 else
                     ln -sfr ./fzfEnqueue.m3u "$NOWPLAYING"
                     mpv --no-terminal "${mpvGenOptions_SK[@]}" \

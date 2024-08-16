@@ -24,16 +24,7 @@
 ##    or find a better cache parameter.
 
 # shellcheck source=/dev/null
-# shellcheck disable=SC2034,SC2044,SC2086,SC2207,SC2154,SC2120,SC2119
-# avoids running multiple instances
-mpvmenu=$(basename $0)
-pids=($(pidof -x $mpvmenu))
-
-[[ ${#pids[@]} -gt 1 ]] && {
-    printf '%s\n' 'mpm is already running...'
-    notify-send -t 0 -u critical "mpm is already running..."
-    exit 1
-}
+# shellcheck disable=SC2034,SC2044,SC2086,SC2154,SC2120,SC2119
 
 trap _CleanTmpDir SIGTERM EXIT
 

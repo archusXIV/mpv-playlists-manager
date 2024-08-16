@@ -4,7 +4,7 @@
 # shellcheck disable=SC2034
 _WhileMpvIsRunning() {
     mpv_is_running="yes"
-    while [[ -n $(pidof mpv) ]]; do
+    while [[ -n $(pidof mpv) && -e $NOWPLAYING ]]; do
         sleep 1
     done
     _IfMpvc
