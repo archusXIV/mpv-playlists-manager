@@ -6,10 +6,9 @@ _SelectLocalDir() {
     
     cd "$localDir" || exit 1
     
-    printf '%s\n' " ${info}Directories in ${localDir##*/}: ${nc}"
+    echo -e " ${info}Directories in ${localDir##*/}: ${nc}\n"
     
     for d in $(find ./ -maxdepth 1 -type d -empty); do
-        __
         echo " ${critical}Empty: ${info}${d##*/}${nc}"
     done
     __
@@ -26,7 +25,7 @@ _SelectLocalDir() {
                     mpv --no-terminal "${mpvGenOptions_SK[@]}" \
                     "${mpvGenOptions_ID[@]}" "$FZFENQUEUE" &
                     ln -sfr "$FZFENQUEUE" "$NOWPLAYING"
-                    _WhileMpvIsRunning &    
+                    _WhileMpvIsRunning &
                     _Menu
                 else
                     return

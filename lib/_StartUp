@@ -4,6 +4,7 @@
 # shellcheck disable=SC2154,SC2207
 _StartUp() {
 
+    local MPM pids
     # avoids running multiple instances
     MPM=$(basename "$0")
     pids=($(pidof -x "$MPM"))
@@ -14,7 +15,6 @@ _StartUp() {
         exit 1
     }
     
-    # needed to warn the user when the default list isn' t empty.
     [[ -s $DEFAULTM3UTITLES && -s $QUEUE ]] && {
         touch "$tmp_dir"/1
         cp -f "$DEFAULTM3UTITLES" "$DEFAULTITLES"

@@ -33,14 +33,15 @@ _ClearAllTmpLists() {
                             unset {tmps[7],tmps[11]}
                             sed -i '/^[[:alpha:]]/d' "$QUEUE"
                         }
+                    else
+                        sed -i '/^[[:alpha:]]/d' "$QUEUE"
                     fi
                 done
                 
                 rm "${tmps[@]}" 2>/dev/null
                 __
-                printf '%s\n' " ${critical}All Temporary lists cleared," \
-                " except $(awk -F"/" '{print $NF}' "$NOWPLAYING").${nc}"
-                sleep 4
+                printf '%s\n' " ${critical}All Temporary lists cleared.${nc}"
+                sleep 2
 
             else
                 sed -i '/^[[:alpha:]]/d' "$QUEUE"

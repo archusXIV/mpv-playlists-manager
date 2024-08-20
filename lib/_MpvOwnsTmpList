@@ -21,6 +21,9 @@ _MpvOwnsTmpList() {
                     if [[ $(sed -n '1p' "$NOWPLAYING") =~ $Type ]]; then
                         name="$Type"
                         action=" if you want to download/remove/save the $name list,"
+                    elif [[ $(sed -n '1p' "$NOWPLAYING") =~ $HOME ]]; then
+                        name="a collection"
+                        action=" if you want to play $name list,"
                     else
                         return
                     fi
@@ -52,9 +55,7 @@ _MpvOwnsTmpList() {
                     clear
                     __
                 ;;
-                a|A)
-                    _Menu
-                ;;
+                a|A) _Menu ;;
                 *)
                     _WrongOption "$mpvOwnsTmpListOptions" && _Menu
                 ;;

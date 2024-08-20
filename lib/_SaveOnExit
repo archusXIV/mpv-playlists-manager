@@ -36,6 +36,9 @@ _SaveOnExit() {
             sleep 0.05
         done
 
+        rm "$playlists_dir"/temporary{Audio,Video}Urls.m3u 2>/dev/null
+        rm "$titles_dir"/temporary{Audio,Video}Titles 2>/dev/null
+
         printf '%s\n' " ${critical}TOO BAD...BYE${nc}"
         exit
     }
@@ -57,9 +60,17 @@ _SaveOnExit() {
 
     read -rsn 1 saveOnExitOptions
     case "$saveOnExitOptions" in
-        a|A) _Save -a ;;
+        a|A)
+            rm "$playlists_dir"/temporaryAudioUrls.m3u 2>/dev/null
+            rm "$titles_dir"/temporaryAudioTitles 2>/dev/null
+            _Save -a
+        ;;
         b|B) _Menu ;;
-        v|V) _Save -v ;;
+        v|V)
+            rm "$playlists_dir"/temporaryVideoUrls.m3u 2>/dev/null
+            rm "$titles_dir"/temporaryVideoTitles 2>/dev/null
+            _Save -v
+        ;;
         *) _WrongOption "$saveOnExitOptions" && _Menu ;;
     esac
 

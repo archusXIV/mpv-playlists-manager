@@ -13,3 +13,4 @@ mpm ytfzf thumb viewer issue
 mpm ytfzf update
 mpm update v1.9-5
 mpm add more files & auto refresh
+mpm queue directories in mpv

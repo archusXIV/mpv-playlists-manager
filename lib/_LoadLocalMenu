@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2034
 _LoadLocalMenu() {
 
-    local AUDIOS VIDEOS localDir file
+    local AUDIOS VIDEOS localDir file diranswer
     # we use -maxdepth 2 in case our directories are in subdirectories.
     # like ~/Documents/Music instead of ~/Music
     AUDIOS=$(find "$HOME" -maxdepth 2 -type d -wholename "$MUSIC_DIR")
@@ -25,11 +25,12 @@ _LoadLocalMenu() {
         clear
         __
         echo -e "                                                 ${mtitle}::LOAD LOCAL OPTIONS::${nc}"
+        echo -e "                                           $(_LittleStars)"
         echo -e "                                  ┌───────────────────────────────────────────────────┐"
-        echo -e "                                  │    1) Audio directory     2) Audio files          │"
-        echo -e "                                  │    3) Video directory     4) Video files          │"
-        echo -e "                                  │    5) Explore Music dir   6) Explore Videos dir   │"
-        echo -e "                                  │    7) Cancel                                      │"
+        echo -e "                                  │   1) Single Audio dir     2) Audio files          │"
+        echo -e "                                  │   3) Single Video dir     4) Video files          │"
+        echo -e "                                  │   5) Explore Music dir    6) Explore Videos dir   │"
+        echo -e "                                  │   7) Load multiple dirs   8) Back to main menu    │"
         echo -e "                                  └───────────────────────────────────────────────────┘"
         echo -e "                                                    ${info}${b}Select an item${nb}${nc}"
         __
@@ -56,17 +57,12 @@ _LoadLocalMenu() {
                 [[ $REPLY = 6 ]] && localDir="$VIDEOS"
                 __isFileManagerInstalled
             ;;
-            7) 
-                if [[ -f "$FZFENQUEUE" ]]; then
-                    use_mpvc_locally="yes"
-                    mpv --no-terminal "${mpvGenOptions_SK[@]}" \
-                    "${mpvGenOptions_ID[@]}" "$FZFENQUEUE" &
-                    ln -sfr "$FZFENQUEUE" "$NOWPLAYING"
-                    _WhileMpvIsRunning &
-                else
-                    _Menu
-                fi
+            7)
+                read -rsn 1 -p " ${info}Queue multiple [A]udio or [V]ideo directories: ${nc}" \
+                diranswer
+                _QueueMultipleDirs
             ;;
+            8)  _Menu ;;
             *)
                 _WrongOption "$REPLY"
                 return

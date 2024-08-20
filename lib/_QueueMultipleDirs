@@ -1,0 +1,80 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2034,SC2044,SC2001
+_QueueMultipleDirs() {
+
+    if [[ $diranswer =~ a|A ]]; then
+        DIR="$AUDIOS"
+    elif [[ $diranswer =~ v|V ]]; then
+        DIR="$VIDEOS"
+    else
+        _WrongOption "$diranswer" && return
+    fi
+
+    clear
+
+    cd "$DIR" || exit 1
+
+    local mpv_list="$DIR"/dirlist.m3u
+    rm "$mpv_list" 2>/dev/null
+
+    for d in $(find ./ -maxdepth 1 -type d -empty); do
+        echo "${d##*/}" >> "$tmp_dir"/empty.tmp
+    done
+
+    if [[ -f $tmp_dir/empty.tmp ]]; then
+        command ls > "$tmp_dir"/dirlist.tmp
+        grep -v -F "$(grep '^[[:print:]]' "$tmp_dir"/empty.tmp)" \
+        "$tmp_dir"/dirlist.tmp >> "$tmp_dir"/dirlist
+        rm "$tmp_dir"/{dirlist,empty}.tmp
+    else
+        command ls > "$tmp_dir"/dirlist
+    fi
+    __
+    printf '%s\n' " ${info}Directories in ${DIR##*/}: ${nc}"
+    __; nl "$tmp_dir"/dirlist; __
+
+    dirPrompt=$(
+    printf '%s\n' " ${info}Enter numbers separeted by commas or a dash for a range," \
+    " for example: ${task}1-4,6 8-11 or 1-4,6-8,10 or 2,3,5,6,1 ${info}[${mtitle}C${info}]ancel: ${nc}"
+    )
+
+    IFS=", "; read -ra selected_dirs -p "$dirPrompt"
+    for range in "${selected_dirs[@]}"; do
+        IFS="-"; read -r start end <<< "$range"
+
+        [[ $range =~ [[:alpha:]] ]] && {
+            unset IFS
+            rm "$tmp_dir"/dirlist
+            __
+            printf '%s\n' " ${critical}Selection aborted.${nc}"
+            sleep 2
+            return
+        }
+
+        [[ -z $start ]] && continue
+        [[ -z $end ]] && end="$start"
+
+        for ((i=start;i<=end;i++)); do
+            sed -n "${i}p" "$tmp_dir"/dirlist >> "$mpv_list"
+        done
+
+    done
+
+    dirPath=$(pwd | sed 's,/,\\/,g')
+
+    unset IFS
+    rm "$tmp_dir"/dirlist
+
+    sed -i "s/^/${dirPath}\//;s,$,/," "$mpv_list"
+    
+    use_mpvc_locally=yes
+    mpv --no-terminal "${mpvGenOptions_SK[@]}" \
+    "${mpvGenOptions_ID[@]}" "$mpv_list" &
+
+    ln -sfr "$mpv_list" "$NOWPLAYING"
+    _WhileMpvIsRunning &
+    _Menu
+
+}

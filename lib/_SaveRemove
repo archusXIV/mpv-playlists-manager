@@ -6,17 +6,17 @@ _SaveRemove() {
 
     cd "$playlists_dir" || exit 1
 
-    saveRemovePrompts=( "[B]ack to menu," "Save [D]efault," "Save [A]udio," \
+    saveRemovePrompts=( "[C]ancel," "Save [D]efault," "Save [A]udio," \
                         "Save [V]ideo," "[R]emove a playlist." )
 
     if [[ -f $AUDIO_URLS ]] && [[ -f $VIDEO_URLS ]]; then
 
         if (( $(_GetLinesList -q) < 1 )); then
             unset 'saveRemovePrompts[1]'
-            echo "${info}" "${saveRemovePrompts[*]}" "${nc}"
+            echo " ${info}${saveRemovePrompts[*]}${nc}"
             __
         else
-            echo "${info}" "${saveRemovePrompts[@]}" "${nc}"
+            echo " ${info}${saveRemovePrompts[*]}${nc}"
             __
         fi
     
@@ -24,10 +24,10 @@ _SaveRemove() {
 
         if (( $(_GetLinesList -q) < 1 )); then
             unset {saveRemovePrompts[1],saveRemovePrompts[3]}
-            echo "${info}" "${saveRemovePrompts[*]}" "${nc}"
+            echo " ${info}${saveRemovePrompts[*]}${nc}"
         else
             unset 'saveRemovePrompts[3]'
-            echo "${info}" "${saveRemovePrompts[*]}" "${nc}"
+            echo " ${info}${saveRemovePrompts[*]}${nc}"
             __
         fi
     
@@ -35,28 +35,28 @@ _SaveRemove() {
 
         if (( $(_GetLinesList -q) < 1 )); then
             unset {saveRemovePrompts[1],saveRemovePrompts[2]}
-            echo "${info}" "${saveRemovePrompts[*]}" "${nc}"
+            echo " ${info}${saveRemovePrompts[*]}${nc}"
         else
             unset 'saveRemovePrompts[2]'
-            echo "${info}" "${saveRemovePrompts[*]}" "${nc}"
+            echo " ${info}${saveRemovePrompts[*]}${nc}"
             __
         fi
     
     elif (( $(_GetLinesList -q) < 1 )); then
         echo -e " ${critical}Nothing to save, maybe remove something?${nc}\n"
         unset {saveRemovePrompts[1],saveRemovePrompts[2],saveRemovePrompts[3]}
-        echo "${info}" "${saveRemovePrompts[*]}" "${nc}"
+        echo " ${info}${saveRemovePrompts[*]}${nc}"
         __
     else
         unset {saveRemovePrompts[2],saveRemovePrompts[3]}
-        echo "${info}" "${saveRemovePrompts[@]}" "${nc}"
+        echo " ${info}${saveRemovePrompts[*]}${nc}"
         __
     fi
 
     read -rsn 1 saveRemoveOptions
     case "$saveRemoveOptions" in
         a|A) _Save -a ;;
-        b|B) _Menu ;;
+        c|C) _Menu ;;
         d|D)
             rm -f "$tmp_dir"/1 2>/dev/null
             _Save -q

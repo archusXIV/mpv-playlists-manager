@@ -16,6 +16,7 @@ _LoadPlaylistMenu() {
         echo " ${info}$list: $(grep -c '^https' "$list") url(s).${nc}"
         __
         echo -e "                                                ${mtitle}::DOWNLOAD/PLAY OPTIONS::${nc}"
+        echo -e "                                           $(_LittleStars)"
         echo -e "                                  ┌───────────────────────────────────────────────────┐"
         echo -e "                                  │     1) Choose playlist titles & download ${info}audio${nc}    │"
         echo -e "                                  │     2) Choose playlist titles & download ${info}video${nc}    │"
@@ -32,8 +33,9 @@ _LoadPlaylistMenu() {
             2) _CheckParallelDownloads; _ChooseDownloadVideo ;;
             3) _CheckParallelDownloads; _GetAudio -l ;;
             4) _CheckParallelDownloads; _DownloadVideoList ;;
-            5) _ChooseFromPlay ;;
+            5) _MpvOwnsTmpList --local || _ChooseFromPlay ;;
             6) _Menu ;;
+            r|R) continue ;;
             *)
                 _WrongOption "$loadPlaylistMenuOptions"
                 continue

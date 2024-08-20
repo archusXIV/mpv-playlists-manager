@@ -18,7 +18,7 @@ _MpvDisplayTitle() {
         echo '{ "command": ["get_property", "media-title"] }' \
         | socat - "${socketPath}" \
         | awk -F'"' -v green="${info}" -v yellow="${mtitle}" '
-            { sub(/\..+$/,""); print green" Now playing: " yellow$4 }
+            { print green" Now playing: " yellow$4 }
         '
         
         sleep 5

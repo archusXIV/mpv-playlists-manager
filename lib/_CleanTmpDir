@@ -6,14 +6,15 @@
 _CleanTmpDir() {
     
     test -s "$DEFAULTITLES" && \
-    cp -f "$DEFAULTITLES" "$DEFAULTM3UTITLES"
+    mv -f "$DEFAULTITLES" "$DEFAULTM3UTITLES"
 
     if pgrep -x mpv >/dev/null; then
         find "$tmp_dir" -type f \
         -not -name "$(awk -F"/" '{print $NF}' "$NOWPLAYING")" \
+        -not -name "fzfEnqueue.m3u" \
         -not -name 'nowPlaying' -exec rm {} \;
     else
-        rm "$(readlink -f "$tmp_dir"/"fzfEnqueue")"
+        rm "$(readlink -f "$tmp_dir"/"fzfEnqueue.m3u")"
         rm -f "$tmp_dir"/*
     fi
 

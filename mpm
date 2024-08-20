@@ -28,7 +28,7 @@
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.1.9-9"
+VERSION="v.2.0-0"
 
 CONF_DIR="$HOME/.config/mpm"
 

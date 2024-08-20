@@ -1,4 +1,4 @@
-mpm version 1.9-9
+mpm version 2.0-0
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -35,7 +35,7 @@ mpm version 1.9-9
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.1.9-9::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.0-0::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -128,8 +128,8 @@ mpm version 1.9-9
         Since version 1.7-9, if use_fzf is set to yes then we can enqueue files through an fzf board,
         by typing tab on each file name (multi selection) and then Enter to confirm.
         
-        Since version 1.9-9 we can queue up more files to the mpv playlist or decline and play
-        what we previously queued (same if we cancel).
+        Since version 1.9-9 we can queue up more files or multiple directories at a time, 
+        to the mpv playlist or decline and play what we previously queued (same if we cancel).
 
     6) View default playlist:
 
