@@ -1,17 +1,17 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2034
+# shellcheck disable=SC2154,SC2034,SC2001
 _Menu() {
 
     cd "$main_dir" || exit 1
-
+    
     while [[ -e $QUEUE ]]; do
         _ResizeWindow
         clear
         __
         echo -e "                                            ${mtitle}::MPV-PLAYLISTS-MANAGER $VERSION::" "$(_CheckUpdate)"
-        echo -e "                                           $(_LittleStars)"
+        echo -e "                                           $(_LittleStars)${nc}"
         echo -e "                                                 ${info}current theme: $THEME.${nc}"
         _ListsCount
         echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
@@ -42,31 +42,27 @@ _Menu() {
         __
         read -rsn 1 mainMenuOptions
         case "$mainMenuOptions" in
-            1)  _CreateAddPlaylist -v
-                __  ;;
-            2)  _CreateAddPlaylist -a
-                __  ;;
-            3)  _SaveRemove
-                __  ;;
-            4)  _LoadPlaylist
-                __  ;;
-            5)  _MpvOwnsTmpList --local || _LoadLocalMenu
-                __  ;;
-            6)  _ViewAudioVideoUrlsInfo -q
-                __  ;;
-            7)  _ClearAllTmpLists
-                __  ;;
-            8)  _EditPlaylist
-                __  ;;
-            9)  _EditMpmConf
-                __  ;;
+            1)  _CreateAddPlaylist -v ;;
+            2)  _CreateAddPlaylist -a ;;
+            3)  _SaveRemove ;;
+            4)  _LoadPlaylist ;;
+            5)  _MpvOwnsTmpList --local || _LoadLocalMenu ;;
+            6)  _MpvOwnsTmpList --default || _ViewAudioVideoUrlsInfo -q ;;
+            7)  _ClearAllTmpLists ;;
+            8)  _EditPlaylist ;;
+            9)  _EditMpmConf ;;
+            h) echo playlist_prev | socat - "${SOCKETPATH}" ;;
+            j) echo stop | socat - "${SOCKETPATH}" ;;
+            k) echo cycle pause | socat - "${SOCKETPATH}" ;;
+            l) echo playlist_next | socat - "${SOCKETPATH}" ;;
             n|N)
                 if [[ $use_mpvc = yes && -n $mpvc_tui ]]; then
                     "$mpvc_tui"
                 else
-                    printf '%s\n' " ${critical}No mpv interface setup in your config..." \
+                    printf '%s\n' \
+                    " ${critical}mpvc_tui isn't running or no mpv interface setup in your config..." \
                     " use_mpvc must be set to 'yes' or mpvc_tui is empty${nc}"
-                    sleep 7
+                    sleep 8
                 fi
             ;;
             q|Q)
@@ -76,8 +72,7 @@ _Menu() {
                 }
             ;;
             r|R) _RmMpvTmp ;;
-            t|T) _MpvDisplayTitle
-                __ ;;
+            t|T) _MpvDisplayTitle ;;
             u|U)
                 lessColor=$'\e[0m';
                 # back to default terminal text color
@@ -86,12 +81,8 @@ _Menu() {
                 # apply again custom color
                 echo "${nc}"
             ;;
-            x|X)
-                _IfQuitAfterTask -x
-            ;;
-            *)
-                _WrongOption "$mainMenuOptions"
-            ;;
+            x|X) _IfQuitAfterTask -x ;;
+            *)   _WrongOption "$mainMenuOptions" ;;
         esac
     done
 }

@@ -8,6 +8,17 @@ _ViewDefaultUrlsInfo() {
     file="${QUEUE##*/}" file="${file%%.*}"
     Type=default
 
+    __getAudioVideo() {
+        __
+        read -rsn 1 \
+        -p "${info} Download [A]udio, [V]ideo, [${mtitle}C${info}]ancel: ${nc}" get
+        case "$get" in
+            a|A) __; _GetAudio -q ;;
+            v|V) __; _GetVideo -q ;;
+            *) _ViewAudioVideoUrlsInfo -q ;;
+        esac
+    }
+
     if (($(_GetLinesList -q) > 0)); then
         rm "$tmp_dir"/1 2>/dev/null
         
@@ -27,14 +38,11 @@ _ViewDefaultUrlsInfo() {
             read -rsn 1 viewUrlInfoDefaultOptions
             case "$viewUrlInfoDefaultOptions" in
                 d|D)
-                    _MpvOwnsTmpList --default || \
-                    __
-                    read -rsn 1 -p "${info} Download [A]udio, [V]ideo, [${mtitle}C${info}]ancel: ${nc}" get
-                    case "$get" in
-                        a|A) __; _GetAudio -q ;;
-                        v|V) __; _GetVideo -q ;;
-                        *) _ViewAudioVideoUrlsInfo -q ;;
-                    esac
+                    if [[ $downloadTmpList = default ]]; then
+                        __getAudioVideo
+                    else
+                        _MpvOwnsTmpList --default || __getAudioVideo
+                    fi
                 ;;
                 m|M) _Menu ;;
                 p|P)

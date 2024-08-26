@@ -5,7 +5,8 @@
 _WhileMpvIsRunning() {
     mpv_is_running="yes"
     while [[ -n $(pidof mpv) && -e $NOWPLAYING ]]; do
-        sleep 1
+        sleep 1.5
     done
+    localPlaylist=no
     _IfMpvc
 }

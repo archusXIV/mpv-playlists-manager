@@ -10,22 +10,33 @@ _GetCompleted() {
         _IfPartsExist -t
     else
         __
-        _Prompt -n " ${info}Downloads completed, KEEP playlist?:${nc}" && {
-            __
-            echo " ${critical}It was a temporary list, don't forget to save it.${nc}"
-            sleep 3
+        if [[ $downloadTmpList =~ default|list ]]; then
+            printf '%s\n' " ${info}Temporary list preserved...${nc}"
+            sleep 2
             _RenameTmpFiles
             [[ $(awk -F= '/use_parallel_downloads/{gsub(/"/,""); print $2}' "$MPMRC") = yes ]] \
                 && use_parallel_downloads="yes"
+            downloadTmpList=downloaded
             _Menu
-        }
-        
-        if [[ -f "$QUEUE"_origin ]]; then
-            _Remove -q
-        elif [[ -f "$AUDIO_URLS"_origin ]]; then
-            _Remove -a
         else
-            _Remove -v
+            _Prompt -n " ${info}Downloads completed, KEEP playlist?:${nc}" && {
+                __
+                echo " ${critical}It was a temporary list, don't forget to save it.${nc}"
+                sleep 3
+                _RenameTmpFiles
+                [[ $(awk -F= '/use_parallel_downloads/{gsub(/"/,""); print $2}' "$MPMRC") = yes ]] \
+                    && use_parallel_downloads="yes"
+                downloadTmpList=downloaded
+                _Menu
+            }
+        
+            if [[ -f "$QUEUE"_origin ]]; then
+                _Remove -q
+            elif [[ -f "$AUDIO_URLS"_origin ]]; then
+                _Remove -a
+            else
+                _Remove -v
+            fi
         fi
     fi
 

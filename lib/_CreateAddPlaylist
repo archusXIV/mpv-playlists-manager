@@ -29,7 +29,7 @@ _CreateAddPlaylist() {
     __clipboardCmdTest() {
         [[ -n $(command -v "${clipboardCmd[0]}") && -n "${clipboardCmd[*]}" ]]
     }
-
+    
     while true; do
         _ResizeWindow
         clear
@@ -41,7 +41,7 @@ _CreateAddPlaylist() {
         __clipboardCmdTest && printf '%s\n' "                                  ${info}${clipboardCmd[0]} is installed, first copy a link then press 1)${nc}"
         __
         echo -e "                                                  ${mtitle}::${menuTitleType} OPTIONS::${nc}"
-        echo -e "                                          $(_LittleStars)"
+        echo -e "                                          $(_LittleStars)${nc}"
         echo -e "                               ┌──────────────────────────────────────────────────────┐"
         echo -e "                               │   1) Add ${Type} links         5) Play current list    │"
         echo -e "                               │   2) Search online links     6) View current list    │"

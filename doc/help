@@ -1,6 +1,17 @@
-mpm version 2.0-0
+mpm version 2.0-1
 
     MPV-PLAYLISTS-MANAGER usage:
+
+    UPGRADE PROCEDURE:
+        - git clone https://github.com/archusXIV/mpv-playlists-manager.git
+        - cd mpv-playlists-manager
+        - sudo ./install.sh
+        or if you kept the mpv-playlists-manager folder from the previous installation:
+        - cd mpv-playlists-manager
+        - git fetch
+        - git reset --hard HEAD
+        - git merge '@{u}'
+        - sudo ./install.sh
 
     !!! YOU CAN CHANGE MPM DIRECTORIES BY EDITING THE VARIABLES IN THE MPMRC FILE !!!
     By default "$HOME"/.local/share/
@@ -35,7 +46,7 @@ mpm version 2.0-0
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.0-0::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.0-1::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -170,10 +181,11 @@ mpm version 2.0-0
         │           mpv is running, press N to launch the mpv tui or Q to quit mpv            │
         └─────────────────────────────────────────────────────────────────────────────────────┘
 
-        If this appears instead, press 't' to display then current mpv title.
-        (socat must be installed)
+        If this appears instead, mpvc_tui is empty, press 'T' to display then current mpv title,
+        (socat must be installed) and vim keys hjkl to control mpv.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
         │            mpv is running, press Q to quit mpv, T to view current title             │
+        │           controls: H previous, J stop (same as Q), K play/pause, L next            │
         └─────────────────────────────────────────────────────────────────────────────────────┘
 
     II) temporary audio/video lists options:

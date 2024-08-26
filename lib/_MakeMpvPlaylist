@@ -10,6 +10,7 @@ _MakeMpvPlaylist() {
 
             cd "$localDir"/"$dir" || exit 1
             use_mpvc_locally="yes"
+            localPlaylist=yes
             
             find . -type f | sort | sed 's,.*/,,' \
             | mpv --no-terminal "${mpvGenOptions_X[@]}" --playlist=- &
@@ -40,7 +41,7 @@ _MakeMpvPlaylist() {
             "${mpvGenOptions_X[@]}" \
             "${mpvAudioFormatOptions[@]}" "$m3uFile" &
 
-            echo "$m3uFile" > "$NOWPLAYING"
+            echo "${m3uFile##*/}" > "$NOWPLAYING"
             _WhileMpvIsRunning &
             
         ;;
@@ -54,7 +55,7 @@ _MakeMpvPlaylist() {
             "${mpvVideoOptions_X[@]}" \
             "${mpvVideoFormatOptions[@]}" "$m3uFile" &
 
-            echo "$m3uFile" > "$NOWPLAYING"
+            echo "${m3uFile##*/}" > "$NOWPLAYING"
             _WhileMpvIsRunning &
 
         ;;

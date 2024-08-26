@@ -6,6 +6,8 @@ _TitlesListCompare() {
 
     cd "$titles_dir" || return
     
+    local titlesFile
+    titlesFile="$titles_dir/$list.titles" 
     titlesFile="${titlesFile##*/}"
 
     if [[ -s $titlesFile ]]; then
@@ -49,12 +51,9 @@ _TitlesListCompare() {
         esac
         
     else
-        printf '%s\n' " ${critical}${titlesFile} does not exist...${nc}" \
+        printf '%s\n' " ${critical}${titlesFile} does not exist or empty...${nc}" \
         " ${task}${b}Getting $(_GetLinesList -l) titles...please wait.${nb}${nc}"
-        sleep 2
-        touch "$titlesFile"
-        _GetMediaTitle -l
-        clear
+        sleep 2; touch "$titlesFile"; _GetMediaTitle -l; clear
         __
         echo -e " ${info}Titles for $list.${nc}\n"
         nl "$titlesFile"

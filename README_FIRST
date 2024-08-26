@@ -1,6 +1,6 @@
 Author: Barret E (2020-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.0-0
+mpm version 2.0-1
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -24,7 +24,8 @@ the directory structure is ok for you.
 
 Changelog:
 --------------- NO CHANGE IN THE CONFIG FILE (mpmrc) ---------------
+version 2.0-1 - Added an option to download tmp lists while mpv is playing them.
+version 2.0-1 - Fixed some bugs in _MpvOwnsPlaylist function.
+version 2.0-1 - Added a new box in main window to control mpv when $mpvc_tui is empty
+version 2.0-1 - Added a cancel option when saving tmp list as /playlist_dir/<playlist_name>.m3u
 version 2.0-0 - Added an option to queue more directories in _LoadLocalMenu function.
-version 1.9-9 - Added an option to queue more files in _LoadLocalMenu function.
-version 1.9-9 - Added _LoadLocalMenu function.
-version 1.9-9 - Change mpvGenOptions_ID=( --idle ) to ( --idle=no )

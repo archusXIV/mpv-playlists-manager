@@ -6,7 +6,7 @@ _SaveRemove() {
 
     cd "$playlists_dir" || exit 1
 
-    saveRemovePrompts=( "[C]ancel," "Save [D]efault," "Save [A]udio," \
+    saveRemovePrompts=( "[${mtitle}C${info}]ancel," "Save [D]efault," "Save [A]udio," \
                         "Save [V]ideo," "[R]emove a playlist." )
 
     if [[ -f $AUDIO_URLS ]] && [[ -f $VIDEO_URLS ]]; then

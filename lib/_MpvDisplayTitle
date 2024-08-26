@@ -4,19 +4,15 @@
 # shellcheck disable=SC2154,SC2001
 _MpvDisplayTitle() {
 
-    local socketPath
-
     if [[ -n $(pgrep -x mpv) && -z $(command -v socat) ]]; then
         printf '%s\n' \
-        " ${critical}Package socat must be installed to display mpv title.${nc}"
+        " ${critical}Package socat must be installed to display titles.${nc}"
         sleep 4
         return
-    elif [[ -n $(pgrep -x mpv) ]]; then
-        # the mpv socket directory may change in mpmrc definition, so we have to know it.
-        socketPath=$(echo "${mpvGenOptions_SK[*]}" | sed 's/--input-ipc-server=//')
+    elif pgrep -x mpv >/dev/null; then
 
         echo '{ "command": ["get_property", "media-title"] }' \
-        | socat - "${socketPath}" \
+        | socat - "${SOCKETPATH}" \
         | awk -F'"' -v green="${info}" -v yellow="${mtitle}" '
             { print green" Now playing: " yellow$4 }
         '

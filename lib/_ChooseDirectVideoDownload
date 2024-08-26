@@ -1,10 +1,10 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2076,SC2154,SC2164,SC2034
+# shellcheck disable=SC2076,SC2154,SC2164,SC2034,SC2015
 _ChooseDirectVideoDownload() {
 
-    local counter animationTitles mediaDir
+    local counter animationTitles
     clear
     cd "$playlists_dir" || exit 1
     _TitlesListCompare -l
@@ -13,9 +13,12 @@ _ChooseDirectVideoDownload() {
     clear
     cp -f "$list" "$list"_origin
     cp -f "$SELECTEDTITLES" "$SELECTEDTITLES"_orgin
-    mkdir --parents "$videos_dir"/"${list%.*}"
-    mediaDir="$videos_dir"/"${list%.*}"
-    cd "$mediaDir"
+    mkdir --parents "$mediaDir" && cd "$mediaDir"|| {
+        printf '%s\n' \
+        " ${critical}Failed to access ${mediaDir##*/} directory.${nc}"
+        sleep 4
+        _Menu
+    }
     
     M3UFILE="$CHOOSE1"
     counter=$(grep "" -c "$CHOOSE1")

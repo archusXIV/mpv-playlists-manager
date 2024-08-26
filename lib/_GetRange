@@ -6,10 +6,8 @@ _GetRange() {
     
     cd "$playlists_dir" || exit 1
     grep -v '#EXTM3U' "$list" > "$list"_tmp
-    rangePrompt=$(printf '%s\n' "Enter numbers separeted by commas or a dash for a range," \
-    " for example: ${task}1-4,6 8-11 or 1-4,6-8,10 or 2,3,5,6,1 or ${mtitle}C ${info}to cancel: ${nc}")
-    
-    IFS=", "; read -ra array -p " ${info}""$rangePrompt""${nc}"
+    __
+    IFS=", "; read -ra array -p "$RANGEPROMPT"
     for range in "${array[@]}"; do
         IFS="-"; read -r start end <<< "$range"
         [[ $range =~ [a-zA-Z] ]] && {
@@ -18,7 +16,7 @@ _GetRange() {
             __
             printf '%s\n' " ${critical}Selection aborted.${nc}"
             sleep 2
-            _Menu
+            return
         }
         [[ -z $start ]] && continue
         [[ -z $end ]] && end="$start"

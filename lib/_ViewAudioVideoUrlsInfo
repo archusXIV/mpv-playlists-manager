@@ -11,6 +11,10 @@ _ViewAudioVideoUrlsInfo() {
         "[P]lay," "[S]ave as," "[R]emove links/list: "
     )
 
+    mpvOwnsInfoPrompt=(
+        "[M]aim menu," "[D]ownload (this list will be preserved after download)"
+    )
+
     # let's play...
     stars=$(printf "%-56s" "*")
     
@@ -34,10 +38,18 @@ _ViewAudioVideoUrlsInfo() {
         fi
 
         if [[ $URLS = "$QUEUE" ]]; then
-            unset 'viewUrlInfoPrompt[1]'
-            echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
+            if [[ $downloadTmpList = default ]]; then
+                echo " ${info}${mpvOwnsInfoPrompt[*]}${nc}"
+            else
+                unset 'viewUrlInfoPrompt[1]'
+                echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
+            fi
         else
-            echo "${info}" "${viewUrlInfoPrompt[@]}" "${nc}"
+            if [[ $downloadTmpList = list ]]; then
+                echo " ${info}${mpvOwnsInfoPrompt[*]}${nc}"
+            else
+                echo "${info}" "${viewUrlInfoPrompt[@]}" "${nc}"
+            fi
         fi
         
     )
@@ -49,8 +61,13 @@ _ViewAudioVideoUrlsInfo() {
             case "$audioVideoCommonOptions" in
                 a|A) __; _CreateAddPlaylist "$arg" ;;
                 d|D)
-                    _MpvOwnsTmpList --list || \
-                    if [[ $arg = '-a' ]]; then _GetAudio -a; else _GetVideo -v; fi ;;
+                    if [[ $downloadTmpList = list ]]; then
+                        if [[ $arg = '-a' ]]; then _GetAudio -a; else _GetVideo -v; fi
+                    else
+                        _MpvOwnsTmpList --list || \
+                        if [[ $arg = '-a' ]]; then _GetAudio -a; else _GetVideo -v; fi
+                    fi
+                ;;
                 m|M) _Menu ;;
                 p|P) _MpvOwnsTmpList --list || _LoadAudioVideo "$arg" ;;
                 r|R) _MpvOwnsTmpList --list || _Remove "$arg" ;;

@@ -19,7 +19,7 @@ _ChooseDownloadAudio() {
 
     cd "$mediaDir" || {
         printf '%s\n' \
-        " ${critical}Failed to access audio directory.${nc}"
+        " ${critical}Failed to access ${mediaDir##*/} directory.${nc}"
         sleep 4
         _Menu
     }

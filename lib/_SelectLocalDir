@@ -8,15 +8,15 @@ _SelectLocalDir() {
     
     echo -e " ${info}Directories in ${localDir##*/}: ${nc}\n"
     
-    for d in $(find ./ -maxdepth 1 -type d -empty); do
+    for d in $(find ./ -maxdepth 1 -type d -empty | sort); do
         echo " ${critical}Empty: ${info}${d##*/}${nc}"
     done
     __
 
     PS3=""$'\n'" ${info}Select a directory number to queue/parse, [${mtitle}C${info}]ancel: ${nc}"
 
-    select dir in $(find -L "$localDir" -maxdepth 1 -type d -not -name \
-        "$(echo "$localDir" | awk -F"/" '{print $NF}')" | sort | sed 's,.*/,,'); do
+    select dir in $(find -L "$localDir" -maxdepth 1 -type d \
+        -not -wholename "$localDir" | sort | sed 's,.*/,,'); do
         
         case "$REPLY" in
             [a-zA-Z])
@@ -28,7 +28,7 @@ _SelectLocalDir() {
                     _WhileMpvIsRunning &
                     _Menu
                 else
-                    return
+                    _LoadLocalMenu
                 fi
             ;;
         esac

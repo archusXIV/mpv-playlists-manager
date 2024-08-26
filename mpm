@@ -24,11 +24,11 @@
 ##    or find a better cache parameter.
 
 # shellcheck source=/dev/null
-# shellcheck disable=SC2034,SC2044,SC2086,SC2154,SC2120,SC2119
+# shellcheck disable=SC2034,SC2044,SC2086,SC2154,SC2120,SC2119,SC2001
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.0-0"
+VERSION="v.2.0-1"
 
 CONF_DIR="$HOME/.config/mpm"
 
@@ -84,6 +84,11 @@ VIDEO_URLS="$tmp_dir/temporaryVideoUrls.m3u"
 VIDEO_TITLES="$tmp_dir/temporaryVideoTitles"
 YTSEARCH="$tmp_dir/youtubeSearch"
 YTFZFJSON="$tmp_dir/ytfzf.json"
+RANGEPROMPT=$(
+printf '%s\n' " ${info}Enter numbers separeted by commas or a dash for a range," \
+" for example: ${task}1-4,6 8-11 or 1-4,6-8,10 or 2,3,5,6,1 ${info}[${mtitle}C${info}]ancel: ${nc}"
+)
+SOCKETPATH=$(echo "${mpvGenOptions_SK[*]}" | sed 's/--input-ipc-server=//')
 
 [[ -z $parallel_threads ]] && parallel_threads=4
 

@@ -14,7 +14,7 @@ _FzfEnqueue() {
     command ls "$localDir"/"$dir" | sed '/fzfEnqueue.m3u/d' \
     | fzf --multi --reverse --pointer '<>' --scroll-off=5 --no-scrollbar \
     --border rounded --border-label "| ${PWD##*/} |" --prompt='Search: ' \
-    --header "${info}${b}"'Press Tab to select, Enter to confirm, Escape to cancel: '"${nb}${nc}" \
+    --header "${info}${b}"'Press Tab to select, Enter to confirm, Escape to cancel:'"${nb}${nc}" \
     --preview-window="$fzf_preview_layout:$fzf_preview_size" \
     --preview="$fzf_preview {}" >> fzfEnqueue.m3u
 
@@ -42,6 +42,7 @@ _FzfEnqueue() {
             ;;
             n|N)
                 use_mpvc_locally="yes"
+                localPlaylist=yes
                 sed -i "s/^/${localDirPath}\//" fzfEnqueue.m3u
 
                 if [[ -f "$FZFENQUEUE" ]]; then

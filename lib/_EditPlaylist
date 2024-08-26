@@ -13,17 +13,22 @@ _EditPlaylist() {
         select list in $(find "$playlists_dir" -not -name "default.m3u" -name "*.m3u" \
             -o -name "*.m3u_origin" | sort -d | sed 's,.*/,,'); do
 
-            [[ $REPLY =~ [a-zA-Z] ]] && return
+            [[ $REPLY =~ [a-zA-Z] ]] && {
+                __
+                printf '%s\n' " ${critical}Selection aborted.${nc}"
+                sleep 2
+                return
+            }
             __
             read -rsn 1 -p \
-            "${info}"' [E]dit urls manually, re[N]ame playlist, [R]emove titles.'"${nc}" edit
+            "${info}"' [E]dit urls manually, re[N]ame playlist, [R]emove titles: '"${nc}" edit
             __
             case "$edit" in
                 e|E)
                     "$MPMEDITOR" "$list"
                     echo -e " ${info}$list saved${nc}\n"
                     [[ $(grep "" -c "$titles_dir/$list.titles") \
-                    -ne $(_GetLinesList -l) ]] && _TitlesListCompare
+                    -ne $(_GetLinesList -l) ]] && _TitlesListCompare -l
                 ;;
                 n|N)
                     __
@@ -49,15 +54,9 @@ _EditPlaylist() {
             read -rsn 1 \
             -p "${info}"' [C]ontinue editing, [B]ack to menu.'"${nc}" again
             case "$again" in
-                c|C)
-                    break
-                ;;
-                b|B)
-                    _Menu
-                ;;
-                *)
-                    _WrongOption "$again"
-                ;;
+                c|C) break ;;
+                b|B) _Menu ;;
+                *) _WrongOption "$again" ;;
             esac
         done
     done

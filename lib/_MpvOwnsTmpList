@@ -1,41 +1,51 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2076,SC2034
 _MpvOwnsTmpList() {
+
+    local downloadTmpList
 
     pgrep -x mpv >/dev/null && {
         
         [[ -f $NOWPLAYING || -L $NOWPLAYING ]] && {
 
+            sedPrint=$(sed -n '1p' "$NOWPLAYING")
+
             case "$1" in
+                --collection)
+                    if [[ -f "$CHOOSE1" || $m3uFile = *.m3u ]]; then
+                        name="another"
+                        action="if you want to play another collection playlist,"
+                    else
+                        return
+                    fi
+                ;;
                 --default)
-                    if [[ $(sed -n '1p' "$NOWPLAYING") =~ default ]]; then
+                    if [[ $sedPrint = default.m3u ]]; then
                         name="default"
-                        action=" if you want to download/remove/save the $name list,"
+                        action="if you want to play/remove/save the $name list,"
+                        downloadTmpList=default
                     else
                         return
                     fi
                 ;;
                 --list)
-                    if [[ $(sed -n '1p' "$NOWPLAYING") =~ $Type ]]; then
+                    if [[ $sedPrint =~ temporary"$Type"Urls.m3u ]]; then
                         name="$Type"
-                        action=" if you want to download/remove/save the $name list,"
-                    elif [[ $(sed -n '1p' "$NOWPLAYING") =~ $HOME ]]; then
-                        name="a collection"
-                        action=" if you want to play $name list,"
+                        action="if you want to play/remove/save the $name list,"
+                        downloadTmpList=list
                     else
                         return
                     fi
                 ;;
                 --local)
-                    action=" if you want to queue a directory/file(s),"
-                    if [[ $(sed 's,.*/,,;s/.m3u//' "$NOWPLAYING") = temporarySelection ]]; then
-                        name="a collection"
-                    elif [[ -L $NOWPLAYING || $(awk -F"/" '{print $NF}' "$NOWPLAYING") =~ local ]]; then
+                    if [[ $localPlaylist = yes || $sedPrint =~ $HOME ]]; then
                         name="a local"
-                    elif [[ $(sed -n '1p' "$NOWPLAYING") =~ $Type ]]; then
-                        name="$Type"
+                        action="if you want to queue a directory/file(s),"
+                    elif [[ -f "$CHOOSE1" || $m3uFile = *.m3u ]]; then
+                        name="another"
+                        action="if you want to queue a directory/file(s),"
                     else
                         return
                     fi
@@ -43,22 +53,33 @@ _MpvOwnsTmpList() {
             esac
             __
             printf '%s\n' " ${critical}mpv owns $name playlist..." \
-            "$action" \
-            " just quit mpv first to proceed."
+            " $action" \
+            " just quit mpv first to proceed.${nc}"
             __
-            read -rsn 1 \
-            -p " ${info}[Q]uit mpv, [A]bort: ${nc}" mpvOwnsTmpListOptions
+            if [[ $downloadTmpList =~ default|list ]]; then
+                read -rsn 1 \
+                -p " ${info}[A]bort, [D]ownload tmp list, [Q]uit mpv: ${nc}" \
+                mpvOwnsTmpListOptions
+            else
+                read -rsn 1 \
+                -p " ${info}[A]bort, [Q]uit mpv: ${nc}" mpvOwnsTmpListOptions
+            fi
+            
             case "$mpvOwnsTmpListOptions" in
-                q|Q)
-                    kill -SIGTERM "$(pidof mpv)"
-                    rm {"$localDir"/"$dir"/fzfEnqueue.m3u,"$NOWPLAYING"} 2>/dev/null
-                    clear
-                    __
-                ;;
                 a|A) _Menu ;;
-                *)
-                    _WrongOption "$mpvOwnsTmpListOptions" && _Menu
+                d|D)
+                    if [[ $name = default ]]; then
+                        _ViewAudioVideoUrlsInfo -q
+                    elif [[ $name = "$Type" ]]; then
+                        _ViewAudioVideoUrlsInfo "$arg"
+                    fi
                 ;;
+                q|Q)
+                    kill -SIGTERM "$(pidof mpv)" 2>/dev/null
+                    localPlaylist=no
+                    _RmMpvTmp && return
+                ;;
+                *) _WrongOption "$mpvOwnsTmpListOptions" && _Menu ;;
             esac
         }
         
