@@ -20,26 +20,22 @@ and many more options to control mpv, ffmpeg, yt-dlp and download/playlists dire
 ## can be launch also from these commands
 
 ```
-mpm -c # edit mpm config
-mpm -e # edit a playlist from a list
-mpm -h # launches less /usr/local/share/doc/mpm/help
-mpm -l # launches the play/download function
-mpm -p # launches the load local function
-mpm -v # prints mpm version
+mpm -c|--config  # edit mpm config
+mpm -e|--edit    # edit a playlist from a list
+mpm -h|--help    # launches less /usr/local/share/doc/mpm/help
+mpm -l|--load    # launches the play/download function; or with argument eg: mpm --load <myPlaylistName>
+mpm -p|--local   # launches the load local function
+mpm -v|--version # prints mpm version
 ```
 
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog:
+- Added option to load a playlist directly; mpm --load <myPlaylistName> (case sensitive, no extension).
+- Added long options support eg: mpm --config, mpm --help.
 - Added an option to download tmp lists while mpv is playing them.
 - Fixed some bugs in _MpvOwnsPlaylist function.
-- Added a new box in main window to control mpv when $mpvc_tui is empty
-- Added a cancel option when saving tmp list as /playlist_dir/<playlist_name>.m3u
-- Added an option to queue more directories in _LoadLocalMenu function.
-- When mpv stops you can press 'r' to refresh the main menu,
-    - the mpv tui program (if launched) exits and the main menu refresh itself,
-    - so turn mpvGenOptions_ID=( --idle ) to mpvGenOptions_ID=( --idle=no ) in mpmrc.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -98,7 +94,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.0-1.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.0-2.png)
 
 
 ```

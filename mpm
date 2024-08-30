@@ -92,25 +92,53 @@ SOCKETPATH=$(echo "${mpvGenOptions_SK[*]}" | sed 's/--input-ipc-server=//')
 
 [[ -z $parallel_threads ]] && parallel_threads=4
 
+if [[ ! -e $NOWPLAYING && ${#pids[@]} -gt 1 ]] || \
+    [[ -e $NOWPLAYING && ${#pids[@]} -gt 2 ]]; then
+    __
+    printf '%s\n' " ${critical}mpm_test is already running...${nc}"
+    notify-send -t 0 -u critical "mpm_test is already running..."
+    exit 1
+fi
+
 _LaunchMpm() {
-    _Prompt " Launch mpm_test?" || {
+    __
+    _Prompt "  Launch mpm_test?" || {
         clear
-        exit 0
+        exit
     }
     _CheckDependencies "${@}"
 }
 
-[[ $# -eq 1 ]] && {
-    case "$1" in
-        -c) $MPMEDITOR "$MPMRC" ;;
-        -e) _EditPlaylist ;;
-        -l) _LoadPlaylist ;;
-        -p) _LoadLocal ;;
-        -v) echo "mpm $VERSION" && exit 0 ;;
-        -h|--help) less "$HELP" ;;
-        *)  echo " Wrong option $1, try mpm -h" && exit 1 ;;
-    esac
-    _LaunchMpm "${@}"
-}
+while true; do
 
-_CheckDependencies "${@}"
+    case "$1" in
+        --config |-c) "$MPMEDITOR" "$MPMRC" ;;
+        --edit   |-e) _EditPlaylist ;;
+        --help   |-h) less "$HELP" ;;
+        --load   |-l)
+            list="$2".m3u
+            cd "$playlists_dir" && {
+                if [[ -f $list ]]; then
+                    _LoadPlaylistMenu
+                else
+                    _LoadPlaylist
+                fi
+            }
+        ;;
+        --local  |-p) _LoadLocalMenu ;;
+        --version|-v) echo " mpm $VERSION" ;;
+        *)
+            if (( $# == 0 )); then
+                _CheckDependencies "${@}"
+            else
+                __
+                printf '%s\n' " ${critical}invalide option: ${task}$1${nc}"
+                head -n 11 "$HELP"
+                break
+            fi
+        ;;
+    esac
+
+    _LaunchMpm "${@}"
+
+done

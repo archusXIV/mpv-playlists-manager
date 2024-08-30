@@ -3,17 +3,6 @@
 
 # shellcheck disable=SC2154,SC2207
 _StartUp() {
-
-    local MPM pids
-    # avoids running multiple instances
-    MPM=$(basename "$0")
-    pids=($(pidof -x "$MPM"))
-
-    [[ ! -e $NOWPLAYING && ${#pids[@]} -gt 1 ]] && {
-        printf '%s\n' 'mpm_test is already running...'
-        notify-send -t 0 -u critical "mpm_test is already running..."
-        exit 1
-    }
     
     [[ -s $DEFAULTM3UTITLES && -s $QUEUE ]] && {
         touch "$tmp_dir"/1

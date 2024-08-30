@@ -1,6 +1,15 @@
-mpm version 2.0-1
+
+mpm version 2.0-2
 
     MPV-PLAYLISTS-MANAGER usage:
+
+        . mpm -c|--config : opens ~/.config/mpm/mpmrc
+        . mpm -e|--edit   : opens the playlist edition function
+        . mpm -h|--help   : launch less /usr/local/share/doc/mpm/help
+        . mpm -l|--load   : opens the playlist load (online) function
+                          : or mpm --load <myPlaylistName> (case sensitive, no extension)  
+        . mpm -p|--local  : opens local files or directory function
+        . mpm -v|--version: echoes mpm version and exits
 
     UPGRADE PROCEDURE:
         - git clone https://github.com/archusXIV/mpv-playlists-manager.git
@@ -46,7 +55,7 @@ mpm version 2.0-1
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.0-1::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.0-2::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐

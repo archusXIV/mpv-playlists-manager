@@ -10,6 +10,7 @@ _GetRange() {
     IFS=", "; read -ra array -p "$RANGEPROMPT"
     for range in "${array[@]}"; do
         IFS="-"; read -r start end <<< "$range"
+        
         [[ $range =~ [a-zA-Z] ]] && {
             rm "$list"_tmp
             unset IFS
@@ -18,6 +19,7 @@ _GetRange() {
             sleep 2
             _Menu
         }
+
         [[ -z $start ]] && continue
         [[ -z $end ]] && end="$start"
         

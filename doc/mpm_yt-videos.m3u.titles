@@ -14,3 +14,4 @@ mpm ytfzf update
 mpm update v1.9-5
 mpm add more files & auto refresh
 mpm queue directories in mpv
+mpm long options & load myPlaylistName
