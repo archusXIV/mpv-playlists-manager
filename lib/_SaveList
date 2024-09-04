@@ -20,5 +20,6 @@ _SaveList() {
     fi
     __
     printf '%s\n' " ${info}${current_list##*/} saved as $list${nc}"
+    _mpmIpc
     sleep 3
 }

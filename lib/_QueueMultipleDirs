@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2034,SC2044,SC2001
+# shellcheck disable=SC2154,SC2034
 _QueueMultipleDirs() {
     
     case "$diranswer" in
@@ -21,9 +21,8 @@ _QueueMultipleDirs() {
     
     rm "$mpv_list" 2>/dev/null
 
-    for d in $(find ./ -maxdepth 1 -type d -empty); do
-        echo "${d##*/}" >> "$tmp_dir"/empty.tmp
-    done
+    find ./ -maxdepth 1 -type d -empty \
+    | sed 's,.*/,,' >> "$tmp_dir"/empty.tmp
 
     if [[ -f $tmp_dir/empty.tmp ]]; then
         command ls > "$dirlist".tmp
@@ -42,7 +41,7 @@ _QueueMultipleDirs() {
         IFS="-"; read -r start end <<< "$range"
 
         [[ $range =~ [[:alpha:]] ]] && {
-            unset IFS
+            unset IFS range
             rm "$dirlist"
             __
             printf '%s\n' " ${critical}Selection aborted.${nc}"
@@ -61,18 +60,18 @@ _QueueMultipleDirs() {
 
     dirPath=$(pwd | sed 's,/,\\/,g')
 
-    unset IFS
+    unset IFS range
     rm "$dirlist"
 
     sed -i "s/^/${dirPath}\//;s,$,/," "$mpv_list"
     use_mpvc_locally=yes
+    localPlaylist=yes
     
     mpv --no-terminal "${mpvGenOptions_SK[@]}" \
     "${mpvGenOptions_ID[@]}" "$mpv_list" &
 
     ln -sfr "$mpv_list" "$NOWPLAYING"
     _WhileMpvIsRunning &
-    localPlaylist=yes
     _Menu
 
 }

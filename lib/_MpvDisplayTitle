@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2001
+# shellcheck disable=SC2154
 _MpvDisplayTitle() {
 
     if [[ -n $(pgrep -x mpv) && -z $(command -v socat) ]]; then

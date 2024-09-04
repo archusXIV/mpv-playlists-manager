@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2115
+# shellcheck disable=SC2154
 # This function is executed by the trap command before we exit out. 
 _CleanTmpDir() {
     

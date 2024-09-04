@@ -1,0 +1,8 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+_mpmIpc() {
+    polybar-msg \
+    -p $(pgrep --full "$(wmctrl -m | awk '/Name:/{print $2}')"-bar-3) \
+    action "#mpm-ipc.hook.0" >/dev/null 2>&1
+}

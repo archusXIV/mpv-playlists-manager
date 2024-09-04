@@ -32,6 +32,7 @@ mpm -v|--version # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog:
+- Fixed bug when trying to upgrade to version 2.0-2
 - Added option to load a playlist directly; mpm --load <myPlaylistName> (case sensitive, no extension).
 - Added long options support eg: mpm --config, mpm --help.
 - Added an option to download tmp lists while mpv is playing them.

@@ -13,7 +13,7 @@ _GetRange() {
         
         [[ $range =~ [a-zA-Z] ]] && {
             rm "$list"_tmp
-            unset IFS
+            unset IFS range
             __
             printf '%s\n' " ${critical}Selection aborted.${nc}"
             sleep 2
@@ -32,6 +32,6 @@ _GetRange() {
     done
 
     rm "$list"_tmp
-    unset IFS
+    unset IFS range
 
 }
