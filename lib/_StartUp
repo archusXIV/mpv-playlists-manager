@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154
 _StartUp() {
     
-    [[ -s $DEFAULTM3UTITLES && -s $QUEUE ]] && {
+    [[ -s $DEFAULTM3UTITLES && -s $DEFAULT_LIST ]] && {
         touch "$tmp_dir"/1
         cp -f "$DEFAULTM3UTITLES" "$DEFAULTITLES"
         rm "$DEFAULTM3UTITLES"

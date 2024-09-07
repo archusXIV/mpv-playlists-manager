@@ -12,7 +12,7 @@ _ChooseDirectVideoDownload() {
     
     clear
     cp -f "$list" "$list"_origin
-    cp -f "$SELECTEDTITLES" "$SELECTEDTITLES"_orgin
+    cp -f "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
     mkdir --parents "$mediaDir" && cd "$mediaDir"|| {
         printf '%s\n' \
         " ${critical}Failed to access ${mediaDir##*/} directory.${nc}"
@@ -20,9 +20,9 @@ _ChooseDirectVideoDownload() {
         _Menu
     }
     
-    M3UFILE="$CHOOSE1"
-    counter=$(grep "" -c "$CHOOSE1")
-    animationTitles="$SELECTEDTITLES"
+    M3UFILE="$SELECTED_URLS1"
+    counter=$(grep "" -c "$SELECTED_URLS1")
+    animationTitles="$SELECTED_TITLES"
 
     if _TestParallelCommand; then
         _ParallelDownloadCmd --choose-video
@@ -43,10 +43,10 @@ _ChooseDirectVideoDownload() {
                 "${ytdlPreset_NC[@]}" "$url"
             fi
 
-            sed -i '1d' "$SELECTEDTITLES"
+            sed -i '1d' "$SELECTED_TITLES"
             ((counter--))
             clear
-        done < "$CHOOSE1"
+        done < "$SELECTED_URLS1"
     fi
 
     unset url

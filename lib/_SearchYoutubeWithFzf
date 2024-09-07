@@ -81,7 +81,7 @@ _SearchYoutubeWithFzf() {
         case "$id" in
             # 11 characters=id (uniq audio/video link)
             ???????????)
-                echo "$mediaPrefix$id" | tee -a "$URLS" >> "$QUEUE"
+                echo "$mediaPrefix$id" | tee -a "$URLS" >> "$DEFAULT_LIST"
                 echo -e "$line" \
                 | sed "/${playlistName}/d" \
                 | tee -a "$TITLES" >> "$DEFAULTITLES"

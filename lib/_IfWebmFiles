@@ -15,9 +15,9 @@ _IfWebmFiles() {
             __
             printf '%s\n' " ${task}Automatic audio conversion enabled.${nc}"
             sleep 2
-            [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+            [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$DEFAULT_LIST" ]] \
             && _ConvertAudio && _GetCompleted
-            [[ $M3UFILE = "$playlists_dir"/"$list" ]] || [[ $M3UFILE = "$CHOOSE1" ]] \
+            [[ $M3UFILE = "$playlists_dir"/"$list" ]] || [[ $M3UFILE = "$SELECTED_URLS1" ]] \
             && _ConvertAudio && _DownloadCompleted
         else
             __
@@ -27,21 +27,21 @@ _IfWebmFiles() {
                 printf '%s\n' " ${critical}All .webm files have been moved in $MUSIC_DIR.${nc}"
                 sleep 1
                 __
-                [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+                [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$DEFAULT_LIST" ]] \
                 && _GetCompleted
-                [[ $M3UFILE = "$playlists_dir"/"$list" ]] || [[ $M3UFILE = "$CHOOSE1" ]] \
+                [[ $M3UFILE = "$playlists_dir"/"$list" ]] || [[ $M3UFILE = "$SELECTED_URLS1" ]] \
                 && _DownloadCompleted
             }
-            [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+            [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$DEFAULT_LIST" ]] \
             && _ConvertAudio && _GetCompleted
-            [[ $M3UFILE = "$playlists_dir"/"$list" ]] || [[ $M3UFILE = "$CHOOSE1" ]] \
+            [[ $M3UFILE = "$playlists_dir"/"$list" ]] || [[ $M3UFILE = "$SELECTED_URLS1" ]] \
             && _ConvertAudio && _DownloadCompleted
         fi
 
     else
-        [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$QUEUE" ]] \
+        [[ $M3UFILE = "$AUDIO_URLS" ]] || [[ $M3UFILE = "$DEFAULT_LIST" ]] \
         && _GetCompleted
-        [[ $M3UFILE = "$playlists_dir"/"$list" ]] || [[ $M3UFILE = "$CHOOSE1" ]] \
+        [[ $M3UFILE = "$playlists_dir"/"$list" ]] || [[ $M3UFILE = "$SELECTED_URLS1" ]] \
         && _DownloadCompleted
     fi
 }

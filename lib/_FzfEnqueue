@@ -58,7 +58,7 @@ _FzfEnqueue() {
                 else
                     ln -sfr ./fzfEnqueue.m3u "$NOWPLAYING"
                     mpv --no-terminal "${mpvGenOptions_SK[@]}" \
-                    "${mpvGenOptions_ID[@]}" fzfEnqueue.m3u &
+                    --idle=no fzfEnqueue.m3u &
                 fi
                 
                 _WhileMpvIsRunning &

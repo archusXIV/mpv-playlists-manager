@@ -7,11 +7,11 @@ _ParallelXargsCmd() {
     __sedRemoveAll() (
         if [[ $M3UFILE = "$AUDIO_URLS" || $M3UFILE = "$VIDEO_URLS" ]]; then
             sed -i '1,$d' {"$M3UFILE","$TITLES"}
-        elif [[ $M3UFILE = "$QUEUE" ]]; then
+        elif [[ $M3UFILE = "$DEFAULT_LIST" ]]; then
             sed -i '2,$d' "$M3UFILE"
             sed -i '1,$d' "$TITLES"
-        elif [[ $M3UFILE = "$CHOOSE1" ]]; then
-            sed -i '1,$d' "$SELECTEDTITLES"
+        elif [[ $M3UFILE = "$SELECTED_URLS1" ]]; then
+            sed -i '1,$d' "$SELECTED_TITLES"
         else
             sed -i '1,$d' \
             {"$playlists_dir"/"$list","$titles_dir"/"$list".titles}

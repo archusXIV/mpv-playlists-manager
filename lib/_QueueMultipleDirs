@@ -3,20 +3,14 @@
 
 # shellcheck disable=SC2154,SC2034
 _QueueMultipleDirs() {
-    
-    case "$diranswer" in
-        a|A) DIR="$MUSIC_DIR" ;;
-        v|V) DIR="$VIDEO_DIR" ;;
-        *) _WrongOption "$diranswer" && return ;;
-    esac
 
     clear
 
-    cd "$DIR" || exit 1
+    cd "$localDir" || exit 1
 
     local mpv_list dirlist localPlaylist
     
-    mpv_list="$DIR/dirlist.m3u"
+    mpv_list="$localDir/dirlist.m3u"
     dirlist="$tmp_dir/dirlist"
     
     rm "$mpv_list" 2>/dev/null
@@ -25,6 +19,7 @@ _QueueMultipleDirs() {
     | sed 's,.*/,,' >> "$tmp_dir"/empty.tmp
 
     if [[ -f $tmp_dir/empty.tmp ]]; then
+        # empty dirs will be banned from our list 
         command ls > "$dirlist".tmp
         grep -vF "$(grep '^[[:print:]]' "$tmp_dir"/empty.tmp)" \
         "$dirlist".tmp >> "$dirlist"
@@ -33,7 +28,7 @@ _QueueMultipleDirs() {
         command ls > "$dirlist"
     fi
     __
-    printf '%s\n' " ${info}Directories in ${DIR##*/}: ${nc}"
+    printf '%s\n' " ${info}Directories in ${localDir##*/}: ${nc}"
     __; nl "$dirlist"; __
 
     IFS=", "; read -ra selected_dirs -p "$RANGEPROMPT"
@@ -68,7 +63,7 @@ _QueueMultipleDirs() {
     localPlaylist=yes
     
     mpv --no-terminal "${mpvGenOptions_SK[@]}" \
-    "${mpvGenOptions_ID[@]}" "$mpv_list" &
+    --idle=no "$mpv_list" &
 
     ln -sfr "$mpv_list" "$NOWPLAYING"
     _WhileMpvIsRunning &

@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2034
 _LoadLocalMenu() {
 
-    local localDir file diranswer
+    local localDir file
     
     file="${m3uFile##*/}" file="${file%%.*}"
 
@@ -24,10 +24,10 @@ _LoadLocalMenu() {
         echo -e "                                                 ${mtitle}::LOAD LOCAL OPTIONS::${nc}"
         echo -e "                                           $(_LittleStars)${nc}"
         echo -e "                                  ┌───────────────────────────────────────────────────┐"
-        echo -e "                                  │   1) Single Audio dir     2) Audio files          │"
-        echo -e "                                  │   3) Single Video dir     4) Video files          │"
-        echo -e "                                  │   5) Explore Music dir    6) Explore Videos dir   │"
-        echo -e "                                  │   7) Load multiple dirs   8) Back to main menu    │"
+        echo -e "                                  │   1) Single Audio dir     5) Explore Music dir    │"
+        echo -e "                                  │   2) Audio files          6) Explore Videos dir   │"
+        echo -e "                                  │   3) Single Video dir     7) Load multiple dirs   │"
+        echo -e "                                  │   4) Video files          8) Back to main menu    │"
         echo -e "                                  └───────────────────────────────────────────────────┘"
         echo -e "                                                    ${info}${b}Select an item${nb}${nc}"
         __
@@ -55,8 +55,14 @@ _LoadLocalMenu() {
                 __isFileManagerInstalled
             ;;
             7)
-                read -rsn 1 -p " ${info}Queue multiple [A]udio or [V]ideo directories: ${nc}" \
+                read -rsn 1 \
+                -p " ${info}Queue multiple [A]udio or [V]ideo directories: ${nc}" \
                 diranswer
+                case "$diranswer" in
+                    a|A) localDir="$MUSIC_DIR" ;;
+                    v|V) localDir="$VIDEO_DIR" ;;
+                    *) __; _WrongOption "$diranswer"; continue ;;
+                esac
                 _QueueMultipleDirs
             ;;
             8)  _Menu ;;

@@ -39,6 +39,7 @@ _ConvertAudio() {
     else
         __
         printf '%s\n' " ${critical}Conversion format isn't set..." \
+        " make sure audio codecs/plugins are installed." \
         " ${info}(Press Enter to abort conversion)${nc}"
         declare -A formats=(
             [1]="aac"

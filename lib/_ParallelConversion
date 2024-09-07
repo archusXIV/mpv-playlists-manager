@@ -17,11 +17,13 @@ _ParallelConversion() {
             -y -i {} -qscale:a 0 {.}."${formats[${REPLY}]}" ::: ./*.webm
         ;;
         --xargs-default)
+            printf '%s\n' " use_parallel is set to no... using xargs for conversion."
             find . -iname "*.webm" | xargs -I % -P 5 \
             ffmpeg -hide_banner -loglevel error \
             -y -i % %."$default_conversion_format"
         ;;
         --xargs-chosen)
+            printf '%s\n' " use_parallel is set to no... using xargs for conversion."
             find . -iname "*.webm" | xargs -I % -P 5 \
             ffmpeg -hide_banner -loglevel error \
             -y -i % %."${formats[${REPLY}]}"

@@ -15,7 +15,7 @@ _RemoveTmpLinks() {
         IFS="-"; read -r start end <<< "$range"
         
         [[ $range =~ [a-zA-Z] ]] && {
-            [[ $tmpList = "$QUEUE" ]] && sed -i '1s/^/#EXTM3U\n/' "$tmpList"
+            [[ $tmpList = "$DEFAULT_LIST" ]] && sed -i '1s/^/#EXTM3U\n/' "$tmpList"
             unset IFS range
             __
             printf '%s\n' " ${critical}Deletion aborted...${nc}"

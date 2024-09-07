@@ -34,7 +34,7 @@ _GetAudio() {
                 _GetMediaTitle -q
                 clear
             fi
-            M3UFILE="$QUEUE"
+            M3UFILE="$DEFAULT_LIST"
             TITLES="$DEFAULTITLES"
             mediaDir="$audios_dir"
         ;;

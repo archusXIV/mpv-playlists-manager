@@ -19,7 +19,7 @@ _GetYoutubePlaylistUrls() {
         ytfzf -A -I VJ --scrape=youtube-playlist "$playlist" > "$YTFZFJSON" || \
         invidious_instance="https://vid.puffyan.us" \
         ytfzf -A -I VJ --scrape=youtube-playlist "$playlist" > "$YTFZFJSON";clear
-        jq --raw-output '.[].url' "$YTFZFJSON" | tee -a "$QUEUE" >> "$URLS"
+        jq --raw-output '.[].url' "$YTFZFJSON" | tee -a "$DEFAULT_LIST" >> "$URLS"
         jq --raw-output '.[].title' "$YTFZFJSON" | tee -a "$DEFAULTITLES" >> "$TITLES"
     )
 
@@ -37,7 +37,7 @@ _GetYoutubePlaylistUrls() {
                 s/^\s//;
                 s/^/https:\/\/www.youtube.com\/watch?v=/;1~2d
             ' playlist.m3u
-            tee -a "$QUEUE" >> "$URLS" < playlist.m3u
+            tee -a "$DEFAULT_LIST" >> "$URLS" < playlist.m3u
             sed -i 's/^[[:digit:]]*//;s/^\s//;2~2d' playlist.titles
             tee -a "$DEFAULTITLES" >> "$TITLES" < playlist.titles
         }
@@ -48,7 +48,7 @@ _GetYoutubePlaylistUrls() {
         | tee -a "$TITLES" >> "$DEFAULTITLES"
         yt-dlp "${ytdlPreset_DW[@]}" -j "$mediaUrl" \
         | jq --raw-output '(.webpage_url)' \
-        | tee -a "$QUEUE" >> "$URLS"
+        | tee -a "$DEFAULT_LIST" >> "$URLS"
     )
 
     case "$1" in

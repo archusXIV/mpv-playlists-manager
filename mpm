@@ -24,11 +24,13 @@
 ##    or find a better cache parameter.
 
 # shellcheck source=/dev/null
-# shellcheck disable=SC2034,SC2044,SC2086,SC2154,SC2120,SC2119,SC2001
+# shellcheck disable=SC2034,SC2044,SC2154,SC2001,SC2207
+MPM=$(basename "$0")
+pids=($(pidof -x "$MPM"))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.0-2"
+VERSION="v.2.0-3"
 
 CONF_DIR="$HOME/.config/mpm"
 
@@ -57,11 +59,15 @@ b=$'\e[5m';
 nb=$'\e[25m';
 
 ## First source our functions.
-for func in $(find /usr/local/lib/mpm/ -name "_*"); do
-    . "$func"
-done
-
-unset func
+if [[ -d /usr/local/lib/mpm ]]; then
+    for func in /usr/local/lib/mpm/*_*; do
+        . "$func"
+    done
+    unset func
+else
+    printf '%s\n' " ${critical}mpm functions directory does not exist.${nc}"
+    exit 1
+fi
 
 # creates a blank line
 __() { printf '\n'; }
@@ -69,17 +75,17 @@ __() { printf '\n'; }
 # global variables
 AUDIO_URLS="$tmp_dir/temporaryAudioUrls.m3u"
 AUDIO_TITLES="$tmp_dir/temporaryAudioTitles"
-CHOOSE1="$tmp_dir/temporarySelection.m3u"
-CHOOSE2="$tmp_dir/temporarySelection2.m3u"
+DEFAULT_LIST="$playlists_dir/default.m3u"
 DEFAULTITLES="$tmp_dir/DefaultTitles"
 DEFAULTM3UTITLES="$titles_dir/default.m3u.titles"
 FFOP="$tmp_dir/ffmpeg_output"
+FZFENQUEUE="$tmp_dir/fzfEnqueue.m3u"
 HELP="/usr/local/share/doc/mpm/help"
 JOBSLIST="$tmp_dir/parallel_list"
 NOWPLAYING="$tmp_dir/nowPlaying"
-FZFENQUEUE="$tmp_dir/fzfEnqueue.m3u"
-QUEUE="$playlists_dir/default.m3u"
-SELECTEDTITLES="$tmp_dir/selected.titles"
+SELECTED_TITLES="$tmp_dir/selected.titles"
+SELECTED_URLS1="$tmp_dir/temporarySelection.m3u"
+SELECTED_URLS2="$tmp_dir/temporarySelection2.m3u"
 VIDEO_URLS="$tmp_dir/temporaryVideoUrls.m3u"
 VIDEO_TITLES="$tmp_dir/temporaryVideoTitles"
 YTSEARCH="$tmp_dir/youtubeSearch"
@@ -100,45 +106,4 @@ if [[ ! -e $NOWPLAYING && ${#pids[@]} -gt 1 ]] || \
     exit 1
 fi
 
-_LaunchMpm() {
-    __
-    _Prompt "  Launch mpm_test?" || {
-        clear
-        exit
-    }
-    _CheckDependencies "${@}"
-}
-
-while true; do
-
-    case "$1" in
-        --config |-c) "$MPMEDITOR" "$MPMRC" ;;
-        --edit   |-e) _EditPlaylist ;;
-        --help   |-h) less "$HELP" ;;
-        --load   |-l)
-            list="$2".m3u
-            cd "$playlists_dir" && {
-                if [[ -f $list ]]; then
-                    _LoadPlaylistMenu
-                else
-                    _LoadPlaylist
-                fi
-            }
-        ;;
-        --local  |-p) _LoadLocalMenu ;;
-        --version|-v) echo " mpm $VERSION" ;;
-        *)
-            if (( $# == 0 )); then
-                _CheckDependencies "${@}"
-            else
-                __
-                printf '%s\n' " ${critical}invalide option: ${task}$1${nc}"
-                head -n 11 "$HELP"
-                break
-            fi
-        ;;
-    esac
-
-    _LaunchMpm "${@}"
-
-done
+_MpmOptions "${@}"

@@ -13,7 +13,7 @@ _ParallelDownloadCmd() {
     __sedVideoCmd() ( sed -i "s/^/${ytfmt[1]} ${ytdlPreset_X[*]} /" "$1"; )
 
     __getM3ufileTest() (
-        if [[ $M3UFILE = "$QUEUE" ]]; then
+        if [[ $M3UFILE = "$DEFAULT_LIST" ]]; then
             sed -i '1,$d' {"$M3UFILE","$TITLES"}
             echo "#EXTM3U" > "$M3UFILE"
         else
@@ -28,7 +28,7 @@ _ParallelDownloadCmd() {
             __sedAudioCmd "$JOBSLIST"
             {
                 parallel --delay 1.75 --jobs 4 < "$JOBSLIST"
-                sed -i '1,$d' "$SELECTEDTITLES"
+                sed -i '1,$d' "$SELECTED_TITLES"
                 clear
             } &
         ;;
@@ -37,7 +37,7 @@ _ParallelDownloadCmd() {
             __sedVideoCmd "$JOBSLIST"
             {
                 parallel --delay 2.5 --jobs 4 < "$JOBSLIST"
-                sed -i '1,$d' "$SELECTEDTITLES"
+                sed -i '1,$d' "$SELECTED_TITLES"
                 clear
             } &
         ;;
@@ -51,7 +51,7 @@ _ParallelDownloadCmd() {
             } &
         ;;
         --get-audio)
-            [[ $M3UFILE = "$QUEUE" || $M3UFILE = "$playlists_dir"/"$list" ]] && \
+            [[ $M3UFILE = "$DEFAULT_LIST" || $M3UFILE = "$playlists_dir"/"$list" ]] && \
             sed -i '1d' "$M3UFILE"
             __sedAudioCmd "$M3UFILE"
             {
@@ -60,7 +60,7 @@ _ParallelDownloadCmd() {
             } &
         ;;
         --get-video)
-            [[ $M3UFILE = "$QUEUE" ]] && sed -i '1d' "$M3UFILE"
+            [[ $M3UFILE = "$DEFAULT_LIST" ]] && sed -i '1d' "$M3UFILE"
             __sedVideoCmd "$M3UFILE"
             {
                 parallel --delay 2.5 --jobs 4 < "$M3UFILE"
@@ -69,7 +69,6 @@ _ParallelDownloadCmd() {
         ;;
     esac
 
-    rm -rf "$HOME"/.parallel
-    rm "$JOBSLIST"
+    rm -rf {"$HOME"/.parallel,"$JOBSLIST"}
 
 } >/dev/null 2>&1

@@ -16,9 +16,9 @@ _ChooseFromPlay() {
         v|V) _LoadAudioVideo -lv ;;
         s|S)
             __
-            [[ -f $CHOOSE1 ]] && rm "$CHOOSE1"
+            [[ -f $SELECTED_URLS1 ]] && rm "$SELECTED_URLS1"
             _GetRange
-            rm "$SELECTEDTITLES" 2>/dev/null
+            rm "$SELECTED_TITLES" 2>/dev/null
             [[ $range =~ [a-zA-Z] ]] && _LoadPlaylistMenu
             __
             read -rsn 1 -p "${info}"' load [A]udio, [V]ideo: '"${nc}" load

@@ -26,11 +26,11 @@ _LoadAudioVideo() {
             fi
         ;;
         -ca)
-            m3uFile="$CHOOSE1"
+            m3uFile="$SELECTED_URLS1"
             _MpvcTest -a
         ;;
         -cv)
-            m3uFile="$CHOOSE1"
+            m3uFile="$SELECTED_URLS1"
             _MpvcTest -v
         ;;
         -la)
@@ -42,11 +42,11 @@ _LoadAudioVideo() {
             _MpvcTest -v
         ;;
         -qa)
-            m3uFile="$QUEUE"
+            m3uFile="$DEFAULT_LIST"
             _MpvcTest -a
         ;;
         -qv)
-            m3uFile="$QUEUE"
+            m3uFile="$DEFAULT_LIST"
             _MpvcTest -v
         ;;
     esac

@@ -1,0 +1,56 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2034
+_MpmOptions() {
+
+    local editopt list
+    editopt=yes
+    list="$2".m3u
+
+    case "$1" in
+        --config |-c)
+            if [[ -n $MPMEDITOR ]]; then
+                "$MPMEDITOR" "$MPMRC"
+            else
+                __
+                printf '%s\n' " ${critical}MPMEDITOR is not set...please edit your config.${nc}"
+                exit 1
+            fi
+        ;;
+        --edit   |-e)
+            cd "$playlists_dir" && {
+                if [[ -f $list ]]; then
+                    _EditMyPlaylist
+                else
+                    _EditPlaylist
+                fi
+            }
+            ;;
+        --help   |-h) less "$HELP" ;;
+        --local  |-p) _LoadLocalMenu ;;
+        --version|-v) echo " mpm $VERSION" ;;
+        --load   |-l)
+            cd "$playlists_dir" && {
+                if [[ -f $list ]]; then
+                    _LoadPlaylistMenu
+                else
+                    _LoadPlaylist
+                fi
+            }
+        ;;
+        *)
+            if (( $# == 0 )); then
+                _CheckDependencies "${@}"
+            else
+                __
+                printf '%s\n' " ${critical}invalid option: ${task}$1${nc}"
+                head -n 13 "$HELP"
+                exit 1
+            fi
+        ;;
+    esac
+    
+    _LaunchMpm "${@}"
+
+}

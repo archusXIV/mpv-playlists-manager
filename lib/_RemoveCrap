@@ -9,7 +9,7 @@ _RemoveCrap() {
 
     LISTS=(
         "$URLS"
-        "$QUEUE"
+        "$DEFAULT_LIST"
         "$TITLES"
         "$DEFAULTITLES"
     )

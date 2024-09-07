@@ -47,17 +47,28 @@ _EditPlaylist() {
                     _UpdateSelected -e
                 ;;
                 *)
-                    _WrongOption "$edit"
+                    _WrongOption "$edit"; break
                 ;;
             esac
-            __
-            read -rsn 1 \
-            -p "${info}"' [C]ontinue editing, [B]ack to menu.'"${nc}" again
-            case "$again" in
-                c|C) break ;;
-                b|B) _Menu ;;
-                *) _WrongOption "$again" ;;
-            esac
+
+            if [[ $editopt = yes ]]; then
+                read -rsn 1 \
+                -p "${info} [E]dit another file, [N]o thanks.${nc}" again
+                case "$again" in
+                    e|E) break ;;
+                    n|N) editopt=no; __; _LaunchMpm "${@}" ;;
+                    *) __; _WrongOption "$again"; break ;;
+                esac
+            else
+                read -rsn 1 \
+                -p "${info} [E]dit another file, [B]ack to menu.${nc}" again
+                case "$again" in
+                    e|E) break ;;
+                    b|B) _Menu ;;
+                    *) __; _WrongOption "$again"; break ;;
+                esac
+            fi
+            
         done
     done
 }

@@ -16,7 +16,7 @@ _GetMediaTitle() {
             titlesFile="$titles_dir/$list.titles"
         ;;
         -q)
-            listFile="$QUEUE"
+            listFile="$DEFAULT_LIST"
             titlesFile="$DEFAULTITLES"
         ;;
         -v)

@@ -12,7 +12,7 @@ _ChooseDownloadAudio() {
 
     clear
     cp -f "$playlists_dir"/"$list" "$playlists_dir"/"$list"_origin
-    cp -f "$SELECTEDTITLES" "$SELECTEDTITLES"_orgin
+    cp -f "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
 
     mkdir --parents "$audios_dir"/"${list%.*}"
     mediaDir="$audios_dir"/"${list%.*}"
@@ -24,10 +24,10 @@ _ChooseDownloadAudio() {
         _Menu
     }
 
-    M3UFILE="$CHOOSE1"
+    M3UFILE="$SELECTED_URLS1"
     readarray -t SELECTEDAUDIO < "$M3UFILE"
     counter="${#SELECTEDAUDIO[@]}"
-    animationTitles="$SELECTEDTITLES"
+    animationTitles="$SELECTED_TITLES"
     
     __chooseDownloadAudioFormat() (
         __
@@ -67,7 +67,7 @@ _ChooseDownloadAudio() {
                 __chooseDownloadAudioFormat
             fi
 
-            sed -i '1d' "$SELECTEDTITLES"
+            sed -i '1d' "$SELECTED_TITLES"
             ((counter--))
             clear
 

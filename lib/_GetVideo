@@ -21,7 +21,7 @@ _GetVideo() {
                 _GetMediaTitle -q
                 clear
             fi
-            M3UFILE="$QUEUE"
+            M3UFILE="$DEFAULT_LIST"
             TITLES="$DEFAULTITLES"
         ;;
         -v)

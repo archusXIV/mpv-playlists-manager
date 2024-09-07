@@ -7,15 +7,10 @@ _SelectLocalDir() {
     cd "$localDir" || exit 1
     
     echo -e " ${info}Directories in ${localDir##*/}: ${nc}\n"
-    
-    for d in $(find ./ -maxdepth 1 -type d -empty | sort); do
-        echo " ${critical}Empty: ${info}${d##*/}${nc}"
-    done
-    __
 
     PS3=""$'\n'" ${info}Select a directory number to queue/parse, [${mtitle}C${info}]ancel: ${nc}"
 
-    select dir in $(find -L "$localDir" -maxdepth 1 -type d \
+    select dir in $(find -L "$localDir" -maxdepth 1 -type d -not -empty \
         -not -wholename "$localDir" | sort | sed 's,.*/,,'); do
         
         case "$REPLY" in
@@ -28,53 +23,43 @@ _SelectLocalDir() {
                     _WhileMpvIsRunning &
                     _Menu
                 else
-                    _LoadLocalMenu
+                    return
                 fi
             ;;
         esac
 
-        if [[ $(find ./"$dir" -type d -name "$dir" -empty) ]]; then
-            __
-            printf '%s\n' " ${critical}$dir is empty... try again.${nc}"
-            sleep 2
-            continue
-        else
-            find ./"$dir" -maxdepth 1 -type d -empty -exec rmdir {} \;
-            __
-            printf '%s\n' " ${info}Scanning $dir for supported formats...${nc}"
-            sleep 1
+        __
+        printf '%s\n' " ${info}Scanning $dir for supported formats...${nc}"
+        sleep 1
 
-            ! find -L ./"$dir" -maxdepth 1 -type f -exec file --mime-type {} + \
-            | grep -q -E '[aA]udio|[vV]ideo' && {
-                __
-                printf '%s\n' " ${critical}$dir doesn't contain supported formats by mpv" \
-                " or audio/video files may be in a subdirectories.${nc}"
-                __
-                _Prompt " ${info}Do you want to open $dir to fix this issue?${nc}" || {
-                    continue
-                }
-                "$FILEMANAGER" "$dir"
+        ! find -L ./"$dir" -maxdepth 1 -type f -exec file --mime-type {} + \
+        | grep -q -E '[aA]udio|[vV]ideo' && {
+            __
+            printf '%s\n' " ${critical}$dir doesn't contain supported formats by mpv" \
+            " or audio/video files may be in a subdirectories.${nc}"
+            __
+            _Prompt " ${info}Do you want to open $dir to fix this issue?${nc}" || {
+                continue
             }
+            "$FILEMANAGER" "$dir"
+        }
 
-            clear
+        clear
 
-            case "$1" in
-                -d)
-                    if [[ $use_mpvc = yes || $use_mpvc = no ]]; then
-                        _MakeMpvPlaylist --local-background
-                    else
-                        _MakeMpvPlaylist --local-foreground
-                    fi      
-
-                    _Menu
-                ;;
-                -f)
-                    _FzfEnqueue
-                    clear; break
-                ;;
-            esac
-            
-        fi
+        case "$1" in
+            -d)
+                if [[ $use_mpvc = yes || $use_mpvc = no ]]; then
+                    _MakeMpvPlaylist --local-background
+                else
+                    _MakeMpvPlaylist --local-foreground
+                fi
+                _Menu
+            ;;
+            -f)
+                _FzfEnqueue
+                clear; break
+            ;;
+        esac
         
     done
 

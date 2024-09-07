@@ -30,7 +30,7 @@ _CopyMediaUrl() {
             " ${info}Please visit: $supportedSites${nc}"
             sleep 7
         else
-            echo "$mediaUrl" | tee -a "$URLS" >> "$QUEUE"
+            echo "$mediaUrl" | tee -a "$URLS" >> "$DEFAULT_LIST"
             echo -e " ${info}Getting ${Type} title...${nc}\n"
             _YtdlGetTitle "$(sed -n '$p' "$URLS")" \
             | tee -a "$TITLES" >> "$DEFAULTITLES"

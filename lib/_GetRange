@@ -23,10 +23,10 @@ _GetRange() {
         [[ -z $start ]] && continue
         [[ -z $end ]] && end="$start"
         
-        for ((i=start;i <= end;i++)); do
-            sed -n "${i}p" "$list"_tmp >> "$CHOOSE1"
+        for ((i=start;i<=end;i++)); do
+            sed -n "${i}p" "$list"_tmp >> "$SELECTED_URLS1"
             sed -n "${i}p" "$titles_dir"/"$list.titles" \
-            >> "$SELECTEDTITLES"
+            >> "$SELECTED_TITLES"
         done
 
     done

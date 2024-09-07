@@ -37,7 +37,7 @@ _ViewAudioVideoUrlsInfo() {
             }
         fi
 
-        if [[ $URLS = "$QUEUE" ]]; then
+        if [[ $URLS = "$DEFAULT_LIST" ]]; then
             if [[ $downloadTmpList = default ]]; then
                 echo " ${info}${mpvOwnsInfoPrompt[*]}${nc}"
             else

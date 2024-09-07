@@ -6,7 +6,7 @@ _GetLinesList() {
     case "$1" in
         -a) FILE="$AUDIO_URLS" ;;
         -l) FILE="$playlists_dir"/"$list" ;;
-        -q) FILE="$QUEUE" ;;
+        -q) FILE="$DEFAULT_LIST" ;;
         -v) FILE="$VIDEO_URLS" ;;
     esac
     [[ -s $FILE ]] && grep -c '^https' "$FILE"

@@ -34,11 +34,11 @@ _SearchOnlineWithYtfzf() {
         return
     }
     
-    jq --raw-output '.[].url' "$YTFZFJSON" | tee -a "$QUEUE" >> "$URLS"
+    jq --raw-output '.[].url' "$YTFZFJSON" | tee -a "$DEFAULT_LIST" >> "$URLS"
     jq --raw-output '.[].title' "$YTFZFJSON" | tee -a "$DEFAULTITLES" >> "$TITLES"
     _RemoveCrap
     
-    cat "$QUEUE" "$URLS" > "$tmp_dir"/ytfzf_playlists
+    cat "$DEFAULT_LIST" "$URLS" > "$tmp_dir"/ytfzf_playlists
     while read -r line; do
          [[ $line =~ 'playlist?list=' \
          || $line =~ 'peertube.tv/w/p/' \

@@ -10,7 +10,7 @@ _ClearAllTmpLists() {
         "$AUDIO_URLS" "$AUDIO_TITLES"
         "$VIDEO_URLS" "$VIDEO_TITLES"
         "$FFOP" "$DEFAULTITLES"
-        "$tmp_dir/1" "$CHOOSE1"
+        "$tmp_dir/1" "$SELECTED_URLS1"
         "Audio" "Video" "default" "temporarySelection"
     )
 
@@ -22,19 +22,19 @@ _ClearAllTmpLists() {
                     if [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING") =~ $w ]]; then
                         [[ $w = "${tmps[8]}" ]] && {
                             unset {tmps[0],tmps[1],tmps[8]}
-                            sed -i '/^[[:alpha:]]/d' "$QUEUE"
+                            sed -i '/^[[:alpha:]]/d' "$DEFAULT_LIST"
                         }
                         [[ $w = "${tmps[9]}" ]] && {
                             unset {tmps[2],tmps[3],tmps[9]}
-                            sed -i '/^[[:alpha:]]/d' "$QUEUE"
+                            sed -i '/^[[:alpha:]]/d' "$DEFAULT_LIST"
                         }
                         [[ $w = "${tmps[10]}" ]] && unset {tmps[5],tmps[10]}
                         [[ $w = "${tmps[11]}" ]] && {
                             unset {tmps[7],tmps[11]}
-                            sed -i '/^[[:alpha:]]/d' "$QUEUE"
+                            sed -i '/^[[:alpha:]]/d' "$DEFAULT_LIST"
                         }
                     else
-                        sed -i '/^[[:alpha:]]/d' "$QUEUE"
+                        sed -i '/^[[:alpha:]]/d' "$DEFAULT_LIST"
                     fi
                 done
                 
@@ -44,7 +44,7 @@ _ClearAllTmpLists() {
                 sleep 2
 
             else
-                sed -i '/^[[:alpha:]]/d' "$QUEUE"
+                sed -i '/^[[:alpha:]]/d' "$DEFAULT_LIST"
                 rm "${tmps[@]}" 2>/dev/null
                 printf '%s\n' " ${critical}All Temporary lists cleared.${nc}"
                 sleep 2

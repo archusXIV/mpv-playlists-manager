@@ -25,10 +25,10 @@ _DownloadVideoList() {
                 mediaDir="$videos_dir"/"${list%.*}"
                 mkdir --parents "$mediaDir" && cd "$mediaDir"
             
-                mapfile -t SELECTEDCODES < <(grep '^https' "$playlists_dir"/"$list")
-                counter="${#SELECTEDCODES[@]}"
+                mapfile -t SELECTED_CODES < <(grep '^https' "$playlists_dir"/"$list")
+                counter="${#SELECTED_CODES[@]}"
 
-                for url in "${SELECTEDCODES[@]}"; do
+                for url in "${SELECTED_CODES[@]}"; do
 
                     clear
                     __

@@ -15,7 +15,7 @@ _Remove() {
             _RemoveAudioVideoCommon
         ;;
         -q)
-            tmpList="$QUEUE"
+            tmpList="$DEFAULT_LIST"
             tmpTitles="$DEFAULTITLES"
             _RemoveDefaultList
         ;;

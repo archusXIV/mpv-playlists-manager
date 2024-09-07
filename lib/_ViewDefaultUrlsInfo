@@ -5,7 +5,7 @@
 _ViewDefaultUrlsInfo() {
     
     local file Type
-    file="${QUEUE##*/}" file="${file%%.*}"
+    file="${DEFAULT_LIST##*/}" file="${file%%.*}"
     Type=default
 
     __getAudioVideo() {
@@ -29,14 +29,14 @@ _ViewDefaultUrlsInfo() {
         }
         clear
         
-        while [[ -f $QUEUE ]]; do
+        while [[ -f $DEFAULT_LIST ]]; do
             menuTitleType=DEFAULT
-            URLS="$QUEUE"
+            URLS="$DEFAULT_LIST"
             TITLES="$DEFAULTITLES"
             __
             __listHeader
-            read -rsn 1 viewUrlInfoDefaultOptions
-            case "$viewUrlInfoDefaultOptions" in
+            read -rsn 1 viewDefaultUrlsInfoOptions
+            case "$viewDefaultUrlsInfoOptions" in
                 d|D)
                     if [[ $downloadTmpList = default ]]; then
                         __getAudioVideo
@@ -74,7 +74,7 @@ _ViewDefaultUrlsInfo() {
                     fi
                 ;;
                 *)
-                    _WrongOption "$viewUrlInfoDefaultOptions"
+                    _WrongOption "$viewDefaultUrlsInfoOptions"
                     return
                 ;;
             esac

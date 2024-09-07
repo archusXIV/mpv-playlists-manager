@@ -32,11 +32,11 @@ mpm -v|--version # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
 
 ## Changelog:
+- Added option to directly edit a playlist; mpm --edit <myPlaylistName> (case sensitive, no extension).
+- In _SelectLocalDir function, empty directories are no longer listed.
 - Fixed bug when trying to upgrade to version 2.0-2
 - Added option to load a playlist directly; mpm --load <myPlaylistName> (case sensitive, no extension).
 - Added long options support eg: mpm --config, mpm --help.
-- Added an option to download tmp lists while mpv is playing them.
-- Fixed some bugs in _MpvOwnsPlaylist function.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -95,7 +95,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.0-2.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.0-3.png)
 
 
 ```
@@ -131,7 +131,7 @@ wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738
 ```
 ## Why ranger file manager?
 (it can be any terminal file manager)
-Because we are terminal users so we can navigate across our local media files to queue them in mpv.
+Because we are terminal users so we can navigate across our local media files.
 You will also need some dependencies to make it functional, for example displaying image/video thumbnails preview
 with [ffmpegthumbnailer](https://github.com/dirkvdb/ffmpegthumbnailer). Make sure $XDG_CONFIG_HOME/ranger/scope.sh is executable.
 ```

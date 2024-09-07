@@ -7,35 +7,35 @@ _UpdateSelected() {
     cd "$playlists_dir" && {
         # let's remove downloaded links from the original file
         # and sending the other ones in a second temporary file...
-        grep -v "$(grep '^https' "$CHOOSE1")" "$list" >> "$CHOOSE2"
-        perl -i -ne 'print if ! $a{$_}++' "$CHOOSE2"
+        grep -v "$(grep '^https' "$SELECTED_URLS1")" "$list" >> "$SELECTED_URLS2"
+        perl -i -ne 'print if ! $a{$_}++' "$SELECTED_URLS2"
         
         # ...that we now rename with the original file name.
-        mv -f "$CHOOSE2" "$list"
-        rm "$CHOOSE1"
+        mv -f "$SELECTED_URLS2" "$list"
+        rm "$SELECTED_URLS1"
     }
     
     cd "$titles_dir" && {
         # same operation for the titles.
         case "$1" in
             -e)
-                grep -v -F "$(grep '^[[:print:]]' "$SELECTEDTITLES")" \
-                "$titles_dir"/"$list".titles >> "$SELECTEDTITLES"_tmp
-                perl -i -ne 'print if ! $a{$_}++' "$SELECTEDTITLES"_tmp
-                mv -f "$SELECTEDTITLES"_tmp "$titles_dir"/"$list".titles
+                grep -v -F "$(grep '^[[:print:]]' "$SELECTED_TITLES")" \
+                "$titles_dir"/"$list".titles >> "$SELECTED_TITLES"_tmp
+                perl -i -ne 'print if ! $a{$_}++' "$SELECTED_TITLES"_tmp
+                mv -f "$SELECTED_TITLES"_tmp "$titles_dir"/"$list".titles
                 __
                 printf '%s\n' " ${info}Changes applied in $list.${nc}"
                 sleep 3
             ;;
             -u)
-                grep -v -F "$(grep '^[[:print:]]' "$SELECTEDTITLES"_orgin)" \
-                "$list".titles >> "$SELECTEDTITLES"_tmp
-                perl -i -ne 'print if ! $a{$_}++' "$SELECTEDTITLES"_tmp
-                mv -f "$SELECTEDTITLES"_tmp "$list".titles
+                grep -v -F "$(grep '^[[:print:]]' "$SELECTED_TITLES"_orgin)" \
+                "$list".titles >> "$SELECTED_TITLES"_tmp
+                perl -i -ne 'print if ! $a{$_}++' "$SELECTED_TITLES"_tmp
+                mv -f "$SELECTED_TITLES"_tmp "$list".titles
             ;;
         esac
         
-        rm "$SELECTEDTITLES"{,_orgin} 2>/dev/null
+        rm "$SELECTED_TITLES"{,_orgin} 2>/dev/null
         clear
     }
 }

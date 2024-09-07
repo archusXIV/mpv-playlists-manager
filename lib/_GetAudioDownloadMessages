@@ -16,7 +16,7 @@ _GetAudioDownloadMessages() {
                 printf '%s\n' " ${info}$(_GetLinesList -l) audio file(s) left to download." \
                 " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
             }
-            [[ $M3UFILE = "$QUEUE" ]] && {
+            [[ $M3UFILE = "$DEFAULT_LIST" ]] && {
                 __
                 printf '%s\n' " ${info}$(_GetLinesList -q) audio file(s) left to download." \
                 " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
@@ -35,7 +35,7 @@ _GetAudioDownloadMessages() {
                 " Downloading:  $(_GetLinkTitle -l)" \
                 " ${task}Searching for webm format...${nc}"
             }
-            [[ $M3UFILE = "$QUEUE" ]] && {
+            [[ $M3UFILE = "$DEFAULT_LIST" ]] && {
                 __
                 printf '%s\n' " ${info}$(_GetLinesList -q) audio file(s) left to download." \
                 " Downloading:  $(_GetLinkTitle -q)" \
@@ -53,7 +53,7 @@ _GetAudioDownloadMessages() {
                 printf '%s\n' " ${info}$(_GetLinesList -l) audio file(s) left to download." \
                 " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
             }
-            [[ $M3UFILE = "$QUEUE" ]] && {
+            [[ $M3UFILE = "$DEFAULT_LIST" ]] && {
                 __
                 printf '%s\n' " ${info}$(_GetLinesList -q) audio file(s) left to download." \
                 " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"

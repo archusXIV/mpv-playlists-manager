@@ -30,7 +30,7 @@ _GetCompleted() {
                 _Menu
             }
         
-            if [[ -f "$QUEUE"_origin ]]; then
+            if [[ -f "$DEFAULT_LIST"_origin ]]; then
                 _Remove -q
             elif [[ -f "$AUDIO_URLS"_origin ]]; then
                 _Remove -a

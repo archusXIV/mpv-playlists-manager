@@ -6,7 +6,7 @@ _Menu() {
 
     cd "$main_dir" || exit 1
     
-    while [[ -e $QUEUE ]]; do
+    while [[ -e $DEFAULT_LIST ]]; do
         _ResizeWindow
         clear
         __

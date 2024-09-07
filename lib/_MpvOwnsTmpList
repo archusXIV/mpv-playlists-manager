@@ -14,7 +14,7 @@ _MpvOwnsTmpList() {
 
             case "$1" in
                 --collection)
-                    if [[ -f "$CHOOSE1" || $m3uFile = *.m3u ]]; then
+                    if [[ -f "$SELECTED_URLS1" || $m3uFile = *.m3u ]]; then
                         name="another"
                         action="if you want to play another collection playlist,"
                     else
@@ -42,10 +42,10 @@ _MpvOwnsTmpList() {
                 --local)
                     if [[ $localPlaylist = yes || $sedPrint =~ $HOME ]]; then
                         name="a local"
-                        action="if you want to queue a directory/file(s),"
-                    elif [[ -f "$CHOOSE1" || $m3uFile = *.m3u ]]; then
+                        action="if you want to DEFAULT_LIST a directory/file(s),"
+                    elif [[ -f "$SELECTED_URLS1" || $m3uFile = *.m3u ]]; then
                         name="another"
-                        action="if you want to queue a directory/file(s),"
+                        action="if you want to DEFAULT_LIST a directory/file(s),"
                     else
                         return
                     fi

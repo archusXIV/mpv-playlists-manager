@@ -22,7 +22,7 @@ _Save() {
             fi
         ;;
         -q)
-            current_list="$QUEUE"
+            current_list="$DEFAULT_LIST"
             if [[ -f $DEFAULTITLES ]]; then
                 current_titles="$DEFAULTITLES"
             else
