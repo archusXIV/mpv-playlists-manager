@@ -21,7 +21,7 @@ and many more options to control mpv, ffmpeg, yt-dlp and download/playlists dire
 
 ```
 mpm -c|--config  # edit mpm config
-mpm -e|--edit    # edit a playlist from a list
+mpm -e|--edit    # edit a playlist from a list; or with argument eg: mpm --edit <myPlaylistName>
 mpm -h|--help    # launches less /usr/local/share/doc/mpm/help
 mpm -l|--load    # launches the play/download function; or with argument eg: mpm --load <myPlaylistName>
 mpm -p|--local   # launches the load local function
