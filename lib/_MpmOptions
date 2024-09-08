@@ -5,7 +5,7 @@
 _MpmOptions() {
 
     local editopt list
-    editopt=yes
+
     list="$2".m3u
 
     case "$1" in
@@ -21,7 +21,7 @@ _MpmOptions() {
         --edit   |-e)
             cd "$playlists_dir" && {
                 if [[ -f $list ]]; then
-                    _EditMyPlaylist
+                    editopt=yes; _EditMyPlaylist
                 else
                     _EditPlaylist
                 fi
