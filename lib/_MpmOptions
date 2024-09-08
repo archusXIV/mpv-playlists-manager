@@ -20,10 +20,11 @@ _MpmOptions() {
         ;;
         --edit   |-e)
             cd "$playlists_dir" && {
+                editopt=yes
                 if [[ -f $list ]]; then
-                    editopt=yes; _EditMyPlaylist
+                    _EditMyPlaylist
                 else
-                    editopt=yes; _EditPlaylist
+                    _EditPlaylist
                 fi
             }
             ;;
