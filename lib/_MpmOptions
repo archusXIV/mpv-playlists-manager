@@ -23,7 +23,7 @@ _MpmOptions() {
                 if [[ -f $list ]]; then
                     editopt=yes; _EditMyPlaylist
                 else
-                    _EditPlaylist
+                    editopt=yes; _EditPlaylist
                 fi
             }
             ;;
