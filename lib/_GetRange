@@ -18,7 +18,7 @@ _GetRange() {
             printf '%s\n' " ${critical}Selection aborted.${nc}"
             sleep 2
             if [[ $editopt = yes ]]; then
-                _LaunchMpm
+                _LaunchMpm "${@}"
             else
                 _Menu
             fi
