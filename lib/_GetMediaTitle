@@ -17,7 +17,7 @@ _GetMediaTitle() {
         ;;
         -q)
             listFile="$DEFAULT_LIST"
-            titlesFile="$DEFAULTITLES"
+            titlesFile="$DEFAULT_TITLES"
         ;;
         -v)
             listFile="$VIDEO_URLS"

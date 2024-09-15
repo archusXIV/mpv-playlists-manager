@@ -32,7 +32,7 @@ _DownloadCompleted() {
             sleep 3
             rm -f "${FILES[@]}" 2>/dev/null
         fi
-        
+
         _IfQuitAfterTask -d
     fi
 }

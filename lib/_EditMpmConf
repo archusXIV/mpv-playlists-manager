@@ -1,16 +1,25 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2034
 # shellcheck source=/dev/null
 _EditMpmConf() {
 
-    $MPMEDITOR "$MPMRC"
+    local theme
+
+    $MPMEDITOR "$MPMRC"; . "$MPMRC"
     printf '%s\n' " ${info}mpm config saved! New changes actives.${nc}"
-    . "$MPMRC"
-    _Theme "$THEME"
+    
+    if [[ -z $THEME ]]; then
+        theme="default"; nc=$'\e[0m'; critical=$'\e[31m';
+        info=$'\e[32m'; mtitle=$'\e[33m'; task=$'\e[37m';
+    else
+        _Theme "$THEME"
+    fi
+
     sleep 2
     clear
     _Menu
 
 }
+

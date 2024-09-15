@@ -24,9 +24,9 @@ _GetAudio() {
             mediaDir="$audios_dir"/"${list%.*}"
         ;;
         -q)
-            if [[ ! -f $DEFAULTITLES && -f $DEFAULTM3UTITLES ]]; then
-                cp "$DEFAULTM3UTITLES" "$DEFAULTITLES"
-            elif [[ -f $DEFAULTITLES ]]; then
+            if [[ ! -f $DEFAULT_TITLES && -f $DEFAULTM3UTITLES ]]; then
+                cp "$DEFAULTM3UTITLES" "$DEFAULT_TITLES"
+            elif [[ -f $DEFAULT_TITLES ]]; then
                 printf '%s\n' " ${info}Fetching titles file...${nc}"
                 sleep 1
             else
@@ -35,7 +35,7 @@ _GetAudio() {
                 clear
             fi
             M3UFILE="$DEFAULT_LIST"
-            TITLES="$DEFAULTITLES"
+            TITLES="$DEFAULT_TITLES"
             mediaDir="$audios_dir"
         ;;
     esac

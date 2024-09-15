@@ -7,7 +7,7 @@ _RenameTmpFiles() {
     tmpFiles=(
         "$AUDIO_URLS" "$AUDIO_TITLES"
         "$VIDEO_URLS" "$VIDEO_TITLES"
-        "$DEFAULTITLES" "$DEFAULT_LIST"
+        "$DEFAULT_TITLES" "$DEFAULT_LIST"
     )
 
     for f in "${tmpFiles[@]}"; do

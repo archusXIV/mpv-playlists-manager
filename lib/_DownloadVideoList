@@ -24,7 +24,7 @@ _DownloadVideoList() {
                 cp -f "$titles_dir"/"$list".titles "$titles_dir"/"$list".titles_origin
                 mediaDir="$videos_dir"/"${list%.*}"
                 mkdir --parents "$mediaDir" && cd "$mediaDir"
-            
+
                 mapfile -t SELECTED_CODES < <(grep '^https' "$playlists_dir"/"$list")
                 counter="${#SELECTED_CODES[@]}"
 
@@ -65,7 +65,7 @@ _DownloadVideoList() {
         esac
         _RemoveAudioVideoIds
     fi
-    
+
     _DownloadCompleted
 
 }

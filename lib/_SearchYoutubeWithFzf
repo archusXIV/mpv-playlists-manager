@@ -62,11 +62,11 @@ _SearchYoutubeWithFzf() {
         rm "$TITLES"_tmp
         return
     }
-    
+
     clear
     __
     printf '%s\n' " ${info}Links added to $Type list, please wait...${nc}"
-    
+
     while read -r line; do
 
         # grep a fixed string that is a word and matches only one line.
@@ -84,7 +84,7 @@ _SearchYoutubeWithFzf() {
                 echo "$mediaPrefix$id" | tee -a "$URLS" >> "$DEFAULT_LIST"
                 echo -e "$line" \
                 | sed "/${playlistName}/d" \
-                | tee -a "$TITLES" >> "$DEFAULTITLES"
+                | tee -a "$TITLES" >> "$DEFAULT_TITLES"
             ;;
             # 34 characters=id (playlist link)
             ??????????????????????????????????)

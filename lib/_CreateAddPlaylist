@@ -5,8 +5,11 @@
 _CreateAddPlaylist() {
 
     local Type TITLES URLS menuTitleType arg mediaUrl supportedSites file
+
     supportedSites="https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md"
-    
+    isInstalled="is installed, first copy a link then press 1)"
+    clipBoadCmdisInstalled="${info}${clipboardCmd[0]} $isInstalled${nc}"
+
     case "$1" in
         -a)
             Type=Audio
@@ -29,19 +32,19 @@ _CreateAddPlaylist() {
     __clipboardCmdTest() {
         [[ -n $(command -v "${clipboardCmd[0]}") && -n "${clipboardCmd[*]}" ]]
     }
-    
+
     while true; do
         _ResizeWindow
         clear
-        
+
         test -s "$YTSEARCH" && _GetYoutubePlaylistUrls -s
         __
         test -s "$URLS"  && \
         echo -e " ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}\n"
-        __clipboardCmdTest && printf '%s\n' "                                  ${info}${clipboardCmd[0]} is installed, first copy a link then press 1)${nc}"
+        __clipboardCmdTest && printf '%s\n' "                                  $clipBoadCmdisInstalled"
         __
         echo -e "                                                  ${mtitle}::${menuTitleType} OPTIONS::${nc}"
-        echo -e "                                          $(_LittleStars)${nc}"
+        echo -e "                                         $(_LittleStars)${nc}"
         echo -e "                               ┌──────────────────────────────────────────────────────┐"
         echo -e "                               │   1) Add ${Type} links         5) Play current list    │"
         echo -e "                               │   2) Search online links     6) View current list    │"
@@ -60,41 +63,25 @@ _CreateAddPlaylist() {
                 if [[ $use_fzf = yes ]]; then
                     clear
                     _SearchOnline
-                elif [[ $use_fzf = no ]]; then
-                    __
-                    printf '%s\n' \
-                        " ${critical}use_fzf is set to NO in your mpmrc file..." \
-                        " no way to search online!${nc}"
-                    sleep 5
                 else
                     __
-                    printf '%s\n' " ${critical}use_fzf is not set in your mpmrc..." \
-                    " no way to search online!${nc}"
+                    printf '%s\n' " ${critical}use_fzf is empty or it's set to ${task}no${nc}" \
+                    " in your mpmrc...no way to search online!${nc}"
                     sleep 5
                 fi
             ;;
-            3)
-                _MpvOwnsTmpList --list || \
-                [[ $arg = '-a' ]] && _GetAudio -a || _GetVideo -v
-                __ ;;
-            4)
-                _MpvOwnsTmpList --list || _Save $arg
-                __ ;;
-            5)
-                _MpvOwnsTmpList --list || _LoadAudioVideo $arg
-                __ ;;
-            6)  _ViewAudioVideoUrlsInfo $arg
-                __ ;;
-            7)
-                _MpvOwnsTmpList --list || _Remove $arg
-                __ ;;
+            3)  _CreateAddPlaylistActions --download ;;
+            4)  _CreateAddPlaylistActions --save ;;
+            5)  _CreateAddPlaylistActions --play ;;
+            6)  _ViewAudioVideoUrlsInfo $arg ;;
+            7)  _CreateAddPlaylistActions --remove ;;
             8)  _Menu
                 __ ;;
             *)
                 _WrongOption "$createAddPlaylistOptions"
             ;;
         esac
-        
+
     done
 
 }

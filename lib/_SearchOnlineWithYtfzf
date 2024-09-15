@@ -27,17 +27,17 @@ _SearchOnlineWithYtfzf() {
             -I VJ "${ytfzfOptions_X[@]}" "$request$*" >> "$YTFZFJSON"
         ;;
     esac
-        
+
     clear
     test ! -s "$YTFZFJSON" && {
         rm "$YTFZFJSON"
         return
     }
-    
+
     jq --raw-output '.[].url' "$YTFZFJSON" | tee -a "$DEFAULT_LIST" >> "$URLS"
-    jq --raw-output '.[].title' "$YTFZFJSON" | tee -a "$DEFAULTITLES" >> "$TITLES"
+    jq --raw-output '.[].title' "$YTFZFJSON" | tee -a "$DEFAULT_TITLES" >> "$TITLES"
     _RemoveCrap
-    
+
     cat "$DEFAULT_LIST" "$URLS" > "$tmp_dir"/ytfzf_playlists
     while read -r line; do
          [[ $line =~ 'playlist?list=' \
@@ -50,5 +50,5 @@ _SearchOnlineWithYtfzf() {
     __; printf '%s\n' " ${info}Links added to $Type list${nc}"
     sleep 2; clear
     rm {"$YTFZFJSON","$tmp_dir"/ytfzf_playlists}
-    
+
 }

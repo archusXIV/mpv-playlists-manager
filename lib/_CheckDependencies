@@ -7,8 +7,8 @@ _CheckDependencies() {
     declare -a DEPS=(
         "ffmpeg" "jq" "mpv" "yt-dlp"
         "exiftool" "fzf" "mediainfo"
-        "parallel" "ueberzug" "wmctrl"
-        "w3m" "ytfzf"
+        "parallel" "socat" "ueberzug"
+        "wmctrl" "w3m" "ytfzf"
     )
 
     for dep in "${DEPS[@]:0:4}"; do
@@ -19,15 +19,14 @@ _CheckDependencies() {
         }
     done
 
-    for opt in "${DEPS[@]:4:11}"; do
+    for opt in "${DEPS[@]:4:12}"; do
         command -v "$opt" >/dev/null || {
-            printf '%s\n' " For better experience consider installing $opt."
-            sleep 4
+            printf '%s\n' " For better experience consider installing $opt." \
+            " Some functionalities might be unavailable"
+            sleep 5
         }
     done
 
-    # shellcheck source=/dev/null
-    . "$MPMRC"
     for tool in "$MPMEDITOR" "$FILEMANAGER"; do
         command -v "$tool" >/dev/null || {
             printf '%s\n' " $tool is not installed...!"
@@ -60,7 +59,5 @@ _CheckDependencies() {
     cp -f /usr/local/share/doc/mpm/mpm_yt-videos.m3u.titles "$titles_dir"
 
     [[ ! -f $DEFAULT_LIST ]] && echo "#EXTM3U" > "$DEFAULT_LIST"
-
-    _StartUp
 
 }

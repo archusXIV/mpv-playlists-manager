@@ -10,10 +10,10 @@ _GetVideo() {
     case "$1" in
         -q)
             __
-            if [[ ! -f $DEFAULTITLES && -f $DEFAULTM3UTITLES ]]; then
-                cp "$DEFAULTM3UTITLES" "$DEFAULTITLES"
+            if [[ ! -f $DEFAULT_TITLES && -f $DEFAULTM3UTITLES ]]; then
+                cp "$DEFAULTM3UTITLES" "$DEFAULT_TITLES"
                 rm "$DEFAULTM3UTITLES"
-            elif [[ -f $DEFAULTITLES ]]; then
+            elif [[ -f $DEFAULT_TITLES ]]; then
                 printf '%s\n' " ${info}Fetching titles...${nc}"
                 sleep 1
             else
@@ -22,7 +22,7 @@ _GetVideo() {
                 clear
             fi
             M3UFILE="$DEFAULT_LIST"
-            TITLES="$DEFAULTITLES"
+            TITLES="$DEFAULT_TITLES"
         ;;
         -v)
             __
@@ -47,5 +47,5 @@ _GetVideo() {
     )
 
     _GetVideoDownload
-    
+
 }

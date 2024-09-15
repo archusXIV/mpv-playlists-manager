@@ -71,7 +71,7 @@ _SaveCheck() {
                         break
                     ;;
                 esac
-                
+
             else
                 _WrongOption "$REPLY"
                 break

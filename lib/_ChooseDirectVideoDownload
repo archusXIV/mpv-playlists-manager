@@ -9,7 +9,7 @@ _ChooseDirectVideoDownload() {
     cd "$playlists_dir" || exit 1
     _TitlesListCompare -l
     _GetRange
-    
+
     clear
     cp -f "$list" "$list"_origin
     cp -f "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
@@ -19,7 +19,7 @@ _ChooseDirectVideoDownload() {
         sleep 4
         _Menu
     }
-    
+
     M3UFILE="$SELECTED_URLS1"
     counter=$(grep "" -c "$SELECTED_URLS1")
     animationTitles="$SELECTED_TITLES"

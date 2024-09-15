@@ -15,7 +15,7 @@ _RemoveAudioVideoIds() {
             -regextype egrep -regex '.*(\[|\]).*' \
             | sed 's,./,,'
     )
-    
+
     for file in "${downloadedFiles[@]}"; do
         mv "$file" \
         "$(echo "$file" | sed -e 's/ \[.*\]//')"

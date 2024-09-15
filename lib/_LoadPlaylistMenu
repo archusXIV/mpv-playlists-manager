@@ -7,7 +7,7 @@ _LoadPlaylistMenu() {
     cd "$playlists_dir" || return
 
     M3UFILE="$playlists_dir/$list"
-    
+
     while :; do
         _ResizeWindow
         clear

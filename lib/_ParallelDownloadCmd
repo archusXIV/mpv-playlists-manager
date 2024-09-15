@@ -8,7 +8,7 @@ _ParallelDownloadCmd() {
         "yt-dlp --format bestaudio\/best"
         "yt-dlp --format bestvideo+bestaudio\/best"
     )
-    
+
     __sedAudioCmd() ( sed -i "s/^/${ytfmt[0]} ${ytdlPreset_NC[*]} /" "$1"; )
     __sedVideoCmd() ( sed -i "s/^/${ytfmt[1]} ${ytdlPreset_X[*]} /" "$1"; )
 

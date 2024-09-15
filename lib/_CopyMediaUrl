@@ -33,7 +33,7 @@ _CopyMediaUrl() {
             echo "$mediaUrl" | tee -a "$URLS" >> "$DEFAULT_LIST"
             echo -e " ${info}Getting ${Type} title...${nc}\n"
             _YtdlGetTitle "$(sed -n '$p' "$URLS")" \
-            | tee -a "$TITLES" >> "$DEFAULTITLES"
+            | tee -a "$TITLES" >> "$DEFAULT_TITLES"
             _RemoveCrap
         fi
     fi

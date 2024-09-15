@@ -31,6 +31,7 @@ _SearchOnline() {
         echo -e " ${info}${Type} list: $(_GetLinesList "$arg") url(s)${nc}\n"
         __
         echo -e "                                            ${mtitle}::SEARCH ONLINE $menuTitleType OPTIONS::${nc}"
+        echo -e "                                          $(_LittleStars)${nc}"
         echo -e "                                 ┌──────────────────────────────────────────────────┐"
         echo -e "                                 │   1) Fzf Youtube search   4) Ytfzf PeerTube      │"
         echo -e "                                 │   2) Ytfzf Youtube        5) Back to ${Type} menu  │"

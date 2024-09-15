@@ -8,7 +8,7 @@ _SaveOnExit() {
         " ${critical}Some temporary lists aren't saved, quit anyway?:${nc}" && {
         clear
         nc=$'\e[0m';
-        
+
         SKULL=(
             "███████████████████████████" \
             "███████▀▀▀░░░░░░░▀▀▀███████" \

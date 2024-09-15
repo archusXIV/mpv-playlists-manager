@@ -12,7 +12,7 @@ _ListsCount() {
             -name "*.m3u" -printf '.' | wc -c)${nc}"
         fi
     )
-    
+
     __def() (
         if [[ -f $tmp_dir/1 ]]; then
             echo "${critical}${b}$(_GetLinesList -q)${nb}${nc}"
@@ -35,7 +35,7 @@ _ListsCount() {
             echo "0"
 
     )
-    
+
     sep="${task}*${nc}"
     echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
     echo -e "                            Collection: $(__col) ${sep} Default list: $(__def) ${sep} Audio list: $(__aud) ${sep} Video list: $(__vid)"

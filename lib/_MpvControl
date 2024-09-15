@@ -1,0 +1,61 @@
+#!/bin/bash
+## This is a part of main script: mpm
+
+# shellcheck disable=SC2154
+_MpvControl() {
+
+    __mpvControlTests() {
+        ! command -v socat >/dev/null && {
+            printf '%s\n' \
+            " ${critical}socat must be installed to control mpv.${nc}"
+            sleep 4
+        }
+        ! _PidOfMpv >/dev/null && {
+            case "$key" in
+                h|j|k|l|q|t)
+                    printf '%s\n' \
+                    " ${critical}mpv isn't running...${task}${key^}${critical} is useless.${nc}"
+                    sleep 3
+                ;;
+                r) __ ;;
+            esac
+        }
+
+        return
+    }
+
+    case "$1" in
+        -h)  key=h; __mpvControlTests || echo playlist_prev | socat - "${MPVSOCKET}" ;;
+        -j)  key=j; __mpvControlTests || echo stop          | socat - "${MPVSOCKET}" ;;
+        -k)  key=k; __mpvControlTests || echo cycle pause   | socat - "${MPVSOCKET}" ;;
+        -l)  key=l; __mpvControlTests || echo playlist_next | socat - "${MPVSOCKET}" ;;
+        -q)
+            key=q; __mpvControlTests || \
+            _PidOfMpv >/dev/null && {
+                kill -SIGTERM "$(_PidOfMpv)"
+                _RmMpvTmp
+            }
+        ;;
+        -r)
+            key=r; __mpvControlTests || \
+            if _PidOfMpv >/dev/null; then
+                printf '%s\n' \
+                " ${critical}mpv is running...${task}${key^}${critical} is useless.${nc}"
+                sleep 3
+            else
+                _RmMpvTmp
+            fi
+        ;;
+        -t)
+            key=t; __mpvControlTests || {
+                echo '{ "command": ["get_property", "media-title"] }' \
+                | socat - "${MPVSOCKET}" \
+                | awk -F'"' -v grn="${info}" -v ylw="${mtitle}" '
+                    { print grn" Now playing: " ylw$4 }
+                '
+                sleep 5
+            }
+        ;;
+    esac
+
+}

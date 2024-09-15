@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154,SC2143,SC2034
 _GetAudioDownload() {
-    
+
     local animationTitles
     animationTitles="$TITLES"
 
@@ -51,9 +51,8 @@ _GetAudioDownload() {
     fi
 
     unset url
-    
     echo -e " ${info}Done\n${nc}"
     sleep 2
     _IfWebmFiles
-    
+
 }

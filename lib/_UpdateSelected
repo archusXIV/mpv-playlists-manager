@@ -3,18 +3,18 @@
 
 # shellcheck disable=SC2154
 _UpdateSelected() {
-    
+
     cd "$playlists_dir" && {
         # let's remove downloaded links from the original file
         # and sending the other ones in a second temporary file...
         grep -v "$(grep '^https' "$SELECTED_URLS1")" "$list" >> "$SELECTED_URLS2"
         perl -i -ne 'print if ! $a{$_}++' "$SELECTED_URLS2"
-        
+
         # ...that we now rename with the original file name.
         mv -f "$SELECTED_URLS2" "$list"
         rm "$SELECTED_URLS1"
     }
-    
+
     cd "$titles_dir" && {
         # same operation for the titles.
         case "$1" in
@@ -34,7 +34,7 @@ _UpdateSelected() {
                 mv -f "$SELECTED_TITLES"_tmp "$list".titles
             ;;
         esac
-        
+
         rm "$SELECTED_TITLES"{,_orgin} 2>/dev/null
         clear
     }

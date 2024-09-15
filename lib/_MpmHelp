@@ -1,0 +1,17 @@
+#!/bin/bash
+## This is a part of main script: mpm
+
+# shellcheck disable=SC2154
+_MpmHelp() {
+    echo "${lessColor}"
+    case "$1" in
+        -b)
+            clear; head -n 17 "$BINDINGS"
+            read -rsn 1 quit
+            case "$quit" in *) return ;; esac
+        ;;
+        -c) less "$CHEATSHEET" ;;
+        -h) less "$HELP" ;;
+    esac
+    echo "${nc}"
+}

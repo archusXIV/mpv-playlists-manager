@@ -12,24 +12,24 @@ _GetCompleted() {
         __
         if [[ $downloadTmpList =~ default|list ]]; then
             printf '%s\n' " ${info}Temporary list preserved...${nc}"
+            downloadTmpList=downloaded
             sleep 2
             _RenameTmpFiles
             [[ $(awk -F= '/use_parallel_downloads/{gsub(/"/,""); print $2}' "$MPMRC") = yes ]] \
                 && use_parallel_downloads="yes"
-            downloadTmpList=downloaded
             _Menu
         else
             _Prompt -n " ${info}Downloads completed, KEEP playlist?:${nc}" && {
                 __
-                echo " ${critical}It was a temporary list, don't forget to save it.${nc}"
-                sleep 3
+                printf '%s\n' \
+                " ${critical}It was a temporary list, don't forget to save it.${nc}"
+                sleep 2
                 _RenameTmpFiles
                 [[ $(awk -F= '/use_parallel_downloads/{gsub(/"/,""); print $2}' "$MPMRC") = yes ]] \
                     && use_parallel_downloads="yes"
-                downloadTmpList=downloaded
                 _Menu
             }
-        
+
             if [[ -f "$DEFAULT_LIST"_origin ]]; then
                 _Remove -q
             elif [[ -f "$AUDIO_URLS"_origin ]]; then

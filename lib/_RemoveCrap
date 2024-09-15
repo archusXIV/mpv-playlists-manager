@@ -11,9 +11,9 @@ _RemoveCrap() {
         "$URLS"
         "$DEFAULT_LIST"
         "$TITLES"
-        "$DEFAULTITLES"
+        "$DEFAULT_TITLES"
     )
-    
+
     sed -i 's/-\s//;s/\//_/g' "${LISTS[@]:2:3}"
 
     for file in "${LISTS[@]}"; do

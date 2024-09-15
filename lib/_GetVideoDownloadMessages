@@ -6,7 +6,7 @@ _GetVideoDownloadMessages() {
 
     case "$1" in
         --parallel)
-            [[ $TITLES = "$DEFAULTITLES" ]] && {
+            [[ $TITLES = "$DEFAULT_TITLES" ]] && {
                 __
                 printf '%s\n' " ${info}$(_GetLinesList -q) video file(s) left to download."
                 printf '%s\n' " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
@@ -18,7 +18,7 @@ _GetVideoDownloadMessages() {
             }
         ;;
         --onebyone)
-            [[ $TITLES = "$DEFAULTITLES" ]] && {
+            [[ $TITLES = "$DEFAULT_TITLES" ]] && {
                 __
                 printf '%s\n' " ${info}$(_GetLinesList -q) video file(s) left to download." \
                 " Downloading:  $(sed -n '1p' "$TITLES")${nc}"
@@ -30,7 +30,7 @@ _GetVideoDownloadMessages() {
             }
         ;;
         --xargs)
-            [[ $TITLES = "$DEFAULTITLES" ]] && {
+            [[ $TITLES = "$DEFAULT_TITLES" ]] && {
                 __
                 printf '%s\n' " ${info}$(_GetLinesList -q) video file(s) left to download."
                 printf '%s\n' " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"

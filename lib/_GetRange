@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2015
 _GetRange() {
     
     cd "$playlists_dir" || exit 1
@@ -10,14 +10,15 @@ _GetRange() {
     IFS=", "; read -ra array -p "$RANGEPROMPT"
     for range in "${array[@]}"; do
         IFS="-"; read -r start end <<< "$range"
-        
+
         [[ $range =~ [a-zA-Z] ]] && {
             rm "$list"_tmp
             unset IFS range
             __
             printf '%s\n' " ${critical}Selection aborted.${nc}"
             sleep 2
-            if [[ $editopt = yes ]]; then
+            if [[ $editoption = yes ]]; then
+                editoption=no
                 _LaunchMpm "${@}"
             else
                 _Menu
@@ -26,7 +27,7 @@ _GetRange() {
 
         [[ -z $start ]] && continue
         [[ -z $end ]] && end="$start"
-        
+
         for ((i=start;i<=end;i++)); do
             sed -n "${i}p" "$list"_tmp >> "$SELECTED_URLS1"
             sed -n "${i}p" "$titles_dir"/"$list.titles" \

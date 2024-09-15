@@ -17,7 +17,7 @@ _ViewAudioVideoUrlsInfo() {
 
     # let's play...
     stars=$(printf "%-56s" "*")
-    
+
     __listHeader() (
         clear
         __
@@ -51,27 +51,20 @@ _ViewAudioVideoUrlsInfo() {
                 echo "${info}" "${viewUrlInfoPrompt[@]}" "${nc}"
             fi
         fi
-        
+
     )
-    
+
     __audioVideoCommon() {
         if [[ -s $URLS ]]; then
             __listHeader
             read -rsn 1 audioVideoCommonOptions
             case "$audioVideoCommonOptions" in
-                a|A) __; _CreateAddPlaylist "$arg" ;;
-                d|D)
-                    if [[ $downloadTmpList = list ]]; then
-                        if [[ $arg = '-a' ]]; then _GetAudio -a; else _GetVideo -v; fi
-                    else
-                        _MpvOwnsTmpList --list || \
-                        if [[ $arg = '-a' ]]; then _GetAudio -a; else _GetVideo -v; fi
-                    fi
-                ;;
+                a|A) _CreateAddPlaylist "$arg" ;;
+                d|D) _CreateAddPlaylistActions --download ;;
                 m|M) _Menu ;;
-                p|P) _MpvOwnsTmpList --list || _LoadAudioVideo "$arg" ;;
-                r|R) _MpvOwnsTmpList --list || _Remove "$arg" ;;
-                s|S) _MpvOwnsTmpList --list || _Save "$arg" ;;
+                p|P) _CreateAddPlaylistActions --play ;;
+                r|R) _CreateAddPlaylistActions --remove ;;
+                s|S) _CreateAddPlaylistActions --save ;;
                 *)
                     _WrongOption "$audioVideoCommonOptions"
                     return

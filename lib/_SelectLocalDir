@@ -3,16 +3,16 @@
 
 # shellcheck disable=SC2154,SC2034
 _SelectLocalDir() {
-    
+
     cd "$localDir" || exit 1
-    
+
     echo -e " ${info}Directories in ${localDir##*/}: ${nc}\n"
 
     PS3=""$'\n'" ${info}Select a directory number to queue/parse, [${mtitle}C${info}]ancel: ${nc}"
 
     select dir in $(find -L "$localDir" -maxdepth 1 -type d -not -empty \
         -not -wholename "$localDir" | sort | sed 's,.*/,,'); do
-        
+
         case "$REPLY" in
             [a-zA-Z])
                 if [[ -f "$FZFENQUEUE" ]]; then
@@ -60,7 +60,7 @@ _SelectLocalDir() {
                 clear; break
             ;;
         esac
-        
+
     done
 
 }

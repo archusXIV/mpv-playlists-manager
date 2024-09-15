@@ -1,6 +1,6 @@
 Author: Barret E (2020-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.0-3
+mpm version 2.0-4
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -24,9 +24,11 @@ the directory structure is ok for you.
 
 Changelog:
 --------------- NO CHANGE IN THE CONFIG FILE (mpmrc) ---------------
+version 2.0-4 - Added ncmpvc cheatsheet by typing 'm' in main window
+version 2.0-4 - Added _MpvControl function to deal with mpv interactions.
+                This works when mpvc_tui variable is filled or not,
+                use_mpvc must be set to 'yes/no'
+version 2.0-4 - Added more keyboard shortcuts for the main window (see help screen).
 version 2.0-3 - Added option to directly edit a playlist;
                 mpm --edit <myPlaylistName> (case sensitive, no extension).
 version 2.0-3 - In _SelectLocalDir function, empty directories are no longer listed.
-version 2.0-2 - Added option to directly load a playlist;
-                mpm --load <myPlaylistName> (case sensitive, no extension).
-version 2.0-2 - Added long options support eg: mpm --config, mpm --help.

@@ -1,14 +1,14 @@
 
-    mpm version 2.0-3
+    mpm version 2.0-4
 
     MPV-PLAYLISTS-MANAGER usage:
 
         . mpm -c|--config   : opens ~/.config/mpm/mpmrc
         . mpm -e|--edit <?> : opens the playlist edition function,
-                              with or without a playlist name as an argument.
+                              with a playlist name as an argument or no.
         . mpm -h|--help     : launch less /usr/local/share/doc/mpm/help
         . mpm -l|--load <?> : opens the play/download function,
-                              with or without a playlist name as an argument.
+                              with a playlist name as an argument or no.
         . mpm -p|--local    : opens local files or directory function
         . mpm -v|--version  : echoes mpm version
 
@@ -22,6 +22,7 @@
         - git reset --hard HEAD
         - git merge '@{u}'
         - sudo ./install.sh
+        Video (french spoken): https://www.youtube.com/watch?v=l1CrwYZzcGE
 
     !!! YOU CAN CHANGE MPM DIRECTORIES BY EDITING THE VARIABLES IN THE MPMRC FILE !!!
     By default "$HOME"/.local/share/
@@ -47,7 +48,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.0-3::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.0-4::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -55,8 +56,7 @@
         └─────────────────────────────────────────────────────────────────────────────────────┘
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
         │                      GENERAL OPTIONS                       │     MPMRC SETTINGS     │
-        └─────────────────────────────────────────────────────────────────────────────────────┘
-        ┌─────────────────────────────────────────────────────────────────────────────────────┐
+        │  ────────────────────────────────────────────────────────  │  ────────────────────  │
         │                      For usage type U                      │  use mpvc:         no  │
         │  ────────────────────────────────────────────────────────  │  use fzf:          no  │
         │  1)  Create/Add video playlist  6)  View default playlist  │  use parallel:     no  │
@@ -67,6 +67,20 @@
         └─────────────────────────────────────────────────────────────────────────────────────┘
                                             Select an item                                      
 
+        Keyboard shortcuts in main menu (* use digits):
+
+        a) Create/Add links to the Audio list *   │ n) Launch mpv tui
+        b) Show main window bindings              │ p) Load/Download a collection playlist *
+        c) Edit your mpmrc file *                 │ q) Quit mpv
+        d) Access the default playlist *          │ r) Refresh main window when mpv has been stopped
+        e) Edit a playlist from your collection * │ s) Save a tmp list or remove a collection playlist *
+        f) Load local folder/files *              │ t) When mpv is running, display the song/video title
+        h) Go to previous song                    │ u) Show help screen
+        j) Stop or quit mpv                       │ v) Create/Add links to the Video list *
+        k) Toggle play/pause                      │ x) Quit mpm
+        l) Go to next song                        │ z) Clear all tmp lists *
+        m) Show ncmpvc cheatsheet                 │
+        ──────────────────────────────────────────────────────────────────────────────────────────────────
 
     1) Create/Add video playlist:
 
@@ -182,8 +196,9 @@
         │           mpv is running, press N to launch the mpv tui or Q to quit mpv            │
         └─────────────────────────────────────────────────────────────────────────────────────┘
 
-        If this appears instead, mpvc_tui is empty, press 'T' to display then current mpv title,
-        (socat must be installed) and vim keys hjkl to control mpv.
+        If this appears instead, mpvc_tui is empty, press 'T' to display the current mpv title,
+        (package socat must be installed) and vim keys hjkl to control mpv.
+        If mpv is not running then when pressing those keys you will be informed.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
         │            mpv is running, press Q to quit mpv, T to view current title             │
         │           controls: H previous, J stop (same as Q), K play/pause, L next            │

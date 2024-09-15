@@ -5,19 +5,19 @@
 _Menu() {
 
     cd "$main_dir" || exit 1
-    
+
     while [[ -e $DEFAULT_LIST ]]; do
         _ResizeWindow
         clear
         __
         echo -e "                                            ${mtitle}::MPV-PLAYLISTS-MANAGER $VERSION::" "$(_CheckUpdate)"
         echo -e "                                           $(_LittleStars)${nc}"
-        echo -e "                                                 ${info}current theme: $THEME${nc}"
+        [[ -z $THEME ]] && echo -e "                                                 current theme: ${info}${theme}${nc}" || \
+        echo -e "                                                 current theme: ${info}${THEME}${nc}"
         _ListsCount
         echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
         echo -e "                  │                      GENERAL OPTIONS                       │     ${mtitle}MPMRC SETTINGS${nc}     │"
-        echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
-        echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
+        echo -e "                  │  ────────────────────────────────────────────────────────  │  ────────────────────  │"
         if [[ $use_mpvc = yes ]]; then echo -e "                  │                      ${critical}For usage type U${nc}                      │  use mpvc:        ${task}yes${nc}  │"
         elif [[ $use_mpvc = no ]]; then echo -e "                  │                      ${critical}For usage type U${nc}                      │  use mpvc:         ${task}no${nc}  │"; \
         else echo -e "                  │                      ${critical}For usage type U${nc}                      │  use mpvc:      ${task}unset${nc}  │"; fi
@@ -35,27 +35,29 @@ _Menu() {
         [[ $quit_after_task = yes ]] && echo -e "                  │  5)  Load local folder/files    X)  Exit                   │  quit after task: ${task}$quit_after_task${nc}  │"
         [[ $quit_after_task = no ]] && echo -e "                  │  5)  Load local folder/files    X)  Exit                   │  quit after task:  ${task}$quit_after_task${nc}  │"
         echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
-        pgrep -x mpv >/dev/null && _IfMpvc
+        _PidOfMpv >/dev/null && _IfMpvc
         test -f "$tmp_dir"/1 \
             && echo -e "                                                     ${info}Select an item${nc}" \
             || echo -e "                                                     ${info}${b}Select an item${nc}${nb}"
         __
         read -rsn 1 mainMenuOptions
         case "$mainMenuOptions" in
-            1)  _CreateAddPlaylist -v ;;
-            2)  _CreateAddPlaylist -a ;;
-            3)  _SaveRemove ;;
-            4)  _LoadPlaylist ;;
-            5)  _MpvOwnsTmpList --local || _LoadLocalMenu ;;
-            6)  _MpvOwnsTmpList --default || _ViewAudioVideoUrlsInfo -q ;;
-            7)  _ClearAllTmpLists ;;
-            8)  _EditPlaylist ;;
-            9)  _EditMpmConf ;;
-            h)  echo playlist_prev | socat - "${SOCKETPATH}" ;;
-            j)  echo stop | socat - "${SOCKETPATH}" ;;
-            k)  echo cycle pause | socat - "${SOCKETPATH}" ;;
-            l)  echo playlist_next | socat - "${SOCKETPATH}" ;;
-            n|N)
+            1|v|V) _CreateAddPlaylist -v ;;
+            2|a|A) _CreateAddPlaylist -a ;;
+            3|s|S) _SaveRemove ;;
+            4|p|P) _LoadPlaylist ;;
+            5|f|F) _MpvOwnsTmpList --local || _LoadLocalMenu ;;
+            6|d|D) _ViewAudioVideoUrlsInfo -q ;;
+            7|z|Z) _ClearAllTmpLists ;;
+            8|e|E) _EditPlaylist ;;
+            9|c|C) _EditMpmConf ;;
+            b|B  ) _MpmHelp -b ;;
+            h|H  ) _MpvControl -h ;;
+            j|J  ) _MpvControl -j ;;
+            k|K  ) _MpvControl -k ;;
+            l|L  ) _MpvControl -l ;;
+            m|M  ) _MpmHelp -c ;;
+            n|N  )
                 if [[ $use_mpvc = yes && -n $mpvc_tui ]]; then
                     "$mpvc_tui"
                 else
@@ -65,22 +67,10 @@ _Menu() {
                     sleep 8
                 fi
             ;;
-            q|Q)
-                pgrep -x mpv >/dev/null && {
-                    kill -SIGTERM "$(pidof mpv)"
-                    _RmMpvTmp
-                }
-            ;;
-            r|R) _RmMpvTmp ;;
-            t|T) _MpvDisplayTitle ;;
-            u|U)
-                lessColor=$'\e[0m';
-                # back to default terminal text color
-                echo "${lessColor}"
-                less "$HELP"
-                # apply again custom color
-                echo "${nc}"
-            ;;
+            q|Q) _MpvControl -q ;;
+            r|R) _MpvControl -r ;;
+            t|T) _MpvControl -t ;;
+            u|U) _MpmHelp -h ;;
             x|X) _IfQuitAfterTask -x ;;
             *)   _WrongOption "$mainMenuOptions" ;;
         esac

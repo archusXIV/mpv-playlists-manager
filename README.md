@@ -2,7 +2,7 @@
 ## Manage playlists for mpv from your linux terminal
 
 ## About mpm
-The goal is to manage playlists that mpv reads either online or from local files/directories, 
+Manage playlists that mpv reads either online or from local files/directories, 
 youtube-dl/yt-dlp is used to download videos or just audio and in that case if
 we choose webm links, ffmpeg will (if you want to) convert them in five different formats:
 aac, flac, mp3, ogg, or wav. You can switch encoders by editing the config file (mpmrc),
@@ -20,23 +20,27 @@ and many more options to control mpv, ffmpeg, yt-dlp and download/playlists dire
 ## can be launch also from these commands
 
 ```
-mpm -c|--config  # edit mpm config
-mpm -e|--edit    # edit a playlist from a list; or with argument eg: mpm --edit <myPlaylistName>
-mpm -h|--help    # launches less /usr/local/share/doc/mpm/help
-mpm -l|--load    # launches the play/download function; or with argument eg: mpm --load <myPlaylistName>
-mpm -p|--local   # launches the load local function
-mpm -v|--version # prints mpm version
+mpm -c|--config   # edit mpm config
+mpm -e|--edit <?> # edit a playlist from a list; or with an argument:
+                    mpm --edit <myPlaylistName>
+mpm -h|--help     # launches less /usr/local/share/doc/mpm/help
+mpm -l|--load <?> # launches the play/download function; or with an argument:
+                    mpm --load <myPlaylistName>
+mpm -p|--local    # launches the load local function
+mpm -v|--version  # prints mpm version
 ```
 
 ## Please update your mpmrc file on each release
-When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created so you can merge new additions, some of them are **crucial**...
+When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
 ## Changelog:
+- Added ncmpvc cheatsheet by typing 'm' in main window
+- Added _MpvControl function to deal with mpv interactions.
+    - This works when mpvc_tui variable is filled or not,
+    - use_mpvc must be set to 'yes/no'
+- Added more keyboard shortcuts for the main window (see help screen).
 - Added option to directly edit a playlist; mpm --edit <myPlaylistName> (case sensitive, no extension).
 - In _SelectLocalDir function, empty directories are no longer listed.
-- Fixed bug when trying to upgrade to version 2.0-2
-- Added option to load a playlist directly; mpm --load <myPlaylistName> (case sensitive, no extension).
-- Added long options support eg: mpm --config, mpm --help.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -95,7 +99,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.0-3.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.0-4.png)
 
 
 ```

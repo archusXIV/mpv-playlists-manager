@@ -13,7 +13,7 @@ _RemoveTmpLinks() {
     IFS=", "; read -ra tmpLinks -p "$RANGEPROMPT"
     for range in "${tmpLinks[@]}"; do
         IFS="-"; read -r start end <<< "$range"
-        
+
         [[ $range =~ [a-zA-Z] ]] && {
             [[ $tmpList = "$DEFAULT_LIST" ]] && sed -i '1s/^/#EXTM3U\n/' "$tmpList"
             unset IFS range
@@ -22,15 +22,15 @@ _RemoveTmpLinks() {
             sleep 2
             _Menu
         }
-        
+
         [[ -z $start ]] && continue
         [[ -z $end ]] && end="$start"
-        
+
         for ((i=start;i <= end;i++)); do
             sed -n "${i}p" "$tmpList" >> "$tmpList"_tmp
             sed -n "${i}p" "$tmpTitles" >> "$tmpTitles"_tmp
         done
-        
+
     done
 
     grep -v "$(grep '^https' "$tmpList"_tmp)" "$tmpList" \

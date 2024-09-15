@@ -16,7 +16,7 @@ _Remove() {
         ;;
         -q)
             tmpList="$DEFAULT_LIST"
-            tmpTitles="$DEFAULTITLES"
+            tmpTitles="$DEFAULT_TITLES"
             _RemoveDefaultList
         ;;
         -v)

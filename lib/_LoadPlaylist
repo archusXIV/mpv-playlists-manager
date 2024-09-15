@@ -3,22 +3,20 @@
 
 # shellcheck disable=SC2154,SC2044,SC2001
 _LoadPlaylist() {
-    
+
     cd "$playlists_dir" || exit 1
 
     local list titlesFile
 
-    for l in $(find . -type f -name "*.m3u"); do
-        [[ -f "$l"_origin ]] \
-        && mv "$l"_origin "$l"
+    for lst in $(find . -type f -name "*_origin"); do
+        mv "$lst" "$(echo "$lst" | sed 's/_origin//')"
     done
 
     clear
     __
-    
     PS3=""$'\n'" ${info}Select a playlist to load, [${mtitle}C${info}]ancel: ${nc}"
     select list in $(find . -type f -not -name "default.m3u" | sort -d | sed 's,.*/,,'); do
-        
+
         [[ $REPLY =~ [a-zA-Z] ]] && break
 
         [[ $(_GetLinesList -l) -eq 0 ]] && {

@@ -4,9 +4,9 @@
 # shellcheck disable=SC2154
 _LaunchMpm() {
     __
-    _Prompt "  Launch mpm?" || {
+    _Prompt "  Launch ${0##*/}?" || {
         clear
         exit
     }
-    _CheckDependencies "${@}"
+    _StartUp
 }

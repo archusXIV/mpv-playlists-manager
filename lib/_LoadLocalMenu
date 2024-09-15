@@ -5,7 +5,6 @@
 _LoadLocalMenu() {
 
     local localDir file
-    
     file="${m3uFile##*/}" file="${file%%.*}"
 
     __isFileManagerInstalled() (
@@ -16,7 +15,7 @@ _LoadLocalMenu() {
             clear;"$FILEMANAGER" "$localDir"
         fi
     )
-    
+
     while :; do
         _ResizeWindow
         clear

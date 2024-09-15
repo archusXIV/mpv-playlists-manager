@@ -10,11 +10,11 @@ _ConvertAudio() {
         sleep 4
         _Menu
     }
-    
+
     local webmFiles
 
     mapfile -t webmFiles < <(find . -iname "*.webm")
-    
+
     if [[ -n $default_conversion_format ]]; then
         __
         printf '%s\n' \
@@ -51,7 +51,7 @@ _ConvertAudio() {
         __
         read -rn1 \
         -p " ${info}Select an output format [1]=aac [2]=flac [3]=mp3 [4]=ogg [5]=wav: ${nc}"
-        
+
         case "$REPLY" in
             [1-5])
                 __
@@ -83,7 +83,7 @@ _ConvertAudio() {
                 }
             ;;
         esac
-        
+
     fi
 
     if [[ $(find . -name "*.aac" -o -name "*.flac" \
@@ -91,5 +91,5 @@ _ConvertAudio() {
         clear
         find . -iname "*.webm" -exec rm {} \;
     fi
-    
+
 }

@@ -19,7 +19,7 @@ _SaveRemove() {
             echo " ${info}${saveRemovePrompts[*]}${nc}"
             __
         fi
-    
+
     elif [[ -f $AUDIO_URLS ]]; then
 
         if (( $(_GetLinesList -q) < 1 )); then
@@ -30,7 +30,7 @@ _SaveRemove() {
             echo " ${info}${saveRemovePrompts[*]}${nc}"
             __
         fi
-    
+
     elif [[ -f $VIDEO_URLS ]]; then
 
         if (( $(_GetLinesList -q) < 1 )); then
@@ -41,7 +41,7 @@ _SaveRemove() {
             echo " ${info}${saveRemovePrompts[*]}${nc}"
             __
         fi
-    
+
     elif (( $(_GetLinesList -q) < 1 )); then
         echo -e " ${critical}Nothing to save, maybe remove something?${nc}\n"
         unset {saveRemovePrompts[1],saveRemovePrompts[2],saveRemovePrompts[3]}

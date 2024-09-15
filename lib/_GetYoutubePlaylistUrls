@@ -20,7 +20,7 @@ _GetYoutubePlaylistUrls() {
         invidious_instance="https://vid.puffyan.us" \
         ytfzf -A -I VJ --scrape=youtube-playlist "$playlist" > "$YTFZFJSON";clear
         jq --raw-output '.[].url' "$YTFZFJSON" | tee -a "$DEFAULT_LIST" >> "$URLS"
-        jq --raw-output '.[].title' "$YTFZFJSON" | tee -a "$DEFAULTITLES" >> "$TITLES"
+        jq --raw-output '.[].title' "$YTFZFJSON" | tee -a "$DEFAULT_TITLES" >> "$TITLES"
     )
 
     __parallel() (
@@ -39,13 +39,13 @@ _GetYoutubePlaylistUrls() {
             ' playlist.m3u
             tee -a "$DEFAULT_LIST" >> "$URLS" < playlist.m3u
             sed -i 's/^[[:digit:]]*//;s/^\s//;2~2d' playlist.titles
-            tee -a "$DEFAULTITLES" >> "$TITLES" < playlist.titles
+            tee -a "$DEFAULT_TITLES" >> "$TITLES" < playlist.titles
         }
     )
 
     __native() (
         _YtdlGetTitle "$playlist" \
-        | tee -a "$TITLES" >> "$DEFAULTITLES"
+        | tee -a "$TITLES" >> "$DEFAULT_TITLES"
         yt-dlp "${ytdlPreset_DW[@]}" -j "$mediaUrl" \
         | jq --raw-output '(.webpage_url)' \
         | tee -a "$DEFAULT_LIST" >> "$URLS"
@@ -78,11 +78,9 @@ _GetYoutubePlaylistUrls() {
                     __native
                 fi
             done
-            
+
             unset url
-            
             clear
-            
         ;;
     esac
 

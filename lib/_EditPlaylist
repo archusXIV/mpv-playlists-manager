@@ -21,7 +21,7 @@ _EditPlaylist() {
             }
             __
             read -rsn 1 -p \
-            "${info}"' [E]dit urls manually, re[N]ame playlist, [R]emove titles: '"${nc}" edit
+            " ${info}[E]dit urls manually, re[N]ame playlist, [R]emove titles:${nc} " edit
             __
             case "$edit" in
                 e|E)
@@ -51,12 +51,12 @@ _EditPlaylist() {
                 ;;
             esac
 
-            if [[ $editopt = yes ]]; then
+            if [[ $editoption = yes ]]; then
                 read -rsn 1 \
                 -p "${info} [E]dit another file, [N]o thanks.${nc}" again
                 case "$again" in
                     e|E) break ;;
-                    n|N) editopt=no; __; _LaunchMpm "${@}" ;;
+                    n|N) editoption=no; __; _LaunchMpm "${@}" ;;
                     *) __; _WrongOption "$again"; break ;;
                 esac
             else
@@ -68,7 +68,7 @@ _EditPlaylist() {
                     *) __; _WrongOption "$again"; break ;;
                 esac
             fi
-            
         done
+
     done
 }

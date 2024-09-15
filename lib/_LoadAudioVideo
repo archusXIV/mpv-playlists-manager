@@ -6,8 +6,8 @@ _LoadAudioVideo() {
 
     local m3uFile
 
-    pidof mpv >/dev/null && {
-        kill -SIGTERM "$(pidof mpv)"
+    _PidOfMpv >/dev/null && {
+        kill -SIGTERM "$(_PidOfMpv)"
         _RmMpvTmp
         sleep 0.5
     }
@@ -50,7 +50,7 @@ _LoadAudioVideo() {
             _MpvcTest -v
         ;;
     esac
-    
+
     _Menu
-    
+
 }

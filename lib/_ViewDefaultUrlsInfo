@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154,SC2034
 _ViewDefaultUrlsInfo() {
-    
+
     local file Type
     file="${DEFAULT_LIST##*/}" file="${file%%.*}"
     Type=default
@@ -21,24 +21,24 @@ _ViewDefaultUrlsInfo() {
 
     if (($(_GetLinesList -q) > 0)); then
         rm "$tmp_dir"/1 2>/dev/null
-        
-        [[ $(grep "" -c "$DEFAULTITLES" 2>/dev/null) -ne $(_GetLinesList -q) ]] && {
+
+        [[ $(grep "" -c "$DEFAULT_TITLES" 2>/dev/null) -ne $(_GetLinesList -q) ]] && {
             printf '%s\n' " ${critical}Default list as been modified," \
             " ${task}${b}Updating Default list titles...${nb}${nc}"
             _GetMediaTitle -q
         }
         clear
-        
+
         while [[ -f $DEFAULT_LIST ]]; do
             menuTitleType=DEFAULT
             URLS="$DEFAULT_LIST"
-            TITLES="$DEFAULTITLES"
+            TITLES="$DEFAULT_TITLES"
             __
             __listHeader
-            read -rsn 1 viewDefaultUrlsInfoOptions
-            case "$viewDefaultUrlsInfoOptions" in
+            read -rsn 1 viewDefaultUrlsInfOptions
+            case "$viewDefaultUrlsInfOptions" in
                 d|D)
-                    if [[ $downloadTmpList = default ]]; then
+                    if [[ $downloadTmpList = default || -f $pidofMpv ]]; then
                         __getAudioVideo
                     else
                         _MpvOwnsTmpList --default || __getAudioVideo
@@ -46,35 +46,45 @@ _ViewDefaultUrlsInfo() {
                 ;;
                 m|M) _Menu ;;
                 p|P)
-                    _MpvOwnsTmpList --default || \
-                    __
-                    read -rsn 1 -p "${info}"' Play [A]udio, [V]ideo?: '"${nc}" play
-                    case "$play" in
-                        a|A) _LoadAudioVideo -qa ;;
-                        v|V) _LoadAudioVideo -qv ;;
-                        *)
-                            _WrongOption "$play"
-                            return
-                        ;;
-                    esac
+                    if [[ -f $pidofMpv ]]; then
+                        _StartUp
+                    else
+                        _MpvOwnsTmpList --default || \
+                        __
+                        read -rsn 1 \
+                        -p "${info}"' Play [A]udio, [V]ideo?: '"${nc}" play
+                        case "$play" in
+                            a|A) _LoadAudioVideo -qa ;;
+                            v|V) _LoadAudioVideo -qv ;;
+                            *)
+                                _WrongOption "$play"
+                                return
+                            ;;
+                        esac
+                    fi
                 ;;
                 r|R)
-                    _MpvOwnsTmpList --default || _Remove -q
+                    if [[ -f $pidofMpv ]]; then
+                        _Remove -q
+                    else
+                        _MpvOwnsTmpList --default || _Remove -q
+                    fi
                 ;;
                 s|S)
-                    _MpvOwnsTmpList --default || \
-                    if [[ -f $DEFAULTITLES ]]; then
+                    if [[ -f $pidofMpv && -f $DEFAULT_TITLES ]]; then
                         _Save -q
+                    elif [[ -f $DEFAULT_TITLES ]]; then
+                        _MpvOwnsTmpList --default || _Save -q
                     else
                         printf '%s\n' " ${critical}Default list does not exist," \
                         " ${task}${b}Updating Default list titles...${nb}${nc}"
                         _GetMediaTitle -q
-                        nl < "$DEFAULTITLES"
+                        nl < "$DEFAULT_TITLES"
                         _Save -q
                     fi
                 ;;
                 *)
-                    _WrongOption "$viewDefaultUrlsInfoOptions"
+                    _WrongOption "$viewDefaultUrlsInfOptions"
                     return
                 ;;
             esac

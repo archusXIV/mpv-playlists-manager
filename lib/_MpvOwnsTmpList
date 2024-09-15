@@ -6,16 +6,19 @@ _MpvOwnsTmpList() {
 
     local downloadTmpList
 
-    pgrep -x mpv >/dev/null && {
-        
+    _PidOfMpv >/dev/null && {
+
         [[ -f $NOWPLAYING || -L $NOWPLAYING ]] && {
 
             sedPrint=$(sed -n '1p' "$NOWPLAYING")
 
             case "$1" in
                 --collection)
-                    if [[ -f "$SELECTED_URLS1" || $m3uFile = *.m3u ]]; then
+                    if [[ -f "$SELECTED_URLS1" ]]; then
                         name="another"
+                        action="if you want to play $name collection playlist,"
+                    elif [[ $m3uFile = *.m3u ]]; then
+                        name="a"
                         action="if you want to play $name collection playlist,"
                     else
                         return
@@ -45,7 +48,7 @@ _MpvOwnsTmpList() {
                         action="if you want to queue $name directory/file(s),"
                     elif [[ -f "$SELECTED_URLS1" || $m3uFile = *.m3u ]]; then
                         name="another"
-                        action="if you want to queue $name directory/file(s),"
+                        action="if you want to queue a directory/file(s),"
                     else
                         return
                     fi
@@ -64,7 +67,7 @@ _MpvOwnsTmpList() {
                 read -rsn 1 \
                 -p " ${info}[A]bort, [Q]uit mpv: ${nc}" mpvOwnsTmpListOptions
             fi
-            
+
             case "$mpvOwnsTmpListOptions" in
                 a|A) _Menu ;;
                 d|D)
@@ -75,14 +78,14 @@ _MpvOwnsTmpList() {
                     fi
                 ;;
                 q|Q)
-                    kill -SIGTERM "$(pidof mpv)" 2>/dev/null
+                    kill -SIGTERM "$(_PidOfMpv)" 2>/dev/null
                     localPlaylist=no
                     _RmMpvTmp && return
                 ;;
                 *) _WrongOption "$mpvOwnsTmpListOptions" && _Menu ;;
             esac
         }
-        
+        [[ -f $pidofMpv ]] && _StartUp
     }
 
 }

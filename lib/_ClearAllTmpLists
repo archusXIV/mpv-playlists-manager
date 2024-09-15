@@ -9,7 +9,7 @@ _ClearAllTmpLists() {
     declare -a tmps=(
         "$AUDIO_URLS" "$AUDIO_TITLES"
         "$VIDEO_URLS" "$VIDEO_TITLES"
-        "$FFOP" "$DEFAULTITLES"
+        "$FFOP" "$DEFAULT_TITLES"
         "$tmp_dir/1" "$SELECTED_URLS1"
         "Audio" "Video" "default" "temporarySelection"
     )
@@ -37,7 +37,7 @@ _ClearAllTmpLists() {
                         sed -i '/^[[:alpha:]]/d' "$DEFAULT_LIST"
                     fi
                 done
-                
+
                 rm "${tmps[@]}" 2>/dev/null
                 __
                 printf '%s\n' " ${critical}All Temporary lists cleared.${nc}"

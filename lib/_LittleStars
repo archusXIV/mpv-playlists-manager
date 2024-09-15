@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2086
 _LittleStars() {
 
-    if [[ $THEME = default ]]; then
+    if [[ $THEME = default || $theme = default ]]; then
         for i in {1..7}; do
             echo -en "\e[38;5;${i}m*****\e[0m"
         done
@@ -18,5 +18,5 @@ _LittleStars() {
             fi
         done
     fi
-    
+
 }

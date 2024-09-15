@@ -5,7 +5,7 @@
 _Save() {
 
     local current_list current_titles
-    
+
     cd "$playlists_dir" || exit 1
 
     case "$1" in
@@ -23,8 +23,8 @@ _Save() {
         ;;
         -q)
             current_list="$DEFAULT_LIST"
-            if [[ -f $DEFAULTITLES ]]; then
-                current_titles="$DEFAULTITLES"
+            if [[ -f $DEFAULT_TITLES ]]; then
+                current_titles="$DEFAULT_TITLES"
             else
                 current_titles="$DEFAULTM3UTITLES"
             fi

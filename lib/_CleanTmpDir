@@ -4,11 +4,11 @@
 # shellcheck disable=SC2154
 # This function is executed by the trap command before we exit out. 
 _CleanTmpDir() {
-    
-    test -s "$DEFAULTITLES" && \
-    mv -f "$DEFAULTITLES" "$DEFAULTM3UTITLES"
 
-    if pgrep -x mpv >/dev/null; then
+    test -s "$DEFAULT_TITLES" && \
+    mv -f "$DEFAULT_TITLES" "$DEFAULTM3UTITLES"
+
+    if _PidOfMpv >/dev/null; then
         find "$tmp_dir" -type f \
         -not -name "$(awk -F"/" '{print $NF}' "$NOWPLAYING")" \
         -not -name "fzfEnqueue.m3u" \

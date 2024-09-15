@@ -1,17 +1,42 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2034
 _StartUp() {
-    
+
+    local pidofMpv="$tmp_dir/mpv.pid"
+
+    _ResizeWindow
+
     [[ -s $DEFAULTM3UTITLES && -s $DEFAULT_LIST ]] && {
         touch "$tmp_dir"/1
-        cp -f "$DEFAULTM3UTITLES" "$DEFAULTITLES"
-        rm "$DEFAULTM3UTITLES"
+        mv -f "$DEFAULTM3UTITLES" "$DEFAULT_TITLES"
     }
 
-    ! pgrep -x mpv >/dev/null && \
-    rm "$NOWPLAYING" "$tmp_dir"/temporary* 2>/dev/null
-    
-    _Menu
+    if _PidOfMpv >/dev/null && [[ ! -e "$NOWPLAYING" ]]; then
+        clear
+        __
+        echo -e "                               ${critical}┌───────────────────────────────────────────────────────────┐"
+        echo -e "                               │   MPV IS RUNNING OR IS IDLE, YOU WON'T BE ABLE TO PLAY    │"
+        echo -e "                               │   ANY PLAYLISTS OR LOCAL MEDIA FILES UNLESS YOU STOP IT,  │"
+        echo -e "                               │   EDITING AND MAKING PLAYLISTS WILL STILL BE POSSIBLE.    │"
+        echo -e "                               │            DO YOU WISH MPV TO QUIT NOW [Y/n]:             │"
+        echo -e "                               └───────────────────────────────────────────────────────────┘${nc}"
+        _PidOfMpv > "$pidofMpv"
+        read -rsn 1 quitmpv
+        case "$quitmpv" in
+            n|N) _Menu ;;
+            y|*)
+                kill -SIGTERM "$(_PidOfMpv)"
+                rm "$pidofMpv"
+                _Menu
+            ;;
+        esac
+    elif _PidOfMpv >/dev/null && [[ -e "$NOWPLAYING" ]]; then
+        _Menu
+    else
+        rm {"$NOWPLAYING","$tmp_dir"/temporary*} 2>/dev/null
+        _Menu
+    fi
+
 }

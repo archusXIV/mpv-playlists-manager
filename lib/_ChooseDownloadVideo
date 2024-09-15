@@ -5,7 +5,6 @@
 _ChooseDownloadVideo() {
 
     local counter mediaDir youtube
-    
     clear
 
     mediaDir="$videos_dir"/"${list%.*}"
@@ -24,7 +23,7 @@ _ChooseDownloadVideo() {
             _TitlesListCompare -l
             _GetRange
             clear
-            
+
             cp -f "$playlists_dir"/"$list" "$playlists_dir"/"$list"_origin
             cp -f "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
             mkdir --parents "$mediaDir" && cd "$mediaDir" || {
@@ -33,10 +32,10 @@ _ChooseDownloadVideo() {
                 sleep 4
                 _Menu
             }
-            
+
             readarray -t CHOSENCODES < "$SELECTED_URLS1"
             counter="${#CHOSENCODES[@]}"
-            
+
             for url in "${CHOSENCODES[@]}"; do
 
                 if [[ $url =~ 'youtube.com' ]]; then
@@ -54,7 +53,7 @@ _ChooseDownloadVideo() {
                 __
                 printf '%s\n' " ${info}$counter file(s) left to downloads." \
                 " Downloading: $(_GetLinkTitle -s)${nc}"
-                
+
                 if [[ $youtube = yes ]]; then
                     yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
                     --format "$code" "${ytdlPreset_X[@]}" "$url"

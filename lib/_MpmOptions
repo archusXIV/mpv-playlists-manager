@@ -4,45 +4,34 @@
 # shellcheck disable=SC2154,SC2034
 _MpmOptions() {
 
-    local editopt list
+    _CheckDependencies "${@}"
 
+    local list editoption
     list="$2".m3u
 
     case "$1" in
-        --config |-c)
-            if [[ -n $MPMEDITOR ]]; then
-                "$MPMEDITOR" "$MPMRC"
+        --config |-c) "$MPMEDITOR" "$MPMRC" ;;
+        --edit   |-e)
+            editoption=yes
+            if [[ -f $playlists_dir/$list ]]; then
+                _EditMyPlaylist
             else
-                __
-                printf '%s\n' " ${critical}MPMEDITOR is not set...please edit your config.${nc}"
-                exit 1
+                _EditPlaylist
             fi
         ;;
-        --edit   |-e)
-            cd "$playlists_dir" && {
-                editopt=yes
-                if [[ -f $list ]]; then
-                    _EditMyPlaylist
-                else
-                    _EditPlaylist
-                fi
-            }
-            ;;
-        --help   |-h) less "$HELP" ;;
-        --local  |-p) _LoadLocalMenu ;;
-        --version|-v) echo " mpm $VERSION" ;;
+        --help   |-h) _MpmHelp -h ;;
+        --local  |-f) _LoadLocalMenu ;;
+        --version|-v) __; echo " ${0##*/} $VERSION" ;;
         --load   |-l)
-            cd "$playlists_dir" && {
-                if [[ -f $list ]]; then
-                    _LoadPlaylistMenu
-                else
-                    _LoadPlaylist
-                fi
-            }
+            if [[ -f $playlists_dir/$list ]]; then
+                _LoadPlaylistMenu
+            else
+                _LoadPlaylist
+            fi
         ;;
         *)
             if (( $# == 0 )); then
-                _CheckDependencies "${@}"
+                _StartUp
             else
                 __
                 printf '%s\n' " ${critical}invalid option: ${task}$1${nc}"
@@ -51,7 +40,7 @@ _MpmOptions() {
             fi
         ;;
     esac
-    
+
     _LaunchMpm "${@}"
 
 }

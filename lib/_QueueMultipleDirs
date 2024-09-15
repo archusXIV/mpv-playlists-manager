@@ -9,10 +9,9 @@ _QueueMultipleDirs() {
     cd "$localDir" || exit 1
 
     local mpv_list dirlist localPlaylist
-    
     mpv_list="$localDir/dirlist.m3u"
     dirlist="$tmp_dir/dirlist"
-    
+
     rm "$mpv_list" 2>/dev/null
 
     find ./ -maxdepth 1 -type d -empty \
@@ -61,9 +60,9 @@ _QueueMultipleDirs() {
     sed -i "s/^/${dirPath}\//;s,$,/," "$mpv_list"
     use_mpvc_locally=yes
     localPlaylist=yes
-    
+
     mpv --no-terminal "${mpvGenOptions_SK[@]}" \
-    --idle=no "$mpv_list" &
+    "${mpvVideoOptions_FS[@]}" --idle=no "$mpv_list" &
 
     ln -sfr "$mpv_list" "$NOWPLAYING"
     _WhileMpvIsRunning &
