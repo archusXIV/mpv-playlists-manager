@@ -9,16 +9,16 @@ _EditMpmConf() {
 
     $MPMEDITOR "$MPMRC"; . "$MPMRC"
     printf '%s\n' " ${info}mpm config saved! New changes actives.${nc}"
-    
+
     if [[ -z $THEME ]]; then
         theme="default"; nc=$'\e[0m'; critical=$'\e[31m';
         info=$'\e[32m'; mtitle=$'\e[33m'; task=$'\e[37m';
     else
+        . "$MPMRC"; . "$THEMERC"
         _Theme "$THEME"
     fi
 
     sleep 2
-    clear
     _Menu
 
 }
