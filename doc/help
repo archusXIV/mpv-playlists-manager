@@ -9,7 +9,7 @@
         . mpm -h|--help     : launch less /usr/local/share/doc/mpm/help
         . mpm -l|--load <?> : opens the play/download function,
                               with a playlist name as an argument or no.
-        . mpm -p|--local    : opens local files or directory function
+        . mpm -f|--local    : opens local files or directory function
         . mpm -v|--version  : echoes mpm version
 
     UPGRADE PROCEDURE:

@@ -26,7 +26,7 @@ mpm -e|--edit <?> # edit a playlist from a list; or with an argument:
 mpm -h|--help     # launches less /usr/local/share/doc/mpm/help
 mpm -l|--load <?> # launches the play/download function; or with an argument:
                     mpm --load <myPlaylistName>
-mpm -p|--local    # launches the load local function
+mpm -f|--local    # load local files/folder(s)
 mpm -v|--version  # prints mpm version
 ```
 
