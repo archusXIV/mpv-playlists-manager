@@ -35,7 +35,7 @@ _MpmOptions() {
             else
                 __
                 printf '%s\n' " ${critical}invalid option: ${task}$1${nc}"
-                head -n 13 "$HELP"
+                head -n 13 "$HELP"; echo $'\e[0m'
                 exit 1
             fi
         ;;
