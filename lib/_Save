@@ -21,7 +21,7 @@ _Save() {
                 return
             fi
         ;;
-        -q)
+        -d)
             current_list="$DEFAULT_LIST"
             if [[ -f $DEFAULT_TITLES ]]; then
                 current_titles="$DEFAULT_TITLES"

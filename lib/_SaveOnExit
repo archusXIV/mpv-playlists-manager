@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154
 _SaveOnExit() {
-
+    __
     _Prompt -n \
         " ${critical}Some temporary lists aren't saved, quit anyway?:${nc}" && {
         clear

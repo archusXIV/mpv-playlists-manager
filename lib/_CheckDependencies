@@ -8,7 +8,7 @@ _CheckDependencies() {
         "ffmpeg" "jq" "mpv" "yt-dlp"
         "exiftool" "fzf" "mediainfo"
         "parallel" "socat" "ueberzug"
-        "wmctrl" "w3m" "ytfzf"
+        "wmctrl" "w3m" "ytfzf" "less"
     )
 
     for dep in "${DEPS[@]:0:4}"; do
@@ -19,10 +19,10 @@ _CheckDependencies() {
         }
     done
 
-    for opt in "${DEPS[@]:4:12}"; do
+    for opt in "${DEPS[@]:4:13}"; do
         command -v "$opt" >/dev/null || {
             printf '%s\n' " For better experience consider installing $opt." \
-            " Some functionalities might be unavailable"
+            " Some functionalities might be unavailable..."
             sleep 5
         }
     done

@@ -1,0 +1,65 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2034
+_FzfEnqueueOptions() {
+
+    read -rsn 1 -p " ${info}[A]dd more files, [N]o thanks: ${nc}" enqueueOptions
+    clear
+    case "$enqueueOptions" in
+        a|A)
+            sed -i "s/^/${localDirPath}\//" fzfEnqueue.m3u
+            if [[ -f "$FZFENQUEUE" ]]; then
+                cat "$FZFENQUEUE" fzfEnqueue.m3u > ./tmpfile
+                mv -f ./tmpfile "$FZFENQUEUE"
+                rm fzfEnqueue.m3u
+                _SelectLocalDir -f
+            else
+                mv -f fzfEnqueue.m3u "$FZFENQUEUE"
+                _SelectLocalDir -f
+            fi
+        ;;
+        n|N)
+            use_mpvc_locally="yes"
+            localPlaylist=yes
+
+            sed -i "s/^/${localDirPath}\//" fzfEnqueue.m3u
+            if [[ -f "$FZFENQUEUE" ]]; then
+
+                cat "$FZFENQUEUE" fzfEnqueue.m3u > ./tmpfile
+                rm fzfEnqueue.m3u
+                mv -f ./tmpfile "$FZFENQUEUE"
+                ln -sfr "$FZFENQUEUE" "$NOWPLAYING"
+                
+                if [[ $localMediaType == audio ]]; then
+                    _LoadAudioVideo -fa
+                elif [[ $localMediaType == video ]]; then
+                    _LoadAudioVideo -fv
+                else
+                    mpv --no-terminal "${mpvGenOptions_SK[@]}" \
+                    "${mpvGenOptions_ID[@]}" "$FZFENQUEUE" &
+                    _WhileMpvIsRunning &
+                fi
+                
+            else
+                if [[ $localMediaType == audio ]]; then
+                    mv -f ./fzfEnqueue.m3u "$FZFENQUEUE"
+                    _LoadAudioVideo -fa
+                elif [[ $localMediaType == video ]]; then
+                    mv -f ./fzfEnqueue.m3u "$FZFENQUEUE"
+                    _LoadAudioVideo -fv
+                else
+                    ln -sfr ./fzfEnqueue.m3u "$NOWPLAYING"
+                    mpv --no-terminal "${mpvGenOptions_SK[@]}" \
+                    "${mpvGenOptions_ID[@]}" ./fzfEnqueue.m3u &
+                    _WhileMpvIsRunning &
+                fi
+            fi
+        ;;
+        *)
+            rm {fzfEnqueue.m3u,"$FZFENQUEUE"} 2>/dev/null
+            _WrongOption "$enqueueOptions" && return
+        ;;
+    esac
+
+}

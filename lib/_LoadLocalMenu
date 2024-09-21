@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2034
 _LoadLocalMenu() {
 
-    local localDir file
+    local localDir file localMediaType
     file="${m3uFile##*/}" file="${file%%.*}"
 
     __isFileManagerInstalled() (
@@ -15,7 +15,7 @@ _LoadLocalMenu() {
             clear;"$FILEMANAGER" "$localDir"
         fi
     )
-
+    
     while :; do
         _ResizeWindow
         clear
@@ -30,27 +30,43 @@ _LoadLocalMenu() {
         echo -e "                                  └───────────────────────────────────────────────────┘"
         echo -e "                                                    ${info}${b}Select an item${nb}${nc}"
         __
-        read -rsn 1
-        case "$REPLY" in
+        read -rsn 1 loadLocalMenuOptions
+        case "$loadLocalMenuOptions" in
             1|3)
-                [[ $REPLY = 1 ]] && localDir="$MUSIC_DIR"
-                [[ $REPLY = 3 ]] && localDir="$VIDEO_DIR"
-                _ReplaceSpaces -l
-                clear;__
-                _SelectLocalDir -d
+                [[ $loadLocalMenuOptions == 1 ]] && {
+                    localDir="$MUSIC_DIR"; [[ -z $use_mpvc ]] && localMediaType=audio
+                    _ReplaceSpaces -l
+                    clear;__
+                    _SelectLocalDir -d
+                }
+                [[ $loadLocalMenuOptions == 3 ]] && {
+                    localDir="$VIDEO_DIR"; [[ -z $use_mpvc ]] && localMediaType=video
+                    _ReplaceSpaces -l
+                    clear;__
+                    _SelectLocalDir -d
+                }
             ;;
             2|4)
-                [[ $REPLY = 2 ]] && localDir="$MUSIC_DIR"
-                [[ $REPLY = 4 ]] && localDir="$VIDEO_DIR"
-                if [[ -n $(command -v fzf) && $use_fzf = yes ]]; then
-                    clear;__;_SelectLocalDir -f;_Menu
-                else
-                    __isFileManagerInstalled
-                fi
+                [[ $loadLocalMenuOptions == 2 ]] && {
+                    localDir="$MUSIC_DIR"; [[ -z $use_mpvc ]] && localMediaType=audio
+                    if [[ -n $(command -v fzf) && $use_fzf = yes ]]; then
+                        clear;__;_SelectLocalDir -f;_Menu
+                    else
+                        __isFileManagerInstalled
+                    fi
+                }
+                [[ $loadLocalMenuOptions == 4 ]] && {
+                    localDir="$VIDEO_DIR"; [[ -z $use_mpvc ]] && localMediaType=video
+                    if [[ -n $(command -v fzf) && $use_fzf = yes ]]; then
+                        clear;__;_SelectLocalDir -f;_Menu
+                    else
+                        __isFileManagerInstalled
+                    fi
+                }
             ;;
             5|6)
-                [[ $REPLY = 5 ]] && localDir="$MUSIC_DIR"
-                [[ $REPLY = 6 ]] && localDir="$VIDEO_DIR"
+                [[ $loadLocalMenuOptions == 5 ]] && localDir="$MUSIC_DIR"
+                [[ $loadLocalMenuOptions == 6 ]] && localDir="$VIDEO_DIR"
                 __isFileManagerInstalled
             ;;
             7)
@@ -58,16 +74,16 @@ _LoadLocalMenu() {
                 -p " ${info}Queue multiple [A]udio or [V]ideo directories: ${nc}" \
                 diranswer
                 case "$diranswer" in
-                    a|A) localDir="$MUSIC_DIR" ;;
-                    v|V) localDir="$VIDEO_DIR" ;;
+                    a|A) localDir="$MUSIC_DIR"; [[ -z $use_mpvc ]] && localMediaType=audio ;;
+                    v|V) localDir="$VIDEO_DIR"; [[ -z $use_mpvc ]] && localMediaType=video ;;
                     *) __; _WrongOption "$diranswer"; continue ;;
                 esac
                 _QueueMultipleDirs
             ;;
             8)  _Menu ;;
             *)
-                _WrongOption "$REPLY"
-                return
+                _WrongOption "$loadLocalMenuOptions"
+                continue
             ;;
         esac
     done

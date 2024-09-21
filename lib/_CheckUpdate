@@ -10,7 +10,7 @@ _CheckUpdate() {
         "https://raw.githubusercontent.com/archusXIV/mpv-playlists-manager/main/version"
     )
 
-    [[ $check_updates = yes ]] && {
+    [[ $check_updates == yes ]] && {
         [[ $UPD != "$VERSION" ]] && \
         printf '%s\n' " ${critical}${b}$UPD available${nb}${nc}"
     }

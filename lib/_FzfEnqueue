@@ -5,9 +5,10 @@
 _FzfEnqueue() {
 
     cd "$localDir"/"$dir" || return
+    local localDirPath
+    localDirPath=$(pwd | sed 's,/,\\/,g')
     _ResizeWindow
     rm ./fzfEnqueue.m3u 2>/dev/null
-    local localDirPath
 
     ! command -v "$fzf_preview" && fzf_preview=(file -N -i --)
 
@@ -23,48 +24,7 @@ _FzfEnqueue() {
         return
     else
         clear;__
-        localDirPath=$(pwd | sed 's,/,\\/,g')
-
-        read -rsn 1 -p " ${info}[A]dd more files, [N]o thanks: ${nc}" fzfEnqueueOptions
-        clear
-        case "$fzfEnqueueOptions" in
-            a|A)
-                sed -i "s/^/${localDirPath}\//" fzfEnqueue.m3u
-                if [[ -f "$FZFENQUEUE" ]]; then
-                    cat "$FZFENQUEUE" fzfEnqueue.m3u > ./tmpfile
-                    mv -f ./tmpfile "$FZFENQUEUE"
-                    rm fzfEnqueue.m3u
-                    _SelectLocalDir -f
-                else
-                    mv fzfEnqueue.m3u "$FZFENQUEUE"
-                    _SelectLocalDir -f
-                fi
-            ;;
-            n|N)
-                use_mpvc_locally="yes"
-                localPlaylist=yes
-                sed -i "s/^/${localDirPath}\//" fzfEnqueue.m3u
-
-                if [[ -f "$FZFENQUEUE" ]]; then
-
-                    cat "$FZFENQUEUE" fzfEnqueue.m3u > ./tmpfile
-                    mv -f ./tmpfile "$FZFENQUEUE"
-                    ln -sfr "$FZFENQUEUE" "$NOWPLAYING"
-
-                    mpv --no-terminal "${mpvGenOptions_SK[@]}" \
-                    "${mpvGenOptions_ID[@]}" "$FZFENQUEUE" &
-                    rm fzfEnqueue.m3u
-
-                else
-                    ln -sfr ./fzfEnqueue.m3u "$NOWPLAYING"
-                    mpv --no-terminal "${mpvGenOptions_SK[@]}" \
-                    --idle=no fzfEnqueue.m3u &
-                fi
-
-                _WhileMpvIsRunning &
-            ;;
-            *) _WrongOption "$fzfEnqueueOptions" && return ;;
-        esac
+        _FzfEnqueueOptions
     fi
 
 }

@@ -21,9 +21,10 @@ _EditPlaylist() {
             }
             __
             read -rsn 1 -p \
-            " ${info}[E]dit urls manually, re[N]ame playlist, [R]emove titles:${nc} " edit
+            " ${info}[E]dit urls manually, re[N]ame playlist, [R]emove titles:${nc} " \
+            editPlaylistOptions
             __
-            case "$edit" in
+            case "$editPlaylistOptions" in
                 e|E)
                     "$MPMEDITOR" "$list"
                     echo -e " ${info}$list saved${nc}\n"
@@ -47,27 +48,28 @@ _EditPlaylist() {
                     _UpdateSelected -e
                 ;;
                 *)
-                    _WrongOption "$edit"; break
+                    _WrongOption "$editPlaylistOptions"; break
                 ;;
             esac
 
-            if [[ $editoption = yes ]]; then
+            if [[ $editoption == yes ]]; then
                 read -rsn 1 \
-                -p "${info} [E]dit another file, [N]o thanks.${nc}" again
-                case "$again" in
+                -p "${info} [E]dit another file, [N]o thanks.${nc}" editAgainOptions
+                case "$editAgainOptions" in
                     e|E) break ;;
                     n|N) editoption=no; __; _LaunchMpm "${@}" ;;
-                    *) __; _WrongOption "$again"; break ;;
+                    *) __; _WrongOption "$editAgainOptions"; break ;;
                 esac
             else
                 read -rsn 1 \
-                -p "${info} [E]dit another file, [B]ack to menu.${nc}" again
-                case "$again" in
+                -p "${info} [E]dit another file, [B]ack to menu.${nc}" editAgainOptions
+                case "$editAgainOptions" in
                     e|E) break ;;
                     b|B) _Menu ;;
-                    *) __; _WrongOption "$again"; break ;;
+                    *) __; _WrongOption "$editAgainOptions"; break ;;
                 esac
             fi
+            unset editAgainOptions
         done
 
     done

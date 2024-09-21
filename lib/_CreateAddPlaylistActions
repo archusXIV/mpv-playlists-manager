@@ -6,11 +6,11 @@ _CreateAddPlaylistActions() {
 
     case "$1" in
         --download)
-            if [[ -f $pidofMpv || $downloadTmpList = list ]]; then
+            if [[ -f $pidofMpv || $downloadTmpList == list ]]; then
                 if [[ $arg = '-a' ]]; then _GetAudio -a; else _GetVideo -v; fi
             else
                 _MpvOwnsTmpList --list || \
-                if [[ $arg = '-a' ]]; then _GetAudio -a; else _GetVideo -v; fi
+                if [[ $arg == '-a' ]]; then _GetAudio -a; else _GetVideo -v; fi
             fi
         ;;
         --play)

@@ -11,7 +11,7 @@ _SaveRemove() {
 
     if [[ -f $AUDIO_URLS ]] && [[ -f $VIDEO_URLS ]]; then
 
-        if (( $(_GetLinesList -q) < 1 )); then
+        if (( $(_GetLinesList -d) < 1 )); then
             unset 'saveRemovePrompts[1]'
             echo " ${info}${saveRemovePrompts[*]}${nc}"
             __
@@ -22,7 +22,7 @@ _SaveRemove() {
 
     elif [[ -f $AUDIO_URLS ]]; then
 
-        if (( $(_GetLinesList -q) < 1 )); then
+        if (( $(_GetLinesList -d) < 1 )); then
             unset {saveRemovePrompts[1],saveRemovePrompts[3]}
             echo " ${info}${saveRemovePrompts[*]}${nc}"
         else
@@ -33,7 +33,7 @@ _SaveRemove() {
 
     elif [[ -f $VIDEO_URLS ]]; then
 
-        if (( $(_GetLinesList -q) < 1 )); then
+        if (( $(_GetLinesList -d) < 1 )); then
             unset {saveRemovePrompts[1],saveRemovePrompts[2]}
             echo " ${info}${saveRemovePrompts[*]}${nc}"
         else
@@ -42,7 +42,7 @@ _SaveRemove() {
             __
         fi
 
-    elif (( $(_GetLinesList -q) < 1 )); then
+    elif (( $(_GetLinesList -d) < 1 )); then
         echo -e " ${critical}Nothing to save, maybe remove something?${nc}\n"
         unset {saveRemovePrompts[1],saveRemovePrompts[2],saveRemovePrompts[3]}
         echo " ${info}${saveRemovePrompts[*]}${nc}"
@@ -59,7 +59,7 @@ _SaveRemove() {
         c|C) _Menu ;;
         d|D)
             rm -f "$tmp_dir"/1 2>/dev/null
-            _Save -q
+            _Save -d
         ;;
         r|R)
             clear; __

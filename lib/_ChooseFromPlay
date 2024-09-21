@@ -8,25 +8,26 @@ _ChooseFromPlay() {
     _TitlesListCompare -l
 
     read -rsn 1 \
-    -p "${info}"" [${mtitle}C${info}]ancel, Play all items as [A]udio, [V]ideo or ${b}[S]elect:${nb} ""${nc}" choice
+    -p " ${info}[${mtitle}C${info}]ancel, Play all items as [A]udio, [V]ideo or ${b}[S]elect:${nb} ${nc}" \
+    chooseFromPlayOptions
 
-    case "$choice" in
+    case "$chooseFromPlayOptions" in
         a|A) _LoadAudioVideo -la ;;
         c|C) _LoadPlaylistMenu ;;
         v|V) _LoadAudioVideo -lv ;;
         s|S)
             __
-            [[ -f $SELECTED_URLS1 ]] && rm "$SELECTED_URLS1"
+            rm "$SELECTED_URLS1" 2>/dev/null
             _GetRange
             rm "$SELECTED_TITLES" 2>/dev/null
             [[ $range =~ [a-zA-Z] ]] && _LoadPlaylistMenu
             __
             read -rsn 1 -p "${info}"' load [A]udio, [V]ideo: '"${nc}" load
             case "$load" in
-                a|A) _LoadAudioVideo -ca ;;
+                a|A) _LoadAudioVideo -sa ;;
                 v|V)
                     clear
-                    _LoadAudioVideo -cv
+                    _LoadAudioVideo -sv
                 ;;
                 *)
                     _WrongOption "$load"
@@ -35,7 +36,7 @@ _ChooseFromPlay() {
             esac
         ;;
         *)
-            _WrongOption "$choice"
+            _WrongOption "$chooseFromPlayOptions"
             _LoadPlaylistMenu
         ;;
     esac

@@ -15,7 +15,7 @@ _GetCompleted() {
             downloadTmpList=downloaded
             sleep 2
             _RenameTmpFiles
-            [[ $(awk -F= '/use_parallel_downloads/{gsub(/"/,""); print $2}' "$MPMRC") = yes ]] \
+            [[ $(awk -F'"' '/use_parallel_downloads=/{print $2}' "$MPMRC") == yes ]] \
                 && use_parallel_downloads="yes"
             _Menu
         else
@@ -25,13 +25,13 @@ _GetCompleted() {
                 " ${critical}It was a temporary list, don't forget to save it.${nc}"
                 sleep 2
                 _RenameTmpFiles
-                [[ $(awk -F= '/use_parallel_downloads/{gsub(/"/,""); print $2}' "$MPMRC") = yes ]] \
+                [[ $(awk -F'"' '/use_parallel_downloads=/{print $2}' "$MPMRC") == yes ]] \
                     && use_parallel_downloads="yes"
                 _Menu
             }
 
             if [[ -f "$DEFAULT_LIST"_origin ]]; then
-                _Remove -q
+                _Remove -d
             elif [[ -f "$AUDIO_URLS"_origin ]]; then
                 _Remove -a
             else

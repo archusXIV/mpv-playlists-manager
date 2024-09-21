@@ -4,80 +4,63 @@
 # shellcheck disable=SC2154,SC2034
 _MakeMpvPlaylist() {
 
+    makeMpvPlaylistAudiOptions=(
+        "${mpvGenOptions_X[@]}"
+        "${mpvAudioFormatOptions[@]}"
+    )
+
+    makeMpvPlaylistVideOptions=(
+        "${mpvGenOptions_X[@]}"
+        "${mpvVideoOptions_X[@]}"
+        "${mpvVideoFormatOptions[@]}"
+    )
+
     # change mpv settings in ~/.config/mpm/mpmrc
     case "$1" in
         --local-background)
-
-            cd "$localDir"/"$dir" || exit 1
-            use_mpvc_locally="yes"
-            localPlaylist=yes
-
-            find . -type f | sort | sed 's,.*/,,' \
-            | mpv --no-terminal "${mpvGenOptions_X[@]}" --playlist=- &
-
-            echo "local-background" > "$NOWPLAYING"
-            _WhileMpvIsRunning &
-
+            cd "$localDir"/"$dir" && {
+                use_mpvc_locally="yes"
+                localPlaylist=yes
+                find . -type f | sort | sed 's,.*/,,' \
+                | mpv --no-terminal "${mpvGenOptions_X[@]}" --playlist=- &
+                echo "local-background" > "$NOWPLAYING"
+                _WhileMpvIsRunning &
+            }
         ;;
         --local-foreground)
-
-            cd "$localDir"/"$dir" || exit 1
-            use_mpvc_locally="no"
-
-            echo "local-foreground" > "$NOWPLAYING"
-
-            _LoadAudioVideoAdvice
-
-            find . -type f | sort | sed 's,.*/,,' \
-            | mpv "${mpvGenOptions_X[@]}" --playlist=-
-
+            cd "$localDir"/"$dir" && {
+                use_mpvc_locally="no"
+                echo "local-foreground" > "$NOWPLAYING"
+                _LoadAudioVideoAdvice
+                find . -type f | sort | sed 's,.*/,,' \
+                | mpv "${mpvGenOptions_X[@]}" --playlist=-
+                _RmMpvTmp
+            }
         ;;
         --online-audio)
-
             use_mpvc_online="yes"
-
-            mpv \
-            --no-terminal \
-            "${mpvGenOptions_X[@]}" \
-            "${mpvAudioFormatOptions[@]}" "$m3uFile" &
-
+            mpv --no-terminal \
+            "${makeMpvPlaylistAudiOptions[@]}" "$m3uFile" &
             echo "${m3uFile##*/}" > "$NOWPLAYING"
             _WhileMpvIsRunning &
-
         ;;
         --online-video)
-
             use_mpvc_online="yes"
-
-            mpv \
-            --no-terminal \
-            "${mpvGenOptions_X[@]}" \
-            "${mpvVideoOptions_X[@]}" \
-            "${mpvVideoFormatOptions[@]}" "$m3uFile" &
-
+            mpv --no-terminal \
+            "${makeMpvPlaylistVideOptions[@]}" "$m3uFile" &
             echo "${m3uFile##*/}" > "$NOWPLAYING"
             _WhileMpvIsRunning &
-
         ;;
         --terminal-audio)
-
-            echo "$m3uFile" > "$NOWPLAYING"
             _LoadAudioVideoAdvice
-
-            mpv \
-            "${mpvGenOptions_X[@]}" \
-            "${mpvAudioFormatOptions[@]}" "$m3uFile"
+            echo "$m3uFile" > "$NOWPLAYING"
+            mpv "${makeMpvPlaylistAudiOptions[@]}" "$m3uFile"
             _RmMpvTmp
         ;;
         --terminal-video)
-
-            echo "$m3uFile" > "$NOWPLAYING"
             _LoadAudioVideoAdvice
-
-            mpv \
-            "${mpvGenOptions_X[@]}" \
-            "${mpvVideoOptions_X[@]}" \
-            "${mpvVideoFormatOptions[@]}" "$m3uFile"
+            echo "$m3uFile" > "$NOWPLAYING"
+            mpv "${makeMpvPlaylistVideOptions[@]}" "$m3uFile"
             _RmMpvTmp
         ;;
     esac

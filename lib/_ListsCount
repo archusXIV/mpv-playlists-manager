@@ -15,9 +15,9 @@ _ListsCount() {
 
     __def() (
         if [[ -f $tmp_dir/1 ]]; then
-            echo "${critical}${b}$(_GetLinesList -q)${nb}${nc}"
-        elif [[ $(_GetLinesList -q) -gt 0 ]]; then
-            echo "${info}$(_GetLinesList -q)${nc}"
+            echo "${critical}${b}$(_GetLinesList -d)${nb}${nc}"
+        elif [[ $(_GetLinesList -d) -gt 0 ]]; then
+            echo "${info}$(_GetLinesList -d)${nc}"
         else
             echo "0"
         fi

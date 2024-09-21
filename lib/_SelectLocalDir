@@ -13,27 +13,14 @@ _SelectLocalDir() {
     select dir in $(find -L "$localDir" -maxdepth 1 -type d -not -empty \
         -not -wholename "$localDir" | sort | sed 's,.*/,,'); do
 
-        case "$REPLY" in
-            [a-zA-Z])
-                if [[ -f "$FZFENQUEUE" ]]; then
-                    use_mpvc_locally="yes"
-                    mpv --no-terminal "${mpvGenOptions_SK[@]}" \
-                    "${mpvGenOptions_ID[@]}" "$FZFENQUEUE" &
-                    ln -sfr "$FZFENQUEUE" "$NOWPLAYING"
-                    _WhileMpvIsRunning &
-                    _Menu
-                else
-                    return
-                fi
-            ;;
-        esac
+        case "$REPLY" in [a-zA-Z]) break ;; esac
 
         __
         printf '%s\n' " ${info}Scanning $dir for supported formats...${nc}"
         sleep 1
 
         ! find -L ./"$dir" -maxdepth 1 -type f -exec file --mime-type {} + \
-        | grep -q -E '[aA]udio|[vV]ideo' && {
+        | grep -qE '[aA]udio|[vV]ideo' && {
             __
             printf '%s\n' " ${critical}$dir doesn't contain supported formats by mpv" \
             " or audio/video files may be in a subdirectories.${nc}"
@@ -48,7 +35,7 @@ _SelectLocalDir() {
 
         case "$1" in
             -d)
-                if [[ $use_mpvc = yes || $use_mpvc = no ]]; then
+                if [[ $use_mpvc == yes || $use_mpvc == no ]]; then
                     _MakeMpvPlaylist --local-background
                 else
                     _MakeMpvPlaylist --local-foreground

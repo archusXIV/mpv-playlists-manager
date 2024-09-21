@@ -14,7 +14,7 @@ _Remove() {
             tmpTitles="$AUDIO_TITLES"
             _RemoveAudioVideoCommon
         ;;
-        -q)
+        -d)
             tmpList="$DEFAULT_LIST"
             tmpTitles="$DEFAULT_TITLES"
             _RemoveDefaultList

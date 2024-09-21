@@ -33,9 +33,8 @@ _RemoveAudioVideoCommon() {
                 sleep 2
             else
                 _RemoveTmpLinks
-                [[ $tmpList = "$AUDIO_URLS" ]] && \
-                _ViewAudioVideoUrlsInfo -a || \
-                _ViewAudioVideoUrlsInfo -v
+                [[ $tmpList == "$AUDIO_URLS" ]] && \
+                _ViewAudioVideoUrlsInfo -a || _ViewAudioVideoUrlsInfo -v
             fi
         ;;
         w|W)

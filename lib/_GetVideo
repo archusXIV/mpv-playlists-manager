@@ -8,7 +8,7 @@ _GetVideo() {
     mediaDir="$videos_dir"
 
     case "$1" in
-        -q)
+        -d)
             __
             if [[ ! -f $DEFAULT_TITLES && -f $DEFAULTM3UTITLES ]]; then
                 cp "$DEFAULTM3UTITLES" "$DEFAULT_TITLES"
@@ -18,7 +18,7 @@ _GetVideo() {
                 sleep 1
             else
                 printf '%s\n' " ${info}Getting titles...${nc}"
-                _GetMediaTitle -q
+                _GetMediaTitle -d
                 clear
             fi
             M3UFILE="$DEFAULT_LIST"

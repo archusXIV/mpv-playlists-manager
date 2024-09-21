@@ -59,7 +59,7 @@ _SaveCheck() {
                         printf '%s\n' " ${info}Link(s) added to $list.${nc}"
 
                         rm {"$current_list","$current_titles"}
-                        [[ $current_list = "$DEFAULT_LIST" ]] && echo "#EXTM3U" > "$DEFAULT_LIST"
+                        [[ $current_list == "$DEFAULT_LIST" ]] && echo "#EXTM3U" > "$DEFAULT_LIST"
                         sleep 2
                         break
                     ;;

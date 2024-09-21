@@ -15,67 +15,31 @@ _GetYoutubePlaylistUrls() {
         " $playlistName playlist...${nc}"
     )
 
-    __ytfzf() (
-        ytfzf -A -I VJ --scrape=youtube-playlist "$playlist" > "$YTFZFJSON" || \
-        invidious_instance="https://vid.puffyan.us" \
-        ytfzf -A -I VJ --scrape=youtube-playlist "$playlist" > "$YTFZFJSON";clear
-        jq --raw-output '.[].url' "$YTFZFJSON" | tee -a "$DEFAULT_LIST" >> "$URLS"
-        jq --raw-output '.[].title' "$YTFZFJSON" | tee -a "$DEFAULT_TITLES" >> "$TITLES"
-    )
-
-    __parallel() (
-        cd "$tmp_dir" && {
-            yt-dlp --flat-playlist "$playlist" | parallel --tagstring '{#}' --lb -j0 \
-            yt-dlp --get-title --get-id --ignore-errors --no-warnings \
-            --playlist-start '{#}' --playlist-end '{#}' "$playlist" \
-            > playlist.txt
-
-            sort -ns playlist.txt \
-            | tee -a playlist.m3u >> playlist.titles
-            sed -i '
-                s/^[[:digit:]]*//;
-                s/^\s//;
-                s/^/https:\/\/www.youtube.com\/watch?v=/;1~2d
-            ' playlist.m3u
-            tee -a "$DEFAULT_LIST" >> "$URLS" < playlist.m3u
-            sed -i 's/^[[:digit:]]*//;s/^\s//;2~2d' playlist.titles
-            tee -a "$DEFAULT_TITLES" >> "$TITLES" < playlist.titles
-        }
-    )
-
-    __native() (
-        _YtdlGetTitle "$playlist" \
-        | tee -a "$TITLES" >> "$DEFAULT_TITLES"
-        yt-dlp "${ytdlPreset_DW[@]}" -j "$mediaUrl" \
-        | jq --raw-output '(.webpage_url)' \
-        | tee -a "$DEFAULT_LIST" >> "$URLS"
-    )
-
     case "$1" in
         -a|-v)
             playlist="$mediaUrl"
-            if [[ -n $(command -v ytfzf) && $use_fzf = yes ]]; then
-                __ytfzf
-            elif [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
-                __parallel
+            if [[ -n $(command -v ytfzf) && $use_fzf == yes ]]; then
+                _GetYoutubePlaylistUrlsMethods --ytfzf
+            elif [[ -n $(command -v parallel) && $use_parallel == yes ]]; then
+                _GetYoutubePlaylistUrlsMethods --parallel
             else
-                __native
+                _GetYoutubePlaylistUrlsMethods --native
             fi
         ;;
         -s)
-            mapfile -t ytsearchlist < <(grep '^https' "$YTSEARCH")
+            mapfile -t ytSearchList < <(grep '^https' "$YTSEARCH")
             # there might be several playlists urls selected in
             # _SearchYoutubeWithFzf function so we enter in a loop.
-            for url in "${ytsearchlist[@]}"; do
+            for url in "${ytSearchList[@]}"; do
                 playlist="$url"
-                if [[ -n $(command -v ytfzf) && $use_fzf = yes ]]; then
-                    __ytfzf
-                elif [[ -n $(command -v parallel) && $use_parallel = yes ]]; then
+                if [[ -n $(command -v ytfzf) && $use_fzf == yes ]]; then
+                    _GetYoutubePlaylistUrlsMethods --ytfzf
+                elif [[ -n $(command -v parallel) && $use_parallel == yes ]]; then
                     __getYoutubePlaylistUrlsInfo
-                    __parallel
+                    _GetYoutubePlaylistUrlsMethods --parallel
                 else
                     __getYoutubePlaylistUrlsInfo
-                    __native
+                    _GetYoutubePlaylistUrlsMethods --native
                 fi
             done
 
@@ -85,7 +49,7 @@ _GetYoutubePlaylistUrls() {
     esac
 
     _RemoveCrap
-    rm {"$YTSEARCH","$YTFZFJSON","$tmp_dir"/playlist.{txt,m3u,titles}}
+    rm {"$YTSEARCH","$YTFZFJSON","$tmp_dir"/playlist_titlesurls}
     rm -rf "$HOME"/.parallel
 
 } 2>/dev/null

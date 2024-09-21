@@ -13,6 +13,7 @@ _LoadPlaylistMenu() {
         clear
         _DownloadMessages --menu
         __
+        [[ -f $M3UFILE ]] && \
         echo " ${info}Options for: $(echo "${list%%.*}" | sed 's/_/ /g') ${nc}($(grep -c '^https' "$M3UFILE") urls)"
         __;__
         echo -e "                                                ${mtitle}::DOWNLOAD/PLAY OPTIONS::${nc}"

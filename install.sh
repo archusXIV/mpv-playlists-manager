@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
-# version 2.0-4
+# version 2.0-5
 
 # shellcheck disable=SC2154
 red=$'\e[38;2;206;34;30m';
@@ -26,7 +26,7 @@ _diffRc() {
         printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
         " original file has been saved as mpmrc.orig.${endColor}"
         printf '\n'
-        tail -n 11 ./README_FIRST
+        tail -n 12 ./README_FIRST
         printf '\n'
     else
         mkdir --parents "$CONF_DIR"

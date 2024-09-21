@@ -50,14 +50,14 @@ _ChooseDownloadAudio() {
     else
         for url in "${SELECTEDAUDIO[@]}"; do
 
-            if [[ $direct_download = yes && "$url" =~ 'youtube.com' ]]; then
+            if [[ $direct_download == yes && "$url" =~ 'youtube.com' ]]; then
 
                 _DownloadMessages --choose-audio
 
                 yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
                 --format 251 "${ytdlPreset_NC[@]}" "$url"
 
-            elif [[ $direct_download = no && $url =~ 'youtube.com' ]]; then
+            elif [[ $direct_download == no && $url =~ 'youtube.com' ]]; then
                 __
                 yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
                 | awk '/audio only|PROTO|^[-]/ {sub("^[sb*]",""); print $0}'

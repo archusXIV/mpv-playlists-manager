@@ -18,7 +18,7 @@ _RemoveDefaultList() {
             __
             printf '%s\n' " ${critical}${tmpList##*/} is owned by mpv...retry later.${nc}"
             sleep 4
-            _ViewAudioVideoUrlsInfo -q
+            _ViewAudioVideoUrlsInfo -d
         }
         rm "$NOWPLAYING"
     }
@@ -39,7 +39,7 @@ _RemoveDefaultList() {
             sed -i '1d' "$tmpList"
             _RemoveTmpLinks
             sed -i '1s/^/#EXTM3U\n/' "$tmpList"
-            _ViewAudioVideoUrlsInfo -q
+            _ViewAudioVideoUrlsInfo -d
         ;;
         w|W)
             sed -i '/^[[:alpha:]]/d' "$tmpList"

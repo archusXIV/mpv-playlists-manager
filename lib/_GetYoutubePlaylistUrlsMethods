@@ -1,0 +1,47 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_GetYoutubePlaylistUrlsMethods() {
+
+    __teeAppendTitles() { tee -a "$TITLES" >> "$DEFAULT_TITLES"; }
+    __teeAppendUrls() { tee -a "$DEFAULT_LIST" >> "$URLS"; }
+
+    case "$1" in
+        --native)
+            yt-dlp "${ytdlPreset_DW[@]}" -j "$playlist" \
+            | jq --raw-output '(.webpage_url, .title)' \
+            >> "$tmp_dir"/playlist_titlesurls
+            grep -v '^https' "$tmp_dir"/playlist_titlesurls | __teeAppendTitles
+            grep '^https' "$tmp_dir"/playlist_titlesurls | __teeAppendUrls
+        ;;
+        --parallel)
+            cd "$tmp_dir" && {
+                yt-dlp --flat-playlist "$playlist" \
+                | parallel --tagstring '{#}' --lb -j0 \
+                yt-dlp --get-title --get-id --ignore-errors --no-warnings \
+                --playlist-start '{#}' --playlist-end '{#}' "$playlist" \
+                > playlist.txt
+
+                tee -a playlist.m3u >> playlist.titles < <(sort -ns playlist.txt)
+                sed -i '
+                    s/^[[:digit:]]*//;
+                    s/^\s//;
+                    s/^/https:\/\/www.youtube.com\/watch?v=/;1~2d
+                ' playlist.m3u
+
+                __teeAppendUrls < playlist.m3u
+                sed -i 's/^[[:digit:]]*//;s/^\s//;2~2d' playlist.titles
+                __teeAppendTitles < playlist.titles
+            }
+        ;;
+        --ytfzf)
+            ytfzf -A -I VJ --scrape=youtube-playlist "$playlist" > "$YTFZFJSON" \
+            || invidious_instance="https://vid.puffyan.us" \
+            ytfzf -A -I VJ --scrape=youtube-playlist "$playlist" > "$YTFZFJSON"
+            clear
+            jq --raw-output '.[].url' "$YTFZFJSON" | __teeAppendUrls
+            jq --raw-output '.[].title' "$YTFZFJSON" | __teeAppendTitles
+        ;;
+    esac
+}

@@ -30,7 +30,7 @@ pids=($(pidof -x "$MPM"))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.0-4"
+VERSION="v.2.0-5"
 
 CONF_DIR="$HOME/.config/mpm"
 
@@ -42,6 +42,13 @@ CONF_DIR="$HOME/.config/mpm"
 MPMRC="$CONF_DIR/mpmrc"
 THEMERC="$CONF_DIR/themerc"
 . "$MPMRC"
+
+for index in "${mpvGenOptions_X[@]}"; do
+    if [[ $index =~ --idle=|--idle ]]; then
+        sed -i "s/${index}/--idle=no/" "$MPMRC"
+        break
+    fi
+done
 
 if [[ ! -f $THEMERC ]]; then
     cp /usr/local/share/doc/mpm/themerc "$CONF_DIR"
@@ -60,7 +67,7 @@ b=$'\e[5m';
 nb=$'\e[25m';
 lessColor=$'\e[0m';
 
-## First source our functions.
+## Source our functions.
 if [[ -d /usr/local/lib/mpm ]]; then
     for func in /usr/local/lib/mpm/*_*; do
         [[ -f $func ]] && . "$func"

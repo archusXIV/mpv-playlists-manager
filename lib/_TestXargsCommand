@@ -3,5 +3,5 @@
 
 # shellcheck disable=SC2154
 _TestXargsCommand() {
-    [[ -n $(command -v xargs) && $use_parallel_downloads = yes ]]
+    [[ -n $(command -v xargs) && $use_parallel_downloads == yes ]]
 }

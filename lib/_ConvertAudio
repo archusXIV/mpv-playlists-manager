@@ -27,7 +27,7 @@ _ConvertAudio() {
             && $use_parallel = yes \
             && $parallel_conversion = yes ]]; then
             _ParallelConversion --parallel-default
-        elif [[ -n $(command -v xargs) && $parallel_conversion = yes ]]; then
+        elif [[ -n $(command -v xargs) && $parallel_conversion == yes ]]; then
             _ParallelConversion --xargs-default
         else
             printf '%s\n' " Parallel conversion disabled.${nc}"
@@ -62,7 +62,7 @@ _ConvertAudio() {
                     && $use_parallel = yes \
                     && $parallel_conversion = yes ]]; then
                     _ParallelConversion --parallel-chosen
-                elif [[ -n $(command -v xargs) && $parallel_conversion = yes ]]; then
+                elif [[ -n $(command -v xargs) && $parallel_conversion == yes ]]; then
                     _ParallelConversion --xargs-chosen
                 else
                     printf '%s\n' " Parallel conversion disabled.${nc}"

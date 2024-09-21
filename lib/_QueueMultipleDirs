@@ -8,16 +8,19 @@ _QueueMultipleDirs() {
 
     cd "$localDir" || exit 1
 
-    local mpv_list dirlist localPlaylist
+    local mpv_list dirlist localDirPath localPlaylist
+
     mpv_list="$localDir/dirlist.m3u"
     dirlist="$tmp_dir/dirlist"
+    localDirPath=$(pwd | sed 's,/,\\/,g')
+    localPlaylist=yes
 
     rm "$mpv_list" 2>/dev/null
 
     find ./ -maxdepth 1 -type d -empty \
     | sed 's,.*/,,' >> "$tmp_dir"/empty.tmp
 
-    if [[ -f $tmp_dir/empty.tmp ]]; then
+    if [[ -s $tmp_dir/empty.tmp ]]; then
         # empty dirs will be banned from our list 
         command ls > "$dirlist".tmp
         grep -vF "$(grep '^[[:print:]]' "$tmp_dir"/empty.tmp)" \
@@ -52,20 +55,29 @@ _QueueMultipleDirs() {
 
     done
 
-    dirPath=$(pwd | sed 's,/,\\/,g')
-
     unset IFS range
     rm "$dirlist"
 
-    sed -i "s/^/${dirPath}\//;s,$,/," "$mpv_list"
+    sed -i "s/^/${localDirPath}\//;s,$,/," "$mpv_list"
     use_mpvc_locally=yes
-    localPlaylist=yes
 
-    mpv --no-terminal "${mpvGenOptions_SK[@]}" \
-    "${mpvVideoOptions_FS[@]}" --idle=no "$mpv_list" &
-
-    ln -sfr "$mpv_list" "$NOWPLAYING"
-    _WhileMpvIsRunning &
+    if [[ $localMediaType == audio ]]; then
+        mv -f "$mpv_list" "$FZFENQUEUE"
+        ln -sfr "$FZFENQUEUE" "$NOWPLAYING"
+        _LoadAudioVideo -fa
+    elif [[ $localMediaType == video ]]; then
+        mv -f "$mpv_list" "$FZFENQUEUE"
+        ln -sfr "$FZFENQUEUE" "$NOWPLAYING"
+        _LoadAudioVideo -fv
+    else
+        ln -sfr "$mpv_list" "$NOWPLAYING"
+        mpv --no-terminal \
+        "${mpvGenOptions_SK[@]}" \
+        "${mpvGenOptions_ID[@]}" \
+        "${mpvVideoOptions_FS[@]}" "$mpv_list" &
+        _WhileMpvIsRunning &
+    fi
+    
     _Menu
 
 }

@@ -5,18 +5,15 @@
 _MpvcTest() {
     case "$1" in
         -a)
-            if [[ $use_mpvc = yes ]]; then
-                _MakeMpvPlaylist --online-audio
-            elif [[ $use_mpvc = no ]]; then
+            if [[ $use_mpvc == yes || $use_mpvc == no ]]; then
                 _MakeMpvPlaylist --online-audio
             else
+                # use_mpvc is empty
                 _MakeMpvPlaylist --terminal-audio
             fi
         ;;
         -v)
-            if [[ $use_mpvc = yes ]]; then
-                _MakeMpvPlaylist --online-video
-            elif [[ $use_mpvc = no ]]; then
+            if [[ $use_mpvc == yes || $use_mpvc == no ]]; then
                 _MakeMpvPlaylist --online-video
             else
                 _MakeMpvPlaylist --terminal-video

@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2076,SC2034,SC2015
+# shellcheck disable=SC2154,SC2076,SC2034
 _DirectVideoDownload() {
 
     local counter animationTitles mediaDir
@@ -10,48 +10,44 @@ _DirectVideoDownload() {
     cp -f "$titles_dir"/"$list".titles "$titles_dir"/"$list".titles_origin
 
     mediaDir="$videos_dir"/"${list%.*}"
-    mkdir --parents "$mediaDir" && cd "$mediaDir" || {
-        printf '%s\n' \
-        " ${critical}Failed to access ${mediaDir##*/} directory.${nc}"
-        sleep 4
-        _Menu
+    mkdir --parents "$mediaDir" && cd "$mediaDir" && {
+
+        animationTitles="$titles_dir"/"$list".titles
+        counter=$(grep '^https' -c "$playlists_dir"/"$list")
+
+        if _TestParallelCommand; then
+            _ParallelDownloadCmd --direct-video
+            _DownloadMessages --direct-video
+            _ParallelAnimation
+        elif _TestXargsCommand; then
+            _DownloadMessages --direct-video
+            _ParallelAnimation &
+            _ParallelXargsCmd --direct-video
+        else
+            while read -r url; do
+
+                _DownloadMessages --direct-video
+
+                if [[ $url =~ 'youtube.com' ]]; then
+                    yt-dlp \
+                    --output "$(_GetLinkTitle -l).%(ext)s" \
+                    "${ytdlPreset_X[@]}" "$url"
+                else
+                    yt-dlp \
+                    --output "$(_GetLinkTitle -l).%(ext)s" \
+                    "${ytdlPreset_NC[@]}" "$url"
+                fi
+
+                sed -i '2d' "$playlists_dir"/"$list"
+                sed -i '1d' "$titles_dir"/"$list".titles
+                ((counter--))
+                clear
+
+            done < <(grep '^https' "$playlists_dir"/"$list")
+            unset url
+        fi
     }
 
-    animationTitles="$titles_dir"/"$list".titles
-    counter=$(grep '^https' -c "$playlists_dir"/"$list")
-
-    if _TestParallelCommand; then
-        _ParallelDownloadCmd --direct-video
-        _DownloadMessages --direct-video
-        _ParallelAnimation
-    elif _TestXargsCommand; then
-        _DownloadMessages --direct-video
-        _ParallelAnimation &
-        _ParallelXargsCmd --direct-video
-    else
-        while read -r url; do
-
-            _DownloadMessages --direct-video
-
-            if [[ $url =~ 'youtube.com' ]]; then
-                yt-dlp \
-                --output "$(_GetLinkTitle -l).%(ext)s" \
-                "${ytdlPreset_X[@]}" "$url"
-            else
-                yt-dlp \
-                --output "$(_GetLinkTitle -l).%(ext)s" \
-                "${ytdlPreset_NC[@]}" "$url"
-            fi
-
-            sed -i '2d' "$playlists_dir"/"$list"
-            sed -i '1d' "$titles_dir"/"$list".titles
-            ((counter--))
-            clear
-
-        done < <(grep '^https' "$playlists_dir"/"$list")
-    fi
-
-    unset url
     _RemoveAudioVideoIds
     echo " ${info}All done${nc}"
     sleep 2

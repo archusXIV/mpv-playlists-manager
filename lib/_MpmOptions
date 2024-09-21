@@ -19,9 +19,9 @@ _MpmOptions() {
                 _EditPlaylist
             fi
         ;;
-        --help   |-h) _MpmHelp -h ;;
+        --help   |-h) less "$HELP" ;;
         --local  |-f) _LoadLocalMenu ;;
-        --version|-v) __; echo " ${0##*/} $VERSION" ;;
+        --version|-v) echo "  ${0##*/} $VERSION" ;;
         --load   |-l)
             if [[ -f $playlists_dir/$list ]]; then
                 _LoadPlaylistMenu

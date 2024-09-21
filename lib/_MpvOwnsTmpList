@@ -17,7 +17,7 @@ _MpvOwnsTmpList() {
                     if [[ -f "$SELECTED_URLS1" ]]; then
                         name="another"
                         action="if you want to play $name collection playlist,"
-                    elif [[ $m3uFile = *.m3u ]]; then
+                    elif [[ $m3uFile == *.m3u ]]; then
                         name="a"
                         action="if you want to play $name collection playlist,"
                     else
@@ -25,7 +25,7 @@ _MpvOwnsTmpList() {
                     fi
                 ;;
                 --default)
-                    if [[ $sedPrint = default.m3u ]]; then
+                    if [[ $sedPrint == default.m3u ]]; then
                         name="default"
                         action="if you want to play/remove/save the $name list,"
                         downloadTmpList=default
@@ -43,10 +43,10 @@ _MpvOwnsTmpList() {
                     fi
                 ;;
                 --local)
-                    if [[ $localPlaylist = yes || $sedPrint =~ $HOME ]]; then
+                    if [[ $localPlaylist == yes || $sedPrint =~ $HOME ]]; then
                         name="a local"
                         action="if you want to queue $name directory/file(s),"
-                    elif [[ -f "$SELECTED_URLS1" || $m3uFile = *.m3u ]]; then
+                    elif [[ -f "$SELECTED_URLS1" || $m3uFile == *.m3u ]]; then
                         name="another"
                         action="if you want to queue a directory/file(s),"
                     else
@@ -71,9 +71,9 @@ _MpvOwnsTmpList() {
             case "$mpvOwnsTmpListOptions" in
                 a|A) _Menu ;;
                 d|D)
-                    if [[ $name = default ]]; then
-                        _ViewAudioVideoUrlsInfo -q
-                    elif [[ $name = "$Type" ]]; then
+                    if [[ $name == default ]]; then
+                        _ViewAudioVideoUrlsInfo -d
+                    elif [[ $name == "$Type" ]]; then
                         _ViewAudioVideoUrlsInfo "$arg"
                     fi
                 ;;

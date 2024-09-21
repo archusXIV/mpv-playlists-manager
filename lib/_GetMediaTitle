@@ -15,7 +15,7 @@ _GetMediaTitle() {
             listFile="$playlists_dir"/"$list"
             titlesFile="$titles_dir/$list.titles"
         ;;
-        -q)
+        -d)
             listFile="$DEFAULT_LIST"
             titlesFile="$DEFAULT_TITLES"
         ;;
@@ -27,8 +27,8 @@ _GetMediaTitle() {
 
     if command -v parallel >/dev/null; then
         grep '^https' "$listFile" \
-        | parallel --tagstring '{#}' --lb -j0 yt-dlp --get-title \
-        --no-warnings --ignore-errors \
+        | parallel --tagstring '{#}' --lb -j0 yt-dlp \
+        --get-title --no-warnings --ignore-errors \
         | sort -ns | sed '
             s/^[[:digit:]]*//;
             s/^\s//;

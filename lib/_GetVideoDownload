@@ -4,54 +4,57 @@
 # shellcheck disable=SC2154,SC2076,SC2034
 _GetVideoDownload() {
 
-    cd "$mediaDir" || exit 1
-    local animationTitles
-    animationTitles="$TITLES"
+    [[ ! -d $mediaDir ]] && mkdir --parents "$mediaDir"
+    cd "$mediaDir" && {
 
-    if _TestParallelCommand; then
-        _GetVideoDownloadMessages --parallel
-        _ParallelDownloadCmd --get-video
-        _ParallelAnimation
-    elif _TestXargsCommand; then
-        _GetVideoDownloadMessages --xargs
-        _ParallelAnimation &
-        _ParallelXargsCmd --get-video
-    else
-        mapfile -t VIDEOLINKS < <(grep '^https' "$M3UFILE")
-        for url in "${VIDEOLINKS[@]}"; do
-            __
-            yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
-            | awk '$0 !~ /sb|youtube/{print $0}'
-            __
-            __chooseFormatMessages
-            read -r code
-            clear
-            _GetVideoDownloadMessages --onebyone
+        local animationTitles
+        animationTitles="$TITLES"
 
-            # it seems that only youtube uses merging options
-            if [[ "$code" =~ '+' ]]; then
-                yt-dlp --format "$code" \
-                --output "$(sed -n '1p' "$TITLES").%(ext)s" \
-                "${ytdlPreset_X[@]}" "$url"
-            else
-                yt-dlp --format "$code" \
-                --output "$(sed -n '1p' "$TITLES").%(ext)s" \
-                "${ytdlPreset_NC[@]}" "$url"
-            fi
-
-            if [[ $M3UFILE = "$VIDEO_URLS" ]]; then
-                sed -i '1d' {"$M3UFILE","$TITLES"}
+        if _TestParallelCommand; then
+            _GetVideoDownloadMessages --parallel
+            _ParallelDownloadCmd --get-video
+            _ParallelAnimation
+        elif _TestXargsCommand; then
+            _GetVideoDownloadMessages --xargs
+            _ParallelAnimation &
+            _ParallelXargsCmd --get-video
+        else
+            mapfile -t VIDEOLINKS < <(grep '^https' "$M3UFILE")
+            for url in "${VIDEOLINKS[@]}"; do
+                __
+                yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
+                | awk '$0 !~ /sb|youtube/{print $0}'
+                __
+                __chooseFormatMessages
+                read -r code
                 clear
-            else
-                sed -i '2d' "$M3UFILE"
-                sed -i '1d' "$TITLES"
-                clear
-            fi
+                _GetVideoDownloadMessages --onebyone
 
-        done
-    fi
+                # it seems that only youtube uses merging options
+                if [[ "$code" =~ '+' ]]; then
+                    yt-dlp --format "$code" \
+                    --output "$(sed -n '1p' "$TITLES").%(ext)s" \
+                    "${ytdlPreset_X[@]}" "$url"
+                else
+                    yt-dlp --format "$code" \
+                    --output "$(sed -n '1p' "$TITLES").%(ext)s" \
+                    "${ytdlPreset_NC[@]}" "$url"
+                fi
 
-    unset url
+                if [[ $M3UFILE == "$VIDEO_URLS" ]]; then
+                    sed -i '1d' {"$M3UFILE","$TITLES"}
+                    clear
+                else
+                    sed -i '2d' "$M3UFILE"
+                    sed -i '1d' "$TITLES"
+                    clear
+                fi
+
+            done
+            unset url
+        fi
+    }
+
     echo -e " ${info}Done.\n${nc}"
     sleep 2
     _RemoveAudioVideoIds

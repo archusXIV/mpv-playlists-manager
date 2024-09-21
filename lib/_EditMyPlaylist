@@ -9,9 +9,10 @@ _EditMyPlaylist() {
     printf '%s\n' " ${info}$list edition:${nc}"
     __
     read -rsn 1 -p \
-    "${info}"' [E]dit urls manually, re[N]ame playlist, [R]emove titles: '"${nc}" edit
+    "${info}"' [E]dit urls manually, re[N]ame playlist, [R]emove titles: '"${nc}" \
+    editMyPlaylistOptions
     __
-    case "$edit" in
+    case "$editMyPlaylistOptions" in
         e|E)
             "$MPMEDITOR" "$list"
             __
@@ -36,7 +37,7 @@ _EditMyPlaylist() {
             _UpdateSelected -e
         ;;
         *)
-            _WrongOption "$edit"
+            _WrongOption "$editMyPlaylistOptions"
         ;;
     esac
 

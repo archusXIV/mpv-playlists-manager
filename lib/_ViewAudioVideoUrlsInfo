@@ -37,7 +37,7 @@ _ViewAudioVideoUrlsInfo() {
             }
         fi
 
-        if [[ $URLS = "$DEFAULT_LIST" ]]; then
+        if [[ $URLS == "$DEFAULT_LIST" ]]; then
             if [[ $downloadTmpList = default ]]; then
                 echo " ${info}${mpvOwnsInfoPrompt[*]}${nc}"
             else
@@ -45,7 +45,7 @@ _ViewAudioVideoUrlsInfo() {
                 echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
             fi
         else
-            if [[ $downloadTmpList = list ]]; then
+            if [[ $downloadTmpList == list ]]; then
                 echo " ${info}${mpvOwnsInfoPrompt[*]}${nc}"
             else
                 echo "${info}" "${viewUrlInfoPrompt[@]}" "${nc}"
@@ -78,6 +78,6 @@ _ViewAudioVideoUrlsInfo() {
 
     case "$1" in
         -a|-v) __audioVideoCommon ;;
-        -q) _ViewDefaultUrlsInfo ;;
+        -d) _ViewDefaultUrlsInfo ;;
     esac
 }

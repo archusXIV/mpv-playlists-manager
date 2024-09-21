@@ -5,7 +5,7 @@
 _IfQuitAfterTask() {
     case "$1" in
         -d)
-            if [[ $quit_after_task = yes ]]; then
+            if [[ $quit_after_task == yes ]]; then
                 __
                 if [[ -s "$AUDIO_URLS" || -s "$VIDEO_URLS" ]]; then
                     _SaveOnExit
@@ -15,10 +15,12 @@ _IfQuitAfterTask() {
                     clear
                     exit 0
                 fi
-            elif [[ $(awk -F= '/use_parallel_downloads/{gsub(/"/,""); print $2}' "$MPMRC") = yes ]]; then
+            elif [[ $(awk -F'"' '/use_parallel_downloads=/{print $2}' "$MPMRC") == yes ]]; then
                 use_parallel_downloads="yes"
+                _Menu
+            else
+                _Menu
             fi
-            _Menu
         ;;
         -x)
             __

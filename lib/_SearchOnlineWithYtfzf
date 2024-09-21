@@ -10,7 +10,6 @@ _SearchOnlineWithYtfzf() {
 
     [[ -z $request ]] && return
 
-    # ytfzfOptions_X are defined in ~/.config/mpm/mpmrc
     case "$1" in
         -o)
             ytfzf --show-thumbnails \
@@ -24,7 +23,7 @@ _SearchOnlineWithYtfzf() {
             ytfzf --show-thumbnails \
             -I VJ -c youtube "${ytfzfOptions_X[@]}" "$request$*" >> "$YTFZFJSON" || \
             invidious_instance="https://vid.puffyan.us" ytfzf --show-thumbnails \
-            -I VJ "${ytfzfOptions_X[@]}" "$request$*" >> "$YTFZFJSON"
+            -I VJ -c youtube "${ytfzfOptions_X[@]}" "$request$*" >> "$YTFZFJSON"
         ;;
     esac
 

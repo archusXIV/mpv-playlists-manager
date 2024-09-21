@@ -20,16 +20,16 @@ _ClearAllTmpLists() {
 
                 for w in "${tmps[@]:8:11}"; do
                     if [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING") =~ $w ]]; then
-                        [[ $w = "${tmps[8]}" ]] && {
+                        [[ $w == "${tmps[8]}" ]] && {
                             unset {tmps[0],tmps[1],tmps[8]}
                             sed -i '/^[[:alpha:]]/d' "$DEFAULT_LIST"
                         }
-                        [[ $w = "${tmps[9]}" ]] && {
+                        [[ $w == "${tmps[9]}" ]] && {
                             unset {tmps[2],tmps[3],tmps[9]}
                             sed -i '/^[[:alpha:]]/d' "$DEFAULT_LIST"
                         }
-                        [[ $w = "${tmps[10]}" ]] && unset {tmps[5],tmps[10]}
-                        [[ $w = "${tmps[11]}" ]] && {
+                        [[ $w == "${tmps[10]}" ]] && unset {tmps[5],tmps[10]}
+                        [[ $w == "${tmps[11]}" ]] && {
                             unset {tmps[7],tmps[11]}
                             sed -i '/^[[:alpha:]]/d' "$DEFAULT_LIST"
                         }

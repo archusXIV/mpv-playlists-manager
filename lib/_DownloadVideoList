@@ -13,9 +13,9 @@ _DownloadVideoList() {
     else
         clear
         _DownloadMessages --choice
-        read -rsn 1 choiceDownloadVideoList
+        read -rsn 1 downloadVideoListOptions
 
-        case "$choiceDownloadVideoList" in
+        case "$downloadVideoListOptions" in
             b|B) clear; _LoadPlaylistMenu ;;
             d|D) clear; _DirectVideoDownload ;;
             s|S)
@@ -59,7 +59,7 @@ _DownloadVideoList() {
                 unset url
             ;;
             *)
-                _WrongOption "$choiceDownloadVideoList"
+                _WrongOption "$downloadVideoListOptions"
                 _LoadPlaylistMenu
             ;;
         esac

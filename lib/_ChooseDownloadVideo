@@ -9,7 +9,7 @@ _ChooseDownloadVideo() {
 
     mediaDir="$videos_dir"/"${list%.*}"
 
-    if [[ $direct_download = yes ]]; then
+    if [[ $direct_download == yes ]]; then
         _ChooseDirectVideoDownload
     else
         _DownloadMessages --choice
@@ -54,7 +54,7 @@ _ChooseDownloadVideo() {
                 printf '%s\n' " ${info}$counter file(s) left to downloads." \
                 " Downloading: $(_GetLinkTitle -s)${nc}"
 
-                if [[ $youtube = yes ]]; then
+                if [[ $youtube == yes ]]; then
                     yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
                     --format "$code" "${ytdlPreset_X[@]}" "$url"
                 else
