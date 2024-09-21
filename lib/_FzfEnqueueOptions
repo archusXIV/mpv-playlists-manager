@@ -29,7 +29,7 @@ _FzfEnqueueOptions() {
                 cat "$FZFENQUEUE" fzfEnqueue.m3u > ./tmpfile
                 rm fzfEnqueue.m3u
                 mv -f ./tmpfile "$FZFENQUEUE"
-                ln -sfr "$FZFENQUEUE" "$NOWPLAYING"
+                # ln -sfr "$FZFENQUEUE" "$NOWPLAYING"
                 
                 if [[ $localMediaType == audio ]]; then
                     _LoadAudioVideo -fa
