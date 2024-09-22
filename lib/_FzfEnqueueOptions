@@ -6,9 +6,9 @@ _FzfEnqueueOptions() {
 
     read -rsn 1 -p " ${info}[A]dd more files, [N]o thanks: ${nc}" enqueueOptions
     clear
+    sed -i "s/^/${localDirPath}\//" fzfEnqueue.m3u
     case "$enqueueOptions" in
         a|A)
-            sed -i "s/^/${localDirPath}\//" fzfEnqueue.m3u
             if [[ -f "$FZFENQUEUE" ]]; then
                 cat "$FZFENQUEUE" fzfEnqueue.m3u > ./tmpfile
                 mv -f ./tmpfile "$FZFENQUEUE"
@@ -23,22 +23,20 @@ _FzfEnqueueOptions() {
             use_mpvc_locally="yes"
             localPlaylist=yes
 
-            sed -i "s/^/${localDirPath}\//" fzfEnqueue.m3u
             if [[ -f "$FZFENQUEUE" ]]; then
 
                 cat "$FZFENQUEUE" fzfEnqueue.m3u > ./tmpfile
                 rm fzfEnqueue.m3u
                 mv -f ./tmpfile "$FZFENQUEUE"
-                # ln -sfr "$FZFENQUEUE" "$NOWPLAYING"
                 
                 if [[ $localMediaType == audio ]]; then
                     _LoadAudioVideo -fa
                 elif [[ $localMediaType == video ]]; then
                     _LoadAudioVideo -fv
                 else
-                    mpv --no-terminal "${mpvGenOptions_SK[@]}" \
-                    "${mpvGenOptions_ID[@]}" "$FZFENQUEUE" &
-                    _WhileMpvIsRunning &
+                    m3uFile="$FZFENQUEUE"
+                    ln -sfr "$m3uFile" "$NOWPLAYING"
+                    _MakeMpvPlaylist --fzf
                 fi
                 
             else
@@ -49,16 +47,15 @@ _FzfEnqueueOptions() {
                     mv -f ./fzfEnqueue.m3u "$FZFENQUEUE"
                     _LoadAudioVideo -fv
                 else
-                    ln -sfr ./fzfEnqueue.m3u "$NOWPLAYING"
-                    mpv --no-terminal "${mpvGenOptions_SK[@]}" \
-                    "${mpvGenOptions_ID[@]}" ./fzfEnqueue.m3u &
-                    _WhileMpvIsRunning &
+                    m3uFile="$localDir/$dir/fzfEnqueue.m3u"
+                    ln -sfr "$m3uFile" "$NOWPLAYING"
+                    _MakeMpvPlaylist --fzf
                 fi
             fi
         ;;
         *)
             rm {fzfEnqueue.m3u,"$FZFENQUEUE"} 2>/dev/null
-            _WrongOption "$enqueueOptions" && return
+            _WrongOption "$enqueueOptions"; return
         ;;
     esac
 

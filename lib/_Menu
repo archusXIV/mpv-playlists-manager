@@ -72,6 +72,7 @@ _Menu() {
             t|T) _MpvControl -t ;;
             u|U) _MpmHelp -h ;;
             x|X) _IfQuitAfterTask -x ;;
+            $'\0d') _MpmrcTasksList ;;
             *)   _WrongOption "$mainMenuOptions" ;;
         esac
     done

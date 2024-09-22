@@ -5,7 +5,9 @@
 _FzfEnqueue() {
 
     cd "$localDir"/"$dir" || return
+    
     local localDirPath
+
     localDirPath=$(pwd | sed 's,/,\\/,g')
     _ResizeWindow
     rm ./fzfEnqueue.m3u 2>/dev/null

@@ -33,6 +33,8 @@ _LoadAudioVideo() {
         -lv) m3uFile="$playlists_dir/$list"; _MpvcTest -v ;;
         -sa) m3uFile="$SELECTED_URLS1"; _MpvcTest -a ;;
         -sv) m3uFile="$SELECTED_URLS1"; _MpvcTest -v ;;
+        -xa) m3uFile="$LOCALDIRS_LIST"; _MpvcTest -a ;;
+        -xv) m3uFile="$LOCALDIRS_LIST"; _MpvcTest -v ;;
     esac
 
     _Menu

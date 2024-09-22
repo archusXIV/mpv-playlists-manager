@@ -5,7 +5,7 @@
 _SelectLocalDir() {
 
     cd "$localDir" || exit 1
-
+    
     echo -e " ${info}Directories in ${localDir##*/}: ${nc}\n"
 
     PS3=""$'\n'" ${info}Select a directory number to queue/parse, [${mtitle}C${info}]ancel: ${nc}"
@@ -13,7 +13,26 @@ _SelectLocalDir() {
     select dir in $(find -L "$localDir" -maxdepth 1 -type d -not -empty \
         -not -wholename "$localDir" | sort | sed 's,.*/,,'); do
 
-        case "$REPLY" in [a-zA-Z]) break ;; esac
+            case "$REPLY" in
+                [a-zA-Z])
+                    if [[ -f $FZFENQUEUE ]]; then
+                        __
+                        _Prompt " ${critical}Play existing playlist?${nc}" || {
+                            rm "$FZFENQUEUE"; return
+                        }
+                        if [[ $localMediaType == audio ]]; then
+                            _LoadAudioVideo -fa
+                        elif [[ $localMediaType == video ]]; then
+                            _LoadAudioVideo -fv
+                        else
+                            m3uFile="$FZFENQUEUE"
+                            ln -sfr "$m3uFile" "$NOWPLAYING"
+                            _MakeMpvPlaylist --fzf
+                        fi
+                    fi
+                    return
+                ;;
+            esac
 
         __
         printf '%s\n' " ${info}Scanning $dir for supported formats...${nc}"

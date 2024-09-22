@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154,SC2034
 _MakeMpvPlaylist() {
-
+    
     makeMpvPlaylistAudiOptions=(
         "${mpvGenOptions_X[@]}"
         "${mpvAudioFormatOptions[@]}"
@@ -17,6 +17,11 @@ _MakeMpvPlaylist() {
 
     # change mpv settings in ~/.config/mpm/mpmrc
     case "$1" in
+        --fzf)
+            mpv --no-terminal "${mpvGenOptions_SK[@]}" \
+            "${mpvGenOptions_ID[@]}" "$m3uFile" &
+            _WhileMpvIsRunning &
+        ;;
         --local-background)
             cd "$localDir"/"$dir" && {
                 use_mpvc_locally="yes"
@@ -37,6 +42,13 @@ _MakeMpvPlaylist() {
                 _RmMpvTmp
             }
         ;;
+        --local-dirs)
+            mpv --no-terminal \
+            "${mpvGenOptions_SK[@]}" \
+            "${mpvGenOptions_ID[@]}" \
+            "${mpvVideoOptions_FS[@]}" "$m3uFile" &
+            _WhileMpvIsRunning &
+        ;;
         --online-audio)
             use_mpvc_online="yes"
             mpv --no-terminal \
@@ -53,13 +65,11 @@ _MakeMpvPlaylist() {
         ;;
         --terminal-audio)
             _LoadAudioVideoAdvice
-            echo "$m3uFile" > "$NOWPLAYING"
             mpv "${makeMpvPlaylistAudiOptions[@]}" "$m3uFile"
             _RmMpvTmp
         ;;
         --terminal-video)
             _LoadAudioVideoAdvice
-            echo "$m3uFile" > "$NOWPLAYING"
             mpv "${makeMpvPlaylistVideOptions[@]}" "$m3uFile"
             _RmMpvTmp
         ;;

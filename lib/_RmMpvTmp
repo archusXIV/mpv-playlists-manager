@@ -6,6 +6,6 @@ _RmMpvTmp() {
     mpv_is_running="no"
     rm "$(readlink -f "$NOWPLAYING")" \
     "$SELECTED_URLS1" "$NOWPLAYING" \
-    "$FZFENQUEUE" "$pidofMpv" 2>/dev/null
+    "$FZFENQUEUE" "$pidofMpv" "$LOCALDIRS_LIST" 2>/dev/null
     unset m3uFile
 }

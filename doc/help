@@ -1,5 +1,5 @@
 
-    mpm version 2.0-5
+    mpm version 2.0-6
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -48,7 +48,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.0-5::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.0-6::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -79,7 +79,7 @@
         j) Stop or quit mpv                       │ v) Create/Add links to the Video list *
         k) Toggle play/pause                      │ x) Quit mpm
         l) Go to next song                        │ z) Clear all tmp lists *
-        m) Show ncmpvc cheatsheet                 │
+        m) Show ncmpvc cheatsheet                 │ Ctrl+M) Get most of mpmrc settings list
         ──────────────────────────────────────────────────────────────────────────────────────────────────
 
     1) Create/Add video playlist:

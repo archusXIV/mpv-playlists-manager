@@ -62,20 +62,15 @@ _QueueMultipleDirs() {
     use_mpvc_locally=yes
 
     if [[ $localMediaType == audio ]]; then
-        ln -sfr "$mpv_list" "$NOWPLAYING"
-        mv -f "$mpv_list" "$FZFENQUEUE"
-        _LoadAudioVideo -fa
+        mv -f "$mpv_list" "$LOCALDIRS_LIST"
+        _LoadAudioVideo -xa
     elif [[ $localMediaType == video ]]; then
-        ln -sfr "$mpv_list" "$NOWPLAYING"
-        mv -f "$mpv_list" "$FZFENQUEUE"
-        _LoadAudioVideo -fv
+        mv -f "$mpv_list" "$LOCALDIRS_LIST"
+        _LoadAudioVideo -xv
     else
-        ln -sfr "$mpv_list" "$NOWPLAYING"
-        mpv --no-terminal \
-        "${mpvGenOptions_SK[@]}" \
-        "${mpvGenOptions_ID[@]}" \
-        "${mpvVideoOptions_FS[@]}" "$mpv_list" &
-        _WhileMpvIsRunning &
+        m3uFile="$mpv_list"
+        ln -sfr "$m3uFile" "$NOWPLAYING"
+        _MakeMpvPlaylist --local-dirs
     fi
     
     _Menu

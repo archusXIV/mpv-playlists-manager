@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154
 _MpvControl() {
-
+    
     __mpvControlTests() {
         ! command -v socat >/dev/null && {
             printf '%s\n' \
