@@ -4,12 +4,21 @@
 # shellcheck disable=SC2154,SC2001
 _CopyMediaUrl() {
 
+    __isMediaUrlCorrect() (
+        [[ -z $mediaUrl || $mediaUrl != https* ]] && {
+            printf '' | "${clipboardCmd[0]}" -i
+            _CreateAddPlaylist "$arg"
+        }
+    )
+    
     if __clipboardCmdTest; then
         read -r mediaUrl < <("${clipboardCmd[@]}")
+        __isMediaUrlCorrect
     else
         __
         echo -e " Paste an url to fill the ${info}${Type}${nc} playlist:\n"
         read -r mediaUrl
+        __isMediaUrlCorrect
     fi
 
     if [[ $mediaUrl =~ 'playlist?list=' ]]; then
@@ -23,7 +32,7 @@ _CopyMediaUrl() {
         mediaUrl=$(echo "$mediaUrl" | sed 's/&list=.*//')
         __
         printf '%s\n' " ${info}Testing url...${nc}"
-        if [[ ! $(yt-dlp --no-warnings --print formats_table "$mediaUrl") ]]; then
+        if [[ ! $(yt-dlp --print formats_table "$mediaUrl") ]]; then
             __
             printf '%s\n' " ${critical}${b}No format code found!${nb}"\
             " $mediaUrl will be removed." \
@@ -32,7 +41,8 @@ _CopyMediaUrl() {
         else
             echo "$mediaUrl" | tee -a "$URLS" >> "$DEFAULT_LIST"
             echo -e " ${info}Getting ${Type} title...${nc}\n"
-            _YtdlGetTitle "$(sed -n '$p' "$URLS")" \
+            yt-dlp --skip-download --get-title --flat-playlist \
+            "${ytdlPreset_DW[@]}" "$mediaUrl" \
             | tee -a "$TITLES" >> "$DEFAULT_TITLES"
             _RemoveCrap
         fi

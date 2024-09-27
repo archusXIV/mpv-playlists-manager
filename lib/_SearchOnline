@@ -39,7 +39,7 @@ _SearchOnline() {
         echo -e "                                 └──────────────────────────────────────────────────┘"
         echo -e "                                                   ${info}Select an item${nc}"
 
-        read -rsn1 searchOnlineOptions
+        read -rsn 1 searchOnlineOptions
         case "$searchOnlineOptions" in
             1)
                 pkg=fzf

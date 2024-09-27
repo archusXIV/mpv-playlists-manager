@@ -43,15 +43,15 @@ _Menu() {
         read -rsn 1 mainMenuOptions
         case "$mainMenuOptions" in
             1|v|V) _CreateAddPlaylist -v ;;
-            2|a|A) _CreateAddPlaylist -a ;;
+            2|a  ) _CreateAddPlaylist -a ;;
             3|s|S) _SaveRemove ;;
             4|p|P) _LoadPlaylist ;;
-            5|f|F) _MpvOwnsTmpList --local || _LoadLocalMenu ;;
-            6|d|D) _ViewAudioVideoUrlsInfo -d ;;
+            5|f|F) _LoadLocalMenu ;;
+            6|d  ) _ViewAudioVideoUrlsInfo -d ;;
             7|z|Z) _ClearAllTmpLists ;;
             8|e|E) _EditPlaylist ;;
-            9|c|C) _EditMpmConf ;;
-            b|B  ) _MpmHelp -b ;;
+            9|c  ) _EditMpmConf ;;
+            b    ) _MpmHelp -b ;;
             h|H  ) _MpvControl -h ;;
             j|J  ) _MpvControl -j ;;
             k|K  ) _MpvControl -k ;;

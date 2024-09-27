@@ -1,6 +1,6 @@
 Author: Barret E (2021-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.0-6
+mpm version 2.0-7
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -24,12 +24,11 @@ the directory structure is ok for you.
 
 Changelog:
 --------------- NO CHANGE IN THE CONFIG FILE (mpmrc) ---------------
+version 2.0-7 - Added an url test in _CopyMediaUrl function, if not an url the clipboard is cleared.
+version 2.0-7 - Added _MpmrcTasksList function to get a quick mpmrc settings view (Ctrl+M).
 version 2.0-6 - Pressing Ctrl+M is main window shows most mpmrc settings.
 version 2.0-6 - A prompt shows up when we deceide to cancel adding files to the queue,
                 if a local playlist already exist.
 version 2.0-6 - Reorganized functions concerning mpv local playlists creations.
 version 2.0-6 - In mpmrc, if mpvGenOptions_ID=( --idle=yes ) is automatically
                 set to no at startup for mpv to quit correctly.
-version 2.0-5 - Added mpv output in the terminal by queueing multiple files/dirs,
-                when use_mpvc is empty (not set).
-version 2.0-5 - Fixed bug in _IfQuitAfterTask function after downloads completed.

@@ -33,7 +33,7 @@ _LoadPlaylist() {
         printf '%s\n' \
         " ${info}Choose an option for: $(echo "${list%%.*}" | sed 's/_/ /g') ${nc}($(grep -c '^https' "$list") urls)"
         __
-        read -rn 1 -p " ${info}[1] Download/Play, [2] View titles: ${nc}" loadPlaylistOptions
+        read -rsn 1 -p " ${info}[1] Download/Play, [2] View titles: ${nc}" loadPlaylistOptions
         __
         case "$loadPlaylistOptions" in
             1)
@@ -48,7 +48,7 @@ _LoadPlaylist() {
                     _TitlesListCompare -l
                 fi
 
-                read -rn 1 \
+                read -rsn 1 \
                 -p "${info}"' [1] Download/Play, [2] Back to menu: '"${nc}" loadPlaylistSubmenuOptions
                 __
                 case "$loadPlaylistSubmenuOptions" in

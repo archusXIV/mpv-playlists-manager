@@ -29,17 +29,14 @@ _GetMediaTitle() {
         grep '^https' "$listFile" \
         | parallel --tagstring '{#}' --lb -j0 yt-dlp \
         --get-title --no-warnings --ignore-errors \
-        | sort -ns | sed '
-            s/^[[:digit:]]*//;
-            s/^\s//;
-            s/^-\s//;
-            s/\//_/g
-        ' > "$titlesFile"
+        | sort -ns \
+        | sed 's/^[[:digit:]]*//;s/^\s//;s/^-\s//;s/\//_/g' > "$titlesFile"
         rm -rf "$HOME"/.parallel
     else
         sed -i '1,$d' "$titlesFile"
         while read -r line; do
-            _YtdlGetTitle "$line" >> "$titlesFile"
+            yt-dlp --skip-download --get-title --flat-playlist \
+            "${ytdlPreset_DW[@]}" "$line" >> "$titlesFile"
         done < <(grep '^https' "$listFile")
     fi
 

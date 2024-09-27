@@ -34,12 +34,12 @@ mpm -v|--version  # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
 ## Changelog:
+- Added an url test in _CopyMediaUrl function, if not an url the clipboard is cleared.
 - Pressing Ctrl+M is main window shows most mpmrc settings.
 - A prompt shows up when we deceide to cancel adding files to the queue, if a local playlist already exist.
 - Reorganized functions concerning mpv local playlists creations.
 - In mpmrc, if mpvGenOptions_ID=( --idle=yes ) is automatically set to no at startup for mpv to quit correctly.
 - Added mpv output in the terminal by queueing multiple files/dirs, when use_mpvc is empty (not set).
-- Fixed bug in _IfQuitAfterTask function after downloads completed.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -98,7 +98,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.0-6.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.0-7.png)
 
 
 ```

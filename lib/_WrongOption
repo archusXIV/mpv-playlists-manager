@@ -7,4 +7,5 @@ _WrongOption() {
     __
     printf '%s\n' " ${critical}Wrong option $1 ${nc}"
     sleep 3
+    
 }

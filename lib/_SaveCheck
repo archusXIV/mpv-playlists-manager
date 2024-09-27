@@ -47,7 +47,7 @@ _SaveCheck() {
                     _SaveList && break
                 }
                 __
-                read -rp " ${info}[S]ave playlist as a new one or [A]dd links to $list?: ${nc}" \
+                read -rep " ${info}[S]ave playlist as a new one or [A]dd links to $list?: ${nc}" \
                 saveOrAddLinksOptions
                 case "$saveOrAddLinksOptions" in
                     a|A)

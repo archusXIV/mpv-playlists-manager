@@ -11,8 +11,7 @@ _GetVideo() {
         -d)
             __
             if [[ ! -f $DEFAULT_TITLES && -f $DEFAULTM3UTITLES ]]; then
-                cp "$DEFAULTM3UTITLES" "$DEFAULT_TITLES"
-                rm "$DEFAULTM3UTITLES"
+                mv -f "$DEFAULTM3UTITLES" "$DEFAULT_TITLES"
             elif [[ -f $DEFAULT_TITLES ]]; then
                 printf '%s\n' " ${info}Fetching titles...${nc}"
                 sleep 1
@@ -37,6 +36,7 @@ _GetVideo() {
     esac
 
     _CheckParallelDownloads
+    
     cp -f "$M3UFILE" "$M3UFILE"_origin
     cp -f "$TITLES" "$TITLES"_origin
     clear
