@@ -24,7 +24,7 @@ the directory structure is ok for you.
 
 Changelog:
 --------------- NO CHANGE IN THE CONFIG FILE (mpmrc) ---------------
-version 2.0-8 - Change theme name 'chocolat-pistache' to 'pistachio' for aesthetic reason.
+version 2.0-7 - Change theme name 'chocolat-pistache' to 'pistachio' for aesthetic reason.
 version 2.0-7 - Added an url test in _CopyMediaUrl function, if not an url the clipboard is cleared.
 version 2.0-7 - Added _MpmrcTasksList function to get a quick mpmrc settings view (Ctrl+M).
 version 2.0-6 - Pressing Ctrl+M in main window shows most mpmrc settings.
