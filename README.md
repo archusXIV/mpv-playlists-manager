@@ -35,7 +35,7 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with y
 
 ## Changelog:
 - Added an url test in _CopyMediaUrl function, if not an url the clipboard is cleared.
-- Pressing Ctrl+M is main window shows most mpmrc settings.
+- Pressing Ctrl+M in main window shows most mpmrc settings.
 - A prompt shows up when we deceide to cancel adding files to the queue, if a local playlist already exist.
 - Reorganized functions concerning mpv local playlists creations.
 - In mpmrc, if mpvGenOptions_ID=( --idle=yes ) is automatically set to no at startup for mpv to quit correctly.
