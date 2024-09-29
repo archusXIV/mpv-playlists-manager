@@ -34,12 +34,12 @@ mpm -v|--version  # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
 ## Changelog:
+- Change theme name 'chocolat-pistache' to 'pistachio' for aesthetic reason.
 - Added an url test in _CopyMediaUrl function, if not an url the clipboard is cleared.
 - Pressing Ctrl+M in main window shows most mpmrc settings.
 - A prompt shows up when we deceide to cancel adding files to the queue, if a local playlist already exist.
 - Reorganized functions concerning mpv local playlists creations.
 - In mpmrc, if mpvGenOptions_ID=( --idle=yes ) is automatically set to no at startup for mpv to quit correctly.
-- Added mpv output in the terminal by queueing multiple files/dirs, when use_mpvc is empty (not set).
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
