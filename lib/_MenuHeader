@@ -2,7 +2,10 @@
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
-_ListsCount() {
+_MenuHeader() {
+
+    local sep
+    sep="${task}*${nc}"
 
     __col() (
         if [[ -z $(find "$playlists_dir" -not -name "default.m3u" -name "*.m3u") ]]; then
@@ -25,20 +28,27 @@ _ListsCount() {
     
     __aud() (
         test -s "$AUDIO_URLS" && \
-            echo "${info}$(_GetLinesList -a)${nc}" || \
-            echo "0"
+        echo "${info}$(_GetLinesList -a)${nc}" || echo "0"
     )
 
     __vid() (
         test -s "$VIDEO_URLS" && \
-            echo "${info}$(_GetLinesList -v)${nc}" || \
-            echo "0"
+        echo "${info}$(_GetLinesList -v)${nc}" || echo "0"
 
     )
 
-    sep="${task}*${nc}"
+    _ResizeWindow
+    clear
+    __
+    echo -e "                                            ${mtitle}::MPV-PLAYLISTS-MANAGER $VERSION::" "$(_CheckUpdate)"
+    echo -e "                                           $(_LittleStars)${nc}"
+    [[ -z $THEME ]] && \
+    echo -e "                                                 current theme: ${info}${theme}${nc}" || \
+    echo -e "                                                 current theme: ${info}${THEME}${nc}"
     echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
     echo -e "                            Collection: $(__col) ${sep} Default list: $(__def) ${sep} Audio list: $(__aud) ${sep} Video list: $(__vid)"
     echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
-
+    echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
+    echo -e "                  │                      ${info}GENERAL OPTIONS${nc}                       │     ${mtitle}MPMRC SETTINGS${nc}     │"
+    echo -e "                  │  ────────────────────────────────────────────────────────  │  ────────────────────  │"
 }

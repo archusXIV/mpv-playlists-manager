@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154
 _SaveOnExit() {
-    __
+    
     _Prompt -n \
         " ${critical}Some temporary lists aren't saved, quit anyway?:${nc}" && {
         clear
@@ -43,16 +43,13 @@ _SaveOnExit() {
     saveOnExitPrompt=( "[B]ack to menu," "Save [A]udio list." "Save [V]ideo list." )
 
     if [[ -s $AUDIO_URLS && -s $VIDEO_URLS ]]; then
-        __
-        echo -e " ${info}${saveOnExitPrompt[*]}${nc}"
+        echo -e "\n ${info}${saveOnExitPrompt[*]}${nc}"
     elif [[ -s $AUDIO_URLS && ! -f $VIDEO_URLS ]]; then
         unset 'saveOnExitPrompt[2]'
-        __
-        echo -e " ${info}${saveOnExitPrompt[*]}${nc}"
+        echo -e "\n ${info}${saveOnExitPrompt[*]}${nc}"
     elif [[ -s $VIDEO_URLS && ! -f $AUDIO_URLS ]]; then
         unset 'saveOnExitPrompt[1]'
-        __
-        echo -e " ${info}${saveOnExitPrompt[*]}${nc}"
+        echo -e "\n ${info}${saveOnExitPrompt[*]}${nc}"
     fi
 
     read -rsn 1 saveOnExitOptions

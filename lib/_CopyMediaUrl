@@ -3,49 +3,43 @@
 
 # shellcheck disable=SC2154,SC2001
 _CopyMediaUrl() {
-
-    __isMediaUrlCorrect() (
-        [[ -z $mediaUrl || $mediaUrl != https* ]] && {
-            printf '' | "${clipboardCmd[0]}" -i
-            _CreateAddPlaylist "$arg"
-        }
-    )
     
     if __clipboardCmdTest; then
         read -r mediaUrl < <("${clipboardCmd[@]}")
-        __isMediaUrlCorrect
     else
         __
         echo -e " Paste an url to fill the ${info}${Type}${nc} playlist:\n"
         read -r mediaUrl
-        __isMediaUrlCorrect
     fi
 
     if [[ $mediaUrl =~ 'playlist?list=' ]]; then
-        __
-        printf '%s\n' " ${info}Getting titles & links from playlist: $(\
+        printf '\n%s\n' " ${info}Getting titles & links from playlist: $(\
         yt-dlp "${ytdlPreset_DW[@]}" -J --flat-playlist "$mediaUrl" \
         | jq --raw-output .title)..." \
         "${b} Please be patient.${nb}${nc}"
         _GetYoutubePlaylistUrls "$arg"
     else
         mediaUrl=$(echo "$mediaUrl" | sed 's/&list=.*//')
-        __
-        printf '%s\n' " ${info}Testing url...${nc}"
-        if [[ ! $(yt-dlp --print formats_table "$mediaUrl") ]]; then
-            __
-            printf '%s\n' " ${critical}${b}No format code found!${nb}"\
-            " $mediaUrl will be removed." \
-            " ${info}Please visit: $supportedSites${nc}"
-            sleep 7
+        printf '\n%s\n' " ${info}Testing url...${nc}"
+        if [[ $mediaUrl =~ https* ]]; then
+            if [[ ! $(yt-dlp --print formats_table "$mediaUrl") ]]; then
+                printf '\n%s\n' " ${critical}${b}No format code found!${nb}"\
+                " $mediaUrl will be removed." \
+                " ${info}Please visit: $supportedSites${nc}"
+                sleep 7
+            else
+                echo "$mediaUrl" | tee -a "$URLS" >> "$DEFAULT_LIST"
+                printf '%s\n' " ${info}Getting ${Type} title...${nc}"
+                yt-dlp --skip-download --get-title --flat-playlist \
+                "${ytdlPreset_DW[@]}" "$mediaUrl" \
+                | tee -a "$TITLES" >> "$DEFAULT_TITLES"
+                _RemoveCrap
+            fi
         else
-            echo "$mediaUrl" | tee -a "$URLS" >> "$DEFAULT_LIST"
-            echo -e " ${info}Getting ${Type} title...${nc}\n"
-            yt-dlp --skip-download --get-title --flat-playlist \
-            "${ytdlPreset_DW[@]}" "$mediaUrl" \
-            | tee -a "$TITLES" >> "$DEFAULT_TITLES"
-            _RemoveCrap
+            printf '\n%s\n' " ${critical}Not a valid url...try again${nc}"
+            sleep 2
         fi
+        
     fi
 
 }

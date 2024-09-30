@@ -1,6 +1,6 @@
 Author: Barret E (2021-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.0-7
+mpm version 2.0-8
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -24,12 +24,9 @@ the directory structure is ok for you.
 
 Changelog:
 --------------- NO CHANGE IN THE CONFIG FILE (mpmrc) ---------------
+version 2.0-8 - Refactored _Menu function (main window) in multiple parts.
+version 2.0-8 - Fixed (disabled) keyboard arrow keys redirecting to wrong function.
+                For example up arrow output is: '\[A', so 'A' leads to create audio list...
 version 2.0-7 - Change theme name 'chocolat-pistache' to 'pistachio' for aesthetic reason.
 version 2.0-7 - Added an url test in _CopyMediaUrl function, if not an url the clipboard is cleared.
 version 2.0-7 - Added _MpmrcTasksList function to get a quick mpmrc settings view (Ctrl+M).
-version 2.0-6 - Pressing Ctrl+M in main window shows most mpmrc settings.
-version 2.0-6 - A prompt shows up when we deceide to cancel adding files to the queue,
-                if a local playlist already exist.
-version 2.0-6 - Reorganized functions concerning mpv local playlists creations.
-version 2.0-6 - In mpmrc, if mpvGenOptions_ID=( --idle=yes ) is automatically
-                set to no at startup for mpv to quit correctly.

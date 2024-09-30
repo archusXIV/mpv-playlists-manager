@@ -1,0 +1,47 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_MenuOptions() {
+    read -rsn 1 mainMenuOptions
+    case "$mainMenuOptions" in
+        1|v|V) _CreateAddPlaylist -v ;;
+        2|a|A) _CreateAddPlaylist -a ;;
+        3|s|S) _SaveRemove ;;
+        4|p|P) _LoadPlaylist ;;
+        5|f|F) _LoadLocalMenu ;;
+        6|d|D) _ViewAudioVideoUrlsInfo -d ;;
+        7|z|Z) _ClearAllTmpLists ;;
+        8|e|E) _EditPlaylist ;;
+        9|c|C) _EditMpmConf ;;
+        $'\033')
+            read -rsn 2 arrowkeys # Arrow keys are disabled.
+            case "$arrowkeys" in
+                "[A|[B|[C|[D") : ;;
+            esac
+        ;;
+        b|B) _MpmHelp -b ;;
+        h|H) _MpvControl -h ;;
+        j|J) _MpvControl -j ;;
+        k|K) _MpvControl -k ;;
+        l|L) _MpvControl -l ;;
+        m|M) _MpmHelp -c ;;
+        n|N)
+            if _PidOfMpv && [[ $use_mpvc == yes && -n $mpvc_tui ]]; then
+                "$mpvc_tui"
+            else
+                printf '%s\n' \
+                " ${critical}mpv isn't running or no mpv interface setup in your config..." \
+                " use_mpvc must be set to 'yes' or mpvc_tui is empty${nc}"
+                sleep 8
+            fi
+        ;;
+        q|Q) _MpvControl -q ;;
+        r|R) _MpvControl -r ;;
+        t|T) _MpvControl -t ;;
+        u|U) _MpmHelp -h ;;
+        x|X) _IfQuitAfterTask -x ;;
+        $'\0d') _MpmrcTasksList ;;
+        *) _WrongOption "$mainMenuOptions" ;;
+    esac
+}

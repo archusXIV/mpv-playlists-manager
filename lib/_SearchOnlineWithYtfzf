@@ -10,6 +10,8 @@ _SearchOnlineWithYtfzf() {
 
     [[ -z $request ]] && return
 
+    local ytpl peer lbry
+
     case "$1" in
         -o)
             ytfzf --show-thumbnails \
@@ -38,10 +40,13 @@ _SearchOnlineWithYtfzf() {
     _RemoveCrap
 
     cat "$DEFAULT_LIST" "$URLS" > "$tmp_dir"/ytfzf_playlists
+
+    ytpl="playlist?list="
+    peer="peertube.tv/w/p/"
+    lbry="odysee.com/$/playlist/"
+    
     while read -r line; do
-         [[ $line =~ 'playlist?list=' \
-         || $line =~ 'peertube.tv/w/p/' \
-         || $line =~ 'odysee.com/$/playlist/' ]] && \
+        [[ $line =~ "$ytpl"|"$peer"|"$lbry" ]] && \
             echo "$line" >> "$YTSEARCH"
     done < "$tmp_dir"/ytfzf_playlists
 

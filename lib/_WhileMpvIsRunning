@@ -8,5 +8,5 @@ _WhileMpvIsRunning() {
         sleep 1.5
     done
     localPlaylist=no
-    _IfMpvc
+    _MenuFooter
 }

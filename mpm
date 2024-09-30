@@ -30,7 +30,7 @@ pids=($(pidof -x "$MPM"))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.0-7"
+VERSION="v.2.0-8"
 
 CONF_DIR="$HOME/.config/mpm"
 
@@ -70,7 +70,11 @@ lessColor=$'\e[0m';
 ## Source our functions.
 if [[ -d /usr/local/lib/mpm ]]; then
     for func in /usr/local/lib/mpm/*_*; do
-        [[ -f $func ]] && . "$func"
+        if [[ -x $func ]]; then
+            . "$func"
+        else
+            chmod +x "$func"; . "$func"
+        fi
     done
     unset func
 else
