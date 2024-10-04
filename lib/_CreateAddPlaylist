@@ -75,8 +75,8 @@ _CreateAddPlaylist() {
             5)  _CreateAddPlaylistActions --play ;;
             6)  _ViewAudioVideoUrlsInfo $arg ;;
             7)  _CreateAddPlaylistActions --remove ;;
-            8)  _Menu
-                __ ;;
+            8)  _Menu ;;
+            r|R) continue ;;
             *)
                 _WrongOption "$createAddPlaylistOptions"
             ;;

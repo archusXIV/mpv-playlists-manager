@@ -22,10 +22,14 @@ _ViewAudioVideoUrlsInfo() {
         clear
         __
         if (($(grep -c '^https' "$menuTitleType_$URLS") > 12)); then
-            printf '%s\n' " ${info}ORDER | $menuTitleType PLAYLIST TITLES (to many urls to show).${nc}"
-            echo -e " ${info}${stars// /*}${nc}\n"
-            nl "$menuTitleType_$TITLES"
-            __
+            if (($(grep -c '^https' "$menuTitleType_$URLS") > 25)); then
+                _ViewDefaultAudioVideoTitles
+            else
+                printf '%s\n' " ${info}ORDER | $menuTitleType PLAYLIST TITLES (to many urls to show).${nc}"
+                echo -e " ${info}${stars// /*}${nc}\n"
+                nl "$menuTitleType_$TITLES"
+                __
+            fi
         else
             printf '%s\n' " ${info}ORDER |  $menuTitleType PLAYLIST LINKS & TITLES.${nc}"
             echo -e " ${info}${stars// /*}${nc}\n"

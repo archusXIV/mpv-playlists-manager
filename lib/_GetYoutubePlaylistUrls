@@ -49,7 +49,7 @@ _GetYoutubePlaylistUrls() {
     esac
 
     _RemoveCrap
-    rm {"$YTSEARCH","$YTFZFJSON","$tmp_dir"/playlist_titlesurls}
+    rm {"$YTSEARCH","$YTFZFJSON","$tmp_dir"/playlist_titlesurls,playlist.{m3u,titles,txt}}
     rm -rf "$HOME"/.parallel
 
 } 2>/dev/null

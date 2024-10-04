@@ -9,17 +9,20 @@ _Save() {
     cd "$playlists_dir" || exit 1
 
     case "$1" in
-        -a)
+        -a|-v)
             if [[ -f $AUDIO_URLS ]]; then
                 current_list="$AUDIO_URLS"
                 current_titles="$AUDIO_TITLES"
-                _SaveCheck
-                _ReplaceSpaces -s
+            elif [[ -f $VIDEO_URLS ]]; then
+                current_list="$VIDEO_URLS"
+                current_titles="$VIDEO_TITLES"
             else
                 printf '%s\n' " ${critical}No links in the $Type list${nc}"
                 sleep 2
                 return
             fi
+            _SaveCheck
+            _ReplaceSpaces -s
         ;;
         -d)
             current_list="$DEFAULT_LIST"
@@ -30,18 +33,6 @@ _Save() {
             fi
             _SaveCheck
             _ReplaceSpaces -s
-        ;;
-        -v)
-            if [[ -f $VIDEO_URLS ]]; then
-                current_list="$VIDEO_URLS"
-                current_titles="$VIDEO_TITLES"
-                _SaveCheck
-                _ReplaceSpaces -s
-            else
-                printf '%s\n' " ${critical}No links in the $Type list${nc}"
-                sleep 2
-                return
-            fi
         ;;
     esac
     _Menu

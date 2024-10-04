@@ -1,10 +1,10 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2034
 _MpvOwnsTmpList() {
 
-    local downloadTmpList
+    local downloadTmpList sedPrint titles
 
     _PidOfMpv >/dev/null && {
 
@@ -34,7 +34,14 @@ _MpvOwnsTmpList() {
                     fi
                 ;;
                 --list)
-                    if [[ $sedPrint =~ temporary"$Type"Urls.m3u ]]; then
+                    if [[ $sedPrint =~ temporary"$Type"Urls.m3u && $quit == yes ]]; then
+                        printf '%s\n' " ${critical}Temporary $Type list is owned by mpv,"
+                        _Prompt -n " and it isn't saved, quit anyway? ${nc}" && {
+                            _MpvControl -q
+                            exit
+                        }
+                        quit=no; _Menu
+                    elif [[ $sedPrint =~ temporary"$Type"Urls.m3u ]]; then
                         name="$Type"
                         action="if you want to play/remove/save the $name list,"
                         downloadTmpList=list

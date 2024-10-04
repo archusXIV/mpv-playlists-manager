@@ -3,6 +3,8 @@
 
 # shellcheck disable=SC2154,SC2034
 _IfQuitAfterTask() {
+
+    local quit
     case "$1" in
         -d)
             if [[ $quit_after_task == yes ]]; then
@@ -23,15 +25,18 @@ _IfQuitAfterTask() {
             fi
         ;;
         -x)
-            __
-            if [[ -s "$AUDIO_URLS" || -s "$VIDEO_URLS" ]]; then
-                _SaveOnExit
-            else
-                nc=$'\e[0m';
-                echo "${nc}"
-                clear
-                exit 0
-            fi
+            quit=yes
+            _MpvOwnsTmpList --list || {
+                __
+                if [[ -s "$AUDIO_URLS" || -s "$VIDEO_URLS" ]]; then
+                    _SaveOnExit
+                else
+                    nc=$'\e[0m';
+                    echo "${nc}"
+                    clear
+                    exit 0
+                fi
+            }
         ;;
     esac
 }

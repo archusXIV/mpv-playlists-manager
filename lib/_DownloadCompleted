@@ -8,8 +8,11 @@ _DownloadCompleted() {
     if [[ -n $(find {"$audios_dir","$videos_dir"} -name "*.part") ]]; then
         _IfPartsExist -l
     else
-        FILES=( "$list" "$list"_origin "$titles_dir"/"$list".titles \
-                "$titles_dir"/"$list".titles_origin "$SELECTED_URLS1" "$SELECTED_URLS2" )
+        FILES=(
+            "$list" "$list"_origin
+            "$titles_dir"/"$list".titles "$titles_dir"/"$list".titles_origin
+            "$SELECTED_URLS1" "$SELECTED_URLS2"
+        )
 
         if [[ $(_GetLinesList -l) -gt 0 ]]; then
             if [[ $keep_none_empty_playlist == yes ]]; then

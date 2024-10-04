@@ -23,6 +23,6 @@ _MenuBoby() {
     _PidOfMpv >/dev/null && _MenuFooter
     test -f "$tmp_dir"/1 \
         && echo -e "                                                     ${info}Select an item${nc}" \
-        || echo -e "                                                     ${info}${b}Select an item${nc}${nb}"
+        || echo -e "                                                     ${info}${b}Select an item${nb}${nc}"
     __
 }

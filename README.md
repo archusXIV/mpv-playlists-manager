@@ -34,12 +34,12 @@ mpm -v|--version  # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
 ## Changelog:
+- Added _ViewDefaultAudioVideoTitles function in case we get more than
+    - 25 links in a temporary list so we can see two pages of 25 titles each.
+- Fixed bug in _GetYoutubePlaylistUrlsMethods function using parallel.
 - Refactored _Menu function (main window) in multiple parts.
 - Fixed (disabled) keyboard arrow keys redirecting to wrong function.
     - For example up arrow output is: '\\[A', so 'A' leads to create audio list...
-- Change theme name 'chocolat-pistache' to 'pistachio' for aesthetic reason.
-- Added an url test in _CopyMediaUrl function, if not an url we are warned.
-- Pressing Ctrl+M in main window shows most mpmrc settings.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -98,7 +98,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.0-8.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.0-9.png)
 
 
 ```

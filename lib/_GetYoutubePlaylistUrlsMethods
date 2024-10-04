@@ -23,7 +23,7 @@ _GetYoutubePlaylistUrlsMethods() {
                 --playlist-start '{#}' --playlist-end '{#}' "$playlist" \
                 > playlist.txt
 
-                tee -a playlist.m3u >> playlist.titles < <(sort -ns playlist.txt)
+                sort -ns playlist.txt | tee -a playlist.m3u >> playlist.titles
                 sed -i '
                     s/^[[:digit:]]*//;
                     s/^\s//;
