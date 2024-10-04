@@ -147,6 +147,7 @@ Requests and contributions? Why not, have fun.
 - [ffmpeg](https://ffmpeg.org/)
 - [jq](https://stedolan.github.io/jq/)
 - [mpv](https://mpv.io/)
+- [socat](http://www.dest-unreach.org/socat/) (to control mpv)
 - [vim](https://www.vim.org/) (or any terminal text editor)
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
