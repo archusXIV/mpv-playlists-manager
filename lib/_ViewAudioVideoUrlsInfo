@@ -8,7 +8,7 @@ _ViewAudioVideoUrlsInfo() {
 
     viewUrlInfoPrompt=(
         "[M]aim menu," "[A]dd more links," "[D]ownload,"
-        "[P]lay," "[S]ave as," "[R]emove links/list: "
+        "[P]lay," "[S]ave links/list as," "[R]emove links/list: "
     )
 
     mpvOwnsInfoPrompt=(
@@ -18,12 +18,32 @@ _ViewAudioVideoUrlsInfo() {
     # let's play...
     stars=$(printf "%-56s" "*")
 
-    __listHeader() (
+    __listHeader() {
         clear
         __
         if (($(grep -c '^https' "$menuTitleType_$URLS") > 12)); then
             if (($(grep -c '^https' "$menuTitleType_$URLS") > 25)); then
-                _ViewDefaultAudioVideoTitles
+                stars=$(printf "%-42s" "*")
+
+                printf '%s\n' " ${info}ORDER | $menuTitleType PLAYLIST TITLES (page 1/2)${nc}"
+                echo -e " ${info}${stars// /*}${nc}\n"
+                awk 'NR>=1&&NR<=25' "$TITLES" | nl
+                __
+                read -rsn 1 -p " ${info}[M]ain menu, [N]ext page.${nc}" nextpage
+                case "$nextpage" in
+                    m|M) _Menu ;;
+                    n|N)
+                        clear; __
+                        printf '%s\n' " ${info}ORDER | $menuTitleType PLAYLIST TITLES (page 2)${nc}"
+                        echo -e " ${info}${stars// /*}${nc}\n"
+                        awk 'NR>=26&&NR<=50' "$TITLES" | nl
+                        __
+                    ;;
+                    *)
+                        _WrongOption "$nextpage"
+                        _Menu
+                    ;;
+                esac
             else
                 printf '%s\n' " ${info}ORDER | $menuTitleType PLAYLIST TITLES (to many urls to show).${nc}"
                 echo -e " ${info}${stars// /*}${nc}\n"
@@ -56,7 +76,7 @@ _ViewAudioVideoUrlsInfo() {
             fi
         fi
 
-    )
+    }
 
     __audioVideoCommon() {
         if [[ -s $URLS ]]; then

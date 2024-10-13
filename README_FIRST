@@ -1,6 +1,6 @@
 Author: Barret E (2021-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.0-9
+mpm version 2.1-0
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -10,7 +10,7 @@ Optionals but recommanded: (
 
 Youtube-dl is for now kind of unmaintained so install yt-dlp
 https://github.com/yt-dlp/yt-dlp/releases
-sudo pacman -S yt-dlp (it's just the continuation of youtbe-dl).
+sudo pacman -S yt-dlp (it's just the continuation of youtube-dl).
 
 This script rips video urls from Youtube and so on.
 In our case we use ".m3u" files to store urls in and then be able
@@ -24,9 +24,8 @@ the directory structure is ok for you.
 
 Changelog:
 ------------------------ NO CHANGES IN THE CONFIG FILE (mpmrc) ------------------------
+version 2.1-0 - Pressing Ctrl+B let you change the theme, sed will edit mpmrc for you.
+version 2.1-0 - Added an option to save a few links from temporary lists as new playlist.
 version 2.0-9 - Added _ViewDefaultAudioVideoTitles function in case we get more than
                 25 links in a temporary list so we can see two pages of 25 titles each.
 version 2.0-9 - Fixed bug in _GetYoutubePlaylistUrlsMethods function using parallel.
-version 2.0-8 - Refactored _Menu function (main window) in multiple parts.
-version 2.0-8 - Fixed (disabled) keyboard arrow keys redirecting to wrong function.
-                For example up arrow output is: '\[A', so 'A' leads to create audio list...

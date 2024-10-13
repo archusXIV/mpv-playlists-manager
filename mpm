@@ -30,7 +30,7 @@ pids=($(pidof -x "$MPM"))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.0-9"
+VERSION="v.2.1-0"
 
 CONF_DIR="$HOME/.config/mpm"
 
@@ -118,8 +118,7 @@ printf '%s\n' " ${info}Enter numbers separeted by commas or a dash for a range,"
 
 if [[ ! -e $NOWPLAYING && ${#pids[@]} -gt 1 ]] || \
     [[ -e $NOWPLAYING && ${#pids[@]} -gt 2 ]]; then
-    __
-    printf '%s\n' " ${critical}${0##*/} is already running...${nc}"
+    printf '\n%s\n' " ${critical}${0##*/} is already running...${nc}"
     notify-send -t 0 -u critical "${0##*/} is already running..."
     exit 1
 fi

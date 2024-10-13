@@ -1,8 +1,10 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
+# shellcheck source=/dev/null
 # shellcheck disable=SC2154
 _Menu() {
+    . "$THEMERC"
     cd "$main_dir" || exit 1
     while [[ -e $DEFAULT_LIST ]]; do
         _MenuHeader

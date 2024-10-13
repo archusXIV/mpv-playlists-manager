@@ -1,0 +1,55 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2034
+_SaveLinksAs() {
+
+    local savedLinks
+
+    __saveRange() {
+        
+        clear
+        cp -f "$current_list" "$current_list"_origin
+        cp -f "$current_titles" "$current_titles"_origin
+        printf '\n%s\n' " ${info}Select titles to save fron ${current_list##*/}${nc}"
+        __
+        nl "$current_titles"
+        __
+
+        [[ $current_list == "$DEFAULT_LIST" ]] && sed -i '1d' "$DEFAULT_LIST"
+
+        IFS=", "; read -ra tmpLinks -p "$RANGEPROMPT"
+        for range in "${tmpLinks[@]}"; do
+            IFS="-"; read -r start end <<< "$range"
+
+            [[ $range =~ [a-zA-Z] ]] && {
+                printf '\n%s\n' " ${critical}Addition aborted...${nc}"
+                sleep 2
+                unset IFS range; return
+            }
+
+            [[ -z $start ]] && continue
+            [[ -z $end ]] && end="$start"
+
+            for ((i=start;i<=end;i++)); do
+                sed -n "${i}p" "$current_list" >> "$current_list"_tmp
+                sed -n "${i}p" "$current_titles" >> "$current_titles"_tmp
+            done
+
+        done
+
+        unset IFS range
+        mv -f "$current_list"_tmp "$current_list"
+        mv -f "$current_titles"_tmp "$current_titles"
+        _RemoveDuplicates "$current_list" "$current_titles"
+    }
+    __
+    read -rsn 1 -p " ${info}Save [L]inks or the [W]hole list?: ${nc}" \
+    saveLinksAsOptions
+    case "$saveLinksAsOptions" in
+        l|L) __saveRange; savedLinks=yes; _SaveCheck ;;
+        w|W) _SaveCheck ;;
+        *)   _WrongOption "$saveLinksAsOptions"; return ;;
+    esac
+    
+}

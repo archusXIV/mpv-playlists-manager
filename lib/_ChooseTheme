@@ -1,0 +1,25 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck source=/dev/null
+# shellcheck disable=SC2154
+_ChooseTheme() {
+
+    clear
+
+    echo -e "\n ${info}Available themes:${nc}\n"
+
+    PS3=""$'\n'" ${info}Please choose a theme, [${mtitle}C${info}]ancel: ${nc}"
+    select newTheme in $(grep -E '[[:alpha:]])' "$THEMERC" | sed 's/)//;/#/d'); do
+        [[ $REPLY =~ [a-zA-Z] ]] && {
+            printf '\n%s\n' " ${critical}Selection aborted...${nc}"
+            sleep 2; break
+        }
+        oldTheme=$(awk -F= '/THEME=/{print $2}' "$MPMRC")
+        sed -i "s/THEME=${oldTheme}/THEME=${newTheme}/" "$MPMRC"
+        . "$MPMRC"
+        _Theme "$newTheme"
+        break
+    done
+    
+}

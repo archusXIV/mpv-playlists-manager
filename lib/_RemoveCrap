@@ -3,8 +3,8 @@
 
 _RemoveCrap() {
     # After some tests it appears that a single link copied from a youtube playlist
-    # causes the download of the entire playlist.
-    # So with sed & perl we cleanup the link to get the direct link to the desired video.
+    # causes the download of the entire playlist (youtube-dl/yt-dlp bug).
+    # So with we cleanup the link to get the direct link to the desired video.
     # Note that this behavior does not appear during a simple viewing/listening.
 
     LISTS=(
@@ -22,7 +22,7 @@ _RemoveCrap() {
             s/&list=.*//;s/&pp=.*//;s/&t=.*//;/^\s*$/d;
             s|//youtube.com|//www.youtube.com|g
         ' "$file"
-        perl -i -ne 'print if ! $a{$_}++' "$file"
+        _RemoveDuplicates "$file"
     done
 
 } 2>/dev/null

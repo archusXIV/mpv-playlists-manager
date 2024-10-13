@@ -32,8 +32,8 @@ _TitlesListCompare() {
                     b|B) _Menu ;;
                     n|N)
                         clear; __
-                        # sed -n '26,$p' "$titlesFile" | nl
-                        awk 'NR>=26&&NR' "$titlesFile" | nl
+                        # sed -n '26,50' "$titlesFile" | nl
+                        awk 'NR>=26&&NR<=50' "$titlesFile" | nl
                         __
                     ;;
                     *)
@@ -45,15 +45,14 @@ _TitlesListCompare() {
             -l)
                 __
                 echo -e " ${info}Titles for $list${nc}\n"
-                nl "$titlesFile"
-                __
+                nl "$titlesFile"; __
             ;;
         esac
 
     else
         printf '%s\n' " ${critical}${titlesFile} does not exist or empty...${nc}" \
         " ${task}${b}Getting $(_GetLinesList -l) titles...please wait.${nb}${nc}"
-        sleep 2; touch "$titlesFile"; _GetMediaTitle -l; clear
+        touch "$titlesFile"; sleep 2; _GetMediaTitle -l; clear
         __
         echo -e " ${info}Titles for $list.${nc}\n"
         nl "$titlesFile"

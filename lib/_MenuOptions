@@ -41,7 +41,8 @@ _MenuOptions() {
         t|T) _MpvControl -t ;;
         u|U) _MpmHelp -h ;;
         x|X) _IfQuitAfterTask -x ;;
-        $'\0d') _MpmrcTasksList ;;
+        $'\0d') _MpmrcTasksList ;; # Ctrl+M
+        $'\02') _ChooseTheme ;; # Ctrl+B
         *) _WrongOption "$mainMenuOptions" ;;
     esac
 }

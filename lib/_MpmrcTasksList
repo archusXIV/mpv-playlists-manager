@@ -3,6 +3,7 @@
 
 # shellcheck disable=SC2154
 _MpmrcTasksList() {
+    
     clear
     mpmrc_settings=(
         "automatic_audio_conversion" "check_updates"

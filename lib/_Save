@@ -21,7 +21,7 @@ _Save() {
                 sleep 2
                 return
             fi
-            _SaveCheck
+            _SaveLinksAs
             _ReplaceSpaces -s
         ;;
         -d)
@@ -31,9 +31,10 @@ _Save() {
             else
                 current_titles="$DEFAULTM3UTITLES"
             fi
-            _SaveCheck
+            _SaveLinksAs
             _ReplaceSpaces -s
         ;;
     esac
+    
     _Menu
 }

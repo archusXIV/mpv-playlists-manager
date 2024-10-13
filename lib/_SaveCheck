@@ -8,8 +8,7 @@ _SaveCheck() {
 
     local listTotal
     listTotal=$(
-        find . -not -name "default.m3u" -name "*.m3u" \
-        -o -name "*.m3u_origin" | wc -l
+        find . -not -name "default.m3u*" -name "*.m3u" | wc -l
     )
 
     __listAlreadyExists() (
@@ -17,6 +16,7 @@ _SaveCheck() {
         read -rp "${info}"' Enter the new playlist name (do not type extension): '"${nc}" list
         list="$list.m3u"
         [[ -f $list ]] && {
+            _RemoveDuplicates "$list" "$titles_dir/$list.titles"
             __
             _Prompt -n " ${critical}$list ALREADY exists! Overwrite it?:${nc}" && {
                 _SaveList
@@ -31,41 +31,35 @@ _SaveCheck() {
     " you can now add your links by entering ${task}'a'${nc}"
     __
     PS3=""$'\n'" ${info}Type ${task}$((listTotal + 1)) ${info}to create a new playlist, [${mtitle}C${info}]ancel: ${nc}"
-    select list in $(find . -not -name "default.m3u" -name "*.m3u" \
-        -o -name "*.m3u_origin" | sort -d | sed 's,.*/,,'); do
+    select list in $(find . -not -name "default.m3u*" -name "*.m3u" \
+        | sort -d | sed 's,.*/,,'); do
 
         if [[ $REPLY =~ [a-zA-Z] ]]; then
-            __
-            printf '%s\n' " ${critical}Selection aborted.${nc}"
+            printf '\n%s\n' " ${critical}Selection aborted.${nc}"
             sleep 2
             return
         elif [[ $REPLY != $((listTotal + 1)) ]]; then
 
-            if [[ $(find . -name "${list}") ]]; then
+            if [[ -e ./$list ]]; then
                 __
                 _Prompt -n " ${critical}$list already exists! Overwrite it?:${nc}" && {
                     _SaveList && break
                 }
                 __
-                read -rep " ${info}[S]ave playlist as a new one or [A]dd links to $list?: ${nc}" \
+                read -rp " ${info}[S]ave playlist as a new one or [A]dd links to ${list##*/}?: ${nc}" \
                 saveOrAddLinksOptions
                 case "$saveOrAddLinksOptions" in
                     a|A)
                         cat "$current_list" >> "$list"
                         cat "$current_titles" >> "$titles_dir/$list.titles"
-                        # removing duplicates
-                        perl -i -ne 'print if ! $a{$_}++' {"$list","$titles_dir/$list.titles"}
-                        __
-                        printf '%s\n' " ${info}Link(s) added to $list.${nc}"
-
+                        _RemoveDuplicates "$list" "$titles_dir/$list.titles"
+                        printf '\n%s\n' " ${info}Link(s) added to $list.${nc}"
                         rm {"$current_list","$current_titles"}
                         [[ $current_list == "$DEFAULT_LIST" ]] && echo "#EXTM3U" > "$DEFAULT_LIST"
                         sleep 2
                         break
                     ;;
-                    s|S)
-                        __listAlreadyExists && break
-                    ;;
+                    s|S) __listAlreadyExists ;;
                     *)
                         _WrongOption "$saveOrAddLinksOptions"
                         break

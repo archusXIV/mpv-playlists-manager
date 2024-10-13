@@ -5,41 +5,63 @@
 _RemoveTmpLinks() {
 
     clear
-    __
-    printf '%s\n' " ${info}Select titles to remove fron ${tmpList##*/}${nc}"
+    printf '\n%s\n' " ${info}Select titles to remove fron ${tmpList##*/}${nc}"
     __
     nl "$tmpTitles"
     __
+
+    __abortDeletionMessage() (
+        printf '\n%s\n' " ${critical}Deletion aborted...${nc}"
+        sleep 2
+    )
+    
     IFS=", "; read -ra tmpLinks -p "$RANGEPROMPT"
     for range in "${tmpLinks[@]}"; do
         IFS="-"; read -r start end <<< "$range"
 
         [[ $range =~ [a-zA-Z] ]] && {
-            [[ $tmpList = "$DEFAULT_LIST" ]] && sed -i '1s/^/#EXTM3U\n/' "$tmpList"
-            unset IFS range
-            __
-            printf '%s\n' " ${critical}Deletion aborted...${nc}"
-            sleep 2
-            _Menu
+            if [[ $tmpList = "$DEFAULT_LIST" ]]; then
+                if (($(grep -c '^https' "$DEFAULT_LIST") > 25)); then
+                    sed -i '1s/^/#EXTM3U\n/' "$DEFAULT_LIST"
+                    __abortDeletionMessage; unset IFS range; _Menu
+                else
+                    __abortDeletionMessage; unset IFS range; return
+                fi
+            else
+                if (($(grep -c '^https' "$tmpList") > 25)); then
+                    __abortDeletionMessage; unset IFS range; _CreateAddPlaylist "$arg"
+                else
+                    __abortDeletionMessage; unset IFS range; return
+                fi
+            fi
+
         }
 
         [[ -z $start ]] && continue
         [[ -z $end ]] && end="$start"
 
-        for ((i=start;i <= end;i++)); do
+        for ((i=start;i<=end;i++)); do
             sed -n "${i}p" "$tmpList" >> "$tmpList"_tmp
             sed -n "${i}p" "$tmpTitles" >> "$tmpTitles"_tmp
         done
 
     done
-
-    grep -v "$(grep '^https' "$tmpList"_tmp)" "$tmpList" \
-    >> "$tmpList"_tmp2 && mv -f "$tmpList"_tmp2 "$tmpList"
-    grep -v -F "$(grep '^[[:print:]]' "$tmpTitles"_tmp)" "$tmpTitles" \
-    >> "$tmpTitles"_tmp2 && mv -f "$tmpTitles"_tmp2 "$tmpTitles"
+    
+    if (( $(grep "" -c "$tmpList"_tmp) == $(grep "" -c "$tmpList") )); then
+        rm {"$tmpList","$tmpTitles"}
+        printf '\n%s\n' " ${critical}All links selected, ${tmpList##*/} removed...${nc}"
+    else
+        grep -v "$(grep '^https' "$tmpList"_tmp)" "$tmpList" \
+        >> "$tmpList"_tmp2
+        grep -v -F "$(grep '^[[:print:]]' "$tmpTitles"_tmp)" "$tmpTitles" \
+        >> "$tmpTitles"_tmp2
+        mv -f "$tmpList"_tmp2 "$tmpList"
+        mv -f "$tmpTitles"_tmp2 "$tmpTitles"
+        _RemoveDuplicates "$tmpList" "$tmpTitles"
+        printf '\n%s\n' " ${critical}Selected links removed...${nc}"
+    fi
 
     rm {"$tmpList","$tmpTitles"}_tmp
-    printf '%s\n' " ${critical}Selected links removed...${nc}"
     unset IFS range
     sleep 2
 }
