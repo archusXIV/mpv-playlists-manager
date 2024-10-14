@@ -79,7 +79,7 @@
         j) Stop or quit mpv                       │ v) Create/Add links to the Video list *
         k) Toggle play/pause                      │ x) Quit mpm
         l) Go to next song                        │ z) Clear all tmp lists *
-        m) Show ncmpvc cheatsheet                 │ Ctrl+M) Get most of mpmrc settings list
+        m) Show ncmpvc cheatsheet                 │ Ctrl+B) change theme, Ctrl+M) Get mpmrc "tasks" list
         ──────────────────────────────────────────────────────────────────────────────────────────────────
 
     1) Create/Add video playlist:
