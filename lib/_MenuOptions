@@ -14,19 +14,18 @@ _MenuOptions() {
         7|z|Z) _ClearAllTmpLists ;;
         8|e|E) _EditPlaylist ;;
         9|c|C) _EditMpmConf ;;
-        $'\033')
-            read -rsn 2 arrowkeys # Arrow keys are disabled.
-            case "$arrowkeys" in
-                "[A|[B|[C|[D") : ;;
-            esac
-        ;;
-        b|B) _MpmHelp -b ;;
-        h|H) _MpvControl -h ;;
-        j|J) _MpvControl -j ;;
-        k|K) _MpvControl -k ;;
-        l|L) _MpvControl -l ;;
-        m|M) _MpmHelp -c ;;
-        n|N)
+        b|B  ) _MpmHelp -b ;;
+        h|H  ) _MpvControl -h ;;
+        j|J  ) _MpvControl -j ;;
+        k|K  ) _MpvControl -k ;;
+        l|L  ) _MpvControl -l ;;
+        m|M  ) _MpmHelp -c ;;
+        q|Q  ) _MpvControl -q ;;
+        r|R  ) _MpvControl -r ;;
+        t|T  ) _MpvControl -t ;;
+        u|U  ) _MpmHelp -h ;;
+        x|X  ) _IfQuitAfterTask -x ;;
+        n|N  )
             if _PidOfMpv && [[ $use_mpvc == yes && -n $mpvc_tui ]]; then
                 "$mpvc_tui"
             else
@@ -36,11 +35,12 @@ _MenuOptions() {
                 sleep 8
             fi
         ;;
-        q|Q) _MpvControl -q ;;
-        r|R) _MpvControl -r ;;
-        t|T) _MpvControl -t ;;
-        u|U) _MpmHelp -h ;;
-        x|X) _IfQuitAfterTask -x ;;
+        $'\033')
+            read -rsn 2 arrowkeys # Arrow keys are disabled.
+            case "$arrowkeys" in
+                "[A|[B|[C|[D") : ;;
+            esac
+        ;;
         $'\0d') _MpmrcTasksList ;; # Ctrl+M
         $'\02') _ChooseTheme ;; # Ctrl+B
         *) _WrongOption "$mainMenuOptions" ;;
