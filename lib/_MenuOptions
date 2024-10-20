@@ -26,7 +26,7 @@ _MenuOptions() {
         u|U  ) _MpmHelp -h ;;
         x|X  ) _IfQuitAfterTask -x ;;
         n|N  )
-            if _PidOfMpv && [[ $use_mpvc == yes && -n $mpvc_tui ]]; then
+            if _PidOfMpv >/dev/null && [[ $use_mpvc == yes && -n $mpvc_tui ]]; then
                 "$mpvc_tui"
             else
                 printf '%s\n' \
