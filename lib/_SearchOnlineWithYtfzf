@@ -50,7 +50,7 @@ _SearchOnlineWithYtfzf() {
             echo "$line" >> "$YTSEARCH"
     done < "$tmp_dir"/ytfzf_playlists
 
-    _RemoveDuplicates "$YTSEARCH"
+    [[ -f $YTSEARCH ]] && _RemoveDuplicates "$YTSEARCH"
     __; printf '%s\n' " ${info}Links added to $Type list${nc}"
     sleep 2; clear
     rm {"$YTFZFJSON","$tmp_dir"/ytfzf_playlists}
