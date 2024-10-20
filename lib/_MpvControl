@@ -25,10 +25,10 @@ _MpvControl() {
     }
 
     case "$1" in
-        -h)  key=h; __mpvControlTests || echo playlist_prev | socat - "${MPVSOCKET}" ;;
-        -j)  key=j; __mpvControlTests || echo stop          | socat - "${MPVSOCKET}" ;;
-        -k)  key=k; __mpvControlTests || echo cycle pause   | socat - "${MPVSOCKET}" ;;
-        -l)  key=l; __mpvControlTests || echo playlist_next | socat - "${MPVSOCKET}" ;;
+        -h) key=h; __mpvControlTests || echo playlist_prev | socat - "${MPVSOCKET}" ;;
+        -j) key=j; __mpvControlTests || echo stop          | socat - "${MPVSOCKET}" ;;
+        -k) key=k; __mpvControlTests || echo cycle pause   | socat - "${MPVSOCKET}" ;;
+        -l) key=l; __mpvControlTests || echo playlist_next | socat - "${MPVSOCKET}" ;;
         -q)
             key=q; __mpvControlTests || \
             _PidOfMpv >/dev/null && {

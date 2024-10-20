@@ -34,14 +34,12 @@ _SelectLocalDir() {
                 ;;
             esac
 
-        __
-        printf '%s\n' " ${info}Scanning $dir for supported formats...${nc}"
+        printf '\n%s\n' " ${info}Scanning $dir for supported formats...${nc}"
         sleep 1
 
         ! find -L ./"$dir" -maxdepth 1 -type f -exec file --mime-type {} + \
         | grep -qE '[aA]udio|[vV]ideo' && {
-            __
-            printf '%s\n' " ${critical}$dir doesn't contain supported formats by mpv" \
+            printf '\n%s\n' " ${critical}$dir doesn't contain supported formats by mpv" \
             " or audio/video files may be in a subdirectories.${nc}"
             __
             _Prompt " ${info}Do you want to open $dir to fix this issue?${nc}" || {

@@ -50,8 +50,7 @@ _ChooseDownloadVideo() {
                 _DownloadMessages --m3u8
                 read -r code
                 clear
-                __
-                printf '%s\n' " ${info}$counter file(s) left to downloads." \
+                printf '\n%s\n' " ${info}$counter file(s) left to downloads." \
                 " Downloading: $(_GetLinkTitle -s)${nc}"
 
                 if [[ $youtube == yes ]]; then

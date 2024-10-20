@@ -8,8 +8,7 @@ _SearchOnline() {
 
     __searchOnlineTips() (
         clear
-        __
-        printf '%s\n' \
+        printf '\n%s\n' \
         " ${critical}Tip: In the ${pkg} menu press ${task}Tab ${critical}on the desired ${Type} titles," \
             " then press ${task}Enter ${critical}to confirm, ${task}Escape ${critical}to cancel." \
             " (note that multi-selection is supported)${nc}"

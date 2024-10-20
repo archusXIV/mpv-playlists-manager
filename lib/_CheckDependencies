@@ -9,6 +9,7 @@ _CheckDependencies() {
         "exiftool" "fzf" "mediainfo"
         "parallel" "socat" "ueberzug"
         "wmctrl" "w3m" "ytfzf" "less"
+        "$MPMEDITOR" "$FILEMANAGER"
     )
 
     for dep in "${DEPS[@]:0:4}"; do
@@ -19,21 +20,15 @@ _CheckDependencies() {
         }
     done
 
-    for opt in "${DEPS[@]:4:13}"; do
+    for opt in "${DEPS[@]:4:15}"; do
         command -v "$opt" >/dev/null || {
-            printf '%s\n' " For better experience consider installing $opt." \
+            printf '%s\n' " For better experience, consider installing $opt." \
             " Some functionalities might be unavailable..."
             sleep 5
         }
     done
 
-    for tool in "$MPMEDITOR" "$FILEMANAGER"; do
-        command -v "$tool" >/dev/null || {
-            printf '%s\n' " $tool is not installed...!"
-            sleep 3
-            notify-send -t 0 -u critical "$tool is not installed...!"
-        }
-    done
+    unset dep opt
 
     [[ -z $main_dir ]] && {
         printf '%s\n' " Variable main_dir in mpmrc is not defined...exiting!!!"

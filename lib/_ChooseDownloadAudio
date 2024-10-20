@@ -30,8 +30,7 @@ _ChooseDownloadAudio() {
     animationTitles="$SELECTED_TITLES"
 
     __chooseDownloadAudioFormat() (
-        __
-        printf '%s\n' " ${info}Choose a format code for: $(_GetLinkTitle -s)${nc}"
+        printf '\n%s\n' " ${info}Choose a format code for: $(_GetLinkTitle -s)${nc}"
         read -r code
         clear
         _DownloadMessages --choose-audio

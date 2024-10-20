@@ -13,8 +13,7 @@ _TitlesListCompare() {
     if [[ -s $titlesFile ]]; then
 
         [[ $(grep "" -c "$titlesFile") -ne $(_GetLinesList -l) ]] && {
-            __
-            printf '%s\n' " ${critical}${titlesFile} is out of date...${nc}" \
+            printf '\n%s\n' " ${critical}${titlesFile} is out of date...${nc}" \
             " ${task}${b}Updating $(_GetLinesList -l) titles...please wait.${nb}${nc}"
             _GetMediaTitle -l
             clear

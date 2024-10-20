@@ -1,6 +1,6 @@
 Author: Barret E (2021-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.1-0
+mpm version 2.1-1
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -24,8 +24,8 @@ the directory structure is ok for you.
 
 Changelog:
 ------------------------ NO CHANGES IN THE CONFIG FILE (mpmrc) ------------------------
+version 2.1-1 - Added zorange theme in /usr/local/share/doc/themerc.
+              - You can just copy it over ~/.config/mpm/themerc (optional).  
+version 2.1-1 - Added a prompt when trying to remove a temporary list owned by mpv.
 version 2.1-0 - Pressing Ctrl+B let you change the theme, sed will edit mpmrc for you.
 version 2.1-0 - Added an option to save a few links from temporary lists as new playlist.
-version 2.0-9 - Added _ViewDefaultAudioVideoTitles function in case we get more than
-                25 links in a temporary list so we can see two pages of 25 titles each.
-version 2.0-9 - Fixed bug in _GetYoutubePlaylistUrlsMethods function using parallel.

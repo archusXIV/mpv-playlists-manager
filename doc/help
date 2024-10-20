@@ -1,5 +1,5 @@
 
-    mpm version 2.1-0
+    mpm version 2.1-1
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -48,7 +48,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.1-0::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.1-1::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -119,7 +119,7 @@
 
         Here we can save the default playlist as a new one wich contains all temporary links
         from video/audio sections and save video/audio separetly, all playlists are associated
-        with a .titles file.
+        with a .titles file. Saving a temporary list owned by mpv is also possible.
         Note that names with spaces will be renamed with underscores.
         We can also delete existing playlists (.m3u files) from our collection.
 
@@ -167,6 +167,7 @@
 
         Sometimes it is preferable to clear everything and restart from the bottom ground.
         A confirmation prompt will appear so you can decline.
+        If a temporary list is owned by mpv you will be prompt again.
 
     8) Edit a playlist:
 

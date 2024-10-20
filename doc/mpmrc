@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 2.1-0)
+# ~/.config/mpm/mpmrc (version 2.1-1)
 
 ########################################################
 #                                                      #
@@ -25,8 +25,8 @@ height=738
 
 # edit your own theme in "$XDG_CONFIG_HOME"/mpm/themerc.
 # apply your prefered colorscheme...
-# AVAILABLE THEMES: default, dracula, blacksea, pistachio, gruvbox, gotham,
-# jellybeans, monokai, nord, TokyoNight, solarized, vacuous, zenburn, zorange
+# AVAILABLE THEMES: default, blacksea, dracula, gruvbox, gotham, jellybeans,
+# monokai, pistachio, nord, TokyoNight, solarized, vacuous, zenburn, zorange
 THEME="default"
 
 ####################### SYSTEM TOOLS ######################

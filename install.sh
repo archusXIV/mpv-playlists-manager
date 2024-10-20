@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
-# version 2.1-0
+# version 2.1-1
 
 # shellcheck disable=SC2154
 red=$'\e[38;2;206;34;30m';
@@ -10,10 +10,10 @@ _diffRc() {
     # we execute this file as root so we need to provide the right username
     # to give ownership back to the right user.
     read -r -p ' Please enter your username: ' username
-    local CONF_DIR MPMRC grpuser
+    local CONF_DIR MPMRC usergroup
     CONF_DIR="/home/$username/.config/mpm"
     MPMRC="$CONF_DIR/mpmrc"
-    grpuser=$(
+    usergroup=$(
         awk -F':' -v user="$username" '$0 ~ user { print $3":"$4 }' < /etc/passwd
     )
 
@@ -36,7 +36,7 @@ _diffRc() {
         " Please edit your mpmrc file before first run.${endColor}"
     fi
 
-    chown -R "$grpuser" "$CONF_DIR"
+    chown -R "$usergroup" "$CONF_DIR"
 
 }
 
@@ -79,7 +79,7 @@ if [[ -x /usr/local/bin/mpm ]] && [[ -d /usr/local/lib/mpm ]]; then
             printf '%s\n' "for usage run: mpm --help"
         ;;
         *)
-            echo " Wrong option $REPLY, try again." && exit 1
+            printf '%s\n' " Wrong option $REPLY, try again." && exit 1
         ;;
     esac
 else

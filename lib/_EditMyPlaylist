@@ -5,8 +5,7 @@
 _EditMyPlaylist() {
 
     cd "$playlists_dir" || exit 1
-    __
-    printf '%s\n' " ${info}$list edition:${nc}"
+    printf '\n%s\n' " ${info}$list edition:${nc}"
     __
     read -rsn 1 -p \
     "${info}"' [E]dit urls manually, re[N]ame playlist, [R]emove titles: '"${nc}" \
@@ -36,9 +35,7 @@ _EditMyPlaylist() {
             _GetRange
             _UpdateSelected -e
         ;;
-        *)
-            _WrongOption "$editMyPlaylistOptions"
-        ;;
+        *)  _WrongOption "$editMyPlaylistOptions" ;;
     esac
 
     _LaunchMpm "${@}"

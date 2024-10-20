@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/themerc (version 2.1-0)
+# ~/.config/mpm/themerc (version 2.1-1)
 
 ######################################################################
 #                                                                    #
@@ -137,6 +137,15 @@ _Theme() {
             task=$'\e[38;2;79;122;167m';    #4F7AA7 "0x4f 0x7a 0xa7"
             customColors=( "0xdc 0xdc 0xcc" "0xc6 0x5c 0x5c" "0x60 0xb4 0x8a" \
             "0xf0 0xdf 0xaf" "0x4f 0x7a 0xa7" )
+        ;;
+        zorange)
+            nc=$'\e[38;2;248;116;0m';       #f87400 "0xf8 0x74 0x00"
+            critical=$'\e[38;2;248;66;0m';  #f84200 "0xf8 0x42 0x00"
+            info=$'\e[38;2;248;155;41m';    #f89b29 "0xf8 0x9b 0x29"
+            mtitle=$'\e[38;2;240;187;17m';  #f0bb11 "0xf0 0xbb 0x11"
+            task=$'\e[38;2;240;162;17m';    #f0a211 "0xf0 0xa2 0x11"
+            customColors=( "0xf8 0x74 0x00" "0xf8 0x42 0x00" "0xf8 0x9b 0x29" \
+            "0xf0 0xbb 0x11" "0xf0 0xa2 0x11" )
         ;;
     esac
     

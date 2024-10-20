@@ -26,9 +26,9 @@ _MakeMpvPlaylist() {
             cd "$localDir"/"$dir" && {
                 use_mpvc_locally="yes"
                 localPlaylist=yes
+                echo "local-background" > "$NOWPLAYING"
                 find . -type f | sort | sed 's,.*/,,' \
                 | mpv --no-terminal "${mpvGenOptions_X[@]}" --playlist=- &
-                echo "local-background" > "$NOWPLAYING"
                 _WhileMpvIsRunning &
             }
         ;;

@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154,SC2076,SC2034
 _CheckParallelDownloads() {
-    clear;__
+    clear
 
     [[ $use_parallel_downloads == yes ]] && {
 

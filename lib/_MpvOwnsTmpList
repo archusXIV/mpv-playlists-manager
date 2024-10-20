@@ -43,7 +43,7 @@ _MpvOwnsTmpList() {
                         quit=no; _Menu
                     elif [[ $sedPrint =~ temporary"$Type"Urls.m3u ]]; then
                         name="$Type"
-                        action="if you want to play/remove/save the $name list,"
+                        action="if you want to add links/play/remove/save the $name list,"
                         downloadTmpList=list
                     else
                         return
@@ -61,7 +61,7 @@ _MpvOwnsTmpList() {
                     fi
                 ;;
             esac
-            __
+
             printf '%s\n' " ${critical}mpv owns $name playlist..." \
             " $action" \
             " just quit mpv first to proceed.${nc}"

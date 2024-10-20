@@ -57,19 +57,8 @@ _CreateAddPlaylist() {
         __
         read -rsn 1 createAddPlaylistOptions
         case "$createAddPlaylistOptions" in
-            1)  _CopyMediaUrl
-                __ ;;
-            2)
-                if [[ $use_fzf == yes ]]; then
-                    clear
-                    _SearchOnline
-                else
-                    __
-                    printf '%s\n' " ${critical}use_fzf is empty or it's set to ${task}no${nc}" \
-                    " in your mpmrc...no way to search online!${nc}"
-                    sleep 5
-                fi
-            ;;
+            1)  _CreateAddPlaylistActions --add ;;
+            2)  _CreateAddPlaylistActions --search ;;
             3)  _CreateAddPlaylistActions --download ;;
             4)  _CreateAddPlaylistActions --save ;;
             5)  _CreateAddPlaylistActions --play ;;

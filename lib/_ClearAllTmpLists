@@ -39,14 +39,13 @@ _ClearAllTmpLists() {
                 done
 
                 rm "${tmps[@]}" 2>/dev/null
-                __
-                printf '%s\n' " ${critical}All Temporary lists cleared.${nc}"
+                printf '\n%s\n' " ${critical}All Temporary lists cleared.${nc}"
                 sleep 2
 
             else
                 sed -i '/^[[:alpha:]]/d' "$DEFAULT_LIST"
                 rm "${tmps[@]}" 2>/dev/null
-                printf '%s\n' " ${critical}All Temporary lists cleared.${nc}"
+                printf '\n%s\n' " ${critical}All Temporary lists cleared.${nc}"
                 sleep 2
             fi
         }

@@ -39,7 +39,6 @@ _CopyMediaUrl() {
             printf '\n%s\n' " ${critical}Not a valid url...try again${nc}"
             sleep 2
         fi
-        
     fi
 
 }

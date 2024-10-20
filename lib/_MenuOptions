@@ -11,7 +11,7 @@ _MenuOptions() {
         4|p|P) _LoadPlaylist ;;
         5|f|F) _LoadLocalMenu ;;
         6|d|D) _ViewAudioVideoUrlsInfo -d ;;
-        7|z|Z) _ClearAllTmpLists ;;
+        7|z|Z) _MpvOwnsTmpList --default || _MpvOwnsTmpList --list || _ClearAllTmpLists ;;
         8|e|E) _EditPlaylist ;;
         9|c|C) _EditMpmConf ;;
         b|B  ) _MpmHelp -b ;;

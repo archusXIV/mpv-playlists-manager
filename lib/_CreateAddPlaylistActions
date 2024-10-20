@@ -5,6 +5,7 @@
 _CreateAddPlaylistActions() {
 
     case "$1" in
+        --add) _MpvOwnsTmpList --list || _CopyMediaUrl ;;
         --download)
             if [[ -f $pidofMpv || $downloadTmpList == list ]]; then
                 if [[ $arg = '-a' ]]; then _GetAudio -a; else _GetVideo -v; fi
@@ -13,9 +14,7 @@ _CreateAddPlaylistActions() {
                 if [[ $arg == '-a' ]]; then _GetAudio -a; else _GetVideo -v; fi
             fi
         ;;
-        --play)
-            _MpvOwnsTmpList --list || _LoadAudioVideo "$arg"
-        ;;
+        --play) _MpvOwnsTmpList --list || _LoadAudioVideo "$arg" ;;
         --remove)
             if [[ -f $pidofMpv ]]; then
                 _Remove "$arg"
@@ -28,6 +27,17 @@ _CreateAddPlaylistActions() {
                 _Save "$arg"
             else
                 _MpvOwnsTmpList --list || _Save "$arg"
+            fi
+        ;;
+        --search)
+            if [[ $use_fzf == yes ]]; then
+                clear
+                _SearchOnline
+            else
+                __
+                printf '%s\n' " ${critical}use_fzf is empty or it's set to ${task}no${nc}" \
+                " in your mpmrc...no way to search online!${nc}"
+                sleep 5
             fi
         ;;
     esac

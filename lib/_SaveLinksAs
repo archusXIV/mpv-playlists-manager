@@ -42,6 +42,7 @@ _SaveLinksAs() {
         mv -f "$current_list"_tmp "$current_list"
         mv -f "$current_titles"_tmp "$current_titles"
         _RemoveDuplicates "$current_list" "$current_titles"
+        
     }
     __
     read -rsn 1 -p " ${info}Save [L]inks or the [W]hole list?: ${nc}" \

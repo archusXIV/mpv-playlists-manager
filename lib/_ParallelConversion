@@ -3,34 +3,29 @@
 
 # shellcheck disable=SC2154,SC2038,SC1083
 _ParallelConversion() {
-    case "$1" in
-        --parallel-default)
-            printf '%s\n' " Parallel conversion enabled."
-            parallel --delay 2 --jobs "$parallel_threads" --bar \
-            ffmpeg -hide_banner -loglevel error \
-            -y -i {} -qscale:a 0 {.}."$default_conversion_format" ::: ./*.webm
-        ;;
-        --parallel-chosen)
-            printf '%s\n' " Parallel conversion enabled."
-            parallel --delay 2 --jobs "$parallel_threads" --bar \
-            ffmpeg -hide_banner -loglevel error \
-            -y -i {} -qscale:a 0 {.}."${formats[${REPLY}]}" ::: ./*.webm
-        ;;
-        --xargs-default)
-            printf '%s\n' " use_parallel is set to no... using xargs for conversion."
-            find . -iname "*.webm" | xargs -I % -P 5 \
-            ffmpeg -hide_banner -loglevel error \
-            -y -i % %."$default_conversion_format"
-        ;;
-        --xargs-chosen)
-            printf '%s\n' " use_parallel is set to no... using xargs for conversion."
-            find . -iname "*.webm" | xargs -I % -P 5 \
-            ffmpeg -hide_banner -loglevel error \
-            -y -i % %."${formats[${REPLY}]}"
-        ;;
-    esac
 
-    find . -iname "*.webm" -exec rm {} \;
+    __parallelMethod() (
+        printf '%s\n' " ${info}Parallel conversion enabled.${nc}"
+        parallel --delay 2 --jobs "$parallel_threads" --bar \
+        ffmpeg -hide_banner -loglevel error \
+        -y -i {} -qscale:a 0 {.}."$1" ::: ./*.webm
+        rm -rf "$HOME"/.parallel
+    )
+
+    __xargsMethod() (
+        printf '%s\n' " ${info}use_parallel is set to no... using xargs.${nc}"
+        find . -iname "*.webm" | xargs -I % -P 5 \
+        ffmpeg -hide_banner -loglevel error \
+        -y -i % %."$1"
+    )
+
+    case "$1" in
+        --parallel-default) __parallelMethod "$default_conversion_format" ;;
+        --parallel-chosen ) __parallelMethod "${formats[${REPLY}]}" ;;
+        --xargs-default   ) __xargsMethod "$default_conversion_format" ;;
+        --xargs-chosen    ) __xargsMethod "${formats[${REPLY}]}" ;;
+    esac
+    
     # now let's clean the suffix of our converted files (.webm.{aac,mp3,flac,ogg,wav})
     find . -maxdepth 1 -type f -name "*.webm.*" -exec \
     bash -c '
@@ -40,8 +35,6 @@ _ParallelConversion() {
         done >/dev/null 2>&1
     ' dummy {} +
 
-    rm -rf "$HOME"/.parallel 2>/dev/null
-    __
-    printf '%s\n' " ${info}Conversion done.${nc}"
+    printf '\n%s\n' " ${info}Conversion done.${nc}"
     sleep 2
 }

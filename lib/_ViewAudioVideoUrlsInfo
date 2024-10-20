@@ -33,8 +33,8 @@ _ViewAudioVideoUrlsInfo() {
                 case "$nextpage" in
                     m|M) _Menu ;;
                     n|N)
-                        clear; __
-                        printf '%s\n' " ${info}ORDER | $menuTitleType PLAYLIST TITLES (page 2)${nc}"
+                        clear
+                        printf '\n%s\n' " ${info}ORDER | $menuTitleType PLAYLIST TITLES (page 2)${nc}"
                         echo -e " ${info}${stars// /*}${nc}\n"
                         awk 'NR>=26&&NR<=50' "$TITLES" | nl
                         __
