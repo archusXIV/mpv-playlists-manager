@@ -41,7 +41,7 @@
         a)  Using console_colors (default) will always use your current ~/.Xresources colors
             if you have set them or if you use a modern terminal with colors settings available.
     
-        b)  Using custom rgb colors (206;34;30) and hex (#ff00ff) so you can set your own
+        b)  Using custom rgb colors (207;34;30) and hex (#ff00ff) so you can set your own
             "theme" from existing ones as models.
     
     Usage:
