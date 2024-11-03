@@ -1,10 +1,11 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
+# shellcheck disable=SC2154
 _RemoveCrap() {
     # After some tests it appears that a single link copied from a youtube playlist
     # causes the download of the entire playlist (youtube-dl/yt-dlp bug).
-    # So with we cleanup the link to get the direct link to the desired video.
+    # So we cleanup the link to get the direct link to the desired video.
     # Note that this behavior does not appear during a simple viewing/listening.
 
     LISTS=(
@@ -14,7 +15,7 @@ _RemoveCrap() {
         "$DEFAULT_TITLES"
     )
 
-    sed -i 's/-\s//;s/\//_/g' "${LISTS[@]:2:3}"
+    sed -i 's/\//_/g' "${LISTS[@]:2:3}"
 
     for file in "${LISTS[@]}"; do
         # removing unwanted parts of links, blank lines & duplicates
@@ -24,5 +25,7 @@ _RemoveCrap() {
         ' "$file"
         _RemoveDuplicates "$file"
     done
+
+    unset file
 
 } 2>/dev/null

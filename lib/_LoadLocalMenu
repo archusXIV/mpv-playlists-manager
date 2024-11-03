@@ -33,38 +33,36 @@ _LoadLocalMenu() {
         read -rsn 1 loadLocalMenuOptions
         case "$loadLocalMenuOptions" in
             1|3)
-                _MpvOwnsTmpList --local || \
-                [[ $loadLocalMenuOptions == 1 ]] && {
-                    localDir="$MUSIC_DIR"; [[ -z $use_mpvc ]] && localMediaType=audio
-                    _ReplaceSpaces -l
-                    clear;__
-                    _SelectLocalDir -d
-                }
-                _MpvOwnsTmpList --local || \
-                [[ $loadLocalMenuOptions == 3 ]] && {
-                    localDir="$VIDEO_DIR"; [[ -z $use_mpvc ]] && localMediaType=video
-                    _ReplaceSpaces -l
-                    clear;__
-                    _SelectLocalDir -d
+                _MpvOwnsTmpList --local || {
+                    if [[ $loadLocalMenuOptions == 1 ]]; then
+                        localDir="$MUSIC_DIR"; [[ -z $use_mpvc ]] && localMediaType=audio
+                        _ReplaceSpaces -l
+                        clear;__
+                        _SelectLocalDir -d
+                    elif [[ $loadLocalMenuOptions == 3 ]]; then
+                        localDir="$VIDEO_DIR"; [[ -z $use_mpvc ]] && localMediaType=video
+                        _ReplaceSpaces -l
+                        clear;__
+                        _SelectLocalDir -d
+                    fi
                 }
             ;;
             2|4)
-                _MpvOwnsTmpList --local || \
-                [[ $loadLocalMenuOptions == 2 ]] && {
-                    localDir="$MUSIC_DIR"; [[ -z $use_mpvc ]] && localMediaType=audio
-                    if [[ -n $(command -v fzf) && $use_fzf = yes ]]; then
-                        clear;__;_SelectLocalDir -f;_Menu
-                    else
-                        __isFileManagerInstalled
-                    fi
-                }
-                _MpvOwnsTmpList --local || \
-                [[ $loadLocalMenuOptions == 4 ]] && {
-                    localDir="$VIDEO_DIR"; [[ -z $use_mpvc ]] && localMediaType=video
-                    if [[ -n $(command -v fzf) && $use_fzf = yes ]]; then
-                        clear;__;_SelectLocalDir -f;_Menu
-                    else
-                        __isFileManagerInstalled
+                _MpvOwnsTmpList --local || {
+                    if [[ $loadLocalMenuOptions == 2 ]]; then
+                        localDir="$MUSIC_DIR"; [[ -z $use_mpvc ]] && localMediaType=audio
+                        if [[ -n $(command -v fzf) && $use_fzf = yes ]]; then
+                            clear;__;_SelectLocalDir -f;_Menu
+                        else
+                            __isFileManagerInstalled
+                        fi
+                    elif [[ $loadLocalMenuOptions == 4 ]]; then
+                        localDir="$VIDEO_DIR"; [[ -z $use_mpvc ]] && localMediaType=video
+                        if [[ -n $(command -v fzf) && $use_fzf = yes ]]; then
+                            clear;__;_SelectLocalDir -f;_Menu
+                        else
+                            __isFileManagerInstalled
+                        fi
                     fi
                 }
             ;;

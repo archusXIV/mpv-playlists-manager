@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2181,SC2034
 _GetYoutubePlaylistUrls() {
 
     local playlist
@@ -12,14 +12,14 @@ _GetYoutubePlaylistUrls() {
         __
         printf '%s\n' \
         " ${info}Please be patient while extracting urls/titles from:" \
-        " $playlistName playlist...${nc}"
+        " $playlistName playlist...${nc}"; sleep 1
     )
 
     case "$1" in
         -a|-v)
             playlist="$mediaUrl"
             if [[ -n $(command -v ytfzf) && $use_fzf == yes ]]; then
-                _GetYoutubePlaylistUrlsMethods --ytfzf
+                _GetYoutubePlaylistUrlsMethods --ytfzf 2>/dev/null
             elif [[ -n $(command -v parallel) && $use_parallel == yes ]]; then
                 _GetYoutubePlaylistUrlsMethods --parallel
             else
@@ -32,13 +32,12 @@ _GetYoutubePlaylistUrls() {
             # _SearchYoutubeWithFzf function so we enter in a loop.
             for url in "${ytSearchList[@]}"; do
                 playlist="$url"
+                __getYoutubePlaylistUrlsInfo
                 if [[ -n $(command -v ytfzf) && $use_fzf == yes ]]; then
-                    _GetYoutubePlaylistUrlsMethods --ytfzf
+                    _GetYoutubePlaylistUrlsMethods --ytfzf 2>/dev/null
                 elif [[ -n $(command -v parallel) && $use_parallel == yes ]]; then
-                    __getYoutubePlaylistUrlsInfo
                     _GetYoutubePlaylistUrlsMethods --parallel
                 else
-                    __getYoutubePlaylistUrlsInfo
                     _GetYoutubePlaylistUrlsMethods --native
                 fi
             done
@@ -48,8 +47,10 @@ _GetYoutubePlaylistUrls() {
         ;;
     esac
 
-    _RemoveCrap
-    rm {"$YTSEARCH","$YTFZFJSON","$tmp_dir"/playlist_titlesurls,playlist.{m3u,titles,txt}}
-    rm -rf "$HOME"/.parallel
+    rm {"$YTSEARCH","$YTFZFJSON","$tmp_dir"/playlist.{m3u,titles,titles_urls,txt}} 2>/dev/null
+    rm -rf "$HOME"/.parallel 2>/dev/null
 
-} 2>/dev/null
+    _RemoveCrap
+    _IfDuplicatesFiles
+
+}

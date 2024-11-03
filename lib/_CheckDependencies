@@ -53,6 +53,6 @@ _CheckDependencies() {
     cp -f /usr/local/share/doc/mpm/mpm_yt-videos.m3u "$playlists_dir"
     cp -f /usr/local/share/doc/mpm/mpm_yt-videos.m3u.titles "$titles_dir"
 
-    [[ ! -f $DEFAULT_LIST ]] && echo "#EXTM3U" > "$DEFAULT_LIST"
+    [[ ! -f $DEFAULT_LIST || ! -s $DEFAULT_LIST  ]] && echo "#EXTM3U" > "$DEFAULT_LIST"
 
 }

@@ -6,17 +6,17 @@
 _ChooseTheme() {
 
     clear
-
-    currentTheme=$(awk -F= '/THEME=/{print $2}' "$MPMRC")
-    echo -e "\n ${info}Current theme: ${task}$currentTheme${nc}\n"
+    echo -e "\n ${info}Current theme: ${task}$THEME${nc}\n"
 
     PS3=""$'\n'" ${info}Please choose a theme, [${mtitle}C${info}]ancel: ${nc}"
-    select newTheme in $(grep -E '[[:alpha:]])' "$THEMERC" | sed 's/)//;/#/d'); do
+    select newTheme in $(grep -E '[[:alnum:]])' "$THEMERC" | sed 's/)//;/#/d'); do
         [[ $REPLY =~ [a-zA-Z] ]] && {
             printf '\n%s\n' " ${critical}Selection aborted...${nc}"
             sleep 2; break
         }
-        sed -i "s/THEME=${currentTheme}/THEME=${newTheme}/" "$MPMRC"
+        # we use THEME= because sed will also change
+        # names in the commented themes list in mpmrc.
+        sed -i "s/THEME=${THEME}/THEME=${newTheme}/" "$MPMRC"
         . "$MPMRC"
         _Theme "$newTheme"
         break

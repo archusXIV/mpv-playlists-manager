@@ -18,17 +18,20 @@ _QueueMultipleDirs() {
     rm "$mpv_list" 2>/dev/null
 
     find ./ -maxdepth 1 -type d -empty \
-    | sed 's,.*/,,' >> "$tmp_dir"/empty.tmp
+    | sort | sed 's,.*/,,' >> "$tmp_dir"/empty.tmp
 
     if [[ -s $tmp_dir/empty.tmp ]]; then
         # empty dirs will be banned from our list 
-        command ls > "$dirlist".tmp
+        find ./ -maxdepth 1 -type d -not -empty \
+        | sort | sed 's,.*/,,;/^\s*$/d' > "$dirlist".tmp
         grep -vF "$(grep '^[[:print:]]' "$tmp_dir"/empty.tmp)" \
         "$dirlist".tmp >> "$dirlist"
-        rm "$tmp_dir"/{dirlist,empty}.tmp
     else
-        command ls > "$dirlist"
+        find ./ -maxdepth 1 -type d \
+        | sort | sed 's,.*/,,;/^\s*$/d' > "$dirlist"
     fi
+
+    rm "$tmp_dir"/{dirlist,empty}.tmp 2>/dev/null
     __
     printf '%s\n' " ${info}Directories in ${localDir##*/}: ${nc}"
     __; nl "$dirlist"; __

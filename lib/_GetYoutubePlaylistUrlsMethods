@@ -4,16 +4,16 @@
 # shellcheck disable=SC2154
 _GetYoutubePlaylistUrlsMethods() {
 
-    __teeAppendTitles() { tee -a "$TITLES" >> "$DEFAULT_TITLES"; }
-    __teeAppendUrls() { tee -a "$DEFAULT_LIST" >> "$URLS"; }
+    __teeAppendTitles() ( tee -a "$TITLES" >> "$DEFAULT_TITLES"; )
+    __teeAppendUrls() ( tee -a "$DEFAULT_LIST" >> "$URLS"; )
 
     case "$1" in
         --native)
             yt-dlp "${ytdlPreset_DW[@]}" -j "$playlist" \
             | jq --raw-output '(.webpage_url, .title)' \
-            >> "$tmp_dir"/playlist_titlesurls
-            grep -v '^https' "$tmp_dir"/playlist_titlesurls | __teeAppendTitles
-            grep '^https' "$tmp_dir"/playlist_titlesurls | __teeAppendUrls
+            >> "$tmp_dir"/playlist.titles_urls
+            grep -v '^https' "$tmp_dir"/playlist.titles_urls | __teeAppendTitles
+            grep '^https' "$tmp_dir"/playlist.titles_urls | __teeAppendUrls
         ;;
         --parallel)
             cd "$tmp_dir" && {

@@ -10,7 +10,7 @@ _SearchOnlineWithYtfzf() {
 
     [[ -z $request ]] && return
 
-    local ytpl peer lbry
+    local ytpl lbry
 
     case "$1" in
         -o)
@@ -37,21 +37,20 @@ _SearchOnlineWithYtfzf() {
 
     jq --raw-output '.[].url' "$YTFZFJSON" | tee -a "$DEFAULT_LIST" >> "$URLS"
     jq --raw-output '.[].title' "$YTFZFJSON" | tee -a "$DEFAULT_TITLES" >> "$TITLES"
-    _RemoveCrap
 
     cat "$DEFAULT_LIST" "$URLS" > "$tmp_dir"/ytfzf_playlists
 
     ytpl="playlist?list="
-    peer="peertube.tv/w/p/"
     lbry="odysee.com/$/playlist/"
     
     while read -r line; do
-        [[ $line =~ "$ytpl"|"$peer"|"$lbry" ]] && \
+        [[ $line =~ "$ytpl"|"$lbry" ]] && \
             echo "$line" >> "$YTSEARCH"
     done < "$tmp_dir"/ytfzf_playlists
 
     [[ -f $YTSEARCH ]] && _RemoveDuplicates "$YTSEARCH"
-    __; printf '%s\n' " ${info}Links added to $Type list${nc}"
+    _RemoveCrap
+    printf '\n%s\n' " ${info}Links added to $Type list${nc}"
     sleep 2; clear
     rm {"$YTFZFJSON","$tmp_dir"/ytfzf_playlists}
 

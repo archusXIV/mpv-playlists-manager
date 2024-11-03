@@ -3,12 +3,13 @@
 
 # shellcheck disable=SC2154,SC2001
 _CopyMediaUrl() {
+
+    local mediaUrl
     
     if __clipboardCmdTest; then
         read -r mediaUrl < <("${clipboardCmd[@]}")
     else
-        __
-        echo -e " Paste an url to fill the ${info}${Type}${nc} playlist:\n"
+        echo -e "\n Paste an url to fill the ${info}${Type}${nc} playlist:\n"
         read -r mediaUrl
     fi
 
@@ -21,7 +22,7 @@ _CopyMediaUrl() {
     else
         mediaUrl=$(echo "$mediaUrl" | sed 's/&list=.*//')
         printf '\n%s\n' " ${info}Testing url...${nc}"
-        if [[ $mediaUrl =~ https* ]]; then
+        if [[ $mediaUrl =~ ^https ]]; then
             if [[ ! $(yt-dlp --print formats_table "$mediaUrl") ]]; then
                 printf '\n%s\n' " ${critical}${b}No format code found!${nb}"\
                 " $mediaUrl will be removed." \
@@ -30,10 +31,10 @@ _CopyMediaUrl() {
             else
                 echo "$mediaUrl" | tee -a "$URLS" >> "$DEFAULT_LIST"
                 printf '%s\n' " ${info}Getting ${Type} title...${nc}"
-                yt-dlp --skip-download --get-title --flat-playlist \
+                yt-dlp --skip-download --get-title \
                 "${ytdlPreset_DW[@]}" "$mediaUrl" \
                 | tee -a "$TITLES" >> "$DEFAULT_TITLES"
-                _RemoveCrap
+                _RemoveCrap; clear; _IfDuplicatesFiles
             fi
         else
             printf '\n%s\n' " ${critical}Not a valid url...try again${nc}"

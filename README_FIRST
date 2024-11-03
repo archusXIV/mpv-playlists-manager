@@ -1,6 +1,6 @@
 Author: Barret E (2021-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.1-1
+mpm version 2.1-2
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -24,8 +24,13 @@ the directory structure is ok for you.
 
 Changelog:
 ------------------------ NO CHANGES IN THE CONFIG FILE (mpmrc) ------------------------
+version 2.1-2 - For now mpm is getting bloaded, so to ACCELERATE it, just source its config
+                files in your ~/.bashrc or ~/.zshrc by adding:
+                source ~/.config/mpm/mpmrc
+                source ~/.config/mpm/themerc
+version 2.1-2 - Added _IfDuplicatesFiles functon to check if we want to download already
+                existing files in our destination folder (mpm_{audios,videos}).
+version 2.1-2 - Fixed bug in _QueueMultipleDirs function showing files instead of directories only.                
 version 2.1-1 - Added zorange theme in /usr/local/share/doc/themerc.
               - You can just copy it over ~/.config/mpm/themerc (optional).  
 version 2.1-1 - Added a prompt when trying to remove a temporary list owned by mpv.
-version 2.1-0 - Pressing Ctrl+B let you change the theme, sed will edit mpmrc for you.
-version 2.1-0 - Added an option to save a few links from temporary lists as new playlist.

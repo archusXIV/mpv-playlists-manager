@@ -9,14 +9,13 @@ _GetVideo() {
 
     case "$1" in
         -d)
-            __
             if [[ ! -f $DEFAULT_TITLES && -f $DEFAULTM3UTITLES ]]; then
                 mv -f "$DEFAULTM3UTITLES" "$DEFAULT_TITLES"
             elif [[ -f $DEFAULT_TITLES ]]; then
-                printf '%s\n' " ${info}Fetching titles...${nc}"
+                printf '\n%s\n' " ${info}Fetching titles...${nc}"
                 sleep 1
             else
-                printf '%s\n' " ${info}Getting titles...${nc}"
+                printf '\n%s\n' " ${info}Getting titles...${nc}"
                 _GetMediaTitle -d
                 clear
             fi
@@ -24,9 +23,8 @@ _GetVideo() {
             TITLES="$DEFAULT_TITLES"
         ;;
         -v)
-            __
             [[ $(_GetLinesList -v) -eq 0 ]] && {
-                echo " ${critical}No links in the $Type list or already downloaded${nc}"
+                echo -e "\n ${critical}No links in the $Type list or already downloaded${nc}"
                 sleep 2
                 return
             }

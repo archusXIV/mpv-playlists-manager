@@ -9,7 +9,7 @@ _GetVideoDownload() {
 
         local animationTitles
         animationTitles="$TITLES"
-
+        
         if _TestParallelCommand; then
             _GetVideoDownloadMessages --parallel
             _ParallelDownloadCmd --get-video

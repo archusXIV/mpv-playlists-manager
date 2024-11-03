@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2034
 _CreateAddPlaylist() {
 
-    local Type TITLES URLS menuTitleType arg mediaUrl supportedSites file
+    local Type TITLES URLS menuTitleType arg supportedSites file addPlaylistDir
 
     supportedSites="https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md"
     isInstalled="is installed, first copy a link then press 1)"
@@ -17,6 +17,7 @@ _CreateAddPlaylist() {
             URLS="$AUDIO_URLS"
             menuTitleType=AUDIO
             arg="-a"
+            addPlaylistDir="$audios_dir"
         ;;
         -v)
             Type=Video
@@ -24,6 +25,7 @@ _CreateAddPlaylist() {
             URLS="$VIDEO_URLS"
             menuTitleType=VIDEO
             arg="-v"
+            addPlaylistDir="$videos_dir"
         ;;
     esac
 
@@ -43,7 +45,7 @@ _CreateAddPlaylist() {
         echo -e " ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}\n"
         __clipboardCmdTest && printf '%s\n' "                                  $clipBoadCmdisInstalled"
         __
-        echo -e "                                                  ${mtitle}::${menuTitleType} OPTIONS::${nc}"
+        echo -e "                                                  ${mtitle}::${B}${menuTitleType} OPTIONS${N}::${nc}"
         echo -e "                                         $(_LittleStars)${nc}"
         echo -e "                               ┌──────────────────────────────────────────────────────┐"
         echo -e "                               │   1) Add ${Type} links         5) Play current list    │"
@@ -62,7 +64,7 @@ _CreateAddPlaylist() {
             3)  _CreateAddPlaylistActions --download ;;
             4)  _CreateAddPlaylistActions --save ;;
             5)  _CreateAddPlaylistActions --play ;;
-            6)  _ViewAudioVideoUrlsInfo $arg ;;
+            6)  _CreateAddPlaylistActions --view ;;
             7)  _CreateAddPlaylistActions --remove ;;
             8)  _Menu ;;
             r|R) continue ;;

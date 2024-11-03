@@ -19,7 +19,7 @@ _ViewDefaultUrlsInfo() {
         esac
     }
 
-    if (($(_GetLinesList -d) > 0)); then
+    if [[ $(_GetLinesList -d) -gt 0 ]]; then
         rm "$tmp_dir"/1 2>/dev/null
 
         [[ $(grep "" -c "$DEFAULT_TITLES" 2>/dev/null) -ne $(_GetLinesList -d) ]] && {

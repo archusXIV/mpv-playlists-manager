@@ -14,8 +14,7 @@ _EditMyPlaylist() {
     case "$editMyPlaylistOptions" in
         e|E)
             "$MPMEDITOR" "$list"
-            __
-            printf '%s\n' " ${info}$list saved${nc}"
+            printf '\n%s\n' " ${info}$list saved${nc}"
             [[ $(grep "" -c "$titles_dir/$list.titles") \
             -ne $(_GetLinesList -l) ]] && _TitlesListCompare -l
         ;;
@@ -25,8 +24,7 @@ _EditMyPlaylist() {
             mv "$list" "$newname".m3u
             mv "$titles_dir/$list.titles" "$titles_dir/$newname.m3u.titles"
             _ReplaceSpaces -s
-            __
-            printf '%s\n' " ${critical}${list%%.*} renamed as $newname.${nc}"
+            printf '\n%s\n' " ${critical}${list%%.*} renamed as $newname.${nc}"
             sleep 2
         ;;
         r|R)

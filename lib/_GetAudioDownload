@@ -31,8 +31,7 @@ _GetAudioDownload() {
                 else
                     yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
                     | awk '$0 !~/sb|youtube|^[-]/ {print $0}'
-                    __
-                    printf '%s\n' " ${info}Choose a format code: ${nc}"
+                    printf '\n%s\n' " ${info}Choose a format code: ${nc}"
                     read -r code
                     clear
                     __

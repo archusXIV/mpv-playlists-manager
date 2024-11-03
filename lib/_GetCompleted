@@ -9,9 +9,8 @@ _GetCompleted() {
     if [[ -n $(find {"$audios_dir","$videos_dir"} -name "*.part") ]]; then
         _IfPartsExist -t
     else
-        __
         if [[ $downloadTmpList =~ default|list ]]; then
-            printf '%s\n' " ${info}Temporary list preserved...${nc}"
+            printf '\n%s\n' " ${info}Temporary list preserved...${nc}"
             downloadTmpList=downloaded
             sleep 2
             _RenameTmpFiles
@@ -19,9 +18,9 @@ _GetCompleted() {
                 && use_parallel_downloads="yes"
             _Menu
         else
+            __
             _Prompt -n " ${info}Downloads completed, KEEP playlist?:${nc}" && {
-                __
-                printf '%s\n' \
+                printf '\n%s\n' \
                 " ${critical}It was a temporary list, don't forget to save it.${nc}"
                 sleep 2
                 _RenameTmpFiles

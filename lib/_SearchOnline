@@ -26,9 +26,8 @@ _SearchOnline() {
     }
 
     while true; do
-        __
         test -s "$URLS"  && \
-        echo -e " ${info}${Type} list: $(_GetLinesList "$arg") url(s)${nc}\n"
+        echo -e "\n ${info}${Type} list: $(_GetLinesList "$arg") url(s)${nc}\n"
         __
         echo -e "                                            ${mtitle}::SEARCH ONLINE $menuTitleType OPTIONS::${nc}"
         echo -e "                                          $(_LittleStars)${nc}"

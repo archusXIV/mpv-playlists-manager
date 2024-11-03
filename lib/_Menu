@@ -4,8 +4,8 @@
 # shellcheck source=/dev/null
 # shellcheck disable=SC2154
 _Menu() {
-    . "$THEMERC"
     cd "$main_dir" || exit 1
+    _ResizeWindow
     while [[ -e $DEFAULT_LIST ]]; do
         _MenuHeader
         _MenuBoby

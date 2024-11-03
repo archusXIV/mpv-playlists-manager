@@ -19,8 +19,8 @@ _RemoveAudioVideoIds() {
     for file in "${downloadedFiles[@]}"; do
         mv "$file" \
         "$(echo "$file" | sed -e 's/ \[.*\]//')"
-    done
+    done 2>/dev/null
 
-    unset file
+    unset file downloadedFiles
 
 }

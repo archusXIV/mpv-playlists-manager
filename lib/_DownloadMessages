@@ -50,12 +50,10 @@ _DownloadMessages() {
         ;;
         --menu)
             [[ $direct_download == no ]] && {
-                __
-                printf '%s\n' " ${critical}${b}Direct download disabled.${nb}${nc}"
+                printf '\n%s\n' " ${critical}${b}Direct download disabled.${nb}${nc}"
             }
             [[ $direct_download == yes ]] && {
-                __
-                printf '%s\n' " ${task}Direct download enabled.${nc}"
+                printf '\n%s\n' " ${task}Direct download enabled.${nc}"
             }
         ;;
     esac

@@ -34,11 +34,14 @@ mpm -v|--version  # prints mpm version
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
 ## Changelog:
+- For now mpm is getting **heavy**, so to make it load faster, just source its config files in your ~/.bashrc or ~/.zshrc by adding:
+    - source ~/.config/mpm/mpmrc
+    - source ~/.config/mpm/themerc
+- Added _IfDuplicatesFiles functon to check if we want to download already existing files in our destination folders.
+- Fixed bug in _QueueMultipleDirs function showing files instead of directories only.
 - Added zorange theme in /usr/local/share/doc/themerc.
     - You can just copy it over ~/.config/mpm/themerc (optional).  
 - Added a prompt when trying to remove a temporary list owned by mpv.
-- Pressing Ctrl+B let you change the theme, sed will edit mpmrc for you.
-- Added an option to save a few links from temporary lists as new playlist.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -97,7 +100,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.1-1.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.1-2.png)
 
 
 ```

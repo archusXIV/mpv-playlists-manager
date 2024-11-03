@@ -54,7 +54,7 @@ _SearchYoutubeWithFzf() {
     --prompt='Filter: ' \
     --header "${info}${b}"'Select with Tab, Enter to confirm: '"${nb}${nc}" \
     --border rounded \
-    --border-label "| Youtube search |" \
+    --border-label "| Youtube results |" \
     --reverse \
     | sed 's/\[.*\]\s//;s/-\s//' > "$TITLES"_tmp
 
@@ -80,6 +80,8 @@ _SearchYoutubeWithFzf() {
 
         case "$id" in
             # 11 characters=id (uniq audio/video link)
+            # https://www.youtube.com/watch?v=43BNFcOdBlY
+                                          #  | video id |
             ???????????)
                 echo "$mediaPrefix$id" | tee -a "$URLS" >> "$DEFAULT_LIST"
                 echo -e "$line" \
@@ -87,15 +89,17 @@ _SearchYoutubeWithFzf() {
                 | tee -a "$TITLES" >> "$DEFAULT_TITLES"
             ;;
             # 34 characters=id (playlist link)
+            # https://www.youtube.com/playlist?list=PLxwX17HxC5E-3UXNJV63t4xi7y-MLRJwl
+                                                #  |          playlist id            |
             ??????????????????????????????????)
                 echo "$playlistPrefix$id" >> "$YTSEARCH"
             ;;
         esac
 
     done < "$TITLES"_tmp
-
-    _RemoveCrap
+    
     rm "$TITLES"_tmp
+    _RemoveCrap
     _CreateAddPlaylist "$arg"
 
 }

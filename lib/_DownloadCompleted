@@ -4,6 +4,7 @@
 # shellcheck disable=SC2154
 _DownloadCompleted() {
     cd "$playlists_dir" || exit 1
+    clear
 
     if [[ -n $(find {"$audios_dir","$videos_dir"} -name "*.part") ]]; then
         _IfPartsExist -l
@@ -30,6 +31,7 @@ _DownloadCompleted() {
                 rm -f "${FILES[@]}" 2>/dev/null
             fi
         else
+            __
             printf '%s\n' " ${info}Downloads completed," \
             " ${critical}$list is empty... $list removed.${nc}"
             sleep 3

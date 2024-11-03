@@ -8,13 +8,13 @@ _GetVideoDownloadMessages() {
         --parallel)
             [[ $TITLES == "$DEFAULT_TITLES" ]] && {
                 __
-                printf '%s\n' " ${info}$(_GetLinesList -d) video file(s) left to download."
-                printf '%s\n' " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
+                printf '%s\n' " ${info}$(_GetLinesList -d) video file(s) left to download." \
+                " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
             }
             [[ $TITLES == "$VIDEO_TITLES" ]] && {
                 __
-                printf '%s\n' " ${info}$(_GetLinesList -v) video file(s) left to download."
-                printf '%s\n' " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
+                printf '%s\n' " ${info}$(_GetLinesList -v) video file(s) left to download." \
+                " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
             }
         ;;
         --onebyone)
@@ -32,13 +32,13 @@ _GetVideoDownloadMessages() {
         --xargs)
             [[ $TITLES == "$DEFAULT_TITLES" ]] && {
                 __
-                printf '%s\n' " ${info}$(_GetLinesList -d) video file(s) left to download."
-                printf '%s\n' " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
+                printf '%s\n' " ${info}$(_GetLinesList -d) video file(s) left to download." \
+                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
             }
             [[ $TITLES == "$VIDEO_TITLES" ]] && {
                 __
-                printf '%s\n' " ${info}$(_GetLinesList -v) video file(s) left to download."
-                printf '%s\n' " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
+                printf '%s\n' " ${info}$(_GetLinesList -v) video file(s) left to download." \
+                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
             }
         ;;
     esac

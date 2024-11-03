@@ -14,5 +14,5 @@ _CheckUpdate() {
         [[ $UPD != "$VERSION" ]] && \
         printf '%s\n' " ${critical}${b}$UPD available${nb}${nc}"
     }
-
+    
 }
