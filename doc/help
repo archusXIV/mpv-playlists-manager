@@ -87,7 +87,7 @@
         Links saved here and in audio section too are not permanent, they will be erased
         when closing the program...unless you answer yes when prompted to save them.
         In this section we will be able to create a temporary video playlist by "copy/paste"
-        urls from Youtube.com or any other supported web site by yt-dlp/yt-dlp packages.
+        urls from Youtube.com or any other supported web site by youtube-dl/yt-dlp packages.
         See https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md.
         Since version 1.8-2 adding youtube playlists is done faster when pasting url with
         option 1) if ytfzf is installed and use_fzf is set to 'yes' in your mpmrc,
@@ -249,7 +249,7 @@
             then you will be prompted to proceed or not to your downloads conversion.
             Another question will ask for a particular format.
         b)
-            if automatic_audio_conversion="no" && default_conversion_format="<flac|mp3|ogg|wav>"
+            if automatic_audio_conversion="no" && default_conversion_format="<aac|flac|mp3|ogg|wav>"
             then you will be prompted to proceed or not to your downloads conversion,
             and your mpmrc setting will be applied.
             If not all .webm files will be moved in ~/Music (this is defined in mpmrc).
