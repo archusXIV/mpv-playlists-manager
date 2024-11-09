@@ -26,8 +26,7 @@ _IfDuplicatesFilesActions() {
                 fi
             done < "$TITLES"
 
-            rm "$ef";
-            unset line
+            rm "$ef"; unset line
             _IfDuplicatesFilesMessages --else
             _CreateAddPlaylistActions --remove
 
