@@ -1,103 +1,54 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2001
+# shellcheck disable=SC2154,SC2001,SC2034
 _IfDuplicatesFiles() {
 
     cd "$addPlaylistDir" || return 1
+
+    local ef efCount titlesCount linenumbers attr match
     ef="$tmp_dir/existingFiles"
+    
+    # Removing the '.extension', to compare
+    # "$ef" file against the list of titles,
+    # that do not contains extensions themself.
+    command ls -N | sed -r "s/${EXTENSIONS}//" > "$ef"
+    [[ ! -s $ef ]] && return
 
-    # Removing the four/five last characters (.ext),
-    # to compare "$ef" file against the list of titles,
-    # that do not contains extensions.
-    if [[ $addPlaylistDir == "$audios_dir" \
-        && $default_conversion_format == flac ]]; then
-        __listNoExt() ( command ls -p | grep -v / | sed -r 's/.{5}$//' > "$ef"; )
-    else
-        __listNoExt() ( command ls -p | grep -v / | sed -r 's/.{4}$//' > "$ef"; )
-    fi
+    declare -i linenumbers
+    attr=0
+    match=0
+    __
+    while read -r line; do
+        if grep -q -Fx "$line" "$TITLES"; then
+            echo \
+            " ${task}$line ${critical}already exist in ${addPlaylistDir##*/}.${nc}"
+            ((match++))
+        fi
+    done < "$ef"
 
-    __listNoExt && {
-        __
-        declare -i linenumbers
-        attr=0
-        match=0
-
-        while read -r line; do
-            if grep -q -Fx "$line" "$TITLES"; then
-                echo \
-                " ${task}$line ${critical}already exist in ${addPlaylistDir##*/}.${nc}"
-                ((match++))
-            fi
-        done < "$ef"
-
-        unset line
-        
-        efCount=$(grep "" -c "$ef")
-        titlesCount=$(grep "" -c "$TITLES")
-        
-        if ((titlesCount > 1)); then
-            it="them"; link="links"
+    unset line
+    
+    efCount=$(grep "" -c "$ef")
+    titlesCount=$(grep "" -c "$TITLES")
+    
+    if ((match > 0)); then
+        if ((titlesCount == match)) && ((efCount > titlesCount)); then
+            # All playlist items have been downloaded already and
+            # there are ALSO other files in the destination folder.
+            _IfDuplicatesFilesMessages --if
+            _IfDuplicatesFilesActions --if
+        elif ((titlesCount == match)); then
+            # All playlist items have been downloaded already and
+            # there are NO other files in the destination folder.
+            _IfDuplicatesFilesMessages --elif
+            _IfDuplicatesFilesActions --elif
         else
-            it="it"; link="link"
+            # Some of the titles match the filenames in the destination folder.
+            # _IfDuplicatesFilesMessages --else,
+            # is called from _IfDuplicatesFilesActions --else.
+            _IfDuplicatesFilesActions --else
         fi
-
-        if ((match > 0)); then
-            if ((titlesCount == match)) && ((efCount > titlesCount)) ; then
-                printf '\n%s\n' \
-                " ${info}At least ${titlesCount} ${link} seem to have been downloaded already,"
-                _Prompt " do you want to remove ${it} from the ${Type} list?${nc}" || {
-                    printf '\n%s\n' " ${info}Downloading duplicates is useless...${nc}"
-                    sleep 3; return
-                }
-                for ((i=1;i<="${match}";i++)); do
-                    sed -i '$d' {"$DEFAULT_LIST","$DEFAULT_TITLES","$TITLES","$URLS"}
-                done
-                [[ ! -s $DEFAULT_TITLES ]] && rm "$DEFAULT_TITLES"
-                [[ ! -s $TITLES ]] && rm {"$TITLES","$URLS","$ef"}
-            elif ((titlesCount == match)); then
-                printf '\n%s\n' " ${info}All links seem to have been downloaded already,"
-                _Prompt " do you want to remove ${it} from the ${Type} list?${nc}" || {
-                    printf '\n%s\n' " ${info}Downloading duplicates is useless...${nc}"
-                    sleep 3; return
-                }
-                for ((i=1;i<="${match}";i++)); do
-                    sed -i '$d' {"$DEFAULT_LIST","$DEFAULT_TITLES"}
-                done
-                [[ ! -s $DEFAULT_TITLES ]] && rm "$DEFAULT_TITLES"
-                rm {"$TITLES","$URLS","$ef"}
-            else
-                while read -r line; do
-                    ((attr++))
-                    if grep -q -Fx "$line" "$ef"; then
-                        linenumbers+=("$attr")
-                    fi
-                done < "$TITLES"
-
-                rm "$ef"
-                __
-                printf '%s\n' " ${info}${#linenumbers[@]} links seem to have been downloaded already," \
-                " if you want to remove them from the current $Type list," \
-                " copy this sequence: $(echo "${linenumbers[@]}" | sed 's/\s/,/g')" \
-                " and paste it using the [R]emove links option."
-                unset linenumbers line
-                __; read -rsn 1 -p " [R]emove or [K]eep them anyway:${nc} " clean
-                case "$clean" in
-                    r|R)
-                        _CreateAddPlaylistActions --remove
-                        [[ -s "$URLS" ]] && {
-                            cat "$URLS" >> "$DEFAULT_LIST"
-                            cat "$TITLES" >> "$DEFAULT_TITLES"
-                            _RemoveCrap
-                        }
-                    ;;
-                    *)
-                        __
-                        printf '%s\n' " ${info}Downloading duplicates is useless...${nc}"
-                        sleep 3; return ;;
-                esac
-            fi
-        fi
-    }
-    _CreateAddPlaylist "$arg"
+    fi
+    
 }

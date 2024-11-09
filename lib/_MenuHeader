@@ -36,7 +36,8 @@ _MenuHeader() {
         echo "${info}$(_GetLinesList -v)${nc}" || echo "0"
 
     )
-    
+
+    _ResizeWindow
     clear
     __
     echo -e "                                            ${mtitle}::MPV-PLAYLISTS-MANAGER $VERSION::" "$(_CheckUpdate)"

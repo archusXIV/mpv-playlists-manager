@@ -57,7 +57,7 @@ _RemoveTmpLinks() {
         >> "$tmpTitles"_tmp2
         mv -f "$tmpList"_tmp2 "$tmpList"
         mv -f "$tmpTitles"_tmp2 "$tmpTitles"
-        _RemoveDuplicates "$tmpList" "$tmpTitles"
+        _RemoveDuplicateLines "$tmpList" "$tmpTitles"
         printf '\n%s\n' " ${critical}Selected links removed...${nc}"
     fi
 

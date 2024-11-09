@@ -41,7 +41,7 @@ _SaveLinksAs() {
         unset IFS range
         mv -f "$current_list"_tmp "$current_list"
         mv -f "$current_titles"_tmp "$current_titles"
-        _RemoveDuplicates "$current_list" "$current_titles"
+        _RemoveDuplicateLines "$current_list" "$current_titles"
         
     }
     __

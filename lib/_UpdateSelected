@@ -15,7 +15,7 @@ _UpdateSelected() {
             # let's remove downloaded links from the original file
             # and sending the other ones in a second temporary file...
             grep -v "$(grep '^https' "$SELECTED_URLS1")" "$list" >> "$SELECTED_URLS2"
-            _RemoveDuplicates "$SELECTED_URLS2"
+            _RemoveDuplicateLines "$SELECTED_URLS2"
             # ...that we now rename with the original file name.
             mv -f "$SELECTED_URLS2" "$list"
             rm "$SELECTED_URLS1"
@@ -26,7 +26,7 @@ _UpdateSelected() {
                     -e)
                         grep -v -F "$(grep '^[[:print:]]' "$SELECTED_TITLES")" \
                         "$list".titles >> "$SELECTED_TITLES"_tmp
-                        _RemoveDuplicates "$SELECTED_TITLES"_tmp
+                        _RemoveDuplicateLines "$SELECTED_TITLES"_tmp
                         mv -f "$SELECTED_TITLES"_tmp "$list".titles
                         __
                         printf '%s\n' " ${info}Changes applied in ${list##*/}.${nc}"
@@ -35,7 +35,7 @@ _UpdateSelected() {
                     -u)
                         grep -v -F "$(grep '^[[:print:]]' "$SELECTED_TITLES"_orgin)" \
                         "$list".titles >> "$SELECTED_TITLES"_tmp
-                        _RemoveDuplicates "$SELECTED_TITLES"_tmp
+                        _RemoveDuplicateLines "$SELECTED_TITLES"_tmp
                         mv -f "$SELECTED_TITLES"_tmp "$list".titles
                     ;;
                 esac

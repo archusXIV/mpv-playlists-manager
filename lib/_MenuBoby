@@ -3,8 +3,8 @@
 
 # shellcheck disable=SC2154
 _MenuBoby() {
-    if [[ $use_mpvc == yes ]]; then echo -e "                  │                      ${critical}For usage type U${nc}                      │  use mpvc:        ${task}yes${nc}  │"
-    elif [[ $use_mpvc == no ]]; then echo -e "                  │                      ${critical}For usage type U${nc}                      │  use mpvc:         ${task}no${nc}  │"; \
+    if [[ $use_mpvc == yes ]]; then echo -e "                  │       ${critical}For usage type U, for keyboard shortcuts type B${nc}      │  use mpvc:        ${task}yes${nc}  │"
+    elif [[ $use_mpvc == no ]]; then echo -e "                  │       ${critical}For usage type U, for keyboard shortcuts type B${nc}      │  use mpvc:         ${task}no${nc}  │"; \
     else echo -e "                  │                      ${critical}For usage type U${nc}                      │  use mpvc:      ${task}unset${nc}  │"; fi
     [[ $use_fzf == yes ]] && echo -e "                  │  ────────────────────────────────────────────────────────  │  use fzf:         ${task}yes${nc}  │" || \
     echo -e "                  │  ───────────────────────────────────────────────────────   │  use fzf:          ${task}no${nc}  │"

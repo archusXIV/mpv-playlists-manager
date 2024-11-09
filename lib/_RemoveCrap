@@ -6,7 +6,7 @@ _RemoveCrap() {
     # After some tests it appears that a single link copied from a youtube playlist
     # causes the download of the entire playlist (youtube-dl/yt-dlp bug).
     # So we cleanup the link to get the direct link to the desired video.
-    # Note that this behavior does not appear during a simple viewing/listening.
+    # Note that this behavior does not occure while streaming online.
 
     LISTS=(
         "$URLS"
@@ -15,7 +15,7 @@ _RemoveCrap() {
         "$DEFAULT_TITLES"
     )
 
-    sed -i 's/\//_/g' "${LISTS[@]:2:3}"
+    sed -i 's/:/ -/;s/\//_/g' "${LISTS[@]:2:3}"
 
     for file in "${LISTS[@]}"; do
         # removing unwanted parts of links, blank lines & duplicates
@@ -23,7 +23,7 @@ _RemoveCrap() {
             s/&list=.*//;s/&pp=.*//;s/&t=.*//;/^\s*$/d;
             s|//youtube.com|//www.youtube.com|g
         ' "$file"
-        _RemoveDuplicates "$file"
+        _RemoveDuplicateLines "$file"
     done
 
     unset file

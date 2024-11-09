@@ -2,7 +2,7 @@
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
-_RemoveDuplicates() {
+_RemoveDuplicateLines() {
     # Some systems may use gawk or perl
     # we use > 0 and shift, so we can pass multiple arguments
     while (( $# > 0 )); do

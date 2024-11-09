@@ -3,12 +3,14 @@
 
 # shellcheck disable=SC2154,SC2076
 _SearchOnlineWithYtfzf() {
-    __
+    echo -e "${info} Your ytfzf options:${task}${ytfzfOptions_X[*]}${nc}\n" \
+    | sed 's/keep-cache//;s/--//g'
+
     read -rp \
-    " ${info}Search ${platform} for ${Type} links (Use quotes for multiple search terms): ${nc}" \
+    " ${info}Search ${platform} for ${Type} links (Use \"quotes\" for multiple search terms): ${nc}" \
     request
 
-    [[ -z $request ]] && return
+    [[ -z $request ]] && clear && return
 
     local ytpl lbry
 
@@ -48,7 +50,7 @@ _SearchOnlineWithYtfzf() {
             echo "$line" >> "$YTSEARCH"
     done < "$tmp_dir"/ytfzf_playlists
 
-    [[ -f $YTSEARCH ]] && _RemoveDuplicates "$YTSEARCH"
+    [[ -f $YTSEARCH ]] && _RemoveDuplicateLines "$YTSEARCH"
     _RemoveCrap
     printf '\n%s\n' " ${info}Links added to $Type list${nc}"
     sleep 2; clear

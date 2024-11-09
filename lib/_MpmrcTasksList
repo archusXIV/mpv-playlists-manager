@@ -15,7 +15,7 @@ _MpmrcTasksList() {
         "use_mpvc" "use_parallel" "use_parallel_downloads"
     )
 
-    echo -e "\n ${info}Mpmrc settings quick view:\n${nc}"
+    echo -e "\n ${info}MPMRC SETTINGS QUICK VIEW:${nc}\n"
     for task in "${mpmrc_settings[@]}"; do
         grep -w "^$task" "$MPMRC" | sed 's/^/\t/;s/"//g;s/=/ = /g'
     done

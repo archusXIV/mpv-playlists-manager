@@ -30,7 +30,7 @@ pids=($(pidof -x "$MPM"))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.1-2"
+VERSION="v.2.1-3"
 
 CONF_DIR="$HOME/.config/mpm"
 
@@ -91,6 +91,7 @@ CHEATSHEET="/usr/local/share/doc/mpm/ncmpvc_cheatsheet"
 DEFAULT_LIST="$playlists_dir/default.m3u"
 DEFAULT_TITLES="$tmp_dir/defaultTitles"
 DEFAULTM3UTITLES="$titles_dir/default.m3u.titles"
+EXTENSIONS="(.aac|.flac|.mp3|.mp4|.ogg|.wav|.webm)"
 FFOP="$tmp_dir/ffmpeg_output"
 FZFENQUEUE="$tmp_dir/fzfEnqueue.m3u"
 HELP="/usr/local/share/doc/mpm/help"
