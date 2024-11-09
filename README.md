@@ -106,9 +106,8 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 ```
 # edit your own theme in "$XDG_CONFIG_HOME"/mpm/themerc.
 # apply your prefered colorscheme...
-# AVAILABLE THEMES: default, dracula, blacksea, chocolat-pistache, gruvbox,
-# gotham, monokai, nord, TokyoNight, solarized, vacuous, zenburn, zorange
-
+# AVAILABLE THEMES: default, blacksea, dracula, gruvbox, gotham, jellybeans,
+# monokai, pistachio, nord, TokyoNight, solarized, vacuous, zenburn, zorange
 THEME="default"
 ```
 
