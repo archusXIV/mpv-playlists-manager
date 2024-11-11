@@ -19,11 +19,11 @@ _MenuOptions() {
         j|J  ) _MpvControl -j ;;
         k|K  ) _MpvControl -k ;;
         l|L  ) _MpvControl -l ;;
-        m|M  ) _MpmHelp -c ;;
+        m|M  ) _MpmHelp -m ;;
         q|Q  ) _MpvControl -q ;;
         r|R  ) _MpvControl -r ;;
         t|T  ) _MpvControl -t ;;
-        u|U  ) _MpmHelp -h ;;
+        u|U  ) _MpmHelp -u ;;
         x|X  ) _IfQuitAfterTask -x ;;
         n|N  )
             if _PidOfMpv >/dev/null && [[ $use_mpvc == yes && -n $mpvc_tui ]]; then

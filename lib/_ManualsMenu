@@ -1,0 +1,48 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_ManualsMenu() {
+
+    local wmctrlCmd ytfzfCmd mpvTui
+
+    [[ -z $(command -v wmctrl) ]] && wmctrlCmd="${critical}wmctrl${nc}" \
+        || wmctrlCmd="wmctrl"
+    [[ -z $(command -v ytfzf) ]] && ytfzfCmd="${critical}ytfzf${nc}" \
+        || ytfzfCmd="ytfzf"
+    [[ -z $mpvc_tui_cheatsheet ]] && mpvTui="${critical}Mpv TUI shortcuts${nc}" \
+        || mpvTui="Mpv TUI shortcuts"
+
+    while :; do
+        _ResizeWindow
+        clear
+        echo -e "\n                                                ${mtitle}::MANUALS & HELP OPTIONS::${nc}"
+        echo -e "                                           $(_LittleStars)${nc}"
+        printf '%s\n' \
+        " ${critical}                                   Some of these options might help to configure mpmrc${nc}"
+        echo -e "                                    ┌─────────────────────────────────────────────────┐"
+        echo -e "                                    │     1) Man ffmpeg      6) $mpvTui     │"
+        echo -e "                                    │     2) Man mpv         7) Mpm shortcuts         │"
+        echo -e "                                    │     3) Man $wmctrlCmd      8) Mpm help $VERSION      │"
+        echo -e "                                    │     4) Man yt-dlp      9) Edit mpm config       │"
+        echo -e "                                    │     5) Man $ytfzfCmd       0) Back to main menu     │"
+        echo -e "                                    └─────────────────────────────────────────────────┘"
+        echo -e "                                                      ${info}${b}Select an item${nb}${nc}"
+        __
+        read -rsn 1 manualsMenuOptions
+        case "$manualsMenuOptions" in
+            1) man ffmpeg ;;
+            2) man mpv ;;
+            3) man wmctrl ;;
+            4) man yt-dlp ;;
+            5) man ytfzf ;;
+            6) less "$mpvc_tui_cheatsheet" ;;
+            7) _MpmHelp -b ;;
+            8) _MpmHelp -u ;;
+            9) _EditMpmConf -m ;;
+            0) break ;;
+            *) _WrongOption "$manualsMenuOptions" ;;
+        esac
+    done
+
+}

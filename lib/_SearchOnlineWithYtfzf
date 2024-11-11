@@ -3,6 +3,8 @@
 
 # shellcheck disable=SC2154,SC2076
 _SearchOnlineWithYtfzf() {
+
+    _ResizeWindow
     echo -e "${info} Your ytfzf options:${task}${ytfzfOptions_X[*]}${nc}\n" \
     | sed 's/keep-cache//;s/--//g'
 

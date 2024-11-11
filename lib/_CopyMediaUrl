@@ -5,6 +5,8 @@
 _CopyMediaUrl() {
 
     local mediaUrl
+
+    # touch "$TITLES" && grep "" -c "$TITLES" > "$tmp_dir"/before_add
     
     if __clipboardCmdTest; then
         read -r mediaUrl < <("${clipboardCmd[@]}")

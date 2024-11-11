@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154
 _RemoveDuplicateLines() {
     # Some systems may use gawk or perl
-    # we use > 0 and shift, so we can pass multiple arguments
+    # we use '> 0' and shift, so we can pass multiple arguments
     while (( $# > 0 )); do
         awk -i inplace '!seen[$0]++' "$1" || \
         perl -i -ne 'print if ! $a{$_}++' "$1"

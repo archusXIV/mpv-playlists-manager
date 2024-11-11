@@ -3,26 +3,19 @@
 
 # shellcheck disable=SC2154
 _MenuBoby() {
-    if [[ $use_mpvc == yes ]]; then echo -e "                  │       ${critical}For usage type U, for keyboard shortcuts type B${nc}      │  use mpvc:        ${task}yes${nc}  │"
-    elif [[ $use_mpvc == no ]]; then echo -e "                  │       ${critical}For usage type U, for keyboard shortcuts type B${nc}      │  use mpvc:         ${task}no${nc}  │"; \
-    else echo -e "                  │                      ${critical}For usage type U${nc}                      │  use mpvc:      ${task}unset${nc}  │"; fi
-    [[ $use_fzf == yes ]] && echo -e "                  │  ────────────────────────────────────────────────────────  │  use fzf:         ${task}yes${nc}  │" || \
-    echo -e "                  │  ───────────────────────────────────────────────────────   │  use fzf:          ${task}no${nc}  │"
-    [[ $use_parallel == yes ]] && echo -e "                  │  1)  Create/Add video playlist  6)  View default playlist  │  use parallel:    ${task}yes${nc}  │" || \
-    echo -e "                  │  1)  Create/Add video playlist  6)  View default playlist  │  use parallel:     ${task}no${nc}  │"
-    [[ $direct_download == yes ]] && echo -e "                  │  2)  Create/Add audio playlist  7)  Clear all tmp lists    │  direct download: ${task}$direct_download${nc}  │"
-    [[ $direct_download == no ]] && echo -e "                  │  2)  Create/Add audio playlist  7)  Clear all tmp lists    │  direct download:  ${task}$direct_download${nc}  │"
-    [[ $automatic_audio_conversion == yes ]] && echo -e "                  │  3)  Save as/Delete a playlist  8)  Edit a playlist        │  conversion auto: ${task}$automatic_audio_conversion${nc}  │"
-    [[ $automatic_audio_conversion == no ]] && echo -e "                  │  3)  Save as/Delete a playlist  8)  Edit a playlist        │  conversion auto:  ${task}$automatic_audio_conversion${nc}  │"
-    if [[ -z $default_conversion_format ]]; then echo -e "                  │  4)  Play/Download a playlist   ${mtitle}9)${nc}  Edit mpm config file   │  audio format:  ${task}unset${nc}  │"; \
-    elif [[ $default_conversion_format != flac ]]; then echo -e "                  │  4)  Play/Download a playlist   ${mtitle}9)${nc}  Edit mpm config file   │  audio format:    ${task}$default_conversion_format${nc}  │"; \
-    elif [[ $default_conversion_format == flac ]]; then echo -e "                  │  4)  Play/Download a playlist   ${mtitle}9)${nc}  Edit mpm config file   │  audio format:   ${task}$default_conversion_format${nc}  │"; fi
-    [[ $quit_after_task == yes ]] && echo -e "                  │  5)  Load local folder/files    X)  Exit                   │  quit after task: ${task}$quit_after_task${nc}  │"
-    [[ $quit_after_task == no ]] && echo -e "                  │  5)  Load local folder/files    X)  Exit                   │  quit after task:  ${task}$quit_after_task${nc}  │"
-    echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
+
+    echo -e "                   │       ${critical}For usage type U, for keyboard shortcuts type B${nc}      │  use mpvc:      ${varMpvc}  │"
+    echo -e "                   │  ────────────────────────────────────────────────────────  │  use fzf:       ${varFzf}  │"
+    echo -e "                   │  1)  Create/Add video playlist  6)  View default playlist  │  use parallel:  ${varParallel}  │"
+    echo -e "                   │  2)  Create/Add audio playlist  7)  Clear all tmp lists    │  direct download:${varDirect}  │"
+    echo -e "                   │  3)  Save as/Delete a playlist  8)  Edit a playlist        │  conversion auto:${varConv}  │"
+    echo -e "                   │  4)  Play/Download a playlist   ${mtitle}9)${nc}  Edit mpm config file   │  audio format:${varFmt}  │"
+    echo -e "                   │  5)  Load local folder/files    X)  Exit                   │  quit after task: ${varQuit}  │"
+    echo -e "                   └─────────────────────────────────────────────────────────────────────────────────────┘"
     _PidOfMpv >/dev/null && _MenuFooter
     test -f "$tmp_dir"/1 \
-        && echo -e "                                                     ${info}Select an item${nc}" \
-        || echo -e "                                                     ${info}${b}Select an item${nb}${nc}"
+        && echo -e "                                                      ${info}Select an item${nc}" \
+        || echo -e "                                                      ${info}${b}Select an item${nb}${nc}"
     __
+
 }

@@ -10,8 +10,8 @@ _MpmHelp() {
             read -rsn 1 quit
             case "$quit" in *) return ;; esac
         ;;
-        -c) less "$CHEATSHEET" ;;
-        -h) less "$HELP" ;;
+        -m) _ManualsMenu ;;
+        -u) less "$HELP" ;;
     esac
     echo "${nc}"
 }

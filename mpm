@@ -30,7 +30,7 @@ pids=($(pidof -x "$MPM"))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.1-3"
+VERSION="v.2.1-4"
 
 CONF_DIR="$HOME/.config/mpm"
 
@@ -87,7 +87,6 @@ _PidOfMpv() { pgrep -x mpv; }
 AUDIO_URLS="$tmp_dir/temporaryAudioUrls.m3u"
 AUDIO_TITLES="$tmp_dir/temporaryAudioTitles"
 BINDINGS="/usr/local/share/doc/mpm/mpm_bindings"
-CHEATSHEET="/usr/local/share/doc/mpm/ncmpvc_cheatsheet"
 DEFAULT_LIST="$playlists_dir/default.m3u"
 DEFAULT_TITLES="$tmp_dir/defaultTitles"
 DEFAULTM3UTITLES="$titles_dir/default.m3u.titles"

@@ -8,7 +8,7 @@ _Menu() {
     _ResizeWindow
     while [[ -e $DEFAULT_LIST ]]; do
         _MenuHeader
-        _MenuBoby
+        _MenuBobySettings
         _MenuOptions
     done
 }

@@ -29,7 +29,7 @@ _IfDuplicatesFilesActions() {
             rm "$ef"; unset line
             _IfDuplicatesFilesMessages --else
             _CreateAddPlaylistActions --remove
-
+            
             [[ -s "$URLS" ]] && {
                 cat "$URLS" >> "$DEFAULT_LIST"
                 cat "$TITLES" >> "$DEFAULT_TITLES"

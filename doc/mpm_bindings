@@ -1,9 +1,9 @@
 
     Press q to quit:
-    
-    Keyboard shortcuts in main menu (* use digits):
 
-        a) Create/Add links to the Audio list *   │ n) Launch mpv tui
+    Keyboard shortcuts in main window (* use digits):
+
+        a) Create/Add links to the Audio list *   │ n) Launch ncurses mpv tui
         b) Show main window bindings              │ p) Load/Download a collection playlist *
         c) Edit your mpmrc file *                 │ q) Quit mpv
         d) Access the default playlist *          │ r) Refresh main window when mpv has been stopped
@@ -13,5 +13,5 @@
         j) Stop or quit mpv                       │ v) Create/Add links to the Video list *
         k) Toggle play/pause                      │ x) Quit mpm
         l) Go to next song                        │ z) Clear all tmp lists *
-        m) Show ncmpvc cheatsheet                 │ Ctrl+B) change theme, Ctrl+M) Get mpmrc "tasks" list
+        m) Manuals & help access                  │ Ctrl+B) change theme, Ctrl+M) mpmrc quick view
         ──────────────────────────────────────────────────────────────────────────────────────────────────

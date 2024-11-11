@@ -40,16 +40,16 @@ _MenuHeader() {
     _ResizeWindow
     clear
     __
-    echo -e "                                            ${mtitle}::MPV-PLAYLISTS-MANAGER $VERSION::" "$(_CheckUpdate)"
-    echo -e "                                           $(_LittleStars)${nc}"
+    echo -e "                                             ${mtitle}::MPV-PLAYLISTS-MANAGER $VERSION::" "$(_CheckUpdate)"
+    echo -e "                                            $(_LittleStars)${nc}"
     [[ -z $THEME ]] && \
-    echo -e "                                                 current theme: ${info}${theme}${nc}" || \
-    echo -e "                                                 current theme: ${info}${THEME}${nc}"
-    echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
-    echo -e "                            Collection: $(__col) ${sep} Default list: $(__def) ${sep} Audio list: $(__aud) ${sep} Video list: $(__vid)"
-    echo -e "                  └─────────────────────────────────────────────────────────────────────────────────────┘"
-    echo -e "                  ┌─────────────────────────────────────────────────────────────────────────────────────┐"
-    echo -e "                  │                      ${info}GENERAL OPTIONS${nc}                       │     ${mtitle}MPMRC SETTINGS${nc}     │"
-    echo -e "                  │  ────────────────────────────────────────────────────────  │  ────────────────────  │"
+    echo -e "                                                  current theme: ${info}${theme}${nc}" || \
+    echo -e "                                                  current theme: ${info}${THEME}${nc}"
+    echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
+    echo -e "                             Collection: $(__col) ${sep} Default list: $(__def) ${sep} Audio list: $(__aud) ${sep} Video list: $(__vid)"
+    echo -e "                   └─────────────────────────────────────────────────────────────────────────────────────┘"
+    echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
+    echo -e "                   │                      ${info}GENERAL OPTIONS${nc}                       │     ${mtitle}MPMRC SETTINGS${nc}     │"
+    echo -e "                   │  ────────────────────────────────────────────────────────  │  ────────────────────  │"
 
 }

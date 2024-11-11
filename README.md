@@ -39,9 +39,12 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Added [mpvc_tui_cheatsheet](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L166) variable in mpmrc in case your mpv tui program isn't ncmpvc and you have a cheatsheet to check at some point.
+  - Use the full path for that.
+- Added [_ManualsMenu](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/_ManualsMenu.png) function so you can get help configuring mpmrc.
+  - Just press 'M' in the main window to access this feature.
+- Refactored _MenuBody function to make it easier to manage.
 - Fixed bug in _IfDuplicateFiles function when removing files extensions.
-- Added _IfDuplicatesFiles functon to check if we want to download already existing files in our destination folders.
-- Fixed bug in _QueueMultipleDirs function showing files instead of directories only.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -100,7 +103,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.1-3.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.1-4.png)
 
 
 ```

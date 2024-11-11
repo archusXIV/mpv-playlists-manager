@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 2.1-3)
+# ~/.config/mpm/mpmrc (version 2.1-4)
 
 ########################################################
 #                                                      #
@@ -161,6 +161,9 @@ use_mpvc=""
 # change your mpv terminal user interface here
 # mpvc_tui="ncmpvc"
 mpvc_tui=""
+# change this according to your mpv tui cheatsheet location
+# or keep it as it is if your don't use any alternative.
+mpvc_tui_cheatsheet="/usr/local/share/doc/mpm/ncmpvc_cheatsheet"
 
 # mpv audio/video online playing command line
 mpvGenOptions_CA=( --cache=yes )

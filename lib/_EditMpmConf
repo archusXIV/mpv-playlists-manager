@@ -19,6 +19,10 @@ _EditMpmConf() {
     fi
 
     sleep 2
-    _Menu
+
+    case "$1" in
+        -m) return ;;
+        *)  _Menu ;;
+    esac
 
 }

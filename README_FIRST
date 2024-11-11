@@ -1,6 +1,6 @@
 Author: Barret E (2021-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.1-3
+mpm version 2.1-4
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -23,12 +23,11 @@ as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
 the directory structure is ok for you.
 
 Changelog:
------------------------- NO CHANGES IN THE CONFIG FILE (mpmrc) ------------------------
+------------- !!! ADDED mpvc_tui_cheatsheet VARIABLE AT LINE 166 IN MPMRC !!! -------------
+version 2.1-4 - Added mpvc_tui_cheatsheet variable in mpmrc in case your mpv tui program
+                isn't ncmpvc and you have a cheatsheet to check at some point.
+                Use the full path for it.
+version 2.1-4 - Added _ManualsMenu function so you can get help configuring mpmrc.
+                Just press 'M' in the main window to access this feature.
+version 2.1-4 - Refactored _MenuBody function to make it easier to manage.
 version 2.1-3 - Fixed bug in _IfDuplicateFiles function when removing files extensions.
-version 2.1-2 - For now mpm is getting bloaded, so to ACCELERATE it, just source its config
-                files in your ~/.bashrc or ~/.zshrc by adding:
-                source ~/.config/mpm/mpmrc
-                source ~/.config/mpm/themerc
-version 2.1-2 - Added _IfDuplicatesFiles functon to check if we want to download already
-                existing files in our destination folder (mpm_{audios,videos}).
-version 2.1-2 - Fixed bug in _QueueMultipleDirs function showing files instead of directories only.
