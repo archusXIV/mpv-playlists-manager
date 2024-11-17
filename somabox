@@ -19,6 +19,7 @@ for pkg in dialog mpv wmctrl; do
     }
 done
 
+# resize the window according to the amount of channels
 wmctrl -r :ACTIVE: -e 5,-1,-1,961,638
 
 VERSION="v.0.2"
