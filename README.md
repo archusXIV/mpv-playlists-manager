@@ -48,7 +48,7 @@ copy_height=380
 - As a gift I provide a new script (somabox) to listen to somafm.com radio stations through _LoadLocalMenu option. Place it in your $PATH.
 - Added also an option to load radio playlists files (.pls,.m3u, etc...) if you store them in a specific folder, fill in this option in your configuration file:
 ```
-radio_dir="/path/to/web_radio_files"
+radio_dir="/path/to/web_radio_dir"
 ```
 
 - Added [mpvc_tui_cheatsheet](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L166) variable in mpmrc in case your mpv tui program isn't ncmpvc and you have a cheatsheet to check at some point.
