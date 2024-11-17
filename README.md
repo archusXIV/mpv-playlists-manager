@@ -46,6 +46,7 @@ copy_height=380
 ```
 
 - As a gift I provide a new script (somabox) to listen to somafm.com radio stations through _LoadLocalMenu option. Place it in your $PATH.
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/somabox_v0.2.png)
 - Added also an option to load radio playlists files (.pls,.m3u, etc...) if you store them in a specific folder, fill in this option in your configuration file:
 ```
 radio_dir="/path/to/web_radio_dir"
