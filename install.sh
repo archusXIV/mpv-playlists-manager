@@ -26,7 +26,7 @@ _diffRc() {
         printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
         " original file has been saved as mpmrc.orig.${endColor}"
         printf '\n'
-        tail ./README_FIRST
+        tail -n 15 ./README_FIRST
         printf '\n'
     else
         mkdir --parents "$CONF_DIR"

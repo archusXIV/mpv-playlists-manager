@@ -10,6 +10,7 @@ _CheckDependencies() {
         "parallel" "socat" "ueberzug"
         "wmctrl" "w3m" "ytfzf" "less"
         "$MPMEDITOR" "$FILEMANAGER"
+        "dialog"
     )
 
     for dep in "${DEPS[@]:0:4}"; do
@@ -20,10 +21,10 @@ _CheckDependencies() {
         }
     done
 
-    for opt in "${DEPS[@]:4:15}"; do
+    for opt in "${DEPS[@]:4:16}"; do
         command -v "$opt" >/dev/null || {
-            printf '%s\n' " For better experience, consider installing $opt." \
-            " Some functionalities might be unavailable..."
+            printf '%s\n' " ${critical}For better experience, consider installing $opt." \
+            " Some functionalities might be unavailable...${nc}"
             sleep 5
         }
     done

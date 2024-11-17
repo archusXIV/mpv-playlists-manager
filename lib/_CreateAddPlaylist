@@ -36,26 +36,26 @@ _CreateAddPlaylist() {
     }
 
     while true; do
-        _ResizeWindow
+        _ResizeWindow -c
         clear
 
         test -s "$YTSEARCH" && _GetYoutubePlaylistUrls -s
         __
         test -s "$URLS"  && \
         echo -e " ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}\n"
-        __clipboardCmdTest && printf '%s\n' "                                  $clipBoadCmdisInstalled"
+        __clipboardCmdTest && printf '%s\n' "                                   $clipBoadCmdisInstalled"
         __
-        echo -e "                                                  ${mtitle}::${B}${menuTitleType} OPTIONS${N}::${nc}"
-        echo -e "                                         $(_LittleStars)${nc}"
-        echo -e "                               ┌──────────────────────────────────────────────────────┐"
-        echo -e "                               │   1) Add ${Type} links         5) Play current list    │"
-        echo -e "                               │   2) Search online links     6) View current list    │"
-        echo -e "                               │   3) Download current list   7) Clear current list   │"
-        echo -e "                               │   4) Save/Add current list   8) Back to main menu    │"
-        echo -e "                               └──────────────────────────────────────────────────────┘"
+        echo -e "                                                   ${mtitle}::${B}${menuTitleType} OPTIONS${N}::${nc}"
+        echo -e "                                          $(_LittleStars)${nc}"
+        echo -e "                                ┌──────────────────────────────────────────────────────┐"
+        echo -e "                                │   1) Add ${Type} links         5) Play current list    │"
+        echo -e "                                │   2) Search online links     6) View current list    │"
+        echo -e "                                │   3) Download current list   7) Clear current list   │"
+        echo -e "                                │   4) Save/Add current list   8) Back to main menu    │"
+        echo -e "                                └──────────────────────────────────────────────────────┘"
         test -s "$URLS"  \
-        && echo -e "                                                   ${info}Select an item${nc}" \
-        || echo -e "                                                   ${info}${b}Select an item${nb}${nc}"
+        && echo -e "                                                    ${info}Select an item${nc}" \
+        || echo -e "                                                    ${info}${b}Select an item${nb}${nc}"
         __
         read -rsn 1 createAddPlaylistOptions
         case "$createAddPlaylistOptions" in

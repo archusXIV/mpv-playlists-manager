@@ -6,7 +6,7 @@ _StartUp() {
 
     local pidofMpv="$tmp_dir/mpv.pid"
 
-    _ResizeWindow
+    _ResizeWindow -m
 
     [[ -s $DEFAULTM3UTITLES && -s $DEFAULT_LIST ]] && {
         touch "$tmp_dir"/1

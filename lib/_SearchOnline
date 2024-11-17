@@ -25,6 +25,8 @@ _SearchOnline() {
 
     }
 
+    _ResizeWindow -m; clear
+
     while true; do
         test -s "$URLS"  && \
         echo -e "\n ${info}${Type} list: $(_GetLinesList "$arg") url(s)${nc}\n"

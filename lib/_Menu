@@ -5,7 +5,7 @@
 # shellcheck disable=SC2154
 _Menu() {
     cd "$main_dir" || exit 1
-    _ResizeWindow
+    _ResizeWindow -m
     while [[ -e $DEFAULT_LIST ]]; do
         _MenuHeader
         _MenuBobySettings

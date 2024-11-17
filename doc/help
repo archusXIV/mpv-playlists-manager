@@ -1,5 +1,5 @@
 
-    mpm version 2.1-4
+    mpm version 2.1-5
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -48,7 +48,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.1-4::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.1-5::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -79,7 +79,7 @@
         j) Stop or quit mpv                       │ v) Create/Add links to the Video list *
         k) Toggle play/pause                      │ x) Quit mpm
         l) Go to next song                        │ z) Clear all tmp lists *
-        m) Show ncmpvc cheatsheet                 │ Ctrl+B) change theme, Ctrl+M) Get mpmrc "tasks" list
+        m) Manuals & help access                  │ Ctrl+B) change theme, Ctrl+M) mpmrc quick view
         ──────────────────────────────────────────────────────────────────────────────────────────────────
 
     1) Create/Add video playlist:
@@ -99,6 +99,7 @@
         Once into the video options menu we can add tested links to a temporary list,
         getting links can also be done in option 2) Search online links. YouTube playlists
         are supported only if you choose [f]zf option.
+        Since version 2.1-5 configuring this specific window size is done through mpmrc.
         See II) audio/video files options:
 
     2) Create/Add audio playlist:
@@ -156,6 +157,12 @@
         
         Since version 1.9-9 we can queue up more files or multiple directories at a time, 
         to the mpv playlist or decline and play what we previously queued (same if we cancel).
+
+        New in version 2.1-5: radios playlists files can be played in option 8) the fzf package as
+        to be installed and use_fzf must be set to 'yes'.
+        In option 9) somabox in available.
+        Somabox is a new script provided to play some of the somafm channels using the dialog package,
+        make sure it is installed. You can also use it outside mpm, just place it in you $PATH.
 
     6) View default playlist:
 

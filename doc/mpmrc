@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 2.1-4)
+# ~/.config/mpm/mpmrc (version 2.1-5)
 
 ########################################################
 #                                                      #
@@ -22,6 +22,11 @@ check_updates="yes"
 # change the main mpm window size. (the actual size is 1260x738)
 width=1260
 height=738
+# change the window size in the Create/Add {audio,video} menu,
+# to prevent the terminal from taking up too much space
+# on the web page when copying links.
+copy_width=1260
+copy_height=380
 
 # edit your own theme in "$XDG_CONFIG_HOME"/mpm/themerc.
 # apply your prefered colorscheme...
@@ -43,6 +48,11 @@ clipboardCmd=( xclip -o )
 # wayland users
 # clipboardCmd=( wl-paste --no-newline )
 
+# somabox is a piece of software also developed by archusXIV and
+# will let you listen to some of the somafm.com radio stations,
+# of course it uses mpv in the background.
+use_somabox="no"
+
 ## THESE ARE BY DEFAULT DIRECTORIES USED BY MPM.
 
 # The main directory can be renamed but must be present for mpm to work.
@@ -63,6 +73,11 @@ audios_dir="$MUSIC_DIR/mpm_audios"
 videos_dir="$VIDEO_DIR/mpm_videos"
 titles_dir="$main_dir/titles"
 tmp_dir="$main_dir/tmp"
+
+# If you have a specific folder where web radios playlists (.pls,.m3u,etc...),
+# are stored, please fill the absolute path here.
+# radios_dir="$MUSIC_DIR/webradio_dir"
+radios_dir=""
 
 ##################### DEFAULT TASKS SETTINGS #####################
 # some links may still be present in playlist files...

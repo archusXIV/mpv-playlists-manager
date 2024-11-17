@@ -1,0 +1,139 @@
+#!/bin/bash
+
+# original idea: <https://github.com/epitron/scripts/blob/master/somafm>
+# Modified by Barret E <https://github.com/archusXIV>
+# Dependencies: dialog, mpv, wmctrl
+# It is also provided as third party software in Mpv-Playlists-Manager.
+# <https://github.com/archusXIV/mpv-playlists-manager>
+#
+# somabox let you play chosen channels from <https://somafm.com/>
+# Add/Remove items from their respective arrays and change the window size
+# using the wmctrl command line below to fit correctly the amount
+# of CHANNELS and stream informations at the bottom.
+
+for pkg in dialog mpv wmctrl; do
+    ! command -v "$pkg" && {
+        notify-send -t 0 -u critical "$pkg isn't installed, exiting!"
+        printf '%s\n' " $pkg isn't installed, exiting!"
+        exit 127
+    }
+done
+
+wmctrl -r :ACTIVE: -e 5,-1,-1,961,638
+
+VERSION="v.0.2"
+url="http://somafm.com/nossl/"
+nowPlaying="NO STATION SELECTED"
+low=64
+medium=130
+high=256
+higher=320
+
+# Add channels names and descriptions here
+# "channel_name" "description" on each line.
+LIST=(
+    "Boot Liquor" "Americana Roots music"
+    "Dark Zone" "The darker side of deep ambient"
+    "Deep Space One" "Deep ambient electronic, experimental and space music"
+    "Drone Zone" "Served best chilled, safe with most medications"
+    "Folk Forward" "Indie Folk, Alt-folk and the occasional folk classics"
+    "Groove Salad" "Nicely chilled plate of ambient/downtempo beats"
+    "Mission Control" "Celebrating NASA and Space Explorers everywhere"
+    "SF 10-33" "Ambient tunes mixed with San Francisco public safety radio"
+    "Space Station" "Spaced-out ambient and mid-tempo electronica"
+    "Synphaera Radio" "Featuring the music from an independent record label"
+    "ThistleRadio" "Exploring music from Celtic roots and branches"
+    "Underground 80s" "Early 80s UK Synthpop and a bit of New Wave"
+)
+
+# keep this one empty to create a blank line between
+# channels and TUNED STATION quality informations
+LIST+=("" "")
+
+# Add/Remove array index [0],[2] etc...
+# use even numbers for the channel name
+declare -A LOWBITRATES=(
+    [${LIST[0]}]="${url}bootliquor${medium}.pls"
+    [${LIST[2]}]="${url}darkzone${medium}.pls"
+    [${LIST[4]}]="${url}deepspaceone${low}.pls"
+    [${LIST[6]}]="${url}dronezone${medium}.pls"
+    [${LIST[8]}]="${url}folkfwd${low}.pls"
+    [${LIST[10]}]="${url}gsclassic${low}.pls"
+    [${LIST[12]}]="${url}missioncontrol${low}.pls"
+    [${LIST[14]}]="${url}sf1033${low}.pls"
+    [${LIST[16]}]="${url}spacestation${low}.pls"
+    [${LIST[18]}]="${url}synphaera${medium}.pls"
+    [${LIST[20]}]="${url}thistle${low}.pls"
+    [${LIST[22]}]="${url}u80s${medium}.pls"
+)
+
+declare -A HIGHBITRATES=(
+    [${LIST[0]}]="${url}bootliquor${higher}.pls"
+    [${LIST[2]}]="${url}darkzone${high}.pls"
+    [${LIST[4]}]="${url}deepspaceone${medium}.pls"
+    [${LIST[6]}]="${url}dronezone${high}.pls"
+    [${LIST[8]}]="${url}folkfwd${medium}.pls"
+    [${LIST[10]}]="${url}gsclassic${medium}.pls"
+    [${LIST[12]}]="${url}missioncontrol${medium}.pls"
+    [${LIST[14]}]="${url}sf1033${medium}.pls"
+    [${LIST[16]}]="${url}spacestation${medium}.pls"
+    [${LIST[18]}]="${url}synphaera${high}.pls"
+    [${LIST[20]}]="${url}thistle${medium}.pls"
+    [${LIST[22]}]="${url}u80s${high}.pls"
+)
+
+_main() {
+    while true; do
+
+        channelChoice=$(
+            dialog --stdout --backtitle "SOMABOX $VERSION" \
+            --cancel-label "Exit" \
+            --title "SOMAFM CHANNELS LIST" \
+            --menu "Select a radio station:" 0 90 0 \
+            "${LIST[@]}" \
+            "TUNED STATION:" "${nowPlaying}" \
+            "" "$BITRATES_MSG"
+        )
+
+        case $? in
+            1|255) clear; _killMpv; exit 0 ;;
+        esac
+
+        bitrates=$(
+            dialog --stdout --backtitle "SOMABOX $VERSION" \
+            --title "AUDIO BITRATES" \
+            --menu "Select a bitrate for ${channelChoice}:" 10 50 2 \
+            LOW  "(AAC 64kb)  (MP3 128kb)" \
+            HIGH "(AAC 128kb) (MP3 256/320kb)"
+        )
+
+        if [[ $bitrates == 'LOW' ]]; then
+            BITRATES_MSG="quality: LOW (AAC 64kb) (MP3 128kb)"
+            _mpvOptions "${LOWBITRATES[${channelChoice}]}"
+        elif [[ $bitrates == 'HIGH' ]]; then
+            BITRATES_MSG="quality: HIGH (AAC 128kb) (MP3 256/320kb)"
+            _mpvOptions "${HIGHBITRATES[${channelChoice}]}"
+        else
+            continue
+        fi
+
+        nowPlaying="${channelChoice}"
+
+    done
+}
+
+_killMpv() { kill -SIGTERM "$(pgrep -x mpv)" 2>/dev/null; }
+
+_mpvOptions() {
+
+    _killMpv; sleep 0.2
+    mpv \
+    --no-config \
+    --cache=no \
+    --no-terminal \
+    --force-window=no \
+    --input-ipc-server='/tmp/mpvsocket' "$*" &
+
+}
+
+_main "${@}"

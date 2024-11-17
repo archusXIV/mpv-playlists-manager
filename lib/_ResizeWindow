@@ -4,9 +4,21 @@
 # shellcheck disable=SC2154
 _ResizeWindow() {
     # width & height are defined in ~/.config/mpm/mpmrc
-    if [[ -n $width && -n $height ]]; then
-        wmctrl -r :ACTIVE: -e 5,-1,-1,"$width","$height"
-    else
-        wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738
-    fi
+    case "$1" in
+        -c)
+            if [[ -n $copy_width && -n $copy_height ]]; then
+                wmctrl -r :ACTIVE: -e 5,-1,-1,"$copy_width","$copy_height"
+            else
+                wmctrl -r :ACTIVE: -e 5,-1,-1,"$width","$height"
+            fi
+        ;;
+        -m)
+            if [[ -n $width && -n $height ]]; then
+                wmctrl -r :ACTIVE: -e 5,-1,-1,"$width","$height"
+            else
+                wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738
+            fi
+        ;;
+    esac
+    
 }

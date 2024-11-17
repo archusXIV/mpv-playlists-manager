@@ -5,11 +5,11 @@
 _FzfEnqueue() {
 
     cd "$localDir"/"$dir" || return
-    
+
     local localDirPath
 
     localDirPath=$(pwd | sed 's,/,\\/,g')
-    _ResizeWindow
+    _ResizeWindow -m
     rm ./fzfEnqueue.m3u 2>/dev/null
 
     ! command -v "$fzf_preview" && fzf_preview=(file -N -i --)

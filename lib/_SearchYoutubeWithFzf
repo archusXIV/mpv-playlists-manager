@@ -6,7 +6,7 @@ _SearchYoutubeWithFzf() {
 
     local sanitizedRequest sanitizedResult grabLink grabPlaylist IDS id \
     mediaLinkIDS mediaPrefix playlistLinkIDS playlistPrefix playlistName
-    _ResizeWindow
+    _ResizeWindow -m
     __
     read -rp " ${info}Search for ${platform} ${Type} (no quotes): ${nc}" request
     clear

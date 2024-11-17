@@ -7,19 +7,22 @@ _MpmrcTasksList() {
     clear
     mpmrc_settings=(
         "automatic_audio_conversion" "check_updates"
-        "default_conversion_format" "direct_download"
-        "fzf_preview" "fzf_preview_layout" "fzf_preview_size"
-        "keep_none_empty_playlist" "mpvc_tui"
+        "copy_height" "copy_width" "default_conversion_format"
+        "direct_download" "fzf_preview" "fzf_preview_layout"
+        "fzf_preview_size" "keep_none_empty_playlist" "mpvc_tui"
         "parallel_animation" "parallel_conversion"
         "parallel_threads" "quit_after_task" "use_fzf"
         "use_mpvc" "use_parallel" "use_parallel_downloads"
     )
 
     echo -e "\n ${info}MPMRC SETTINGS QUICK VIEW:${nc}\n"
-    for task in "${mpmrc_settings[@]}"; do
-        grep -w "^$task" "$MPMRC" | sed 's/^/\t/;s/"//g;s/=/ = /g'
+
+    for setting in "${mpmrc_settings[@]}"; do
+        grep -w "^$setting" "$MPMRC" \
+        | sed 's/^/\t/;s/"//g;s/=/ = /g'
     done
-    unset task
+    
+    unset setting
     __
     _Prompt -n " ${info}Edit config?${nc}" && {
         _EditMpmConf

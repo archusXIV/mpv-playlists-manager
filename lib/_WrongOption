@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154
 _WrongOption() {
-    # appears 29 times in 22 files
+    # appears 31 times in 23 files
     printf '\n%s\n' " ${critical}Wrong option $1 ${nc}"
     sleep 3
     

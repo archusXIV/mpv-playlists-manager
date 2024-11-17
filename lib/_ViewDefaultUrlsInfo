@@ -8,6 +8,8 @@ _ViewDefaultUrlsInfo() {
     file="${DEFAULT_LIST##*/}" file="${file%%.*}"
     Type=default
 
+    _ResizeWindow -m
+
     __getAudioVideo() {
         __
         read -rsn 1 \

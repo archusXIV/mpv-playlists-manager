@@ -37,10 +37,9 @@ _MenuHeader() {
 
     )
 
-    _ResizeWindow
     clear
     __
-    echo -e "                                             ${mtitle}::MPV-PLAYLISTS-MANAGER $VERSION::" "$(_CheckUpdate)"
+    echo -e "                                            ${mtitle}:: MPV-PLAYLISTS-MANAGER $VERSION ::" "$(_CheckUpdate)"
     echo -e "                                            $(_LittleStars)${nc}"
     [[ -z $THEME ]] && \
     echo -e "                                                  current theme: ${info}${theme}${nc}" || \

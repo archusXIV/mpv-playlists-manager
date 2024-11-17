@@ -39,12 +39,22 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Added new window size settings in ~/.config/mpm/mpmrc when copying link in web pages.
+```
+copy_width=1260
+copy_height=380
+```
+
+- As a gift I provide a new script (somabox) to listen to somafm.com radio stations through _LoadLocalMenu option. Place it in your $PATH.
+- Added also an option to load radio playlists files (.pls,.m3u, etc...) if you store them in a specific folder, fill in this option in your configuration file:
+```
+radio_dir="/path/to/web_radio_files"
+```
+
 - Added [mpvc_tui_cheatsheet](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L166) variable in mpmrc in case your mpv tui program isn't ncmpvc and you have a cheatsheet to check at some point.
   - Use the full path for that.
 - Added [_ManualsMenu](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/_ManualsMenu.png) function so you can get help configuring mpmrc.
   - Just press 'M' in the main window to access this feature.
-- Refactored _MenuBody function to make it easier to manage.
-- Fixed bug in _IfDuplicateFiles function when removing files extensions.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.

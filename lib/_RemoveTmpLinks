@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154
 _RemoveTmpLinks() {
 
-    clear
+    _ResizeWindow -m; clear
     printf '\n%s\n' " ${info}Select titles to remove fron ${tmpList##*/}${nc}"
     __
     nl "$tmpTitles"

@@ -18,8 +18,15 @@ _MakeMpvPlaylist() {
     # change mpv settings in ~/.config/mpm/mpmrc
     case "$1" in
         --fzf)
-            mpv --no-terminal "${mpvGenOptions_SK[@]}" \
-            "${mpvGenOptions_ID[@]}" "$m3uFile" &
+            if [[ $localDir == "$radios_dir" ]]; then
+                mpv --no-config --cache=no \
+                --no-terminal --force-window=no \
+                "${mpvGenOptions_SK[@]}" \
+                "${mpvGenOptions_ID[@]}" "$m3uFile" &
+            else
+                mpv --no-terminal "${mpvGenOptions_SK[@]}" \
+                "${mpvGenOptions_ID[@]}" "$m3uFile" &
+            fi
             _WhileMpvIsRunning &
         ;;
         --local-background)

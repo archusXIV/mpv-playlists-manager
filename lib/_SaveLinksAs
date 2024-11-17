@@ -44,6 +44,8 @@ _SaveLinksAs() {
         _RemoveDuplicateLines "$current_list" "$current_titles"
         
     }
+
+    _ResizeWindow -m; clear
     __
     read -rsn 1 -p " ${info}Save [L]inks or the [W]hole list?: ${nc}" \
     saveLinksAsOptions

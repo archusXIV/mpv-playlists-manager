@@ -9,7 +9,7 @@ _LoadPlaylistMenu() {
     M3UFILE="$playlists_dir/$list"
 
     while :; do
-        _ResizeWindow
+        _ResizeWindow -m
         clear
         _DownloadMessages --menu
         __

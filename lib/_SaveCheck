@@ -25,6 +25,8 @@ _SaveCheck() {
         }
         _SaveList
     )
+
+    _ResizeWindow -m; clear
     __
     printf '%s\n' " ${critical}Tip: If you want to add links to an existing playlist," \
     " just select it and answer NO to the overwrite question," \

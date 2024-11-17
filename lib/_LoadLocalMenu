@@ -1,94 +1,40 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2034
+# shellcheck disable=SC2154,SC2034,SC2317
 _LoadLocalMenu() {
 
-    local localDir file localMediaType
+    local localDir file localMediaType loadLocalMenuOptions
     file="${m3uFile##*/}" file="${file%%.*}"
-
-    __isFileManagerInstalled() (
-        if ! command -v "$FILEMANAGER" >/dev/null; then
-            printf '%s\n' " ${critical}$FILEMANAGER is not installed...!${nc}"
-            sleep 3
-        else
-            clear;"$FILEMANAGER" "$localDir"
-        fi
-    )
     
     while :; do
-        _ResizeWindow
+        _ResizeWindow -m
         clear
         __
         echo -e "                                                 ${mtitle}::LOAD LOCAL OPTIONS::${nc}"
         echo -e "                                           $(_LittleStars)${nc}"
         echo -e "                                  ┌───────────────────────────────────────────────────┐"
-        echo -e "                                  │   1) Single Audio dir     5) Explore Music dir    │"
-        echo -e "                                  │   2) Audio files          6) Explore Videos dir   │"
-        echo -e "                                  │   3) Single Video dir     7) Load multiple dirs   │"
-        echo -e "                                  │   4) Video files          8) Back to main menu    │"
+        echo -e "                                  │   1) Single Audio dir   6) Explore Videos dir     │"
+        echo -e "                                  │   2) Audio files        7) Load multiple dirs     │"
+        echo -e "                                  │   3) Single Video dir   8) Load radio playlists   │"
+        echo -e "                                  │   4) Video files        9) Launch SomaFm player   │"
+        echo -e "                                  │   5) Explore Music dir  X) Back to main menu      │"
         echo -e "                                  └───────────────────────────────────────────────────┘"
         echo -e "                                                    ${info}${b}Select an item${nb}${nc}"
         __
         read -rsn 1 loadLocalMenuOptions
         case "$loadLocalMenuOptions" in
-            1|3)
-                _MpvOwnsTmpList --local || {
-                    if [[ $loadLocalMenuOptions == 1 ]]; then
-                        localDir="$MUSIC_DIR"; [[ -z $use_mpvc ]] && localMediaType=audio
-                        _ReplaceSpaces -l
-                        clear;__
-                        _SelectLocalDir -d
-                    elif [[ $loadLocalMenuOptions == 3 ]]; then
-                        localDir="$VIDEO_DIR"; [[ -z $use_mpvc ]] && localMediaType=video
-                        _ReplaceSpaces -l
-                        clear;__
-                        _SelectLocalDir -d
-                    fi
-                }
-            ;;
-            2|4)
-                _MpvOwnsTmpList --local || {
-                    if [[ $loadLocalMenuOptions == 2 ]]; then
-                        localDir="$MUSIC_DIR"; [[ -z $use_mpvc ]] && localMediaType=audio
-                        if [[ -n $(command -v fzf) && $use_fzf = yes ]]; then
-                            clear;__;_SelectLocalDir -f;_Menu
-                        else
-                            __isFileManagerInstalled
-                        fi
-                    elif [[ $loadLocalMenuOptions == 4 ]]; then
-                        localDir="$VIDEO_DIR"; [[ -z $use_mpvc ]] && localMediaType=video
-                        if [[ -n $(command -v fzf) && $use_fzf = yes ]]; then
-                            clear;__;_SelectLocalDir -f;_Menu
-                        else
-                            __isFileManagerInstalled
-                        fi
-                    fi
-                }
-            ;;
-            5|6)
-                [[ $loadLocalMenuOptions == 5 ]] && localDir="$MUSIC_DIR"
-                [[ $loadLocalMenuOptions == 6 ]] && localDir="$VIDEO_DIR"
-                __isFileManagerInstalled
-            ;;
-            7)
-                _MpvOwnsTmpList --local || \
-                read -rsn 1 \
-                -p " ${info}Queue multiple [A]udio or [V]ideo directories: ${nc}" \
-                diranswer
-                case "$diranswer" in
-                    a|A) localDir="$MUSIC_DIR"; [[ -z $use_mpvc ]] && localMediaType=audio ;;
-                    v|V) localDir="$VIDEO_DIR"; [[ -z $use_mpvc ]] && localMediaType=video ;;
-                    *) __; _WrongOption "$diranswer"; continue ;;
-                esac
-                _QueueMultipleDirs
-            ;;
-            8)  _Menu ;;
-            *)
-                _WrongOption "$loadLocalMenuOptions"
+            1|3) _LoadLocalMenuActions --Single-dir ;;
+            2|4) _LoadLocalMenuActions --files ;;
+            5|6) _LoadLocalMenuActions --explore ;;
+            7  ) _LoadLocalMenuActions --multiple-dirs;;
+            8  ) _LoadLocalMenuActions --radio-dir ;;
+            9  ) _LoadLocalMenuActions --somabox ;;
+            x|X) _Menu ;;
+            *)  _WrongOption "$loadLocalMenuOptions"
                 continue
             ;;
-        esac
+        esac    
     done
 
 }
