@@ -13,7 +13,7 @@ _IfDuplicatesFiles() {
     # "$ef" file against the list of titles,
     # that do not contains extensions themself.
     command ls -N | sed -r "s/${EXTENSIONS}//" > "$ef"
-    [[ ! -s $ef ]] && return
+    [[ ! -s $ef ]] && { rm "$ef"; return; }
 
     declare -i linenumbers
     attr=0

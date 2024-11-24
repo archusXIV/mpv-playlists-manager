@@ -31,8 +31,8 @@ _LoadLocalMenu() {
             8  ) _LoadLocalMenuActions --radio-dir ;;
             9  ) _LoadLocalMenuActions --somabox ;;
             x|X) _Menu ;;
-            *)  _WrongOption "$loadLocalMenuOptions"
-                continue
+            *  ) _WrongOption "$loadLocalMenuOptions"
+                 continue
             ;;
         esac    
     done

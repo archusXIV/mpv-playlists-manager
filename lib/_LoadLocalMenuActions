@@ -70,7 +70,7 @@ _LoadLocalMenuActions() {
             _MpvOwnsTmpList --local || {
                 if [[ -n $radios_dir ]]; then
                     localDir="$radios_dir"
-                    if [[ -n $(command -v fzf) && $use_fzf = yes ]]; then
+                    if [[ -n $(command -v fzf) && $use_fzf == yes ]]; then
                         fzf_preview=(cat)
                         clear; __; _FzfEnqueue; _Menu
                     else

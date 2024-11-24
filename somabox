@@ -20,9 +20,9 @@ for pkg in dialog mpv wmctrl; do
 done
 
 # resize the window according to the amount of channels
-wmctrl -r :ACTIVE: -e 5,-1,-1,961,638
+wmctrl -r :ACTIVE: -e 5,-1,-1,970,638
 
-VERSION="v.0.2"
+VERSION="v.0.3"
 url="http://somafm.com/nossl/"
 nowPlaying="NO STATION SELECTED"
 low=64
@@ -88,9 +88,9 @@ _main() {
 
         channelChoice=$(
             dialog --stdout --backtitle "SOMABOX $VERSION" \
-            --cancel-label "Exit" \
+            --cancel-label "Exit" --no-shadow \
             --title "SOMAFM CHANNELS LIST" \
-            --menu "Select a radio station:" 0 90 0 \
+            --menu "Select a radio station:" 0 89 0 \
             "${LIST[@]}" \
             "TUNED STATION:" "${nowPlaying}" \
             "" "$BITRATES_MSG"

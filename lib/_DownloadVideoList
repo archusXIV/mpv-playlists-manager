@@ -33,7 +33,7 @@ _DownloadVideoList() {
                     clear
                     __
                     yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
-                    | awk '$0 !~ /sb|youtube/{print $0}'
+                    | awk '$0 !~ /sb|youtube|info/{print $0}'
                     _DownloadMessages --m3u8
 
                     read -r code

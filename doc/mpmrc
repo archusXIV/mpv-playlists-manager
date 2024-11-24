@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 2.1-5)
+# ~/.config/mpm/mpmrc (version 2.1-6)
 
 ########################################################
 #                                                      #
@@ -32,7 +32,7 @@ copy_height=380
 # apply your prefered colorscheme...
 # AVAILABLE THEMES: default, blacksea, dracula, gruvbox, gotham, jellybeans,
 # monokai, pistachio, nord, TokyoNight, solarized, vacuous, zenburn, zorange
-THEME="default"
+THEME=default
 
 ####################### SYSTEM TOOLS ######################
 ## default editor used to edit this file and playlist urls.

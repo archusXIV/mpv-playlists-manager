@@ -6,8 +6,6 @@ _CopyMediaUrl() {
 
     local mediaUrl
 
-    # touch "$TITLES" && grep "" -c "$TITLES" > "$tmp_dir"/before_add
-    
     if __clipboardCmdTest; then
         read -r mediaUrl < <("${clipboardCmd[@]}")
     else
@@ -25,12 +23,23 @@ _CopyMediaUrl() {
         mediaUrl=$(echo "$mediaUrl" | sed 's/&list=.*//')
         printf '\n%s\n' " ${info}Testing url...${nc}"
         if [[ $mediaUrl =~ ^https ]]; then
-            if [[ ! $(yt-dlp --print formats_table "$mediaUrl") ]]; then
-                printf '\n%s\n' " ${critical}${b}No format code found!${nb}"\
+            yt-dlp --print formats_table "$mediaUrl" > "$tmp_dir"/urltest 2>&1
+            if grep -qw 'ERROR' "$tmp_dir"/urltest; then
+                printf '%s\n' " ${critical}${b}Unsupported url!${nb}"\
                 " $mediaUrl will be removed." \
                 " ${info}Please visit: $supportedSites${nc}"
                 sleep 7
             else
+                [[ $arg == '-a' ]] && {
+                    grep -qe 'audio' "$tmp_dir"/urltest
+                    case $? in
+                        1|255)
+                            printf '%s\n' " ${critical}No audio format found...${nc}" \
+                            " removing $mediaUrl..."
+                            rm "$tmp_dir"/urltest; sleep 3; return
+                        ;;
+                    esac
+                }
                 echo "$mediaUrl" | tee -a "$URLS" >> "$DEFAULT_LIST"
                 printf '%s\n' " ${info}Getting ${Type} title...${nc}"
                 yt-dlp --skip-download --get-title \
@@ -38,8 +47,9 @@ _CopyMediaUrl() {
                 | tee -a "$TITLES" >> "$DEFAULT_TITLES"
                 _RemoveCrap; clear; _IfDuplicatesFiles
             fi
+            rm "$tmp_dir"/urltest 2>/dev/null
         else
-            printf '\n%s\n' " ${critical}Not a valid url...try again${nc}"
+            printf '%s\n' " ${critical}Not a valid url...try again${nc}"
             sleep 2
         fi
     fi

@@ -30,7 +30,7 @@ _GetAudioDownload() {
                     --format bestaudio/best "${ytdlPreset_NC[@]}" "$url"
                 else
                     yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
-                    | awk '$0 !~/sb|youtube|^[-]/ {print $0}'
+                    | awk '$0 !~/sb|youtube|info|^[-]/ {print $0}'
                     printf '\n%s\n' " ${info}Choose a format code: ${nc}"
                     read -r code
                     clear
