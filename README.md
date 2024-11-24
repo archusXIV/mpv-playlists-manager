@@ -52,7 +52,7 @@ copy_height=380
 radio_dir="/path/to/web_radio_dir"
 ```
 
-- Added [mpvc_tui_cheatsheet](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L166) variable in mpmrc in case your mpv tui program isn't ncmpvc and you have a cheatsheet to check at some point.
+- Added [mpvc_tui_cheatsheet](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L181) variable in mpmrc in case your mpv tui program isn't ncmpvc and you have a cheatsheet to check at some point.
   - Use the full path for that.
 - Added [_ManualsMenu](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/_ManualsMenu.png) function so you can get help configuring mpmrc.
   - Just press 'M' in the main window to access this feature.
