@@ -24,6 +24,7 @@ the directory structure is ok for you.
 
 Changelog:
 ------------- !!! ADDED CHANGES IN MPMRC, PLEASE REVIEW YOUR CONFIG FILE !!! -------------
+version 2.1-6 - Fixed bug when trying to queue more web radio files.
 version 2.1-6 - Added a test in _CopyMediaUrl function to check
                 audio availability when pasting links.
 version 2.1-5 - Added new window size settings in ~/.config/mpm/mpmrc.

@@ -72,7 +72,7 @@ _LoadLocalMenuActions() {
                     localDir="$radios_dir"
                     if [[ -n $(command -v fzf) && $use_fzf == yes ]]; then
                         fzf_preview=(cat)
-                        clear; __; _FzfEnqueue; _Menu
+                        clear; __; _FzfEnqueue
                     else
                         printf '%s\n' \
                         " ${critical}The fzf package isn't installed, or use_fzf is set to 'no'.${nc}"

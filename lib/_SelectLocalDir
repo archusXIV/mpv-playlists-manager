@@ -5,6 +5,7 @@
 _SelectLocalDir() {
 
     cd "$localDir" || exit 1
+    [[ $localDir == "$radios_dir" ]] && _FzfEnqueue
     
     echo -e " ${info}Directories in ${localDir##*/}: ${nc}\n"
 

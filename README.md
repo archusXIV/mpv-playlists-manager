@@ -46,6 +46,7 @@ copy_width=1260
 copy_height=380
 ```
 
+- Fixed bug when trying to queue more web radio files.
 - Added a new script (somabox) to listen to somafm.com radio stations through _LoadLocalMenu option. Place it in your $PATH.
 - Added also an option to load radio playlists files (.pls,.m3u, etc...) if you store them in a specific folder, fill in this option in your configuration file:
 ```

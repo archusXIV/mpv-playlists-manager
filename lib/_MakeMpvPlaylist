@@ -28,6 +28,7 @@ _MakeMpvPlaylist() {
                 "${mpvGenOptions_ID[@]}" "$m3uFile" &
             fi
             _WhileMpvIsRunning &
+            _Menu
         ;;
         --local-background)
             cd "$localDir"/"$dir" && {
