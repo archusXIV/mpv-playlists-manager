@@ -23,6 +23,7 @@ done
 wmctrl -r :ACTIVE: -e 5,-1,-1,970,638
 
 VERSION="v.0.3"
+
 url="http://somafm.com/nossl/"
 nowPlaying="NO STATION SELECTED"
 low=64
