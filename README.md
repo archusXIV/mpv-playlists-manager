@@ -39,6 +39,7 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Added a test in _CopyMediaUrl function to check audio availability when pasting links.
 - Added new window size settings in ~/.config/mpm/mpmrc when copying link in web pages.
 ```
 copy_width=1260
