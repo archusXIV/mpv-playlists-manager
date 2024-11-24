@@ -87,7 +87,7 @@ use_somabox="no"
 ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/somabox_v0.3.png)
 - As mentioned above mpv command line tools and terminal interface.
 - ffmpeg, mpv, ytfzf & yt-dlp options can be set in your mpmrc through their respective bash arrays.
-- Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L54) file (change them according to your locales).
+- Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L28) file (change them according to your locales).
 
 ## Using fzf
 - Two methods are offered here:
