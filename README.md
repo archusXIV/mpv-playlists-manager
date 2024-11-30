@@ -42,8 +42,7 @@ source ~/.config/mpm/themerc
 - Fixed bug when changing theme on the fly because of surrounding quotes.
 - Added an option to edit temporary titles in 'View current/default list' (useful to remove weird characters before saving the list).
 - Fixed bug when trying to queue more web radio files.
-- Added a new script (somabox) to listen to somafm.com radio stations through _LoadLocalMenu option. Place it in your $PATH.
-- Added also an option to load radio playlists files (.pls,.m3u, etc...) if you store them in a specific folder, fill in this option in your configuration file:
+- Added an option to load radio playlists files (.pls,.m3u, etc...) if you store them in a specific folder, fill in this option in your configuration file:
 ```
 radio_dir="/path/to/web_radio_dir"
 ```
