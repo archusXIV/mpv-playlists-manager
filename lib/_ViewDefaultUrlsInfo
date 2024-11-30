@@ -46,23 +46,25 @@ _ViewDefaultUrlsInfo() {
                         _MpvOwnsTmpList --default || __getAudioVideo
                     fi
                 ;;
+                e|E) _MpvOwnsTmpList --default || "$MPMEDITOR" "$TITLES" ;;
                 m|M) break ;;
                 p|P)
                     if [[ -f $pidofMpv ]]; then
                         _StartUp
                     else
-                        _MpvOwnsTmpList --default || \
-                        __
-                        read -rsn 1 \
-                        -p "${info}"' Play [A]udio, [V]ideo?: '"${nc}" play
-                        case "$play" in
-                            a|A) _LoadAudioVideo -da ;;
-                            v|V) _LoadAudioVideo -dv ;;
-                            *)
-                                _WrongOption "$play"
-                                break
-                            ;;
-                        esac
+                        _MpvOwnsTmpList --default || {
+                            __
+                            read -rsn 1 \
+                            -p "${info}"' Play [A]udio, [V]ideo?: '"${nc}" play
+                            case "$play" in
+                                a|A) _LoadAudioVideo -da ;;
+                                v|V) _LoadAudioVideo -dv ;;
+                                *)
+                                    _WrongOption "$play"
+                                    break
+                                ;;
+                            esac
+                        }
                     fi
                 ;;
                 r|R)

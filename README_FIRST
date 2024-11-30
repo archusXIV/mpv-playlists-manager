@@ -1,6 +1,6 @@
 Author: Barret E (2021-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.1-6
+mpm version 2.1-7
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -23,13 +23,11 @@ as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
 the directory structure is ok for you.
 
 Changelog:
-------------- !!! ADDED CHANGES IN MPMRC, PLEASE REVIEW YOUR CONFIG FILE !!! -------------
+--------------------------- NO CHANGES IN MPMRC CONFIG FILE ---------------------------
+version 2.1-7 - Fixed bug when changing theme on the fly because of surrounding quotes.
+version 2.1-7 - Added an option to edit temporary titles in 'View current/default list'.
+                (useful to remove weird characters before saving the list)
 version 2.1-6 - Fixed bug when trying to queue more web radio files.
 version 2.1-6 - Added a test in _CopyMediaUrl function to check
                 audio availability when pasting links.
-version 2.1-5 - Added new window size settings in ~/.config/mpm/mpmrc.
-version 2.1-5 - As a gift I provide a new software (somabox) to listen to somafm
-                radio stations through _LoadLocalMenu option. Place it in your $PATH.
-version 2.1-5 - Added also an option to load radio playlists files (.pls,.m3u, etc...)
-                if you store them in a specific folder, fill in this option in your
-                configuration file: radio_dir="/path/to/web_radio_files".
+                

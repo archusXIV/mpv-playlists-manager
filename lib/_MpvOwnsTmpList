@@ -92,7 +92,7 @@ _MpvOwnsTmpList() {
                 *) _WrongOption "$mpvOwnsTmpListOptions" && _Menu ;;
             esac
         }
-        [[ -f $pidofMpv ]] && _StartUp
+        # [[ -f $pidofMpv ]] && _StartUp
     }
 
 }

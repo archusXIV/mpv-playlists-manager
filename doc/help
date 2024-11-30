@@ -1,5 +1,5 @@
 
-    mpm version 2.1-6
+    mpm version 2.1-7
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -48,7 +48,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.1-6::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.1-7::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -238,6 +238,7 @@
         By entering '6' we will get more infos (links & titles). A new prompt appears
         with the same options as in the above menu.
         Note that over 12 links, this board only displays the titles.
+        Editing titles is also possible in case we want to remove weird characters and such.
 
         Since version 1.7-7 we get a prompt when mpv is holding the current list, so we can continue
         listening/watching content or quit mpv and do stuff on the list (remove,save,download etc...)

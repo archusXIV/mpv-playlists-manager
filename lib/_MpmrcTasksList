@@ -13,6 +13,7 @@ _MpmrcTasksList() {
         "parallel_animation" "parallel_conversion"
         "parallel_threads" "quit_after_task" "use_fzf"
         "use_mpvc" "use_parallel" "use_parallel_downloads"
+        "use_somabox"
     )
 
     echo -e "\n ${info}MPMRC SETTINGS QUICK VIEW:${nc}\n"

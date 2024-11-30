@@ -7,8 +7,8 @@ _ViewAudioVideoUrlsInfo() {
     local stars
 
     viewUrlInfoPrompt=(
-        "[M]aim menu," "[A]dd more links," "[D]ownload,"
-        "[P]lay," "[S]ave links/list as," "[R]emove links/list: "
+        "[M]aim menu," "[A]dd links," "[D]ownload," "[E]dit titltes,"
+        "[P]lay," "[S]ave links/list," "[R]emove links/list: "
     )
 
     mpvOwnsInfoPrompt=(
@@ -62,7 +62,7 @@ _ViewAudioVideoUrlsInfo() {
         fi
 
         if [[ $URLS == "$DEFAULT_LIST" ]]; then
-            if [[ $downloadTmpList = default ]]; then
+            if [[ $downloadTmpList == default ]]; then
                 echo " ${info}${mpvOwnsInfoPrompt[*]}${nc}"
             else
                 unset 'viewUrlInfoPrompt[1]'
@@ -86,6 +86,7 @@ _ViewAudioVideoUrlsInfo() {
             case "$audioVideoCommonOptions" in
                 a|A) _CreateAddPlaylist "$arg" ;;
                 d|D) _CreateAddPlaylistActions --download ;;
+                e|E) _MpvOwnsTmpList --list || "$MPMEDITOR" "$TITLES" ;;
                 m|M) _Menu ;;
                 p|P) _CreateAddPlaylistActions --play ;;
                 r|R) _CreateAddPlaylistActions --remove ;;

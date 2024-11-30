@@ -7,6 +7,9 @@ _ChooseTheme() {
 
     clear
     echo -e "\n ${info}Current theme: ${task}$THEME${nc}\n"
+    # we use THEME= because sed will also change
+    # names inside the commented themes list in mpmrc.
+    sed -i "s/THEME=\"${THEME}\"/THEME=${THEME}/" "$MPMRC"
 
     PS3=""$'\n'" ${info}Please choose a theme, [${mtitle}C${info}]ancel: ${nc}"
     select newTheme in $(grep -E '[[:alnum:]])' "$THEMERC" | sed 's/)//;/#/d'); do
@@ -14,8 +17,6 @@ _ChooseTheme() {
             printf '\n%s\n' " ${critical}Selection aborted...${nc}"
             sleep 2; break
         }
-        # we use THEME= because sed will also change
-        # names in the commented themes list in mpmrc.
         sed -i "s/THEME=${THEME}/THEME=${newTheme}/" "$MPMRC"
         . "$MPMRC"
         _Theme "$newTheme"

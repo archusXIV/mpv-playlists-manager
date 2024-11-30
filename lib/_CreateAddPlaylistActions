@@ -5,7 +5,9 @@
 _CreateAddPlaylistActions() {
 
     case "$1" in
-        --add) _MpvOwnsTmpList --list || _CopyMediaUrl ;;
+        --add)
+            _MpvOwnsTmpList --list || _CopyMediaUrl
+        ;;
         --download)
             if [[ -f $pidofMpv || $downloadTmpList == list ]]; then
                 if [[ $arg = '-a' ]]; then _GetAudio -a; else _GetVideo -v; fi
@@ -14,7 +16,9 @@ _CreateAddPlaylistActions() {
                 if [[ $arg == '-a' ]]; then _GetAudio -a; else _GetVideo -v; fi
             fi
         ;;
-        --play) _MpvOwnsTmpList --list || _LoadAudioVideo "$arg" ;;
+        --play)
+            _MpvOwnsTmpList --list || _LoadAudioVideo "$arg"
+        ;;
         --remove)
             if [[ -f $pidofMpv ]]; then
                 _Remove "$arg"
@@ -40,7 +44,9 @@ _CreateAddPlaylistActions() {
                 sleep 5
             fi
         ;;
-        --view) _ViewAudioVideoUrlsInfo "$arg" ;;
+        --view)
+            _ViewAudioVideoUrlsInfo "$arg"
+        ;;
     esac
     
 }
