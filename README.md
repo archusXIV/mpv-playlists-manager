@@ -39,13 +39,6 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
-- Added a test in _CopyMediaUrl function to check audio availability when pasting links.
-- Added new window size settings in ~/.config/mpm/mpmrc when copying link in web pages.
-```
-copy_width=1260
-copy_height=380
-```
-
 - Fixed bug when changing theme on the fly because of surrounding quotes.
 - Added an option to edit temporary titles in 'View current/default list' (useful to remove weird characters before saving the list).
 - Fixed bug when trying to queue more web radio files.
