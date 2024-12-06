@@ -25,6 +25,7 @@ done
 wmctrl -r :ACTIVE: -e 5,-1,-1,980,660
 
 VERSION="v.0.4"
+
 export MPVSOCKET="/tmp/mpvsocket"
 soma_url="http://somafm.com/nossl/"
 nowPlaying="NO STATION SELECTED"
