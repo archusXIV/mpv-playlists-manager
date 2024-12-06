@@ -7,7 +7,7 @@ _CheckParallelDownloads() {
 
     [[ $use_parallel_downloads == yes ]] && {
 
-        [[ $(grep -c -v '^https://www.youtube.com' "$M3UFILE") -ge 1 ]] && {
+        [[ $(grep -c -v '^https://www.youtube.com' "$M3UFILE") -gt 1 ]] && {
             __
             printf '%s\n' \
             " ${critical}There is at least one or more none Youtube links in ${M3UFILE##*/}" \

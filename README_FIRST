@@ -1,6 +1,6 @@
 Author: Barret E (2021-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.1-7
+mpm version 2.1-8
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -24,10 +24,12 @@ the directory structure is ok for you.
 
 Changelog:
 --------------------------- NO CHANGES IN MPMRC CONFIG FILE ---------------------------
+version 2.1-8 - Fixed bug in _CheckParallelDownloads in testing non-youtube links in lists.
+version 2.1-8 - Added an option to record a radio station while listening another one
+                in somabox v.0.4 if streamripper package is installed.
+                Please edit rip_dir variable at the top of the script to make it work.
 version 2.1-7 - Fixed bug when changing theme on the fly because of surrounding quotes.
 version 2.1-7 - Added an option to edit temporary titles in 'View current/default list'.
                 (useful to remove weird characters before saving the list)
-version 2.1-6 - Fixed bug when trying to queue more web radio files.
-version 2.1-6 - Added a test in _CopyMediaUrl function to check
-                audio availability when pasting links.
+
                 

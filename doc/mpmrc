@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 2.1-7)
+# ~/.config/mpm/mpmrc (version 2.1-8)
 
 ########################################################
 #                                                      #
@@ -49,7 +49,7 @@ clipboardCmd=( xclip -o )
 # clipboardCmd=( wl-paste --no-newline )
 
 # somabox is a piece of software also developed by archusXIV and
-# will let you listen to some of the somafm.com radio stations,
+# will let you listen/record to some of the somafm.com radio stations,
 # of course it uses mpv in the background.
 use_somabox="no"
 

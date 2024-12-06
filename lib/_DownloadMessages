@@ -43,7 +43,8 @@ _DownloadMessages() {
         ;;
         --m3u8)
             __
-            printf '%s\n' " ${critical}If you pick a format from a none m3u8 protocol, download will fail " \
+            printf '%s\n' \
+            " ${critical}If you pick a format from a none m3u8 protocol, download will fail " \
             " if ffmpeg is set as yt-dlp downloader in your configuration file." \
             " ${info}Choose a format code for: $(_GetLinkTitle -s)" \
             " eg: 137+251 for merging, hls-1080p, 22 for single:${nc}"

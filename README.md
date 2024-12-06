@@ -39,13 +39,9 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Fixed bug in _CheckParallelDownloads in testing non-youtube links in lists.
 - Fixed bug when changing theme on the fly because of surrounding quotes.
 - Added an option to edit temporary titles in 'View current/default list' (useful to remove weird characters before saving the list).
-- Fixed bug when trying to queue more web radio files.
-- Added an option to load radio playlists files (.pls,.m3u, etc...) if you store them in a specific folder, fill in this option in your configuration file:
-```
-radio_dir="/path/to/web_radio_dir"
-```
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -74,7 +70,7 @@ and change mpmrc setting to 'yes'
 use_somabox="no"
 ```
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/somabox_v0.3.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/somabox_v0.4.png)
 - As mentioned above mpv command line tools and terminal interface.
 - ffmpeg, mpv, ytfzf & yt-dlp options can be set in your mpmrc through their respective bash arrays.
 - Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L63) file (change them according to your locales).
@@ -111,7 +107,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.1-7.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.1-8.png)
 
 
 ```

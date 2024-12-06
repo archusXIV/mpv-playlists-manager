@@ -4,7 +4,7 @@
 # shellcheck source=/dev/null
 # shellcheck disable=SC2154
 _ChooseTheme() {
-
+    
     clear
     echo -e "\n ${info}Current theme: ${task}$THEME${nc}\n"
     # we use THEME= because sed will also change
@@ -22,5 +22,5 @@ _ChooseTheme() {
         _Theme "$newTheme"
         break
     done
-    
+
 }

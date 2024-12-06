@@ -1,15 +1,17 @@
 #!/bin/bash
 
 # original idea: <https://github.com/epitron/scripts/blob/master/somafm>
-# Modified by Barret E <https://github.com/archusXIV>
-# Dependencies: dialog, mpv, wmctrl
+# Modified and extended by Barret E <https://github.com/archusXIV>
+#
+# Dependencies: dialog, mpv, wmctrl, streamripper (optional).
 # It is also provided as third party software in Mpv-Playlists-Manager.
 # <https://github.com/archusXIV/mpv-playlists-manager>
 #
-# somabox let you play chosen channels from <https://somafm.com/>
+# somabox let you play/rip chosen channels from <https://somafm.com/>
 # Add/Remove items from their respective arrays and change the window size
-# using the wmctrl command line below to fit correctly the amount
-# of CHANNELS and stream informations at the bottom.
+# using the wmctrl command line below to correctly fit the amount
+# of CHANNELS and stream informations at the bottom of the box.
+# If streamripper is installed, don't forget to change the rip_dir variable.
 
 for pkg in dialog mpv wmctrl; do
     ! command -v "$pkg" && {
@@ -20,12 +22,14 @@ for pkg in dialog mpv wmctrl; do
 done
 
 # resize the window according to the amount of channels
-wmctrl -r :ACTIVE: -e 5,-1,-1,970,638
+wmctrl -r :ACTIVE: -e 5,-1,-1,980,660
 
-VERSION="v.0.3"
-
-url="http://somafm.com/nossl/"
+VERSION="v.0.4"
+export MPVSOCKET="/tmp/mpvsocket"
+soma_url="http://somafm.com/nossl/"
 nowPlaying="NO STATION SELECTED"
+nowRipping="NO STATION SELECTED"
+rip_dir="$MUZ/streamripper"
 low=64
 medium=130
 high=256
@@ -46,42 +50,43 @@ LIST=(
     "Synphaera Radio" "Featuring the music from an independent record label"
     "ThistleRadio" "Exploring music from Celtic roots and branches"
     "Underground 80s" "Early 80s UK Synthpop and a bit of New Wave"
+    
 )
 
 # keep this one empty to create a blank line between
-# channels and TUNED STATION quality informations
+# channels and TUNED STATION quality informations.
 LIST+=("" "")
 
 # Add/Remove array index [0],[2] etc...
 # use even numbers for the channel name
 declare -A LOWBITRATES=(
-    [${LIST[0]}]="${url}bootliquor${medium}.pls"
-    [${LIST[2]}]="${url}darkzone${medium}.pls"
-    [${LIST[4]}]="${url}deepspaceone${low}.pls"
-    [${LIST[6]}]="${url}dronezone${medium}.pls"
-    [${LIST[8]}]="${url}folkfwd${low}.pls"
-    [${LIST[10]}]="${url}gsclassic${low}.pls"
-    [${LIST[12]}]="${url}missioncontrol${low}.pls"
-    [${LIST[14]}]="${url}sf1033${low}.pls"
-    [${LIST[16]}]="${url}spacestation${low}.pls"
-    [${LIST[18]}]="${url}synphaera${medium}.pls"
-    [${LIST[20]}]="${url}thistle${low}.pls"
-    [${LIST[22]}]="${url}u80s${medium}.pls"
+    [${LIST[0]}]="${soma_url}bootliquor${medium}.pls"
+    [${LIST[2]}]="${soma_url}darkzone${medium}.pls"
+    [${LIST[4]}]="${soma_url}deepspaceone${low}.pls"
+    [${LIST[6]}]="${soma_url}dronezone${medium}.pls"
+    [${LIST[8]}]="${soma_url}folkfwd${low}.pls"
+    [${LIST[10]}]="${soma_url}gsclassic${low}.pls"
+    [${LIST[12]}]="${soma_url}missioncontrol${low}.pls"
+    [${LIST[14]}]="${soma_url}sf1033${low}.pls"
+    [${LIST[16]}]="${soma_url}spacestation${low}.pls"
+    [${LIST[18]}]="${soma_url}synphaera${medium}.pls"
+    [${LIST[20]}]="${soma_url}thistle${low}.pls"
+    [${LIST[22]}]="${soma_url}u80s${medium}.pls"
 )
 
 declare -A HIGHBITRATES=(
-    [${LIST[0]}]="${url}bootliquor${higher}.pls"
-    [${LIST[2]}]="${url}darkzone${high}.pls"
-    [${LIST[4]}]="${url}deepspaceone${medium}.pls"
-    [${LIST[6]}]="${url}dronezone${high}.pls"
-    [${LIST[8]}]="${url}folkfwd${medium}.pls"
-    [${LIST[10]}]="${url}gsclassic${medium}.pls"
-    [${LIST[12]}]="${url}missioncontrol${medium}.pls"
-    [${LIST[14]}]="${url}sf1033${medium}.pls"
-    [${LIST[16]}]="${url}spacestation${medium}.pls"
-    [${LIST[18]}]="${url}synphaera${high}.pls"
-    [${LIST[20]}]="${url}thistle${medium}.pls"
-    [${LIST[22]}]="${url}u80s${high}.pls"
+    [${LIST[0]}]="${soma_url}bootliquor${higher}.pls"
+    [${LIST[2]}]="${soma_url}darkzone${high}.pls"
+    [${LIST[4]}]="${soma_url}deepspaceone${medium}.pls"
+    [${LIST[6]}]="${soma_url}dronezone${high}.pls"
+    [${LIST[8]}]="${soma_url}folkfwd${medium}.pls"
+    [${LIST[10]}]="${soma_url}gsclassic${medium}.pls"
+    [${LIST[12]}]="${soma_url}missioncontrol${medium}.pls"
+    [${LIST[14]}]="${soma_url}sf1033${medium}.pls"
+    [${LIST[16]}]="${soma_url}spacestation${medium}.pls"
+    [${LIST[18]}]="${soma_url}synphaera${high}.pls"
+    [${LIST[20]}]="${soma_url}thistle${medium}.pls"
+    [${LIST[22]}]="${soma_url}u80s${high}.pls"
 )
 
 _main() {
@@ -89,53 +94,83 @@ _main() {
 
         channelChoice=$(
             dialog --stdout --backtitle "SOMABOX $VERSION" \
-            --cancel-label "Exit" --no-shadow \
+            --no-shadow --cancel-label "Exit" \
             --title "SOMAFM CHANNELS LIST" \
-            --menu "Select a radio station:" 0 89 0 \
+            --menu "Select a radio station:" 0 90 0 \
             "${LIST[@]}" \
-            "TUNED STATION:" "${nowPlaying}" \
-            "" "$BITRATES_MSG"
+            "NOW PLAYING:" "${nowPlaying}" \
+            "" "${BITRATES_MSG}" \
+            "NOW RIPPING:" "${nowRipping}" \
+            "" "${RIPPING_MSG}"
         )
 
-        case $? in
-            1|255) clear; _killMpv; exit 0 ;;
-        esac
+        case $? in 1|255) clear; _killMpv; _killStreamripper; exit 0 ;; esac
 
         bitrates=$(
             dialog --stdout --backtitle "SOMABOX $VERSION" \
             --title "AUDIO BITRATES" \
             --menu "Select a bitrate for ${channelChoice}:" 10 50 2 \
-            LOW  "(AAC 64kb)  (MP3 128kb)" \
-            HIGH "(AAC 128kb) (MP3 256/320kb)"
+            LOW  "(AAC 64k / MP3 128k)" \
+            HIGH "(AAC 128k / MP3 256/320k)"
         )
 
-        if [[ $bitrates == 'LOW' ]]; then
-            BITRATES_MSG="quality: LOW (AAC 64kb) (MP3 128kb)"
+        [[ -n $(command -v streamripper) && -n $bitrates ]] && {
+            ripping=$(
+                dialog --stdout --backtitle "SOMABOX $VERSION" \
+                --title "STREAMRIPPER OPTIONS" \
+                --menu "Do you want to record ${channelChoice}?" 10 50 2 \
+                YES  "Rip in selected quality" \
+                NO   "Play selected station instead."
+            )
+            [[ ! -d $rip_dir && $ripping == 'YES' ]] && mkdir -p "$rip_dir"
+        }
+
+        if [[ $bitrates == 'LOW' && $ripping == 'YES' ]]; then
+            nowRipping="${channelChoice}"
+            RIPPING_MSG="Ripping in quality: LOW (AAC 64k / MP3 128k)"
+            _ripStation "${LOWBITRATES[${channelChoice}]}" &
+        elif [[ $bitrates == 'HIGH' && $ripping == 'YES' ]]; then
+            nowRipping="${channelChoice}"
+            RIPPING_MSG="Ripping in quality: HIGH (AAC 128k / MP3 256/320k)"
+            _ripStation "${HIGHBITRATES[${channelChoice}]}" &
+        elif [[ $bitrates == 'LOW' ]]; then
+            nowPlaying="${channelChoice}"
+            BITRATES_MSG="Playing in quality: LOW (AAC 64k / MP3 128k)"
             _mpvOptions "${LOWBITRATES[${channelChoice}]}"
         elif [[ $bitrates == 'HIGH' ]]; then
-            BITRATES_MSG="quality: HIGH (AAC 128kb) (MP3 256/320kb)"
+            nowPlaying="${channelChoice}"
+            BITRATES_MSG="Playing in quality: HIGH (AAC 128k / MP3 256/320k)"
             _mpvOptions "${HIGHBITRATES[${channelChoice}]}"
         else
             continue
         fi
 
-        nowPlaying="${channelChoice}"
-
     done
+}
+
+_killStreamripper() {
+    kill -SIGTERM "$(pgrep -x streamripper)"
+    rm -rf "$rip_dir"/incomplete
+} 2>/dev/null
+
+_ripStation() {
+    _killStreamripper; sleep 0.2
+    streamripper "$*" \
+    -u "FreeAmp/2.x" \
+    -d "$rip_dir" -s >/dev/null 2>&1
 }
 
 _killMpv() { kill -SIGTERM "$(pgrep -x mpv)" 2>/dev/null; }
 
 _mpvOptions() {
-
     _killMpv; sleep 0.2
     mpv \
     --no-config \
+    --idle=no \
     --cache=no \
     --no-terminal \
     --force-window=no \
-    --input-ipc-server='/tmp/mpvsocket' "$*" &
-
+    "${MPVSOCKET}" "$*" &
 }
 
 _main "${@}"

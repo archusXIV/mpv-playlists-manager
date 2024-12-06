@@ -9,12 +9,12 @@ _LoadLocalMenuActions() {
             printf '%s\n' " ${critical}$FILEMANAGER is not installed...!${nc}"
             sleep 3
         else
-            clear;"$FILEMANAGER" "$localDir"
+            clear; "$FILEMANAGER" "$localDir"
         fi
     )
     
     case "$1" in
-        --Single-dir)
+        --single-dir)
             _MpvOwnsTmpList --local || {
                 if [[ $loadLocalMenuOptions == 1 ]]; then
                     localDir="$MUSIC_DIR"; [[ -z $use_mpvc ]] && localMediaType=audio

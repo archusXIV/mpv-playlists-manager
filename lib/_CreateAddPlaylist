@@ -68,9 +68,7 @@ _CreateAddPlaylist() {
             7)  _CreateAddPlaylistActions --remove ;;
             8)  _Menu ;;
             r|R) continue ;;
-            *)
-                _WrongOption "$createAddPlaylistOptions"
-            ;;
+            *)  _WrongOption "$createAddPlaylistOptions" ;;
         esac
 
     done
