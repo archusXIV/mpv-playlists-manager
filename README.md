@@ -40,6 +40,8 @@ source ~/.config/mpm/themerc
 
 ## Changelog:
 - Fixed bug in _CheckParallelDownloads in testing non-youtube links in lists.
+- Added an option to record a radio station while listening another one in somabox v.0.4 if streamripper package is installed.
+                Please edit rip_dir variable at the top of the script to make it work.
 - Fixed bug when changing theme on the fly because of surrounding quotes.
 - Added an option to edit temporary titles in 'View current/default list' (useful to remove weird characters before saving the list).
 
