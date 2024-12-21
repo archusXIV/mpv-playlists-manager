@@ -87,7 +87,7 @@ _MpvOwnsTmpList() {
                 q|Q)
                     kill -SIGTERM "$(_PidOfMpv)" 2>/dev/null
                     localPlaylist=no
-                    _RmMpvTmp && return
+                    _RemoveMpvTmp && return
                 ;;
                 *) _WrongOption "$mpvOwnsTmpListOptions" && _Menu ;;
             esac

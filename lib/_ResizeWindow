@@ -9,7 +9,7 @@ _ResizeWindow() {
             if [[ -n $copy_width && -n $copy_height ]]; then
                 wmctrl -r :ACTIVE: -e 5,-1,-1,"$copy_width","$copy_height"
             else
-                wmctrl -r :ACTIVE: -e 5,-1,-1,"$width","$height"
+                wmctrl -r :ACTIVE: -e 5,-1,-1,1260,380
             fi
         ;;
         -m)

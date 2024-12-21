@@ -39,11 +39,10 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Added a second test in _CheckParallelDownloads in case removed quotes in mpmrc.
 - Fixed bug in _CheckParallelDownloads in testing non-youtube links in lists.
 - Added an option to record a radio station while listening another one in somabox v.0.4 if streamripper package is installed.
                 Please edit rip_dir variable at the top of the script to make it work.
-- Fixed bug when changing theme on the fly because of surrounding quotes.
-- Added an option to edit temporary titles in 'View current/default list' (useful to remove weird characters before saving the list).
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -109,7 +108,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.1-8.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.1-9.png)
 
 
 ```

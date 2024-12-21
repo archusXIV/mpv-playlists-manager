@@ -47,7 +47,7 @@ _MakeMpvPlaylist() {
                 _LoadAudioVideoAdvice
                 find . -type f | sort | sed 's,.*/,,' \
                 | mpv "${mpvGenOptions_X[@]}" --playlist=-
-                _RmMpvTmp
+                _RemoveMpvTmp
             }
         ;;
         --local-dirs)
@@ -74,12 +74,12 @@ _MakeMpvPlaylist() {
         --terminal-audio)
             _LoadAudioVideoAdvice
             mpv "${makeMpvPlaylistAudiOptions[@]}" "$m3uFile"
-            _RmMpvTmp
+            _RemoveMpvTmp
         ;;
         --terminal-video)
             _LoadAudioVideoAdvice
             mpv "${makeMpvPlaylistVideOptions[@]}" "$m3uFile"
-            _RmMpvTmp
+            _RemoveMpvTmp
         ;;
     esac
 

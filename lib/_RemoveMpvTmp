@@ -2,7 +2,7 @@
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
-_RmMpvTmp() {
+_RemoveMpvTmp() {
     mpv_is_running="no"
     rm "$(readlink -f "$NOWPLAYING")" \
     "$SELECTED_URLS1" "$NOWPLAYING" \

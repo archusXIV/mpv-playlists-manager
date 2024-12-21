@@ -29,12 +29,9 @@ VERSION="v.0.4"
 export MPVSOCKET="/tmp/mpvsocket"
 soma_url="http://somafm.com/nossl/"
 nowPlaying="NO STATION SELECTED"
-nowRipping="NO STATION SELECTED"
+nowRipping="$nowPlaying"
 rip_dir="$HOME/Music/streamripper"
-low=64
-medium=130
-high=256
-higher=320
+low=64 medium=130 high=256 higher=320
 
 # Add channels names and descriptions here
 # "channel_name" "description" on each line.
@@ -51,7 +48,6 @@ LIST=(
     "Synphaera Radio" "Featuring the music from an independent record label"
     "ThistleRadio" "Exploring music from Celtic roots and branches"
     "Underground 80s" "Early 80s UK Synthpop and a bit of New Wave"
-    
 )
 
 # keep this one empty to create a blank line between
@@ -128,19 +124,19 @@ _main() {
 
         if [[ $bitrates == 'LOW' && $ripping == 'YES' ]]; then
             nowRipping="${channelChoice}"
-            RIPPING_MSG="Ripping in quality: LOW (AAC 64k / MP3 128k)"
+            RIPPING_MSG="Ripping in LOW quality: (AAC 64k / MP3 128k)"
             _ripStation "${LOWBITRATES[${channelChoice}]}" &
         elif [[ $bitrates == 'HIGH' && $ripping == 'YES' ]]; then
             nowRipping="${channelChoice}"
-            RIPPING_MSG="Ripping in quality: HIGH (AAC 128k / MP3 256/320k)"
+            RIPPING_MSG="Ripping in HIGH quality:(AAC 128k / MP3 256/320k)"
             _ripStation "${HIGHBITRATES[${channelChoice}]}" &
         elif [[ $bitrates == 'LOW' ]]; then
             nowPlaying="${channelChoice}"
-            BITRATES_MSG="Playing in quality: LOW (AAC 64k / MP3 128k)"
+            BITRATES_MSG="Playing in LOW quality: (AAC 64k / MP3 128k)"
             _mpvOptions "${LOWBITRATES[${channelChoice}]}"
         elif [[ $bitrates == 'HIGH' ]]; then
             nowPlaying="${channelChoice}"
-            BITRATES_MSG="Playing in quality: HIGH (AAC 128k / MP3 256/320k)"
+            BITRATES_MSG="Playing in HIGH quality: (AAC 128k / MP3 256/320k)"
             _mpvOptions "${HIGHBITRATES[${channelChoice}]}"
         else
             continue

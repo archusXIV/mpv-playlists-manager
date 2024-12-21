@@ -5,7 +5,7 @@
 _MenuFooter() {
     if [[ $mpv_is_running == yes ]]; then
         kill -SIGTERM "$(pidof -x "$mpvc_tui")" 2>/dev/null
-        _RmMpvTmp
+        _RemoveMpvTmp
         clear; __; __
         echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
         echo -e "                   │              ${info}mpv isn't running anymore, press ${task}R ${info}to refresh the screen${nc}               │"

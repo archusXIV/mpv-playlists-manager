@@ -4,15 +4,15 @@
 # shellcheck disable=SC2154
 _CheckUpdate() {
 
-    local UPD
+    local newVerion
 
     [[ $check_updates == yes ]] && {
-        UPD=$(
+        newVerion=$(
             curl -sL \
             "https://raw.githubusercontent.com/archusXIV/mpv-playlists-manager/main/version"
         )
-        [[ $UPD != "$VERSION" ]] && \
-        printf '%s\n' " ${critical}${b}$UPD available${nb}${nc}"
+        [[ $newVerion != "$VERSION" ]] && \
+        printf '%s\n' " ${critical}${b}$newVerion available${nb}${nc}"
     }
     
 }

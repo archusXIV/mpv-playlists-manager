@@ -1,11 +1,12 @@
 Author: Barret E (2021-24) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.1-8
+mpm version 2.1-9
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
-    fzf, mpvc, ncmpvc (may use socat), GNU parallel, ranger (terminal file manager)
-    ueberzug/ffmpegthumbnailer, w3m, wmctrl, ytfzf
+    dialog, fzf, mpvc, ncmpvc (may use socat), GNU parallel,
+    ranger (terminal file manager), ueberzug/ffmpegthumbnailer,
+    w3m, wmctrl, ytfzf.
 )
 
 Youtube-dl is for now kind of unmaintained so install yt-dlp
@@ -24,12 +25,8 @@ the directory structure is ok for you.
 
 Changelog:
 --------------------------- NO CHANGES IN MPMRC CONFIG FILE ---------------------------
+version 2.1-9 - Added a second test in _CheckParallelDownloads in case removed quotes in mpmrc.
 version 2.1-8 - Fixed bug in _CheckParallelDownloads in testing non-youtube links in lists.
 version 2.1-8 - Added an option to record a radio station while listening another one
                 in somabox v.0.4 if streamripper package is installed.
                 Please edit rip_dir variable at the top of the script to make it work.
-version 2.1-7 - Fixed bug when changing theme on the fly because of surrounding quotes.
-version 2.1-7 - Added an option to edit temporary titles in 'View current/default list'.
-                (useful to remove weird characters before saving the list)
-
-                

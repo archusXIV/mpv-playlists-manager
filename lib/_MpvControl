@@ -33,7 +33,7 @@ _MpvControl() {
             key=q; __mpvControlTests || \
             _PidOfMpv >/dev/null && {
                 kill -SIGTERM "$(_PidOfMpv)"
-                _RmMpvTmp
+                _RemoveMpvTmp
             }
         ;;
         -r)
@@ -43,7 +43,7 @@ _MpvControl() {
                 " ${critical}mpv is running...${task}${key^}${critical} is useless.${nc}"
                 sleep 3
             else
-                _RmMpvTmp
+                _RemoveMpvTmp
             fi
         ;;
         -t)

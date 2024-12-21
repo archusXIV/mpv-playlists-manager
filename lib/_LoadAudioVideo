@@ -8,7 +8,7 @@ _LoadAudioVideo() {
 
     _PidOfMpv >/dev/null && {
         kill -SIGTERM "$(_PidOfMpv)"
-        _RmMpvTmp
+        _RemoveMpvTmp
         sleep 0.5
     }
 

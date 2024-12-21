@@ -22,7 +22,7 @@ _EditMpmConf() {
 
     case "$1" in
         -m) return ;;
-        *)  _Menu ;;
+        * )  _Menu ;;
     esac
 
 }
