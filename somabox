@@ -128,7 +128,7 @@ _main() {
             _ripStation "${LOWBITRATES[${channelChoice}]}" &
         elif [[ $bitrates == 'HIGH' && $ripping == 'YES' ]]; then
             nowRipping="${channelChoice}"
-            RIPPING_MSG="Ripping in HIGH quality:(AAC 128k / MP3 256/320k)"
+            RIPPING_MSG="Ripping in HIGH quality: (AAC 128k / MP3 256/320k)"
             _ripStation "${HIGHBITRATES[${channelChoice}]}" &
         elif [[ $bitrates == 'LOW' ]]; then
             nowPlaying="${channelChoice}"
