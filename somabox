@@ -24,7 +24,7 @@ done
 # resize the window according to the amount of channels
 wmctrl -r :ACTIVE: -e 5,-1,-1,980,660
 
-VERSION="v.0.4"
+VERSION="v.0.5"
 
 export MPVSOCKET="/tmp/mpvsocket"
 soma_url="http://somafm.com/nossl/"

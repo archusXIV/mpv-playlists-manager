@@ -68,10 +68,10 @@ mpvc_tui="<your_mpv_tui_here>"
 - I also provide a new script (somabox) to listen to somafm.com radio stations through option 5). Place it in your $PATH,
 and change mpmrc setting to 'yes'
 ```
-use_somabox="no"
+use_somabox="yes"
 ```
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/somabox_v0.4.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/somabox_v0.5.png)
 - As mentioned above mpv command line tools and terminal interface.
 - ffmpeg, mpv, ytfzf & yt-dlp options can be set in your mpmrc through their respective bash arrays.
 - Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L63) file (change them according to your locales).
