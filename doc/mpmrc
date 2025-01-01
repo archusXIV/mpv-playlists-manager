@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 2.1-9)
+# ~/.config/mpm/mpmrc (version 2.2-0)
 
 ########################################################
 #                                                      #
@@ -19,7 +19,7 @@
 # checking for mpm updates yes/no
 check_updates="yes"
 
-# change the main mpm window size. (the actual size is 1260x738)
+# change the main mpm window size. (recommended size = 1260x738)
 width=1260
 height=738
 # change the window size in the Create/Add {audio,video} menu,
@@ -49,8 +49,9 @@ clipboardCmd=( xclip -o )
 # clipboardCmd=( wl-paste --no-newline )
 
 # somabox is a piece of software also developed by archusXIV and
-# will let you listen/record to some of the somafm.com radio stations,
+# will let you listen to some of the somafm.com radio stations,
 # of course it uses mpv in the background.
+# The dialog package have to be installed to use it.
 use_somabox="no"
 
 ## THESE ARE BY DEFAULT DIRECTORIES USED BY MPM.
@@ -91,6 +92,12 @@ direct_download="no"
 # this takes place only after downloading from a collection playlist.
 # (will appear in main menu)
 quit_after_task="no"
+
+# remove video-ids from files once downloaded.
+# (my_downloaded_file_[hPler19GMlz].mp4)
+# CAUTION: if set to 'yes' already downloaded files with ids will not be
+# downloaded again if ytdlPreset_BR is used (see yt-dlp options at the bottom).
+remove_video_ids="yes"
 
 #####################  GNU PARALLEL OPTIONS #####################
 # Of course the parallel package have to be installed.
@@ -220,7 +227,7 @@ mpvVideoOptions_X=(
 # (not tested elsewhere)
 # take a look at 'man yt-dlp'
 # !!! do not change the name of the array (ytdlPreset_<*>) !!!
-ytdlPreset_BR=( --break-on-existing )
+ytdlPreset_BR=( --break-on-existing ) # related to 'remove_video_ids' option.
 ytdlPreset_DN=( --downloader m3u8:native )
 ytdlPreset_MF=( --merge-output-format mp4 )
 ytdlPreset_DW=( --no-warnings )

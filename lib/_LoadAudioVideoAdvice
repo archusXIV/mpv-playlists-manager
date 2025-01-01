@@ -8,13 +8,5 @@ _LoadAudioVideoAdvice() {
     printf '%s\n' " ${critical}Tip: You may want to put this in your mpv.conf:" \
     " ${info}term-playing-msg='[Tiltle]: \${media-title}'"
     echo -e " ${critical}Otherwise press I in mpv for more infos, or Q to quit mpv.${nc}\n"
-    file="${m3uFile##*/}" file="${file%%.*}"
-
-    if [[ -e $NOWPLAYING ]] || [[ -f "$FZFENQUEUE" ]]; then
-        printf '%s\n' " ${info}Playing: ${file} playlist.${nc}"
-        __
-    else
-        printf '%s\n' " ${info}Playing directory: ${dir}.${nc}"
-        __
-    fi
+    __
 }

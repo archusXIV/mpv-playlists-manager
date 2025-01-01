@@ -10,10 +10,9 @@ _MpmrcTasksList() {
         "copy_height" "copy_width" "default_conversion_format"
         "direct_download" "fzf_preview" "fzf_preview_layout"
         "fzf_preview_size" "keep_none_empty_playlist" "mpvc_tui"
-        "parallel_animation" "parallel_conversion"
-        "parallel_threads" "quit_after_task" "use_fzf"
-        "use_mpvc" "use_parallel" "use_parallel_downloads"
-        "use_somabox"
+        "parallel_animation" "parallel_conversion" "parallel_threads"
+        "quit_after_task" "remove_video_ids" "use_fzf"
+        "use_mpvc" "use_parallel" "use_parallel_downloads" "use_somabox"
     )
 
     echo -e "\n ${info}MPMRC SETTINGS QUICK VIEW:${nc}\n"

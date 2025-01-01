@@ -33,11 +33,11 @@ _GetVideoDownload() {
                 # it seems that only youtube uses merging options
                 if [[ "$code" =~ '+' ]]; then
                     yt-dlp --format "$code" \
-                    --output "$(sed -n '1p' "$TITLES").%(ext)s" \
+                    --output "$(_GetLinkTitle -v).%(ext)s" \
                     "${ytdlPreset_X[@]}" "$url"
                 else
                     yt-dlp --format "$code" \
-                    --output "$(sed -n '1p' "$TITLES").%(ext)s" \
+                    --output "$(_GetLinkTitle -v).%(ext)s" \
                     "${ytdlPreset_NC[@]}" "$url"
                 fi
 

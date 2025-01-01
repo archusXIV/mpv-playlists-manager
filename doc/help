@@ -1,5 +1,5 @@
 
-    mpm version 2.1-9
+    mpm version 2.2-0
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -48,7 +48,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.1-9::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.2-0::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -160,9 +160,12 @@
 
         New in version 2.1-5: radios playlists files can be played in option 8) the fzf package as
         to be installed and use_fzf must be set to 'yes'.
+
         In option 9) somabox in available.
         Somabox is a new script provided to play some of the somafm channels using the dialog package,
         make sure it is installed. You can also use it outside mpm, just place it in you $PATH.
+        If streamripper package is installed, ripping selected stations is available.
+        (Please edit rip_dir variable at the top of the script to make it work.)
 
     6) View default playlist:
 

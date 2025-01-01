@@ -21,15 +21,9 @@ _SelectLocalDir() {
                         _Prompt " ${critical}Play existing playlist?${nc}" || {
                             rm "$FZFENQUEUE"; return
                         }
-                        if [[ $localMediaType == audio ]]; then
-                            _LoadAudioVideo -fa
-                        elif [[ $localMediaType == video ]]; then
-                            _LoadAudioVideo -fv
-                        else
-                            m3uFile="$FZFENQUEUE"
-                            ln -sfr "$m3uFile" "$NOWPLAYING"
-                            _MakeMpvPlaylist --fzf
-                        fi
+                        m3uFile="$FZFENQUEUE"
+                        ln -sfr "$m3uFile" "$NOWPLAYING"
+                        _MakeMpvPlaylist --fzf
                     fi
                     return
                 ;;
@@ -53,11 +47,7 @@ _SelectLocalDir() {
 
         case "$1" in
             -d)
-                if [[ $use_mpvc == yes || $use_mpvc == no ]]; then
-                    _MakeMpvPlaylist --local-background
-                else
-                    _MakeMpvPlaylist --local-foreground
-                fi
+                _MpvcTest -d
                 _Menu
             ;;
             -f)
@@ -65,6 +55,8 @@ _SelectLocalDir() {
                 clear; break
             ;;
         esac
+
+        
 
     done
 

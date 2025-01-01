@@ -39,10 +39,10 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Added an option in mpmrc to enable/disable removal of videos ids (line 100).
+- Fixed bug in _DownloadVideoList function when 'direct_download' is set to no.
+- Simplified _FzfEnqueueOptions and modified _MakeMpvPlaylist --fzf option to handle empty 'use_mpvc' variable value in mpmrc.
 - Added a second test in _CheckParallelDownloads in case removed quotes in mpmrc.
-- Fixed bug in _CheckParallelDownloads in testing non-youtube links in lists.
-- Added an option to record a radio station while listening another one in somabox v.0.4 if streamripper package is installed.
-                Please edit rip_dir variable at the top of the script to make it work.
 
 ## Recent additions
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -108,7 +108,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.1-9.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.2-0.png)
 
 
 ```

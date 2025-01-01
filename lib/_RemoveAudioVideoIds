@@ -4,23 +4,27 @@
 # shellcheck disable=SC2154,SC2001
 _RemoveAudioVideoIds() {
     
-    cd "$mediaDir" && {
-        printf '%s\n' " ${info}renaming files in ${mediaDir##*/}${nc}"
-        sleep 2; clear
-    }
+    if [[ $remove_video_ids == no ]]; then
+        return
+    else
+        cd "$mediaDir" && {
+            printf '%s\n' " ${info}renaming files in ${mediaDir##*/}${nc}"
+            sleep 2; clear
+        }
 
-    mapfile \
-        -t downloadedFiles < <(
-            find . -maxdepth 1 -type f \
-            -regextype egrep -regex '.*(\[|\]).*' \
-            | sed 's,./,,'
-    )
-
-    for file in "${downloadedFiles[@]}"; do
-        mv "$file" \
-        "$(echo "$file" | sed -e 's/ \[.*\]//')"
-    done 2>/dev/null
-
-    unset file downloadedFiles
+        mapfile \
+            -t downloadedFiles < <(
+                find . -maxdepth 1 -type f \
+                -regextype egrep -regex '.*(\[|\]).*' \
+                | sed 's,./,,'
+        )
+    
+        for file in "${downloadedFiles[@]}"; do
+            mv "$file" \
+            "$(echo "$file" | sed -e 's/ \[.*\]//')"
+        done 2>/dev/null
+    
+        unset file downloadedFiles
+    fi
 
 }

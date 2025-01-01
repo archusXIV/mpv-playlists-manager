@@ -38,7 +38,7 @@ _DownloadVideoList() {
 
                     read -r code
                     clear
-                    _DownloadMessages --choose-video
+                    _DownloadMessages --direct-video
 
                     if [[ "$code" =~ '+' ]]; then
                         yt-dlp --format "$code" \

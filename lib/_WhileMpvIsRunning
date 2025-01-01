@@ -7,6 +7,6 @@ _WhileMpvIsRunning() {
     while _PidOfMpv >/dev/null && [[ -e $NOWPLAYING ]]; do
         sleep 1.5
     done
-    localPlaylist=no
+    localPlaylist="no"
     _MenuFooter
 }

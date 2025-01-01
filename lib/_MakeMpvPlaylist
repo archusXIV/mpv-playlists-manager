@@ -19,21 +19,24 @@ _MakeMpvPlaylist() {
     case "$1" in
         --fzf)
             if [[ $localDir == "$radios_dir" ]]; then
-                mpv --no-config --cache=no \
-                --no-terminal --force-window=no \
-                "${mpvGenOptions_SK[@]}" \
-                "${mpvGenOptions_ID[@]}" "$m3uFile" &
+                mpv --no-terminal --force-window=no \
+                "${mpvGenOptions_X[@]}" "$m3uFile" &
+                _WhileMpvIsRunning &
+                _Menu
+            elif [[ $localMediaType =~ audio|video ]]; then
+                clear
+                _LoadAudioVideoAdvice
+                mpv "${mpvGenOptions_X[@]}" "$m3uFile"
             else
-                mpv --no-terminal "${mpvGenOptions_SK[@]}" \
-                "${mpvGenOptions_ID[@]}" "$m3uFile" &
+                mpv --no-terminal "${mpvGenOptions_X[@]}" "$m3uFile" &
+                _WhileMpvIsRunning &
+                _Menu
             fi
-            _WhileMpvIsRunning &
-            _Menu
         ;;
         --local-background)
             cd "$localDir"/"$dir" && {
                 use_mpvc_locally="yes"
-                localPlaylist=yes
+                localPlaylist="yes"
                 echo "local-background" > "$NOWPLAYING"
                 find . -type f | sort | sed 's,.*/,,' \
                 | mpv --no-terminal "${mpvGenOptions_X[@]}" --playlist=- &

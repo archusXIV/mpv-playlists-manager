@@ -27,8 +27,6 @@ _LoadAudioVideo() {
         ;;
         -da) m3uFile="$DEFAULT_LIST"; _MpvcTest -a ;;
         -dv) m3uFile="$DEFAULT_LIST"; _MpvcTest -v ;;
-        -fa) m3uFile="$FZFENQUEUE"; _MpvcTest -a ;;
-        -fv) m3uFile="$FZFENQUEUE"; _MpvcTest -v ;;
         -la) m3uFile="$playlists_dir/$list"; _MpvcTest -a ;;
         -lv) m3uFile="$playlists_dir/$list"; _MpvcTest -v ;;
         -sa) m3uFile="$SELECTED_URLS1"; _MpvcTest -a ;;

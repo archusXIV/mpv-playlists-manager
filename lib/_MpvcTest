@@ -3,13 +3,20 @@
 
 # shellcheck disable=SC2154
 _MpvcTest() {
+    # else use_mpvc=""
     case "$1" in
         -a)
             if [[ $use_mpvc == yes || $use_mpvc == no ]]; then
                 _MakeMpvPlaylist --online-audio
             else
-                # use_mpvc is empty
                 _MakeMpvPlaylist --terminal-audio
+            fi
+        ;;
+        -d)
+            if [[ $use_mpvc == yes || $use_mpvc == no ]]; then
+                _MakeMpvPlaylist --local-background
+            else
+                _MakeMpvPlaylist --local-foreground
             fi
         ;;
         -v)
