@@ -24,7 +24,7 @@ as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
 the directory structure is ok for you.
 
 Changelog:
---------------------------- NO CHANGES IN MPMRC CONFIG FILE ---------------------------
+--------------------------- THERE ARE CHANGES IN MPMRC CONFIG FILE ---------------------------
 version 2.2-0 - Added an option in mpmrc to enable/disable removal of videos ids (line 100).
 version 2.2-0 - Fixed bug in _DownloadVideoList function when 'direct_download' is set to no.
 version 2.2-0 - Simplified _FzfEnqueueOptions and modified _MakeMpvPlaylist --fzf option
