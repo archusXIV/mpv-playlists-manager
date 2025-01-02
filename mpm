@@ -7,7 +7,7 @@
 ##    Everyone is permitted to copy and distribute verbatim copies
 ##    of this license document, but changing it is not allowed.
 ##
-##    Author: Barret E (2021-24) <archus@protonmail.com>
+##    Author: Barret E (2021-25) <archus@protonmail.com>
 ##    https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
 ##    Dependencies: ffmpeg, jq, mpv, yt-dlp.
 ##    Optionals: fzf, parallel, ueberzug, ranger, socat, w3m, wmctrl, ytfzf
@@ -30,7 +30,7 @@ pids=($(pidof -x "$MPM"))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.2-0"
+VERSION="v.2.2-1"
 
 CONF_DIR="$HOME/.config/mpm"
 

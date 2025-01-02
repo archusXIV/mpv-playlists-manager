@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.2-0
+mpm version 2.2-1
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -25,6 +25,8 @@ the directory structure is ok for you.
 
 Changelog:
 --------------------------- THERE ARE CHANGES IN MPMRC CONFIG FILE ---------------------------
+version 2.2-1 - Fixed bug in _CreateAddPlaylistActions function when choosing download from
+                add audio/video as the window is reduced.
 version 2.2-0 - Added an option in mpmrc to enable/disable removal of videos ids (line 100).
 version 2.2-0 - Fixed bug in _DownloadVideoList function when 'direct_download' is set to no.
 version 2.2-0 - Simplified _FzfEnqueueOptions and modified _MakeMpvPlaylist --fzf option

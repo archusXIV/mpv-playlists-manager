@@ -39,6 +39,7 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Fixed bug in _CreateAddPlaylistActions function when choosing download from add audio/video as the window is reduced.
 - Added an option in mpmrc to enable/disable removal of videos ids (line 100).
 - Fixed bug in _DownloadVideoList function when 'direct_download' is set to no.
 - Simplified _FzfEnqueueOptions and modified _MakeMpvPlaylist --fzf option to handle empty 'use_mpvc' variable value in mpmrc.
@@ -108,7 +109,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.2-0.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.2-1.png)
 
 
 ```
