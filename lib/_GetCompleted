@@ -24,8 +24,10 @@ _GetCompleted() {
                 " ${critical}It was a temporary list, don't forget to save it.${nc}"
                 sleep 2
                 _RenameTmpFiles
-                [[ $(awk -F'"' '/use_parallel_downloads=/{print $2}' "$MPMRC") == yes ]] \
-                    && use_parallel_downloads="yes"
+                use_parallel_downloads=$(awk -F'["=]' '/use_parallel_downloads/{print $2}' "$MPMRC")
+                if [[ $use_parallel_downloads == yes ]]; then
+                    use_parallel_downloads="yes"
+                fi
                 _Menu
             }
 

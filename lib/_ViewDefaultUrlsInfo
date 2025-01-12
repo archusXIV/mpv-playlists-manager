@@ -94,7 +94,7 @@ _ViewDefaultUrlsInfo() {
             esac
         done
     else
-        echo " ${critical}There is nothing to do, Default playlist is empty...${nc}"
+        printf '%s\n' " ${critical}There is nothing to do, Default playlist is empty...${nc}"
         sleep 3
     fi
 }

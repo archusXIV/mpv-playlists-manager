@@ -65,8 +65,7 @@ _SearchYoutubeWithFzf() {
     }
 
     clear
-    __
-    printf '%s\n' " ${info}Links added to $Type list, please wait...${nc}"
+    printf '\n%s\n' " ${info}Links added to $Type list, please wait...${nc}"
 
     while read -r line; do
 

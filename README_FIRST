@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.2-1
+mpm version 2.2-2
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -24,11 +24,10 @@ as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
 the directory structure is ok for you.
 
 Changelog:
---------------------------- THERE ARE CHANGES IN MPMRC CONFIG FILE ---------------------------
-version 2.2-1 - Fixed bug in _CreateAddPlaylistActions function when choosing download from
-                add audio/video as the window is reduced.
-version 2.2-0 - Added an option in mpmrc to enable/disable removal of videos ids (line 100).
-version 2.2-0 - Fixed bug in _DownloadVideoList function when 'direct_download' is set to no.
-version 2.2-0 - Simplified _FzfEnqueueOptions and modified _MakeMpvPlaylist --fzf option
-                to handle empty 'use_mpvc' variable value in mpmrc.
-version 2.1-9 - Added a second test in _CheckParallelDownloads in case removed quotes in mpmrc.
+---------------------------------- NO CHANGES IN MPMRC CONFIG FILE ----------------------------------
+version 2.2-2 - somabox new version v.0.6 (move it in your $PATH)
+version 2.2-2 - Added a cancel option when choosing save/remove a playlist.
+version 2.2-2 - the parallel method to get youtube playlists links/titles is preferred over ytfzf
+                because of the weak reliabily of its maintenance even if it is prioritized for searching videos.
+version 2.2-2 - Added an option to edit titles from the collection playlists in _Edit{My}Playlist functions.
+version 2.2-2 - Revomed some sed replacements by pure bash substitution syntax.

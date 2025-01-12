@@ -25,7 +25,7 @@ _GetMediaTitle() {
         ;;
     esac
 
-    if command -v parallel >/dev/null; then
+    if _Has parallel; then
         grep '^https' "$listFile" \
         | parallel --tagstring '{#}' --lb -j0 \
         yt-dlp --get-title --no-warnings --ignore-errors \

@@ -14,7 +14,7 @@ _CheckDependencies() {
     )
 
     for dep in "${DEPS[@]:0:4}"; do
-        command -v "$dep" >/dev/null || {
+        _Has "$dep" || {
             printf '%s\n' " $dep isn 't installed,...exiting!"
             notify-send -t 0 -u critical "$dep isn 't installed,...exiting!"
             exit 127
@@ -22,7 +22,7 @@ _CheckDependencies() {
     done
 
     for opt in "${DEPS[@]:4:16}"; do
-        command -v "$opt" >/dev/null || {
+        _Has "$opt" || {
             printf '%s\n' " ${critical}For better experience, consider installing $opt." \
             " Some functionalities might be unavailable...${nc}"
             sleep 5
@@ -35,21 +35,8 @@ _CheckDependencies() {
         printf '%s\n' " Variable main_dir in mpmrc is not defined...exiting!!!"
         exit 1
     }
-
-    __createSubdirs() (
-        [[ ! -d $audios_dir ]] && mkdir --parents "$audios_dir"
-        [[ ! -d $playlists_dir ]] && mkdir --parents "$playlists_dir"
-        [[ ! -d $titles_dir ]] && mkdir --parents "$titles_dir"
-        [[ ! -d $tmp_dir ]] && mkdir --parents "$tmp_dir"
-        [[ ! -d $videos_dir ]] && mkdir --parents "$videos_dir"
-    ) 2>/dev/null
-
-    if [[ ! -d $main_dir ]]; then
-        mkdir --parents "$main_dir"
-        __createSubdirs
-    else
-        __createSubdirs
-    fi
+    
+    mkdir --parents {"$main_dir","$playlists_dir","$titles_dir","$tmp_dir","$audios_dir","$videos_dir"}
 
     cp -f /usr/local/share/doc/mpm/mpm_yt-videos.m3u "$playlists_dir"
     cp -f /usr/local/share/doc/mpm/mpm_yt-videos.m3u.titles "$titles_dir"

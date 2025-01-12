@@ -6,9 +6,9 @@ _ManualsMenu() {
 
     local wmctrlCmd ytfzfCmd mpvTui
 
-    [[ -z $(command -v wmctrl) ]] && wmctrlCmd="${critical}wmctrl${nc}" \
+    ! _Has wmctrl && wmctrlCmd="${critical}wmctrl${nc}" \
         || wmctrlCmd="wmctrl"
-    [[ -z $(command -v ytfzf) ]] && ytfzfCmd="${critical}ytfzf${nc}" \
+    ! _Has ytfzf && ytfzfCmd="${critical}ytfzf${nc}" \
         || ytfzfCmd="ytfzf"
     [[ -z $mpvc_tui_cheatsheet ]] && mpvTui="${critical}Mpv TUI shortcuts${nc}" \
         || mpvTui="Mpv TUI shortcuts"

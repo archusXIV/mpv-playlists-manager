@@ -18,10 +18,10 @@ _GetYoutubePlaylistUrls() {
     case "$1" in
         -a|-v)
             playlist="$mediaUrl"
-            if [[ -n $(command -v ytfzf) && $use_fzf == yes ]]; then
-                _GetYoutubePlaylistUrlsMethods --ytfzf 2>/dev/null
-            elif [[ -n $(command -v parallel) && $use_parallel == yes ]]; then
+            if _Has parallel && [[ $use_parallel == yes ]]; then
                 _GetYoutubePlaylistUrlsMethods --parallel
+            elif _Has ytfzf && [[ $use_fzf == yes ]]; then
+                _GetYoutubePlaylistUrlsMethods --ytfzf 2>/dev/null
             else
                 _GetYoutubePlaylistUrlsMethods --native
             fi
@@ -33,10 +33,10 @@ _GetYoutubePlaylistUrls() {
             for url in "${ytSearchList[@]}"; do
                 playlist="$url"
                 __getYoutubePlaylistUrlsInfo
-                if [[ -n $(command -v ytfzf) && $use_fzf == yes ]]; then
-                    _GetYoutubePlaylistUrlsMethods --ytfzf 2>/dev/null
-                elif [[ -n $(command -v parallel) && $use_parallel == yes ]]; then
+                if _Has parallel && [[ $use_parallel == yes ]]; then
                     _GetYoutubePlaylistUrlsMethods --parallel
+                elif _Has ytfzf && [[ $use_fzf == yes ]]; then
+                    _GetYoutubePlaylistUrlsMethods --ytfzf 2>/dev/null
                 else
                     _GetYoutubePlaylistUrlsMethods --native
                 fi
@@ -47,7 +47,7 @@ _GetYoutubePlaylistUrls() {
         ;;
     esac
 
-    rm {"$YTSEARCH","$YTFZFJSON","$tmp_dir"/playlist.{m3u,titles,titles_urls,txt}} 2>/dev/null
+    rm {"$YTSEARCH","$YTFZFJSON","$tmp_dir"/playlist.{m3u,titles,txt}} 2>/dev/null
     rm -rf "$HOME"/.parallel 2>/dev/null
 
     _RemoveCrap

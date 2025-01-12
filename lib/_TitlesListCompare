@@ -13,7 +13,8 @@ _TitlesListCompare() {
     if [[ -s $titlesFile ]]; then
 
         [[ $(grep "" -c "$titlesFile") -ne $(_GetLinesList -l) ]] && {
-            printf '\n%s\n' " ${critical}${titlesFile} is out of date...${nc}" \
+            __
+            printf '%s\n' " ${critical}${titlesFile} is out of date...${nc}" \
             " ${task}${b}Updating $(_GetLinesList -l) titles...please wait.${nb}${nc}"
             _GetMediaTitle -l
             clear
@@ -42,8 +43,7 @@ _TitlesListCompare() {
                 esac
             ;;
             -l)
-                __
-                echo -e " ${info}Titles for $list${nc}\n"
+                echo -e "\n ${info}Titles for $list${nc}\n"
                 nl "$titlesFile"; __
             ;;
         esac
@@ -52,8 +52,7 @@ _TitlesListCompare() {
         printf '%s\n' " ${critical}${titlesFile} does not exist or empty...${nc}" \
         " ${task}${b}Getting $(_GetLinesList -l) titles...please wait.${nb}${nc}"
         touch "$titlesFile"; sleep 2; _GetMediaTitle -l; clear
-        __
-        echo -e " ${info}Titles for $list.${nc}\n"
+        echo -e "\n ${info}Titles for $list.${nc}\n"
         nl "$titlesFile"
         __
     fi

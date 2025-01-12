@@ -16,25 +16,23 @@ _ConvertAudio() {
     mapfile -t webmFiles < <(find . -iname "*.webm")
 
     if [[ -n $default_conversion_format ]]; then
-        printf '\n%s\n' \
-        " ${info}Conversion format set to $default_conversion_format."
-        printf '\n%s\n' \
-        " Converting files in ${task}${b}$default_conversion_format...${nb}"
         __
-        if [[ -n $(command -v parallel) \
-            && $use_parallel == yes \
-            && $parallel_conversion == yes ]]; then
+        printf '%s\n' \
+        " ${info}Conversion format set to $default_conversion_format." \
+        " Converting files in ${task}${b}$default_conversion_format...${nb}"
+        if _Has parallel && [[ $use_parallel == yes && $parallel_conversion == yes ]]; then
             _ParallelConversion --parallel-default
-        elif [[ -n $(command -v xargs) && $parallel_conversion == yes ]]; then
+        elif _Has xargs && [[ $parallel_conversion == yes ]]; then
             _ParallelConversion --xargs-default
         else
-            printf '%s\n' " Parallel conversion disabled, please be patient.${nc}"
+            printf '\n%s\n' " Parallel conversion disabled, please be patient.${nc}"
             _ConvertAudio_"$default_conversion_format"
             printf '\n%s\n' " ${info}Conversion done.${nc}"
             sleep 2
         fi
     else
-        printf '\n%s\n' " ${critical}Conversion format isn't set..." \
+        __
+        printf '%s\n' " ${critical}Conversion format isn't set..." \
         " make sure audio codecs/plugins are installed." \
         " ${info}(Press Enter to abort conversion)${nc}"
         declare -A formats=(
@@ -53,11 +51,9 @@ _ConvertAudio() {
                 printf '\n%s\n' \
                 " ${info}Converting files in ${task}${b}${formats[${REPLY}]}...${nb}"
                 __
-                if [[ -n $(command -v parallel) \
-                    && $use_parallel == yes \
-                    && $parallel_conversion == yes ]]; then
+                if _Has parallel && [[ $use_parallel == yes && $parallel_conversion == yes ]]; then
                     _ParallelConversion --parallel-chosen
-                elif [[ -n $(command -v xargs) && $parallel_conversion == yes ]]; then
+                elif _Has xargs && [[ $parallel_conversion == yes ]]; then
                     _ParallelConversion --xargs-chosen
                 else
                     printf '%s\n' " Parallel conversion disabled, please be patient.${nc}"
@@ -69,7 +65,8 @@ _ConvertAudio() {
             *)
                 find "$audios_dir" -maxdepth 2 -name "*.webm" >/dev/null && {
                     mv ./*.webm "$MUSIC_DIR"
-                    printf '\n%s\n' " ${critical}Conversion aborted or wrong option," \
+                    __
+                    printf '%s\n' " ${critical}Conversion aborted or wrong option," \
                     " All .webm files have been moved in $MUSIC_DIR.${nc}"
                     sleep 4
                     __

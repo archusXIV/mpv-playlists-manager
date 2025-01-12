@@ -5,7 +5,7 @@
 _LoadLocalMenuActions() {
 
     __isFileManagerInstalled() (
-        if ! command -v "$FILEMANAGER" >/dev/null; then
+        if ! _Has "$FILEMANAGER"; then
             printf '%s\n' " ${critical}$FILEMANAGER is not installed...!${nc}"
             sleep 3
         else
@@ -23,6 +23,8 @@ _LoadLocalMenuActions() {
             [[ -z $use_mpvc ]] && localMediaType=video
         fi
     }
+
+    # _MpvOwnsTmpList --local test if the player owns the tmp local playlist before going futher.
     
     case "$1" in
         --explore)
@@ -37,7 +39,7 @@ _LoadLocalMenuActions() {
                 elif [[ $loadLocalMenuOptions == 4 ]]; then
                     __settingLoadLocalVars -v
                 fi
-                if [[ -n $(command -v fzf) && $use_fzf = yes ]]; then
+                if _Has fzf && [[ $use_fzf == yes ]]; then
                     clear; __; _SelectLocalDir -f; _Menu
                 else
                     __isFileManagerInstalled
@@ -47,8 +49,7 @@ _LoadLocalMenuActions() {
         --multiple-dirs)
             _MpvOwnsTmpList --local || {
                 read -rsn 1 \
-                    -p " ${info}Queue multiple [A]udio or [V]ideo directories: ${nc}" \
-                    diranswer
+                -p " ${info}Queue multiple [A]udio or [V]ideo directories: ${nc}" diranswer
                 case "$diranswer" in
                     a|A) __settingLoadLocalVars -a ;;
                     v|V) __settingLoadLocalVars -v ;;
@@ -61,17 +62,16 @@ _LoadLocalMenuActions() {
             _MpvOwnsTmpList --local || {
                 if [[ -n $radios_dir ]]; then
                     localDir="$radios_dir"
-                    if [[ -n $(command -v fzf) && $use_fzf == yes ]]; then
+                    if _Has fzf && [[ $use_fzf == yes ]]; then
                         fzf_preview=(cat)
                         clear; __; _FzfEnqueue
                     else
                         printf '%s\n' \
-                            " ${critical}The fzf package isn't installed, or use_fzf is set to 'no'.${nc}"
+                        " ${critical}The fzf package isn't installed, or use_fzf is set to 'no'.${nc}"
                         sleep 4; return
                     fi
                 else
-                    printf '%s\n' \
-                        " ${critical}radios_dir isn't defined in mpmrc.${nc}"
+                    printf '%s\n' " ${critical}radios_dir isn't defined in mpmrc.${nc}"
                     sleep 3; __isFileManagerInstalled
                 fi
             }
@@ -90,7 +90,7 @@ _LoadLocalMenuActions() {
             }
         ;;
         --somabox)
-            if [[ -n $(command -v somabox) && $use_somabox == yes ]]; then
+            if _Has somabox && [[ $use_somabox == yes ]]; then
                 _MpvOwnsTmpList --local || somabox
             else
                 __

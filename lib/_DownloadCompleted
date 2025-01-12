@@ -13,6 +13,7 @@ _DownloadCompleted() {
             "$list" "$list"_origin
             "$titles_dir"/"$list".titles "$titles_dir"/"$list".titles_origin
             "$SELECTED_URLS1" "$SELECTED_URLS2"
+            "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
         )
 
         if [[ $(_GetLinesList -l) -gt 0 ]]; then
@@ -22,7 +23,7 @@ _DownloadCompleted() {
             else
                 echo -e " ${critical}keep_none_empty_playlist is set to 'no'.${nc}\n"
                 _Prompt \
-                " ${info}Downloads completed but $list is not empty, do you want to KEEP it?:${nc}" || {
+                " ${info}Downloads are completed but $list is not empty, do you want to KEEP it?:${nc}" || {
                     rm -f "${FILES[@]}" 2>/dev/null
                     printf '%s\n' " ${critical}$list removed...${nc}"
                     sleep 3
@@ -32,7 +33,7 @@ _DownloadCompleted() {
             fi
         else
             __
-            printf '%s\n' " ${info}Downloads completed," \
+            printf '%s\n' " ${info}Downloads completed." \
             " ${critical}$list is empty... $list removed.${nc}"
             sleep 3
             rm -f "${FILES[@]}" 2>/dev/null

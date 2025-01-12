@@ -5,7 +5,7 @@
 _MpvControl() {
     
     __mpvControlTests() {
-        ! command -v socat >/dev/null && {
+        ! _Has socat && {
             printf '%s\n' \
             " ${critical}socat must be installed to control mpv.${nc}"
             sleep 4

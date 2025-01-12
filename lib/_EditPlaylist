@@ -7,70 +7,42 @@ _EditPlaylist() {
     clear
     cd "$playlists_dir" || exit 1
 
+    if [[ $editoption == yes ]]; then
+        _EditPlaylistOptions
+        clear
+        _LaunchMpm "${@}"
+    fi
+
     while true; do
         __
         PS3=""$'\n'" ${info}Choose a playlist to edit, [${mtitle}C${info}]ancel: ${nc}"
 
         select list in $(find "$playlists_dir" -not -name "default.m3u" -name "*.m3u" \
-            -o -name "*.m3u_origin" | sort -d | sed 's,.*/,,'); do
+            -o -name "*_origin" | sort -d | sed 's,.*/,,'); do
 
             [[ $REPLY =~ [a-zA-Z] ]] && {
                 printf '\n%s\n' " ${critical}Selection aborted.${nc}"
                 sleep 2
                 return
             }
-            __
-            read -rsn 1 -p \
-            " ${info}[E]dit urls manually, re[N]ame playlist, [R]emove titles:${nc} " \
-            editPlaylistOptions
-            __
-            case "$editPlaylistOptions" in
-                e|E)
-                    "$MPMEDITOR" "$list"
-                    echo -e " ${info}$list saved${nc}\n"
-                    [[ $(grep "" -c "$titles_dir/$list.titles") \
-                    -ne $(_GetLinesList -l) ]] && _TitlesListCompare -l
-                ;;
-                n|N)
-                    __
-                    read -r -p " ${info}Enter a new name for ${list%%.*}: ${nc}" newname
-                    mv "$list" "$newname".m3u
-                    mv "$titles_dir/$list.titles" "$titles_dir/$newname.m3u.titles"
-                    _ReplaceSpaces -s
-                    printf '\n%s\n' " ${critical}${list%%.*} renamed as $newname.${nc}"
-                    sleep 2
-                ;;
-                r|R)
-                    clear; local editPlaylist=yes
-                    _TitlesListCompare -l
-                    _GetRange
-                    _UpdateSelected -e
-                ;;
-                *)
-                    _WrongOption "$editPlaylistOptions"; break
-                ;;
-            esac
-
-            if [[ $editoption == yes ]]; then
-                read -rsn 1 \
-                -p "${info} [E]dit another file, [N]o thanks.${nc}" editAgainOptions
-                case "$editAgainOptions" in
-                    e|E) break ;;
-                    n|N) editoption=no; __; _LaunchMpm "${@}" ;;
-                    *) __; _WrongOption "$editAgainOptions"; break ;;
-                esac
-            else
+            clear
+            _EditPlaylistOptions
+            if [[ $editPlaylistOptions =~ n|N|r|R|t|T|u|U ]]; then
+                __
                 read -rsn 1 \
                 -p "${info} [E]dit another file, [B]ack to menu.${nc}" editAgainOptions
-                __
                 case "$editAgainOptions" in
-                    e|E) break ;;
+                    e|E) clear; break ;;
                     b|B) _Menu ;;
-                    *) __; _WrongOption "$editAgainOptions"; break ;;
+                    *  ) _WrongOption "$editAgainOptions"; break ;;
                 esac
+                unset editAgainOptions
+            else
+                break
             fi
-            unset editAgainOptions
+
         done
 
     done
+    
 }

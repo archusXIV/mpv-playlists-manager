@@ -3,7 +3,5 @@
 
 # shellcheck disable=SC2154
 _TestParallelCommand() {
-    [[ -n $(command -v parallel) \
-        && $use_parallel == yes \
-        && $use_parallel_downloads == yes ]]
+    _Has parallel && [[ $use_parallel == yes && $use_parallel_downloads == yes ]]
 }

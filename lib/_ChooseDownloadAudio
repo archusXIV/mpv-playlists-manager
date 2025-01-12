@@ -14,11 +14,10 @@ _ChooseDownloadAudio() {
     cp -f "$playlists_dir"/"$list" "$playlists_dir"/"$list"_origin
     cp -f "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
 
-    mkdir --parents "$audios_dir"/"${list%.*}"
-    mediaDir="$audios_dir"/"${list%.*}"
-
+    mediaDir="$audios_dir/${list%.*}"
+    mkdir --parents "$mediaDir"
     cd "$mediaDir" || {
-        printf '%s\n' \
+        printf '\n%s\n' \
         " ${critical}Failed to access ${mediaDir##*/} directory.${nc}"
         sleep 4
         _Menu
@@ -30,8 +29,8 @@ _ChooseDownloadAudio() {
     animationTitles="$SELECTED_TITLES"
 
     __chooseDownloadAudioFormat() (
-        printf '\n%s\n' " ${info}Choose a format code for: $(_GetLinkTitle -s)${nc}"
-        read -r code
+        __
+        read -rp "${info}Choose a format code for $(_GetLinkTitle -s)${nc}: " code
         clear
         _DownloadMessages --choose-audio
         yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
@@ -77,7 +76,7 @@ _ChooseDownloadAudio() {
 
     _UpdateSelected -u
     clear
-    echo -e " ${info}Done${nc}\n"
+    printf '\n%s\n' " ${info}All done${nc}"
     sleep 2
     _IfWebmFiles
 }

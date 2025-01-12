@@ -24,14 +24,20 @@ done
 # resize the window according to the amount of channels
 wmctrl -r :ACTIVE: -e 5,-1,-1,980,660
 
-VERSION="v.0.5"
+VERSION="v.0.6"
 
 export MPVSOCKET="/tmp/mpvsocket"
 soma_url="http://somafm.com/nossl/"
 nowPlaying="NO STATION SELECTED"
 nowRipping="$nowPlaying"
-rip_dir="$HOME/Music/streamripper"
+rip_dir="$MUZ/streamripper"
 low=64 medium=130 high=256 higher=320
+
+if [[ -n $(command -v streamripper) ]]; then
+    select="PLAY/RIP SELECTED"
+else
+    select="PLAY SELECTED"
+fi
 
 # Add channels names and descriptions here
 # "channel_name" "description" on each line.
@@ -51,7 +57,7 @@ LIST=(
 )
 
 # keep this one empty to create a blank line between
-# channels and TUNED STATION quality informations.
+# channels and tuned station quality informations.
 LIST+=("" "")
 
 # Add/Remove array index [0],[2] etc...
@@ -91,8 +97,8 @@ _main() {
 
         channelChoice=$(
             dialog --stdout --backtitle "SOMABOX $VERSION" \
-            --no-shadow --cancel-label "Exit" \
-            --title "SOMAFM CHANNELS LIST" \
+            --ok-label "$select" --cancel-label "QUIT SOMABOX" \
+            --title "SOMAFM CHANNELS LIST" --no-shadow \
             --menu "Select a radio station:" 0 90 0 \
             "${LIST[@]}" \
             "NOW PLAYING:" "${nowPlaying}" \
@@ -119,7 +125,7 @@ _main() {
                 YES  "Rip in selected quality" \
                 NO   "Play selected station instead."
             )
-            [[ ! -d $rip_dir && $ripping == 'YES' ]] && mkdir -p "$rip_dir"
+            [[ ! -d $rip_dir && $ripping == 'YES' ]] && mkdir --parents "$rip_dir"
         }
 
         if [[ $bitrates == 'LOW' && $ripping == 'YES' ]]; then

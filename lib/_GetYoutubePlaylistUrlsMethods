@@ -6,32 +6,29 @@ _GetYoutubePlaylistUrlsMethods() {
 
     __teeAppendTitles() ( tee -a "$TITLES" >> "$DEFAULT_TITLES"; )
     __teeAppendUrls() ( tee -a "$DEFAULT_LIST" >> "$URLS"; )
-
+    
     case "$1" in
         --native)
             yt-dlp "${ytdlPreset_DW[@]}" -j "$playlist" \
             | jq --raw-output '(.webpage_url, .title)' \
-            >> "$tmp_dir"/playlist.titles_urls
-            grep -v '^https' "$tmp_dir"/playlist.titles_urls | __teeAppendTitles
-            grep '^https' "$tmp_dir"/playlist.titles_urls | __teeAppendUrls
+            | tee >(grep -v '^https' | __teeAppendTitles) >(grep '^https' | __teeAppendUrls)
         ;;
         --parallel)
             cd "$tmp_dir" && {
-                yt-dlp --flat-playlist "$playlist" \
+                yt-dlp --no-warnings --flat-playlist "$playlist" \
                 | parallel --tagstring '{#}' --lb -j0 \
                 yt-dlp --get-title --get-id --ignore-errors --no-warnings \
                 --playlist-start '{#}' --playlist-end '{#}' "$playlist" \
                 > playlist.txt
 
                 sort -ns playlist.txt | tee -a playlist.m3u >> playlist.titles
-                sed -i '
+                sed -i -e '
                     s/^[[:digit:]]*//;
                     s/^\s//;
                     s/^/https:\/\/www.youtube.com\/watch?v=/;1~2d
                 ' playlist.m3u
-
                 __teeAppendUrls < playlist.m3u
-                sed -i 's/^[[:digit:]]*//;s/^\s//;2~2d' playlist.titles
+                sed -i -e 's/^[[:digit:]]*//;s/^\s//;2~2d' playlist.titles
                 __teeAppendTitles < playlist.titles
             }
         ;;

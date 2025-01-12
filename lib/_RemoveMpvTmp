@@ -4,8 +4,7 @@
 # shellcheck disable=SC2154,SC2034
 _RemoveMpvTmp() {
     mpv_is_running="no"
-    rm "$(readlink -f "$NOWPLAYING")" \
-    "$SELECTED_URLS1" "$NOWPLAYING" \
+    rm "$(readlink -f "$NOWPLAYING")" "$SELECTED_URLS1" "$NOWPLAYING" \
     "$FZFENQUEUE" "$pidofMpv" "$LOCALDIRS_LIST" 2>/dev/null
     unset m3uFile
 }

@@ -11,4 +11,3 @@ _GetLinesList() {
     esac
     [[ -s $FILE ]] && grep -c '^https' "$FILE"
 }
-

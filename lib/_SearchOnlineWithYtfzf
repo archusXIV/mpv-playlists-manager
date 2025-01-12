@@ -37,7 +37,7 @@ _SearchOnlineWithYtfzf() {
     test ! -s "$YTFZFJSON" && {
         rm "$YTFZFJSON"
         printf '%s\n' \
-        " ${Critical}Nothing copied, back in SEARCH ONLINE ${Type^^} OPTIONS${nc}"
+        " ${Critical}Nothing was scraped, back in SEARCH ONLINE ${Type^^} OPTIONS${nc}"
         sleep 3; clear
         return
     }

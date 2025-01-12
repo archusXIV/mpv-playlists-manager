@@ -16,7 +16,7 @@ _FzfEnqueue() {
     _ResizeWindow -m
     rm ./fzfEnqueue.m3u 2>/dev/null
 
-    ! command -v "$fzf_preview" && fzf_preview=(file -N -i --)
+    _Has "$fzf_preview" || fzf_preview=(file -N -i --)
 
     command ls "$localDir"/"$dir" | sed '/fzfEnqueue.m3u/d' \
     | fzf --multi --reverse --pointer '<>' --scroll-off=5 --no-scrollbar \

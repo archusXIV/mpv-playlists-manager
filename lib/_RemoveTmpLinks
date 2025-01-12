@@ -23,15 +23,23 @@ _RemoveTmpLinks() {
             if [[ $tmpList = "$DEFAULT_LIST" ]]; then
                 if (($(grep -c '^https' "$DEFAULT_LIST") > 25)); then
                     sed -i '1s/^/#EXTM3U\n/' "$DEFAULT_LIST"
-                    __abortDeletionMessage; unset IFS range; _Menu
+                    __abortDeletionMessage
+                    unset IFS range
+                    _Menu
                 else
-                    __abortDeletionMessage; unset IFS range; return
+                    __abortDeletionMessage
+                    unset IFS range
+                    return
                 fi
             else
                 if (($(grep -c '^https' "$tmpList") > 25)); then
-                    __abortDeletionMessage; unset IFS range; _CreateAddPlaylist "$arg"
+                    __abortDeletionMessage
+                    unset IFS range
+                    _CreateAddPlaylist "$arg"
                 else
-                    __abortDeletionMessage; unset IFS range; return
+                    __abortDeletionMessage
+                    unset IFS range
+                    return
                 fi
             fi
 

@@ -60,4 +60,3 @@ _DownloadMessages() {
         ;;
     esac
 }
-

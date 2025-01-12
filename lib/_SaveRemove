@@ -4,53 +4,56 @@
 # shellcheck disable=SC2154
 _SaveRemove() {
 
-    cd "$playlists_dir" || exit 1
+    cd "$playlists_dir" && {
+        COLLECTION=$(
+            find . -not -name "default.m3u" -name "*.m3u" | sort -d | sed 's,.*/,,'
+        )
+    }
 
-    saveRemovePrompts=( "[${mtitle}C${info}]ancel," "Save [D]efault," "Save [A]udio," \
-                        "Save [V]ideo," "[R]emove a playlist." )
-
-    if [[ -f $AUDIO_URLS ]] && [[ -f $VIDEO_URLS ]]; then
+    promptsList=(
+        "[${mtitle}C${info}]ancel,"
+        "Save [D]efault,"
+        "Save [A]udio,"
+        "Save [V]ideo,"
+        "[R]emove a collection playlist."
+    )
+    
+    if [[ -s $AUDIO_URLS ]] && [[ -s $VIDEO_URLS ]]; then
 
         if (( $(_GetLinesList -d) < 1 )); then
-            unset 'saveRemovePrompts[1]'
-            echo " ${info}${saveRemovePrompts[*]}${nc}"
-            __
+            unset 'promptsList[1]'
+            echo -e "\n ${info}${promptsList[*]}${nc}"
         else
-            echo " ${info}${saveRemovePrompts[*]}${nc}"
-            __
+            echo -e "\n ${info}${promptsList[*]}${nc}"
         fi
 
-    elif [[ -f $AUDIO_URLS ]]; then
+    elif [[ -s $AUDIO_URLS ]]; then
 
         if (( $(_GetLinesList -d) < 1 )); then
-            unset {saveRemovePrompts[1],saveRemovePrompts[3]}
-            echo " ${info}${saveRemovePrompts[*]}${nc}"
+            unset {promptsList[1],promptsList[3]}
+            echo -e "\n ${info}${promptsList[*]}${nc}"
         else
-            unset 'saveRemovePrompts[3]'
-            echo " ${info}${saveRemovePrompts[*]}${nc}"
-            __
+            unset 'promptsList[3]'
+            echo -e "\n ${info}${promptsList[*]}${nc}"
         fi
 
-    elif [[ -f $VIDEO_URLS ]]; then
+    elif [[ -s $VIDEO_URLS ]]; then
 
         if (( $(_GetLinesList -d) < 1 )); then
-            unset {saveRemovePrompts[1],saveRemovePrompts[2]}
-            echo " ${info}${saveRemovePrompts[*]}${nc}"
+            unset {promptsList[1],promptsList[2]}
+            echo -e "\n ${info}${promptsList[*]}${nc}"
         else
-            unset 'saveRemovePrompts[2]'
-            echo " ${info}${saveRemovePrompts[*]}${nc}"
-            __
+            unset 'promptsList[2]'
+            echo -e "\n ${info}${promptsList[*]}${nc}"
         fi
 
     elif (( $(_GetLinesList -d) < 1 )); then
-        echo -e " ${critical}Nothing to save, maybe remove something?${nc}\n"
-        unset {saveRemovePrompts[1],saveRemovePrompts[2],saveRemovePrompts[3]}
-        echo " ${info}${saveRemovePrompts[*]}${nc}"
-        __
+        echo " ${critical}Nothing to save, maybe remove something?${nc}"
+        unset {promptsList[1],promptsList[2],promptsList[3]}
+        echo -e "\n ${info}${promptsList[*]}${nc}"
     else
-        unset {saveRemovePrompts[2],saveRemovePrompts[3]}
-        echo " ${info}${saveRemovePrompts[*]}${nc}"
-        __
+        unset {promptsList[2],promptsList[3]}
+        echo -e "\n ${info}${promptsList[*]}${nc}"
     fi
 
     read -rsn 1 saveRemoveOptions
@@ -63,11 +66,11 @@ _SaveRemove() {
         ;;
         r|R)
             clear; __
-            PS3=""$'\n'" ${info}Choose a playlist to remove:${nc} "
+            PS3=""$'\n'" ${info}Choose a playlist to remove, [${mtitle}C${info}]ancel :${nc} "
             __
-            select m3ufile in $(find "$playlists_dir" -not -name "default.m3u" \
-                -name "*.m3u" -o -name "*.m3u_origin" \
-                | sort -d | sed 's,.*/,,'); do
+            select m3ufile in ${COLLECTION}; do
+                
+                [[ $REPLY =~ [a-zA-Z] ]] && break
                 [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ temporarySelection|"$m3ufile" ]] && {
                     __
                     printf '%s\n' " ${critical}$m3ufile is owned by mpv...retry later.${nc}"
@@ -92,5 +95,5 @@ _SaveRemove() {
         v|V) _Save -v ;;
         *) _WrongOption "$saveRemoveOptions" ;;
     esac
-    _Menu
+    
 }

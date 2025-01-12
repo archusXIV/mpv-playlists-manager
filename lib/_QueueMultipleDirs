@@ -17,8 +17,7 @@ _QueueMultipleDirs() {
 
     rm "$mpv_list" 2>/dev/null
 
-    find ./ -maxdepth 1 -type d -empty \
-    | sort | sed 's,.*/,,' >> "$tmp_dir"/empty.tmp
+    find ./ -maxdepth 1 -type d -empty | sort | sed 's,.*/,,' >> "$tmp_dir"/empty.tmp
 
     if [[ -s $tmp_dir/empty.tmp ]]; then
         # empty dirs will be banned from our list 
@@ -32,8 +31,7 @@ _QueueMultipleDirs() {
     fi
 
     rm "$tmp_dir"/{dirlist,empty}.tmp 2>/dev/null
-    __
-    printf '%s\n' " ${info}Directories in ${localDir##*/}: ${nc}"
+    printf '\n%s\n' " ${info}Directories in ${localDir##*/}: ${nc}"
     __; nl "$dirlist"; __
 
     IFS=", "; read -ra selected_dirs -p "$RANGEPROMPT"
@@ -43,8 +41,7 @@ _QueueMultipleDirs() {
         [[ $range =~ [[:alpha:]] ]] && {
             unset IFS range
             rm "$dirlist"
-            __
-            printf '%s\n' " ${critical}Selection aborted.${nc}"
+            printf '\n%s\n' " ${critical}Selection aborted.${nc}"
             sleep 2
             return
         }

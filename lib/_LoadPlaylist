@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2044,SC2001
+# shellcheck disable=SC2154,SC2044
 _LoadPlaylist() {
 
     cd "$playlists_dir" || exit 1
@@ -9,7 +9,7 @@ _LoadPlaylist() {
     local list titlesFile
 
     for lst in $(find . -type f -name "*_origin"); do
-        mv "$lst" "$(echo "$lst" | sed 's/_origin//')"
+        mv -f "$lst" "${lst//_origin/}"
     done
 
     clear
@@ -29,11 +29,11 @@ _LoadPlaylist() {
 
         titlesFile="$titles_dir/$list.titles"
         clear
+        printf '\n%s\n' \
+        " ${info}Choose an option for: ${list%%.*//_/} ${nc}($(grep -c '^https' "$list") urls)"
         __
-        printf '%s\n' \
-        " ${info}Choose an option for: $(echo "${list%%.*}" | sed 's/_/ /g') ${nc}($(grep -c '^https' "$list") urls)"
-        __
-        read -rsn 1 -p " ${info}[1] Download/Play, [2] View titles: ${nc}" loadPlaylistOptions
+        read -rsn 1 -p " ${info}[1] Download/Play, [2] View titles, [${mtitle}C${info}]ancel: ${nc}" \
+        loadPlaylistOptions
         __
         case "$loadPlaylistOptions" in
             1)
@@ -60,6 +60,7 @@ _LoadPlaylist() {
                     ;;
                 esac
             ;;
+            c|C) break ;;
             *)
                 _WrongOption "$loadPlaylistOptions"
                 return

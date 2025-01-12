@@ -7,9 +7,7 @@ _SaveCheck() {
     cd "$playlists_dir" || exit 1
 
     local listTotal
-    listTotal=$(
-        find . -not -name "default.m3u*" -name "*.m3u" | wc -l
-    )
+    listTotal=$(find . -not -name "default.m3u*" -name "*.m3u" | wc -l)
 
     __listAlreadyExists() (
         __
@@ -30,7 +28,7 @@ _SaveCheck() {
     __
     printf '%s\n' " ${critical}Tip: If you want to add links to an existing playlist," \
     " just select it and answer NO to the overwrite question," \
-    " you can now add your links by entering ${task}'a'${nc}"
+    " then you can add your links by typing ${task}'a'${nc}"
     __
     PS3=""$'\n'" ${info}Type ${task}$((listTotal + 1)) ${info}to create a new playlist, [${mtitle}C${info}]ancel: ${nc}"
     select list in $(find . -not -name "default.m3u*" -name "*.m3u" \

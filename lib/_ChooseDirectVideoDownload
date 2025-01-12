@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2076,SC2154,SC2034,SC2015
+# shellcheck disable=SC2076,SC2154,SC2034
 _ChooseDirectVideoDownload() {
 
     local counter animationTitles
@@ -13,8 +13,9 @@ _ChooseDirectVideoDownload() {
     clear
     cp -f "$list" "$list"_origin
     cp -f "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
-    mkdir --parents "$mediaDir" && cd "$mediaDir"|| {
-        printf '%s\n' \
+    mkdir --parents "$mediaDir"
+    cd "$mediaDir"|| {
+        printf '\n%s\n' \
         " ${critical}Failed to access ${mediaDir##*/} directory.${nc}"
         sleep 4
         _Menu
@@ -52,10 +53,8 @@ _ChooseDirectVideoDownload() {
     unset url
     _RemoveAudioVideoIds
     _UpdateSelected -u
-    
-    printf '%s\n' " ${info}All done${nc}"
+    printf '\n%s\n' " ${info}All done${nc}"
     sleep 2
-
     _DownloadCompleted
 
 }

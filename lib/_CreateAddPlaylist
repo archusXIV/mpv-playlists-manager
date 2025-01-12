@@ -32,7 +32,7 @@ _CreateAddPlaylist() {
     file="${URLS##*/}" file="${file%%.*}"
 
     __clipboardCmdTest() {
-        [[ -n $(command -v "${clipboardCmd[0]}") && -n "${clipboardCmd[*]}" ]]
+        _Has "${clipboardCmd[0]}" && [[ -n "${clipboardCmd[*]}" ]]
     }
 
     while true; do

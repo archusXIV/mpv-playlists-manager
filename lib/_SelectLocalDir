@@ -34,8 +34,9 @@ _SelectLocalDir() {
 
         ! find -L ./"$dir" -maxdepth 1 -type f -exec file --mime-type {} + \
         | grep -qE '[aA]udio|[vV]ideo' && {
-            printf '\n%s\n' " ${critical}$dir doesn't contain supported formats by mpv" \
-            " or audio/video files may be in a subdirectories.${nc}"
+            __
+            printf '%s\n' " ${critical}$dir doesn't contain supported formats by mpv" \
+            " or audio/video files are in a subdirectories.${nc}"
             __
             _Prompt " ${info}Do you want to open $dir to fix this issue?${nc}" || {
                 continue

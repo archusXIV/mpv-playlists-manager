@@ -66,13 +66,13 @@ _ViewAudioVideoUrlsInfo() {
                 echo " ${info}${mpvOwnsInfoPrompt[*]}${nc}"
             else
                 unset 'viewUrlInfoPrompt[1]'
-                echo "${info}" "${viewUrlInfoPrompt[*]}" "${nc}"
+                echo "${info} ${viewUrlInfoPrompt[*]}${nc}"
             fi
         else
             if [[ $downloadTmpList == list ]]; then
-                echo " ${info}${mpvOwnsInfoPrompt[*]}${nc}"
+                echo " ${info} ${mpvOwnsInfoPrompt[*]}${nc}"
             else
-                echo "${info}" "${viewUrlInfoPrompt[@]}" "${nc}"
+                echo "${info} ${viewUrlInfoPrompt[*]}${nc}"
             fi
         fi
 

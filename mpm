@@ -30,7 +30,7 @@ pids=($(pidof -x "$MPM"))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.2-1"
+VERSION="v.2.2-2"
 
 CONF_DIR="$HOME/.config/mpm"
 
@@ -82,6 +82,8 @@ fi
 __() { printf '\n'; }
 
 _PidOfMpv() { pgrep -x mpv; }
+
+_Has() { command -v "$1" &>/dev/null; }
 
 # global variables
 AUDIO_URLS="$tmp_dir/temporaryAudioUrls.m3u"

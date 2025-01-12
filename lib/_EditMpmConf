@@ -8,7 +8,6 @@ _EditMpmConf() {
     local theme
 
     $MPMEDITOR "$MPMRC"; . "$MPMRC"
-    printf '%s\n' " ${info}mpm config saved! New changes actives.${nc}"
 
     if [[ -z $THEME ]]; then
         theme="default"; nc=$'\e[0m'; critical=$'\e[31m';
@@ -18,6 +17,7 @@ _EditMpmConf() {
         _Theme "$THEME"
     fi
 
+    printf '%s\n' " ${info}mpm config saved! New changes actives.${nc}"
     sleep 2
 
     case "$1" in

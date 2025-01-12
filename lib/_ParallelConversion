@@ -15,8 +15,7 @@ _ParallelConversion() {
     __xargsMethod() (
         printf '%s\n' " ${info}use_parallel is set to no... using xargs.${nc}"
         find . -iname "*.webm" | xargs -I % -P 5 \
-        ffmpeg -hide_banner -loglevel error \
-        -y -i % %."$1"
+        ffmpeg -hide_banner -loglevel error -y -i % %."$1"
     )
 
     case "$1" in
@@ -26,15 +25,16 @@ _ParallelConversion() {
         --xargs-chosen    ) __xargsMethod "${formats[${REPLY}]}" ;;
     esac
     
-    # now let's clean the suffix of our converted files (.webm.{aac,mp3,flac,ogg,wav})
+    # removing the primary suffix from our converted files (.webm.{aac,mp3,flac,ogg,wav})
     find . -maxdepth 1 -type f -name "*.webm.*" -exec \
     bash -c '
-        for dot in "$@"; do
-            n="${dot##*/}"
-            mv -n "$dot" "${dot%/*}/${n//.webm/}"
+        for ext in "$@"; do
+            n="${ext##*/}"
+            mv -n "$ext" "${ext%/*}/${n//.webm/}"
         done >/dev/null 2>&1
     ' dummy {} +
 
     printf '\n%s\n' " ${info}Conversion done.${nc}"
     sleep 2
+    
 }

@@ -5,7 +5,17 @@
 _DownloadVideoList() {
 
     _TitlesListCompare
+
     local counter mediaDir
+    
+    mediaDir="$videos_dir/${list%.*}"
+    mkdir --parents "$mediaDir"
+    cd "$mediaDir" || {
+        printf '\n%s\n' \
+        " ${critical}Failed to access ${mediaDir##*/} directory.${nc}"
+        sleep 4
+        _Menu
+    }
 
     if [[ $direct_download = yes ]]; then
         clear
@@ -22,8 +32,6 @@ _DownloadVideoList() {
                 clear
                 cp -f "$playlists_dir"/"$list" "$playlists_dir"/"$list"_origin
                 cp -f "$titles_dir"/"$list".titles "$titles_dir"/"$list".titles_origin
-                mediaDir="$videos_dir"/"${list%.*}"
-                mkdir --parents "$mediaDir" && cd "$mediaDir"
 
                 mapfile -t SELECTED_CODES < <(grep '^https' "$playlists_dir"/"$list")
                 counter="${#SELECTED_CODES[@]}"
