@@ -30,8 +30,14 @@ cd mpv-playlists-manager
 chmod +x install.sh
 sudo ./install.sh
 ```
+# Dependencies
+- [ffmpeg](https://ffmpeg.org/) [jq](https://stedolan.github.io/jq/) [mpv](https://mpv.io/) [socat](http://www.dest-unreach.org/socat/) (to control mpv) [vim](https://www.vim.org/) (or any terminal text editor) [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
-## can be launch also from these commands
+# Optionals
+(recommanded for better experience)
+- [fzf](https://github.com/junegunn/fzf) [ytfzf](https://github.com/pystardust/ytfzf) [mpvc](https://github.com/lwilletts/mpvc) [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc) [parallel](https://www.gnu.org/software/parallel/) [ranger](https://github.com/ranger/ranger) (or any terminal file manager [ueberzug](https://github.com/ueber-devel/ueberzug) [ffmpegthumbnailer](https://github.com/dirkvdb/ffmpegthumbnailer) [wmctrl](https://github.com/dancor/wmctrl) [youtube-dl](https://github.com/ytdl-org/youtube-dl)
+
+## mpm can be launched also with these commands:
 
 ```
 mpm -c|--config   # edit mpm config
@@ -166,25 +172,6 @@ FILEMANAGER="ranger"
 ```
 
 Requests and contributions? Why not, have fun.
-
-# Dependencies
-- [ffmpeg](https://ffmpeg.org/)
-- [jq](https://stedolan.github.io/jq/)
-- [mpv](https://mpv.io/)
-- [socat](http://www.dest-unreach.org/socat/) (to control mpv)
-- [vim](https://www.vim.org/) (or any terminal text editor)
-- [yt-dlp](https://github.com/yt-dlp/yt-dlp)
-
-# Optionals
-(recommanded for better experience)
-- [fzf](https://github.com/junegunn/fzf), [ytfzf](https://github.com/pystardust/ytfzf)
-- [mpvc](https://github.com/lwilletts/mpvc) [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc)
-- [parallel](https://www.gnu.org/software/parallel/)
-- [ranger](https://github.com/ranger/ranger) (see the help option for details)
-- [ueberzug](https://github.com/ueber-devel/ueberzug) (might be in your distro's repo)
-- [w3m](https://w3m.sourceforge.net/) (to display thumbnails in URxvt/xterm)
-- [wmctrl](https://github.com/dancor/wmctrl)
-- [youtube-dl](https://github.com/ytdl-org/youtube-dl)
 
 ## Credits
 I would like to thanks all the devs that put their great work in the softwares I use and that I have implemented in this project and especially mister Brian Jhan Fox the father of the Bourne-Again SHell, even if I don't always use it the right way.
