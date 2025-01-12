@@ -17,6 +17,20 @@ and many more options to control mpv, ffmpeg, yt-dlp and download/playlists dire
 
 [Youtube dedicated channel](https://www.youtube.com/@mpv-playlists-manager-mv8sh/featured)
 
+# Installation
+Run the install.sh script as root, by default /usr/local/bin /usr/local/lib are the
+respective destinations.
+The install script will detect if mpm is already installed and in that case the prompt will be: [R]emove or [U]pgrade mpm? 
+
+Otherwise the simple install function will run and create ~/.config/mpm/{mpmrc,themerc} files.
+- Please check the [README_FIRST](https://github.com/archusXIV/mpv-playlists-manager/blob/main/README_FIRST) before first run.
+```
+git clone https://github.com/archusXIV/mpv-playlists-manager.git
+cd mpv-playlists-manager
+chmod +x install.sh
+sudo ./install.sh
+```
+
 ## can be launch also from these commands
 
 ```
@@ -172,18 +186,5 @@ Requests and contributions? Why not, have fun.
 - [wmctrl](https://github.com/dancor/wmctrl)
 - [youtube-dl](https://github.com/ytdl-org/youtube-dl)
 
-# Installation
-Run the install.sh script as root, by default /usr/local/bin /usr/local/lib are the
-respective destinations.
-The install script will detect if mpm is already installed and in that case the prompt will be: [R]emove or [U]pgrade mpm? 
-
-Otherwise the simple install function will run and create ~/.config/mpm/{mpmrc,themerc} files.
-- Please check the [README_FIRST](https://github.com/archusXIV/mpv-playlists-manager/blob/main/README_FIRST) before first run.
-```
-git clone https://github.com/archusXIV/mpv-playlists-manager.git
-cd mpv-playlists-manager
-chmod +x install.sh
-sudo ./install.sh
-```
 ## Credits
 I would like to thanks all the devs that put their great work in the softwares I use and that I have implemented in this project and especially mister Brian Jhan Fox the father of the Bourne-Again SHell, even if I don't always use it the right way.
