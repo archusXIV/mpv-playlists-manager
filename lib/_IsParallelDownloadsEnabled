@@ -1,0 +1,10 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_IsParallelDownloadsEnabled() {
+	use_parallel_downloads=$(awk -F'["=]' '/use_parallel_downloads/{print $2}' "$MPMRC")
+    if [[ $use_parallel_downloads == yes ]]; then
+        use_parallel_downloads="yes"
+    fi
+}

@@ -11,7 +11,6 @@ _RenameTmpFiles() {
     )
 
     for f in "${tmpFiles[@]}"; do
-        [[ ! -f $f ]] && continue
         mv -f "$f"_origin "$f"
     done 2>/dev/null
 
