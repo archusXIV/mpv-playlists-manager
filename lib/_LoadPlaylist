@@ -42,7 +42,7 @@ _LoadPlaylist() {
             2)
                 clear
 
-                if [[ -f "$titlesFile" && $(grep "" -c "$titlesFile") -gt 25 ]]; then
+                if [[ $(grep "" -c "$titlesFile") -gt 25 ]]; then
                     _TitlesListCompare -g
                 else
                     _TitlesListCompare -l

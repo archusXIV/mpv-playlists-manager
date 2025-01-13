@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2001,SC2034
+# shellcheck disable=SC2154,SC2001
 _CopyMediaUrl() {
 
     local mediaUrl
@@ -14,18 +14,17 @@ _CopyMediaUrl() {
     fi
 
     if [[ $mediaUrl =~ 'playlist?list=' ]]; then
-        printf '\n%s\n' " ${info}Getting titles & links from playlist: $(\
-        yt-dlp "${ytdlPreset_DW[@]}" -J --flat-playlist "$mediaUrl" \
-        | jq --raw-output .title)..." \
-        "${b} Please be patient.${nb}${nc}"
+        printf '\n%s\n' \
+        " ${info}Getting titles & links from playlist: $(\
+            yt-dlp "${ytdlPreset_DW[@]}" -J --flat-playlist "$mediaUrl" \
+            | jq --raw-output .title)..." "${b} Please be patient.${nb}${nc}"
         _GetYoutubePlaylistUrls "$arg"
     else
         mediaUrl=$(echo "$mediaUrl" | sed 's/&list=.*//')
         printf '\n%s\n' " ${info}Testing url...${nc}"
         if [[ $mediaUrl =~ ^https ]]; then
-            yt-dlp --print formats_table "$mediaUrl" > "$tmp_dir"/urltest 2>&1
+            yt-dlp --print formats_table "$mediaUrl" > "$tmp_dir"/urltest
             if grep -qw 'ERROR' "$tmp_dir"/urltest; then
-                rm "$tmp_dir"/urltest 2>/dev/null
                 printf '%s\n' " ${critical}${b}Unsupported url!${nb}"\
                 " $mediaUrl removed..." \
                 " ${info}Please visit: $supportedSites${nc}"
@@ -38,8 +37,7 @@ _CopyMediaUrl() {
                 fi
                 echo "$mediaUrl" | tee -a "$URLS" >> "$DEFAULT_LIST"
                 printf '%s\n' " ${info}Getting ${Type} title...${nc}"
-                yt-dlp --skip-download --get-title \
-                "${ytdlPreset_DW[@]}" "$mediaUrl" \
+                yt-dlp --skip-download --get-title "${ytdlPreset_DW[@]}" "$mediaUrl" \
                 | tee -a "$TITLES" >> "$DEFAULT_TITLES"
                 _RemoveCrap; clear; _IfDuplicatesFiles
             fi
@@ -48,5 +46,6 @@ _CopyMediaUrl() {
             sleep 2
         fi
     fi
+    rm "$tmp_dir"/urltest 2>/dev/null
 
 }

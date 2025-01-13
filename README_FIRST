@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.2-2
+mpm version 2.2-3
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -25,6 +25,8 @@ the directory structure is ok for you.
 
 Changelog:
 ---------------------------------- NO CHANGES IN MPMRC CONFIG FILE ----------------------------------
+version 2.2-3 - Fixed bug in _ChooseFromPlay function when testing user input.
+version 2.2-3 - Simplified some code here and there
 version 2.2-2 - somabox new version v.0.6 (move it in your $PATH)
 version 2.2-2 - Added a cancel option when choosing save/remove a playlist.
 version 2.2-2 - the parallel method to get youtube playlists links/titles is preferred over ytfzf

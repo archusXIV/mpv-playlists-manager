@@ -14,7 +14,7 @@ _ParallelConversion() {
 
     __xargsMethod() (
         printf '%s\n' " ${info}use_parallel is set to no... using xargs.${nc}"
-        find . -iname "*.webm" | xargs -I % -P 5 \
+        find . -iname "*.webm" | xargs -I % -P "$parallel_threads" \
         ffmpeg -hide_banner -loglevel error -y -i % %."$1"
     )
 

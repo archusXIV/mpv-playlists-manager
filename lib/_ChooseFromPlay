@@ -7,8 +7,7 @@ _ChooseFromPlay() {
     clear
     _TitlesListCompare -l
 
-    read -rsn 1 \
-    -p " ${info}[${mtitle}C${info}]ancel, Play all as [A]udio, [V]ideo or ${b}[S]elect items:${nb}${nc}" \
+    read -rsn 1 -p " ${info}[${mtitle}C${info}]ancel, Play all as [A]udio, [V]ideo or ${b}[S]elect items:${nb}${nc}" \
     chooseFromPlayOptions
 
     case "$chooseFromPlayOptions" in
@@ -22,9 +21,9 @@ _ChooseFromPlay() {
             rm "$SELECTED_TITLES" 2>/dev/null
             __
             read -rsn 1 -p " ${info}load [A]udio, [V]ideo: ${nc}" loadOptions
-            if [[ $loadOption =~ a|A ]]; then
+            if [[ $loadOptions =~ a|A ]]; then
                 _LoadAudioVideo -sa
-            elif [[ $loadOption =~ v|V ]]; then
+            elif [[ $loadOptions =~ v|V ]]; then
                 _LoadAudioVideo -sv
             else
                 _WrongOption "$loadOptions"

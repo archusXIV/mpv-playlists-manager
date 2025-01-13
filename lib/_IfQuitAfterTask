@@ -17,8 +17,6 @@ _IfQuitAfterTask() {
                     clear
                     exit 0
                 fi
-            # we have to test if use_parallel_downloads is set to yes in mpmrc,
-            # because we might have changed it in the middle of the session.
             else
                 _IsParallelDownloadsEnabled
                 _Menu

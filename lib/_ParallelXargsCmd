@@ -19,28 +19,18 @@ _ParallelXargsCmd() {
     )
 
     case "$1" in
-        --choose-audio)
-            grep '^https' "$M3UFILE" | xargs -I '{}' -P 5 \
+        --choose-audio|--get-audio)
+            grep '^https' "$M3UFILE" | xargs -I '{}' -P 4 \
             yt-dlp --format bestaudio/best "${ytdlPreset_NC[@]}" {}
             __sedRemoveAll
         ;;
-        --choose-video)
-            grep '^https' "$M3UFILE" | xargs -I '{}' -P 4 \
+        --choose-video|--get-video)
+            grep '^https' "$M3UFILE" | xargs -I '{}' -P 3 \
             yt-dlp --format bestvideo+bestaudio/best "${ytdlPreset_X[@]}" {}
             __sedRemoveAll
         ;;
         --direct-video)
-            grep '^https' "$playlists_dir"/"$list" | xargs -I '{}' -P 4 \
-            yt-dlp --format bestvideo+bestaudio/best "${ytdlPreset_X[@]}" {}
-            __sedRemoveAll
-        ;;
-        --get-audio)
-            grep '^https' "$M3UFILE" | xargs -I '{}' -P 5 \
-            yt-dlp --format bestaudio/best "${ytdlPreset_NC[@]}" {}
-            __sedRemoveAll
-        ;;
-        --get-video)
-            grep '^https' "$M3UFILE" | xargs -I '{}' -P 4 \
+            grep '^https' "$playlists_dir"/"$list" | xargs -I '{}' -P 3 \
             yt-dlp --format bestvideo+bestaudio/best "${ytdlPreset_X[@]}" {}
             __sedRemoveAll
         ;;

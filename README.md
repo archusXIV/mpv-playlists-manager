@@ -59,6 +59,8 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Fixed bug in _ChooseFromPlay function when testing user input.
+- Simplified some code here and there
 - somabox new version v.0.6 (move it in your $PATH).
 - Added a cancel option when choosing save/remove a playlist.
 - the parallel method to get youtube playlists links/titles is preferred over ytfzf because of the weak reliabily of its maintenance even if it is prioritized for searching videos.
@@ -129,7 +131,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.2-2.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.2-3.png)
 
 
 ```

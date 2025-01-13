@@ -1,11 +1,11 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2076,SC2034
+# shellcheck disable=SC2154,SC2034
 _CheckParallelDownloads() {
     clear
     
-    if grep -qE 'use_parallel_downloads="yes"|use_parallel_downloads=yes' "$MPMRC"; then
+    if [[ $(awk -F'["=]' '/use_parallel_downloads/{print $2}' "$MPMRC") == yes ]]; then
         [[ $(grep -c -v '^https://www.youtube.com' "$M3UFILE") -gt 1 ]] && {
             __
             printf '%s\n' \
@@ -20,5 +20,5 @@ _CheckParallelDownloads() {
             }
         }
     fi
-        
+    
 }

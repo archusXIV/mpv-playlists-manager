@@ -3,6 +3,8 @@
 
 # shellcheck disable=SC2154
 _IsParallelDownloadsEnabled() {
+    # we have to test if use_parallel_downloads is set to yes in mpmrc,
+    # because we might have changed it in the middle of the session.
 	use_parallel_downloads=$(awk -F'["=]' '/use_parallel_downloads/{print $2}' "$MPMRC")
     if [[ $use_parallel_downloads == yes ]]; then
         use_parallel_downloads="yes"

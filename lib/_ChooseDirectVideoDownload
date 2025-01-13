@@ -5,8 +5,6 @@
 _ChooseDirectVideoDownload() {
 
     local counter animationTitles
-    clear
-    cd "$playlists_dir" || exit 1
     _TitlesListCompare -l
     _GetRange
 
