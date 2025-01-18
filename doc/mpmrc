@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 2.2-3)
+# ~/.config/mpm/mpmrc (version 2.2-4)
 
 ########################################################
 #                                                      #
@@ -19,14 +19,15 @@
 # checking for mpm updates yes/no
 check_updates="yes"
 
-# change the main mpm window size. (recommended size = 1260x738)
-width=1260
-height=738
+# change the main mpm window size. (recommended size = 124x33)
+# whereas width is the number of columns and height the number of lines.
+width=124
+height=32
 # change the window size in the Create/Add {audio,video} menu,
 # to prevent the terminal from taking up too much space
 # on the web page when copying links.
-copy_width=1260
-copy_height=380
+copy_width=124
+copy_height=16
 
 # edit your own theme in "$XDG_CONFIG_HOME"/mpm/themerc.
 # apply your prefered colorscheme...
@@ -233,6 +234,11 @@ ytdlPreset_MF=( --merge-output-format mp4 )
 ytdlPreset_DW=( --no-warnings )
 ytdlPreset_DP=( --progress )
 ytdlPreset_FS=( --compat-options filename-sanitization )
+# Number of Results to display in fzf when searching youtube.
+# don't be greedy, queries between 30 and 50 are recommended.
+# !!! don't include this preset in ytdlPreset_NC or ytdlPreset_X arrays !!!
+ytdlPreset_NR=( 40 )
+
 # downloader without multiple format codes
 ytdlPreset_NC=(
     "${ytdlPreset_BR[@]}"

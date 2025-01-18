@@ -30,7 +30,7 @@ pids=($(pidof -x "$MPM"))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.2-3"
+VERSION="v.2.2-4"
 
 CONF_DIR="$HOME/.config/mpm"
 

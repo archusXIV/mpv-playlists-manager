@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2076,SC2034
 _DirectVideoDownload() {
 
-    local counter animationTitles mediaDir
+    local counter animationTitles
 
     cp -f "$playlists_dir"/"$list" "$playlists_dir"/"$list"_origin
     cp -f "$titles_dir"/"$list".titles "$titles_dir"/"$list".titles_origin

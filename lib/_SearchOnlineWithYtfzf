@@ -26,8 +26,6 @@ _SearchOnlineWithYtfzf() {
             -I VJ -c peertube "${ytfzfOptions_X[@]}" "$request$*" >> "$YTFZFJSON"
         ;;
         -y)
-            ytfzf --show-thumbnails \
-            -I VJ -c youtube "${ytfzfOptions_X[@]}" "$request$*" >> "$YTFZFJSON" || \
             invidious_instance="https://vid.puffyan.us" ytfzf --show-thumbnails \
             -I VJ -c youtube "${ytfzfOptions_X[@]}" "$request$*" >> "$YTFZFJSON"
         ;;
@@ -37,7 +35,7 @@ _SearchOnlineWithYtfzf() {
     test ! -s "$YTFZFJSON" && {
         rm "$YTFZFJSON"
         printf '%s\n' \
-        " ${Critical}Nothing was scraped, back in SEARCH ONLINE ${Type^^} OPTIONS${nc}"
+        " ${critical}Nothing was scraped, back in SEARCH ONLINE ${Type^^} OPTIONS${nc}"
         sleep 3; clear
         return
     }
@@ -57,8 +55,8 @@ _SearchOnlineWithYtfzf() {
 
     [[ -f $YTSEARCH ]] && _RemoveDuplicateLines "$YTSEARCH"
     _RemoveCrap
+    rm {"$YTFZFJSON","$tmp_dir"/ytfzf_playlists}
     printf '\n%s\n' " ${info}Links added to $Type list${nc}"
     sleep 2; clear
-    rm {"$YTFZFJSON","$tmp_dir"/ytfzf_playlists}
 
 }

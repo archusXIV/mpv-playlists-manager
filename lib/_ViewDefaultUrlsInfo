@@ -46,7 +46,7 @@ _ViewDefaultUrlsInfo() {
                         _MpvOwnsTmpList --default || __getAudioVideo
                     fi
                 ;;
-                e|E) _MpvOwnsTmpList --default || "$MPMEDITOR" "$TITLES" ;;
+                e|E) _MpvOwnsTmpList --default || _EditTmpListTitles ;;
                 m|M) break ;;
                 p|P)
                     if [[ -f $pidofMpv ]]; then

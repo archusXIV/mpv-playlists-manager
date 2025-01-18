@@ -35,7 +35,7 @@ sudo ./install.sh
 
 ## Optionals
 (recommanded for better experience)
-- [fzf](https://github.com/junegunn/fzf), [ytfzf](https://github.com/pystardust/ytfzf), [mpvc](https://github.com/lwilletts/mpvc), [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc), [parallel](https://www.gnu.org/software/parallel/), [ranger](https://github.com/ranger/ranger) (or any terminal file manager), [ueberzug](https://github.com/ueber-devel/ueberzug), [ffmpegthumbnailer](https://github.com/dirkvdb/ffmpegthumbnailer), [wmctrl](https://github.com/dancor/wmctrl), [youtube-dl](https://github.com/ytdl-org/youtube-dl)
+- [fzf](https://github.com/junegunn/fzf), [ytfzf](https://github.com/pystardust/ytfzf), [mpvc](https://github.com/lwilletts/mpvc), [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc), [parallel](https://www.gnu.org/software/parallel/), [ranger](https://github.com/ranger/ranger) (or any terminal file manager), [ueberzug](https://github.com/ueber-devel/ueberzug), [ffmpegthumbnailer](https://github.com/dirkvdb/ffmpegthumbnailer), [youtube-dl](https://github.com/ytdl-org/youtube-dl)
 
 ## mpm can be launched also with these commands:
 
@@ -59,15 +59,13 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Refactored _SearchYoutubeWithFzf function to take into account the number of queries defined as the ytdlPreset_NR array in the user configuration file.
+- We don't need wmctrl anymore, the window size is expressed as columns and lines.
+- Added a red prompt when in the [E]dit titles option the user deleted lines instead of editing.
 - Fixed bug in _ChooseFromPlay function when testing user input.
 - Simplified some code here and there
-- somabox new version v.0.6 (move it in your $PATH).
-- Added a cancel option when choosing save/remove a playlist.
-- the parallel method to get youtube playlists links/titles is preferred over ytfzf because of the weak reliabily of its maintenance even if it is prioritized for searching videos.
-- Added an option to edit titles from the collection playlists in _Edit{My}Playlist functions.
-- Revomed some sed replacements and use pure bash substitution syntax instead.
 
-## Recent additions
+## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
 
   Such as:
@@ -131,7 +129,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.2-3.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.2-4.png)
 
 
 ```
@@ -149,21 +147,6 @@ and look at "red green blue" fields.
 
 More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
 
-## Wmctrl settings
-For a better experience I **recommend** a minimum terminal size of 1260x738 because of the youtube-dl
-outputs that let you choose desired audio/video formats, if you want an automatic terminal
-resizing just install **wmctrl** an the script will take care of that for you.
-If you're a tiling window manager user, make it float or give it more room in the stack.
-```
-wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738
-        -----------   -- -- -- --- ---
-             |         | |  |   |   |---> Window height
-             |         | |  |   |-------> Window width             
-             |         | |  |-----------> Window Y coordinates
-             |         | |--------------> Window X coordinates
-             |         |----------------> Gravity
-             |--------------------------> Apply to the active window
-```
 ## Why ranger file manager?
 (it can be any terminal file manager)
 Because we are terminal users so we can navigate across our local media files.

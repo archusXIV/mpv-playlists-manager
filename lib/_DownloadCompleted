@@ -41,4 +41,6 @@ _DownloadCompleted() {
 
         _IfQuitAfterTask -d
     fi
+    
 }
+

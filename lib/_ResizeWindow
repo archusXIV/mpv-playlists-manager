@@ -7,18 +7,18 @@ _ResizeWindow() {
     case "$1" in
         -c)
             if [[ -n $copy_width && -n $copy_height ]]; then
-                wmctrl -r :ACTIVE: -e 5,-1,-1,"$copy_width","$copy_height"
+                echo -ne "\e[8;${copy_height};${copy_width}t"
             else
-                wmctrl -r :ACTIVE: -e 5,-1,-1,1260,380
+                echo -ne '\e[8;16;124t'
             fi
         ;;
         -m)
             if [[ -n $width && -n $height ]]; then
-                wmctrl -r :ACTIVE: -e 5,-1,-1,"$width","$height"
+                echo -ne "\e[8;${height};${width}t"
             else
-                wmctrl -r :ACTIVE: -e 5,-1,-1,1260,738
+                echo -ne '\e[8;33;124t'
             fi
         ;;
     esac
-    
+
 }

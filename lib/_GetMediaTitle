@@ -35,7 +35,7 @@ _GetMediaTitle() {
     else
         sed -i '1,$d' "$titlesFile"
         while read -r line; do
-            yt-dlp --skip-download --get-title --flat-playlist \
+            yt-dlp --skip-download --get-title \
             "${ytdlPreset_DW[@]}" "$line" >> "$titlesFile"
         done < <(grep '^https' "$listFile")
     fi

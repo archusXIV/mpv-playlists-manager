@@ -4,102 +4,46 @@
 # shellcheck disable=SC2154
 _SearchYoutubeWithFzf() {
 
-    local sanitizedRequest sanitizedResult grabLink grabPlaylist IDS id \
-    mediaLinkIDS mediaPrefix playlistLinkIDS playlistPrefix playlistName
+    local jqSearch jqPreview jqPreviewCmd fzfGrabLinks
+
     _ResizeWindow -m
     __
     read -rp " ${info}Search for ${platform} ${Type} (no quotes): ${nc}" request
     clear
     [[ -z $request ]] && return
 
-    sanitizedRequest=$(
-        sed -e '
-            s/+/%2B/g;s/#/%23/g;s/&/%26/g;s/\s/+/g
-        ' <<< "$request"
+    jqSearch='.title + "\u0000", ., "\n"'
+    jqPreview='
+        "\u001b[0;1m" + .title + "\u001b[0m" + "\n" + if (.duration | isfinite) then
+        (.duration / 60 | round | tostring) else "?" end + " min | views: " + if (.view_count | isfinite) then
+        (.view_count | tostring) else "?" end + " | " + .uploader + "\n\n" + .description + "\n\n\n"
+    '
+    jqPreviewCmd="cat {f2} \
+        | jq -jr $(printf '%q' "$jqPreview");[ '{n}' != '{+n}' ] \
+        && echo -e '\033[33;1m---   Playlist   ---\033[0m' && cat {+f2} \
+        | jq -jr $(printf '%q' "$jqPreview")
+    "
+    fzfGrabLinks=$(
+        yt-dlp ytsearch"${ytdlPreset_NR[0]}":"$request" -j --flat-playlist \
+        | jq -cj "$jqSearch" \
+        | fzf \
+            --multi --reverse --pointer '<>' --scroll-off=5 \
+            --prompt='Search: ' --header='Select with Tab, Enter to confirm, Escape to cancel' \
+            --border rounded --border-label "| Results for: $request |" \
+            --preview="$jqPreviewCmd" --preview-window="down:20%" -n 1 --with-nth=1 -d '\0' --ansi \
+        | cut -d '' -f2 \
+        | jq --raw-output '(.webpage_url, .title)'
     )
 
-    sanitizedResult=$(
-        curl \
-        -s "https://www.youtube.com/results?search_query=${sanitizedRequest}" | \
-        sed 's/\\.//g'
-    )
-
-    if ! grep -q "$sanitizedRequest" <<< "$sanitizedResult"; then
-        printf '%s\n' " ${critical}Unable to reach youtube.com${nc}"
-        sleep 2s
-        return
+    if [[ -z $fzfGrabLinks ]]; then
+        printf '\n%s\n' " ${critical}No ${Type} selected...${nc}"
+        sleep 2; clear; return
+    else
+        echo "$fzfGrabLinks" \
+        | tee >(grep -v '^https' | tee -a "$TITLES" >> "$DEFAULT_TITLES") \
+        >(grep '^https' | tee -a "$URLS" >> "$DEFAULT_LIST") >/dev/null
+        _RemoveCrap
+        _CreateAddPlaylist "$arg"
     fi
-
-    grabLink='"videoRenderer":{"videoId":"\K.{11}".+?"text":".+?[^\\](?=")'
-    grabPlaylist='"playlistRenderer":{"playlistId":"\K.{34}?","title":{"simpleText":".+?[^\"](?=")'
-
-    __getResults() (
-        grep -oP "$1" <<< "$sanitizedResult" | \
-        awk -F\" -v p="$2" '{ print $1 "\t" p " " $NF}'
-    )
-
-    mediaLinkIDS=$(__getResults "$grabLink" "[${Type}]")
-    playlistLinkIDS=$(__getResults "$grabPlaylist" "[Playlist]")
-
-    [[ -n $playlistLinkIDS ]] && IDS="$playlistLinkIDS\n"
-    [[ -n $mediaLinkIDS ]] && IDS="$IDS$mediaLinkIDS"
-
-    mediaPrefix="https://www.youtube.com/watch?v="
-    playlistPrefix="https://www.youtube.com/playlist?list="
-
-    echo -e "$IDS" | cut -d'	' -f2 \
-    | fzf --multi \
-    --pointer '<>' \
-    --scroll-off=5 \
-    --no-scrollbar \
-    --prompt='Filter: ' \
-    --header "${info}${b}"'Select with Tab, Enter to confirm: '"${nb}${nc}" \
-    --border rounded \
-    --border-label "| Youtube results |" \
-    --reverse \
-    | sed 's/\[.*\]\s//;s/-\s//' > "$TITLES"_tmp
-
-    test ! -s "$TITLES"_tmp && {
-        rm "$TITLES"_tmp
-        return
-    }
-
-    clear
-    printf '\n%s\n' " ${info}Links added to $Type list, please wait...${nc}"
-
-    while read -r line; do
-
-        # grep a fixed string that is a word and matches only one line.
-        id=$(echo -e "$IDS" | grep -Fwm1 "$line" | cut -d'	' -f1)
-
-        playlistName=$(
-            yt-dlp "${ytdlPreset_DW[@]}" \
-            -J --flat-playlist "$playlistPrefix$id" 2>/dev/null \
-            | jq --raw-output .title
-        )
-
-        case "$id" in
-            # 11 characters=id (uniq audio/video link)
-            # https://www.youtube.com/watch?v=43BNFcOdBlY
-            #                                 | video id |
-            ???????????)
-                echo "$mediaPrefix$id" | tee -a "$URLS" >> "$DEFAULT_LIST"
-                echo -e "$line" \
-                | sed "/${playlistName}/d" \
-                | tee -a "$TITLES" >> "$DEFAULT_TITLES"
-            ;;
-            # 34 characters=id (playlist link)
-            # https://www.youtube.com/playlist?list=PLxwX17HxC5E-3UXNJV63t4xi7y-MLRJwl
-            #                                       |          playlist id            |
-            ??????????????????????????????????)
-                echo "$playlistPrefix$id" >> "$YTSEARCH"
-            ;;
-        esac
-
-    done < "$TITLES"_tmp
-    
-    rm "$TITLES"_tmp
-    _RemoveCrap
-    _CreateAddPlaylist "$arg"
 
 }

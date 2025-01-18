@@ -1,12 +1,12 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.2-3
+mpm version 2.2-4
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
     dialog, fzf, mpvc, ncmpvc (may use socat), GNU parallel,
     ranger (terminal file manager), ueberzug/ffmpegthumbnailer,
-    w3m, wmctrl, ytfzf.
+    w3m, ytfzf.
 )
 
 Youtube-dl is for now kind of unmaintained so install yt-dlp
@@ -24,12 +24,11 @@ as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
 the directory structure is ok for you.
 
 Changelog:
----------------------------------- NO CHANGES IN MPMRC CONFIG FILE ----------------------------------
+------------------------------- !!! ADDED CHANGES IN MPMRC CONFIG FILE !!! -------------------------------
+version 2.2-4 - Refactored _SearchYoutubeWithFzf function to take into account the number of queries
+                defined as the ytdlPreset_NR array in the user configuration file.
+version 2.2-4 - We don't need wmctrl anymore, the window size is expressed as columns and lines.
+                PLEASE EDIT YOUR MPMRC FILE AND CHANGE IT IF YOU LIKE.
+version 2.2-4 - Added a red prompt when in the [E]dit titles option the user deleted lines instead of editing.
 version 2.2-3 - Fixed bug in _ChooseFromPlay function when testing user input.
 version 2.2-3 - Simplified some code here and there
-version 2.2-2 - somabox new version v.0.6 (move it in your $PATH)
-version 2.2-2 - Added a cancel option when choosing save/remove a playlist.
-version 2.2-2 - the parallel method to get youtube playlists links/titles is preferred over ytfzf
-                because of the weak reliabily of its maintenance even if it is prioritized for searching videos.
-version 2.2-2 - Added an option to edit titles from the collection playlists in _Edit{My}Playlist functions.
-version 2.2-2 - Revomed some sed replacements by pure bash substitution syntax.

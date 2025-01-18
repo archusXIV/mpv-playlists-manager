@@ -86,7 +86,7 @@ _ViewAudioVideoUrlsInfo() {
             case "$audioVideoCommonOptions" in
                 a|A) _CreateAddPlaylist "$arg" ;;
                 d|D) _CreateAddPlaylistActions --download ;;
-                e|E) _MpvOwnsTmpList --list || "$MPMEDITOR" "$TITLES" ;;
+                e|E) _MpvOwnsTmpList --list || _EditTmpListTitles ;;
                 m|M) _Menu ;;
                 p|P) _CreateAddPlaylistActions --play ;;
                 r|R) _CreateAddPlaylistActions --remove ;;
