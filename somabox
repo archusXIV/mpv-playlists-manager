@@ -3,17 +3,17 @@
 # original idea: <https://github.com/epitron/scripts/blob/master/somafm>
 # Modified and extended by Barret E <https://github.com/archusXIV>
 #
-# Dependencies: dialog, mpv, wmctrl, streamripper (optional).
-# It is also provided as a third party software in Mpv-Playlists-Manager.
+# Dependencies: dialog, mpv, streamripper (optional).
+# It is also provided as third party software in Mpv-Playlists-Manager.
 # <https://github.com/archusXIV/mpv-playlists-manager>
 #
 # somabox let you play/rip chosen channels from <https://somafm.com/>
 # Add/Remove items from their respective arrays and change the window size
-# using the wmctrl command line below to correctly fit the amount
+# using lines and columns in the echo command below to correctly fit the amount
 # of CHANNELS and stream informations at the bottom of the box.
 # If streamripper is installed, don't forget to change the rip_dir variable.
 
-for pkg in dialog mpv wmctrl; do
+for pkg in dialog mpv; do
     ! command -v "$pkg" && {
         notify-send -t 0 -u critical "$pkg isn't installed, exiting!"
         printf '%s\n' " $pkg isn't installed, exiting!"
@@ -22,9 +22,10 @@ for pkg in dialog mpv wmctrl; do
 done
 
 # resize the window according to the amount of channels
-wmctrl -r :ACTIVE: -e 5,-1,-1,980,660
+# height = 29 lines, whidth = 96 columns
+echo -ne '\e[8;29;96t'
 
-VERSION="v.0.6"
+VERSION="v.0.7"
 
 export MPVSOCKET="/tmp/mpvsocket"
 soma_url="http://somafm.com/nossl/"
