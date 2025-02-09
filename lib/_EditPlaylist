@@ -13,8 +13,14 @@ _EditPlaylist() {
         _LaunchMpm "${@}"
     fi
 
+    _Has fzf && [[ $use_fzf == yes ]] && {
+        action=Edit
+        _FzfPlaylistActions --edit
+        return
+    }
+
     while true; do
-        __
+        _BlankLine
         PS3=""$'\n'" ${info}Choose a playlist to edit, [${mtitle}C${info}]ancel: ${nc}"
 
         select list in $(find "$playlists_dir" -not -name "default.m3u" -name "*.m3u" \
@@ -28,7 +34,7 @@ _EditPlaylist() {
             clear
             _EditPlaylistOptions
             if [[ $editPlaylistOptions =~ n|N|r|R|t|T|u|U ]]; then
-                __
+                _BlankLine
                 read -rsn 1 \
                 -p "${info} [E]dit another file, [B]ack to menu.${nc}" editAgainOptions
                 case "$editAgainOptions" in

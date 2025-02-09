@@ -8,7 +8,7 @@ _IfQuitAfterTask() {
     case "$1" in
         -d)
             if [[ $quit_after_task == yes ]]; then
-                __
+                _BlankLine
                 if [[ -s "$AUDIO_URLS" || -s "$VIDEO_URLS" ]]; then
                     _SaveOnExit
                 else

@@ -15,7 +15,7 @@ _StartUp() {
 
     if _PidOfMpv >/dev/null && [[ ! -e "$NOWPLAYING" ]]; then
         clear
-        __
+        _BlankLine
         echo -e "                               ${critical}┌───────────────────────────────────────────────────────────┐"
         echo -e "                               │   MPV IS RUNNING OR IS IDLE, YOU WON'T BE ABLE TO PLAY    │"
         echo -e "                               │   ANY PLAYLISTS OR LOCAL MEDIA FILES UNLESS YOU STOP IT,  │"

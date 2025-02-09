@@ -10,12 +10,12 @@ _SaveCheck() {
     listTotal=$(find . -not -name "default.m3u*" -name "*.m3u" | wc -l)
 
     __listAlreadyExists() (
-        __
+        _BlankLine
         read -rp "${info}"' Enter the new playlist name (do not type extension): '"${nc}" list
         list="$list.m3u"
         [[ -f $list ]] && {
             _RemoveDuplicateLines "$list" "$titles_dir/$list.titles"
-            __
+            _BlankLine
             _Prompt -n " ${critical}$list ALREADY exists! Overwrite it?:${nc}" && {
                 _SaveList
             }
@@ -25,11 +25,7 @@ _SaveCheck() {
     )
 
     _ResizeWindow -m; clear
-    __
-    printf '%s\n' " ${critical}Tip: If you want to add links to an existing playlist," \
-    " just select it and answer NO to the overwrite question," \
-    " then you can add your links by typing ${task}'a'${nc}"
-    __
+    _BlankLine
     PS3=""$'\n'" ${info}Type ${task}$((listTotal + 1)) ${info}to create a new playlist, [${mtitle}C${info}]ancel: ${nc}"
     select list in $(find . -not -name "default.m3u*" -name "*.m3u" \
         | sort -d | sed 's,.*/,,'); do
@@ -41,11 +37,11 @@ _SaveCheck() {
         elif [[ $REPLY != $((listTotal + 1)) ]]; then
 
             if [[ -e ./$list ]]; then
-                __
+                _BlankLine
                 _Prompt -n " ${critical}$list already exists! Overwrite it?:${nc}" && {
                     _SaveList && break
                 }
-                __
+                _BlankLine
                 read -rp " ${info}[S]ave playlist as a new one or [A]dd links to ${list##*/}?: ${nc}" \
                 saveOrAddLinksOptions
                 case "$saveOrAddLinksOptions" in

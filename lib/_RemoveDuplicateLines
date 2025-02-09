@@ -5,7 +5,7 @@
 _RemoveDuplicateLines() {
     # Some systems may use gawk or perl
     # we use '> 0' and shift, so we can pass multiple arguments
-    while (( $# > 0 )); do
+    while (( $# >= 1 )); do
         awk -i inplace '!seen[$0]++' "$1" || \
         perl -i -ne 'print if ! $a{$_}++' "$1"
         shift

@@ -10,7 +10,7 @@ _LoadLocalMenu() {
     while :; do
         _ResizeWindow -m
         clear
-        __
+        _BlankLine
         echo -e "                                                 ${mtitle}::LOAD LOCAL OPTIONS::${nc}"
         echo -e "                                           $(_LittleStars)${nc}"
         echo -e "                                  ┌───────────────────────────────────────────────────┐"
@@ -21,7 +21,7 @@ _LoadLocalMenu() {
         echo -e "                                  │   5) Explore Music dir  X) Back to main menu      │"
         echo -e "                                  └───────────────────────────────────────────────────┘"
         echo -e "                                                    ${info}${b}Select an item${nb}${nc}"
-        __
+        _BlankLine
         read -rsn 1 loadLocalMenuOptions
         case "$loadLocalMenuOptions" in
             1|3) _LoadLocalMenuActions --single-dir ;;
@@ -30,7 +30,7 @@ _LoadLocalMenu() {
             7  ) _LoadLocalMenuActions --multiple-dirs;;
             8  ) _LoadLocalMenuActions --radio-dir ;;
             9  ) _LoadLocalMenuActions --somabox ;;
-            x|X) _Menu ;;
+            x|X|r|R) _Menu ;;
             *  ) _WrongOption "$loadLocalMenuOptions"
                  continue
             ;;

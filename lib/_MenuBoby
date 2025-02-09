@@ -16,6 +16,6 @@ _MenuBoby() {
     test -f "$tmp_dir"/1 \
         && echo -e "                                                      ${info}Select an item${nc}" \
         || echo -e "                                                      ${info}${b}Select an item${nb}${nc}"
-    __
+    _BlankLine
 
 }

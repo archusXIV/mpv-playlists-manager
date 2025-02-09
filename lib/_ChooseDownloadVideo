@@ -42,7 +42,7 @@ _ChooseDownloadVideo() {
 
                 if [[ $url =~ 'youtube.com' ]]; then
                     youtube="yes"
-                    __
+                    _BlankLine
                     yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
                     | awk '$0 !~ /sb|youtube/{print $0}'
                 else

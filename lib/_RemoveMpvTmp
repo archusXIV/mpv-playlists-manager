@@ -3,8 +3,24 @@
 
 # shellcheck disable=SC2154,SC2034
 _RemoveMpvTmp() {
+
+    cd "$tmp_dir" || exit 1
     mpv_is_running="no"
-    rm "$(readlink -f "$NOWPLAYING")" "$SELECTED_URLS1" "$NOWPLAYING" \
-    "$FZFENQUEUE" "$pidofMpv" "$LOCALDIRS_LIST" 2>/dev/null
-    unset m3uFile
-}
+
+    declare -a mpvTmpFiles=(
+        "$SELECTED_URLS1" "$SELECTED_TITLES"
+        "$NOWPLAYING" "$FZFENQUEUE" "$mpv_list"
+        "$pidofMpv" "$LOCALDIRS_LIST"
+        "playerIndexesList" "playerSelectedFile"
+        "multipleDirsTitles.m3u" "multipleFilesTitles"
+        "radioDirTitles" "singleDirTitles"
+    )
+
+    for file in "${mpvTmpFiles[@]}"; do
+        rm "$file"
+    done
+
+    rm "$(readlink -f "$NOWPLAYING")"
+    unset m3uFile file
+
+} 2>/dev/null

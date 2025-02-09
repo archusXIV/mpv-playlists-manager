@@ -13,7 +13,7 @@ _TitlesListCompare() {
     if [[ -s $titlesFile ]]; then
 
         [[ $(grep "" -c "$titlesFile") -ne $(_GetLinesList -l) ]] && {
-            __
+            _BlankLine
             printf '%s\n' " ${critical}${titlesFile} is out of date...${nc}" \
             " ${task}${b}Updating $(_GetLinesList -l) titles...please wait.${nb}${nc}"
             _GetMediaTitle -l
@@ -22,19 +22,18 @@ _TitlesListCompare() {
 
         case "$1" in
             -g)
-                __
-                echo -e " ${info}Titles for $list.${nc}\n"
+                echo -e "\n ${info}Titles for $list.${nc}\n"
                 # sed -n '1,25p' "$titlesFile" | nl
                 awk 'NR>=1&&NR<=25' "$titlesFile" | nl
-                __
+                _BlankLine
                 read -rsn 1 -p " ${info}[N]ext page, [B]ack to menu.${nc}" nextpage
                 case "$nextpage" in
                     b|B) _Menu ;;
                     n|N)
-                        clear; __
+                        clear; _BlankLine
                         # sed -n '26,50' "$titlesFile" | nl
                         awk 'NR>=26&&NR<=50' "$titlesFile" | nl
-                        __
+                        _BlankLine
                     ;;
                     *)
                         _WrongOption "$nextpage"
@@ -44,7 +43,7 @@ _TitlesListCompare() {
             ;;
             -l)
                 echo -e "\n ${info}Titles for $list${nc}\n"
-                nl "$titlesFile"; __
+                nl "$titlesFile"; _BlankLine
             ;;
         esac
 
@@ -54,7 +53,7 @@ _TitlesListCompare() {
         touch "$titlesFile"; sleep 2; _GetMediaTitle -l; clear
         echo -e "\n ${info}Titles for $list.${nc}\n"
         nl "$titlesFile"
-        __
+        _BlankLine
     fi
 
 }

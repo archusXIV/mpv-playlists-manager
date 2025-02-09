@@ -33,8 +33,7 @@ _GetYoutubePlaylistUrlsMethods() {
             }
         ;;
         --ytfzf)
-            ytfzf -A -I VJ --scrape=youtube-playlist "$playlist" > "$YTFZFJSON" \
-            || invidious_instance="https://vid.puffyan.us" \
+            invidious_instance="https://vid.puffyan.us" \
             ytfzf -A -I VJ --scrape=youtube-playlist "$playlist" > "$YTFZFJSON"
             clear
             jq --raw-output '.[].url' "$YTFZFJSON" | __teeAppendUrls

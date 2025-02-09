@@ -8,7 +8,7 @@ _SearchOnline() {
 
     __searchOnlineTips() (
         clear
-        __
+        _BlankLine
         printf '%s\n' \
         " ${critical}Tip: In the ${pkg} menu press ${task}Tab ${critical}on the desired ${Type} titles," \
         " then press ${task}Enter ${critical}to confirm, ${task}Escape ${critical}to cancel." \
@@ -30,7 +30,7 @@ _SearchOnline() {
     while true; do
         test -s "$URLS"  && \
         echo -e "\n ${info}${Type} list: $(_GetLinesList "$arg") url(s)${nc}\n"
-        __
+        _BlankLine
         echo -e "                                            ${mtitle}::SEARCH ONLINE $menuTitleType OPTIONS::${nc}"
         echo -e "                                          $(_LittleStars)${nc}"
         echo -e "                                  ┌─────────────────────────────────────────────────┐"

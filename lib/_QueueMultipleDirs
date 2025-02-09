@@ -15,8 +15,6 @@ _QueueMultipleDirs() {
     localDirPath=$(pwd | sed 's,/,\\/,g')
     localPlaylist=yes
 
-    rm "$mpv_list" 2>/dev/null
-
     find ./ -maxdepth 1 -type d -empty | sort | sed 's,.*/,,' >> "$tmp_dir"/empty.tmp
 
     if [[ -s $tmp_dir/empty.tmp ]]; then
@@ -32,7 +30,7 @@ _QueueMultipleDirs() {
 
     rm "$tmp_dir"/{dirlist,empty}.tmp 2>/dev/null
     printf '\n%s\n' " ${info}Directories in ${localDir##*/}: ${nc}"
-    __; nl "$dirlist"; __
+    _BlankLine; nl "$dirlist"; _BlankLine
 
     IFS=", "; read -ra selected_dirs -p "$RANGEPROMPT"
     for range in "${selected_dirs[@]}"; do
@@ -61,14 +59,44 @@ _QueueMultipleDirs() {
     sed -i "s/^/${localDirPath}\//;s,$,/," "$mpv_list"
     use_mpvc_locally=yes
 
+    __makeMultipleDirsPlaylist() (
+
+        mapfile -t dirsArray < <(cat "$mpv_list")
+        num=0
+
+        for dir in "${dirsArray[@]}"; do
+            ((num++))
+            find "$dir" -maxdepth 1 -type f \
+            | sort | sed 's/^//' \
+            >> "$tmp_dir"/dirnumber_"$num"
+        done
+
+        unset dir
+
+        INTS=$(find "$tmp_dir" -type f -name "dirnumber_*" | wc -l)
+        [[ -f $playerTitlesList ]] && rm "$playerTitlesList"
+
+        for ((i=1;i<="$INTS";i++)); do
+            cat "$tmp_dir"/dirnumber_"${i}" >> "$playerTitlesList"
+        done
+
+        rm "$tmp_dir"/dirnumber_*
+    )
+
     if [[ $localMediaType == audio ]]; then
+        # use_mpvc is set to no
         mv -f "$mpv_list" "$LOCALDIRS_LIST"
         _LoadAudioVideo -xa
     elif [[ $localMediaType == video ]]; then
         mv -f "$mpv_list" "$LOCALDIRS_LIST"
         _LoadAudioVideo -xv
     else
-        m3uFile="$mpv_list"
+        playerTitlesList="$tmp_dir"/multipleDirsTitles.m3u
+        m3uFile="$playerTitlesList"
+        _Has fzf && [[ $mpvc_tui == native ]] && {
+            __makeMultipleDirsPlaylist
+            _MakeMpvPlaylistIndexes
+        }
         ln -sfr "$m3uFile" "$NOWPLAYING"
         _MakeMpvPlaylist --local-dirs
     fi

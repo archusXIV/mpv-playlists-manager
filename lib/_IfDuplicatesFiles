@@ -18,7 +18,7 @@ _IfDuplicatesFiles() {
     declare -i linenumbers
     attr=0
     match=0
-    __
+    _BlankLine
     while read -r line; do
         if grep -q -Fx "$line" "$TITLES"; then
             echo \

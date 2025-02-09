@@ -1,14 +1,14 @@
 
-    mpm version 2.2-4
+    mpm version 2.2-5
 
     MPV-PLAYLISTS-MANAGER usage:
 
         . mpm -c|--config   : opens ~/.config/mpm/mpmrc
         . mpm -e|--edit <?> : opens the playlist edition function,
-                              with a playlist name as an argument or no.
+                              with a playlist name as an argument or not.
         . mpm -h|--help     : launch less /usr/local/share/doc/mpm/help
         . mpm -l|--load <?> : opens the play/download function,
-                              with a playlist name as an argument or no.
+                              with a playlist name as an argument or not.
         . mpm -f|--local    : opens local files or directory function
         . mpm -v|--version  : echoes mpm version
 
@@ -26,9 +26,9 @@
 
     !!! YOU CAN CHANGE MPM DIRECTORIES BY EDITING THE VARIABLES IN THE MPMRC FILE !!!
     By default "$HOME"/.local/share/
-    Dependencies: ffmpeg, jq, mpv, vim, yt-dlp.
+    Dependencies: ffmpeg, jq, mpv, vim/nano etc..., yt-dlp.
     Optionals: fzf, mpvc, ncmpvc (mpv terminal user interface), parallel,
-    ranger (can be any terminal file manager), ueberzug, wmctrl, w3m, ytfzf.
+    ranger (can be any terminal file manager), ueberzug, w3m, ytfzf.
 
     Changing the "theme" in ~/.config/mpm/themerc:
 
@@ -48,7 +48,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.2-4w::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.2-5::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -81,6 +81,14 @@
         l) Go to next song                        │ z) Clear all tmp lists *
         m) Manuals & help access                  │ Ctrl+B) change theme, Ctrl+M) mpmrc quick view
         ──────────────────────────────────────────────────────────────────────────────────────────────────
+        Shortcuts in the "mpm player" if mpvc_tui is set to native (uses fzf).
+
+        Enter:  play selected item.
+        Ctrl+N: next.
+        Ctrl+P: previous.
+        Ctrl+T: toggle pause.
+        Ctrl+R: reload song title preview, or just move the cursor.
+        Escape: quit player.
 
     1) Create/Add video playlist:
 
@@ -124,6 +132,9 @@
         Note that names with spaces will be renamed with underscores.
         We can also delete existing playlists (.m3u files) from our collection.
 
+        Since version 2.2-5, if use_fzf is set to yes and fzf is installed, removing
+        is done through a fzf menu to select the collection playlist to act on.
+
     4) Play/Download a playlist:
 
         If the default list is still filled with links we can stream audios or videos from it,
@@ -141,6 +152,9 @@
         Since version 1.9-0 the GNU parallel package can be use to download audio/video files,
         to use this functionality just enable it in the mpmrc file: use_parallel_downloads="yes",
         and since the output is hidden an animation is displayed: parallel_animation="<progress/spinners>".
+
+        Since version 2.2-5, if use_fzf is set to yes and fzf is installed, loading/playing
+        is done through a fzf menu to select the collection playlist to act on.
     
     5) Load local dir/files:
 
@@ -161,7 +175,7 @@
         New in version 2.1-5: radios playlists files can be played in option 8) the fzf package as
         to be installed and use_fzf must be set to 'yes'.
 
-        In option 9) somabox v.0.6 in available.
+        In option 9) somabox in available.
         Somabox is a new script provided to play some of the somafm channels using the dialog package,
         make sure it is installed. You can also use it outside mpm, just place it in you $PATH.
         If streamripper package is installed, ripping selected stations is available.
@@ -186,6 +200,10 @@
         manually (titles will be updated online) or by removing titles from a prompt,
         in that case corresponding urls will be removed.
         Renaming the playlist is also provided (choose option 'n').
+        Type 'e' to edit the titles of the selected playlist.
+
+        Since version 2.2-5, if use_fzf is set to yes and fzf is installed, editing
+        is done through a fzf menu to select the collection playlist to act on.
 
     9) Edit mpm config (mpmrc):
 
@@ -201,6 +219,9 @@
         Just enable those settings: use_mpvc="yes" & mpvc_tui="ncmpvc" (ncmpvc cheatsheet is
         located in /usr/local/share/doc/mpm/), if enabled this feature can be used to watch/listen
         temporary lists, collection playlists and local directories/files.
+
+        Since version 2.2-5 there is a FZF kind of player that can be enabled by setting mpvc_tui
+        like this: mpvc_tui="native" (fzf required), shortcuts are described in the interface.
         If everything is correct this will appear on the main window:
             
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -273,7 +294,7 @@
             if automatic_audio_conversion="yes" && default_conversion_format="<aac|flac|mp3|ogg|wav>"
             then the task will run without prompting you.
 
-    Author: Barret E (2024) <archus@protonmail.com>
+    Author: Barret E (2025) <archus@protonmail.com>
     https://github.com/archusXIV/mpv-playlists-manager
     https://www.youtube.com/@mpv-playlists-manager-mv8sh/featured
     https://www.youtube.com/@linuxinfrench9388/featured

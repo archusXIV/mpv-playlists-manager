@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2034
 _ChooseFromPlay() {
     
     clear
@@ -12,15 +12,25 @@ _ChooseFromPlay() {
     chooseFromPlayOptions
 
     case "$chooseFromPlayOptions" in
-        a|A) _LoadAudioVideo -la ;;
-        c|C) _LoadPlaylistMenu ;;
-        v|V) _LoadAudioVideo -lv ;;
+        a|A)
+            playerTitlesList="$titles_dir/$list.titles"
+            _Has fzf && [[ $mpvc_tui == native ]] && _MakeMpvPlaylistIndexes
+            _LoadAudioVideo -la ;;
+        c|C) 
+            rm {"$SELECTED_URLS1","$SELECTED_TITLES"} 2>/dev/null
+            _Menu
+        ;;
+        v|V)
+            playerTitlesList="$titles_dir/$list.titles"
+            _Has fzf && [[ $mpvc_tui == native ]] && _MakeMpvPlaylistIndexes
+            _LoadAudioVideo -lv ;;
         s|S)
-            __
-            rm "$SELECTED_URLS1" 2>/dev/null
+            _BlankLine
+            rm {"$SELECTED_URLS1","$SELECTED_TITLES"} 2>/dev/null
             _GetRange
-            rm "$SELECTED_TITLES" 2>/dev/null
-            __
+            playerTitlesList="$SELECTED_TITLES"
+            _Has fzf && [[ $mpvc_tui == native ]] && _MakeMpvPlaylistIndexes
+            _BlankLine
             read -rsn 1 -p " ${info}load [A]udio, [V]ideo: ${nc}" loadOptions
             if [[ $loadOptions =~ a|A ]]; then
                 _LoadAudioVideo -sa

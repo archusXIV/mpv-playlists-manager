@@ -12,9 +12,9 @@ _SaveLinksAs() {
         cp -f "$current_list" "$current_list"_origin
         cp -f "$current_titles" "$current_titles"_origin
         printf '\n%s\n' " ${info}Select titles to save fron ${current_list##*/}${nc}"
-        __
+        _BlankLine
         nl "$current_titles"
-        __
+        _BlankLine
 
         [[ $current_list == "$DEFAULT_LIST" ]] && sed -i '1d' "$DEFAULT_LIST"
 
@@ -46,7 +46,11 @@ _SaveLinksAs() {
     }
 
     _ResizeWindow -m; clear
-    __
+    _BlankLine
+    printf '%s\n' " ${critical}Tip: If you want to add links to an existing playlist," \
+    " in the next menu select it and answer NO to the overwrite question," \
+    " then you can add your links by typing ${task}'a'${nc}"
+    _BlankLine
     read -rsn 1 -p " ${info}Save [L]inks or the [W]hole list?: ${nc}" \
     saveLinksAsOptions
     case "$saveLinksAsOptions" in

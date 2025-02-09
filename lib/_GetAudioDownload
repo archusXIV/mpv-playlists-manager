@@ -25,7 +25,7 @@ _GetAudioDownload() {
                 _GetAudioDownloadMessages --onebyone
 
                 if [[ "$url" =~ 'youtube' ]]; then
-                    __
+                    _BlankLine
                     yt-dlp --output "$(_GetLinkTitle -a).%(ext)s" \
                     --format bestaudio/best "${ytdlPreset_NC[@]}" "$url"
                 else
@@ -34,7 +34,7 @@ _GetAudioDownload() {
                     printf '\n%s\n' " ${info}Choose a format code: ${nc}"
                     read -r code
                     clear
-                    __
+                    _BlankLine
                     yt-dlp --output "$(_GetLinkTitle -a).%(ext)s" \
                     --format "$code" "${ytdlPreset_NC[@]}" "$url"
                 fi

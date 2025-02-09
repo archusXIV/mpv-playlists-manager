@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154,SC2034
 _LaunchMpm() {
-    __
+    _BlankLine
     _Prompt " Launch ${0##*/}?" || {
         clear
         exit

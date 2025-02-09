@@ -11,7 +11,7 @@ _IfPartsExist() {
         | sort -d | sed 's,.*/,,' | nl
         echo -e "\n ${info}Try again now or later, choose an option.${nc}"
         sleep 3
-        __
+        _BlankLine
         return
     )
 

@@ -20,7 +20,7 @@ _ViewAudioVideoUrlsInfo() {
 
     __listHeader() {
         clear
-        __
+        _BlankLine
         if (($(grep -c '^https' "$menuTitleType_$URLS") > 12)); then
             if (($(grep -c '^https' "$menuTitleType_$URLS") > 25)); then
                 stars=$(printf "%-42s" "*")
@@ -28,7 +28,7 @@ _ViewAudioVideoUrlsInfo() {
                 printf '%s\n' " ${info}ORDER | $menuTitleType PLAYLIST TITLES (page 1/2)${nc}"
                 echo -e " ${info}${stars// /*}${nc}\n"
                 awk 'NR>=1&&NR<=25' "$TITLES" | nl
-                __
+                _BlankLine
                 read -rsn 1 -p " ${info}[M]ain menu, [N]ext page.${nc}" nextpage
                 case "$nextpage" in
                     m|M) _Menu ;;
@@ -37,7 +37,7 @@ _ViewAudioVideoUrlsInfo() {
                         printf '\n%s\n' " ${info}ORDER | $menuTitleType PLAYLIST TITLES (page 2)${nc}"
                         echo -e " ${info}${stars// /*}${nc}\n"
                         awk 'NR>=26&&NR<=50' "$TITLES" | nl
-                        __
+                        _BlankLine
                     ;;
                     *)
                         _WrongOption "$nextpage"
@@ -48,16 +48,16 @@ _ViewAudioVideoUrlsInfo() {
                 printf '%s\n' " ${info}ORDER | $menuTitleType PLAYLIST TITLES (to many urls to show).${nc}"
                 echo -e " ${info}${stars// /*}${nc}\n"
                 nl "$menuTitleType_$TITLES"
-                __
+                _BlankLine
             fi
         else
             printf '%s\n' " ${info}ORDER |  $menuTitleType PLAYLIST LINKS & TITLES.${nc}"
             echo -e " ${info}${stars// /*}${nc}\n"
             awk '$0 ~ /^https/{print $0}' "$menuTitleType_$URLS" \
             | nl && {
-                __
+                _BlankLine
                 nl "$menuTitleType_$TITLES"
-                __
+                _BlankLine
             }
         fi
 

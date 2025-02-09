@@ -12,6 +12,7 @@ _CleanTmpDir() {
         find "$tmp_dir" -type f \
         -not -name "$(awk -F"/" '{print $NF}' "$NOWPLAYING")" \
         -not -name "fzfEnqueue.m3u" \
+        -not -name playerIndexesList \
         -not -name 'nowPlaying' -exec rm {} \;
     else
         rm "$(readlink -f "$tmp_dir"/"fzfEnqueue.m3u")"

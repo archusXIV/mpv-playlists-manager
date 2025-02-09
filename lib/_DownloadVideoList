@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2076,SC2164
 _DownloadVideoList() {
 
-    _TitlesListCompare
+    _TitlesListCompare -l
 
     local counter mediaDir
     
@@ -39,7 +39,7 @@ _DownloadVideoList() {
                 for url in "${SELECTED_CODES[@]}"; do
 
                     clear
-                    __
+                    _BlankLine
                     yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
                     | awk '$0 !~ /sb|youtube|info/{print $0}'
                     _DownloadMessages --m3u8

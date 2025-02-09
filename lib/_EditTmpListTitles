@@ -4,16 +4,16 @@
 # shellcheck disable=SC2154
 _EditTmpListTitles() {
 
-	cp "$TITLES" "$tmp_dir"/tmp_titles
-	"$MPMEDITOR" "$TITLES"
-	
-	if [[ $(grep "" -c "$TITLES") -ne $(grep "" -c "$tmp_dir"/tmp_titles) ]]; then
-		mv -f "$tmp_dir"/tmp_titles "$TITLES"
-		__
-		printf '%s\n' " ${critical}Deleting titles isn't considered editing..." \
-		" you should better [R]emove links instead.${nc}"
-		sleep 7
-	else
-		rm "$tmp_dir"/tmp_titles
-	fi
+    cp "$TITLES" "$tmp_dir"/tmp_titles
+    "$MPMEDITOR" "$TITLES"
+
+    if [[ $(grep "" -c "$TITLES") -ne $(grep "" -c "$tmp_dir"/tmp_titles) ]]; then
+        mv -f "$tmp_dir"/tmp_titles "$TITLES"
+        _BlankLine
+        printf '%s\n' " ${critical}Deleting titles isn't considered editing..." \
+        " you should better [R]emove links instead.${nc}"
+        sleep 7
+    else
+        rm "$tmp_dir"/tmp_titles
+    fi
 }

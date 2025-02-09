@@ -21,7 +21,7 @@ _RemoveDefaultList() {
         rm "$NOWPLAYING"
     }
 
-    __
+    _BlankLine
     read -rsn 1 \
     -p " ${info}Remove [L]inks or the [W]hole default list?: ${nc}" removeDefaultListOptions
 

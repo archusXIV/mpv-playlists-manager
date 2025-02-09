@@ -17,7 +17,7 @@ _SelectLocalDir() {
             case "$REPLY" in
                 [a-zA-Z])
                     if [[ -f $FZFENQUEUE ]]; then
-                        __
+                        _BlankLine
                         _Prompt " ${critical}Play existing playlist?${nc}" || {
                             rm "$FZFENQUEUE"; return
                         }
@@ -34,10 +34,10 @@ _SelectLocalDir() {
 
         ! find -L ./"$dir" -maxdepth 1 -type f -exec file --mime-type {} + \
         | grep -qE '[aA]udio|[vV]ideo' && {
-            __
+            _BlankLine
             printf '%s\n' " ${critical}$dir doesn't contain supported formats by mpv" \
             " or audio/video files are in a subdirectories.${nc}"
-            __
+            _BlankLine
             _Prompt " ${info}Do you want to open $dir to fix this issue?${nc}" || {
                 continue
             }

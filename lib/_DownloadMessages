@@ -5,45 +5,45 @@
 _DownloadMessages() {
     case "$1" in
         --choice)
-            __
+            _BlankLine
             printf '%s\n' " ${critical}Tip: In this section you will have to enter specific ID codes" \
             " for all urls, direct download will always pick the best format," \
             " on Youtube webm may be the best one but we'll merge files in ${ytdlPreset_MF[1]}.${nc}"
             [[ $(_GetLinesList -l) -gt 10 ]] && {
-                __
+                _BlankLine
                 printf '%s\n' \
                 " ${critical}This playlist contains more than ${task}10 urls," \
                 " ${critical}you might want to choose ${task}[D]irect download?"
             }
-            __
+            _BlankLine
             printf '%s\n' " ${info}Make a choice: " \
             " [B]ack to download options, choose [S]pecific codes or [D]irect download?: ${nc}"
         ;;
         --choose-audio|--choose-video)
             if [[ $use_parallel_downloads == yes ]]; then
-                __
+                _BlankLine
                 printf '%s\n' " ${task}Parallel downloads enabled," \
                 " ${info}$counter file(s) left to downloads, please be patient${b}...${nb}${nc}"
             else
-                __
+                _BlankLine
                 printf '%s\n' " ${info}$counter file(s) left to downloads." \
                 " Downloading: $(_GetLinkTitle -s)${nc}"
             fi
         ;;
         --direct-video)
             if [[ $use_parallel_downloads == yes ]]; then
-                __
+                _BlankLine
                 printf '%s\n' " ${task}Parallel downloads enabled," \
                 " ${info}$counter video file(s) left to downloads, please be patient${b}...${nb}${nc}"
             else
-                __
+                _BlankLine
                 printf '%s\n' " ${info}$counter video file(s) left to downloads." \
                 " Downloading: $(_GetLinkTitle -l)${nc}"
             fi
         ;;
         --m3u8)
             if [[ -f $SELECTED_TITLES ]]; then option='-s'; else option='-l'; fi
-            __
+            _BlankLine
             printf '%s\n' \
             " ${critical}If you pick a format from a none m3u8 protocol, download will fail " \
             " if ffmpeg is set as yt-dlp downloader in your configuration file." \

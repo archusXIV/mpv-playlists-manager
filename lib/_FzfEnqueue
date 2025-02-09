@@ -29,7 +29,7 @@ _FzfEnqueue() {
         rm ./fzfEnqueue.m3u
         return
     else
-        clear;__
+        clear;_BlankLine
         _FzfEnqueueOptions
     fi
 

@@ -12,7 +12,7 @@ _IfDuplicatesFilesMessages() {
     
     case "$1" in
         --if)
-            __
+            _BlankLine
             printf '%s\n' \
             " ${info}At least ${titlesCount} ${link} seem to have been downloaded already," \
             " (this means that there are also other files in ${addPlaylistDir##*/})."
@@ -29,14 +29,14 @@ _IfDuplicatesFilesMessages() {
             }
         ;;
         --else)
-            __
+            _BlankLine
             printf '%s\n' \
             " ${info}${#linenumbers[@]} ${link} seem to have been downloaded already," \
             " if you want to remove ${it} from the current $Type list," \
             " copy this sequence: $(echo "${linenumbers[@]}" | sed 's/\s/,/g')" \
             " and paste it using the [R]emove links option in the next prompt ."
             unset linenumbers
-            __
+            _BlankLine
             _Prompt " Do you want to remove ${it} from the ${Type} list?${nc}" || {
                 printf '\n%s\n' " ${info}Downloading duplicates is useless...${nc}"
                 sleep 3; _CreateAddPlaylist "$arg"

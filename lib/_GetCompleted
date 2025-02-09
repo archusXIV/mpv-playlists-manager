@@ -16,7 +16,7 @@ _GetCompleted() {
             _RenameTmpFiles
             _IsParallelDownloadsEnabled
         else
-            __
+            _BlankLine
             _Prompt -n " ${info}Downloads completed, KEEP playlist?:${nc}" && {
                 printf '\n%s\n' \
                 " ${critical}It was a temporary list, don't forget to save it.${nc}"

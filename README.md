@@ -59,11 +59,12 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Added a native mpv tui to replace ncmpvc as the default player for any kind of playlist that we want to pass to mpv, see help or bindings to control your playlist inside this fzf "player".
+- If use_fzf is set to yes and fzf is installed, loading/editing/removing playlists is done through a fzf menu to select which collection playlist to act on.
+- Fixed bug in _MvpOwnsTmplist when tmp_dir/mpv.pid exist.
 - Refactored _SearchYoutubeWithFzf function to take into account the number of queries defined as the ytdlPreset_NR array in the user configuration file.
 - We don't need wmctrl anymore, the window size is expressed as columns and lines.
 - Added a red prompt when in the [E]dit titles option the user deleted lines instead of editing.
-- Fixed bug in _ChooseFromPlay function when testing user input.
-- Simplified some code here and there
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -75,15 +76,19 @@ source ~/.config/mpm/themerc
   as usual set it in your mpmrc file.
 ```
 # experimental
-# can be yes (mpvc tui) no (stop mpv by typing Q),
+# can be yes (mpvc tui) no (control mpv using shortcuts, press B for details),
 # or empty (mpv infos in the terminal).
 use_mpvc="no"
 # change your mpv Terminal User Interface here
 # mpvc_tui="ncmpvc"
 mpvc_tui="<your_mpv_tui_here>"
 ```
-
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/ncmpvc_integration.png)
+  - Or...
+```
+# Colors can be change in ~/.config/mpm/themerc.
+mpvc_tui="native"
+```
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_player_v.alpha2.png)
 
 ## Integrated programs settings in mpmrc file
 - I also provide a new script (somabox) to listen to somafm.com radio stations through option 5). Place it in your $PATH,
@@ -92,7 +97,7 @@ and change mpmrc setting to 'yes'
 use_somabox="yes"
 ```
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/somabox_v0.6.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/somabox_v0.7.png)
 - As mentioned above mpv command line tools and terminal interface.
 - ffmpeg, mpv, ytfzf & yt-dlp options can be set in your mpmrc through their respective bash arrays.
 - Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L63) file (change them according to your locales).
@@ -129,7 +134,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.2-4.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.2-5.png)
 
 
 ```

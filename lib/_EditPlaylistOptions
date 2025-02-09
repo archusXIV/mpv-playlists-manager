@@ -9,11 +9,13 @@ _EditPlaylistOptions() {
         "edit [T]itles,"
         "re[N]ame the playlist,"
         "[R]emove titles,"
+        "[${mtitle}C${info}]ancel:"
     )
 
-    printf '\n%s\n' " ${info}Choose an option for ${task}$list:${nc}"; __
+    printf '\n%s\n' " ${info}Choose an option for ${task}$list:${nc}"
+    _BlankLine
     read -rsn 1 -p \
-    "${info} ${editPlaylistOptionsPrompt[*]} [${mtitle}C${info}]ancel:${nc}" \
+    "${info} ${editPlaylistOptionsPrompt[*]} ${nc}" \
     editPlaylistOptions
 
     case "$editPlaylistOptions" in
@@ -27,7 +29,7 @@ _EditPlaylistOptions() {
             fi
         ;;
         n|N)
-            __
+            _BlankLine
             read -r -p " ${info}Enter a new name for ${list%%.*}: ${nc}" newname
             mv "$list" "$newname".m3u
             mv "$titles_dir/$list.titles" "$titles_dir/$newname.m3u.titles"
@@ -43,10 +45,17 @@ _EditPlaylistOptions() {
         ;;
         t|T)
             "$MPMEDITOR" "$titles_dir"/"$list".titles
+            clear
+            printf '\n%s\n' " ${info}$list.titles saved${nc}"
+            sleep 2
+            [[ $(grep "" -c "$titles_dir/$list.titles") \
+            -ne $(_GetLinesList -l) ]] && _TitlesListCompare -l
         ;;
         u|U)
             "$MPMEDITOR" "$list"
+            clear
             printf '\n%s\n' " ${info}$list saved${nc}"
+            sleep 2
             [[ $(grep "" -c "$titles_dir/$list.titles") \
             -ne $(_GetLinesList -l) ]] && _TitlesListCompare -l
         ;;

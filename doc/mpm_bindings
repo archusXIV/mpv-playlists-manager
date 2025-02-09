@@ -15,3 +15,11 @@
         l) Go to next song                        │ z) Clear all tmp lists *
         m) Manuals & help access                  │ Ctrl+B) change theme, Ctrl+M) mpmrc quick view
         ──────────────────────────────────────────────────────────────────────────────────────────────────
+    Shortcuts in the "mpm player" if mpvc_tui is set to native (uses fzf).
+
+        Enter:  play selected item.
+        Ctrl+N: next.
+        Ctrl+P: previous.
+        Ctrl+T: toggle pause.
+        Ctrl+R: reload song title preview, or just move the cursor.
+        Escape: quit player.

@@ -7,14 +7,14 @@ _CheckParallelDownloads() {
     
     if [[ $(awk -F'["=]' '/use_parallel_downloads/{print $2}' "$MPMRC") == yes ]]; then
         [[ $(grep -c -v '^https://www.youtube.com' "$M3UFILE") -gt 1 ]] && {
-            __
+            _BlankLine
             printf '%s\n' \
             " ${critical}There is at least one or more links that does not" \
             " come from youtube in ${M3UFILE##*/}" \
             " and use_parallel_downloads is set to ${task}'yes'." \
             " ${critical}Some platforms do not support this feature..." \
             " ${info}(answering NO will download files one by one)."
-            __
+            _BlankLine
             _Prompt -n " Continue with parallel downloads?${nc}" || {
                 use_parallel_downloads="no"
             }

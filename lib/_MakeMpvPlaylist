@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154,SC2034
 _MakeMpvPlaylist() {
-    
+    # change mpv settings in ~/.config/mpm/mpmrc
     makeMpvPlaylistAudiOptions=(
         "${mpvGenOptions_X[@]}"
         "${mpvAudioFormatOptions[@]}"
@@ -15,7 +15,6 @@ _MakeMpvPlaylist() {
         "${mpvVideoFormatOptions[@]}"
     )
 
-    # change mpv settings in ~/.config/mpm/mpmrc
     case "$1" in
         --fzf)
             if [[ $localDir == "$radios_dir" ]]; then
@@ -24,11 +23,17 @@ _MakeMpvPlaylist() {
                 _WhileMpvIsRunning &
                 _Menu
             elif [[ $localMediaType =~ audio|video ]]; then
+                # use-mpvc is set to no or is empty
                 clear
                 _LoadAudioVideoAdvice
                 mpv "${mpvGenOptions_X[@]}" "$m3uFile"
             else
+                playerTitlesList="$tmp_dir/multipleFilesTitles"
                 mpv --no-terminal "${mpvGenOptions_X[@]}" "$m3uFile" &
+                _Has fzf && [[ $mpvc_tui == native ]] && {
+                    _GetMpvPlaylistInfos --playlist
+                    _MakeMpvPlaylistIndexes
+                }
                 _WhileMpvIsRunning &
                 _Menu
             fi
@@ -37,9 +42,16 @@ _MakeMpvPlaylist() {
             cd "$localDir"/"$dir" && {
                 use_mpvc_locally="yes"
                 localPlaylist="yes"
-                echo "local-background" > "$NOWPLAYING"
+                playerTitlesList="$tmp_dir/singleDirTitles"
                 find . -type f | sort | sed 's,.*/,,' \
                 | mpv --no-terminal "${mpvGenOptions_X[@]}" --playlist=- &
+                if _Has fzf && [[ $mpvc_tui == native ]]; then
+                    _GetMpvPlaylistInfos --playlist
+                    _MakeMpvPlaylistIndexes
+                    ln -sfr "$playerTitlesList" "$NOWPLAYING"
+                else
+                    echo "local-background" > "$NOWPLAYING"
+                fi
                 _WhileMpvIsRunning &
             }
         ;;
@@ -54,6 +66,7 @@ _MakeMpvPlaylist() {
             }
         ;;
         --local-dirs)
+            # used by _QueueMultipleDirs function
             mpv --no-terminal \
             "${mpvGenOptions_SK[@]}" \
             "${mpvGenOptions_ID[@]}" \

@@ -1,17 +1,17 @@
 #!/bin/bash
-# ~/.config/mpm/themerc (version 2.2-4)
+# ~/.config/mpm/themerc (version 2.2-5)
 
-######################################################################
-#                                                                    #
-#    ████████╗██╗  ██╗███████╗███╗   ███╗███████╗██████╗  ██████╗    #
-#    ╚══██╔══╝██║  ██║██╔════╝████╗ ████║██╔════╝██╔══██╗██╔════╝    #
-#       ██║   ███████║█████╗  ██╔████╔██║█████╗  ██████╔╝██║         #
-#       ██║   ██╔══██║██╔══╝  ██║╚██╔╝██║██╔══╝  ██╔══██╗██║         #
-#       ██║   ██║  ██║███████╗██║ ╚═╝ ██║███████╗██║  ██║╚██████╗    #
-#       ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝    #
-#                                                                    #
-########### MPV-PLAYLISTS-MANAGER THEME CONFIGURATION FILE ###########
-#~~~~~~~~~~~~ change the values, not the variables names ~~~~~~~~~~~~#
+###########################################################################
+#'########:'##::::'##:'########:'##::::'##:'########:'########:::'######::#
+#... ##..:: ##:::: ##: ##.....:: ###::'###: ##.....:: ##.... ##:'##... ##:#
+#::: ##:::: ##:::: ##: ##::::::: ####'####: ##::::::: ##:::: ##: ##:::..::#
+#::: ##:::: #########: ######::: ## ### ##: ######::: ########:: ##:::::::#
+#::: ##:::: ##.... ##: ##...:::: ##. #: ##: ##...:::: ##.. ##::: ##:::::::#
+#::: ##:::: ##:::: ##: ##::::::: ##:.:: ##: ##::::::: ##::. ##:: ##::: ##:#
+#::: ##:::: ##:::: ##: ########: ##:::: ##: ########: ##:::. ##:. ######::#
+#:::..:::::..:::::..::........::..:::::..::........::..:::::..:::......:::#
+############## MPV-PLAYLISTS-MANAGER THEME CONFIGURATION FILE #############
+#~~~~~~~~~~~~~~~ change the values, not the variables names ~~~~~~~~~~~~~~#
 
 # shellcheck disable=SC2034,SC2016,SC2154
 
@@ -22,6 +22,16 @@
 ### nc=normal text, critical=warnings, info=normal prompt, mtitle=menus title,
 ### task=infos like: direct download, audio conversion type etc...
 ### customColors is called from lib/_LittleStars function.
+
+_NativePlayerColors() {
+    export FZF_DEFAULT_OPTS='
+        --color=header:bold:#87afaf
+        --color=fg:#d0d0d0,fg+:#ffffff,bg:#21242b,bg+:#2e3944
+        --color=hl:#5f87af,hl+:#5fd7ff,info:#afaf87
+        --color=prompt:#af5fff,spinner:#af5fff,pointer:#af5fff
+        --color=border:#554476,label:#aeaeae,query:#d9d9d9
+    '
+}
 
 _Theme() {
 
@@ -42,15 +52,6 @@ _Theme() {
             task=$'\e[38;2;248;248;240m';    #f8f8f0 "0xf8 0xf8 0xf0"
             customColors=( "0x76 0x72 0xe8" "0xa0 0x6d 0x4e" "0x69 0xb0 0xbf" \
             "0x81 0x7c 0x5c" "0xf8 0xf8 0xf0" )
-        ;;
-        pistachio)
-            nc=$'\e[38;2;146;196;113m';     #92C471 "0x92 0xc4 0x71"
-            critical=$'\e[38;2;215;95;65m'; #D75F41 "0xd7 0x5f 0x41"
-            info=$'\e[38;2;146;196;113m';   #92C471 "0x92 0xc4 0x71"
-            mtitle=$'\e[38;2;242;203;87m';  #F2CB57 "0xf2 0xcb 0x57"
-            task=$'\e[38;2;249;230;176m';   #F9E6B0 "0xf9 0xe6 0xb0"
-            customColors=( "0x92 0xc4 0x71" "0xd7 0x5f 0x41" "0x92 0xc4 0x71" \
-            "0xf2 0xcb 0x57" "0xf9 0xe6 0xb0" )
         ;;
         dracula)
             nc=$'\e[38;2;189;147;249m';     #BD93F9 "0xbd 0x93 0xf9"
@@ -102,6 +103,15 @@ _Theme() {
                         #   normal text   critical      info          mtitle       task
             customColors=( "102;217;239" "249;38;114" "166;226;46" "244;191;171" "248;248;242" )
         ;;
+        pistachio)
+            nc=$'\e[38;2;146;196;113m';     #92C471 "0x92 0xc4 0x71"
+            critical=$'\e[38;2;215;95;65m'; #D75F41 "0xd7 0x5f 0x41"
+            info=$'\e[38;2;146;196;113m';   #92C471 "0x92 0xc4 0x71"
+            mtitle=$'\e[38;2;242;203;87m';  #F2CB57 "0xf2 0xcb 0x57"
+            task=$'\e[38;2;249;230;176m';   #F9E6B0 "0xf9 0xe6 0xb0"
+            customColors=( "0x92 0xc4 0x71" "0xd7 0x5f 0x41" "0x92 0xc4 0x71" \
+            "0xf2 0xcb 0x57" "0xf9 0xe6 0xb0" )
+        ;;
         TokyoNight)
             nc=$'\e[38;2;169;177;214m';       #A9B1D6 "0xa9 0xb1 0xd6"
             critical=$'\e[38;2;247;118;142m'; #F7768E "0xf7 0x76 0x8e"
@@ -137,15 +147,6 @@ _Theme() {
             task=$'\e[38;2;79;122;167m';    #4F7AA7 "0x4f 0x7a 0xa7"
             customColors=( "0xdc 0xdc 0xcc" "0xc6 0x5c 0x5c" "0x60 0xb4 0x8a" \
             "0xf0 0xdf 0xaf" "0x4f 0x7a 0xa7" )
-        ;;
-        zorange)
-            nc=$'\e[38;2;248;116;0m';       #f87400 "0xf8 0x74 0x00"
-            critical=$'\e[38;2;248;66;0m';  #f84200 "0xf8 0x42 0x00"
-            info=$'\e[38;2;248;155;41m';    #f89b29 "0xf8 0x9b 0x29"
-            mtitle=$'\e[38;2;240;187;17m';  #f0bb11 "0xf0 0xbb 0x11"
-            task=$'\e[38;2;240;162;17m';    #f0a211 "0xf0 0xa2 0x11"
-            customColors=( "0xf8 0x74 0x00" "0xf8 0x42 0x00" "0xf8 0x9b 0x29" \
-            "0xf0 0xbb 0x11" "0xf0 0xa2 0x11" )
         ;;
     esac
     

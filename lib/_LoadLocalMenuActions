@@ -24,8 +24,7 @@ _LoadLocalMenuActions() {
         fi
     }
 
-    # _MpvOwnsTmpList --local test if the player owns the tmp local playlist before going futher.
-    
+    # test if the player owns the tmp local playlist before going futher.
     case "$1" in
         --explore)
             [[ $loadLocalMenuOptions == 5 ]] && localDir="$MUSIC_DIR"
@@ -40,7 +39,7 @@ _LoadLocalMenuActions() {
                     __settingLoadLocalVars -v
                 fi
                 if _Has fzf && [[ $use_fzf == yes ]]; then
-                    clear; __; _SelectLocalDir -f; _Menu
+                    clear; _BlankLine; _SelectLocalDir -f; _Menu
                 else
                     __isFileManagerInstalled
                 fi
@@ -53,7 +52,7 @@ _LoadLocalMenuActions() {
                 case "$diranswer" in
                     a|A) __settingLoadLocalVars -a ;;
                     v|V) __settingLoadLocalVars -v ;;
-                    *  ) __; _WrongOption "$diranswer"; return ;;
+                    *  ) _BlankLine; _WrongOption "$diranswer"; return ;;
                 esac
                 _QueueMultipleDirs
             }
@@ -61,10 +60,10 @@ _LoadLocalMenuActions() {
         --radio-dir)
             _MpvOwnsTmpList --local || {
                 if [[ -n $radios_dir ]]; then
-                    localDir="$radios_dir"
+                    localDir="$radios_dir"; 
                     if _Has fzf && [[ $use_fzf == yes ]]; then
                         fzf_preview=(cat)
-                        clear; __; _FzfEnqueue
+                        clear; _BlankLine; _FzfEnqueue
                     else
                         printf '%s\n' \
                         " ${critical}The fzf package isn't installed, or use_fzf is set to 'no'.${nc}"
@@ -85,7 +84,7 @@ _LoadLocalMenuActions() {
                 fi
                 _ReplaceSpaces -l
                 clear
-                __
+                _BlankLine
                 _SelectLocalDir -d
             }
         ;;
@@ -93,7 +92,7 @@ _LoadLocalMenuActions() {
             if _Has somabox && [[ $use_somabox == yes ]]; then
                 _MpvOwnsTmpList --local || somabox
             else
-                __
+                _BlankLine
                 printf '%s\n' " ${critical}use_somabox is set to 'no' in mpmrc" \
                     " or the somabox script isn't in you \$PATH..." \
                     " unabled to launch the player.${nc}"

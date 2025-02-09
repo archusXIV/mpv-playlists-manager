@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2034
 _CreateAddPlaylist() {
 
-    local Type TITLES URLS menuTitleType arg supportedSites file addPlaylistDir
+    local Type TITLES URLS menuTitleType arg supportedSites file addPlaylistDir tmpFzf
 
     supportedSites="https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md"
     isInstalled="is installed, first copy a link then press 1)"
@@ -18,6 +18,7 @@ _CreateAddPlaylist() {
             menuTitleType=AUDIO
             arg="-a"
             addPlaylistDir="$audios_dir"
+            tmpFzf=audio
         ;;
         -v)
             Type=Video
@@ -26,6 +27,7 @@ _CreateAddPlaylist() {
             menuTitleType=VIDEO
             arg="-v"
             addPlaylistDir="$videos_dir"
+            tmpFzf=video
         ;;
     esac
 
@@ -40,11 +42,11 @@ _CreateAddPlaylist() {
         clear
 
         test -s "$YTSEARCH" && _GetYoutubePlaylistUrls -s
-        __
+        _BlankLine
         test -s "$URLS"  && \
         echo -e " ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}\n"
         __clipboardCmdTest && printf '%s\n' "                                   $clipBoadCmdisInstalled"
-        __
+        _BlankLine
         echo -e "                                                   ${mtitle}::${B}${menuTitleType} OPTIONS${N}::${nc}"
         echo -e "                                          $(_LittleStars)${nc}"
         echo -e "                                ┌──────────────────────────────────────────────────────┐"
@@ -56,7 +58,7 @@ _CreateAddPlaylist() {
         test -s "$URLS"  \
         && echo -e "                                                    ${info}Select an item${nc}" \
         || echo -e "                                                    ${info}${b}Select an item${nb}${nc}"
-        __
+        _BlankLine
         read -rsn 1 createAddPlaylistOptions
         case "$createAddPlaylistOptions" in
             1)  _CreateAddPlaylistActions --add ;;

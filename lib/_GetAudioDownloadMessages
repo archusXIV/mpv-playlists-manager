@@ -7,36 +7,36 @@ _GetAudioDownloadMessages() {
     case "$1" in
         --parallel)
             [[ $M3UFILE == "$AUDIO_URLS" ]] && {
-                __
+                _BlankLine
                 printf '%s\n' " ${info}$(_GetLinesList -a) audio file(s) left to download." \
                 " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
             }
             [[ $M3UFILE == "$playlists_dir"/"$list" ]] && {
-                __
+                _BlankLine
                 printf '%s\n' " ${info}$(_GetLinesList -l) audio file(s) left to download." \
                 " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
             }
             [[ $M3UFILE == "$DEFAULT_LIST" ]] && {
-                __
+                _BlankLine
                 printf '%s\n' " ${info}$(_GetLinesList -d) audio file(s) left to download." \
                 " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
             }
         ;;
         --onebyone)
             [[ $M3UFILE == "$AUDIO_URLS" ]] && {
-                __
+                _BlankLine
                 printf '%s\n' " ${info}$(_GetLinesList -a) audio file(s) left to download." \
                 " Downloading:  $(_GetLinkTitle -a)" \
                 " ${task}Searching for webm format...${nc}"
             }
             [[ $M3UFILE == "$playlists_dir"/"$list" ]] && {
-                __
+                _BlankLine
                 printf '%s\n' " ${info}$(_GetLinesList -l) audio file(s) left to download." \
                 " Downloading:  $(_GetLinkTitle -l)" \
                 " ${task}Searching for webm format...${nc}"
             }
             [[ $M3UFILE == "$DEFAULT_LIST" ]] && {
-                __
+                _BlankLine
                 printf '%s\n' " ${info}$(_GetLinesList -d) audio file(s) left to download." \
                 " Downloading:  $(_GetLinkTitle -d)" \
                 " ${task}Searching for webm format...${nc}"
@@ -44,17 +44,17 @@ _GetAudioDownloadMessages() {
         ;;
         --xargs)
             [[ $M3UFILE == "$AUDIO_URLS" ]] && {
-                __
+                _BlankLine
                 printf '%s\n' " ${info}$(_GetLinesList -a) audio file(s) left to download." \
                 " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
             }
             [[ $M3UFILE == "$playlists_dir"/"$list" ]] && {
-                __
+                _BlankLine
                 printf '%s\n' " ${info}$(_GetLinesList -l) audio file(s) left to download." \
                 " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
             }
             [[ $M3UFILE == "$DEFAULT_LIST" ]] && {
-                __
+                _BlankLine
                 printf '%s\n' " ${info}$(_GetLinesList -d) audio file(s) left to download." \
                 " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
             }

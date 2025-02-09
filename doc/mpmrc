@@ -1,25 +1,26 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 2.2-4)
+# ~/.config/mpm/mpmrc (version 2.2-5)
 
 ########################################################
-#                                                      #
-#    ███╗   ███╗██████╗ ███╗   ███╗██████╗  ██████╗    #
-#    ████╗ ████║██╔══██╗████╗ ████║██╔══██╗██╔════╝    #
-#    ██╔████╔██║██████╔╝██╔████╔██║██████╔╝██║         #
-#    ██║╚██╔╝██║██╔═══╝ ██║╚██╔╝██║██╔══██╗██║         #
-#    ██║ ╚═╝ ██║██║     ██║ ╚═╝ ██║██║  ██║╚██████╗    #
-#    ╚═╝     ╚═╝╚═╝     ╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝    #
-#                                                      #
+#'##::::'##:'########::'##::::'##:'########:::'######::#
+# ###::'###: ##.... ##: ###::'###: ##.... ##:'##... ##:#
+# ####'####: ##:::: ##: ####'####: ##:::: ##: ##:::..::#
+# ## ### ##: ########:: ## ### ##: ########:: ##:::::::#
+# ##. #: ##: ##.....::: ##. #: ##: ##.. ##::: ##:::::::#
+# ##:.:: ##: ##:::::::: ##:.:: ##: ##::. ##:: ##::: ##:#
+# ##:::: ##: ##:::::::: ##:::: ##: ##:::. ##:. ######::#
+#..:::::..::..:::::::::..:::::..::..:::::..:::......:::#
 ####### MPV-PLAYLISTS-MANAGER CONFIGURATION FILE #######
 ######### THE PLACE FOR YOUR PERSONAL SETTINGS #########
 #~~~~~ change the values, not the variables names ~~~~~#
+# To launch mpm faster add 'source ~/.config/mpm/mpmrc' in your .bashrc
 
 # shellcheck disable=SC2034,SC2016,SC2154,SC1083
 
 # checking for mpm updates yes/no
 check_updates="yes"
 
-# change the main mpm window size. (recommended size = 124x33)
+# change the main mpm window size. (recommended size = 124x32)
 # whereas width is the number of columns and height the number of lines.
 width=124
 height=32
@@ -125,6 +126,7 @@ parallel_threads="$(nproc)" # total number of cpu cores.
 # audio/video urls from youtube in a simple but limited way.
 # In addition you can also use the ytfzf script if it is in your $PATH.
 # <https://github.com/pystardust/ytfzf>
+# (will appear in main menu)
 use_fzf="no"
 
 # preview local files details while queuing them in option 5)
@@ -178,14 +180,19 @@ ffmpegOggCodecOptions=( -acodec libvorbis -ar 48000 -ab 320k )
 ffmpegWavCodecOptions=( -acodec pcm_s32le -ar 48000 )
 
 ############################ MPV SPECIFICS ############################
-# can be yes (mpvc tui) no (stop mpv by typing Q),
+# can be yes (mpvc tui) no (stop mpv by typing Q etc...see help option),
 # or empty (mpv infos in the terminal).
-use_mpvc=""
-# change your mpv terminal user interface here
+# for the native interface to work, this must be set to yes.
+# (will appear in main menu)
+use_mpvc="yes"
+# change your mpv terminal user interface here,
+# native interface is a FZF frontend to control your running playlist.
+# !!! The colors are be defined and can be changed in ~/.config/mpm/themerc !!!
 # mpvc_tui="ncmpvc"
-mpvc_tui=""
+mpvc_tui="native"
+
 # change this according to your mpv tui cheatsheet location
-# or keep it as it is if your don't use any alternative.
+# or keep it as it is if you don't use any alternative.
 mpvc_tui_cheatsheet="/usr/local/share/doc/mpm/ncmpvc_cheatsheet"
 
 # mpv audio/video online playing command line

@@ -9,7 +9,7 @@ _GetYoutubePlaylistUrls() {
     __getYoutubePlaylistUrlsInfo() (
         playlistName=$(yt-dlp "${ytdlPreset_DW[@]}" -J \
         --flat-playlist "$playlist" | jq --raw-output .title)
-        __
+        _BlankLine
         printf '%s\n' \
         " ${info}Please be patient while extracting urls/titles from:" \
         " $playlistName playlist...${nc}"; sleep 1

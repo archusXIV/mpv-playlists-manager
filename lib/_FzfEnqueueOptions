@@ -7,7 +7,17 @@ _FzfEnqueueOptions() {
     read -rsn 1 -p " ${info}[A]dd more files, [N]o thanks: ${nc}" enqueueOptions
     clear
     sed -i "s/^/${localDirPath}\//" fzfEnqueue.m3u
-    
+
+    __isRadioDirSelected() (
+        if [[ $localDir == "$radios_dir" ]]; then
+            playerTitlesList="$m3uFile"
+            _MakeMpvPlaylistIndexes
+            _MakeMpvPlaylist --fzf
+        else
+            _MakeMpvPlaylist --fzf
+        fi
+    )
+
     case "$enqueueOptions" in
         a|A)
             if [[ ! -f "$FZFENQUEUE" ]]; then
@@ -23,18 +33,17 @@ _FzfEnqueueOptions() {
         n|N)
             use_mpvc_locally="yes"
             localPlaylist=yes
-
             if [[ ! -f "$FZFENQUEUE" ]]; then
                 m3uFile="$localDir/$dir/fzfEnqueue.m3u"
                 ln -sfr "$m3uFile" "$NOWPLAYING"
-                _MakeMpvPlaylist --fzf
+                __isRadioDirSelected
             else
                 cat "$FZFENQUEUE" fzfEnqueue.m3u > ./tmpfile
                 mv -f ./tmpfile "$FZFENQUEUE"
                 rm fzfEnqueue.m3u
                 m3uFile="$FZFENQUEUE"
                 ln -sfr "$m3uFile" "$NOWPLAYING"
-                _MakeMpvPlaylist --fzf
+                __isRadioDirSelected
             fi
         ;;
         *)

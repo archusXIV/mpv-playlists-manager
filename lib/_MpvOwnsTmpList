@@ -8,9 +8,9 @@ _MpvOwnsTmpList() {
 
     _PidOfMpv >/dev/null && {
 
-        [[ -f $NOWPLAYING || -L $NOWPLAYING ]] && {
+        [[ -f $NOWPLAYING || -L $NOWPLAYING || -f $pidofMpv ]] && {
 
-            sedPrint=$(sed -n '1p' "$NOWPLAYING")
+            sedPrint=$(sed -n '1p' "$NOWPLAYING" 2>/dev/null)
 
             case "$1" in
                 --collection)
@@ -53,7 +53,7 @@ _MpvOwnsTmpList() {
                     if [[ $localPlaylist == yes || $sedPrint =~ $HOME ]]; then
                         name="a local"
                         action="if you want to queue $name directory/file(s),"
-                    elif [[ -f "$SELECTED_URLS1" || $m3uFile == *.m3u ]]; then
+                    elif [[ -f "$SELECTED_URLS1" || $m3uFile == *.m3u || -f $pidofMpv ]]; then
                         name="another"
                         action="if you want to queue a directory/file(s),"
                     else
@@ -65,7 +65,7 @@ _MpvOwnsTmpList() {
             printf '%s\n' " ${critical}mpv owns $name playlist..." \
             " $action" \
             " just quit mpv first to proceed.${nc}"
-            __
+            _BlankLine
             if [[ $downloadTmpList =~ default|list ]]; then
                 read -rsn 1 \
                 -p " ${info}[A]bort, [D]ownload tmp list, [Q]uit mpv: ${nc}" \
@@ -92,7 +92,6 @@ _MpvOwnsTmpList() {
                 *) _WrongOption "$mpvOwnsTmpListOptions" && _Menu ;;
             esac
         }
-        # [[ -f $pidofMpv ]] && _StartUp
     }
 
 }

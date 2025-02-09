@@ -6,11 +6,11 @@ _MenuFooter() {
     if [[ $mpv_is_running == yes ]]; then
         kill -SIGTERM "$(pidof -x "$mpvc_tui")" 2>/dev/null
         _RemoveMpvTmp
-        clear; __; __
+        # sleep 1
         echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
         echo -e "                   │              ${info}mpv isn't running anymore, press ${task}R ${info}to refresh the screen${nc}               │"
         echo -e "                   │                        ${info}Press ${task}Ctrl C ${info}if mpm isn't launched.${nc}                          │"
-        echo -e "                   └─────────────────────────────────────────────────────────────────────────────────────┘"        
+        echo -e "                   └─────────────────────────────────────────────────────────────────────────────────────┘"
     elif [[ $use_mpvc == yes && -z $mpvc_tui ]] || [[ $use_mpvc == no && $use_mpvc_locally == yes ]]; then
         # # no access to mpvc_tui & playing online
         echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"

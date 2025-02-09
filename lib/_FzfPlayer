@@ -1,0 +1,53 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2317
+_FzfPlayer() {
+
+    cd "$tmp_dir" || exit 1
+
+    __passPlaylistIndexToMpv() (
+        local index lenght
+        index=$(awk '{print $1}' playerSelectedFile)
+        lenght="${#index}"
+
+        if [[ $lenght -eq 1 ]]; then
+            index="${index:0:1}"
+        elif [[ $lenght -eq 2 ]]; then
+            index="${index:0:2}"
+        else
+            index="${index:0:3}"
+        fi
+        echo playlist-play-index "$index" | socat - "$MPVSOCKET"
+    )
+
+    export -f __passPlaylistIndexToMpv
+
+    _NativePlayerColors
+    
+    while [[ -s playerSelectedFile ]]; do
+        fzf \
+        --cycle \
+        --reverse \
+        --no-multi \
+        --pointer '<>' \
+        --scroll-off=5 \
+        --no-scrollbar \
+        --border rounded \
+        --prompt='Search: ' \
+        --preview-window=down:1 \
+        --preview="(_GetMpvPlaylistInfos --title)" \
+        --border-label "| ${nc}Native Mpm Player${nc} |" \
+        --header " Enter:play, ^N:next, ^P:prev, ^T:toggle pause, ^R:reload, ESC:quit player:" \
+        --bind "enter:become(
+            echo {} > playerSelectedFile; __passPlaylistIndexToMpv; \
+            sleep 0.1; _GetMpvPlaylistInfos --title >/dev/null
+        )" \
+        --bind "ctrl-n:become(echo playlist_next | socat - $MPVSOCKET; _GetMpvPlaylistInfos --title)" \
+        --bind "ctrl-p:become(echo playlist_prev | socat - $MPVSOCKET; _GetMpvPlaylistInfos --title)" \
+        --bind "ctrl-t:become(echo cycle pause | socat - $MPVSOCKET)" \
+        --bind "ctrl-r:become(_GetMpvPlaylistInfos --title)" \
+        --bind "esc:become(sed -i '1d' ./playerSelectedFile)" < playerIndexesList
+	done
+    export FZF_DEFAULT_OPTS=
+}

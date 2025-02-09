@@ -28,7 +28,7 @@ _ManualsMenu() {
         echo -e "                                    │     5) Man $ytfzfCmd       X) Back to main menu     │"
         echo -e "                                    └─────────────────────────────────────────────────┘"
         echo -e "                                                      ${info}${b}Select an item${nb}${nc}"
-        __
+        _BlankLine
         read -rsn 1 manualsMenuOptions
         case "$manualsMenuOptions" in
             1) man ffmpeg ;;

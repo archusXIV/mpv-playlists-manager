@@ -39,7 +39,7 @@ _CreateAddPlaylistActions() {
                 clear
                 _SearchOnline
             else
-                __
+                _BlankLine
                 printf '%s\n' " ${critical}use_fzf is empty or it's set to ${task}no${nc}" \
                 " in your mpmrc...no way to search online!${nc}"
                 sleep 5

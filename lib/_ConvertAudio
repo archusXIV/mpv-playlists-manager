@@ -16,7 +16,7 @@ _ConvertAudio() {
     mapfile -t webmFiles < <(find . -iname "*.webm")
 
     if [[ -n $default_conversion_format ]]; then
-        __
+        _BlankLine
         printf '%s\n' \
         " ${info}Conversion format set to $default_conversion_format." \
         " Converting files in ${task}${b}$default_conversion_format...${nb}"
@@ -31,7 +31,7 @@ _ConvertAudio() {
             sleep 2
         fi
     else
-        __
+        _BlankLine
         printf '%s\n' " ${critical}Conversion format isn't set..." \
         " make sure audio codecs/plugins are installed." \
         " ${info}(Press Enter to abort conversion)${nc}"
@@ -42,7 +42,7 @@ _ConvertAudio() {
             [4]="ogg"
             [5]="wav"
         )
-        __
+        _BlankLine
         read -rn1 \
         -p " ${info}Select an output format [1]=aac [2]=flac [3]=mp3 [4]=ogg [5]=wav: ${nc}"
 
@@ -50,7 +50,7 @@ _ConvertAudio() {
             [1-5])
                 printf '\n%s\n' \
                 " ${info}Converting files in ${task}${b}${formats[${REPLY}]}...${nb}"
-                __
+                _BlankLine
                 if _Has parallel && [[ $use_parallel == yes && $parallel_conversion == yes ]]; then
                     _ParallelConversion --parallel-chosen
                 elif _Has xargs && [[ $parallel_conversion == yes ]]; then
@@ -65,11 +65,11 @@ _ConvertAudio() {
             *)
                 find "$audios_dir" -maxdepth 2 -name "*.webm" >/dev/null && {
                     mv ./*.webm "$MUSIC_DIR"
-                    __
+                    _BlankLine
                     printf '%s\n' " ${critical}Conversion aborted or wrong option," \
                     " All .webm files have been moved in $MUSIC_DIR.${nc}"
                     sleep 4
-                    __
+                    _BlankLine
                 }
             ;;
         esac

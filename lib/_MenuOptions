@@ -27,7 +27,12 @@ _MenuOptions() {
         x|X  ) _IfQuitAfterTask -x ;;
         n|N  )
             if _PidOfMpv >/dev/null && [[ $use_mpvc == yes && -n $mpvc_tui ]]; then
-                "$mpvc_tui"
+                if _Has fzf && [[ $mpvc_tui == native ]]; then
+                    echo "starting simple mpm player" > "$tmp_dir"/playerSelectedFile
+                    _FzfPlayer
+                else
+                    _Has "$mpvc_tui" && "$mpvc_tui"
+                fi
             else
                 printf '%s\n' \
                 " ${critical}mpv isn't running or no mpv interface setup in your config..." \

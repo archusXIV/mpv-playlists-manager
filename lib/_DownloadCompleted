@@ -32,7 +32,7 @@ _DownloadCompleted() {
                 rm -f "${FILES[@]}" 2>/dev/null
             fi
         else
-            __
+            _BlankLine
             printf '%s\n' " ${info}Downloads completed." \
             " ${critical}$list is empty... $list removed.${nc}"
             sleep 3

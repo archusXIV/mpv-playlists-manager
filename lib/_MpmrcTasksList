@@ -23,7 +23,7 @@ _MpmrcTasksList() {
     done
     
     unset setting
-    __
+    _BlankLine
     _Prompt -n " ${info}Edit config?${nc}" && {
         _EditMpmConf
     }

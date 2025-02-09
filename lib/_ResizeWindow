@@ -16,7 +16,7 @@ _ResizeWindow() {
             if [[ -n $width && -n $height ]]; then
                 echo -ne "\e[8;${height};${width}t"
             else
-                echo -ne '\e[8;33;124t'
+                echo -ne '\e[8;32;124t'
             fi
         ;;
     esac

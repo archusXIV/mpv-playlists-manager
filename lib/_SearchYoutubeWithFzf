@@ -7,30 +7,38 @@ _SearchYoutubeWithFzf() {
     local jqSearch jqPreview jqPreviewCmd fzfGrabLinks
 
     _ResizeWindow -m
-    __
+    _BlankLine
     read -rp " ${info}Search for ${platform} ${Type} (no quotes): ${nc}" request
     clear
     [[ -z $request ]] && return
 
     jqSearch='.title + "\u0000", ., "\n"'
     jqPreview='
-        "\u001b[0;1m" + .title + "\u001b[0m" + "\n" + if (.duration | isfinite) then
-        (.duration / 60 | round | tostring) else "?" end + " min | views: " + if (.view_count | isfinite) then
+        "\u001b[0;1m" + .title + "\u001b[0m" + "\n" + "duration: " + if (.duration | isfinite) then
+        (.duration_string | tostring) else "?" end + " | views: " + if (.view_count | isfinite) then
         (.view_count | tostring) else "?" end + " | " + .uploader + "\n\n" + .description + "\n\n\n"
     '
     jqPreviewCmd="cat {f2} \
         | jq -jr $(printf '%q' "$jqPreview");[ '{n}' != '{+n}' ] \
-        && echo -e '\033[33;1m---   Playlist   ---\033[0m' && cat {+f2} \
-        | jq -jr $(printf '%q' "$jqPreview")
+        && echo -e '\033[33;1m---   Playlist   ---\033[0m' && \
+        cat {+f2} | jq -jr $(printf '%q' "$jqPreview")
     "
     fzfGrabLinks=$(
         yt-dlp ytsearch"${ytdlPreset_NR[0]}":"$request" -j --flat-playlist \
+        | jq -r 'select(.title | startswith("#") | not)' \
         | jq -cj "$jqSearch" \
         | fzf \
-            --multi --reverse --pointer '<>' --scroll-off=5 \
-            --prompt='Search: ' --header='Select with Tab, Enter to confirm, Escape to cancel' \
-            --border rounded --border-label "| Results for: $request |" \
-            --preview="$jqPreviewCmd" --preview-window="down:20%" -n 1 --with-nth=1 -d '\0' --ansi \
+            --multi \
+            --reverse \
+            --scroll-off=5 \
+            --pointer '<>' \
+            --border rounded \
+            --prompt='Search: ' \
+            --preview="$jqPreviewCmd" \
+            --preview-window="down:20%" \
+            -n 1 --with-nth=1 -d '\0' --ansi \
+            --border-label "| Results for: $request |" \
+            --header='Select with Tab, Enter to confirm, Escape to cancel' \
         | cut -d '' -f2 \
         | jq --raw-output '(.webpage_url, .title)'
     )
@@ -43,7 +51,7 @@ _SearchYoutubeWithFzf() {
         | tee >(grep -v '^https' | tee -a "$TITLES" >> "$DEFAULT_TITLES") \
         >(grep '^https' | tee -a "$URLS" >> "$DEFAULT_LIST") >/dev/null
         _RemoveCrap
-        _CreateAddPlaylist "$arg"
+        _ViewAudioVideoUrlsInfo "$arg"
     fi
 
 }

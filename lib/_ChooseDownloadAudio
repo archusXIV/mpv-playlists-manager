@@ -29,7 +29,7 @@ _ChooseDownloadAudio() {
     animationTitles="$SELECTED_TITLES"
 
     __chooseDownloadAudioFormat() (
-        __
+        _BlankLine
         read -rp "${info}Choose a format code for $(_GetLinkTitle -s)${nc}: " code
         clear
         _DownloadMessages --choose-audio
@@ -56,7 +56,7 @@ _ChooseDownloadAudio() {
                 --format 251 "${ytdlPreset_NC[@]}" "$url"
 
             elif [[ $direct_download == no && $url =~ 'youtube.com' ]]; then
-                __
+                _BlankLine
                 yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
                 | awk '/audio only|PROTO|^[-]/ {sub("^[sb*]",""); print $0}'
                 __chooseDownloadAudioFormat

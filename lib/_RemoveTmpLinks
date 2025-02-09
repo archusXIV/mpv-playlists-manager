@@ -6,9 +6,9 @@ _RemoveTmpLinks() {
 
     _ResizeWindow -m; clear
     printf '\n%s\n' " ${info}Select titles to remove fron ${tmpList##*/}${nc}"
-    __
+    _BlankLine
     nl "$tmpTitles"
-    __
+    _BlankLine
 
     __abortDeletionMessage() (
         printf '\n%s\n' " ${critical}Deletion aborted...${nc}"

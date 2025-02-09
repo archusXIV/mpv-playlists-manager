@@ -6,7 +6,7 @@ _GetRange() {
     
     cd "$playlists_dir" || exit 1
     grep -v '#EXTM3U' "$list" > "$list"_tmp
-    __
+    _BlankLine
     IFS=", "; read -ra array -p "$RANGEPROMPT"
     for range in "${array[@]}"; do
         IFS="-"; read -r start end <<< "$range"
@@ -14,8 +14,7 @@ _GetRange() {
         [[ $range =~ [a-zA-Z] ]] && {
             rm "$list"_tmp
             unset IFS range
-            __
-            printf '%s\n' " ${critical}Selection aborted.${nc}"
+            printf '\n%s\n' " ${critical}Selection aborted.${nc}"
             sleep 2
             if [[ $editoption == yes ]]; then
                 editoption=no

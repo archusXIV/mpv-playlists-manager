@@ -11,10 +11,10 @@ _LoadPlaylistMenu() {
         _ResizeWindow -m
         clear
         _DownloadMessages --menu
-        __
+        _BlankLine
         [[ -f $M3UFILE ]] && \
         echo " ${info}Options for: ${M3UFILE%%.*//_/} ${nc}($(grep -c '^https' "$M3UFILE") urls)"
-        __;__
+        _BlankLine;_BlankLine
         echo -e "                                                ${mtitle}::DOWNLOAD/PLAY OPTIONS::${nc}"
         echo -e "                                           $(_LittleStars)${nc}"
         echo -e "                                  ┌───────────────────────────────────────────────────┐"
@@ -26,7 +26,7 @@ _LoadPlaylistMenu() {
         echo -e "                                  │     6) Back to main menu                          │"
         echo -e "                                  └───────────────────────────────────────────────────┘"
         echo -e "                                                    ${info}${b}Select an item${nb}${nc}"
-        __
+        _BlankLine
         read -rsn 1 loadPlaylistMenuOptions
         case "$loadPlaylistMenuOptions" in
             1) _CheckParallelDownloads; _ChooseDownloadAudio ;;

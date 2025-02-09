@@ -11,12 +11,12 @@ _ViewDefaultUrlsInfo() {
     _ResizeWindow -m
 
     __getAudioVideo() {
-        __
+        _BlankLine
         read -rsn 1 \
         -p "${info} Download [A]udio, [V]ideo, [${mtitle}C${info}]ancel: ${nc}" get
         case "$get" in
-            a|A) __; _GetAudio -d ;;
-            v|V) __; _GetVideo -d ;;
+            a|A) _BlankLine; _GetAudio -d ;;
+            v|V) _BlankLine; _GetVideo -d ;;
             *  ) _ViewAudioVideoUrlsInfo -d ;;
         esac
     }
@@ -35,7 +35,7 @@ _ViewDefaultUrlsInfo() {
             menuTitleType=DEFAULT
             URLS="$DEFAULT_LIST"
             TITLES="$DEFAULT_TITLES"
-            __
+            _BlankLine
             __listHeader
             read -rsn 1 viewDefaultUrlsInfOptions
             case "$viewDefaultUrlsInfOptions" in
@@ -53,12 +53,18 @@ _ViewDefaultUrlsInfo() {
                         _StartUp
                     else
                         _MpvOwnsTmpList --default || {
-                            __
+                            _BlankLine
                             read -rsn 1 \
                             -p "${info}"' Play [A]udio, [V]ideo?: '"${nc}" play
                             case "$play" in
-                                a|A) _LoadAudioVideo -da ;;
-                                v|V) _LoadAudioVideo -dv ;;
+                                a|A)
+                                    playerTitlesList="$DEFAULT_TITLES"
+                                    _Has fzf && [[ $mpvc_tui == native ]] && _MakeMpvPlaylistIndexes
+                                    tmpFzf=audio_video; _LoadAudioVideo -da ;;
+                                v|V)
+                                    playerTitlesList="$DEFAULT_TITLES"
+                                    _Has fzf && [[ $mpvc_tui == native ]] && _MakeMpvPlaylistIndexes
+                                    tmpFzf=audio_video; _LoadAudioVideo -dv ;;
                                 *)
                                     _WrongOption "$play"
                                     break

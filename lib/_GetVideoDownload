@@ -21,10 +21,10 @@ _GetVideoDownload() {
         else
             mapfile -t VIDEOLINKS < <(grep '^https' "$M3UFILE")
             for url in "${VIDEOLINKS[@]}"; do
-                __
+                _BlankLine
                 yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
                 | awk '$0 !~ /sb|youtube|info/{print $0}'
-                __
+                _BlankLine
                 __chooseFormatMessages
                 read -r code
                 clear

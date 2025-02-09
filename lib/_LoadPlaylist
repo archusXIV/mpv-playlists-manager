@@ -1,19 +1,23 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2044
+# shellcheck disable=SC2154,SC2044,SC2034
 _LoadPlaylist() {
 
     cd "$playlists_dir" || exit 1
 
-    local list titlesFile
+    local list titlesFile action
 
     for lst in $(find . -type f -name "*_origin"); do
         mv -f "$lst" "${lst//_origin/}"
     done
 
     clear
-    __
+    _Has fzf && [[ $use_fzf == yes ]] && {
+        action=Load
+        _FzfPlaylistActions --load
+    }
+    _BlankLine
     PS3=""$'\n'" ${info}Select a playlist to load, [${mtitle}C${info}]ancel: ${nc}"
     select list in $(find . -type f -not -name "default.m3u" | sort -d | sed 's,.*/,,'); do
 
@@ -31,10 +35,10 @@ _LoadPlaylist() {
         clear
         printf '\n%s\n' \
         " ${info}Choose an option for: ${list%%.*//_/} ${nc}($(grep -c '^https' "$list") urls)"
-        __
+        _BlankLine
         read -rsn 1 -p " ${info}[1] Download/Play, [2] View titles, [${mtitle}C${info}]ancel: ${nc}" \
         loadPlaylistOptions
-        __
+        _BlankLine
         case "$loadPlaylistOptions" in
             1)
                 clear; _LoadPlaylistMenu
@@ -50,7 +54,7 @@ _LoadPlaylist() {
 
                 read -rsn 1 \
                 -p "${info}"' [1] Download/Play, [2] Back to menu: '"${nc}" loadPlaylistSubmenuOptions
-                __
+                _BlankLine
                 case "$loadPlaylistSubmenuOptions" in
                     1) clear; _LoadPlaylistMenu ;;
                     2) break ;;
