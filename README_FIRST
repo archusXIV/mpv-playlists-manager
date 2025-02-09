@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.2-4
+mpm version 2.2-6
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -25,15 +25,11 @@ the directory structure is ok for you.
 
 Changelog:
 ------------------------------- !!! ADDED CHANGES IN THEMERC CONFIG FILE !!! -------------------------------
+version 2.2-6 - Fixed bug in _FzfEnqueueOptions function when queueing files from multiple directories
+                leading to open subshell running in the background so we had to type 'x' twice to quit mpm.
 version 2.2-5 - Added a native mpv tui to replace ncmpvc as the default player for any kind of playlist
                 that we want to pass to mpv, see help or bindings to control your playlist
                 inside this fzf "player". Colors can be change in ~/.config/mpm/themerc.
 version 2.2-5 - If use_fzf is set to yes and fzf is installed, loading/editing/removing playlists
                 is done through a fzf menu to select which collection playlist to act on.
 version 2.2-5 - Fixed bug in _MvpOwnsTmplist when tmp_dir/mpv.pid exist.
-version 2.2-4 - Refactored _SearchYoutubeWithFzf function to take into account the number of queries
-                defined as the ytdlPreset_NR array in the user configuration file.
-version 2.2-4 - We don't need wmctrl anymore, the window size is expressed as columns and lines.
-                PLEASE EDIT YOUR MPMRC FILE AND CHANGE IT IF YOU LIKE.
-version 2.2-4 - Added a red prompt when in the [E]dit titles option the user deleted lines instead of editing.
-

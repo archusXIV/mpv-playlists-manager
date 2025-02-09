@@ -59,6 +59,7 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Fixed bug in _FzfEnqueueOptions function when queueing files from multiple directories leading to open subshell running in the background so we had to type 'x' twice to quit mpm.
 - Added a native mpv tui to replace ncmpvc as the default player for any kind of playlist that we want to pass to mpv, see help or bindings to control your playlist inside this fzf "player".
 - If use_fzf is set to yes and fzf is installed, loading/editing/removing playlists is done through a fzf menu to select which collection playlist to act on.
 - Fixed bug in _MvpOwnsTmplist when tmp_dir/mpv.pid exist.
