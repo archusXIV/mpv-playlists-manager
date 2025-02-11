@@ -9,7 +9,7 @@ _RemoveMpvTmp() {
 
     declare -a mpvTmpFiles=(
         "$SELECTED_URLS1" "$SELECTED_TITLES"
-        "$NOWPLAYING" "$FZFENQUEUE" "$mpv_list"
+        "$FZFENQUEUE" "$mpv_list"
         "$pidofMpv" "$LOCALDIRS_LIST"
         "playerIndexesList" "playerSelectedFile"
         "multipleDirsTitles.m3u" "multipleFilesTitles"
@@ -20,7 +20,7 @@ _RemoveMpvTmp() {
         rm "$file"
     done
 
-    rm "$(readlink -f "$NOWPLAYING")"
+    rm "$(readlink -f "$NOWPLAYING")" "$NOWPLAYING"
     unset m3uFile file
 
 } 2>/dev/null

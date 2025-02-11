@@ -4,9 +4,9 @@
 # shellcheck disable=SC2154,SC2034
 _LoadPlaylistMenu() {
 
-    M3UFILE="$playlists_dir/$list"
-    M3UFILE="${M3UFILE##*/}"
-
+    cd "$playlists_dir" || return
+    M3UFILE="$list"
+    
     while :; do
         _ResizeWindow -m
         clear

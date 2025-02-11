@@ -16,6 +16,7 @@ _FzfPlaylistActions() {
         --cycle \
         --reverse \
         --no-multi \
+        --header-first \
         --scroll-off=5 \
         --pointer '<>' \
         --border rounded \
@@ -23,7 +24,7 @@ _FzfPlaylistActions() {
         --border-label "| $action a playlist |" \
         --preview-window="$fzf_preview_layout:$fzf_preview_size" \
         --header="${info}${b}"'Press Enter to select, Escape to cancel:'"${nb}${nc}" \
-        --preview="cat {}.titles" >> "$fst"
+        --preview='(cat {}.titles)' >> "$fst"
     )
 
     if [[ ! -s $fst ]]; then
@@ -35,8 +36,14 @@ _FzfPlaylistActions() {
         list=${list//.titles/}
         rm "$fst"
         case "$1" in
-            --edit) _EditPlaylistOptions ;;
-            --load) _LoadPlaylistMenu ;;
+            --edit)
+                _TitlesListCompare -l
+                _EditPlaylistOptions
+            ;;
+            --load)
+                _TitlesListCompare -l
+                _LoadPlaylistMenu
+            ;;
             --remove)
                 clear
                 _BlankLine

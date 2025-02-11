@@ -17,10 +17,18 @@ _FzfEnqueue() {
     rm ./fzfEnqueue.m3u 2>/dev/null
 
     _Has "$fzf_preview" || fzf_preview=(file -N -i --)
-
-    command ls "$localDir"/"$dir" | sed '/fzfEnqueue.m3u/d' \
-    | fzf --multi --reverse --pointer '<>' --scroll-off=5 --no-scrollbar \
-    --border rounded --border-label "| ${PWD##*/} |" --prompt='Search: ' \
+    find . -type f | sort -d | sed 's,.*/,,;/fzfEnqueue.m3u/d' | \
+    fzf \
+    --multi \
+    --cycle \
+    --reverse \
+    --pointer '<>' \
+    --scroll-off=5 \
+    --no-scrollbar \
+    --header-first \
+    --border rounded \
+    --prompt='Search: ' \
+    --border-label "| ${PWD##*/} |" \
     --header "${info}${b}"'Press Tab to select, Enter to confirm, Escape to cancel:'"${nb}${nc}" \
     --preview-window="$fzf_preview_layout:$fzf_preview_size" \
     --preview="$fzf_preview {}" >> fzfEnqueue.m3u
@@ -29,7 +37,7 @@ _FzfEnqueue() {
         rm ./fzfEnqueue.m3u
         return
     else
-        clear;_BlankLine
+        clear; _BlankLine
         _FzfEnqueueOptions
     fi
 

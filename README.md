@@ -14,7 +14,6 @@ and many more options to control mpv, ffmpeg, yt-dlp and download/playlists dire
 
 - [Supported websites](https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md)
 
-
 [Youtube dedicated channel](https://www.youtube.com/@mpv-playlists-manager-mv8sh/featured)
 
 # Installation
@@ -59,13 +58,9 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Added an option to edit ~/.config/mpm/themerc to get "dynamic" changes for main window but also for the fzf mpv running interface.
 - Fixed bug in _FzfEnqueueOptions function when queueing files from multiple directories leading to open subshell running in the background so we had to type 'x' twice to quit mpm.
 - Added a native mpv tui to replace ncmpvc as the default player for any kind of playlist that we want to pass to mpv, see help or bindings to control your playlist inside this fzf "player".
-- If use_fzf is set to yes and fzf is installed, loading/editing/removing playlists is done through a fzf menu to select which collection playlist to act on.
-- Fixed bug in _MvpOwnsTmplist when tmp_dir/mpv.pid exist.
-- Refactored _SearchYoutubeWithFzf function to take into account the number of queries defined as the ytdlPreset_NR array in the user configuration file.
-- We don't need wmctrl anymore, the window size is expressed as columns and lines.
-- Added a red prompt when in the [E]dit titles option the user deleted lines instead of editing.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.

@@ -6,7 +6,7 @@ _MpmHelp() {
     echo "${lessColor}"
     case "$1" in
         -b)
-            clear; head -n 25 "$BINDINGS"
+            clear; head -n 27 "$BINDINGS"
             read -rsn 1 quit
             case "$quit" in *) return ;; esac
         ;;

@@ -24,7 +24,7 @@ _ManualsMenu() {
         echo -e "                                    │     1) Man ffmpeg      6) $mpvTui     │"
         echo -e "                                    │     2) Man $fzfCmd         7) Mpm help $VERSION      │"
         echo -e "                                    │     3) Man mpv         8) Mpm shortcuts         │"
-        echo -e "                                    │     4) Man yt-dlp      9) Edit mpm config       │"
+        echo -e "                                    │     4) Man yt-dlp      9) Edit mpm configs      │"
         echo -e "                                    │     5) Man $ytfzfCmd       X) Back to main menu     │"
         echo -e "                                    └─────────────────────────────────────────────────┘"
         echo -e "                                                      ${info}${b}Select an item${nb}${nc}"

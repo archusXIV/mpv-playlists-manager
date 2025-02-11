@@ -31,7 +31,7 @@ _MakeMpvPlaylist() {
                 playerTitlesList="$tmp_dir/multipleFilesTitles"
                 mpv --no-terminal "${mpvGenOptions_X[@]}" "$m3uFile" &
                 _Has fzf && [[ $mpvc_tui == native ]] && {
-                    _GetMpvPlaylistInfos --playlist
+                    _MpvSocketCommands --playlist
                     _MakeMpvPlaylistIndexes
                 }
                 _WhileMpvIsRunning &
@@ -46,7 +46,7 @@ _MakeMpvPlaylist() {
                 find . -type f | sort | sed 's,.*/,,' \
                 | mpv --no-terminal "${mpvGenOptions_X[@]}" --playlist=- &
                 if _Has fzf && [[ $mpvc_tui == native ]]; then
-                    _GetMpvPlaylistInfos --playlist
+                    _MpvSocketCommands --playlist
                     _MakeMpvPlaylistIndexes
                     ln -sfr "$playerTitlesList" "$NOWPLAYING"
                 else

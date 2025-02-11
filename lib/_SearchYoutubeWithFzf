@@ -29,13 +29,14 @@ _SearchYoutubeWithFzf() {
         | jq -cj "$jqSearch" \
         | fzf \
             --multi \
+            --cycle \
             --reverse \
             --scroll-off=5 \
             --pointer '<>' \
             --border rounded \
             --prompt='Search: ' \
             --preview="$jqPreviewCmd" \
-            --preview-window="down:20%" \
+            --preview-window="down:2" \
             -n 1 --with-nth=1 -d '\0' --ansi \
             --border-label "| Results for: $request |" \
             --header='Select with Tab, Enter to confirm, Escape to cancel' \

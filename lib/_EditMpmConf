@@ -6,9 +6,16 @@
 _EditMpmConf() {
 
     local theme
+    _BlankLine
+    read -rsn 1 -p " ${info}Edit [M]pmrc or [T]hemerc?: ${nc}" editConfig
 
-    $MPMEDITOR "$MPMRC"; . "$MPMRC"
+    case "$editConfig" in
+        m|M) editConfig=mpmrc; $MPMEDITOR "$MPMRC"; ;;
+        t|T) editConfig=themerc; $MPMEDITOR "$THEMERC"; ;;
+        *  ) _WrongOption "$editConfig"; return ;;
+    esac
 
+    clear
     if [[ -z $THEME ]]; then
         theme="default"; nc=$'\e[0m'; critical=$'\e[31m';
         info=$'\e[32m'; mtitle=$'\e[33m'; task=$'\e[37m';
@@ -16,8 +23,9 @@ _EditMpmConf() {
         . "$MPMRC"; . "$THEMERC"
         _Theme "$THEME"
     fi
-
-    printf '%s\n' " ${info}mpm config saved! New changes actives.${nc}"
+    
+    _BlankLine
+    printf '%s\n' " ${info}$editConfig saved! New changes actives.${nc}"
     sleep 2
 
     case "$1" in

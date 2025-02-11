@@ -1,5 +1,5 @@
 
-    mpm version 2.2-6
+    mpm version 2.2-7
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -48,7 +48,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.2-6::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.2-7::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -83,12 +83,14 @@
         ──────────────────────────────────────────────────────────────────────────────────────────────────
         Shortcuts in the "mpm player" if mpvc_tui is set to native (uses fzf).
 
-        Enter:  play selected item.
-        Ctrl+N: next.
-        Ctrl+P: previous.
-        Ctrl+T: toggle pause.
-        Ctrl+R: reload song title preview, or just move the cursor.
-        Escape: quit player.
+        Enter:       play selected item.
+        Lelf arrow:  seek 30s backward.
+        Right arrow: seek 30s forward.
+        Ctrl+N:      next.
+        Ctrl+P:      previous.
+        Ctrl+T:      toggle pause.
+        Ctrl+R:      reload song title preview, or just move the cursor.
+        Escape:      quit player.
 
     1) Create/Add video playlist:
 

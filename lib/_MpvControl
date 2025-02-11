@@ -25,17 +25,11 @@ _MpvControl() {
     }
 
     case "$1" in
-        -h) key=h; __mpvControlTests || 
-            echo playlist_prev | socat - "${MPVSOCKET}"
-            echo " ${info}Playing previous song${nc}"; sleep 2 ;;
-        -j) key=j; __mpvControlTests || 
-            echo stop          | socat - "${MPVSOCKET}" ;;
-        -k) key=k; __mpvControlTests || 
-            echo cycle pause   | socat - "${MPVSOCKET}"
-            echo " ${info}Playback toggled on/off${nc}"; sleep 5 ;;
-        -l) key=l; __mpvControlTests || 
-            echo playlist_next | socat - "${MPVSOCKET}"
-            echo " ${info}Playing next song${nc}"; sleep 2 ;;
+        -h) key=h; __mpvControlTests || _MpvSocketCommands --prev ;;
+        -j) key=j; __mpvControlTests || _MpvSocketCommands --stop ;;
+        -k) key=k; __mpvControlTests || _MpvSocketCommands --pause ;;
+        -l) key=l; __mpvControlTests || _MpvSocketCommands --next ;;
+        -t) key=t; __mpvControlTests || _MpvSocketCommands --title; sleep 5 ;;
         -q)
             key=q; __mpvControlTests || \
             _PidOfMpv >/dev/null && {
@@ -52,12 +46,6 @@ _MpvControl() {
             else
                 _RemoveMpvTmp
             fi
-        ;;
-        -t)
-            key=t; __mpvControlTests || {
-                _GetMpvPlaylistInfos --title
-                sleep 5
-            }
         ;;
     esac
 

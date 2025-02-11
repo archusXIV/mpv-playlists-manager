@@ -57,8 +57,6 @@ _SelectLocalDir() {
             ;;
         esac
 
-        
-
     done
 
 }
