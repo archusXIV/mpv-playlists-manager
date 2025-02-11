@@ -26,7 +26,7 @@
 _NativePlayerColors() {
     export FZF_DEFAULT_OPTS='
         --color=header:bold:#87afaf
-        --color=fg:#d0d0d0,fg+:#ffffff,bg:#21242b,bg+:#2e3944
+        --color=fg:#af5faa,fg+:#ffffff,bg:#21242b,bg+:#2e3944
         --color=hl:#5f87af,hl+:#5fd7ff,info:#afaf87
         --color=prompt:#af5fff,spinner:#af5fff,pointer:#af5fff
         --color=border:#554476,label:#aeaeae,query:#d9d9d9
