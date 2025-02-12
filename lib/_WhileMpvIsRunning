@@ -8,5 +8,15 @@ _WhileMpvIsRunning() {
         sleep 1.5
     done
     localPlaylist="no"
+    if [[ $mpvc_tui == native ]]; then
+        sed -i '1d' "$tmp_dir"/playerSelectedFile
+        kill -SIGTERM "$(pidof -x fzf)" 2>/dev/null
+        _RemoveMpvTmp
+        mpv_is_running=no
+    else
+        kill -SIGTERM "$(pidof -x "$mpvc_tui")" 2>/dev/null
+        _RemoveMpvTmp
+        mpv_is_running=no
+    fi
     _MenuFooter
 }

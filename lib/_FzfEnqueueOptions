@@ -21,7 +21,7 @@ _FzfEnqueueOptions() {
             fi
         ;;
         n|N)
-            use_mpvc_locally="yes"
+            use_mpvc_locally=yes
             localPlaylist=yes
             if [[ ! -f "$FZFENQUEUE" ]]; then
                 m3uFile="$localDir/$dir/fzfEnqueue.m3u"
