@@ -5,7 +5,7 @@
 _CopyMediaUrl() {
 
     local mediaUrl
-    
+
     if __clipboardCmdTest; then
         read -r mediaUrl < <("${clipboardCmd[@]}")
     else
@@ -46,6 +46,7 @@ _CopyMediaUrl() {
             sleep 2
         fi
     fi
+
     rm "$tmp_dir"/urltest 2>/dev/null
 
 }

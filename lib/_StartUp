@@ -23,7 +23,9 @@ _StartUp() {
         echo -e "                               │            DO YOU WISH MPV TO QUIT NOW [Y/n]:             │"
         echo -e "                               └───────────────────────────────────────────────────────────┘${nc}"
         _PidOfMpv > "$pidofMpv"
+
         read -rsn 1 quitmpv
+
         case "$quitmpv" in
             n|N) _Menu ;;
             y|*)
@@ -32,6 +34,7 @@ _StartUp() {
                 _Menu
             ;;
         esac
+
     elif _PidOfMpv >/dev/null && [[ -e "$NOWPLAYING" ]]; then
         _Menu
     else

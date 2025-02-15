@@ -14,5 +14,5 @@ _CheckUpdate() {
         [[ $newVerion != "$VERSION" ]] && \
         printf '%s\n' " ${critical}${b}$newVerion available${nb}${nc}"
     }
-    
+
 }

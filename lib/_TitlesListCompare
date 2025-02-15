@@ -48,6 +48,7 @@ _TitlesListCompare() {
         esac
 
     else
+        _BlankLine
         printf '%s\n' " ${critical}${titlesFile} does not exist or empty...${nc}" \
         " ${task}${b}Getting $(_GetLinesList -l) titles...please wait.${nb}${nc}"
         touch "$titlesFile"; sleep 2; _GetMediaTitle -l; clear

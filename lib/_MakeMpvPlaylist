@@ -3,6 +3,7 @@
 
 # shellcheck disable=SC2154,SC2034
 _MakeMpvPlaylist() {
+
     # change mpv settings in ~/.config/mpm/mpmrc
     makeMpvPlaylistAudiOptions=(
         "${mpvGenOptions_X[@]}"
@@ -13,6 +14,15 @@ _MakeMpvPlaylist() {
         "${mpvGenOptions_X[@]}"
         "${mpvVideoOptions_X[@]}"
         "${mpvVideoFormatOptions[@]}"
+    )
+
+    __onlineAudioVideoFzfTest() (
+        if _Has fzf && [[ $mpvc_tui == native ]]; then
+            _MakeMpvPlaylistIndexes
+            ln -sfr "$playerTitlesList" "$NOWPLAYING"
+        else
+            echo "${m3uFile##*/}" > "$NOWPLAYING"
+        fi
     )
 
     case "$1" in
@@ -77,14 +87,14 @@ _MakeMpvPlaylist() {
             use_mpvc_online="yes"
             mpv --no-terminal \
             "${makeMpvPlaylistAudiOptions[@]}" "$m3uFile" &
-            echo "${m3uFile##*/}" > "$NOWPLAYING"
+            __onlineAudioVideoFzfTest
             _WhileMpvIsRunning &
         ;;
         --online-video)
             use_mpvc_online="yes"
             mpv --no-terminal \
             "${makeMpvPlaylistVideOptions[@]}" "$m3uFile" &
-            echo "${m3uFile##*/}" > "$NOWPLAYING"
+            __onlineAudioVideoFzfTest
             _WhileMpvIsRunning &
         ;;
         --terminal-audio)

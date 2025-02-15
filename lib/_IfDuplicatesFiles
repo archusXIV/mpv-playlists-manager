@@ -8,7 +8,7 @@ _IfDuplicatesFiles() {
 
     local ef efCount titlesCount linenumbers attr match
     ef="$tmp_dir/existingFiles"
-    
+
     # Removing the '.extension', to compare
     # "$ef" file against the list of titles,
     # that do not contains extensions themself.
@@ -28,10 +28,10 @@ _IfDuplicatesFiles() {
     done < "$ef"
 
     unset line
-    
+
     efCount=$(grep "" -c "$ef")
     titlesCount=$(grep "" -c "$TITLES")
-    
+
     if ((match > 0)); then
         if ((titlesCount == match)) && ((efCount > titlesCount)); then
             # All playlist items have been downloaded already and
@@ -50,5 +50,5 @@ _IfDuplicatesFiles() {
             _IfDuplicatesFilesActions --else
         fi
     fi
-    
+
 }

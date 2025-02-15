@@ -20,7 +20,12 @@ _RemoveMpvTmp() {
         rm "$file"
     done
 
-    rm "$(readlink -f "$NOWPLAYING")" "$NOWPLAYING"
+    if [[ $(readlink -f "$NOWPLAYING") = *.titles ]]; then
+        rm "$NOWPLAYING"
+    else
+        rm "$(readlink -f "$NOWPLAYING")" "$NOWPLAYING"
+    fi
+    
     unset m3uFile file
 
 } 2>/dev/null

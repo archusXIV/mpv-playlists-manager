@@ -3,15 +3,19 @@
 
 # shellcheck disable=SC2154
 _MpmHelp() {
+
     echo "${lessColor}"
+
     case "$1" in
         -b)
-            clear; head -n 27 "$BINDINGS"
+            clear; head -n 28 "$BINDINGS"
             read -rsn 1 quit
             case "$quit" in *) return ;; esac
         ;;
         -m) _ManualsMenu ;;
         -u) less "$HELP" ;;
     esac
+
     echo "${nc}"
+
 }

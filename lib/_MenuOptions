@@ -3,7 +3,9 @@
 
 # shellcheck disable=SC2154
 _MenuOptions() {
+
     read -rsn 1 mainMenuOptions
+
     case "$mainMenuOptions" in
         1|v|V) _CreateAddPlaylist -v ;;
         2|a|A) _CreateAddPlaylist -a ;;
@@ -34,20 +36,16 @@ _MenuOptions() {
                     _Has "$mpvc_tui" && "$mpvc_tui"
                 fi
             else
-                printf '%s\n' \
-                " ${critical}mpv isn't running or no mpv interface setup in your config..." \
-                " use_mpvc must be set to 'yes' or mpvc_tui is empty${nc}"
-                sleep 8
+                _MpvControl -n
             fi
         ;;
         $'\033')
             read -rsn 2 arrowkeys # Arrow keys are disabled.
-            case "$arrowkeys" in
-                "[A|[B|[C|[D") : ;;
-            esac
+            case "$arrowkeys" in "[A|[B|[C|[D") : ;; esac
         ;;
         $'\0d') _MpmrcTasksList ;; # Ctrl+M
         $'\02') _ChooseTheme ;; # Ctrl+B
         *) _WrongOption "$mainMenuOptions" ;;
     esac
+
 }

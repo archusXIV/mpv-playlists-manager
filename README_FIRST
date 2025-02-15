@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.2-7
+mpm version 2.2-8
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -25,7 +25,7 @@ the directory structure is ok for you.
 
 Changelog:
 ------------------------------- NO CHANGES IN THEMERC CONFIG FILE -------------------------------
+version 2.2-8 - Fixed bug when executing _BlankLine function.
+version 2.2-8 - Added Ctrl+X to quit mpv in mpv fzf interface.
 version 2.2-7 - Added an option to edit ~/.config/mpm/themerc to get "dynamic" changes for main window
                 but also for the fzf mpv running interface.
-version 2.2-6 - Fixed bug in _FzfEnqueueOptions function when queueing files from multiple directories
-                leading to open subshell running in the background so we had to type 'x' twice to quit mpm.

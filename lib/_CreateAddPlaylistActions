@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154
 _CreateAddPlaylistActions() {
-    
+
     case "$1" in
         --add)
             _MpvOwnsTmpList --list || _CopyMediaUrl
@@ -49,5 +49,5 @@ _CreateAddPlaylistActions() {
             _ViewAudioVideoUrlsInfo "$arg"
         ;;
     esac
-    
+
 }

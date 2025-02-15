@@ -3,20 +3,26 @@
 
 # shellcheck disable=SC2034,SC2154
 _WhileMpvIsRunning() {
+
+    local mpv_is_running
     mpv_is_running="yes"
-    while _PidOfMpv >/dev/null && [[ -e $NOWPLAYING ]]; do
-        sleep 1.5
+
+    while _PidOfMpv >/dev/null; do
+        sleep 1
     done
+
     localPlaylist="no"
+
     if [[ $mpvc_tui == native ]]; then
-        sed -i '1d' "$tmp_dir"/playerSelectedFile
+        _RemoveMpvTmp
         kill -SIGTERM "$(pidof -x fzf)" 2>/dev/null
-        _RemoveMpvTmp
-        mpv_is_running=no
+        mpv_is_running="no"
     else
-        kill -SIGTERM "$(pidof -x "$mpvc_tui")" 2>/dev/null
         _RemoveMpvTmp
-        mpv_is_running=no
+        kill -SIGTERM "$(pidof -x "$mpvc_tui")" 2>/dev/null
+        mpv_is_running="no"
     fi
+
     _MenuFooter
+
 }

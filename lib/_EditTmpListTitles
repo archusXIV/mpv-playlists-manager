@@ -16,4 +16,5 @@ _EditTmpListTitles() {
     else
         rm "$tmp_dir"/tmp_titles
     fi
+
 }

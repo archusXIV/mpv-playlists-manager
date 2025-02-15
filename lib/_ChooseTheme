@@ -4,10 +4,10 @@
 # shellcheck source=/dev/null
 # shellcheck disable=SC2154
 _ChooseTheme() {
-    
+
     clear
     echo -e "\n ${info}Current theme: ${task}$THEME${nc}\n"
-    
+
     # we use THEME= because sed will also change
     # names inside the commented themes list in mpmrc.
     sed -i "s/THEME=\"${THEME}\"/THEME=${THEME}/" "$MPMRC"

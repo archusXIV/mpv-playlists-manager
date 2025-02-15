@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154,SC2001
 _RemoveAudioVideoIds() {
-    
+
     if [[ $remove_video_ids == no ]]; then
         return
     else
@@ -16,12 +16,12 @@ _RemoveAudioVideoIds() {
                 -regextype egrep -regex '.*(\[|\]).*' \
                 | sed 's,./,,'
             )
-    
+
         for file in "${downloadedFiles[@]}"; do
             mv "$file" \
             "$(echo "$file" | sed -e 's/ \[.*\]//')"
         done 2>/dev/null
-    
+
         unset file downloadedFiles
         sleep 2; clear
     fi

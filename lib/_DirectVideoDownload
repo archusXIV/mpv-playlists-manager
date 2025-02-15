@@ -11,7 +11,7 @@ _DirectVideoDownload() {
 
     animationTitles="$titles_dir"/"$list".titles
     counter=$(grep '^https' -c "$playlists_dir"/"$list")
-    
+
     if _TestParallelCommand; then
         _ParallelDownloadCmd --direct-video
         _DownloadMessages --direct-video

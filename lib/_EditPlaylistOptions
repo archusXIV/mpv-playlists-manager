@@ -15,8 +15,7 @@ _EditPlaylistOptions() {
     printf '\n%s\n' " ${info}Choose an option for ${task}$list:${nc}"
     _BlankLine
     read -rsn 1 -p \
-    "${info} ${editPlaylistOptionsPrompt[*]} ${nc}" \
-    editPlaylistOptions
+    "${info} ${editPlaylistOptionsPrompt[*]} ${nc}" editPlaylistOptions
 
     case "$editPlaylistOptions" in
         c|C)

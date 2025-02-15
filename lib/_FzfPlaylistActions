@@ -60,4 +60,5 @@ _FzfPlaylistActions() {
             ;;
         esac
     fi
+
 }

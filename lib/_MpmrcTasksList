@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154
 _MpmrcTasksList() {
-    
+
     clear
     mpmrc_settings=(
         "automatic_audio_conversion" "check_updates"
@@ -21,12 +21,12 @@ _MpmrcTasksList() {
         grep -w "^$setting" "$MPMRC" \
         | sed 's/^/\t/;s/"//g;s/=/ = /g'
     done
-    
+
     unset setting
     _BlankLine
     _Prompt -n " ${info}Edit config?${nc}" && {
         _EditMpmConf
     }
     _Menu
-    
+
 }

@@ -60,7 +60,7 @@ _LoadLocalMenuActions() {
         --radio-dir)
             _MpvOwnsTmpList --local || {
                 if [[ -n $radios_dir ]]; then
-                    localDir="$radios_dir"; 
+                    localDir="$radios_dir"
                     if _Has fzf && [[ $use_fzf == yes ]]; then
                         fzf_preview=(cat)
                         clear; _BlankLine; _FzfEnqueue
@@ -100,4 +100,5 @@ _LoadLocalMenuActions() {
             fi
         ;;
     esac
+
 }

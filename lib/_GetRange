@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154,SC2015
 _GetRange() {
-    
+
     cd "$playlists_dir" || exit 1
     grep -v '#EXTM3U' "$list" > "$list"_tmp
     _BlankLine

@@ -7,7 +7,7 @@ _SaveLinksAs() {
     local savedLinks
 
     __saveRange() {
-        
+
         clear
         cp -f "$current_list" "$current_list"_origin
         cp -f "$current_titles" "$current_titles"_origin
@@ -42,7 +42,7 @@ _SaveLinksAs() {
         mv -f "$current_list"_tmp "$current_list"
         mv -f "$current_titles"_tmp "$current_titles"
         _RemoveDuplicateLines "$current_list" "$current_titles"
-        
+
     }
 
     _ResizeWindow -m; clear
@@ -58,5 +58,5 @@ _SaveLinksAs() {
         w|W) _SaveCheck ;;
         *)   _WrongOption "$saveLinksAsOptions"; return ;;
     esac
-    
+
 }

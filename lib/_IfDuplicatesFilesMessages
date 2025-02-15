@@ -9,7 +9,7 @@ _IfDuplicatesFilesMessages() {
     else
         it="it"; link="link"
     fi
-    
+
     case "$1" in
         --if)
             _BlankLine
@@ -43,5 +43,5 @@ _IfDuplicatesFilesMessages() {
             }
         ;;
     esac
-    
+
 }

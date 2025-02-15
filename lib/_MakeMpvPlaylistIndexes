@@ -3,14 +3,16 @@
 
 # shellcheck disable=SC2154
 _MakeMpvPlaylistIndexes() {
-	cd "$tmp_dir" && {
+
+    cd "$tmp_dir" && {
         local index
-		index=0
+        index=0
         while read -r line; do
             echo "$index ${line##*/}" >> playerIndexesList
             ((index++))
         done < "$playerTitlesList"
         unset line index
-        echo "starting Native Mpm Player..." > playerSelectedFile
-	}
+        echo "Starting NAtive Mpm Player..." > playerSelectedFile
+    }
+
 }

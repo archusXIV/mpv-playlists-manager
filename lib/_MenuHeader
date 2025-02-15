@@ -25,7 +25,7 @@ _MenuHeader() {
             echo "0"
         fi
     )
-    
+
     __aud() (
         test -s "$AUDIO_URLS" && \
         echo "${info}$(_GetLinesList -a)${nc}" || echo "0"

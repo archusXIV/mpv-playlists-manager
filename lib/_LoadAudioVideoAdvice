@@ -3,10 +3,12 @@
 
 # shellcheck disable=SC2154
 _LoadAudioVideoAdvice() {
+
     clear
     _BlankLine
     printf '%s\n' " ${critical}Tip: You may want to put this in your mpv.conf:" \
     " ${info}term-playing-msg='[Tiltle]: \${media-title}'" \
     " ${critical}Otherwise press I in mpv for more infos, or Q to quit mpv.${nc}"
     _BlankLine
+
 }

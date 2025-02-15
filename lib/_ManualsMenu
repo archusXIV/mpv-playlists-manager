@@ -28,8 +28,10 @@ _ManualsMenu() {
         echo -e "                                    │     5) Man $ytfzfCmd       X) Back to main menu     │"
         echo -e "                                    └─────────────────────────────────────────────────┘"
         echo -e "                                                      ${info}${b}Select an item${nb}${nc}"
+
         _BlankLine
         read -rsn 1 manualsMenuOptions
+
         case "$manualsMenuOptions" in
             1) man ffmpeg ;;
             2) man fzf ;;
@@ -43,6 +45,7 @@ _ManualsMenu() {
             x|X|r) break ;;
             *) _WrongOption "$manualsMenuOptions" ;;
         esac
+
     done
 
 }

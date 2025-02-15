@@ -34,7 +34,7 @@ _GetVideo() {
     esac
 
     _CheckParallelDownloads
-    
+
     cp -f "$M3UFILE" "$M3UFILE"_origin
     cp -f "$TITLES" "$TITLES"_origin
     clear

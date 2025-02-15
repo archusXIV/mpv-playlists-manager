@@ -11,6 +11,7 @@ _ViewDefaultUrlsInfo() {
     _ResizeWindow -m
 
     __getAudioVideo() {
+
         _BlankLine
         read -rsn 1 \
         -p "${info} Download [A]udio, [V]ideo, [${mtitle}C${info}]ancel: ${nc}" get
@@ -19,6 +20,7 @@ _ViewDefaultUrlsInfo() {
             v|V) _BlankLine; _GetVideo -d ;;
             *  ) _ViewAudioVideoUrlsInfo -d ;;
         esac
+
     }
 
     if [[ $(_GetLinesList -d) -gt 0 ]]; then
@@ -103,4 +105,5 @@ _ViewDefaultUrlsInfo() {
         printf '%s\n' " ${critical}There is nothing to do, Default playlist is empty...${nc}"
         sleep 3
     fi
+
 }

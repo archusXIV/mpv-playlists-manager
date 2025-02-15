@@ -18,7 +18,7 @@ _UpdateSelected() {
 
         # ...that we now rename with the original file name.
         mv -f "$SELECTED_URLS2" "$list"
-        
+
         cd "$titles_dir" || exit 1
         # same operation for the titles.
         case "$1" in
@@ -39,7 +39,7 @@ _UpdateSelected() {
         esac
 
         clear
-        
+
     fi
-    
+
 }

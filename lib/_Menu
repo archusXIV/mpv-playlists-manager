@@ -4,6 +4,7 @@
 # shellcheck source=/dev/null
 # shellcheck disable=SC2154
 _Menu() {
+
     cd "$main_dir" || exit 1
     _ResizeWindow -m
     while [[ -e $DEFAULT_LIST ]]; do
@@ -11,4 +12,5 @@ _Menu() {
         _MenuBobySettings
         _MenuOptions
     done
+
 }

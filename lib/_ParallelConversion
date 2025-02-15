@@ -24,7 +24,7 @@ _ParallelConversion() {
         --xargs-default   ) __xargsMethod "$default_conversion_format" ;;
         --xargs-chosen    ) __xargsMethod "${formats[${REPLY}]}" ;;
     esac
-    
+
     # removing the primary suffix from our converted files (.webm.{aac,mp3,flac,ogg,wav})
     find . -maxdepth 1 -type f -name "*.webm.*" -exec \
     bash -c '
@@ -32,9 +32,9 @@ _ParallelConversion() {
             n="${ext##*/}"
             mv -n "$ext" "${ext%/*}/${n//.webm/}"
         done >/dev/null 2>&1
-    ' dummy {} +
+    ' dummy {}
 
     printf '\n%s\n' " ${info}Conversion done.${nc}"
     sleep 2
-    
+
 }

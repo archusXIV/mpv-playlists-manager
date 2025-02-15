@@ -18,7 +18,7 @@ _QueueMultipleDirs() {
     find ./ -maxdepth 1 -type d -empty | sort | sed 's,.*/,,' >> "$tmp_dir"/empty.tmp
 
     if [[ -s $tmp_dir/empty.tmp ]]; then
-        # empty dirs will be banned from our list 
+        # empty dirs will be banned from our list
         find ./ -maxdepth 1 -type d -not -empty \
         | sort | sed 's,.*/,,;/^\s*$/d' > "$dirlist".tmp
         grep -vF "$(grep '^[[:print:]]' "$tmp_dir"/empty.tmp)" \
@@ -100,7 +100,7 @@ _QueueMultipleDirs() {
         ln -sfr "$m3uFile" "$NOWPLAYING"
         _MakeMpvPlaylist --local-dirs
     fi
-    
+
     _Menu
 
 }

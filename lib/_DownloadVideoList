@@ -7,7 +7,7 @@ _DownloadVideoList() {
     _TitlesListCompare -l
 
     local counter mediaDir
-    
+
     mediaDir="$videos_dir/${list%.*}"
     mkdir --parents "$mediaDir"
     cd "$mediaDir" || {

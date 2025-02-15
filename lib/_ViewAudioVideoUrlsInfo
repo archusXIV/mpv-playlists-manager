@@ -77,8 +77,9 @@ _ViewAudioVideoUrlsInfo() {
         fi
 
     }
-    
+
     __audioVideoCommon() {
+
         if [[ -s $URLS ]]; then
             _ResizeWindow -m
             __listHeader
@@ -101,10 +102,12 @@ _ViewAudioVideoUrlsInfo() {
             printf '%s\n' " ${critical}No links in the $Type list${nc}"
             sleep 2 && return
         fi
+
     }
 
     case "$1" in
         -a|-v) __audioVideoCommon ;;
         -d) _ViewDefaultUrlsInfo ;;
     esac
+
 }

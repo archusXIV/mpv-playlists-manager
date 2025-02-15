@@ -3,6 +3,7 @@
 
 # shellcheck disable=SC2154
 _MpvcTest() {
+
     # else use_mpvc=""
     case "$1" in
         -a)
@@ -27,4 +28,5 @@ _MpvcTest() {
             fi
         ;;
     esac
+
 }

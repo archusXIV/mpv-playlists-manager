@@ -34,7 +34,7 @@ _CheckDependencies() {
         printf '%s\n' " Variable main_dir in mpmrc is not defined...exiting!!!"
         exit 1
     }
-    
+
     mkdir --parents {"$main_dir","$playlists_dir","$titles_dir","$tmp_dir","$audios_dir","$videos_dir"}
 
     cp -f /usr/local/share/doc/mpm/mpm_yt-videos.m3u "$playlists_dir"

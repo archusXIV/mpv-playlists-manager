@@ -6,7 +6,7 @@ _SelectLocalDir() {
 
     cd "$localDir" || exit 1
     [[ $localDir == "$radios_dir" ]] && _FzfEnqueue
-    
+
     echo -e " ${info}Directories in ${localDir##*/}: ${nc}\n"
 
     PS3=""$'\n'" ${info}Select a directory number to queue/parse, [${mtitle}C${info}]ancel: ${nc}"

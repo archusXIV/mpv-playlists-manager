@@ -3,6 +3,7 @@
 
 # shellcheck disable=SC2154
 _ReplaceSpaces() {
+
     # the select loop will not parse correctly
     # if we don't replace spaces with underscores
     case "$1" in
@@ -14,7 +15,7 @@ _ReplaceSpaces() {
                     n="${d##*/}"
                     mv -nv "$d" "${d%/*}/${n// /_}"
                 done >/dev/null 2>&1
-            ' dummy {} +
+            ' dummy {}
         ;;
         -s)
             find {"$playlists_dir","$titles_dir"} -maxdepth 1 \
@@ -24,7 +25,7 @@ _ReplaceSpaces() {
                     n="${f##*/}"
                     mv -nv "$f" "${f%/*}/${n// /_}"
                 done >/dev/null 2>&1
-            ' dummy {} +
+            ' dummy {}
         ;;
     esac
 

@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154
 _MpvControl() {
-    
+
     __mpvControlTests() {
         ! _Has socat && {
             printf '%s\n' \
@@ -12,7 +12,7 @@ _MpvControl() {
         }
         ! _PidOfMpv >/dev/null && {
             case "$key" in
-                h|j|k|l|q|t)
+                h|j|k|l|n|q|t)
                     printf '\n%s\n' \
                     " ${critical}mpv isn't running...${task}${key^}${critical} is useless.${nc}"
                     sleep 3
@@ -29,6 +29,7 @@ _MpvControl() {
         -j) key=j; __mpvControlTests || _MpvSocketCommands --stop ;;
         -k) key=k; __mpvControlTests || _MpvSocketCommands --pause ;;
         -l) key=l; __mpvControlTests || _MpvSocketCommands --next ;;
+        -n) key=n; __mpvControlTests ;;
         -t) key=t; __mpvControlTests || _MpvSocketCommands --title; sleep 5 ;;
         -q)
             key=q; __mpvControlTests || \

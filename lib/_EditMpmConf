@@ -23,7 +23,7 @@ _EditMpmConf() {
         . "$MPMRC"; . "$THEMERC"
         _Theme "$THEME"
     fi
-    
+
     _BlankLine
     printf '%s\n' " ${info}$editConfig saved! New changes actives.${nc}"
     sleep 2

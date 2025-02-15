@@ -3,6 +3,7 @@
 
 # shellcheck disable=SC2154
 _ResizeWindow() {
+
     # width & height are defined in ~/.config/mpm/mpmrc
     case "$1" in
         -c)

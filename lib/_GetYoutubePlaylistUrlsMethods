@@ -6,7 +6,7 @@ _GetYoutubePlaylistUrlsMethods() {
 
     __teeAppendTitles() ( tee -a "$TITLES" >> "$DEFAULT_TITLES"; )
     __teeAppendUrls() ( tee -a "$DEFAULT_LIST" >> "$URLS"; )
-    
+
     case "$1" in
         --native)
             yt-dlp "${ytdlPreset_DW[@]}" -j "$playlist" \
@@ -40,4 +40,5 @@ _GetYoutubePlaylistUrlsMethods() {
             jq --raw-output '.[].title' "$YTFZFJSON" | __teeAppendTitles
         ;;
     esac
+
 }

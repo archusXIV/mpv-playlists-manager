@@ -46,7 +46,7 @@ _LoadPlaylist() {
             2)
                 clear
 
-                if [[ $(grep "" -c "$titlesFile") -gt 25 ]]; then
+                if [[ $(grep "" -c "$list") -gt 26 ]]; then
                     _TitlesListCompare -g
                 else
                     _TitlesListCompare -l
@@ -72,4 +72,5 @@ _LoadPlaylist() {
         esac
 
     done
+
 }

@@ -3,6 +3,7 @@
 
 # shellcheck disable=SC2154
 _SaveCheck() {
+
     clear
     cd "$playlists_dir" || exit 1
 
@@ -72,4 +73,5 @@ _SaveCheck() {
         __listAlreadyExists && break
 
     done
+
 }

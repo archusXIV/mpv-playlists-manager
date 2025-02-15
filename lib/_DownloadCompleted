@@ -3,6 +3,7 @@
 
 # shellcheck disable=SC2154
 _DownloadCompleted() {
+
     cd "$playlists_dir" || exit 1
     clear
 
@@ -41,6 +42,6 @@ _DownloadCompleted() {
 
         _IfQuitAfterTask -d
     fi
-    
+
 }
 

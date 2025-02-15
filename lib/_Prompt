@@ -3,6 +3,7 @@
 
 # stolen from budRich
 _Prompt() {
+
     local screenprompt key default opt status
 
     default=y
@@ -30,4 +31,5 @@ _Prompt() {
     [[ ${key,,} = n ]] && status=1
 
     return "${status:-0}"
+
 }

@@ -20,8 +20,9 @@
         Enter:       play selected item.
         Lelf arrow:  seek 30s backward.
         Right arrow: seek 30s forward.
-        Ctrl+N:      next.
-        Ctrl+P:      previous.
+        Ctrl+N:      play next item.
+        Ctrl+P:      play previous item.
         Ctrl+T:      toggle pause.
-        Ctrl+R:      reload song title preview, or just move the cursor.
-        Escape:      quit player.
+        Ctrl+R:      reload item title preview, or just move the cursor.
+        Ctrl+X:      quit mpv (stop) and go back to main menu.
+        Escape:      exit mpvc tui interface.

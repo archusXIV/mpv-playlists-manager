@@ -14,7 +14,7 @@ _RemoveTmpLinks() {
         printf '\n%s\n' " ${critical}Deletion aborted...${nc}"
         sleep 2
     )
-    
+
     IFS=", "; read -ra tmpLinks -p "$RANGEPROMPT"
     for range in "${tmpLinks[@]}"; do
         IFS="-"; read -r start end <<< "$range"
@@ -54,7 +54,7 @@ _RemoveTmpLinks() {
         done
 
     done
-    
+
     if (( $(grep "" -c "$tmpList"_tmp) == $(grep "" -c "$tmpList") )); then
         rm {"$tmpList","$tmpTitles"}
         printf '\n%s\n' " ${critical}All links selected, ${tmpList##*/} removed...${nc}"
@@ -72,4 +72,5 @@ _RemoveTmpLinks() {
     rm {"$tmpList","$tmpTitles"}_tmp
     unset IFS range
     sleep 2
+
 }

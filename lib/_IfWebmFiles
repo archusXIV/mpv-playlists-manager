@@ -3,6 +3,7 @@
 
 # shellcheck disable=SC2154
 _IfWebmFiles() {
+
     if [[ -n $(find "$mediaDir" -iname "*.webm") ]]; then
 
         _RemoveAudioVideoIds; _ResizeWindow -m; clear
@@ -41,4 +42,5 @@ _IfWebmFiles() {
         [[ $M3UFILE == "$playlists_dir"/"$list" ]] || [[ $M3UFILE == "$SELECTED_URLS1" ]] \
         && _DownloadCompleted
     fi
+
 }

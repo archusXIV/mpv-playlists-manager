@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2034
 _CheckParallelDownloads() {
     clear
-    
+
     if [[ $(awk -F'["=]' '/use_parallel_downloads/{print $2}' "$MPMRC") == yes ]]; then
         [[ $(grep -c -v '^https://www.youtube.com' "$M3UFILE") -gt 1 ]] && {
             _BlankLine
@@ -20,5 +20,5 @@ _CheckParallelDownloads() {
             }
         }
     fi
-    
+
 }

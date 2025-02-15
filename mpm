@@ -30,7 +30,7 @@ pids=($(pidof -x "$MPM"))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.2-7"
+VERSION="v.2.2-8"
 
 CONF_DIR="$HOME/.config/mpm"
 
@@ -79,7 +79,7 @@ else
 fi
 
 # creates a blank line
-__() { printf '\n'; }
+_BlankLine() { printf '\n'; }
 
 _PidOfMpv() { pgrep -x mpv; }
 

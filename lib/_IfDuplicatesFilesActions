@@ -3,6 +3,7 @@
 
 # shellcheck disable=SC2154
 _IfDuplicatesFilesActions() {
+
     case "$1" in
         --if)
             for ((i=1;i<="${match}";i++)); do
@@ -29,7 +30,7 @@ _IfDuplicatesFilesActions() {
             rm "$ef"; unset line
             _IfDuplicatesFilesMessages --else
             _CreateAddPlaylistActions --remove
-            
+
             [[ -s "$URLS" ]] && {
                 cat "$URLS" >> "$DEFAULT_LIST"
                 cat "$TITLES" >> "$DEFAULT_TITLES"
@@ -37,4 +38,5 @@ _IfDuplicatesFilesActions() {
             }
         ;;
     esac
+
 }

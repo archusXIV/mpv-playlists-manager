@@ -58,9 +58,9 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Fixed bug when executing _BlankLine function.
+- Added Ctrl+X to quit mpv in mpv fzf interface.
 - Added an option to edit ~/.config/mpm/themerc to get "dynamic" changes for main window but also for the fzf mpv running interface.
-- Fixed bug in _FzfEnqueueOptions function when queueing files from multiple directories leading to open subshell running in the background so we had to type 'x' twice to quit mpm.
-- Added a native mpv tui to replace ncmpvc as the default player for any kind of playlist that we want to pass to mpv, see help or bindings to control your playlist inside this fzf "player".
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -130,7 +130,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.2-7.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.2-8.png)
 
 
 ```
