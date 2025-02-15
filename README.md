@@ -84,7 +84,7 @@ mpvc_tui="<your_mpv_tui_here>"
 # Colors can be change in ~/.config/mpm/themerc.
 mpvc_tui="native"
 ```
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_player_v1.0.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_player_v1.1.png)
 
 ## Integrated programs settings in mpmrc file
 - I also provide a new script (somabox) to listen to somafm.com radio stations through option 5). Place it in your $PATH,
