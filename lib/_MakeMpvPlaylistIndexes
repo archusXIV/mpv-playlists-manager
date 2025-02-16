@@ -5,13 +5,18 @@
 _MakeMpvPlaylistIndexes() {
 
     cd "$tmp_dir" && {
+
         local index
         index=0
+
         while read -r line; do
             echo "$index ${line##*/}" >> playerIndexesList
             ((index++))
         done < "$playerTitlesList"
+        # remove lines that start with the same integer/string
+        # awk -i inplace '!seen[$1]++' playerIndexesList
         unset line index
+
     }
 
 }

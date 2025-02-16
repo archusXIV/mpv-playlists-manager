@@ -4,8 +4,6 @@
 # shellcheck disable=SC2154,SC2034
 _ChooseFromPlay() {
 
-    local playerTitlesList
-
     clear
     _TitlesListCompare -l
 
@@ -20,7 +18,7 @@ _ChooseFromPlay() {
             _MpvSocketCommands --stop
             _LoadAudioVideo -la
         ;;
-        c|C) 
+        c|C)
             rm {"$SELECTED_URLS1","$SELECTED_TITLES"} 2>/dev/null
             _Menu
         ;;

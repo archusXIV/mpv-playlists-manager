@@ -20,7 +20,7 @@ _EditMpmConf() {
     if [[ -z $THEME ]]; then
         theme="default"; nc=$'\e[0m'; critical=$'\e[31m';
         info=$'\e[32m'; mtitle=$'\e[33m'; task=$'\e[37m';
-        . "$MPMRC"; . "$THEMERC"
+        . "$THEMERC"
     else
         . "$MPMRC"; . "$THEMERC"
         _Theme "$THEME"

@@ -29,8 +29,9 @@ _MpvOwnsTmpList() {
                         name="default"
                         action="if you want to play/remove/save the $name list,"
                         downloadTmpList=default
-                    else
-                        return
+                    elif [[ -f $tmp_dir/playerIndexesList ]]; then
+                        name="another"
+                        action="if you want to play the default list,"
                     fi
                 ;;
                 --list)
@@ -61,7 +62,7 @@ _MpvOwnsTmpList() {
                     fi
                 ;;
             esac
-
+            _BlankLine
             printf '%s\n' " ${critical}mpv owns $name playlist..." \
             " $action" \
             " just quit mpv first to proceed.${nc}"
@@ -87,7 +88,7 @@ _MpvOwnsTmpList() {
                 q|Q)
                     kill -SIGTERM "$(_PidOfMpv)" 2>/dev/null
                     localPlaylist=no
-                    _RemoveMpvTmp && return
+                    _RemoveMpvTmp && _Menu
                 ;;
                 *) _WrongOption "$mpvOwnsTmpListOptions" && _Menu ;;
             esac

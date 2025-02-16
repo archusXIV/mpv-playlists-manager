@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2034
 _LoadAudioVideo() {
 
-    local m3uFile playerTitlesList
+    local m3uFile
 
     _PidOfMpv >/dev/null && {
         kill -SIGTERM "$(_PidOfMpv)"
