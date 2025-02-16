@@ -25,6 +25,6 @@ _RemoveMpvTmp() {
         rm "$(readlink -f "$NOWPLAYING")" "$NOWPLAYING"
     fi
     
-    unset m3uFile file playerTitlesList
+    unset m3uFile playerTitlesList
 
 } 2>/dev/null
