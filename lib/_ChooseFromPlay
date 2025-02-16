@@ -15,7 +15,9 @@ _ChooseFromPlay() {
 
     case "$chooseFromPlayOptions" in
         a|A)
-            playerTitlesList="$titles_dir/$list.titles"
+            _RemoveMpvTmp
+            kill -SIGTERM "$(pidof -x fzf)" 2>/dev/null
+            _MpvSocketCommands --stop
             _LoadAudioVideo -la
         ;;
         c|C) 
@@ -23,7 +25,9 @@ _ChooseFromPlay() {
             _Menu
         ;;
         v|V)
-            playerTitlesList="$titles_dir/$list.titles"
+            _RemoveMpvTmp
+            kill -SIGTERM "$(pidof -x fzf)" 2>/dev/null
+            _MpvSocketCommands --stop
             _LoadAudioVideo -lv
         ;;
         s|S)

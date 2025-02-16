@@ -1,5 +1,5 @@
 
-    mpm version 2.2-8
+    mpm version 2.2-9
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -48,7 +48,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.2-8::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.2-9::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -89,7 +89,7 @@
         Ctrl+N:      play next item.
         Ctrl+P:      play previous item.
         Ctrl+T:      toggle pause.
-        Ctrl+R:      reload item title preview, or just move the cursor.
+        Ctrl+R:      Restart the playlist from the beginning.
         Ctrl+X:      quit mpv (stop) and go back to main menu.
         Escape:      exit mpvc tui interface.
 

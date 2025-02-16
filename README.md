@@ -58,6 +58,9 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Fixed bugs here and there.
+- Added several themes for the native mpvc_tui activated through mpmrc.
+- Ctrl+R in the native "player" restart the playlist from the beginning.
 - Fixed bug when executing _BlankLine function.
 - Added Ctrl+X to quit mpv in mpv fzf interface.
 - Added an option to edit ~/.config/mpm/themerc to get "dynamic" changes for main window but also for the fzf mpv running interface.
@@ -84,7 +87,7 @@ mpvc_tui="<your_mpv_tui_here>"
 # Colors can be change in ~/.config/mpm/themerc.
 mpvc_tui="native"
 ```
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_player_v1.1.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_player_v1.2.png)
 
 ## Integrated programs settings in mpmrc file
 - I also provide a new script (somabox) to listen to somafm.com radio stations through option 5). Place it in your $PATH,
@@ -130,7 +133,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.2-8.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.2-9.png)
 
 
 ```

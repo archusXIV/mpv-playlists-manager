@@ -85,6 +85,7 @@ _MakeMpvPlaylist() {
         ;;
         --online-audio)
             use_mpvc_online="yes"
+            playerTitlesList="$titles_dir/$list.titles"
             mpv --no-terminal \
             "${makeMpvPlaylistAudiOptions[@]}" "$m3uFile" &
             __onlineAudioVideoFzfTest
@@ -92,6 +93,7 @@ _MakeMpvPlaylist() {
         ;;
         --online-video)
             use_mpvc_online="yes"
+            playerTitlesList="$titles_dir/$list.titles"
             mpv --no-terminal \
             "${makeMpvPlaylistVideOptions[@]}" "$m3uFile" &
             __onlineAudioVideoFzfTest

@@ -1,10 +1,17 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
+# shellcheck source=/dev/null
 # shellcheck disable=SC2154,SC2317
 _FzfPlayer() {
 
     cd "$tmp_dir" || exit 1
+
+    local colors
+
+    . "$MPMRC"; . "$THEMERC"
+    colors=$(awk -F= '/native_tui_colors/{gsub(/"/,""); print $2}' "$MPMRC")
+
     # fixed window size
     echo -ne '\e[8;32;124t'
 
@@ -22,11 +29,11 @@ _FzfPlayer() {
         fi
         echo playlist-play-index "$index" | socat - "$MPVSOCKET"
     )
-
+    
     export -f __passPlaylistIndexToMpv
 
     # this function is in ~/.config/mpm/themerc
-    _NativePlayerColors
+    _NativePlayerColors "$colors"
     
     while [[ -s playerSelectedFile ]]; do
         fzf \
@@ -40,8 +47,6 @@ _FzfPlayer() {
         --prompt='Search: ' \
         --preview-window=down:1 \
         --preview="(_MpvSocketCommands --title)" \
-        --border-label "| ${mtitle}Native Mpm Player${nc} |" \
-        --border-label-pos='101:bottom' \
         --header-first \
         --header '  Enter:play, Left:-30s, Right:+30s, ^N:next, ^P:prev, ^T:toggle pause, ^R:reload, ESC:quit player, ^X:quit mpv:
   ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -52,10 +57,10 @@ _FzfPlayer() {
         --bind "ctrl-n:become(_MpvSocketCommands --next; _MpvSocketCommands --title)" \
         --bind "ctrl-p:become(_MpvSocketCommands --prev; _MpvSocketCommands --title)" \
         --bind "ctrl-t:become(_MpvSocketCommands --pause)" \
-        --bind "ctrl-r:become(_MpvSocketCommands --title)" \
+        --bind "ctrl-r:become(_MpvSocketCommands --begin)" \
         --bind "left:become(_MpvSocketCommands --backward)" \
         --bind "right:become(_MpvSocketCommands --forward)" \
-        --bind "ctrl-x:become(echo stop | socat - $MPVSOCKET; rm ./playerSelectedFile)" \
+        --bind "ctrl-x:become(_MpvSocketCommands --stop; rm ./playerSelectedFile)" \
         --bind "esc:become(sed -i '1d' ./playerSelectedFile)" < playerIndexesList
 	done
 

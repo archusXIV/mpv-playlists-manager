@@ -12,7 +12,6 @@ _MakeMpvPlaylistIndexes() {
             ((index++))
         done < "$playerTitlesList"
         unset line index
-        echo "Starting NAtive Mpm Player..." > playerSelectedFile
     }
 
 }

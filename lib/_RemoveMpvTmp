@@ -5,8 +5,7 @@
 _RemoveMpvTmp() {
 
     cd "$tmp_dir" || exit 1
-    mpv_is_running="no"
-
+    
     declare -a mpvTmpFiles=(
         "$SELECTED_URLS1" "$SELECTED_TITLES"
         "$FZFENQUEUE" "$mpv_list"

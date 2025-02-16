@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 2.2-8)
+# ~/.config/mpm/mpmrc (version 2.2-9)
 
 ########################################################
 #'##::::'##:'########::'##::::'##:'########:::'######::#
@@ -190,6 +190,9 @@ use_mpvc="yes"
 # !!! The colors are be defined and can be changed in ~/.config/mpm/themerc !!!
 # mpvc_tui="ncmpvc"
 mpvc_tui="native"
+
+# Available themes: default, c64, dark, gruvbox, molokai, nord, seoul256
+native_tui_colors="default"
 
 # change this according to your mpv tui cheatsheet location
 # or keep it as it is if you don't use any alternative.

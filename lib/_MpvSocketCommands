@@ -20,6 +20,7 @@ _MpvSocketCommands() {
 		--forward) echo seek 30 | socat - "${MPVSOCKET}" ;;
 		--backward) echo seek -30 | socat - "${MPVSOCKET}" ;;
 		--pause) echo cycle pause | socat - "${MPVSOCKET}" ;;
+		--begin) echo playlist-play-index 0 | socat - "${MPVSOCKET}" ;;
 		--stop) echo stop | socat - "${MPVSOCKET}" ;;
 	esac
 }
