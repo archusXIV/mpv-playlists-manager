@@ -32,7 +32,7 @@ _ParallelConversion() {
             n="${ext##*/}"
             mv -n "$ext" "${ext%/*}/${n//.webm/}"
         done >/dev/null 2>&1
-    ' dummy {}
+    ' {} \;
 
     printf '\n%s\n' " ${info}Conversion done.${nc}"
     sleep 2

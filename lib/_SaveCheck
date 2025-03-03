@@ -28,6 +28,7 @@ _SaveCheck() {
     _ResizeWindow -m; clear
     _BlankLine
     PS3=""$'\n'" ${info}Type ${task}$((listTotal + 1)) ${info}to create a new playlist, [${mtitle}C${info}]ancel: ${nc}"
+
     select list in $(find . -not -name "default.m3u*" -name "*.m3u" \
         | sort -d | sed 's,.*/,,'); do
 
@@ -51,8 +52,14 @@ _SaveCheck() {
                         cat "$current_titles" >> "$titles_dir/$list.titles"
                         _RemoveDuplicateLines "$list" "$titles_dir/$list.titles"
                         printf '\n%s\n' " ${info}Link(s) added to $list.${nc}"
-                        rm {"$current_list","$current_titles"}
-                        [[ $current_list == "$DEFAULT_LIST" ]] && echo "#EXTM3U" > "$DEFAULT_LIST"
+                        [[ $current_list == "$DEFAULT_LIST" ]] && {
+                            if [[ ! -s $DEFAULT_LIST ]]; then
+                                break
+                            else
+                                echo "#EXTM3U" > "$DEFAULT_LIST"
+                            fi
+                        }
+                        rm {"$current_list","$current_titles"}_origin
                         sleep 2
                         break
                     ;;

@@ -67,7 +67,7 @@ _ConvertAudio() {
                     mv ./*.webm "$MUSIC_DIR"
                     _BlankLine
                     printf '%s\n' " ${critical}Conversion aborted or wrong option," \
-                    " All .webm files have been moved in $MUSIC_DIR.${nc}"
+                    " All .webm files have been moved in ${MUSIC_DIR##*/}.${nc}"
                     sleep 4
                     _BlankLine
                 }

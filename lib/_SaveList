@@ -33,6 +33,7 @@ _SaveList() {
         mv -f "$current_titles"_origin "$current_titles"
     fi
 
+    unset savedLinks
     sleep 3
 
 }

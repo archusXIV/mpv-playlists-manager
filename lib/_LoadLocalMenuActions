@@ -62,7 +62,6 @@ _LoadLocalMenuActions() {
                 if [[ -n $radios_dir ]]; then
                     localDir="$radios_dir"
                     if _Has fzf && [[ $use_fzf == yes ]]; then
-                        fzf_preview=(cat)
                         clear; _BlankLine; _FzfEnqueue
                     else
                         printf '%s\n' \

@@ -7,10 +7,10 @@ _FzfPlayer() {
 
     cd "$tmp_dir" || exit 1
 
-    local colors
+    local colorscheme
 
     . "$MPMRC"; . "$THEMERC"
-    colors=$(awk -F= '/native_tui_colors/{gsub(/"/,""); print $2}' "$MPMRC")
+    colorscheme=$(awk -F= '/native_tui_colors/{gsub(/"/,""); print $2}' "$MPMRC")
 
     # fixed window size
     echo -ne '\e[8;32;124t'
@@ -27,14 +27,14 @@ _FzfPlayer() {
         else
             index="${index:0:3}"
         fi
-        echo playlist-play-index "$index" | socat - "$MPVSOCKET"
+        echo playlist-play-index "$index" | socat - "${MPVSOCKET}"
     )
-    
+
     export -f __passPlaylistIndexToMpv
 
     # this function is in ~/.config/mpm/themerc
-    _NativePlayerColors "$colors"
-    
+    _NativePlayerColors "$colorscheme"
+
     while [[ -s playerSelectedFile ]]; do
         fzf \
         --cycle \
@@ -51,18 +51,16 @@ _FzfPlayer() {
         --header '  Enter:play, Left:-30s, Right:+30s, ^N:next, ^P:prev, ^T:toggle pause, ^R:reload, ESC:quit player, ^X:quit mpv:
   ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
         ' \
-        --bind "enter:become(
-            echo {} > playerSelectedFile; __passPlaylistIndexToMpv; _MpvSocketCommands --title
-        )" \
-        --bind "ctrl-n:become(_MpvSocketCommands --next; _MpvSocketCommands --title)" \
-        --bind "ctrl-p:become(_MpvSocketCommands --prev; _MpvSocketCommands --title)" \
+        --bind "enter:become(echo {} > playerSelectedFile; __passPlaylistIndexToMpv)" \
+        --bind "ctrl-n:become(_MpvSocketCommands --next)" \
+        --bind "ctrl-p:become(_MpvSocketCommands --prev)" \
         --bind "ctrl-t:become(_MpvSocketCommands --pause)" \
         --bind "ctrl-r:become(_MpvSocketCommands --begin)" \
         --bind "left:become(_MpvSocketCommands --backward)" \
         --bind "right:become(_MpvSocketCommands --forward)" \
         --bind "ctrl-x:become(_MpvSocketCommands --stop; rm ./playerSelectedFile)" \
         --bind "esc:become(sed -i '1d' ./playerSelectedFile)" < playerIndexesList
-	done
+    done
 
     export FZF_DEFAULT_OPTS=
 

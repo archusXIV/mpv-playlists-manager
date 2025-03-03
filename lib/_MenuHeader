@@ -38,8 +38,7 @@ _MenuHeader() {
     )
 
     clear
-    _BlankLine
-    echo -e "                                            ${mtitle}:: MPV-PLAYLISTS-MANAGER $VERSION ::" "$(_CheckUpdate)"
+    echo -e "\n                                            ${mtitle}:: MPV-PLAYLISTS-MANAGER $VERSION ::" "$(_CheckUpdate)"
     echo -e "                                            $(_LittleStars)${nc}"
     [[ -z $THEME ]] && \
     echo -e "                                                  current theme: ${info}${theme}${nc}" || \

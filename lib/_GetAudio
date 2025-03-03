@@ -26,7 +26,7 @@ _GetAudio() {
                 sleep 1
             else
                 printf '%s\n' " ${info}Getting titles...${nc}"
-                _GetMediaTitle -d
+                _GetMediaTitle --default
                 clear
             fi
             M3UFILE="$DEFAULT_LIST"
@@ -40,7 +40,7 @@ _GetAudio() {
         ;;
     esac
 
-    _CheckParallelDownloads
+    _CheckParallelDownloads --before
 
     cp -f "$M3UFILE" "$M3UFILE"_origin
     cp -f "$TITLES" "$TITLES"_origin

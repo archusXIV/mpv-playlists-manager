@@ -1,0 +1,32 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2034
+_FzfChooseTitles() {
+
+    header="Tab:select items, Ctrl+A:select ALL, Enter:confirm, ESC:cancel:"
+
+    nl "$titlesFile" | sed 's/\s*//;s/\t/  /' | fzf \
+        --cycle \
+        --multi \
+        --reverse \
+        --header-first \
+        --scroll-off=5 \
+        --pointer '<>' \
+        --border rounded \
+        --prompt='Search: ' \
+        --bind ctrl-a:select-all \
+        --border-label "| ${list//.m3u} |" \
+        --header "${info}${header}${nc}" | awk '{print $1}' > "$fst"
+
+    if [[ ! -s $fst ]]; then
+        rm "$fst"
+        printf '\n%s\n' " ${critical}Selection aborted.${nc}"
+        sleep 2
+        _Menu
+    else
+        rm {"$SELECTED_URLS1","$SELECTED_TITLES"} 2>/dev/null
+        _GetRange
+    fi
+
+}

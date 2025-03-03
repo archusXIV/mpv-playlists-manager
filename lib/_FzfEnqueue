@@ -1,22 +1,26 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2034,SC2128
+# shellcheck disable=SC2154,SC2034,SC2128,SC2207
 _FzfEnqueue() {
 
     if [[ $localDir == "$radios_dir" ]]; then
         cd "$radios_dir" || return
+        fzf_preview=(cat)
     else
         cd "$localDir"/"$dir" || return
+        fzf_preview=($(awk -F= '/fzf_preview/{gsub(/"/,""); print $2}' "$MPMRC"))
     fi
 
-    local localDirPath
+    _Has "$fzf_preview" || fzf_preview=(file -N -i --)
 
+    local localDirPath
     localDirPath=$(pwd | sed 's,/,\\/,g')
+
     _ResizeWindow -m
     rm ./fzfEnqueue.m3u 2>/dev/null
 
-    _Has "$fzf_preview" || fzf_preview=(file -N -i --)
+    header="Tab:select items, Ctrl+A:select ALL, Enter:confirm, ESC:cancel:"
     find . -type f | sort -d | sed 's,.*/,,;/fzfEnqueue.m3u/d' | \
     fzf \
     --multi \
@@ -28,14 +32,15 @@ _FzfEnqueue() {
     --header-first \
     --border rounded \
     --prompt='Search: ' \
+    --bind ctrl-a:select-all \
     --border-label "| ${PWD##*/} |" \
-    --header "${info}${b}"'Press Tab to select, Enter to confirm, Escape to cancel:'"${nb}${nc}" \
+    --header "${info}${header}${nc}" \
     --preview-window="$fzf_preview_layout:$fzf_preview_size" \
     --preview="$fzf_preview {}" >> fzfEnqueue.m3u
 
     if [[ ! -s ./fzfEnqueue.m3u ]]; then
         rm ./fzfEnqueue.m3u
-        return
+        _LoadLocalMenu
     else
         clear; _BlankLine
         _FzfEnqueueOptions

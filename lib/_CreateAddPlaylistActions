@@ -1,13 +1,12 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2034
 _CreateAddPlaylistActions() {
 
     case "$1" in
         --add)
-            _MpvOwnsTmpList --list || _CopyMediaUrl
-        ;;
+            _CopyMediaUrl ;;
         --download)
             _ResizeWindow -m
             if [[ -f $pidofMpv || $downloadTmpList == list ]]; then
@@ -46,6 +45,17 @@ _CreateAddPlaylistActions() {
             fi
         ;;
         --view)
+            __msg() (
+                printf '%s\n' " ${critical}${Type} titles list is empty...," \
+                " ${task}${b}Updating titles...please wait.${nb}${nc}"
+            )
+            if [[ $arg == '-a' && ! -s $TITLES ]]; then
+                __msg
+                _GetMediaTitle --audio
+            elif [[ $arg == '-v' && ! -s $TITLES ]]; then
+                __msg
+                _GetMediaTitle --video
+            fi
             _ViewAudioVideoUrlsInfo "$arg"
         ;;
     esac

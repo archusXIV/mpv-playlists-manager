@@ -1,0 +1,32 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2034
+_MakeMpvPlaylistOnline() {
+
+    use_mpvc_online="yes"
+
+    if [[ $m3uFile == "$AUDIO_URLS" || $m3uFile == "$VIDEO_URLS" ]]; then
+        playerTitlesList="$TITLES"_
+    elif [[ $m3uFile == "$playlists_dir/$list" ]]; then
+        playerTitlesList="$titles_dir/$list.titles"
+    elif [[ -f $SELECTED_TITLES ]]; then
+        playerTitlesList="$SELECTED_TITLES"
+    fi
+
+    case "$1" in
+        --audio)
+            mpv --no-terminal \
+            "${makeMpvPlaylistAudiOptions[@]}" "$m3uFile" &
+        ;;
+        --video)
+            mpv --no-terminal \
+            "${makeMpvPlaylistVideOptions[@]}" "$m3uFile" &
+        ;;
+    esac
+
+    _MakeMpvPlaylistIndexes
+    ln -sf "$playerTitlesList" "$NOWPLAYING"
+    _WhileMpvIsRunning &
+
+}

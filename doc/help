@@ -1,5 +1,5 @@
 
-    mpm version 2.2-9
+    mpm version 2.3-0
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -37,18 +37,18 @@
             Colors of warnings, prompts etc... can be changed in your themerc file with
             shell colors syntax and RGB/HEX values. Two methods are provided.
             Documentation here: https://misc.flogisoft.com/bash/tip_colors_and_formatting
-        
+
         a)  Using console_colors (default) will always use your current ~/.Xresources colors
             if you have set them or if you use a modern terminal with colors settings available.
-    
+
         b)  Using custom rgb colors (207;34;30) and hex (#ff00ff) so you can set your own
             "theme" from existing ones as models.
-    
+
     Usage:
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.2-9::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.3-0::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -65,7 +65,7 @@
         │  4)  Play/Download a playlist   9)  Edit mpm config file   │  audio format:    mp3  │
         │  5)  Load local folder/files    X)  Exit                   │  quit after task:  no  │
         └─────────────────────────────────────────────────────────────────────────────────────┘
-                                            Select an item                                      
+                                            Select an item
 
         Keyboard shortcuts in main menu (* use digits):
 
@@ -79,7 +79,7 @@
         j) Stop or quit mpv                       │ v) Create/Add links to the Video list *
         k) Toggle play/pause                      │ x) Quit mpm
         l) Go to next song                        │ z) Clear all tmp lists *
-        m) Manuals & help access                  │ Ctrl+B) change theme, Ctrl+M) mpmrc quick view
+        m) Manuals & help access                  │ Ctrl+B) change themes, Ctrl+M) mpmrc quick view
         ──────────────────────────────────────────────────────────────────────────────────────────────────
         Shortcuts in the "mpm player" if mpvc_tui is set to native (uses fzf).
 
@@ -106,7 +106,7 @@
 
         If packages xclip/wl-clipboard are installed they will be used to paste copied urls
         in our temporary lists, settings can be change in ~/.config/mpm/mpmrc.
-        
+
         Once into the video options menu we can add tested links to a temporary list,
         getting links can also be done in option 2) Search online links. YouTube playlists
         are supported only if you choose [f]zf option.
@@ -120,7 +120,7 @@
         Since version 1.4-2, the parallel package (if installed) will speed up audio conversion.
         Note that for youtube audio files the download is automatic (code 251 .webm/opus).
         See section III).
-        
+
         Since version 1.4-9 you can add links from temporary lists in an existing collection
         playlist by using option "4) Save current list as" and selecting the file you want
         to add new links to. A prompt will ask you if you want to overwrite it, just choose
@@ -158,7 +158,7 @@
 
         Since version 2.2-5, if use_fzf is set to yes and fzf is installed, loading/playing
         is done through a fzf menu to select the collection playlist to act on.
-    
+
     5) Load local dir/files:
 
         The following method uses ranger.
@@ -168,11 +168,11 @@
         To use ranger in this function, make sure that you have enabled;
         'set preview_images_method ueberzug' (has to be installed, but it is sometimes broken),
         if you do not use URxvt for example (w3m works fine for URxvt/xterm).
-        
+
         Since version 1.7-9, if use_fzf is set to yes then we can enqueue files through an fzf board,
         by typing tab on each file name (multi selection) and then Enter to confirm.
-        
-        Since version 1.9-9 we can queue up more files or multiple directories at a time, 
+
+        Since version 1.9-9 we can queue up more files or multiple directories at a time,
         to the mpv playlist or decline and play what we previously queued (same if we cancel).
 
         New in version 2.1-5: radios playlists files can be played in option 8) the fzf package as
@@ -189,7 +189,7 @@
         All links we enter are added in this file (default.m3u), at least we can save,
         download, play it and view titles in case we closed the program and forgot them.
         Note that over 12 links, this board only displays the titles.
-    
+
     7) Clear all temporary lists:
 
         Sometimes it is preferable to clear everything and restart from the bottom ground.
@@ -213,7 +213,7 @@
         We may want to edit this file to define the mpm window size, default directories,
         tasks preferences, theme, better quality or results with mpv, ffmpeg and yt-dlp options.
         After changing parameters and saving the file, they will be immediatly actives.
-        
+
         Since version 1.6-3 we can use a terminal user interface (tui) to look, pick & choose
         playlist items while mpv is running but for that a program must be installed such as:
         mpvc <https://github.com/lwilletts/mpvc> (AUR package available)
@@ -226,7 +226,7 @@
         Since version 2.2-5 there is a FZF kind of player that can be enabled by setting mpvc_tui
         like this: mpvc_tui="native" (fzf required), shortcuts are described in the interface.
         If everything is correct this will appear on the main window:
-            
+
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
         │           mpv is running, press N to launch the mpv tui or Q to quit mpv            │
         └─────────────────────────────────────────────────────────────────────────────────────┘
@@ -288,7 +288,7 @@
             then you will be prompted to proceed or not to your downloads conversion,
             and your mpmrc setting will be applied.
             If not all .webm files will be moved in ~/Music (this is defined in mpmrc).
-            
+
         c)
             if automatic_audio_conversion="yes" && default_conversion_format="<empty>"
             then you will be asked to abort conversion and all .webm files will be moved in ~/Music,

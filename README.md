@@ -2,7 +2,7 @@
 ## Manage playlists for mpv from your linux terminal
 
 ## About mpm
-Manage playlists that mpv reads either online or from local files/directories, 
+Manage playlists that mpv reads either online or from local files/directories,
 youtube-dl/yt-dlp is used to download videos or just audio and in that case if
 we choose webm links, ffmpeg will (if you want to) convert them in five different formats:
 aac, flac, mp3, ogg, or wav. You can switch encoders by editing the config file (mpmrc),
@@ -19,7 +19,7 @@ and many more options to control mpv, ffmpeg, yt-dlp and download/playlists dire
 # Installation
 Run the install.sh script as root, by default /usr/local/bin /usr/local/lib are the
 respective destinations.
-The install script will detect if mpm is already installed and in that case the prompt will be: [R]emove or [U]pgrade mpm? 
+The install script will detect if mpm is already installed and in that case the prompt will be: [R]emove or [U]pgrade mpm?
 
 Otherwise the simple install function will run and create ~/.config/mpm/{mpmrc,themerc} files.
 - Please check the [README_FIRST](https://github.com/archusXIV/mpv-playlists-manager/blob/main/README_FIRST) before first run.
@@ -58,12 +58,11 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
-- Fixed bugs here and there.
+- Fzf is also used to choose links for watching online or downloading in the load/download menu, fzf have to be enabled in your mpmrc file.
+- We can now switch themes on the fly either for the main window and the mpv fzf tui.
+- Fixed a bunch of bugs in several functions (too long to enumarate here, LOL).
 - Added several themes for the native mpvc_tui activated through mpmrc.
 - Ctrl+R in the native "player" restart the playlist from the beginning.
-- Fixed bug when executing _BlankLine function.
-- Added Ctrl+X to quit mpv in mpv fzf interface.
-- Added an option to edit ~/.config/mpm/themerc to get "dynamic" changes for main window but also for the fzf mpv running interface.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -105,7 +104,7 @@ use_somabox="yes"
 - Two methods are offered here:
   - If the **fzf** package is installed it will be used to search and copy audio/video urls from youtube,
   and to queue up local files.
-  - In addition you can also use the **ytfzf** script
+  - In addition you can also use the **ytfzf** script (no longer maintained...)
   if it is in your $PATH, options are available in the mpmrc file.
 
 - In your mpmrc file activate it.
@@ -133,15 +132,26 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.2-9.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.3-0.png)
 
 
 ```
-# edit your own theme in "$XDG_CONFIG_HOME"/mpm/themerc.
 # apply your prefered colorscheme...
-# AVAILABLE THEMES: default, blacksea, dracula, gruvbox, gotham, jellybeans,
-# monokai, pistachio, nord, TokyoNight, solarized, vacuous, zenburn, zorange
+# !!! Change or add inside the below mainThemes array existing themes
+# in ~/.config/mpm/themerc (_Theme function)!!!
+mainThemes=(
+    default blacksea dracula gotham
+    gruvbox jellybeans monokai pistachio
+    solarized TokyoNight vacuous zenburn
+)
 THEME="default"
+```
+Same thing for the native mpv tui.
+
+```
+# !!! Change or add inside the below nativeThemes array existing themes
+# in ~/.config/mpm/themerc (_NativePlayerColors function)!!!
+nativeThemes=( default c64 dark gruvbox molokai nord seoul256 )
 ```
 
 - To find out how to convert hex colors in rgb colors, open your prefered color picker

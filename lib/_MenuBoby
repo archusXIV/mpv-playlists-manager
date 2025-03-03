@@ -14,8 +14,7 @@ _MenuBoby() {
     echo -e "                   └─────────────────────────────────────────────────────────────────────────────────────┘"
     _PidOfMpv >/dev/null && _MenuFooter
     test -f "$tmp_dir"/1 \
-        && echo -e "                                                      ${info}Select an item${nc}" \
-        || echo -e "                                                      ${info}${b}Select an item${nb}${nc}"
-    _BlankLine
+        && echo -e "                                                      ${info}Select an item${nc}\n" \
+        || echo -e "                                                      ${info}${b}Select an item${nb}${nc}\n"
 
 }

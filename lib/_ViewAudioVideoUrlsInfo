@@ -7,8 +7,8 @@ _ViewAudioVideoUrlsInfo() {
     local stars
 
     viewUrlInfoPrompt=(
-        "[M]aim menu," "[A]dd links," "[D]ownload," "[E]dit titltes,"
-        "[P]lay," "[S]ave links/list," "[R]emove links/list: "
+        "[M]aim menu," "[A]dd links," "[D]ownload," "[E]dit,"
+        "[P]lay," "[S]ave," "[R]emove: "
     )
 
     mpvOwnsInfoPrompt=(

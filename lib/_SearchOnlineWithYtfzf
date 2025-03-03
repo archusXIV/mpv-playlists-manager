@@ -46,7 +46,7 @@ _SearchOnlineWithYtfzf() {
     cat "$DEFAULT_LIST" "$URLS" > "$tmp_dir"/ytfzf_playlists
 
     ytpl="playlist?list="
-    lbry="odysee.com/$/playlist/"
+    lbry="odysee.com\/$\/playlist\/"
 
     while read -r line; do
         [[ $line =~ "$ytpl"|"$lbry" ]] && \

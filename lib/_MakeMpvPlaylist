@@ -16,15 +16,6 @@ _MakeMpvPlaylist() {
         "${mpvVideoFormatOptions[@]}"
     )
 
-    __onlineAudioVideoFzfTest() (
-        if _Has fzf && [[ $mpvc_tui == native ]]; then
-            _MakeMpvPlaylistIndexes
-            ln -sfr "$playerTitlesList" "$NOWPLAYING"
-        else
-            echo "${m3uFile##*/}" > "$NOWPLAYING"
-        fi
-    )
-
     case "$1" in
         --fzf)
             if [[ $localDir == "$radios_dir" ]]; then
@@ -40,10 +31,8 @@ _MakeMpvPlaylist() {
             else
                 playerTitlesList="$tmp_dir/multipleFilesTitles"
                 mpv --no-terminal "${mpvGenOptions_X[@]}" "$m3uFile" &
-                _Has fzf && [[ $mpvc_tui == native ]] && {
-                    _MpvSocketCommands --playlist
-                    _MakeMpvPlaylistIndexes
-                }
+                _MpvSocketCommands --playlist
+                _MakeMpvPlaylistIndexes
                 _WhileMpvIsRunning &
                 _Menu
             fi
@@ -55,13 +44,9 @@ _MakeMpvPlaylist() {
                 playerTitlesList="$tmp_dir/singleDirTitles"
                 find . -type f | sort | sed 's,.*/,,' \
                 | mpv --no-terminal "${mpvGenOptions_X[@]}" --playlist=- &
-                if _Has fzf && [[ $mpvc_tui == native ]]; then
-                    _MpvSocketCommands --playlist
-                    _MakeMpvPlaylistIndexes
-                    ln -sfr "$playerTitlesList" "$NOWPLAYING"
-                else
-                    echo "local-background" > "$NOWPLAYING"
-                fi
+                _MpvSocketCommands --playlist
+                _MakeMpvPlaylistIndexes
+                ln -sfr "$playerTitlesList" "$NOWPLAYING"
                 _WhileMpvIsRunning &
             }
         ;;
@@ -83,22 +68,8 @@ _MakeMpvPlaylist() {
             "${mpvVideoOptions_FS[@]}" "$m3uFile" &
             _WhileMpvIsRunning &
         ;;
-        --online-audio)
-            use_mpvc_online="yes"
-            playerTitlesList="$titles_dir/$list.titles"
-            mpv --no-terminal \
-            "${makeMpvPlaylistAudiOptions[@]}" "$m3uFile" &
-            __onlineAudioVideoFzfTest
-            _WhileMpvIsRunning &
-        ;;
-        --online-video)
-            use_mpvc_online="yes"
-            playerTitlesList="$titles_dir/$list.titles"
-            mpv --no-terminal \
-            "${makeMpvPlaylistVideOptions[@]}" "$m3uFile" &
-            __onlineAudioVideoFzfTest
-            _WhileMpvIsRunning &
-        ;;
+        --online-audio) _MakeMpvPlaylistOnline --audio ;;
+        --online-video) _MakeMpvPlaylistOnline --video ;;
         --terminal-audio)
             _LoadAudioVideoAdvice
             mpv "${makeMpvPlaylistAudiOptions[@]}" "$m3uFile"

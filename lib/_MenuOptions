@@ -13,7 +13,7 @@ _MenuOptions() {
         4|p|P) _LoadPlaylist ;;
         5|f|F) _LoadLocalMenu ;;
         6|d|D) _ViewAudioVideoUrlsInfo -d ;;
-        7|z|Z) _MpvOwnsTmpList --default || _MpvOwnsTmpList --list || _ClearAllTmpLists ;;
+        7|z|Z) _MpvOwnsTmpList --clear-tmp; _ClearAllTmpLists ;;
         8|e|E) _EditPlaylist ;;
         9|c|C) _EditMpmConf ;;
         b|B  ) _MpmHelp -b ;;
@@ -27,24 +27,13 @@ _MenuOptions() {
         t|T  ) _MpvControl -t ;;
         u|U  ) _MpmHelp -u ;;
         x|X  ) _IfQuitAfterTask -x ;;
-        n|N  )
-            if _PidOfMpv >/dev/null && [[ $use_mpvc == yes && -n $mpvc_tui ]]; then
-                if _Has fzf && [[ $mpvc_tui == native ]]; then
-                    echo "starting simple mpm player" > "$tmp_dir"/playerSelectedFile
-                    _FzfPlayer
-                else
-                    _Has "$mpvc_tui" && "$mpvc_tui"
-                fi
-            else
-                _MpvControl -n
-            fi
-        ;;
+        n|N  ) _MpvTuiTest ;;
         $'\033')
             read -rsn 2 arrowkeys # Arrow keys are disabled.
             case "$arrowkeys" in "[A|[B|[C|[D") : ;; esac
         ;;
         $'\0d') _MpmrcTasksList ;; # Ctrl+M
-        $'\02') _ChooseTheme ;; # Ctrl+B
+        $'\02') _ChooseTheme --main ;; # Ctrl+B
         *) _WrongOption "$mainMenuOptions" ;;
     esac
 

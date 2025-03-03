@@ -5,51 +5,51 @@
 _ChooseFromPlay() {
 
     clear
-    _TitlesListCompare -l
+    if _Has fzf && [[ $use_fzf == yes ]]; then
+        rm "$fst" 2>/dev/null
+        _TitlesListCompare -f
+        _BlankLine
+        read -rsn 1 -p " ${info}Load selected titles as [A]udio, [V]ideo: ${nc}" loadOptions
+        if [[ $loadOptions =~ a|A ]]; then
+            _LoadAudioVideo -sa
+        elif [[ $loadOptions =~ v|V ]]; then
+            _LoadAudioVideo -sv
+        else
+            _WrongOption "$loadOptions"
+            return
+        fi
+    else
+        _TitlesListCompare -l
+        _BlankLine
+        read -rsn 1 \
+        -p " ${info}[${mtitle}C${info}]ancel, Play all as [A]udio, [V]ideo or ${b}[S]elect items:${nb}${nc}" \
+        chooseFromPlayOptions
 
-    read -rsn 1 \
-    -p " ${info}[${mtitle}C${info}]ancel, Play all as [A]udio, [V]ideo or ${b}[S]elect items:${nb}${nc}" \
-    chooseFromPlayOptions
-
-    case "$chooseFromPlayOptions" in
-        a|A)
-            _RemoveMpvTmp
-            kill -SIGTERM "$(pidof -x fzf)" 2>/dev/null
-            _MpvSocketCommands --stop
-            _LoadAudioVideo -la
-        ;;
-        c|C)
-            rm {"$SELECTED_URLS1","$SELECTED_TITLES"} 2>/dev/null
-            _Menu
-        ;;
-        v|V)
-            _RemoveMpvTmp
-            kill -SIGTERM "$(pidof -x fzf)" 2>/dev/null
-            _MpvSocketCommands --stop
-            _LoadAudioVideo -lv
-        ;;
-        s|S)
-            _BlankLine
-            rm {"$SELECTED_URLS1","$SELECTED_TITLES"} 2>/dev/null
-            _GetRange
-            playerTitlesList="$SELECTED_TITLES"
-            _BlankLine
-            read -rsn 1 -p " ${info}load [A]udio, [V]ideo: ${nc}" loadOptions
-            if [[ $loadOptions =~ a|A ]]; then
-                _LoadAudioVideo -sa
-            elif [[ $loadOptions =~ v|V ]]; then
-                _LoadAudioVideo -sv
-            else
-                _WrongOption "$loadOptions"
-                return
-            fi
-        ;;
-        *)
-            _WrongOption "$chooseFromPlayOptions"
-            _LoadPlaylistMenu
-        ;;
-    esac
-
+        case "$chooseFromPlayOptions" in
+            a|A) _LoadAudioVideo -la ;;
+            c|C) _LoadPlaylistMenu ;;
+            s|S)
+                _BlankLine
+                rm {"$SELECTED_URLS1","$SELECTED_TITLES"} 2>/dev/null
+                _GetRange
+                _BlankLine
+                read -rsn 1 -p " ${info}Load selected as [A]udio, [V]ideo: ${nc}" loadOptions
+                if [[ $loadOptions =~ a|A ]]; then
+                    _LoadAudioVideo -sa
+                elif [[ $loadOptions =~ v|V ]]; then
+                    _LoadAudioVideo -sv
+                else
+                    _WrongOption "$loadOptions"
+                    return
+                fi
+            ;;
+            v|V) _LoadAudioVideo -lv ;;
+            *)
+                _WrongOption "$chooseFromPlayOptions"
+                _LoadPlaylistMenu
+            ;;
+        esac
+    fi
     _Menu
 
 }

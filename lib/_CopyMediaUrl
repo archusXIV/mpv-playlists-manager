@@ -6,6 +6,8 @@ _CopyMediaUrl() {
 
     local mediaUrl
 
+    rm "$tmp_dir"/urltest 2>/dev/null
+
     if __clipboardCmdTest; then
         read -r mediaUrl < <("${clipboardCmd[@]}")
     else
@@ -13,7 +15,7 @@ _CopyMediaUrl() {
         read -r mediaUrl
     fi
 
-    if [[ $mediaUrl =~ 'playlist?list=' ]]; then
+    if [[ $mediaUrl =~ 'playlist?list='|'odysee.com\/$\/playlist\/' ]]; then
         printf '\n%s\n' \
         " ${info}Getting titles & links from playlist: $(\
             yt-dlp "${ytdlPreset_DW[@]}" -J --flat-playlist "$mediaUrl" \
@@ -32,8 +34,7 @@ _CopyMediaUrl() {
             else
                 if [[ $arg == '-a' ]] && ! grep -qe 'audio' "$tmp_dir"/urltest; then
                     printf '%s\n' " ${critical}No audio format found...${nc}" \
-                    " removing $mediaUrl..."
-                    rm "$tmp_dir"/urltest; sleep 3; return
+                    " removing $mediaUrl..."; sleep 3; return
                 fi
                 echo "$mediaUrl" | tee -a "$URLS" >> "$DEFAULT_LIST"
                 printf '%s\n' " ${info}Getting ${Type} title...${nc}"
@@ -46,7 +47,5 @@ _CopyMediaUrl() {
             sleep 2
         fi
     fi
-
-    rm "$tmp_dir"/urltest 2>/dev/null
 
 }

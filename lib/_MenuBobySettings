@@ -9,7 +9,7 @@ _MenuBobySettings() {
     if [[ $use_mpvc == yes ]]; then
         varMpvc="${task}  $use_mpvc${nc}"
     elif [[ $use_mpvc == no ]]; then
-        varMpvc="${task}   $use_mpvc${nc}"
+        varMpvc="${critical}   $use_mpvc${nc}"
     else
         varMpvc="${task}unset${nc}"
     fi
@@ -17,23 +17,23 @@ _MenuBobySettings() {
     if [[ $use_fzf == yes ]]; then
         varFzf="${task}  $use_fzf${nc}"
     else
-        varFzf="${task}   $use_fzf${nc}"
+        varFzf="${critical}   $use_fzf${nc}"
     fi
 
     if [[ $use_parallel == yes ]]; then
         varParallel="${task}  $use_parallel${nc}"
     else
-        varParallel="${task}   $use_parallel${nc}"
+        varParallel="${critical}   $use_parallel${nc}"
     fi
 
     if [[ $direct_download == yes ]]; then
         varDirect="${task} $direct_download${nc}"
     else
-        varDirect="${task}  $direct_download${nc}"
+        varDirect="${critical}  $direct_download${nc}"
     fi
 
     if [[ $automatic_audio_conversion == yes ]]; then
-        varConv="${task} $automatic_audio_conversion${nc}"
+        varConv="${critical} $automatic_audio_conversion${nc}"
     else
         varConv="${task}  $automatic_audio_conversion${nc}"
     fi
@@ -47,7 +47,7 @@ _MenuBobySettings() {
     fi
 
     if [[ $quit_after_task == yes ]]; then
-        varQuit="${task}$quit_after_task${nc}"
+        varQuit="${task}${critical}$quit_after_task${nc}"
     else
         varQuit="${task} $quit_after_task${nc}"
     fi

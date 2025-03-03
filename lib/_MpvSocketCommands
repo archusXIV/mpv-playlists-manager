@@ -3,26 +3,28 @@
 
 # shellcheck disable=SC2154
 _MpvSocketCommands() {
-	case "$1" in
-		--title)
-			echo '{ "command": ["get_property", "media-title"] }' \
-        	| socat - "${MPVSOCKET}" \
-        	| awk -F'"' '{ print "\033[32m"" Now playing: " "\033[33m"$4 }'
-		;;
-		--playlist)
-			sleep 0.5
-        	echo '{ "command": ["get_property", "playlist"] }' \
-        	| socat - "$MPVSOCKET" \
-        	| jq --raw-output '.data | .[] | .filename' > "$playerTitlesList"
-		;;
-		--next) echo playlist_next | socat - "${MPVSOCKET}" ;;
-		--prev) echo playlist_prev | socat - "${MPVSOCKET}" ;;
-		--forward) echo seek 30 | socat - "${MPVSOCKET}" ;;
-		--backward) echo seek -30 | socat - "${MPVSOCKET}" ;;
-		--pause) echo cycle pause | socat - "${MPVSOCKET}" ;;
-		--begin) echo playlist-play-index 0 | socat - "${MPVSOCKET}" ;;
-		--stop) echo stop | socat - "${MPVSOCKET}" ;;
-	esac
+
+    case "$1" in
+        --title)
+            echo '{ "command": ["get_property", "media-title"] }' \
+            | socat - "${MPVSOCKET}" \
+            | awk -F'"' '{ print "\033[32m"" Now playing: " "\033[33m"$4 }'
+        ;;
+        --playlist)
+            sleep 0.5
+            echo '{ "command": ["get_property", "playlist"] }' \
+            | socat - "$MPVSOCKET" \
+            | jq --raw-output '.data | .[] | .filename' > "$playerTitlesList"
+        ;;
+        --next) echo playlist-next | socat - "${MPVSOCKET}" ;;
+        --prev) echo playlist-prev | socat - "${MPVSOCKET}" ;;
+        --forward) echo seek 30 | socat - "${MPVSOCKET}" ;;
+        --backward) echo seek -30 | socat - "${MPVSOCKET}" ;;
+        --pause) echo cycle pause | socat - "${MPVSOCKET}" ;;
+        --begin) echo playlist-play-index 0 | socat - "${MPVSOCKET}" ;;
+        --stop) echo stop | socat - "${MPVSOCKET}" ;;
+    esac
+
 }
 # needed for native mpv TUI
 export -f _MpvSocketCommands

@@ -12,15 +12,14 @@ _WhileMpvIsRunning() {
     done
 
     localPlaylist="no"
+    mpv_is_running="no"
 
     if [[ $mpvc_tui == native ]]; then
         _RemoveMpvTmp
         kill -SIGTERM "$(pidof -x fzf)" 2>/dev/null
-        mpv_is_running="no"
     else
         _RemoveMpvTmp
         kill -SIGTERM "$(pidof -x "$mpvc_tui")" 2>/dev/null
-        mpv_is_running="no"
     fi
 
     _MenuFooter

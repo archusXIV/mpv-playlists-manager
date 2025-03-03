@@ -24,8 +24,14 @@ _SaveLinksAs() {
 
             [[ $range =~ [a-zA-Z] ]] && {
                 printf '\n%s\n' " ${critical}Addition aborted...${nc}"
-                sleep 2
-                unset IFS range; return
+                rm {"$current_list","$current_titles"}_origin
+                sleep 2; unset IFS range savedLinks
+                if [[ $current_list == "$DEFAULT_LIST" ]]; then
+                    sed -i '1s/^/#EXTM3U\n/' "$DEFAULT_LIST"
+                    _Menu
+                else
+                    _CreateAddPlaylist "$arg"
+                fi
             }
 
             [[ -z $start ]] && continue
@@ -54,7 +60,7 @@ _SaveLinksAs() {
     read -rsn 1 -p " ${info}Save [L]inks or the [W]hole list?: ${nc}" \
     saveLinksAsOptions
     case "$saveLinksAsOptions" in
-        l|L) __saveRange; savedLinks=yes; _SaveCheck ;;
+        l|L) __saveRange || savedLinks=yes; _SaveCheck ;;
         w|W) _SaveCheck ;;
         *)   _WrongOption "$saveLinksAsOptions"; return ;;
     esac

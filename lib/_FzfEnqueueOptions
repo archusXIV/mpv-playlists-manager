@@ -24,13 +24,15 @@ _FzfEnqueueOptions() {
             use_mpvc_locally=yes
             localPlaylist=yes
             if [[ ! -f "$FZFENQUEUE" ]]; then
-                m3uFile="$localDir/$dir/fzfEnqueue.m3u"
-                ln -sfr "$m3uFile" "$NOWPLAYING"
                 if [[ $localDir == "$radios_dir" ]]; then
+                    m3uFile="$radios_dir/fzfEnqueue.m3u"
+                    ln -sfr "$m3uFile" "$NOWPLAYING"
                     playerTitlesList="$m3uFile"
                     _MakeMpvPlaylistIndexes
                     _MakeMpvPlaylist --fzf
                 else
+                    m3uFile="$localDir/$dir/fzfEnqueue.m3u"
+                    ln -sfr "$m3uFile" "$NOWPLAYING"
                     _MakeMpvPlaylist --fzf
                 fi
             else

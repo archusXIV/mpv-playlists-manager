@@ -4,80 +4,80 @@
 # shellcheck disable=SC2154,SC2034
 _MpvOwnsTmpList() {
 
-    local downloadTmpList sedPrint titles
+    cd "$tmp_dir" || return
+    local downloadTmpList
 
     _PidOfMpv >/dev/null && {
 
         [[ -f $NOWPLAYING || -L $NOWPLAYING || -f $pidofMpv ]] && {
 
-            sedPrint=$(sed -n '1p' "$NOWPLAYING" 2>/dev/null)
-
             case "$1" in
+                --clear-tmp)
+                    if [[ -f "$DEFAULT_TITLES"_ || $playerTitlesList == "$TITLES"_ ]]; then
+                        name="a temporary"
+                    else
+                        return
+                    fi
+                ;;
                 --collection)
-                    if [[ -f "$SELECTED_URLS1" ]]; then
-                        name="another"
-                        action="if you want to play $name collection playlist,"
-                    elif [[ $m3uFile == *.m3u ]]; then
-                        name="a"
-                        action="if you want to play $name collection playlist,"
+                    if [[ -f $playerTitlesList || -f "$tmp_dir"/list_tmp ]]; then
+                        name="$playerTitlesList"
+                        name="${name##*/}"
+                        name="${name//.titles}"
                     else
                         return
                     fi
                 ;;
                 --default)
-                    if [[ $sedPrint == default.m3u ]]; then
+                    if [[ -f "$DEFAULT_TITLES"_ ]]; then
                         name="default"
-                        action="if you want to play/remove/save the $name list,"
-                        downloadTmpList=default
-                    elif [[ -f $tmp_dir/playerIndexesList ]]; then
+                        downloadTmpList="default"
+                    elif [[ -f playerIndexesList ]]; then
                         name="another"
-                        action="if you want to play the default list,"
+                    else
+                        return
                     fi
                 ;;
                 --list)
-                    if [[ $sedPrint =~ temporary"$Type"Urls.m3u && $quit == yes ]]; then
-                        printf '%s\n' " ${critical}Temporary $Type list is owned by mpv,"
-                        _Prompt -n " and it isn't saved, quit anyway? ${nc}" && {
-                            _MpvControl -q
-                            exit
-                        }
-                        quit=no; _Menu
-                    elif [[ $sedPrint =~ temporary"$Type"Urls.m3u ]]; then
-                        name="$Type"
-                        action="if you want to add links/play/remove/save the $name list,"
-                        downloadTmpList=list
+                    if [[ $playerTitlesList == "$TITLES"_ ]]; then
+                        name="Temporary $Type"
+                        downloadTmpList="list"
+                    elif [[ -f playerIndexesList ]]; then
+                        name="another"
                     else
                         return
                     fi
                 ;;
                 --local)
-                    if [[ $localPlaylist == yes || $sedPrint =~ $HOME ]]; then
+                    if [[ -f $tmp_dir/singleDirTitles \
+                    || -f $tmp_dir/multipleDirsTitles.m3u \
+                    || -f $tmp_dir/multipleFilesTitles ]]; then
                         name="a local"
-                        action="if you want to queue $name directory/file(s),"
-                    elif [[ -f "$SELECTED_URLS1" || $m3uFile == *.m3u || -f $pidofMpv ]]; then
+                    elif [[ -f playerIndexesList ]]; then
                         name="another"
-                        action="if you want to queue a directory/file(s),"
                     else
                         return
                     fi
                 ;;
             esac
-            _BlankLine
-            printf '%s\n' " ${critical}mpv owns $name playlist..." \
-            " $action" \
-            " just quit mpv first to proceed.${nc}"
+
+            printf '\n%s\n' " ${critical}mpv owns $name playlist..."
+
             _BlankLine
             if [[ $downloadTmpList =~ default|list ]]; then
                 read -rsn 1 \
-                -p " ${info}[A]bort, [D]ownload tmp list, [Q]uit mpv: ${nc}" \
+                -p " ${info}[C]ancel, [D]ownload ${Type} list, [Q]uit mpv: ${nc}" \
                 mpvOwnsTmpListOptions
             else
                 read -rsn 1 \
-                -p " ${info}[A]bort, [Q]uit mpv: ${nc}" mpvOwnsTmpListOptions
+                -p " ${info}[${mtitle}C${info}]ancel, [Q]uit mpv: ${nc}" mpvOwnsTmpListOptions
             fi
 
             case "$mpvOwnsTmpListOptions" in
-                a|A) _Menu ;;
+                c|C)
+                    [[ -n $downloadTmpList ]] && unset downloadTmpList
+                    _Menu
+                ;;
                 d|D)
                     if [[ $name == default ]]; then
                         _ViewAudioVideoUrlsInfo -d
@@ -86,13 +86,16 @@ _MpvOwnsTmpList() {
                     fi
                 ;;
                 q|Q)
+                    [[ -n $downloadTmpList ]] && unset downloadTmpList
                     kill -SIGTERM "$(_PidOfMpv)" 2>/dev/null
                     localPlaylist=no
-                    _RemoveMpvTmp && _Menu
+                    _Menu
                 ;;
                 *) _WrongOption "$mpvOwnsTmpListOptions" && _Menu ;;
             esac
+
         }
+
     }
 
 }

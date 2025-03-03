@@ -7,7 +7,7 @@ _TitlesListCompare() {
     cd "$titles_dir" || return
 
     local titlesFile
-    titlesFile="$titles_dir/$list.titles" 
+    titlesFile="$titles_dir/$list.titles"
     titlesFile="${titlesFile##*/}"
 
     if [[ -s $titlesFile ]]; then
@@ -16,11 +16,12 @@ _TitlesListCompare() {
             _BlankLine
             printf '%s\n' " ${critical}${titlesFile} is out of date...${nc}" \
             " ${task}${b}Updating $(_GetLinesList -l) titles...please wait.${nb}${nc}"
-            _GetMediaTitle -l
+            _GetMediaTitle --list
             clear
         }
 
         case "$1" in
+            -f) _FzfChooseTitles ;;
             -g)
                 echo -e "\n ${info}Titles for $list.${nc}\n"
                 # sed -n '1,25p' "$titlesFile" | nl
@@ -51,7 +52,7 @@ _TitlesListCompare() {
         _BlankLine
         printf '%s\n' " ${critical}${titlesFile} does not exist or empty...${nc}" \
         " ${task}${b}Getting $(_GetLinesList -l) titles...please wait.${nb}${nc}"
-        touch "$titlesFile"; sleep 2; _GetMediaTitle -l; clear
+        touch "$titlesFile"; sleep 2; _GetMediaTitle --list; clear
         echo -e "\n ${info}Titles for $list.${nc}\n"
         nl "$titlesFile"
         _BlankLine

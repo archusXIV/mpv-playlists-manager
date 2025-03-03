@@ -13,7 +13,7 @@
         j) Stop or quit mpv                       │ v) Create/Add links to the Video list *
         k) Toggle play/pause                      │ x) Quit mpm
         l) Go to next song                        │ z) Clear all tmp lists *
-        m) Manuals & help access                  │ Ctrl+B) change theme, Ctrl+M) mpmrc quick view
+        m) Manuals & help access                  │ Ctrl+B) change themes, Ctrl+M) mpmrc quick view
         ──────────────────────────────────────────────────────────────────────────────────────────────────
     Shortcuts in the "mpm player" if mpvc_tui is set to native (uses fzf).
 

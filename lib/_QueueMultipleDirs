@@ -91,12 +91,10 @@ _QueueMultipleDirs() {
         mv -f "$mpv_list" "$LOCALDIRS_LIST"
         _LoadAudioVideo -xv
     else
-        playerTitlesList="$tmp_dir"/multipleDirsTitles.m3u
+        playerTitlesList="$tmp_dir/multipleDirsTitles.m3u"
         m3uFile="$playerTitlesList"
-        _Has fzf && [[ $mpvc_tui == native ]] && {
-            __makeMultipleDirsPlaylist
-            _MakeMpvPlaylistIndexes
-        }
+        __makeMultipleDirsPlaylist
+        _MakeMpvPlaylistIndexes
         ln -sfr "$m3uFile" "$NOWPLAYING"
         _MakeMpvPlaylist --local-dirs
     fi

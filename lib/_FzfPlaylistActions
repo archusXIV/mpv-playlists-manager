@@ -7,7 +7,7 @@ _FzfPlaylistActions() {
     cd "$titles_dir" || exit 1
 
     local fst
-    fst="$tmp_dir"/fzfSelectedTitle
+    fst="$tmp_dir"/fzfSelectedTitles
 
     titleList=$(find . -type f | sort -d | sed 's,.*/,,')
     titleList=$(
@@ -37,11 +37,9 @@ _FzfPlaylistActions() {
         rm "$fst"
         case "$1" in
             --edit)
-                _TitlesListCompare -l
                 _EditPlaylistOptions
             ;;
             --load)
-                _TitlesListCompare -l
                 _LoadPlaylistMenu
             ;;
             --remove)

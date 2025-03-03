@@ -7,19 +7,19 @@ _GetMediaTitle() {
     local listFile titlesFile
 
     case "$1" in
-        -a)
+        --audio)
             listFile="$AUDIO_URLS"
             titlesFile="$AUDIO_TITLES"
         ;;
-        -l)
+        --list)
             listFile="$playlists_dir"/"$list"
             titlesFile="$titles_dir/$list.titles"
         ;;
-        -d)
+        --default)
             listFile="$DEFAULT_LIST"
             titlesFile="$DEFAULT_TITLES"
         ;;
-        -v)
+        --video)
             listFile="$VIDEO_URLS"
             titlesFile="$VIDEO_TITLES"
         ;;

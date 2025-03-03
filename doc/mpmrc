@@ -32,9 +32,14 @@ copy_height=16
 
 # edit your own theme in "$XDG_CONFIG_HOME"/mpm/themerc.
 # apply your prefered colorscheme...
-# AVAILABLE THEMES: default, blacksea, dracula, gruvbox, gotham, jellybeans,
-# monokai, pistachio, nord, TokyoNight, solarized, vacuous, zenburn, zorange
-THEME=default
+# !!! Change or add inside the below mainThemes array existent themes
+# in ~/.config/mpm/themerc (_Theme function)!!!
+mainThemes=(
+    default blacksea dracula gotham
+    gruvbox jellybeans monokai pistachio
+    solarized TokyoNight vacuous zenburn
+)
+THEME="default"
 
 ####################### SYSTEM TOOLS ######################
 ## default editor used to edit this file and playlist urls.
@@ -122,7 +127,7 @@ parallel_threads="$(nproc)" # total number of cpu cores.
 
 ######################### FZF FUNCTIONALITY #########################
 # Two methods are offered here:
-# If the fzf package is installed it will be used to search and copy 
+# If the fzf package is installed it will be used to search and copy
 # audio/video urls from youtube in a simple but limited way.
 # In addition you can also use the ytfzf script if it is in your $PATH.
 # <https://github.com/pystardust/ytfzf>
@@ -187,11 +192,12 @@ ffmpegWavCodecOptions=( -acodec pcm_s32le -ar 48000 )
 use_mpvc="yes"
 # change your mpv terminal user interface here,
 # native interface is a FZF frontend to control your running playlist.
-# !!! The colors are be defined and can be changed in ~/.config/mpm/themerc !!!
 # mpvc_tui="ncmpvc"
 mpvc_tui="native"
 
-# Available themes: default, c64, dark, gruvbox, molokai, nord, seoul256
+# !!! Change or add inside the below nativeThemes array existent themes
+# in ~/.config/mpm/themerc (_NativePlayerColors function)!!!
+nativeThemes=( default c64 dark gruvbox molokai nord seoul256 )
 native_tui_colors="default"
 
 # change this according to your mpv tui cheatsheet location

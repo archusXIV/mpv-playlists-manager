@@ -5,11 +5,16 @@
 _ChooseDirectVideoDownload() {
 
     local counter animationTitles
-    _TitlesListCompare -l
-    _GetRange
+
+    if _Has fzf && [[ $use_fzf == yes ]]; then
+        _TitlesListCompare -f
+    else
+        _TitlesListCompare -l
+        _GetRange
+    fi
 
     clear
-    cp -f "$list" "$list"_origin
+    cp -f "$playlists_dir"/"$list" "$playlists_dir"/"$list"_origin
     cp -f "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
     mkdir --parents "$mediaDir"
     cd "$mediaDir"|| {

@@ -1,0 +1,33 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# use_fzf yes/no
+# use_mpvc yes/no
+# mpvc_tui populate/empty
+
+# shellcheck disable=SC2154,SC2034
+_MpvTuiTest() {
+
+    if _PidOfMpv >/dev/null; then
+        if [[ -n $mpvc_tui && $use_mpvc == yes ]]; then
+            if _Has fzf && [[ $use_fzf == yes && $mpvc_tui == native ]]; then
+                echo "starting native mpm player" > "$tmp_dir"/playerSelectedFile
+                _FzfPlayer
+            elif _Has fzf && [[ $use_fzf == no && $mpvc_tui == native ]]; then
+                printf '%s\n' " ${critical}use_fzf is set to ${task}NO ${critical}in mpmrc..." \
+                " please enable fzf to get the native interface.${nc}"
+                sleep 5
+            elif [[ $mpvc_tui != native ]]; then
+                _Has "$mpvc_tui" && "$mpvc_tui"
+            fi
+        elif [[ -z $mpvc_tui || $use_mpvc == no ]]; then
+            printf '%s\n' \
+            " ${critical}use_mpvc is set to ${task}no ${critical}or mpvc_tui is ${task}empty ${critical}in mpmrc..." \
+            " No interface access. Please check you config (Press C).${nc}"
+            sleep 7
+        fi
+    else
+        _MpvControl -n
+    fi
+
+}

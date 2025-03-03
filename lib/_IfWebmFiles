@@ -22,8 +22,8 @@ _IfWebmFiles() {
             _BlankLine
             _Prompt " ${info}Proceed with conversion?:${nc}" || {
                 mv ./*.webm "$MUSIC_DIR"
-                printf '\n%s\n' " ${critical}All .webm files have been moved in $MUSIC_DIR.${nc}"
-                sleep 1
+                printf '\n%s\n' " ${critical}All .webm files have been moved in ${MUSIC_DIR##*/}.${nc}"
+                sleep 4
                 _BlankLine
                 [[ $M3UFILE == "$AUDIO_URLS" ]] || [[ $M3UFILE == "$DEFAULT_LIST" ]] \
                 && _GetCompleted

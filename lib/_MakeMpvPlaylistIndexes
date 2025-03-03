@@ -4,19 +4,15 @@
 # shellcheck disable=SC2154
 _MakeMpvPlaylistIndexes() {
 
-    cd "$tmp_dir" && {
+    local index
+    index=0
 
-        local index
-        index=0
+    while read -r line; do
+        echo "$index ${line##*/}" >> "$tmp_dir"/playerIndexesList
+        ((index++))
+    done < "$playerTitlesList"
 
-        while read -r line; do
-            echo "$index ${line##*/}" >> playerIndexesList
-            ((index++))
-        done < "$playerTitlesList"
-        # remove lines that start with the same integer/string
-        # awk -i inplace '!seen[$1]++' playerIndexesList
-        unset line index
-
-    }
+    _RemoveDuplicateLines "$tmp_dir"/playerIndexesList
+    unset line index
 
 }

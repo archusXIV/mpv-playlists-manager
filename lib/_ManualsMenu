@@ -27,9 +27,8 @@ _ManualsMenu() {
         echo -e "                                    │     4) Man yt-dlp      9) Edit mpm configs      │"
         echo -e "                                    │     5) Man $ytfzfCmd       X) Back to main menu     │"
         echo -e "                                    └─────────────────────────────────────────────────┘"
-        echo -e "                                                      ${info}${b}Select an item${nb}${nc}"
+        echo -e "                                                      ${info}${b}Select an item${nb}${nc}\n"
 
-        _BlankLine
         read -rsn 1 manualsMenuOptions
 
         case "$manualsMenuOptions" in

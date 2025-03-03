@@ -5,7 +5,6 @@
 _MenuFooter() {
 
     if [[ $mpv_is_running == no ]]; then
-        # sleep 1
         echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
         echo -e "                   │              ${info}mpv isn't running anymore, press ${task}R ${info}to refresh the screen${nc}               │"
         echo -e "                   │                        ${info}Press ${task}Ctrl C ${info}if mpm isn't launched.${nc}                          │"

@@ -18,22 +18,19 @@ _IfQuitAfterTask() {
                     exit 0
                 fi
             else
-                _IsParallelDownloadsEnabled
+                _CheckParallelDownloads --after
                 _Menu
             fi
         ;;
         -x)
-            quit=yes
-            _MpvOwnsTmpList --list || {
-                if [[ -s "$AUDIO_URLS" || -s "$VIDEO_URLS" ]]; then
-                    _SaveOnExit
-                else
-                    nc=$'\e[0m';
-                    echo "${nc}"
-                    clear
-                    exit 0
-                fi
-            }
+            if [[ -s "$AUDIO_URLS" || -s "$VIDEO_URLS" ]]; then
+                _SaveOnExit
+            else
+                nc=$'\e[0m';
+                echo "${nc}"
+                clear
+                exit 0
+            fi
         ;;
     esac
 

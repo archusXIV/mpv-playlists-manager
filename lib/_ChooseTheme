@@ -6,23 +6,46 @@
 _ChooseTheme() {
 
     clear
-    echo -e "\n ${info}Current theme: ${task}$THEME${nc}\n"
+    _BlankLine
+    read -rsn 1 \
+    -p " ${info}Change [M]ain or [N]ative player theme, [${mtitle}C${info}]ancel: ${nc}" change
 
-    # we use THEME= because sed will also change
-    # names inside the commented themes list in mpmrc.
-    sed -i "s/THEME=\"${THEME}\"/THEME=${THEME}/" "$MPMRC"
-
-    PS3=""$'\n'" ${info}Please choose a theme, [${mtitle}C${info}]ancel: ${nc}"
-    select newTheme in $(grep -E '[[:alnum:]])' "$THEMERC" | sed 's/)//;/#/d'); do
-        [[ $REPLY =~ [a-zA-Z] ]] && {
-            printf '\n%s\n' " ${critical}Selection aborted...${nc}"
-            sleep 2
-            break
-        }
-        sed -i "s/THEME=${THEME}/THEME=${newTheme}/" "$MPMRC"
-        . "$MPMRC"
-        _Theme "$newTheme"
-        break
-    done
+    case "$change" in
+        m|M)
+            clear
+            echo -e "\n ${info}Current main theme: ${task}$THEME${nc}\n"
+            sed -i "s/THEME=\"${THEME}\"/THEME=${THEME}/" "$MPMRC"
+            PS3=""$'\n'" ${info}Please choose a theme, [${mtitle}C${info}]ancel: ${nc}"
+            select main in "${mainThemes[@]}"; do
+                [[ $REPLY =~ [a-zA-Z] ]] && {
+                    printf '\n%s\n' " ${critical}Selection aborted...${nc}"
+                    sleep 2
+                    break
+                }
+                sed -i "s/THEME=${THEME}/THEME=${main}/" "$MPMRC"
+                . "$MPMRC"
+                _Theme "$main"
+                break
+            done
+        ;;
+        n|N)
+            clear
+            local ntc="$native_tui_colors"
+            echo -e "\n ${info}Current native player theme: ${task}$ntc${nc}\n"
+            sed -i "s/native_tui_colors=\"${ntc}\"/native_tui_colors=${ntc}/" "$MPMRC"
+            PS3=""$'\n'" ${info}Please choose a theme, [${mtitle}C${info}]ancel: ${nc}"
+            select native in "${nativeThemes[@]}"; do
+                [[ $REPLY =~ [a-zA-Z] ]] && {
+                    printf '\n%s\n' " ${critical}Selection aborted...${nc}"
+                    sleep 2
+                    break
+                }
+                sed -i "s/native_tui_colors=${ntc}/native_tui_colors=${native}/" "$MPMRC"
+                . "$MPMRC"
+                break
+            done
+        ;;
+        *) _Menu ;;
+    esac
 
 }

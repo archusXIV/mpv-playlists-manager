@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2034
 _ViewDefaultUrlsInfo() {
 
-    local file Type
+    local file Type playerTitlesList
     file="${DEFAULT_LIST##*/}" file="${file%%.*}"
     Type=default
 
@@ -29,7 +29,7 @@ _ViewDefaultUrlsInfo() {
         [[ $(grep "" -c "$DEFAULT_TITLES" 2>/dev/null) -ne $(_GetLinesList -d) ]] && {
             printf '%s\n' " ${critical}Default list as been modified," \
             " ${task}${b}Updating Default list titles...${nb}${nc}"
-            _GetMediaTitle -d
+            _GetMediaTitle --default
         }
         clear
 
@@ -60,16 +60,22 @@ _ViewDefaultUrlsInfo() {
                             -p "${info}"' Play [A]udio, [V]ideo?: '"${nc}" play
                             case "$play" in
                                 a|A)
-                                    playerTitlesList="$DEFAULT_TITLES"
-                                    _Has fzf && [[ $mpvc_tui == native ]] && _MakeMpvPlaylistIndexes
-                                    tmpFzf=audio_video; _LoadAudioVideo -da ;;
+                                    cp "$DEFAULT_TITLES" "$DEFAULT_TITLES"_
+                                    playerTitlesList="$DEFAULT_TITLES"_
+                                    _Has fzf && [[ $mpvc_tui == native ]] \
+                                     && _MakeMpvPlaylistIndexes
+                                    _LoadAudioVideo -da
+                                ;;
                                 v|V)
-                                    playerTitlesList="$DEFAULT_TITLES"
-                                    _Has fzf && [[ $mpvc_tui == native ]] && _MakeMpvPlaylistIndexes
-                                    tmpFzf=audio_video; _LoadAudioVideo -dv ;;
+                                    cp "$DEFAULT_TITLES" "$DEFAULT_TITLES"_
+                                    playerTitlesList="$DEFAULT_TITLES"_
+                                    _Has fzf && [[ $mpvc_tui == native ]] \
+                                     && _MakeMpvPlaylistIndexes
+                                    _LoadAudioVideo -dv
+                                ;;
                                 *)
                                     _WrongOption "$play"
-                                    break
+                                    continue
                                 ;;
                             esac
                         }
@@ -90,8 +96,8 @@ _ViewDefaultUrlsInfo() {
                     else
                         printf '%s\n' " ${critical}Default list does not exist," \
                         " ${task}${b}Updating Default list titles...${nb}${nc}"
-                        _GetMediaTitle -d
-                        nl < "$DEFAULT_TITLES"
+                        _GetMediaTitle --default
+                        nl "$DEFAULT_TITLES"
                         _Save -d
                     fi
                 ;;

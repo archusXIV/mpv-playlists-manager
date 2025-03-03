@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2034
 _DownloadCompleted() {
 
     cd "$playlists_dir" || exit 1
@@ -12,9 +12,10 @@ _DownloadCompleted() {
     else
         FILES=(
             "$list" "$list"_origin
-            "$titles_dir"/"$list".titles "$titles_dir"/"$list".titles_origin
+            "$titles_dir"/"$list".titles "$titles_dir/$list.titles_origin"
             "$SELECTED_URLS1" "$SELECTED_URLS2"
             "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
+            "$tmp_dir/list_tmp"
         )
 
         if [[ $(_GetLinesList -l) -gt 0 ]]; then
@@ -40,8 +41,10 @@ _DownloadCompleted() {
             rm -f "${FILES[@]}" 2>/dev/null
         fi
 
-        _IfQuitAfterTask -d
     fi
+
+    _CheckParallelDownloads --after
+    _IfQuitAfterTask -d
 
 }
 

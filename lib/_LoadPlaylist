@@ -13,10 +13,11 @@ _LoadPlaylist() {
     done
 
     clear
-    _Has fzf && [[ $use_fzf == yes ]] && {
+    if _Has fzf && [[ $use_fzf == yes ]]; then
         action=Load
         _FzfPlaylistActions --load
-    }
+    fi
+
     _BlankLine
     PS3=""$'\n'" ${info}Select a playlist to load, [${mtitle}C${info}]ancel: ${nc}"
     select list in $(find . -type f -not -name "default.m3u" | sort -d | sed 's,.*/,,'); do
@@ -41,7 +42,7 @@ _LoadPlaylist() {
         _BlankLine
         case "$loadPlaylistOptions" in
             1)
-                clear; _LoadPlaylistMenu
+                clear; _MpvOwnsTmpList --list || _LoadPlaylistMenu
             ;;
             2)
                 clear

@@ -6,15 +6,40 @@ _LoadPlaylistMenu() {
 
     cd "$playlists_dir" || return
     M3UFILE="$list"
+    local playlistMenuOptions
+
+    __testList() {
+
+        [[ $playerTitlesList == "$titles_dir/$list.titles" || -f $tmp_dir/list_tmp ]] && {
+
+            echo -e " ${critical}mpv owns $list playlist...\n"
+            read -rsn 1 \
+            -p " ${info}[${mtitle}C${info}]ancel download, [Q]uit mpv: ${nc}" testListOptions
+
+            case "$testListOptions" in
+                c|C) _Menu ;;
+                q|Q)
+                    unset playerTitlesList
+                    kill -SIGTERM "$(_PidOfMpv)" 2>/dev/null
+                    _Menu
+                ;;
+                *)
+                    _WrongOption "$testListOptions"
+                    return
+                ;;
+            esac
+
+        }
+
+    }
+
+    _ResizeWindow -m
+    clear
+    _DownloadMessages --menu
 
     while :; do
-        _ResizeWindow -m
-        clear
-        _DownloadMessages --menu
-        _BlankLine
         [[ -f $M3UFILE ]] && \
-        echo " ${info}Options for: ${M3UFILE%%.*//_/} ${nc}($(grep -c '^https' "$M3UFILE") urls)"
-        _BlankLine;_BlankLine
+        echo -e "\n ${info}Options for: ${M3UFILE%%.*//_/} ${nc}($(grep -c '^https' "$M3UFILE") urls)\n\n"
         echo -e "                                                ${mtitle}::DOWNLOAD/PLAY OPTIONS::${nc}"
         echo -e "                                           $(_LittleStars)${nc}"
         echo -e "                                  ┌───────────────────────────────────────────────────┐"
@@ -22,19 +47,18 @@ _LoadPlaylistMenu() {
         echo -e "                                  │     2) Choose playlist titles & download ${info}video${nc}    │"
         echo -e "                                  │     3) Download whole playlist as ${info}audio${nc} files     │"
         echo -e "                                  │     4) Download whole playlist as ${info}video${nc} files     │"
-        echo -e "                                  │     5) Choose playlist links & play ${info}audio/video${nc}   │"
+        echo -e "                                  │     5) Choose playlist titles & play ${info}audio/video${nc}  │"
         echo -e "                                  │     6) Back to main menu                          │"
         echo -e "                                  └───────────────────────────────────────────────────┘"
-        echo -e "                                                    ${info}${b}Select an item${nb}${nc}"
+        echo -e "                                                    ${info}${b}Select an item${nb}${nc}\n"
 
-        _BlankLine
         read -rsn 1 loadPlaylistMenuOptions
 
         case "$loadPlaylistMenuOptions" in
-            1) _CheckParallelDownloads; _ChooseDownloadAudio ;;
-            2) _CheckParallelDownloads; _ChooseDownloadVideo ;;
-            3) _CheckParallelDownloads; _GetAudio -l ;;
-            4) _CheckParallelDownloads; _DownloadVideoList ;;
+            1) __testList; _CheckParallelDownloads --before; _ChooseDownloadAudio ;;
+            2) __testList; _CheckParallelDownloads --before; _ChooseDownloadVideo ;;
+            3) __testList; _CheckParallelDownloads --before; _GetAudio -l ;;
+            4) __testList; _CheckParallelDownloads --before; _DownloadVideoList ;;
             5) _MpvOwnsTmpList --collection || _ChooseFromPlay ;;
             6) _Menu ;;
             r|R) continue ;;

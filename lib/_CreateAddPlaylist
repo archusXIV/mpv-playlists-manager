@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2034
 _CreateAddPlaylist() {
 
-    local Type TITLES URLS menuTitleType arg supportedSites file addPlaylistDir tmpFzf
+    local Type TITLES URLS menuTitleType arg supportedSites file addPlaylistDir
 
     supportedSites="https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md"
     isInstalled="is installed, first copy a link then press 1)"
@@ -18,7 +18,6 @@ _CreateAddPlaylist() {
             menuTitleType=AUDIO
             arg="-a"
             addPlaylistDir="$audios_dir"
-            tmpFzf=audio
         ;;
         -v)
             Type=Video
@@ -27,7 +26,6 @@ _CreateAddPlaylist() {
             menuTitleType=VIDEO
             arg="-v"
             addPlaylistDir="$videos_dir"
-            tmpFzf=video
         ;;
     esac
 
@@ -42,9 +40,8 @@ _CreateAddPlaylist() {
         clear
 
         test -s "$YTSEARCH" && _GetYoutubePlaylistUrls -s
-        _BlankLine
         test -s "$URLS"  && \
-        echo -e " ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}\n"
+        echo -e "\n ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}\n"
         __clipboardCmdTest && printf '%s\n' "                                   $clipBoadCmdisInstalled"
         _BlankLine
         echo -e "                                                   ${mtitle}::${B}${menuTitleType} OPTIONS${N}::${nc}"
@@ -56,10 +53,11 @@ _CreateAddPlaylist() {
         echo -e "                                │   4) Save/Add current list   8) Back to main menu    │"
         echo -e "                                └──────────────────────────────────────────────────────┘"
         test -s "$URLS"  \
-        && echo -e "                                                    ${info}Select an item${nc}" \
-        || echo -e "                                                    ${info}${b}Select an item${nb}${nc}"
-        _BlankLine
+        && echo -e "                                                    ${info}Select an item${nc}\n" \
+        || echo -e "                                                    ${info}${b}Select an item${nb}${nc}\n"
+
         read -rsn 1 createAddPlaylistOptions
+
         case "$createAddPlaylistOptions" in
             1)  _CreateAddPlaylistActions --add ;;
             2)  _CreateAddPlaylistActions --search ;;
