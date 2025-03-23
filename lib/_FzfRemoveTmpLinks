@@ -1,0 +1,32 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2034
+_FzfRemoveTmpLinks() {
+
+    _ResizeWindow --main
+
+    header="Tab:select items, Ctrl+A:select ALL, Enter:confirm, ESC:cancel:"
+
+    nl "$tmpTitles" | sed 's/\s*//;s/\t/  /' | fzf \
+        --cycle \
+        --multi \
+        --reverse \
+        --header-first \
+        --scroll-off=5 \
+        --pointer '<>' \
+        --border rounded \
+        --prompt='Search: ' \
+        --bind ctrl-a:select-all \
+        --border-label "| ${critical}Remove ${nc}titles from ${Type//.m3u} tmp list |" \
+        --header "${info}${header}${nc}" | awk '{print $1}' > "$FZFSELTITLES"
+
+    if [[ ! -s $FZFSELTITLES ]]; then
+        rm "$FZFSELTITLES"
+        _Menu
+    else
+        clear
+        _RemoveTmpLinks
+    fi
+
+}

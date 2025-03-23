@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 2.2-9)
+# ~/.config/mpm/mpmrc (version 2.3-1)
 
 ########################################################
 #'##::::'##:'########::'##::::'##:'########:::'######::#
@@ -195,7 +195,7 @@ use_mpvc="yes"
 # mpvc_tui="ncmpvc"
 mpvc_tui="native"
 
-# !!! Change or add inside the below nativeThemes array existent themes
+# !!! Change or add inside the below nativeThemes array existing themes
 # in ~/.config/mpm/themerc (_NativePlayerColors function)!!!
 nativeThemes=( default c64 dark gruvbox molokai nord seoul256 )
 native_tui_colors="default"
@@ -205,6 +205,8 @@ native_tui_colors="default"
 mpvc_tui_cheatsheet="/usr/local/share/doc/mpm/ncmpvc_cheatsheet"
 
 # mpv audio/video online playing command line
+# add this in mpvGenOptions_X array if pulseaudio is your audio server.
+mpvGenOptions_AO=( --ao=pulse )
 mpvGenOptions_CA=( --cache=yes )
 mpvGenOptions_SK=( --input-ipc-server='/tmp/mpvsocket' ) # needed for use_mpvc="yes"
 # needed for main screen to auto-refresh when playback is done.

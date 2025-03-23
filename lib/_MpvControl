@@ -5,41 +5,33 @@
 _MpvControl() {
 
     __mpvControlTests() {
-        ! _Has socat && {
+        if ! _Has socat; then
             printf '%s\n' \
-            " ${critical}socat must be installed to control mpv.${nc}"
-            sleep 4
-        }
-        ! _PidOfMpv >/dev/null && {
+            " ${critical}the socat package must be installed to control mpv.${nc}"
+            sleep 4; return 1
+        elif ! _PidOfMpv >/dev/null; then
             case "$key" in
                 h|j|k|l|n|q|t)
                     printf '\n%s\n' \
                     " ${critical}mpv isn't running...${task}${key^}${critical} is useless.${nc}"
-                    sleep 3
+                    sleep 2
                 ;;
                 r) _BlankLine ;;
             esac
-        }
-
-        return
+            return 1
+        fi
     }
 
     case "$1" in
-        -h) key=h; __mpvControlTests || _MpvSocketCommands --prev ;;
-        -j) key=j; __mpvControlTests || _MpvSocketCommands --stop ;;
-        -k) key=k; __mpvControlTests || _MpvSocketCommands --pause ;;
-        -l) key=l; __mpvControlTests || _MpvSocketCommands --next ;;
+        -h) key=h; __mpvControlTests && _MpvSocketCommands --prev ;;
+        -j) key=j; __mpvControlTests && _MpvSocketCommands --stop ;;
+        -k) key=k; __mpvControlTests && _MpvSocketCommands --pause ;;
+        -l) key=l; __mpvControlTests && _MpvSocketCommands --next ;;
         -n) key=n; __mpvControlTests ;;
-        -t) key=t; __mpvControlTests || _MpvSocketCommands --title; sleep 5 ;;
-        -q)
-            key=q; __mpvControlTests || \
-            _PidOfMpv >/dev/null && {
-                kill -SIGTERM "$(_PidOfMpv)"
-                _RemoveMpvTmp
-            }
-        ;;
+        -t) key=t; __mpvControlTests && _MpvSocketCommands --title ;;
+        -q) key=q; __mpvControlTests && _killMpv; _RemoveMpvTmp ;;
         -r)
-            key=r; __mpvControlTests || \
+            key=r; __mpvControlTests && \
             if _PidOfMpv >/dev/null; then
                 printf '%s\n' \
                 " ${critical}mpv is running...${task}${key^}${critical} is useless.${nc}"

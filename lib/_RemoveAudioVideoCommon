@@ -11,15 +11,6 @@ _RemoveAudioVideoCommon() {
         return
     }
 
-    [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ $Type ]] && {
-        _PidOfMpv >/dev/null && {
-            printf '\n%s\n' " ${critical}${tmpList##*/} is owned by mpv...retry later.${nc}"
-            sleep 3
-            _Menu
-        }
-        rm "$NOWPLAYING"
-    }
-
     _BlankLine
     read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole $Type list?: ${nc}"
 
@@ -30,9 +21,8 @@ _RemoveAudioVideoCommon() {
                 printf '\n%s\n' " ${critical}${tmpList##*/} cleared.${nc}"
                 sleep 2
             else
-                _RemoveTmpLinks
-                [[ $tmpList == "$AUDIO_URLS" ]] && \
-                _ViewAudioVideoUrlsInfo -a || _ViewAudioVideoUrlsInfo -v
+                if _TestFzfCommand; then _FzfRemoveTmpLinks; else _RemoveTmpLinks; fi
+                _CreateAddPlaylistActions --view
             fi
         ;;
         w|W)

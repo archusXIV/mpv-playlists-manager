@@ -58,11 +58,11 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+Fixed bugs in _{ClearAllTmpList,RemoveMpvTmp} functions
+- Fzf once again, is used to select titles that we want to remove from our temporary {audio,video} lists.
 - Fzf is also used to choose links for watching online or downloading in the load/download menu, fzf have to be enabled in your mpmrc file.
 - We can now switch themes on the fly either for the main window and the mpv fzf tui.
 - Fixed a bunch of bugs in several functions (too long to enumarate here, LOL).
-- Added several themes for the native mpvc_tui activated through mpmrc.
-- Ctrl+R in the native "player" restart the playlist from the beginning.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -132,7 +132,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.3-0.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.3-1.png)
 
 
 ```

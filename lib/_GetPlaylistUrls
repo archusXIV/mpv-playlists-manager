@@ -2,11 +2,11 @@
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2181,SC2034
-_GetYoutubePlaylistUrls() {
+_GetPlaylistUrls() {
 
     local playlist
 
-    __getYoutubePlaylistUrlsInfo() (
+    __getPlaylistUrlsInfo() (
         playlistName=$(yt-dlp "${ytdlPreset_DW[@]}" -J \
         --flat-playlist "$playlist" | jq --raw-output .title)
         _BlankLine
@@ -19,11 +19,11 @@ _GetYoutubePlaylistUrls() {
         -a|-v)
             playlist="$mediaUrl"
             if _Has parallel && [[ $use_parallel == yes ]]; then
-                _GetYoutubePlaylistUrlsMethods --parallel
+                _GetPlaylistUrlsMethods --parallel
             elif _Has ytfzf && [[ $use_fzf == yes ]]; then
-                _GetYoutubePlaylistUrlsMethods --ytfzf 2>/dev/null
+                _GetPlaylistUrlsMethods --ytfzf 2>/dev/null
             else
-                _GetYoutubePlaylistUrlsMethods --native
+                _GetPlaylistUrlsMethods --native
             fi
         ;;
         -s)
@@ -32,13 +32,13 @@ _GetYoutubePlaylistUrls() {
             # _SearchYoutubeWithFzf function so we enter in a loop.
             for url in "${ytSearchList[@]}"; do
                 playlist="$url"
-                __getYoutubePlaylistUrlsInfo
+                __getPlaylistUrlsInfo
                 if _Has parallel && [[ $use_parallel == yes ]]; then
-                    _GetYoutubePlaylistUrlsMethods --parallel
+                    _GetPlaylistUrlsMethods --parallel
                 elif _Has ytfzf && [[ $use_fzf == yes ]]; then
-                    _GetYoutubePlaylistUrlsMethods --ytfzf 2>/dev/null
+                    _GetPlaylistUrlsMethods --ytfzf 2>/dev/null
                 else
-                    _GetYoutubePlaylistUrlsMethods --native
+                    _GetPlaylistUrlsMethods --native
                 fi
             done
 

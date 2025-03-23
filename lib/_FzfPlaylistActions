@@ -6,9 +6,6 @@ _FzfPlaylistActions() {
 
     cd "$titles_dir" || exit 1
 
-    local fst
-    fst="$tmp_dir"/fzfSelectedTitles
-
     titleList=$(find . -type f | sort -d | sed 's,.*/,,')
     titleList=$(
         printf '%s\n' "${titleList//.titles}" | \
@@ -24,17 +21,17 @@ _FzfPlaylistActions() {
         --border-label "| $action a playlist |" \
         --preview-window="$fzf_preview_layout:$fzf_preview_size" \
         --header="${info}${b}"'Press Enter to select, Escape to cancel:'"${nb}${nc}" \
-        --preview='(cat {}.titles)' >> "$fst"
+        --preview='(cat {}.titles)' >> "$FZFSELTITLES"
     )
 
-    if [[ ! -s $fst ]]; then
-        rm "$fst"
+    if [[ ! -s $FZFSELTITLES ]]; then
+        rm "$FZFSELTITLES"
         _Menu
     else
-        list=$(cat "$fst")
+        list=$(cat "$FZFSELTITLES")
         cd "$playlists_dir" || exit 1
         list=${list//.titles/}
-        rm "$fst"
+        rm "$FZFSELTITLES"
         case "$1" in
             --edit)
                 _EditPlaylistOptions

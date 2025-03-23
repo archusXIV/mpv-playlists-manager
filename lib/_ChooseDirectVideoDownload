@@ -6,7 +6,7 @@ _ChooseDirectVideoDownload() {
 
     local counter animationTitles
 
-    if _Has fzf && [[ $use_fzf == yes ]]; then
+    if _TestFzfCommand; then
         _TitlesListCompare -f
     else
         _TitlesListCompare -l

@@ -1,16 +1,12 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# use_fzf yes/no
-# use_mpvc yes/no
-# mpvc_tui populate/empty
-
 # shellcheck disable=SC2154,SC2034
 _MpvTuiTest() {
 
     if _PidOfMpv >/dev/null; then
         if [[ -n $mpvc_tui && $use_mpvc == yes ]]; then
-            if _Has fzf && [[ $use_fzf == yes && $mpvc_tui == native ]]; then
+            if _TestFzfCommand && [[ $mpvc_tui == native ]]; then
                 echo "starting native mpm player" > "$tmp_dir"/playerSelectedFile
                 _FzfPlayer
             elif _Has fzf && [[ $use_fzf == no && $mpvc_tui == native ]]; then

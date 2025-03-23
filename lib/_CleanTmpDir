@@ -2,7 +2,7 @@
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
-# This function is executed by the trap command before we exit out. 
+# This function is executed by the trap command before we exit out.
 _CleanTmpDir() {
 
     test -s "$DEFAULT_TITLES" && \
@@ -11,10 +11,13 @@ _CleanTmpDir() {
     if _PidOfMpv >/dev/null; then
         find "$tmp_dir" -type f \
             -not -name nowPlaying \
+            -not -name defaultTitles_ \
             -not -name fzfEnqueue.m3u \
             -not -name singleDirTitles \
             -not -name playerIndexesList \
             -not -name playerSelectedFile \
+            -not -name "$SELECTED_TITLES" \
+            -not -name temporarySelection.m3u \
             -not -name multipleDirsTitles.m3u \
             -not -name "$(awk -F"/" '{print $NF}' "$NOWPLAYING")" \
         -exec rm {} \;

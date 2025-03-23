@@ -6,7 +6,7 @@ _IfWebmFiles() {
 
     if [[ -n $(find "$mediaDir" -iname "*.webm") ]]; then
 
-        _RemoveAudioVideoIds; _ResizeWindow -m; clear
+        _RemoveAudioVideoIds; _ResizeWindow --main; clear
         echo -e "\n ${critical}ADVISORY: if you choose conversion, all downloaded files (.webm)"
         echo -e " will be converted in the chosen format.${nc}\n"
         find "$mediaDir" -iname "*.webm" | sed 's,.*/,,' | sort | nl

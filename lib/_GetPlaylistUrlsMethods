@@ -2,7 +2,7 @@
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
-_GetYoutubePlaylistUrlsMethods() {
+_GetPlaylistUrlsMethods() {
 
     __teeAppendTitles() ( tee -a "$TITLES" >> "$DEFAULT_TITLES"; )
     __teeAppendUrls() ( tee -a "$DEFAULT_LIST" >> "$URLS"; )
@@ -15,9 +15,9 @@ _GetYoutubePlaylistUrlsMethods() {
         ;;
         --parallel)
             cd "$tmp_dir" && {
-                yt-dlp --no-warnings --flat-playlist "$playlist" \
-                | parallel --tagstring '{#}' --lb -j0 \
-                yt-dlp --get-title --get-id --ignore-errors --no-warnings \
+                yt-dlp "${ytdlPreset_DW[@]}" --flat-playlist "$playlist" \
+                | parallel --tagstring '{#}' --lb -j8 \
+                yt-dlp "${ytdlPreset_DW[@]}" --get-title --get-id \
                 --playlist-start '{#}' --playlist-end '{#}' "$playlist" \
                 > playlist.txt
 

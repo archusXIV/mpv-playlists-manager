@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.3-0
+mpm version 2.3-1
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -25,10 +25,10 @@ the directory names and structure is ok for you.
 
 Changelog:
 ---------------- !!! THEY ARE CHANGES IN THEMERC & MPMRC CONFIG FILES !!! ---------------
+version 2.3-1 - Fixed bugs in _{ClearAllTmpList,RemoveMpvTmp} functions
+version 2.3-1 - Fzf once again, is used to select titles that we want
+                to remove from our temporary {audio,video} lists.
 version 2.3-0 - Fzf is also used to choose links for listening or downloading in the
                 load/download menu, fzf have to be enabled in your mpmrc file.
 version 2.3-0 - We can now switch themes on the fly either for main window and mpv fzf tui.
 version 2.3-0 - Fixed a bunch of bugs in several function (too long to enumarate here, LOL).
-version 2.2-9 - Fixed bugs here and there.
-version 2.2-9 - Added several themes for the native mpvc_tui activated through mpmrc.
-version 2.2-9 - Ctrl+R in the native "player" restart the playlist from the beginning.

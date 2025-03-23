@@ -7,7 +7,7 @@ _LoadAudioVideo() {
     local m3uFile
 
     _PidOfMpv >/dev/null && {
-        kill -SIGTERM "$(_PidOfMpv)"
+        _killMpv
         _RemoveMpvTmp
         sleep 0.5
     }
@@ -17,12 +17,12 @@ _LoadAudioVideo() {
             if [[ $arg == -a && -s $AUDIO_URLS ]]; then
                 m3uFile="$AUDIO_URLS"
                 playerTitlesList="$AUDIO_TITLES"
-                _Has fzf && [[ $mpvc_tui == native ]] && _MakeMpvPlaylistIndexes
+                _TestFzfCommand && [[ $mpvc_tui == native ]] && _MakeMpvPlaylistIndexes
                 _MpvcTest -a
             elif [[ $arg == -v && -s $VIDEO_URLS ]]; then
                 m3uFile="$VIDEO_URLS"
                 playerTitlesList="$VIDEO_TITLES"
-                _Has fzf && [[ $mpvc_tui == native ]] && _MakeMpvPlaylistIndexes
+                _TestFzfCommand && [[ $mpvc_tui == native ]] && _MakeMpvPlaylistIndexes
                 _MpvcTest -v
             else
                 echo " ${critical}No links in the $Type list${nc}"

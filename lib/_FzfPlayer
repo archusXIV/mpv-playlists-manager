@@ -38,6 +38,7 @@ _FzfPlayer() {
     while [[ -s playerSelectedFile ]]; do
         fzf \
         --cycle \
+        --track \
         --reverse \
         --no-multi \
         --pointer '|>' \

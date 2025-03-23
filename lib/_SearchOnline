@@ -25,7 +25,7 @@ _SearchOnline() {
 
     }
 
-    _ResizeWindow -m; clear
+    _ResizeWindow --main; clear
 
     while true; do
         test -s "$URLS"  && \

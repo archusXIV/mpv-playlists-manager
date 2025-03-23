@@ -6,6 +6,12 @@ _FzfChooseTitles() {
 
     header="Tab:select items, Ctrl+A:select ALL, Enter:confirm, ESC:cancel:"
 
+    if [[ $removeCollectionTitles == yes ]]; then
+        labelAction="${critical}Remove${nc}"
+    else
+        labelAction="Choose"
+    fi
+
     nl "$titlesFile" | sed 's/\s*//;s/\t/  /' | fzf \
         --cycle \
         --multi \
@@ -16,17 +22,25 @@ _FzfChooseTitles() {
         --border rounded \
         --prompt='Search: ' \
         --bind ctrl-a:select-all \
-        --border-label "| ${list//.m3u} |" \
-        --header "${info}${header}${nc}" | awk '{print $1}' > "$fst"
+        --border-label "| $labelAction titles from ${list//.m3u} |" \
+        --header "${info}${header}${nc}" | awk '{print $1}' > "$FZFSELTITLES"
 
-    if [[ ! -s $fst ]]; then
-        rm "$fst"
+    if [[ ! -s $FZFSELTITLES ]]; then
+        unset removeCollectionTitles
+        rm "$FZFSELTITLES"
         printf '\n%s\n' " ${critical}Selection aborted.${nc}"
         sleep 2
         _Menu
     else
         rm {"$SELECTED_URLS1","$SELECTED_TITLES"} 2>/dev/null
-        _GetRange
+        if [[ $removeCollectionTitles == yes ]]; then
+            _GetRange
+            _UpdateSelected -e
+            rm {"$SELECTED_URLS1","$SELECTED_TITLES","$tmp_dir"/list_tmp}
+            unset removeCollectionTitles
+        else
+            _GetRange
+        fi
     fi
 
 }

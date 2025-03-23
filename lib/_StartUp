@@ -4,16 +4,16 @@
 # shellcheck disable=SC2154,SC2034
 _StartUp() {
 
-    local pidofMpv="$tmp_dir/mpv.pid"
-
-    _ResizeWindow -m
+    local pidofMpv
+    pidofMpv="$tmp_dir/mpv.pid"
+    _ResizeWindow --main
 
     [[ -s $DEFAULTM3UTITLES && -s $DEFAULT_LIST ]] && {
         touch "$tmp_dir"/1
         mv -f "$DEFAULTM3UTITLES" "$DEFAULT_TITLES"
     }
 
-    if _PidOfMpv >/dev/null && [[ ! -e "$NOWPLAYING" ]]; then
+    if  [[ -n $(_PidOfMpv) && ! -e $tmp_dir/playerSelectedFile ]]; then
         clear
         _BlankLine
         echo -e "                               ${critical}┌───────────────────────────────────────────────────────────┐"
@@ -29,14 +29,20 @@ _StartUp() {
         case "$quitmpv" in
             n|N) _Menu ;;
             y|*)
-                kill -SIGTERM "$(_PidOfMpv)"
+                _killMpv
                 rm "$pidofMpv"
                 _Menu
             ;;
         esac
 
-    elif _PidOfMpv >/dev/null && [[ -e "$NOWPLAYING" ]]; then
-        _Menu
+    elif _PidOfMpv >/dev/null && [[ -e $tmp_dir/playerSelectedFile ]]; then
+        clear
+        _BlankLine
+        echo -e "                         ${critical}┌────────────────────────────────────────────────────────────────────────────┐"
+        echo -e "                         │   MPV IS RUNNING, IN MAIN MENU PRESS N TO ACCESS OR CONTROL THE PLAYLIST   │"
+        echo -e "                         └────────────────────────────────────────────────────────────────────────────┘${nc}"
+        read -t 4 -rsn 1
+        case "$REPLY" in *) _Menu ;; esac
     else
         rm {"$NOWPLAYING","$tmp_dir"/temporary*} 2>/dev/null
         _Menu

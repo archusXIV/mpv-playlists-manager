@@ -4,8 +4,6 @@
 # shellcheck disable=SC2154,SC2034
 _SaveLinksAs() {
 
-    local savedLinks
-
     __saveRange() {
 
         clear
@@ -25,7 +23,7 @@ _SaveLinksAs() {
             [[ $range =~ [a-zA-Z] ]] && {
                 printf '\n%s\n' " ${critical}Addition aborted...${nc}"
                 rm {"$current_list","$current_titles"}_origin
-                sleep 2; unset IFS range savedLinks
+                sleep 2; unset IFS range
                 if [[ $current_list == "$DEFAULT_LIST" ]]; then
                     sed -i '1s/^/#EXTM3U\n/' "$DEFAULT_LIST"
                     _Menu
@@ -51,16 +49,18 @@ _SaveLinksAs() {
 
     }
 
-    _ResizeWindow -m; clear
+    _ResizeWindow --main; clear
     _BlankLine
     printf '%s\n' " ${critical}Tip: If you want to add links to an existing playlist," \
     " in the next menu select it and answer NO to the overwrite question," \
     " then you can add your links by typing ${task}'a'${nc}"
     _BlankLine
-    read -rsn 1 -p " ${info}Save [L]inks or the [W]hole list?: ${nc}" \
+    read -rsn 1 -p " ${info}[${mtitle}C${info}]ancel, Save [L]inks or the [W]hole list?: ${nc}" \
     saveLinksAsOptions
+
     case "$saveLinksAsOptions" in
-        l|L) __saveRange || savedLinks=yes; _SaveCheck ;;
+        c|C) return ;;
+        l|L) __saveRange && touch "$tmp_dir"/savedLinks && _SaveCheck ;;
         w|W) _SaveCheck ;;
         *)   _WrongOption "$saveLinksAsOptions"; return ;;
     esac

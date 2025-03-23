@@ -15,12 +15,12 @@ _CopyMediaUrl() {
         read -r mediaUrl
     fi
 
-    if [[ $mediaUrl =~ 'playlist?list='|'odysee.com\/$\/playlist\/' ]]; then
+    if [[ $mediaUrl =~ 'playlist?list='|'odysee.com/$/playlist/' ]]; then
         printf '\n%s\n' \
         " ${info}Getting titles & links from playlist: $(\
             yt-dlp "${ytdlPreset_DW[@]}" -J --flat-playlist "$mediaUrl" \
             | jq --raw-output .title)..." "${b} Please be patient.${nb}${nc}"
-        _GetYoutubePlaylistUrls "$arg"
+        _GetPlaylistUrls "$arg"
     else
         mediaUrl=$(echo "$mediaUrl" | sed 's/&list=.*//')
         printf '\n%s\n' " ${info}Testing url...${nc}"

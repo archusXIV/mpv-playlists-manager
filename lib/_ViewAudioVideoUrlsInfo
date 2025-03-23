@@ -7,34 +7,36 @@ _ViewAudioVideoUrlsInfo() {
     local stars
 
     viewUrlInfoPrompt=(
-        "[M]aim menu," "[A]dd links," "[D]ownload," "[E]dit,"
-        "[P]lay," "[S]ave," "[R]emove: "
+        "${info}[${mtitle}M${info}]aim menu,"
+        "[A]dd links," "[D]ownload," "[E]dit,"
+        "[P]lay," "[R]emove," "[S]ave:"
     )
 
     mpvOwnsInfoPrompt=(
         "[M]aim menu," "[D]ownload (this list will be preserved after download)"
     )
 
-    # let's play...
-    stars=$(printf "%-56s" "*")
+    stars=$(printf "%-55s" "*")
+    __tmpListCount() ( grep -c '^https' "$menuTitleType_$URLS"; )
 
     __listHeader() {
         clear
         _BlankLine
-        if (($(grep -c '^https' "$menuTitleType_$URLS") > 12)); then
-            if (($(grep -c '^https' "$menuTitleType_$URLS") > 25)); then
+        if (($(__tmpListCount) > 12)); then
+            if (($(__tmpListCount) > 25)); then
                 stars=$(printf "%-42s" "*")
-
-                printf '%s\n' " ${info}ORDER | $menuTitleType PLAYLIST TITLES (page 1/2)${nc}"
+                printf '%s\n' \
+                " ${info}ORDER | $menuTitleType PLAYLIST TITLES ${b}(page 1/2)${nb}${nc}"
                 echo -e " ${info}${stars// /*}${nc}\n"
                 awk 'NR>=1&&NR<=25' "$TITLES" | nl
                 _BlankLine
-                read -rsn 1 -p " ${info}[M]ain menu, [N]ext page.${nc}" nextpage
+                read -rsn 1 -p " ${viewUrlInfoPrompt[0]} [N]ext page: ${nc}" nextpage
                 case "$nextpage" in
                     m|M) _Menu ;;
                     n|N)
                         clear
-                        printf '\n%s\n' " ${info}ORDER | $menuTitleType PLAYLIST TITLES (page 2)${nc}"
+                        printf '\n%s\n' \
+                        " ${info}ORDER | $menuTitleType PLAYLIST TITLES ( page 2 )${nc}"
                         echo -e " ${info}${stars// /*}${nc}\n"
                         awk 'NR>=26&&NR<=50' "$TITLES" | nl
                         _BlankLine
@@ -45,7 +47,9 @@ _ViewAudioVideoUrlsInfo() {
                     ;;
                 esac
             else
-                printf '%s\n' " ${info}ORDER | $menuTitleType PLAYLIST TITLES (to many urls to show).${nc}"
+                stars=$(printf "%-56s" "*")
+                printf '%s\n' \
+                " ${info}ORDER | $menuTitleType PLAYLIST TITLES (too many urls to show).${nc}"
                 echo -e " ${info}${stars// /*}${nc}\n"
                 nl "$menuTitleType_$TITLES"
                 _BlankLine
@@ -66,13 +70,13 @@ _ViewAudioVideoUrlsInfo() {
                 echo " ${info}${mpvOwnsInfoPrompt[*]}${nc}"
             else
                 unset 'viewUrlInfoPrompt[1]'
-                echo "${info} ${viewUrlInfoPrompt[*]}${nc}"
+                echo " ${info}${viewUrlInfoPrompt[*]}${nc}"
             fi
         else
             if [[ $downloadTmpList == list ]]; then
                 echo " ${info} ${mpvOwnsInfoPrompt[*]}${nc}"
             else
-                echo "${info} ${viewUrlInfoPrompt[*]}${nc}"
+                echo " ${info}${viewUrlInfoPrompt[*]}${nc}"
             fi
         fi
 
@@ -81,9 +85,11 @@ _ViewAudioVideoUrlsInfo() {
     __audioVideoCommon() {
 
         if [[ -s $URLS ]]; then
-            _ResizeWindow -m
+            _ResizeWindow --main
             __listHeader
+
             read -rsn 1 audioVideoCommonOptions
+
             case "$audioVideoCommonOptions" in
                 a|A) _CreateAddPlaylist "$arg" ;;
                 d|D) _CreateAddPlaylistActions --download ;;
@@ -98,7 +104,7 @@ _ViewAudioVideoUrlsInfo() {
                 ;;
             esac
         else
-            _ResizeWindow -c
+            _ResizeWindow --copy
             printf '%s\n' " ${critical}No links in the $Type list${nc}"
             sleep 2 && return
         fi

@@ -14,7 +14,7 @@ _ManualsMenu() {
         || mpvTui="Mpv TUI shortcuts"
 
     while :; do
-        _ResizeWindow -m
+        _ResizeWindow --main
         clear
         echo -e "\n                                                ${mtitle}::MANUALS & HELP OPTIONS::${nc}"
         echo -e "                                           $(_LittleStars)${nc}"

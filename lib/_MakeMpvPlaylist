@@ -63,8 +63,7 @@ _MakeMpvPlaylist() {
         --local-dirs)
             # used by _QueueMultipleDirs function
             mpv --no-terminal \
-            "${mpvGenOptions_SK[@]}" \
-            "${mpvGenOptions_ID[@]}" \
+            "${mpvGenOptions_X[@]}" \
             "${mpvVideoOptions_FS[@]}" "$m3uFile" &
             _WhileMpvIsRunning &
         ;;

@@ -6,14 +6,14 @@ _ResizeWindow() {
 
     # width & height are defined in ~/.config/mpm/mpmrc
     case "$1" in
-        -c)
+        --copy)
             if [[ -n $copy_width && -n $copy_height ]]; then
                 echo -ne "\e[8;${copy_height};${copy_width}t"
             else
                 echo -ne '\e[8;16;124t'
             fi
         ;;
-        -m)
+        --main)
             if [[ -n $width && -n $height ]]; then
                 echo -ne "\e[8;${height};${width}t"
             else

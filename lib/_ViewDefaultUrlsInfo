@@ -8,7 +8,7 @@ _ViewDefaultUrlsInfo() {
     file="${DEFAULT_LIST##*/}" file="${file%%.*}"
     Type=default
 
-    _ResizeWindow -m
+    _ResizeWindow --main
 
     __getAudioVideo() {
 
@@ -18,7 +18,7 @@ _ViewDefaultUrlsInfo() {
         case "$get" in
             a|A) _BlankLine; _GetAudio -d ;;
             v|V) _BlankLine; _GetVideo -d ;;
-            *  ) _ViewAudioVideoUrlsInfo -d ;;
+            *  ) return 1 ;;
         esac
 
     }
@@ -38,40 +38,37 @@ _ViewDefaultUrlsInfo() {
             URLS="$DEFAULT_LIST"
             TITLES="$DEFAULT_TITLES"
             _BlankLine
-            __listHeader
+            __listHeader # is in _ViewAudioVideoUrlsInfo
             read -rsn 1 viewDefaultUrlsInfOptions
             case "$viewDefaultUrlsInfOptions" in
                 d|D)
                     if [[ $downloadTmpList == default || -f $pidofMpv ]]; then
-                        __getAudioVideo
+                        __getAudioVideo || continue
                     else
-                        _MpvOwnsTmpList --default || __getAudioVideo
+                        _MpvOwnsTmpList --default --download || __getAudioVideo || continue
                     fi
                 ;;
-                e|E) _MpvOwnsTmpList --default || _EditTmpListTitles ;;
+                e|E) _MpvOwnsTmpList --default --edit || _EditTmpListTitles ;;
                 m|M) break ;;
                 p|P)
                     if [[ -f $pidofMpv ]]; then
                         _StartUp
                     else
-                        _MpvOwnsTmpList --default || {
+                        _MpvOwnsTmpList --default --play || {
                             _BlankLine
                             read -rsn 1 \
                             -p "${info}"' Play [A]udio, [V]ideo?: '"${nc}" play
                             case "$play" in
-                                a|A)
+                                a|A|v|V)
                                     cp "$DEFAULT_TITLES" "$DEFAULT_TITLES"_
                                     playerTitlesList="$DEFAULT_TITLES"_
                                     _Has fzf && [[ $mpvc_tui == native ]] \
                                      && _MakeMpvPlaylistIndexes
-                                    _LoadAudioVideo -da
-                                ;;
-                                v|V)
-                                    cp "$DEFAULT_TITLES" "$DEFAULT_TITLES"_
-                                    playerTitlesList="$DEFAULT_TITLES"_
-                                    _Has fzf && [[ $mpvc_tui == native ]] \
-                                     && _MakeMpvPlaylistIndexes
-                                    _LoadAudioVideo -dv
+                                    if [[ $play =~ a|A ]]; then
+                                        _LoadAudioVideo -da
+                                    else
+                                        _LoadAudioVideo -dv
+                                    fi
                                 ;;
                                 *)
                                     _WrongOption "$play"
@@ -85,14 +82,14 @@ _ViewDefaultUrlsInfo() {
                     if [[ -f $pidofMpv ]]; then
                         _Remove -d
                     else
-                        _MpvOwnsTmpList --default || _Remove -d
+                        _MpvOwnsTmpList --default --remove || _Remove -d
                     fi
                 ;;
                 s|S)
                     if [[ -f $pidofMpv && -f $DEFAULT_TITLES ]]; then
                         _Save -d
                     elif [[ -f $DEFAULT_TITLES ]]; then
-                        _MpvOwnsTmpList --default || _Save -d
+                        _MpvOwnsTmpList --default --save || _Save -d
                     else
                         printf '%s\n' " ${critical}Default list does not exist," \
                         " ${task}${b}Updating Default list titles...${nb}${nc}"

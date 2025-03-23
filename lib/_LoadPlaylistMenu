@@ -20,7 +20,7 @@ _LoadPlaylistMenu() {
                 c|C) _Menu ;;
                 q|Q)
                     unset playerTitlesList
-                    kill -SIGTERM "$(_PidOfMpv)" 2>/dev/null
+                    _killMpv
                     _Menu
                 ;;
                 *)
@@ -33,7 +33,7 @@ _LoadPlaylistMenu() {
 
     }
 
-    _ResizeWindow -m
+    _ResizeWindow --main
     clear
     _DownloadMessages --menu
 

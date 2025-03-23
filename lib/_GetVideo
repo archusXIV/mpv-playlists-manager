@@ -15,7 +15,7 @@ _GetVideo() {
                 printf '\n%s\n' " ${info}Fetching titles...${nc}"
                 sleep 1
             else
-                printf '\n%s\n' " ${info}Getting titles...${nc}"
+                printf '\n%s\n' " ${info}${b}Getting titles...${nb}${nc}"
                 _GetMediaTitle --default
                 clear
             fi

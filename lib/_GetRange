@@ -14,10 +14,12 @@ _GetRange() {
 
     grep -v '#EXTM3U' "$playlists_dir"/"$list" > "$tmp_dir"/list_tmp
 
-    if [[ -s $fst ]]; then
-        IFS=", "; mapfile -t array < "$fst"
+    IFS=", ";
+    if [[ -s $FZFSELTITLES ]]; then
+        mapfile -t array < "$FZFSELTITLES"
     else
-        IFS=", "; read -ra array -p "$RANGEPROMPT"
+        # use_fzf=no
+        read -ra array -p "$RANGEPROMPT"
     fi
 
     for range in "${array[@]}"; do
@@ -48,6 +50,6 @@ _GetRange() {
     done
 
     unset IFS range
-    rm "$fst" 2>/dev/null
+    rm "$FZFSELTITLES" 2>/dev/null
 
 }

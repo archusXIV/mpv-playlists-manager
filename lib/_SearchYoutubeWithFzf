@@ -6,7 +6,7 @@ _SearchYoutubeWithFzf() {
 
     local jqSearch jqPreview jqPreviewCmd fzfGrabLinks
 
-    _ResizeWindow -m
+    _ResizeWindow --main
     _BlankLine
     read -rp " ${info}Search for ${platform} ${Type} (no quotes): ${nc}" request
     clear

@@ -10,7 +10,7 @@
 ##    Author: Barret E (2021-25) <archus@protonmail.com>
 ##    https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
 ##    Dependencies: ffmpeg, jq, mpv, yt-dlp.
-##    Optionals: fzf, parallel, ueberzug, ranger, socat, w3m, wmctrl, ytfzf
+##    Optionals: dialog, exiftool, fzf, less, mediainfo, parallel, ueberzug, ranger, socat, w3m, ytfzf.
 ##
 ##    Youtube-dl is for now kind of unmaintained so install and make a symlink with
 ##    https://github.com/yt-dlp/yt-dlp/releases
@@ -30,7 +30,7 @@ pids=($(pidof -x "$MPM"))
 
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.3-0"
+VERSION="v.2.3-1"
 
 CONF_DIR="$HOME/.config/mpm"
 
@@ -62,11 +62,6 @@ else
     _Theme "$THEME"
 fi
 
-## prompts blinking
-b=$'\e[5m';
-nb=$'\e[25m';
-lessColor=$'\e[0m';
-
 ## Source our functions.
 if [[ -d /usr/local/lib/mpm ]]; then
     for func in /usr/local/lib/mpm/*_*; do
@@ -78,11 +73,14 @@ else
     exit 127
 fi
 
-# creates a blank line
+## prompts blinking
+b=$'\e[5m';
+nb=$'\e[25m';
+lessColor=$'\e[0m';
+
 _BlankLine() { printf '\n'; }
-
 _PidOfMpv() { pgrep -x mpv; }
-
+_killMpv() { kill -SIGTERM "$(_PidOfMpv)"; }
 _Has() { command -v "$1" &>/dev/null; }
 
 # global variables
@@ -92,12 +90,14 @@ BINDINGS="/usr/local/share/doc/mpm/mpm_bindings"
 DEFAULT_LIST="$playlists_dir/default.m3u"
 DEFAULT_TITLES="$tmp_dir/defaultTitles"
 DEFAULTM3UTITLES="$titles_dir/default.m3u.titles"
-EXTENSIONS="(.aac|.flac|.mp3|.mp4|.ogg|.wav|.webm)"
+EXTENSIONS="(.aac|.flac|.m4a|.mp3|.mp4|.ogg|.wav|.webm)"
 FFOP="$tmp_dir/ffmpeg_output"
 FZFENQUEUE="$tmp_dir/fzfEnqueue.m3u"
+FZFSELTITLES="$tmp_dir"/fzfSelectedTitles
 HELP="/usr/local/share/doc/mpm/help"
 JOBSLIST="$tmp_dir/parallel_list"
 LOCALDIRS_LIST="$tmp_dir/localdirs_list.m3u"
+MPM_VERSION="https://raw.githubusercontent.com/archusXIV/mpv-playlists-manager/main/version"
 MPVSOCKET=$(sed 's/--input-ipc-server=//' <<< "${mpvGenOptions_SK[*]}")
 [[ ! -S $MPVSOCKET ]] && MPVSOCKET="/tmp/mpvsocket"
 NOWPLAYING="$tmp_dir/nowPlaying"

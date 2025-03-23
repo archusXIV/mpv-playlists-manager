@@ -53,6 +53,7 @@ _SaveOnExit() {
     fi
 
     read -rsn 1 saveOnExitOptions
+
     case "$saveOnExitOptions" in
         a|A) _Save -a ;;
         b|B) _Menu ;;

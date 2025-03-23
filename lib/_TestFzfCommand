@@ -1,0 +1,7 @@
+#!/bin/bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_TestFzfCommand() {
+    _Has fzf && [[ $use_fzf == yes ]]
+}

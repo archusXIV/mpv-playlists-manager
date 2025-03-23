@@ -38,7 +38,7 @@ _LoadLocalMenuActions() {
                 elif [[ $loadLocalMenuOptions == 4 ]]; then
                     __settingLoadLocalVars -v
                 fi
-                if _Has fzf && [[ $use_fzf == yes ]]; then
+                if _TestFzfCommand; then
                     clear; _BlankLine; _SelectLocalDir -f; _Menu
                 else
                     __isFileManagerInstalled
@@ -61,7 +61,7 @@ _LoadLocalMenuActions() {
             _MpvOwnsTmpList --local || {
                 if [[ -n $radios_dir ]]; then
                     localDir="$radios_dir"
-                    if _Has fzf && [[ $use_fzf == yes ]]; then
+                    if _TestFzfCommand; then
                         clear; _BlankLine; _FzfEnqueue
                     else
                         printf '%s\n' \

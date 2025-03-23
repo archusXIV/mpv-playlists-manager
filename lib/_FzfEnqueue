@@ -17,7 +17,7 @@ _FzfEnqueue() {
     local localDirPath
     localDirPath=$(pwd | sed 's,/,\\/,g')
 
-    _ResizeWindow -m
+    _ResizeWindow --main
     rm ./fzfEnqueue.m3u 2>/dev/null
 
     header="Tab:select items, Ctrl+A:select ALL, Enter:confirm, ESC:cancel:"

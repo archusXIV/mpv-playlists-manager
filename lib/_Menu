@@ -6,7 +6,7 @@
 _Menu() {
 
     cd "$main_dir" || exit 1
-    _ResizeWindow -m
+    _ResizeWindow --main
     while [[ -e $DEFAULT_LIST ]]; do
         _MenuHeader
         _MenuBobySettings

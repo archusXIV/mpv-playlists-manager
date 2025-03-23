@@ -8,35 +8,45 @@ _CreateAddPlaylistActions() {
         --add)
             _CopyMediaUrl ;;
         --download)
-            _ResizeWindow -m
+            _ResizeWindow --main
             if [[ -f $pidofMpv || $downloadTmpList == list ]]; then
                 if [[ $arg = '-a' ]]; then _GetAudio -a; else _GetVideo -v; fi
             else
-                _MpvOwnsTmpList --list || \
+                _MpvOwnsTmpList --list --download || \
                 if [[ $arg == '-a' ]]; then _GetAudio -a; else _GetVideo -v; fi
             fi
         ;;
         --play)
-            _MpvOwnsTmpList --list || _LoadAudioVideo "$arg"
+            if [[ -f $pidofMpv ]]; then
+                printf '\n%s\n' " ${critical}mpv wasn't launched from mpm..."
+                _Prompt " kill previous mpv instance? ${nc}" || {
+                    return
+                }
+                _killMpv
+                rm "$pidofMpv"
+                _LoadAudioVideo "$arg"
+            else
+                _MpvOwnsTmpList --list --play || _LoadAudioVideo "$arg"
+            fi
         ;;
         --remove)
             if [[ -f $pidofMpv ]]; then
                 _Remove "$arg"
             else
-                _MpvOwnsTmpList --list || _Remove "$arg"
+                _MpvOwnsTmpList --list --remove || _Remove "$arg"
             fi
         ;;
         --save)
             if [[ -f $pidofMpv ]]; then
                 _Save "$arg"
             else
-                _MpvOwnsTmpList --list || _Save "$arg"
+                _MpvOwnsTmpList --list --save || _Save "$arg"
             fi
         ;;
         --search)
-            if [[ $use_fzf == yes ]]; then
+            if _TestFzfCommand; then
                 clear
-                _SearchOnline
+                _MpvOwnsTmpList --list --search || _SearchOnline
             else
                 _BlankLine
                 printf '%s\n' " ${critical}use_fzf is empty or it's set to ${task}no${nc}" \
@@ -45,16 +55,18 @@ _CreateAddPlaylistActions() {
             fi
         ;;
         --view)
-            __msg() (
-                printf '%s\n' " ${critical}${Type} titles list is empty...," \
-                " ${task}${b}Updating titles...please wait.${nb}${nc}"
-            )
-            if [[ $arg == '-a' && ! -s $TITLES ]]; then
-                __msg
-                _GetMediaTitle --audio
-            elif [[ $arg == '-v' && ! -s $TITLES ]]; then
-                __msg
-                _GetMediaTitle --video
+            if [[ -f $URLS && ! -s $TITLES ]]; then
+                __msg() (
+                    printf '%s\n' " ${critical}${Type} titles list is empty...," \
+                    " ${task}${b}Updating titles...please wait.${nb}${nc}"
+                )
+                if [[ $arg == '-a' ]]; then
+                    __msg
+                    _GetMediaTitle --audio
+                else
+                    __msg
+                    _GetMediaTitle --video
+                fi
             fi
             _ViewAudioVideoUrlsInfo "$arg"
         ;;

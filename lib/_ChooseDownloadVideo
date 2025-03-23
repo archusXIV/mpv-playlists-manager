@@ -21,7 +21,7 @@ _ChooseDownloadVideo() {
         b|B) clear; return ;;
         d|D) _ChooseDirectVideoDownload ;;
         s|S)
-            if _Has fzf && [[ $use_fzf == yes ]]; then
+            if _TestFzfCommand; then
                 _TitlesListCompare -f
             else
                 _TitlesListCompare -l

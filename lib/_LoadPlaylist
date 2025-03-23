@@ -13,7 +13,7 @@ _LoadPlaylist() {
     done
 
     clear
-    if _Has fzf && [[ $use_fzf == yes ]]; then
+    if _TestFzfCommand; then
         action=Load
         _FzfPlaylistActions --load
     fi

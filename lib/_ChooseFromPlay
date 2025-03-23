@@ -5,8 +5,8 @@
 _ChooseFromPlay() {
 
     clear
-    if _Has fzf && [[ $use_fzf == yes ]]; then
-        rm "$fst" 2>/dev/null
+    if _TestFzfCommand; then
+        rm "$FZFSELTITLES" 2>/dev/null
         _TitlesListCompare -f
         _BlankLine
         read -rsn 1 -p " ${info}Load selected titles as [A]udio, [V]ideo: ${nc}" loadOptions

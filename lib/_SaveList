@@ -15,25 +15,25 @@ _SaveList() {
     (( $(grep -c -w '#EXTM3U' "$playlists_dir"/"$list") > 1 )) \
         && sed -i '1d' "$playlists_dir"/"$list"
 
-    if [[ $current_list == "$DEFAULT_LIST" && $savedLinks == yes ]]; then
+    if [[ $current_list == "$DEFAULT_LIST" && -f savedLinks ]]; then
         rm "$DEFAULT_TITLES"
         printf '\n%s\n' " ${info}Selected links saved as $list${nc}"
     elif [[ $current_list == "$DEFAULT_LIST" ]]; then
         rm "$DEFAULT_TITLES"
         printf '\n%s\n' " ${info}default list saved as $list${nc}"
-    elif [[ $current_list != "$DEFAULT_LIST" && $savedLinks == yes ]]; then
+    elif [[ $current_list != "$DEFAULT_LIST" && -f savedLinks ]]; then
         printf '\n%s\n' " ${info}Selected links saved as $list${nc}"
     else
         rm {"$current_list","$current_titles"}
         printf '\n%s\n' " ${info}${current_list##*/} list saved as $list${nc}"
     fi
 
-    if [[ $savedLinks == yes ]]; then
+    if [[ -f savedLinks ]]; then
         mv -f "$current_list"_origin "$current_list"
         mv -f "$current_titles"_origin "$current_titles"
+        rm savedLinks
     fi
 
-    unset savedLinks
     sleep 3
 
 }

@@ -58,6 +58,7 @@ _SaveRemove() {
     fi
 
     read -rsn 1 saveRemoveOptions
+
     case "$saveRemoveOptions" in
         a|A) _Save -a ;;
         c|C) _Menu ;;
@@ -66,7 +67,7 @@ _SaveRemove() {
             _Save -d
         ;;
         r|R)
-            _Has fzf && [[ $use_fzf == yes ]] && {
+            _TestFzfCommand && {
                 action=Remove
                 _FzfPlaylistActions --remove
             }

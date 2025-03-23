@@ -7,10 +7,7 @@ _CheckUpdate() {
     local newVerion
 
     [[ $check_updates == yes ]] && {
-        newVerion=$(
-            curl -sL \
-            "https://raw.githubusercontent.com/archusXIV/mpv-playlists-manager/main/version"
-        )
+        newVerion=$(curl -sL "$MPM_VERSION")
         [[ $newVerion != "$VERSION" ]] && \
         printf '%s\n' " ${critical}${b}$newVerion available${nb}${nc}"
     }

@@ -6,6 +6,7 @@ _WhileMpvIsRunning() {
 
     local mpv_is_running
     mpv_is_running="yes"
+    touch "$tmp_dir"/playerSelectedFile
 
     while _PidOfMpv >/dev/null; do
         sleep 1

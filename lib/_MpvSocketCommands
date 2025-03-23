@@ -9,6 +9,7 @@ _MpvSocketCommands() {
             echo '{ "command": ["get_property", "media-title"] }' \
             | socat - "${MPVSOCKET}" \
             | awk -F'"' '{ print "\033[32m"" Now playing: " "\033[33m"$4 }'
+            sleep 4
         ;;
         --playlist)
             sleep 0.5

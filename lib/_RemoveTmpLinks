@@ -4,41 +4,47 @@
 # shellcheck disable=SC2154
 _RemoveTmpLinks() {
 
-    _ResizeWindow -m; clear
-    printf '\n%s\n' " ${info}Select titles to remove fron ${tmpList##*/}${nc}"
-    _BlankLine
-    nl "$tmpTitles"
-    _BlankLine
-
     __abortDeletionMessage() (
+        unset IFS range
         printf '\n%s\n' " ${critical}Deletion aborted...${nc}"
         sleep 2
     )
 
-    IFS=", "; read -ra tmpLinks -p "$RANGEPROMPT"
+    IFS=", ";
+    if [[ -s $FZFSELTITLES ]]; then
+        mapfile -t tmpLinks < "$FZFSELTITLES"
+    else
+        # use_fzf=no
+        _ResizeWindow --main; clear
+        printf '\n%s\n' " ${info}Select titles to remove fron ${tmpList##*/}${nc}"
+        _BlankLine
+        nl "$tmpTitles"
+        _BlankLine
+        read -ra tmpLinks -p "$RANGEPROMPT"
+    fi
+
     for range in "${tmpLinks[@]}"; do
         IFS="-"; read -r start end <<< "$range"
 
         [[ $range =~ [a-zA-Z] ]] && {
-            if [[ $tmpList = "$DEFAULT_LIST" ]]; then
+
+            if [[ $tmpList == "$DEFAULT_LIST" ]]; then
                 if (($(grep -c '^https' "$DEFAULT_LIST") > 25)); then
                     sed -i '1s/^/#EXTM3U\n/' "$DEFAULT_LIST"
                     __abortDeletionMessage
-                    unset IFS range
                     _Menu
                 else
                     __abortDeletionMessage
-                    unset IFS range
+                    rm "$FZFSELTITLES"
                     return
                 fi
             else
                 if (($(grep -c '^https' "$tmpList") > 25)); then
                     __abortDeletionMessage
-                    unset IFS range
                     _CreateAddPlaylist "$arg"
                 else
                     __abortDeletionMessage
-                    unset IFS range
+                    rm "$FZFSELTITLES"
                     return
                 fi
             fi
@@ -69,7 +75,7 @@ _RemoveTmpLinks() {
         printf '\n%s\n' " ${critical}Selected links removed...${nc}"
     fi
 
-    rm {"$tmpList","$tmpTitles"}_tmp
+    rm {"$tmpList","$tmpTitles"}_tmp "$FZFSELTITLES" 2>/dev/null
     unset IFS range
     sleep 2
 

@@ -23,6 +23,7 @@ _IfQuitAfterTask() {
             fi
         ;;
         -x)
+            _MpvOwnsTmpList --list --quit || \
             if [[ -s "$AUDIO_URLS" || -s "$VIDEO_URLS" ]]; then
                 _SaveOnExit
             else

@@ -20,38 +20,62 @@ _MpvOwnsTmpList() {
                     fi
                 ;;
                 --collection)
-                    if [[ -f $playerTitlesList || -f "$tmp_dir"/list_tmp ]]; then
+                    if [[ -f $playerTitlesList || -f list_tmp ]]; then
                         name="$playerTitlesList"
                         name="${name##*/}"
                         name="${name//.titles}"
+                    elif [[ -f playerIndexesList ]]; then
+                        name="another"
                     else
                         return
                     fi
                 ;;
                 --default)
-                    if [[ -f "$DEFAULT_TITLES"_ ]]; then
-                        name="default"
-                        downloadTmpList="default"
-                    elif [[ -f playerIndexesList ]]; then
-                        name="another"
-                    else
-                        return
-                    fi
+                    case "$2" in
+                        --download|--edit|--remove|--save)
+                            if [[ -f "$DEFAULT_TITLES"_ ]]; then
+                                name="default"
+                                downloadTmpList="default"
+                            else
+                                return
+                            fi
+                        ;;
+                        --play)
+                            if [[ -f "$DEFAULT_TITLES"_ ]]; then
+                                name="default"
+                                downloadTmpList="default"
+                            elif [[ -f playerIndexesList ]]; then
+                                name="another"
+                            fi
+                        ;;
+                    esac
                 ;;
                 --list)
-                    if [[ $playerTitlesList == "$TITLES"_ ]]; then
-                        name="Temporary $Type"
-                        downloadTmpList="list"
-                    elif [[ -f playerIndexesList ]]; then
-                        name="another"
-                    else
-                        return
-                    fi
+                    case "$2" in
+                        --download|--edit|--quit|--remove|--save|--search)
+                            if [[ $playerTitlesList == "$TITLES"_ ]]; then
+                                name="Temporary $Type"
+                                downloadTmpList="list"
+                            else
+                                return
+                            fi
+                        ;;
+                        --play)
+                            if [[ $playerTitlesList == "$TITLES"_ ]]; then
+                                name="Temporary $Type"
+                                downloadTmpList="list"
+                            elif [[ -f playerIndexesList ]]; then
+                                name="another"
+                            else
+                                return
+                            fi
+                        ;;
+                    esac
                 ;;
                 --local)
-                    if [[ -f $tmp_dir/singleDirTitles \
-                    || -f $tmp_dir/multipleDirsTitles.m3u \
-                    || -f $tmp_dir/multipleFilesTitles ]]; then
+                    if [[ -f singleDirTitles \
+                        || -f multipleDirsTitles.m3u \
+                        || -f multipleFilesTitles ]]; then
                         name="a local"
                     elif [[ -f playerIndexesList ]]; then
                         name="another"
@@ -66,7 +90,7 @@ _MpvOwnsTmpList() {
             _BlankLine
             if [[ $downloadTmpList =~ default|list ]]; then
                 read -rsn 1 \
-                -p " ${info}[C]ancel, [D]ownload ${Type} list, [Q]uit mpv: ${nc}" \
+                -p " ${info}[${mtitle}C${info}]ancel, [D]ownload ${Type} list, [Q]uit mpv: ${nc}" \
                 mpvOwnsTmpListOptions
             else
                 read -rsn 1 \
@@ -75,7 +99,7 @@ _MpvOwnsTmpList() {
 
             case "$mpvOwnsTmpListOptions" in
                 c|C)
-                    [[ -n $downloadTmpList ]] && unset downloadTmpList
+                    unset downloadTmpList
                     _Menu
                 ;;
                 d|D)
@@ -86,12 +110,15 @@ _MpvOwnsTmpList() {
                     fi
                 ;;
                 q|Q)
-                    [[ -n $downloadTmpList ]] && unset downloadTmpList
-                    kill -SIGTERM "$(_PidOfMpv)" 2>/dev/null
-                    localPlaylist=no
+                    unset downloadTmpList
+                    _killMpv
+                    localPlaylist="no"
                     _Menu
                 ;;
-                *) _WrongOption "$mpvOwnsTmpListOptions" && _Menu ;;
+                *)
+                    _WrongOption "$mpvOwnsTmpListOptions"
+                    _Menu
+                ;;
             esac
 
         }

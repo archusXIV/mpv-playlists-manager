@@ -9,11 +9,10 @@ _RemoveMpvTmp() {
     declare -a mpvTmpFiles=(
         "$SELECTED_URLS1" "$SELECTED_TITLES"
         "$FZFENQUEUE" "$mpv_list" "$DEFAULT_TITLES"_
-        "$pidofMpv" "$LOCALDIRS_LIST"
+        "$pidofMpv" "$LOCALDIRS_LIST" "$FZFSELTITLES"
         "playerIndexesList" "playerSelectedFile"
         "multipleDirsTitles.m3u" "multipleFilesTitles"
         "radioDirTitles" "singleDirTitles" "list_tmp"
-        "fzfSelectedTitles"
     )
 
     for file in "${mpvTmpFiles[@]}"; do

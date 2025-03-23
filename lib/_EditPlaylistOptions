@@ -1,7 +1,7 @@
 #!/bin/bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2034
 _EditPlaylistOptions() {
 
     declare -a editPlaylistOptionsPrompt=(
@@ -38,9 +38,16 @@ _EditPlaylistOptions() {
         ;;
         r|R)
             clear
-            _TitlesListCompare -l
-            _GetRange
-            _UpdateSelected -e
+            _MpvOwnsTmpList --collection || \
+            if _TestFzfCommand; then
+                local removeCollectionTitles
+                removeCollectionTitles="yes"
+                _TitlesListCompare -f
+            else
+                _TitlesListCompare -l
+                _GetRange
+                _UpdateSelected -e
+            fi
         ;;
         t|T)
             "$MPMEDITOR" "$titles_dir"/"$list".titles

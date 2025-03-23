@@ -36,10 +36,10 @@ _CreateAddPlaylist() {
     }
 
     while true; do
-        _ResizeWindow -c
+        _ResizeWindow --copy
         clear
-
-        test -s "$YTSEARCH" && _GetYoutubePlaylistUrls -s
+        # testing for results from _SearchOnlineWithYtfzf.
+        test -s "$YTSEARCH" && _GetPlaylistUrls -s
         test -s "$URLS"  && \
         echo -e "\n ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}\n"
         __clipboardCmdTest && printf '%s\n' "                                   $clipBoadCmdisInstalled"
