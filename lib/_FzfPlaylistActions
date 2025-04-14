@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
@@ -6,7 +6,9 @@ _FzfPlaylistActions() {
 
     cd "$titles_dir" || exit 1
 
-    titleList=$(find . -type f | sort -d | sed 's,.*/,,')
+    _TestIfPlaylistsHaveTitltes
+
+    titleList=$(find . -name "*.titles" | sort -d | sed 's,.*/,,')
     titleList=$(
         printf '%s\n' "${titleList//.titles}" | \
         fzf \
@@ -41,17 +43,19 @@ _FzfPlaylistActions() {
             ;;
             --remove)
                 clear
-                _BlankLine
-                _Prompt -n \
-                " ${critical}Are you sure you want to remove $list?:${nc}" && {
-                    rm {"$list","$titles_dir"/"$list".titles}
-                    echo -e "\n ${critical}$list removed.${nc}"
-                    sleep 3
+                _MpvOwnsTmpList --collection || {
+                    _BlankLine
+                    _Prompt -n \
+                    " ${critical}Are you sure you want to remove $list?:${nc}" && {
+                        rm {"$playlists_dir"/"$list","$titles_dir"/"$list".titles}
+                        echo -e "\n ${critical}$list removed.${nc}"
+                        sleep 3
+                        _Menu
+                    }
+                    echo -e "\n ${info}$list preserved"
+                    sleep 2
                     _Menu
                 }
-                echo -e "\n ${info}$list preserved"
-                sleep 2
-                _Menu
             ;;
         esac
     fi

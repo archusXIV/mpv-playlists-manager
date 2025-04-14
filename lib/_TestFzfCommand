@@ -1,7 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
 _TestFzfCommand() {
-    _Has fzf && [[ $use_fzf == yes ]]
+    if _Has fzf && [[ $use_fzf == yes ]]; then
+        return 0
+    else
+        return 1
+    fi
 }

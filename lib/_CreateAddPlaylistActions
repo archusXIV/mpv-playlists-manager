@@ -1,14 +1,27 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
 _CreateAddPlaylistActions() {
 
+    __gettingTitles() (
+        clear
+        _BlankLine
+        printf '%s\n' \
+        " ${critical}${Type} titles list is empty, or some titles are missing," \
+        " ${task}${b}Updating titles...please wait.${nb}${nc}"
+        if [[ $arg == '-a' ]]; then
+            _GetMediaTitle --audio
+        else
+            _GetMediaTitle --video
+        fi
+    )
+
     case "$1" in
         --add)
-            _CopyMediaUrl ;;
+            _CopyMediaUrl
+        ;;
         --download)
-            _ResizeWindow --main
             if [[ -f $pidofMpv || $downloadTmpList == list ]]; then
                 if [[ $arg = '-a' ]]; then _GetAudio -a; else _GetVideo -v; fi
             else
@@ -45,7 +58,6 @@ _CreateAddPlaylistActions() {
         ;;
         --search)
             if _TestFzfCommand; then
-                clear
                 _MpvOwnsTmpList --list --search || _SearchOnline
             else
                 _BlankLine
@@ -55,18 +67,16 @@ _CreateAddPlaylistActions() {
             fi
         ;;
         --view)
-            if [[ -f $URLS && ! -s $TITLES ]]; then
-                __msg() (
-                    printf '%s\n' " ${critical}${Type} titles list is empty...," \
-                    " ${task}${b}Updating titles...please wait.${nb}${nc}"
-                )
-                if [[ $arg == '-a' ]]; then
-                    __msg
-                    _GetMediaTitle --audio
-                else
-                    __msg
-                    _GetMediaTitle --video
-                fi
+            if [[ -f $URLS && -f $TITLES ]]; then
+                mapfile -t U < "$URLS"
+                mapfile -t T < "$TITLES"
+                ((${#U[@]} != ${#T[@]})) && __gettingTitles
+            elif [[ -f $URLS && ! -f $TITLES ]]; then
+                __gettingTitles
+            else
+                _ResizeWindow --copy
+                printf '%s\n' " ${critical}No links in the $Type list${nc}"
+                sleep 2; return
             fi
             _ViewAudioVideoUrlsInfo "$arg"
         ;;

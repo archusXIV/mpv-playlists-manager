@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
@@ -16,17 +16,17 @@ _ViewDefaultUrlsInfo() {
         read -rsn 1 \
         -p "${info} Download [A]udio, [V]ideo, [${mtitle}C${info}]ancel: ${nc}" get
         case "$get" in
-            a|A) _BlankLine; _GetAudio -d ;;
-            v|V) _BlankLine; _GetVideo -d ;;
-            *  ) return 1 ;;
+            [aA]) _BlankLine; _GetAudio -d ;;
+            [vV]) _BlankLine; _GetVideo -d ;;
+            *   ) return 1 ;;
         esac
 
     }
 
-    if [[ $(_GetLinesList -d) -gt 0 ]]; then
+    if (( $(_GetLinesList -d) >= 1 )); then
         rm "$tmp_dir"/1 2>/dev/null
-
-        [[ $(grep "" -c "$DEFAULT_TITLES" 2>/dev/null) -ne $(_GetLinesList -d) ]] && {
+        mapfile -t defaultTitlesCount < "$DEFAULT_TITLES"
+        ((${#defaultTitlesCount[@]} != $(_GetLinesList -d))) && {
             printf '%s\n' " ${critical}Default list as been modified," \
             " ${task}${b}Updating Default list titles...${nb}${nc}"
             _GetMediaTitle --default
@@ -39,18 +39,20 @@ _ViewDefaultUrlsInfo() {
             TITLES="$DEFAULT_TITLES"
             _BlankLine
             __listHeader # is in _ViewAudioVideoUrlsInfo
+
             read -rsn 1 viewDefaultUrlsInfOptions
+
             case "$viewDefaultUrlsInfOptions" in
-                d|D)
+                [dD])
                     if [[ $downloadTmpList == default || -f $pidofMpv ]]; then
                         __getAudioVideo || continue
                     else
                         _MpvOwnsTmpList --default --download || __getAudioVideo || continue
                     fi
                 ;;
-                e|E) _MpvOwnsTmpList --default --edit || _EditTmpListTitles ;;
-                m|M) break ;;
-                p|P)
+                [eE]) _MpvOwnsTmpList --default --edit || _EditListTitles ;;
+                [mM]) break ;;
+                [pP])
                     if [[ -f $pidofMpv ]]; then
                         _StartUp
                     else
@@ -63,7 +65,7 @@ _ViewDefaultUrlsInfo() {
                                     cp "$DEFAULT_TITLES" "$DEFAULT_TITLES"_
                                     playerTitlesList="$DEFAULT_TITLES"_
                                     _Has fzf && [[ $mpvc_tui == native ]] \
-                                     && _MakeMpvPlaylistIndexes
+                                    && _MakeMpvPlaylistIndexes
                                     if [[ $play =~ a|A ]]; then
                                         _LoadAudioVideo -da
                                     else
@@ -78,21 +80,21 @@ _ViewDefaultUrlsInfo() {
                         }
                     fi
                 ;;
-                r|R)
+                [rR])
                     if [[ -f $pidofMpv ]]; then
                         _Remove -d
                     else
                         _MpvOwnsTmpList --default --remove || _Remove -d
                     fi
                 ;;
-                s|S)
+                [sS])
                     if [[ -f $pidofMpv && -f $DEFAULT_TITLES ]]; then
                         _Save -d
                     elif [[ -f $DEFAULT_TITLES ]]; then
                         _MpvOwnsTmpList --default --save || _Save -d
                     else
-                        printf '%s\n' " ${critical}Default list does not exist," \
-                        " ${task}${b}Updating Default list titles...${nb}${nc}"
+                        printf '%s\n' " ${critical}Default titles file does not exist," \
+                        " ${task}${b}Updating titles...${nb}${nc}"
                         _GetMediaTitle --default
                         nl "$DEFAULT_TITLES"
                         _Save -d

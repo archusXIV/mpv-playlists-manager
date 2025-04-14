@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
@@ -12,28 +12,33 @@ _SaveList() {
     sed -i '1s/^/#EXTM3U\n/' "$playlists_dir"/"$list"
     sed -i '/^[[:alpha:]]/d' "$current_list"
 
-    (( $(grep -c -w '#EXTM3U' "$playlists_dir"/"$list") > 1 )) \
-        && sed -i '1d' "$playlists_dir"/"$list"
+    cnt=0
+    while read -r line; do
+        [[ $line =~ \#EXTM3U ]] && ((cnt++))
+    done < "$playlists_dir"/"$list"
 
-    if [[ $current_list == "$DEFAULT_LIST" && -f savedLinks ]]; then
+    ((cnt > 1)) && sed -i '1d' "$playlists_dir"/"$list"
+
+    if [[ $current_list == "$DEFAULT_LIST" && -f saveLinks ]]; then
         rm "$DEFAULT_TITLES"
         printf '\n%s\n' " ${info}Selected links saved as $list${nc}"
     elif [[ $current_list == "$DEFAULT_LIST" ]]; then
         rm "$DEFAULT_TITLES"
         printf '\n%s\n' " ${info}default list saved as $list${nc}"
-    elif [[ $current_list != "$DEFAULT_LIST" && -f savedLinks ]]; then
+    elif [[ $current_list != "$DEFAULT_LIST" && -f saveLinks ]]; then
         printf '\n%s\n' " ${info}Selected links saved as $list${nc}"
     else
         rm {"$current_list","$current_titles"}
         printf '\n%s\n' " ${info}${current_list##*/} list saved as $list${nc}"
     fi
 
-    if [[ -f savedLinks ]]; then
+    if [[ -f saveLinks ]]; then
         mv -f "$current_list"_origin "$current_list"
         mv -f "$current_titles"_origin "$current_titles"
-        rm savedLinks
+        rm saveLinks
     fi
 
     sleep 3
+    _Menu
 
 }

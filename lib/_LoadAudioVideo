@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
@@ -12,18 +12,26 @@ _LoadAudioVideo() {
         sleep 0.5
     }
 
+    __testPlayerName() {
+        _TestFzfCommand && [[ $mpvc_tui == native ]] && {
+            _MakeMpvPlaylistIndexes
+            case "${1}" in
+                --audio) _MpvcTest -a ;;
+                --video) _MpvcTest -v ;;
+            esac
+        }
+    }
+
     case "$1" in
         -a|-v)
             if [[ $arg == -a && -s $AUDIO_URLS ]]; then
                 m3uFile="$AUDIO_URLS"
                 playerTitlesList="$AUDIO_TITLES"
-                _TestFzfCommand && [[ $mpvc_tui == native ]] && _MakeMpvPlaylistIndexes
-                _MpvcTest -a
+                __testPlayerName --audio
             elif [[ $arg == -v && -s $VIDEO_URLS ]]; then
                 m3uFile="$VIDEO_URLS"
                 playerTitlesList="$VIDEO_TITLES"
-                _TestFzfCommand && [[ $mpvc_tui == native ]] && _MakeMpvPlaylistIndexes
-                _MpvcTest -v
+                __testPlayerName --video
             else
                 echo " ${critical}No links in the $Type list${nc}"
                 sleep 2 && return

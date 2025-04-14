@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
@@ -98,18 +98,20 @@ _MpvOwnsTmpList() {
             fi
 
             case "$mpvOwnsTmpListOptions" in
-                c|C)
+                [cC])
                     unset downloadTmpList
                     _Menu
                 ;;
-                d|D)
+                [dD])
                     if [[ $name == default ]]; then
                         _ViewAudioVideoUrlsInfo -d
-                    elif [[ $name == "$Type" ]]; then
-                        _ViewAudioVideoUrlsInfo "$arg"
+                    elif [[ $Type == Audio ]]; then
+                        _GetAudio -a
+                    else
+                        _GetVideo -v
                     fi
                 ;;
-                q|Q)
+                [qQ])
                     unset downloadTmpList
                     _killMpv
                     localPlaylist="no"

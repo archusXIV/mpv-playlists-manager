@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
@@ -6,7 +6,9 @@ _UpdateSelected() {
 
     cd "$playlists_dir" || exit 1
     # testing if we removed all titles in the list when we chose the edit playlist option.
-    if (( $(grep -c '^https' "$list") == $(grep "" -c "$SELECTED_URLS1") )); then
+    mapfile -t selectedCount < "$SELECTED_URLS1"
+    mapfile -t -s 1 listCount < "$list"
+    if (( ${#selectedCount[@]} == ${#listCount[@]} )); then
         rm {"$list","$SELECTED_URLS1","$titles_dir"/"$list".titles,"$SELECTED_TITLES"}
         printf '\n%s\n' " ${critical}All links selected, ${list##*/} removed...${nc}"
         sleep 2; clear
@@ -22,7 +24,7 @@ _UpdateSelected() {
         cd "$titles_dir" || exit 1
         # same operation for the titles.
         case "$1" in
-            -e)
+            --edit)
                 grep -v -F "$(grep '^[[:print:]]' "$SELECTED_TITLES")" \
                 "$list".titles >> "$SELECTED_TITLES"_tmp
                 _RemoveDuplicateLines "$SELECTED_TITLES"_tmp
@@ -30,7 +32,7 @@ _UpdateSelected() {
                 printf '\n%s\n' " ${info}Changes applied in ${list##*/}.${nc}"
                 sleep 3
             ;;
-            -u)
+            --selection)
                 grep -v -F "$(grep '^[[:print:]]' "$SELECTED_TITLES"_orgin)" \
                 "$list".titles >> "$SELECTED_TITLES"_tmp
                 _RemoveDuplicateLines "$SELECTED_TITLES"_tmp

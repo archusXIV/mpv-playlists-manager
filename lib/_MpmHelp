@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm
 
 # shellcheck disable=SC2154
@@ -8,7 +8,7 @@ _MpmHelp() {
 
     case "$1" in
         -b)
-            clear; head -n 28 "$BINDINGS"
+            clear; head -n 28 /usr/local/share/doc/mpm/mpm_bindings
             read -rsn 1 quit
             case "$quit" in *) return ;; esac
         ;;

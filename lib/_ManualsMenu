@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
@@ -27,7 +27,7 @@ _ManualsMenu() {
         echo -e "                                    │     4) Man yt-dlp      9) Edit mpm configs      │"
         echo -e "                                    │     5) Man $ytfzfCmd       X) Back to main menu     │"
         echo -e "                                    └─────────────────────────────────────────────────┘"
-        echo -e "                                                      ${info}${b}Select an item${nb}${nc}\n"
+        echo -e "                                                     ${info}${b}Select an option${nb}${nc}\n"
 
         read -rsn 1 manualsMenuOptions
 
@@ -41,7 +41,7 @@ _ManualsMenu() {
             7) _MpmHelp -u ;;
             8) _MpmHelp -b ;;
             9) _EditMpmConf -m ;;
-            x|X|r) break ;;
+            [bBxX]) break ;;
             *) _WrongOption "$manualsMenuOptions" ;;
         esac
 

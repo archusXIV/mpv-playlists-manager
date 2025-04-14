@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
 _MpmrcTasksList() {
 
     clear
-    mpmrc_settings=(
+    declare -a mpmrc_settings=(
         "automatic_audio_conversion" "check_updates"
         "copy_height" "copy_width" "default_conversion_format"
         "direct_download" "fzf_preview" "fzf_preview_layout"
@@ -25,7 +25,7 @@ _MpmrcTasksList() {
     unset setting
     _BlankLine
     _Prompt -n " ${info}Edit config?${nc}" && {
-        _EditMpmConf
+        _EditMpmConf -m
     }
     _Menu
 

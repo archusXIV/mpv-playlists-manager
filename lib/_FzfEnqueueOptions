@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
@@ -29,12 +29,11 @@ _FzfEnqueueOptions() {
                     ln -sfr "$m3uFile" "$NOWPLAYING"
                     playerTitlesList="$m3uFile"
                     _MakeMpvPlaylistIndexes
-                    _MakeMpvPlaylist --fzf
                 else
                     m3uFile="$localDir/$dir/fzfEnqueue.m3u"
                     ln -sfr "$m3uFile" "$NOWPLAYING"
-                    _MakeMpvPlaylist --fzf
                 fi
+                _MakeMpvPlaylist --fzf
             else
                 cat "$FZFENQUEUE" fzfEnqueue.m3u > ./tmpfile
                 mv -f ./tmpfile "$FZFENQUEUE"
@@ -44,10 +43,8 @@ _FzfEnqueueOptions() {
                 if [[ $localDir == "$radios_dir" ]]; then
                     playerTitlesList="$m3uFile"
                     _MakeMpvPlaylistIndexes
-                    _MakeMpvPlaylist --fzf
-                else
-                    _MakeMpvPlaylist --fzf
                 fi
+                _MakeMpvPlaylist --fzf
             fi
         ;;
         *)

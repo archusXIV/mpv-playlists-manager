@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
@@ -7,32 +7,32 @@ _MenuOptions() {
     read -rsn 1 mainMenuOptions
 
     case "$mainMenuOptions" in
-        1|v|V) _CreateAddPlaylist -v ;;
-        2|a|A) _CreateAddPlaylist -a ;;
-        3|s|S) _SaveRemove ;;
-        4|p|P) _LoadPlaylist ;;
-        5|f|F) _LoadLocalMenu ;;
-        6|d|D) _ViewAudioVideoUrlsInfo -d ;;
-        7|z|Z) _MpvOwnsTmpList --clear-tmp; _ClearAllTmpLists ;;
-        8|e|E) _EditPlaylist ;;
-        9|c|C) _EditMpmConf ;;
-        b|B  ) _MpmHelp -b ;;
-        h|H  ) _MpvControl -h ;;
-        j|J  ) _MpvControl -j ;;
-        k|K  ) _MpvControl -k ;;
-        l|L  ) _MpvControl -l ;;
-        m|M  ) _MpmHelp -m ;;
-        q|Q  ) _MpvControl -q ;;
-        r|R  ) _MpvControl -r ;;
-        t|T  ) _MpvControl -t ;;
-        u|U  ) _MpmHelp -u ;;
-        x|X  ) _IfQuitAfterTask -x ;;
-        n|N  ) _MpvTuiTest ;;
+        [vV1]) _CreateAddPlaylist -v ;;
+        [aA2]) _CreateAddPlaylist -a ;;
+        [sS3]) _SaveRemove ;;
+        [pP4]) _LoadPlaylist ;;
+        [fF5]) _LoadLocalMenu ;;
+        [dD6]) _ViewAudioVideoUrlsInfo -d ;;
+        [zZ7]) _MpvOwnsTmpList --clear-tmp; _ClearAllTmpLists ;;
+        [eE8]) _EditPlaylist ;;
+        [cC9]) _EditMpmConf ;;
+        [bB] ) _MpmHelp -b ;;
+        [hH] ) _MpvControl -h ;;
+        [jJ] ) _MpvControl -j ;;
+        [kK] ) _MpvControl -k ;;
+        [lL] ) _MpvControl -l ;;
+        [mM] ) _MpmHelp -m ;;
+        [qQ] ) _MpvControl -q ;;
+        [rR] ) _MpvControl -r ;;
+        [tT] ) _MpvControl -t ;;
+        [uU] ) _MpmHelp -u ;;
+        [xX] ) _IfQuitAfterTask -x ;;
+        [nN] ) _MpvTuiTest ;;
         $'\033')
             read -rsn 2 arrowkeys # Arrow keys are disabled.
             case "$arrowkeys" in "[A|[B|[C|[D") : ;; esac
         ;;
-        $'\0d') _MpmrcTasksList ;; # Ctrl+M
+        $'\0d') _MpmrcTasksList ;; # Ctrl+M, space
         $'\02') _ChooseTheme --main ;; # Ctrl+B
         *) _WrongOption "$mainMenuOptions" ;;
     esac

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
@@ -8,7 +8,7 @@ _RemoveCrap() {
     # So we cleanup the link to get the direct link to the desired video.
     # Note that this behavior does not occure while streaming online.
 
-    LISTS=(
+    declare -a LISTS=(
         "$URLS"
         "$DEFAULT_LIST"
         "$TITLES"

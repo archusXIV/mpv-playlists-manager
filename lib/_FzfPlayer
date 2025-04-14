@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck source=/dev/null
@@ -7,22 +7,19 @@ _FzfPlayer() {
 
     cd "$tmp_dir" || exit 1
 
-    local colorscheme
-
     . "$MPMRC"; . "$THEMERC"
-    colorscheme=$(awk -F= '/native_tui_colors/{gsub(/"/,""); print $2}' "$MPMRC")
 
     # fixed window size
     echo -ne '\e[8;32;124t'
 
     __passPlaylistIndexToMpv() (
-        local index lenght
+        local index length
         index=$(awk '{print $1}' playerSelectedFile)
-        lenght="${#index}"
+        length="${#index}"
 
-        if [[ $lenght -eq 1 ]]; then
+        if (( length == 1 )); then
             index="${index:0:1}"
-        elif [[ $lenght -eq 2 ]]; then
+        elif (( length == 2 )); then
             index="${index:0:2}"
         else
             index="${index:0:3}"
@@ -33,7 +30,7 @@ _FzfPlayer() {
     export -f __passPlaylistIndexToMpv
 
     # this function is in ~/.config/mpm/themerc
-    _NativePlayerColors "$colorscheme"
+    _NativePlayerColors "$native_tui_colors"
 
     while [[ -s playerSelectedFile ]]; do
         fzf \

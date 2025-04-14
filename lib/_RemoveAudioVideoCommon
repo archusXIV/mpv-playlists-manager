@@ -1,31 +1,36 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2015
 _RemoveAudioVideoCommon() {
 
-    test ! -s "$tmpList" && {
-        printf '%s\n' " ${critical}No more links in the $Type list${nc}"
-        sleep 2
-        rm {"$tmpList"{,_origin},"$tmpTitles"{,_origin}}
-        return
-    }
+    # test ! -s "$tmpList" && {
+    #     printf '%s\n' " ${critical}No more links in the $Type list${nc}"
+    #     sleep 2
+    #     rm {"$tmpList"{,_origin},"$tmpTitles"{,_origin}}
+    #     return
+    # }
 
     _BlankLine
     read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole $Type list?: ${nc}"
 
     case "$REPLY" in
-        l|L)
-            if [[ $(grep -c '^https' "$tmpList") -eq 1 ]]; then
+        [lL])
+            mapfile -t audioVideoList < "$tmpList"
+            if ((${#audioVideoList[@]} == 1)); then
                 rm {"$tmpList","$tmpTitles"}
                 printf '\n%s\n' " ${critical}${tmpList##*/} cleared.${nc}"
                 sleep 2
             else
                 if _TestFzfCommand; then _FzfRemoveTmpLinks; else _RemoveTmpLinks; fi
-                _CreateAddPlaylistActions --view
+                if [[ -s $TITLES ]]; then
+                    _CreateAddPlaylistActions --view
+                else
+                    _CreateAddPlaylist "$arg"
+                fi
             fi
         ;;
-        w|W)
+        [wW])
             rm {"$tmpList","$tmpTitles"}
             printf '\n%s\n' " ${critical}$Type list removed...${nc}"
             sleep 2

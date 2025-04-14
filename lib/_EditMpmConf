@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
@@ -8,12 +8,14 @@ _EditMpmConf() {
     local theme
 
     _BlankLine
-    read -rsn 1 -p " ${info}Edit [M]pmrc or [T]hemerc?: ${nc}" editConfig
+    read -rsn 1 -p \
+    " ${info}[${mtitle}C${info}]ancel, Edit [M]pmrc or [T]hemerc?: ${nc}" editConfig
 
     case "$editConfig" in
-        m|M) editConfig=mpmrc; $MPMEDITOR "$MPMRC"; ;;
-        t|T) editConfig=themerc; $MPMEDITOR "$THEMERC"; ;;
-        *  ) _WrongOption "$editConfig"; return ;;
+        [cC]) return ;;
+        [mM]) editConfig=mpmrc; $MPMEDITOR "$MPMRC"; ;;
+        [tT]) editConfig=themerc; $MPMEDITOR "$THEMERC"; ;;
+        *   ) _WrongOption "$editConfig"; return ;;
     esac
 
     clear

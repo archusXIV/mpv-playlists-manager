@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
@@ -6,24 +6,25 @@ _ViewAudioVideoUrlsInfo() {
 
     local stars
 
-    viewUrlInfoPrompt=(
+    declare -a viewUrlInfoPrompt=(
         "${info}[${mtitle}M${info}]aim menu,"
         "[A]dd links," "[D]ownload," "[E]dit,"
         "[P]lay," "[R]emove," "[S]ave:"
     )
 
-    mpvOwnsInfoPrompt=(
-        "[M]aim menu," "[D]ownload (this list will be preserved after download)"
+    declare -a mpvOwnsInfoPrompt=(
+        "${viewUrlInfoPrompt[0]}"
+        "[D]ownload (this list will be preserved after download)"
     )
 
-    stars=$(printf "%-55s" "*")
-    __tmpListCount() ( grep -c '^https' "$menuTitleType_$URLS"; )
+    # stars=$(printf "%-55s" "*")
 
     __listHeader() {
         clear
         _BlankLine
-        if (($(__tmpListCount) > 12)); then
-            if (($(__tmpListCount) > 25)); then
+        mapfile -t tmpListCount < "$TITLES"
+        if ((${#tmpListCount[@]} > 12)); then
+            if ((${#tmpListCount[@]} > 25)); then
                 stars=$(printf "%-42s" "*")
                 printf '%s\n' \
                 " ${info}ORDER | $menuTitleType PLAYLIST TITLES ${b}(page 1/2)${nb}${nc}"
@@ -32,13 +33,13 @@ _ViewAudioVideoUrlsInfo() {
                 _BlankLine
                 read -rsn 1 -p " ${viewUrlInfoPrompt[0]} [N]ext page: ${nc}" nextpage
                 case "$nextpage" in
-                    m|M) _Menu ;;
-                    n|N)
+                    [mM]) _Menu ;;
+                    [nN])
                         clear
                         printf '\n%s\n' \
                         " ${info}ORDER | $menuTitleType PLAYLIST TITLES ( page 2 )${nc}"
                         echo -e " ${info}${stars// /*}${nc}\n"
-                        awk 'NR>=26&&NR<=50' "$TITLES" | nl
+                        awk 'NR>=26&&NR<=50' "$TITLES" | nl -v 26
                         _BlankLine
                     ;;
                     *)
@@ -56,6 +57,7 @@ _ViewAudioVideoUrlsInfo() {
             fi
         else
             printf '%s\n' " ${info}ORDER |  $menuTitleType PLAYLIST LINKS & TITLES.${nc}"
+            stars=$(printf "%-55s" "*")
             echo -e " ${info}${stars// /*}${nc}\n"
             awk '$0 ~ /^https/{print $0}' "$menuTitleType_$URLS" \
             | nl && {
@@ -91,13 +93,13 @@ _ViewAudioVideoUrlsInfo() {
             read -rsn 1 audioVideoCommonOptions
 
             case "$audioVideoCommonOptions" in
-                a|A) _CreateAddPlaylist "$arg" ;;
-                d|D) _CreateAddPlaylistActions --download ;;
-                e|E) _MpvOwnsTmpList --list || _EditTmpListTitles ;;
-                m|M) _Menu ;;
-                p|P) _CreateAddPlaylistActions --play ;;
-                r|R) _CreateAddPlaylistActions --remove ;;
-                s|S) _CreateAddPlaylistActions --save ;;
+                [aA]) _CreateAddPlaylist "$arg" ;;
+                [dD]) _CreateAddPlaylistActions --download ;;
+                [eE]) _MpvOwnsTmpList --list --edit || _EditListTitles ;;
+                [mM]) _Menu ;;
+                [pP]) _CreateAddPlaylistActions --play ;;
+                [rR]) _CreateAddPlaylistActions --remove ;;
+                [sS]) _CreateAddPlaylistActions --save ;;
                 *)
                     _WrongOption "$audioVideoCommonOptions"
                     return
@@ -105,8 +107,8 @@ _ViewAudioVideoUrlsInfo() {
             esac
         else
             _ResizeWindow --copy
-            printf '%s\n' " ${critical}No links in the $Type list${nc}"
-            sleep 2 && return
+            printf '%s\n' " ${critical}$Type list is empty.${nc}"
+            sleep 2; return
         fi
 
     }

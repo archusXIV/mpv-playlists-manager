@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
@@ -20,7 +20,7 @@ _CleanTmpDir() {
             -not -name temporarySelection.m3u \
             -not -name multipleDirsTitles.m3u \
             -not -name "$(awk -F"/" '{print $NF}' "$NOWPLAYING")" \
-        -exec rm {} \;
+            -exec rm {} \;
     else
         rm "$(readlink -f "$tmp_dir"/"fzfEnqueue.m3u")"
         rm -f "$tmp_dir"/*

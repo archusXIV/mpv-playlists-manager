@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2076,SC2034
@@ -8,9 +8,9 @@ _ChooseDownloadAudio() {
     clear
 
     if _TestFzfCommand; then
-        _TitlesListCompare -f
+        _TitlesListCompare --fzf
     else
-        _TitlesListCompare -l
+        _TitlesListCompare --list
         _GetRange
     fi
 
@@ -28,18 +28,19 @@ _ChooseDownloadAudio() {
     }
 
     M3UFILE="$SELECTED_URLS1"
+    _CheckParallelDownloads --before
     readarray -t SELECTEDAUDIO < "$M3UFILE"
     counter="${#SELECTEDAUDIO[@]}"
     animationTitles="$SELECTED_TITLES"
 
-    __chooseDownloadAudioFormat() (
+    __chooseDownloadAudioFormat() {
         _BlankLine
         read -rp "${info}Choose a format code for $(_GetLinkTitle -s)${nc}: " code
         clear
         _DownloadMessages --choose-audio
         yt-dlp --output "$(_GetLinkTitle -s).%(ext)s" \
         --format "$code" "${ytdlPreset_NC[@]}" "$url"
-    )
+    }
 
     if _TestParallelCommand; then
         _ParallelDownloadCmd --choose-audio
@@ -78,9 +79,7 @@ _ChooseDownloadAudio() {
 
     unset url
 
-    _UpdateSelected -u
+    _UpdateSelected --selection
     clear
-    printf '\n%s\n' " ${info}All done${nc}"
-    sleep 2
     _IfWebmFiles
 }

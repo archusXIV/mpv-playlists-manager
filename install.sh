@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
-# version 2.3-1
+# version 2.3-2
 
 # shellcheck disable=SC2154
 red=$'\e[38;2;206;34;30m';
@@ -25,8 +25,7 @@ _diffRc() {
 
         printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
         " original file has been saved as mpmrc.orig.${endColor}"
-        printf '\n'
-        tail ./README_FIRST
+        tail -n 14 ./README_FIRST
         printf '\n'
         read -r -p " ${red}Edit $MPMRC now? [Y/n] enter editor name: ${endColor}" edit editor
         case "$edit" in
@@ -40,6 +39,7 @@ _diffRc() {
                 }
             ;;
             n|N)
+                # setting ownership back to the user
                 chown -R "$grpuser" "$CONF_DIR" && exit 0
             ;;
             *)
@@ -60,6 +60,7 @@ _diffRc() {
 }
 
 _install() {
+
     cp --verbose --force ./mpm /usr/local/bin
     mkdir --verbose --parents /usr/local/lib/mpm && \
     cp --verbose --recursive --force ./lib/* /usr/local/lib/mpm/
@@ -74,13 +75,16 @@ _install() {
     chmod 755 /usr/local/bin/mpm
 
     _diffRc
+
 }
 
 _uninstall() {
+
     rm --verbose --recursive --force /usr/local/bin/mpm
     rm --verbose --recursive --force /usr/local/lib/mpm
     rm --verbose --recursive --force /usr/local/share/doc/mpm
     rm --verbose --recursive --force /usr/share/licenses/mpm
+
 }
 
 date

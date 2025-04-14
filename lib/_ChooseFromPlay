@@ -1,15 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
 _ChooseFromPlay() {
 
-    clear
-    if _TestFzfCommand; then
-        rm "$FZFSELTITLES" 2>/dev/null
-        _TitlesListCompare -f
+    __loadSelected() {
         _BlankLine
-        read -rsn 1 -p " ${info}Load selected titles as [A]udio, [V]ideo: ${nc}" loadOptions
+        read -rsn 1 -p " ${info}Load selected as [A]udio, [V]ideo: ${nc}" loadOptions
         if [[ $loadOptions =~ a|A ]]; then
             _LoadAudioVideo -sa
         elif [[ $loadOptions =~ v|V ]]; then
@@ -18,32 +15,30 @@ _ChooseFromPlay() {
             _WrongOption "$loadOptions"
             return
         fi
+    }
+
+    clear
+    if _TestFzfCommand; then
+        rm "$FZFSELTITLES" 2>/dev/null
+        _TitlesListCompare --fzf
+        __loadSelected
     else
-        _TitlesListCompare -l
+        _TitlesListCompare --list
         _BlankLine
         read -rsn 1 \
         -p " ${info}[${mtitle}C${info}]ancel, Play all as [A]udio, [V]ideo or ${b}[S]elect items:${nb}${nc}" \
         chooseFromPlayOptions
 
         case "$chooseFromPlayOptions" in
-            a|A) _LoadAudioVideo -la ;;
-            c|C) _LoadPlaylistMenu ;;
-            s|S)
+            [aA]) _LoadAudioVideo -la ;;
+            [cC]) _LoadPlaylistMenu ;;
+            [sS])
                 _BlankLine
                 rm {"$SELECTED_URLS1","$SELECTED_TITLES"} 2>/dev/null
                 _GetRange
-                _BlankLine
-                read -rsn 1 -p " ${info}Load selected as [A]udio, [V]ideo: ${nc}" loadOptions
-                if [[ $loadOptions =~ a|A ]]; then
-                    _LoadAudioVideo -sa
-                elif [[ $loadOptions =~ v|V ]]; then
-                    _LoadAudioVideo -sv
-                else
-                    _WrongOption "$loadOptions"
-                    return
-                fi
+                __loadSelected
             ;;
-            v|V) _LoadAudioVideo -lv ;;
+            [vV]) _LoadAudioVideo -lv ;;
             *)
                 _WrongOption "$chooseFromPlayOptions"
                 _LoadPlaylistMenu

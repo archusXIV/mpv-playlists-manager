@@ -1,11 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2015,SC2154,SC2034
 _GetAudio() {
 
     cd "$audios_dir" || exit 1
-    local M3UFILE TITLES mediaDir
+    local M3UFILE TITLES
+    _ResizeWindow --main
 
     case "$1" in
         -a)
@@ -34,6 +35,7 @@ _GetAudio() {
             mediaDir="$audios_dir"
         ;;
         -l)
+            _TitlesListCompare --list
             M3UFILE="$playlists_dir"/"$list"
             TITLES="$titles_dir"/"$list".titles
             mediaDir="$audios_dir"/"${list%.*}"

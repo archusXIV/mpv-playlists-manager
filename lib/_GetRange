@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2015
@@ -12,7 +12,10 @@ _GetRange() {
         SELECTED_URLS1="$tmp_dir/temporarySelection3.m3u"
     }
 
-    grep -v '#EXTM3U' "$playlists_dir"/"$list" > "$tmp_dir"/list_tmp
+    # remove #EXTM3U header from playlist
+    IFS=$'\n'
+    mapfile -t -s 1 playlist_array < "$playlists_dir"/"$list"
+    echo "${playlist_array[*]}" > "$tmp_dir"/list_tmp
 
     IFS=", ";
     if [[ -s $FZFSELTITLES ]]; then
@@ -43,13 +46,12 @@ _GetRange() {
 
         for ((i=start;i<=end;i++)); do
             sed -n "${i}p" "$tmp_dir"/list_tmp >> "$SELECTED_URLS1"
-            sed -n "${i}p" "$titles_dir"/"$list.titles" \
-            >> "$SELECTED_TITLES"
+            sed -n "${i}p" "$titles_dir"/"$list.titles" >> "$SELECTED_TITLES"
         done
 
     done
 
     unset IFS range
-    rm "$FZFSELTITLES" 2>/dev/null
+    rm {"$FZFSELTITLES","$tmp_dir"/list_tmp} 2>/dev/null
 
 }

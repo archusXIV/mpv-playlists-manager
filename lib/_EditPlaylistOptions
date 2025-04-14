@@ -1,12 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
 _EditPlaylistOptions() {
 
+    __renameList() {
+        mv -f "$list" "$newname".m3u
+        mv -f "$titles_dir/$list.titles" "$titles_dir/$newname.m3u.titles"
+        _ReplaceSpaces -s
+        printf '\n%s\n' " ${critical}${list%%.*} renamed as $newname.${nc}"
+        sleep 2
+    }
+
     declare -a editPlaylistOptionsPrompt=(
-        "edit [U]rls,"
-        "edit [T]itles,"
+        "[U]rls edition,"
+        "[T]itles edition,"
         "re[N]ame the playlist,"
         "[R]emove titles,"
         "[${mtitle}C${info}]ancel:"
@@ -18,7 +26,7 @@ _EditPlaylistOptions() {
     "${info} ${editPlaylistOptionsPrompt[*]} ${nc}" editPlaylistOptions
 
     case "$editPlaylistOptions" in
-        c|C)
+        [cC])
             if [[ $editoption == yes ]]; then
                 editoption=no
                 clear
@@ -27,43 +35,54 @@ _EditPlaylistOptions() {
                 _Menu
             fi
         ;;
-        n|N)
+        [nN])
             _BlankLine
             read -r -p " ${info}Enter a new name for ${list%%.*}: ${nc}" newname
-            mv "$list" "$newname".m3u
-            mv "$titles_dir/$list.titles" "$titles_dir/$newname.m3u.titles"
-            _ReplaceSpaces -s
-            printf '\n%s\n' " ${critical}${list%%.*} renamed as $newname.${nc}"
-            sleep 2
+            [[ -f $list ]] && {
+                printf '\n%s\n' " ${critical}File $list already exists."
+                _Prompt -n " ${info}Do you want to replace it?: ${nc}" && {
+                    __renameList
+                }
+                _Menu
+            }
+            __renameList
         ;;
-        r|R)
+        [rR])
             clear
             _MpvOwnsTmpList --collection || \
             if _TestFzfCommand; then
                 local removeCollectionTitles
                 removeCollectionTitles="yes"
-                _TitlesListCompare -f
+                _TitlesListCompare --fzf
             else
-                _TitlesListCompare -l
+                _TitlesListCompare --list
                 _GetRange
-                _UpdateSelected -e
+                _UpdateSelected --edit
             fi
         ;;
-        t|T)
-            "$MPMEDITOR" "$titles_dir"/"$list".titles
-            clear
-            printf '\n%s\n' " ${info}$list.titles saved${nc}"
-            sleep 2
-            [[ $(grep "" -c "$titles_dir/$list.titles") \
-            -ne $(_GetLinesList -l) ]] && _TitlesListCompare -l
+        [tT])
+            TITLES="$titles_dir"/"$list".titles
+            _BlankLine
+            _EditListTitles && {
+                clear
+                printf '\n%s\n' " ${info}$list.titles saved${nc}"
+                sleep 2
+            }
         ;;
-        u|U)
+        [uU])
             "$MPMEDITOR" "$list"
+            mapfile -t listCount < "$list"
             clear
-            printf '\n%s\n' " ${info}$list saved${nc}"
-            sleep 2
-            [[ $(grep "" -c "$titles_dir/$list.titles") \
-            -ne $(_GetLinesList -l) ]] && _TitlesListCompare -l
+            if (( ${#listCount[@]} <= 1 )); then
+                _BlankLine
+                printf '%s\n' " ${critical}${list##*/} is empty...${list##*/} removed.${nc}"
+                rm {"$list","$titles_dir"/"$list".titles}
+                sleep 2
+            else
+                printf '\n%s\n' " ${info}$list saved${nc}"
+                sleep 2
+                _TitlesListCompare --list
+            fi
         ;;
         *)  _WrongOption "$editPlaylistOptions" ;;
     esac

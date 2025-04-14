@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2034,SC2154
@@ -27,9 +27,9 @@ _ConvertAudio() {
         else
             printf '\n%s\n' " Parallel conversion disabled, please be patient.${nc}"
             _ConvertAudio_"$default_conversion_format"
-            printf '\n%s\n' " ${info}Conversion done.${nc}"
-            sleep 2
         fi
+        printf '\n%s\n' " ${info}Conversion done.${nc}"
+        sleep 2
     else
         _BlankLine
         printf '%s\n' " ${critical}Conversion format isn't set..." \
@@ -58,9 +58,9 @@ _ConvertAudio() {
                 else
                     printf '%s\n' " Parallel conversion disabled, please be patient.${nc}"
                     _ConvertAudio_"${formats[${REPLY}]}"
-                    printf '\n%s\n' " ${info}Conversion done.${nc}"
-                    sleep 2
                 fi
+                printf '\n%s\n' " ${info}Conversion done.${nc}"
+                sleep 2
             ;;
             *)
                 find "$audios_dir" -maxdepth 2 -name "*.webm" >/dev/null && {

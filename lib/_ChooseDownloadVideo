@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2076,SC2154,SC2015
@@ -18,13 +18,13 @@ _ChooseDownloadVideo() {
     fi
 
     case "$chooseDownloadVideoOptions" in
-        b|B) clear; return ;;
-        d|D) _ChooseDirectVideoDownload ;;
-        s|S)
+        [bB]) clear; return ;;
+        [dD]) _ChooseDirectVideoDownload ;;
+        [sS])
             if _TestFzfCommand; then
-                _TitlesListCompare -f
+                _TitlesListCompare --fzf
             else
-                _TitlesListCompare -l
+                _TitlesListCompare --list
                 _GetRange
             fi
             clear
@@ -82,9 +82,7 @@ _ChooseDownloadVideo() {
     esac
 
     _RemoveAudioVideoIds
-    _UpdateSelected -u
-    printf '\n%s\n' " ${info}All done${nc}"
-    sleep 2
+    _UpdateSelected --selection
     _DownloadCompleted
 
 }

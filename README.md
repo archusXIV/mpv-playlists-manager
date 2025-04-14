@@ -28,6 +28,8 @@ git clone https://github.com/archusXIV/mpv-playlists-manager.git
 cd mpv-playlists-manager
 chmod +x install.sh
 sudo ./install.sh
+# or using the make file:
+sudo make install
 ```
 # Dependencies
 - [ffmpeg](https://ffmpeg.org/), [jq](https://stedolan.github.io/jq/), [mpv](https://mpv.io/), [socat](http://www.dest-unreach.org/socat/), [vim](https://www.vim.org/) (or any terminal text editor), [yt-dlp](https://github.com/yt-dlp/yt-dlp)
@@ -58,11 +60,12 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
-Fixed bugs in _{ClearAllTmpList,RemoveMpvTmp} functions
-- Fzf once again, is used to select titles that we want to remove from our temporary {audio,video} lists.
-- Fzf is also used to choose links for watching online or downloading in the load/download menu, fzf have to be enabled in your mpmrc file.
-- We can now switch themes on the fly either for the main window and the mpv fzf tui.
-- Fixed a bunch of bugs in several functions (too long to enumarate here, LOL).
+- Now you can install mpm using the makefile (sudo make install) but you will have review the {mpm,theme}rc files manually before installation or first run.
+- YtFzf is no longer used to get all titles/urls from a Youtube playlist, prefer parallel instead.
+- Fixed bug in _CheckParallelDownloads so we can use xargs instead of GNU parallel. In your mpmrc file settings will be:
+  - use_parallel=no and use_parallel_downloads=yes.
+- Added a test to check if all collection playlists have their titles files before launching the selection menu with fzf.
+- Added a function to remove multiple collection playlists at once.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -132,7 +135,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.3-1.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.3-2.png)
 
 
 ```
@@ -152,6 +155,7 @@ Same thing for the native mpv tui.
 # !!! Change or add inside the below nativeThemes array existing themes
 # in ~/.config/mpm/themerc (_NativePlayerColors function)!!!
 nativeThemes=( default c64 dark gruvbox molokai nord seoul256 )
+native_tui_colors=default
 ```
 
 - To find out how to convert hex colors in rgb colors, open your prefered color picker

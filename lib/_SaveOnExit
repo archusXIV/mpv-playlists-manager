@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
@@ -40,25 +40,30 @@ _SaveOnExit() {
         exit
     }
 
-    saveOnExitPrompt=( "[B]ack to menu," "Save [A]udio list." "Save [V]ideo list." )
+    declare -a saveOnExitPrompt=(
+        "[B]ack to menu,"
+        "Save [A]udio list."
+        "Save [V]ideo list."
+    )
 
-    if [[ -s $AUDIO_URLS && -s $VIDEO_URLS ]]; then
-        echo -e "\n ${info}${saveOnExitPrompt[*]}${nc}"
-    elif [[ -s $AUDIO_URLS && ! -f $VIDEO_URLS ]]; then
-        unset 'saveOnExitPrompt[2]'
-        echo -e "\n ${info}${saveOnExitPrompt[*]}${nc}"
-    elif [[ -s $VIDEO_URLS && ! -f $AUDIO_URLS ]]; then
-        unset 'saveOnExitPrompt[1]'
-        echo -e "\n ${info}${saveOnExitPrompt[*]}${nc}"
-    fi
+    declare -a files=( "$AUDIO_URLS" "$VIDEO_URLS" )
+
+    index=1
+    for f in "${files[@]}"; do
+        [[ ! -f $f ]] && unset 'saveOnExitPrompt["${index}"]'
+        ((index++))
+    done
+
+    printf '\n%s\n' " ${info}${saveOnExitPrompt[*]}${nc}"
+    unset saveOnExitPrompt index files f
 
     read -rsn 1 saveOnExitOptions
 
     case "$saveOnExitOptions" in
-        a|A) _Save -a ;;
-        b|B) _Menu ;;
-        v|V) _Save -v ;;
-        *  ) _WrongOption "$saveOnExitOptions"; _Menu ;;
+        [aA]) _Save -a ;;
+        [bB]) _Menu ;;
+        [vV]) _Save -v ;;
+        *   ) _WrongOption "$saveOnExitOptions"; _Menu ;;
     esac
 
 }

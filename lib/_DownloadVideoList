@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2076,SC2164
 _DownloadVideoList() {
 
-    _TitlesListCompare -l
+    _TitlesListCompare --list
 
     local counter mediaDir
 
@@ -26,20 +26,21 @@ _DownloadVideoList() {
         read -rsn 1 downloadVideoListOptions
 
         case "$downloadVideoListOptions" in
-            b|B) clear; _LoadPlaylistMenu ;;
-            d|D) clear; _DirectVideoDownload ;;
-            s|S)
+            [bB]) clear; _LoadPlaylistMenu ;;
+            [dD]) clear; _DirectVideoDownload ;;
+            [sS])
                 clear
                 cp -f "$playlists_dir"/"$list" "$playlists_dir"/"$list"_origin
                 cp -f "$titles_dir"/"$list".titles "$titles_dir"/"$list".titles_origin
-
-                mapfile -t SELECTED_CODES < <(grep '^https' "$playlists_dir"/"$list")
+                # removing the list header
+                sed -i '1d' "$playlists_dir"/"$list"
+                mapfile -t SELECTED_CODES < "$playlists_dir"/"$list"
                 counter="${#SELECTED_CODES[@]}"
 
                 for url in "${SELECTED_CODES[@]}"; do
 
                     clear
-                    _BlankLine
+                    echo -e "\n ${info}Getting formats...${nc}\n"
                     yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
                     | awk '$0 !~ /sb|youtube|info/{print $0}'
                     _DownloadMessages --m3u8
@@ -58,8 +59,7 @@ _DownloadVideoList() {
                         "${ytdlPreset_NC[@]}" "$url"
                     fi
 
-                    sed -i '2d' "$playlists_dir"/"$list"
-                    sed -i '1d' "$titles_dir"/"$list".titles
+                    sed -i '1d' {"$titles_dir"/"$list".titles,"$playlists_dir"/"$list"}
                     ((counter--))
                     clear
 

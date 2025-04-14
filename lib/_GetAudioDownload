@@ -1,14 +1,27 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2143,SC2034
+# shellcheck disable=SC2154,SC2034
 _GetAudioDownload() {
 
-    [[ ! -d $mediaDir ]] && mkdir --parents "$mediaDir"
+    mkdir --parents "$mediaDir"
     cd "$mediaDir" && {
 
         local animationTitles
         animationTitles="$TITLES"
+
+        __testTitles() {
+            if [[ $TITLES == "$DEFAULT_TITLES" ]]; then
+                yt-dlp --output "$(_GetLinkTitle -d).%(ext)s" \
+                --format bestaudio/best "${ytdlPreset_NC[@]}" "$url"
+            elif [[ $TITLES == "$AUDIO_TITLES" ]]; then
+                yt-dlp --output "$(_GetLinkTitle -a).%(ext)s" \
+                --format bestaudio/best "${ytdlPreset_NC[@]}" "$url"
+            else
+                yt-dlp --output "$(_GetLinkTitle -l).%(ext)s" \
+                --format bestaudio/best "${ytdlPreset_NC[@]}" "$url"
+            fi
+        }
 
         if _TestParallelCommand; then
             _GetAudioDownloadMessages --parallel
@@ -19,27 +32,28 @@ _GetAudioDownload() {
             _ParallelAnimation &
             _ParallelXargsCmd --get-audio
         else
-            mapfile -t AUDIOLINKS < <(grep '^https' "$M3UFILE")
+            # default.m3u/collection playlist contains '#EXTM3U' header, but not temporaryAudioUrls.m3u
+            mapfile -t -s 1 AUDIOLINKS < "$M3UFILE"
+            [[ $M3UFILE == "$AUDIO_URLS" ]] && mapfile -t AUDIOLINKS < "$M3UFILE"
             for url in "${AUDIOLINKS[@]}"; do
 
                 _GetAudioDownloadMessages --onebyone
 
                 if [[ "$url" =~ 'youtube' ]]; then
                     _BlankLine
-                    yt-dlp --output "$(_GetLinkTitle -a).%(ext)s" \
-                    --format bestaudio/best "${ytdlPreset_NC[@]}" "$url"
+                    __testTitles
                 else
+                    echo -e "\n ${info}Getting formats...${nc}\n"
                     yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
                     | awk '$0 !~/sb|youtube|info|^[-]/ {print $0}'
                     printf '\n%s\n' " ${info}Choose a format code: ${nc}"
                     read -r code
                     clear
                     _BlankLine
-                    yt-dlp --output "$(_GetLinkTitle -a).%(ext)s" \
-                    --format "$code" "${ytdlPreset_NC[@]}" "$url"
+                    yt-dlp --format "$code" "${ytdlPreset_NC[@]}" "$url"
                 fi
 
-                if [[ $M3UFILE = "$AUDIO_URLS" ]]; then
+                if [[ $M3UFILE == "$AUDIO_URLS" ]]; then
                     sed -i '1d' {"$M3UFILE","$TITLES"}
                 else
                     sed -i '2d' "$M3UFILE"

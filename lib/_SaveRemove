@@ -1,72 +1,57 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
 _SaveRemove() {
 
-    cd "$playlists_dir" && {
-        local action
-        COLLECTION=$(
-            find . -not -name "default.m3u" -name "*.m3u" | sort -d | sed 's,.*/,,'
-        )
-    }
+    local collection action
+    collection=$(
+        find "$playlists_dir" -not -name "default.m3u" \
+        -name "*.m3u" | sort -d | sed 's,.*/,,'
+    )
 
-    promptsList=(
+    declare -a promptLists=(
         "[${mtitle}C${info}]ancel,"
         "Save [D]efault,"
         "Save [A]udio,"
         "Save [V]ideo,"
-        "[R]emove a collection playlist."
+        "[R]emove a playlist,"
+        "Remove [M]ultiple playlists."
     )
 
-    if [[ -s $AUDIO_URLS ]] && [[ -s $VIDEO_URLS ]]; then
+    declare -a lsts=( "$DEFAULT_TITLES" "$AUDIO_URLS" "$VIDEO_URLS" )
 
-        if (( $(_GetLinesList -d) < 1 )); then
-            unset 'promptsList[1]'
-            echo -e "\n ${info}${promptsList[*]}${nc}"
-        else
-            echo -e "\n ${info}${promptsList[*]}${nc}"
-        fi
+    index=1
+    for lst in "${lsts[@]}"; do
+        [[ ! -f "$lst" ]] && unset 'promptLists["${index}"]'
+        ((index++))
+    done
 
-    elif [[ -s $AUDIO_URLS ]]; then
-
-        if (( $(_GetLinesList -d) < 1 )); then
-            unset {promptsList[1],promptsList[3]}
-            echo -e "\n ${info}${promptsList[*]}${nc}"
-        else
-            unset 'promptsList[3]'
-            echo -e "\n ${info}${promptsList[*]}${nc}"
-        fi
-
-    elif [[ -s $VIDEO_URLS ]]; then
-
-        if (( $(_GetLinesList -d) < 1 )); then
-            unset {promptsList[1],promptsList[2]}
-            echo -e "\n ${info}${promptsList[*]}${nc}"
-        else
-            unset 'promptsList[2]'
-            echo -e "\n ${info}${promptsList[*]}${nc}"
-        fi
-
-    elif (( $(_GetLinesList -d) < 1 )); then
-        echo " ${critical}Nothing to save, maybe remove something?${nc}"
-        unset {promptsList[1],promptsList[2],promptsList[3]}
-        echo -e "\n ${info}${promptsList[*]}${nc}"
-    else
-        unset {promptsList[2],promptsList[3]}
-        echo -e "\n ${info}${promptsList[*]}${nc}"
-    fi
+    ((${#promptLists[@]} == 3)) && printf '%s\n' " ${critical}No list to save...${nc}"
+    printf '\n%s\n' " ${info}${promptLists[*]}${nc}"
+    unset promptLists index lsts
 
     read -rsn 1 saveRemoveOptions
 
     case "$saveRemoveOptions" in
-        a|A) _Save -a ;;
-        c|C) _Menu ;;
-        d|D)
+        [aA]) _Save -a ;;
+        [cC]) _Menu ;;
+        [dD])
             rm -f "$tmp_dir"/1 2>/dev/null
             _Save -d
         ;;
-        r|R)
+        [mM])
+            if _TestFzfCommand; then
+                _FzfRemoveMultiplePlaylists
+            else
+                _BlankLine
+                printf '%s\n' " ${critical}Fzf must be installed to perform this task," \
+                " or use_fzf is set to ${task}no${critical} in your mpmrc.${nc}"
+                sleep 5
+                return 1
+            fi
+        ;;
+        [rR])
             _TestFzfCommand && {
                 action=Remove
                 _FzfPlaylistActions --remove
@@ -75,14 +60,10 @@ _SaveRemove() {
             clear; _BlankLine
             PS3=""$'\n'" ${info}Choose a playlist to remove, [${mtitle}C${info}]ancel :${nc} "
             _BlankLine
-            select m3ufile in ${COLLECTION}; do
+            select m3ufile in ${collection}; do
 
                 [[ $REPLY =~ [a-zA-Z] ]] && break
-                [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING" 2>/dev/null) =~ temporarySelection|"$m3ufile" ]] && {
-                    printf '\n%s\n' " ${critical}$m3ufile is owned by mpv...retry later.${nc}"
-                    sleep 4
-                    return
-                }
+                _MpvOwnsTmpList --collection
                 _BlankLine
                 _Prompt -n \
                 " ${critical}Are you sure you want to remove $m3ufile?:${nc}" && {
@@ -96,7 +77,7 @@ _SaveRemove() {
                 break
             done
         ;;
-        v|V) _Save -v ;;
+        [vV]) _Save -v ;;
         *) _WrongOption "$saveRemoveOptions" ;;
     esac
 

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_EditListTitles() {
+
+    cp "$TITLES" "$tmp_dir"/tmp_titles
+    mapfile -t copyOfTitles < "$tmp_dir"/tmp_titles
+    "$MPMEDITOR" "$TITLES"
+    mapfile -t currentTitles < "$TITLES"
+
+    if ((${#currentTitles[@]} != ${#copyOfTitles[@]})); then
+        mv -f "$tmp_dir"/tmp_titles "$TITLES"
+        _BlankLine
+        printf '%s\n' " ${critical}Deleting titles is not considered editing..." \
+        " for that use the [R]emove option instead.${nc}"
+        sleep 6
+        return 1
+    else
+        rm "$tmp_dir"/tmp_titles
+    fi
+
+}

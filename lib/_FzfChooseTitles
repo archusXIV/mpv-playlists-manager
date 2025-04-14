@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
@@ -22,7 +22,7 @@ _FzfChooseTitles() {
         --border rounded \
         --prompt='Search: ' \
         --bind ctrl-a:select-all \
-        --border-label "| $labelAction titles from ${list//.m3u} |" \
+        --border-label "| $labelAction titles from: ${LIST} |" \
         --header "${info}${header}${nc}" | awk '{print $1}' > "$FZFSELTITLES"
 
     if [[ ! -s $FZFSELTITLES ]]; then
@@ -35,7 +35,7 @@ _FzfChooseTitles() {
         rm {"$SELECTED_URLS1","$SELECTED_TITLES"} 2>/dev/null
         if [[ $removeCollectionTitles == yes ]]; then
             _GetRange
-            _UpdateSelected -e
+            _UpdateSelected --edit
             rm {"$SELECTED_URLS1","$SELECTED_TITLES","$tmp_dir"/list_tmp}
             unset removeCollectionTitles
         else

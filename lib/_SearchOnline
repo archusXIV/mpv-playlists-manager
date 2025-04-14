@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
@@ -35,44 +35,44 @@ _SearchOnline() {
         echo -e "                                          $(_LittleStars)${nc}"
         echo -e "                                  ┌─────────────────────────────────────────────────┐"
         echo -e "                                  │   1) Fzf Youtube only   4) Ytfzf PeerTube       │"
-        echo -e "                                  │   2) Ytfzf Youtube      5) Back to ${Type} menu   │"
+        echo -e "                                  │   2) ${critical}Ytfzf Youtube${nc}      5) Back to ${Type} menu   │"
         echo -e "                                  │   3) Ytfzf Odysee       6) Back to Main menu    │"
         echo -e "                                  └─────────────────────────────────────────────────┘"
-        echo -e "                                                   ${info}Select an item${nc}"
+        echo -e "                                                  ${info}Select an option${nc}"
 
         read -rsn 1 searchOnlineOptions
 
         case "$searchOnlineOptions" in
-            1)
+            [fF1])
                 pkg=fzf
                 __isPkgInstalled
                 platform=YouTube
                 __searchOnlineTips
                 _SearchYoutubeWithFzf
             ;;
-            2)
+            [yY2])
                 pkg=ytfzf
                 __isPkgInstalled
                 platform=YouTube
                 __searchOnlineTips
                 _SearchOnlineWithYtfzf -y
             ;;
-            3)
+            [oO3])
                 pkg=ytfzf
                 __isPkgInstalled
                 platform=Odysee
                 __searchOnlineTips
                 _SearchOnlineWithYtfzf -o
             ;;
-            4)
+            [pP4])
                 pkg=ytfzf
                 __isPkgInstalled
                 platform=Peertube
                 __searchOnlineTips
                 _SearchOnlineWithYtfzf -p
             ;;
-            5)  return ;;
-            6)  _Menu ;;
+            [aAvV5])  return ;;
+            [bBmM6])  _Menu ;;
             *)
                 _WrongOption "$searchOnlineOptions"
                 clear

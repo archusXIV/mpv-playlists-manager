@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2001,SC2034
+# shellcheck disable=SC2154,SC2034
 _IfDuplicatesFiles() {
 
     cd "$addPlaylistDir" || return 1
@@ -14,6 +14,9 @@ _IfDuplicatesFiles() {
     # that do not contains extensions themself.
     command ls -N | sed -r "s/${EXTENSIONS}//" > "$ef"
     [[ ! -s $ef ]] && { rm "$ef"; return; }
+
+    _ResizeWindow --main
+    clear
 
     declare -i linenumbers
     attr=0
@@ -30,8 +33,10 @@ _IfDuplicatesFiles() {
 
     unset line
 
-    efCount=$(grep "" -c "$ef")
-    titlesCount=$(grep "" -c "$TITLES")
+    mapfile -t efList < "$ef"
+    efCount="${#efList[@]}"
+    mapfile -t titlesList < "$TITLES"
+    titlesCount="${#titlesList[@]}"
 
     if ((match > 0)); then
         if ((titlesCount == match)) && ((efCount > titlesCount)); then
@@ -50,6 +55,8 @@ _IfDuplicatesFiles() {
             # is called from _IfDuplicatesFilesActions --else.
             _IfDuplicatesFilesActions --else
         fi
+    else
+        return
     fi
 
 }

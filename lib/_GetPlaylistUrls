@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2181,SC2034
+# shellcheck disable=SC2154,SC2181
 _GetPlaylistUrls() {
 
     local playlist
@@ -20,16 +20,16 @@ _GetPlaylistUrls() {
             playlist="$mediaUrl"
             if _Has parallel && [[ $use_parallel == yes ]]; then
                 _GetPlaylistUrlsMethods --parallel
-            elif _Has ytfzf && [[ $use_fzf == yes ]]; then
-                _GetPlaylistUrlsMethods --ytfzf 2>/dev/null
+            # elif _Has ytfzf && [[ $use_fzf == yes ]]; then
+            #     _GetPlaylistUrlsMethods --ytfzf 2>/dev/null
             else
                 _GetPlaylistUrlsMethods --native
             fi
         ;;
         -s)
-            mapfile -t ytSearchList < <(grep '^https' "$YTSEARCH")
+            mapfile -t ytSearchList < "$YTSEARCH"
             # there might be several playlists urls selected in
-            # _SearchYoutubeWithFzf function so we enter in a loop.
+            # _SearchOnlineWithYtfzf function so we enter in a loop.
             for url in "${ytSearchList[@]}"; do
                 playlist="$url"
                 __getPlaylistUrlsInfo

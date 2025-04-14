@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
@@ -18,11 +18,10 @@ _QueueMultipleDirs() {
     find ./ -maxdepth 1 -type d -empty | sort | sed 's,.*/,,' >> "$tmp_dir"/empty.tmp
 
     if [[ -s $tmp_dir/empty.tmp ]]; then
-        # empty dirs will be banned from our list
+        # empty dirs will be banned from our list through grep filter
         find ./ -maxdepth 1 -type d -not -empty \
-        | sort | sed 's,.*/,,;/^\s*$/d' > "$dirlist".tmp
-        grep -vF "$(grep '^[[:print:]]' "$tmp_dir"/empty.tmp)" \
-        "$dirlist".tmp >> "$dirlist"
+        | sort | sed 's,.*/,,;/^\s*$/d' \
+        | grep -vF "$(grep '^[[:print:]]' "$tmp_dir"/empty.tmp)" > "$dirlist"
     else
         find ./ -maxdepth 1 -type d \
         | sort | sed 's,.*/,,;/^\s*$/d' > "$dirlist"
@@ -33,11 +32,11 @@ _QueueMultipleDirs() {
     _BlankLine; nl "$dirlist"; _BlankLine
 
     IFS=", "; read -ra selected_dirs -p "$RANGEPROMPT"
-    for range in "${selected_dirs[@]}"; do
-        IFS="-"; read -r start end <<< "$range"
+    for dirRange in "${selected_dirs[@]}"; do
+        IFS="-"; read -r start end <<< "$dirRange"
 
-        [[ $range =~ [[:alpha:]] ]] && {
-            unset IFS range
+        [[ $dirRange =~ [[:alpha:]] ]] && {
+            unset IFS dirRange
             rm "$dirlist"
             printf '\n%s\n' " ${critical}Selection aborted.${nc}"
             sleep 2
@@ -53,7 +52,7 @@ _QueueMultipleDirs() {
 
     done
 
-    unset IFS range
+    unset IFS dirRange
     rm "$dirlist"
 
     sed -i "s/^/${localDirPath}\//;s,$,/," "$mpv_list"
@@ -61,22 +60,22 @@ _QueueMultipleDirs() {
 
     __makeMultipleDirsPlaylist() (
 
-        mapfile -t dirsArray < <(cat "$mpv_list")
-        num=0
+        mapfile -t dirsArray < "$mpv_list"
+        int=0
 
         for dir in "${dirsArray[@]}"; do
-            ((num++))
+            ((int++))
             find "$dir" -maxdepth 1 -type f \
             | sort | sed 's/^//' \
-            >> "$tmp_dir"/dirnumber_"$num"
+            >> "$tmp_dir"/dirnumber_"$int"
         done
 
         unset dir
 
-        INTS=$(find "$tmp_dir" -type f -name "dirnumber_*" | wc -l)
+        ints=("$tmp_dir"/*dirnumber_*)
         [[ -f $playerTitlesList ]] && rm "$playerTitlesList"
 
-        for ((i=1;i<="$INTS";i++)); do
+        for ((i=1;i<="${#ints[@]}";i++)); do
             cat "$tmp_dir"/dirnumber_"${i}" >> "$playerTitlesList"
         done
 

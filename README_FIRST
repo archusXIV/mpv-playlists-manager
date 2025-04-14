@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.3-1
+mpm version 2.3-2
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -24,11 +24,16 @@ as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
 the directory names and structure is ok for you.
 
 Changelog:
----------------- !!! THEY ARE CHANGES IN THEMERC & MPMRC CONFIG FILES !!! ---------------
-version 2.3-1 - Fixed bugs in _{ClearAllTmpList,RemoveMpvTmp} functions
-version 2.3-1 - Fzf once again, is used to select titles that we want
-                to remove from our temporary {audio,video} lists.
-version 2.3-0 - Fzf is also used to choose links for listening or downloading in the
-                load/download menu, fzf have to be enabled in your mpmrc file.
-version 2.3-0 - We can now switch themes on the fly either for main window and mpv fzf tui.
-version 2.3-0 - Fixed a bunch of bugs in several function (too long to enumarate here, LOL).
+------------------------ NO CHANGES IN THEMERC & MPMRC CONFIG FILES -----------------------
+version 2.3-2 - YtFzf is no longer used to get all titles/urls from a Youtube playlist.
+version 2.3-2 - Now you can install mpm using the makefile (sudo make install) but you will have review
+                the {mpm,theme}rc files manually before installation or first run.
+version 2.3-2 - Fixed bug in _CheckParallelDownloads so we can use xargs instead of GNU parallel.
+                In your mpmrc file settings will be:
+                use_parallel=no and use_parallel_downloads=yes.
+version 2.3-2 - Added a test to check if all collection playlists have their titles files
+                before launching the selection menu with fzf.
+version 2.3-2 - Added a function to remove multiple collection playlists at once.
+version 2.3-1 - Fixed bug when trying to check our temporary titles and the file does not exist,
+                this could occur du to the below bug, so now we update this file in that case.
+version 2.3-1 - Fixed bug when saving temporary list if collection playlist already exists.

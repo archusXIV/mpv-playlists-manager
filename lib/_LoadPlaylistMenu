@@ -1,12 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
 _LoadPlaylistMenu() {
 
     cd "$playlists_dir" || return
+    local playlistMenuOptions LIST
     M3UFILE="$list"
-    local playlistMenuOptions
+    LIST="${list%.*/}" LIST="${LIST//_/ }" LIST="${LIST//.m3u}"
 
     __testList() {
 
@@ -17,8 +18,8 @@ _LoadPlaylistMenu() {
             -p " ${info}[${mtitle}C${info}]ancel download, [Q]uit mpv: ${nc}" testListOptions
 
             case "$testListOptions" in
-                c|C) _Menu ;;
-                q|Q)
+                [cC]) _Menu ;;
+                [qQ])
                     unset playerTitlesList
                     _killMpv
                     _Menu
@@ -38,8 +39,7 @@ _LoadPlaylistMenu() {
     _DownloadMessages --menu
 
     while :; do
-        [[ -f $M3UFILE ]] && \
-        echo -e "\n ${info}Options for: ${M3UFILE%%.*//_/} ${nc}($(grep -c '^https' "$M3UFILE") urls)\n\n"
+        echo -e "\n ${info}Options for: ${LIST} ${nc}($(_GetLinesList -l) urls)\n\n"
         echo -e "                                                ${mtitle}::DOWNLOAD/PLAY OPTIONS::${nc}"
         echo -e "                                           $(_LittleStars)${nc}"
         echo -e "                                  ┌───────────────────────────────────────────────────┐"
@@ -50,19 +50,19 @@ _LoadPlaylistMenu() {
         echo -e "                                  │     5) Choose playlist titles & play ${info}audio/video${nc}  │"
         echo -e "                                  │     6) Back to main menu                          │"
         echo -e "                                  └───────────────────────────────────────────────────┘"
-        echo -e "                                                    ${info}${b}Select an item${nb}${nc}\n"
+        echo -e "                                                   ${info}${b}Select an option${nb}${nc}\n"
 
         read -rsn 1 loadPlaylistMenuOptions
 
         case "$loadPlaylistMenuOptions" in
-            1) __testList; _CheckParallelDownloads --before; _ChooseDownloadAudio ;;
-            2) __testList; _CheckParallelDownloads --before; _ChooseDownloadVideo ;;
-            3) __testList; _CheckParallelDownloads --before; _GetAudio -l ;;
+            1) __testList; _ChooseDownloadAudio ;;
+            2) __testList; _ChooseDownloadVideo ;;
+            3) __testList; _GetAudio -l ;;
             4) __testList; _CheckParallelDownloads --before; _DownloadVideoList ;;
             5) _MpvOwnsTmpList --collection || _ChooseFromPlay ;;
-            6) _Menu ;;
-            r|R) continue ;;
-            *) _WrongOption "$loadPlaylistMenuOptions" ;;
+            [bB6]) _Menu ;;
+            [rR]) continue ;;
+            *) _WrongOption "$loadPlaylistMenuOptions"; _Menu ;;
         esac
 
     done

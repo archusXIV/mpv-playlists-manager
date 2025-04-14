@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
@@ -6,7 +6,9 @@ _MenuBobySettings() {
 
     local varConv varDirect varFmt varFzf varMpvc varParallel varQuit
 
-    if [[ $use_mpvc == yes ]]; then
+    if [[ -z $use_mpvc ]]; then
+        varMpvc="${critical}  !!!${nc}"
+    elif [[ $use_mpvc == yes ]]; then
         varMpvc="${task}  $use_mpvc${nc}"
     elif [[ $use_mpvc == no ]]; then
         varMpvc="${critical}   $use_mpvc${nc}"
@@ -14,36 +16,50 @@ _MenuBobySettings() {
         varMpvc="${task}unset${nc}"
     fi
 
-    if [[ $use_fzf == yes ]]; then
+    if [[ -z $use_fzf ]]; then
+        varFzf="${critical}  !!!${nc}"
+    elif [[ $use_fzf == yes ]]; then
         varFzf="${task}  $use_fzf${nc}"
     else
         varFzf="${critical}   $use_fzf${nc}"
     fi
 
-    if [[ $use_parallel == yes ]]; then
+    if [[ -z $use_parallel ]]; then
+        varParallel="${critical}  !!!${nc}"
+    elif [[ $use_parallel == yes && $use_parallel_downloads == no ]]; then
+        varParallel="${critical}  yes${nc}"
+    elif [[ $use_parallel == yes ]]; then
         varParallel="${task}  $use_parallel${nc}"
     else
         varParallel="${critical}   $use_parallel${nc}"
     fi
 
-    if [[ $direct_download == yes ]]; then
+    if [[ -z $direct_download ]]; then
+        varDirect="${critical} !!!${nc}"
+    elif [[ $direct_download == yes ]]; then
         varDirect="${task} $direct_download${nc}"
     else
         varDirect="${critical}  $direct_download${nc}"
     fi
 
-    if [[ $automatic_audio_conversion == yes ]]; then
+    if [[ -z $automatic_audio_conversion ]]; then
+        varConv="${critical} !!!${nc}"
+    elif [[ $automatic_audio_conversion == no && -n $default_conversion_format ]]; then
+        varConv="${critical}  $automatic_audio_conversion${nc}"
+    elif [[ $automatic_audio_conversion == no && -z $default_conversion_format ]]; then
+        varConv="${critical}  $automatic_audio_conversion${nc}"
+    elif [[ $automatic_audio_conversion == yes && -z $default_conversion_format ]]; then
         varConv="${critical} $automatic_audio_conversion${nc}"
     else
-        varConv="${task}  $automatic_audio_conversion${nc}"
+        varConv="${task} $automatic_audio_conversion${nc}"
     fi
 
     if [[ -z $default_conversion_format ]]; then
-        varFmt="${task}  unset${nc}"
-    elif [[ $default_conversion_format != flac ]]; then
-        varFmt="${task}    $default_conversion_format${nc}"
-    else
+        varFmt="${critical}  unset${nc}"
+    elif [[ $default_conversion_format == flac ]]; then
         varFmt="${task}   $default_conversion_format${nc}"
+    else
+        varFmt="${task}    $default_conversion_format${nc}"
     fi
 
     if [[ $quit_after_task == yes ]]; then

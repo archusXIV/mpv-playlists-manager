@@ -1,14 +1,17 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
 _RemoveTmpLinks() {
 
-    __abortDeletionMessage() (
-        unset IFS range
+    __abortDeletionMessage() {
+        unset IFS range TmpList array
         printf '\n%s\n' " ${critical}Deletion aborted...${nc}"
         sleep 2
-    )
+    }
+
+    mapfile -t TmpList < "$tmpList"
 
     IFS=", ";
     if [[ -s $FZFSELTITLES ]]; then
@@ -23,13 +26,14 @@ _RemoveTmpLinks() {
         read -ra tmpLinks -p "$RANGEPROMPT"
     fi
 
+    declare -a array=()
     for range in "${tmpLinks[@]}"; do
         IFS="-"; read -r start end <<< "$range"
 
         [[ $range =~ [a-zA-Z] ]] && {
 
             if [[ $tmpList == "$DEFAULT_LIST" ]]; then
-                if (($(grep -c '^https' "$DEFAULT_LIST") > 25)); then
+                if ((${#TmpList[@]} > 25)); then
                     sed -i '1s/^/#EXTM3U\n/' "$DEFAULT_LIST"
                     __abortDeletionMessage
                     _Menu
@@ -39,7 +43,7 @@ _RemoveTmpLinks() {
                     return
                 fi
             else
-                if (($(grep -c '^https' "$tmpList") > 25)); then
+                if ((${#TmpList[@]} > 25)); then
                     __abortDeletionMessage
                     _CreateAddPlaylist "$arg"
                 else
@@ -57,18 +61,17 @@ _RemoveTmpLinks() {
         for ((i=start;i<=end;i++)); do
             sed -n "${i}p" "$tmpList" >> "$tmpList"_tmp
             sed -n "${i}p" "$tmpTitles" >> "$tmpTitles"_tmp
+            array+=("$i")
         done
 
     done
 
-    if (( $(grep "" -c "$tmpList"_tmp) == $(grep "" -c "$tmpList") )); then
+    if (( ${#array[@]} == ${#TmpList[@]} )); then
         rm {"$tmpList","$tmpTitles"}
         printf '\n%s\n' " ${critical}All links selected, ${tmpList##*/} removed...${nc}"
     else
-        grep -v "$(grep '^https' "$tmpList"_tmp)" "$tmpList" \
-        >> "$tmpList"_tmp2
-        grep -v -F "$(grep '^[[:print:]]' "$tmpTitles"_tmp)" "$tmpTitles" \
-        >> "$tmpTitles"_tmp2
+        grep -v "$(grep '^https' "$tmpList"_tmp)" "$tmpList" >> "$tmpList"_tmp2
+        grep -v -F "$(grep '^[[:print:]]' "$tmpTitles"_tmp)" "$tmpTitles" >> "$tmpTitles"_tmp2
         mv -f "$tmpList"_tmp2 "$tmpList"
         mv -f "$tmpTitles"_tmp2 "$tmpTitles"
         _RemoveDuplicateLines "$tmpList" "$tmpTitles"
@@ -76,7 +79,7 @@ _RemoveTmpLinks() {
     fi
 
     rm {"$tmpList","$tmpTitles"}_tmp "$FZFSELTITLES" 2>/dev/null
-    unset IFS range
+    unset IFS range TmpList array lst
     sleep 2
 
 }

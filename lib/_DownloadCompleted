@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
@@ -10,7 +10,7 @@ _DownloadCompleted() {
     if [[ -n $(find {"$audios_dir","$videos_dir"} -name "*.part") ]]; then
         _IfPartsExist -l
     else
-        FILES=(
+        declare -a FILES=(
             "$list" "$list"_origin
             "$titles_dir"/"$list".titles "$titles_dir/$list.titles_origin"
             "$SELECTED_URLS1" "$SELECTED_URLS2"
@@ -18,7 +18,7 @@ _DownloadCompleted() {
             "$tmp_dir/list_tmp"
         )
 
-        if [[ $(_GetLinesList -l) -gt 0 ]]; then
+        if (($(_GetLinesList -l) > 0)); then
             if [[ $keep_none_empty_playlist == yes ]]; then
                 unset {FILES[0],FILES[2]}
                 rm -f "${FILES[@]}" 2>/dev/null

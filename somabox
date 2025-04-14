@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # original idea: <https://github.com/epitron/scripts/blob/master/somafm>
 # Modified and extended by Barret E <https://github.com/archusXIV>
@@ -15,7 +15,7 @@
 
 for pkg in dialog mpv; do
     ! command -v "$pkg" && {
-        notify-send -t 0 -u critical "$pkg isn't installed, exiting!"
+        notify-send -u critical "$pkg isn't installed, exiting!"
         printf '%s\n' " $pkg isn't installed, exiting!"
         exit 127
     }
@@ -108,13 +108,20 @@ _main() {
             "" "${RIPPING_MSG}"
         )
 
-        case $? in 1|255) clear; _killMpv; _killStreamripper; exit 0 ;; esac
+        case $? in
+            1|255)
+                clear
+                _killMpv
+                _killStreamripper
+                exit 0
+            ;;
+        esac
 
         bitrates=$(
             dialog --stdout --backtitle "SOMABOX $VERSION" \
             --title "AUDIO BITRATES" \
             --menu "Select a bitrate for ${channelChoice}:" 10 50 2 \
-            LOW  "(AAC 64k / MP3 128k)" \
+            LOW "(AAC 64k / MP3 128k)" \
             HIGH "(AAC 128k / MP3 256/320k)"
         )
 
@@ -123,8 +130,8 @@ _main() {
                 dialog --stdout --backtitle "SOMABOX $VERSION" \
                 --title "STREAMRIPPER OPTIONS" \
                 --menu "Do you want to record ${channelChoice}?" 10 50 2 \
-                YES  "Rip in selected quality" \
-                NO   "Play selected station instead."
+                YES "Rip in selected quality" \
+                NO "Play selected station instead."
             )
             [[ ! -d $rip_dir && $ripping == 'YES' ]] && mkdir --parents "$rip_dir"
         }
@@ -158,7 +165,8 @@ _killStreamripper() {
 } 2>/dev/null
 
 _ripStation() {
-    _killStreamripper; sleep 0.2
+    _killStreamripper
+    sleep 0.2
     streamripper "$*" \
     -u "FreeAmp/2.x" \
     -d "$rip_dir" -s >/dev/null 2>&1
@@ -167,7 +175,8 @@ _ripStation() {
 _killMpv() { kill -SIGTERM "$(pgrep -x mpv)" 2>/dev/null; }
 
 _mpvOptions() {
-    _killMpv; sleep 0.2
+    _killMpv
+    sleep 0.2
     mpv \
     --no-config \
     --idle=no \

@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_FzfRemoveMultiplePlaylists() {
+
+    cd "$titles_dir" || exit 1
+
+    _TestIfPlaylistsHaveTitltes
+
+    titleList=$(find . -name "*.titles" | sort -d | sed 's,.*/,,')
+    titleList=$(
+        printf '%s\n' "${titleList//.titles}" | \
+        fzf \
+        --cycle \
+        --reverse \
+        --multi \
+        --header-first \
+        --scroll-off=5 \
+        --pointer '<>' \
+        --border rounded \
+        --prompt='Select: ' \
+        --border-label "| Remove multiple playlists |" \
+        --preview-window="$fzf_preview_layout:$fzf_preview_size" \
+        --header="${info}${b}"'TAB to select multiple, Enter to confirm, Escape to cancel:'"${nb}${nc}" \
+        --preview='(cat {}.titles)' >> "$FZFSELTITLES"
+	)
+
+    if [[ ! -s $FZFSELTITLES ]]; then
+        rm "$FZFSELTITLES"
+        return
+    fi
+
+    clear
+    echo -e "\n ${info}Selected playlists:${nc}\n"
+    nl "$FZFSELTITLES"
+    _BlankLine
+    _Prompt -n " ${critical}Are you sure you want to remove these playlists?:${nc}" && {
+
+        while IFS= read -r playlist; do
+            rm -f "$playlists_dir/$playlist" "${playlist}.titles"
+            printf '%s\n' " ${critical}$playlist removed.${nc}"
+        done < "$FZFSELTITLES"
+
+        rm "$FZFSELTITLES"
+        sleep 2
+
+    }
+	_Menu
+}

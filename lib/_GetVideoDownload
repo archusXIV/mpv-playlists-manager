@@ -1,14 +1,24 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2076,SC2034
 _GetVideoDownload() {
 
-    [[ ! -d $mediaDir ]] && mkdir --parents "$mediaDir"
+    mkdir --parents "$mediaDir"
     cd "$mediaDir" && {
 
         local animationTitles
         animationTitles="$TITLES"
+
+        __testTitles() {
+            if [[ $TITLES == "$DEFAULT_TITLES" ]]; then
+                yt-dlp --format "$code" --output "$(_GetLinkTitle -d).%(ext)s" \
+                "${ytdlPreset_X[@]}" "$url"
+            else
+                yt-dlp --format "$code" --output "$(_GetLinkTitle -v).%(ext)s" \
+                "${ytdlPreset_X[@]}" "$url"
+            fi
+        }
 
         if _TestParallelCommand; then
             _GetVideoDownloadMessages --parallel
@@ -21,7 +31,7 @@ _GetVideoDownload() {
         else
             mapfile -t VIDEOLINKS < <(grep '^https' "$M3UFILE")
             for url in "${VIDEOLINKS[@]}"; do
-                _BlankLine
+                echo -e "\n ${info}Getting formats...${nc}\n"
                 yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
                 | awk '$0 !~ /sb|youtube|info/{print $0}'
                 _BlankLine
@@ -29,16 +39,11 @@ _GetVideoDownload() {
                 read -r code
                 clear
                 _GetVideoDownloadMessages --onebyone
-
                 # it seems that only youtube uses merging options
-                if [[ "$code" =~ '+' ]]; then
-                    yt-dlp --format "$code" \
-                    --output "$(_GetLinkTitle -v).%(ext)s" \
-                    "${ytdlPreset_X[@]}" "$url"
+                if [[ "$url" =~ 'youtube' ]]; then
+                    __testTitles
                 else
-                    yt-dlp --format "$code" \
-                    --output "$(_GetLinkTitle -v).%(ext)s" \
-                    "${ytdlPreset_NC[@]}" "$url"
+                    yt-dlp --format "$code" "${ytdlPreset_NC[@]}" "$url"
                 fi
 
                 if [[ $M3UFILE == "$VIDEO_URLS" ]]; then
@@ -55,8 +60,6 @@ _GetVideoDownload() {
         fi
     }
 
-    echo -e " ${info}Done.\n${nc}"
-    sleep 2
     _RemoveAudioVideoIds
     _GetCompleted
 

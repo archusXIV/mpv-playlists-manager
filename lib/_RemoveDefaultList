@@ -1,24 +1,25 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
 _RemoveDefaultList() {
 
+    mapfile -t -s 1 defaultListUrls < "$DEFAULT_LIST"
     # the default list, at least contains one line (header #EXTM3U)
-    [[ $(grep "" -c "$DEFAULT_LIST") -eq 1 ]] && {
-        printf '\n%s\n' " ${critical}${DEFAULT_LIST##*/} list is empty.${nc}"
-        sleep 2
-        rm {"$DEFAULT_LIST"_origin,"$DEFAULT_TITLES"{,_origin}}
-        _Menu
-    }
+    # ((${#defaultListUrls[@]} == 0)) && {
+    #     printf '\n%s\n' " ${critical}${DEFAULT_LIST##*/} list is empty.${nc}"
+    #     sleep 2
+    #     rm {"$DEFAULT_LIST"_origin,"$DEFAULT_TITLES"{,_origin}}
+    #     _Menu
+    # }
 
     _BlankLine
     read -rsn 1 \
     -p " ${info}Remove [L]inks or the [W]hole default list?: ${nc}" removeDefaultListOptions
 
     case "$removeDefaultListOptions" in
-        l|L)
-            [[ $(grep '^https' -c "$DEFAULT_LIST") -eq 1 ]] && {
+        [lL])
+            ((${#defaultListUrls[@]} == 1)) && {
                 sed -i '2d' "$DEFAULT_LIST"
                 rm "$DEFAULT_TITLES"
                 printf '\n%s\n' " ${critical}${DEFAULT_LIST##*/} cleared.${nc}"
@@ -27,7 +28,7 @@ _RemoveDefaultList() {
             }
             sed -i '1d' "$DEFAULT_LIST"
             if _TestFzfCommand; then _FzfRemoveTmpLinks; else _RemoveTmpLinks; fi
-            if [[ ! -f $DEFAULT_LIST ]]; then
+            if [[ ! -f $DEFAULT_LIST || ! -s $DEFAULT_LIST ]]; then
                 echo "#EXTM3U" > "$DEFAULT_LIST"
                 _Menu
             else
@@ -35,7 +36,7 @@ _RemoveDefaultList() {
                 return
             fi
         ;;
-        w|W)
+        [wW])
             sed -i '/^[[:alpha:]]/d' "$DEFAULT_LIST"
             rm "$DEFAULT_TITLES"
             printf '\n%s\n' " ${critical}${DEFAULT_LIST##*/} cleared.${nc}"

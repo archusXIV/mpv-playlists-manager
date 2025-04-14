@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2317,SC2034
@@ -6,6 +6,7 @@ _GetVideo() {
 
     local M3UFILE TITLES mediaDir
     mediaDir="$videos_dir"
+    _ResizeWindow --main
 
     case "$1" in
         -d)

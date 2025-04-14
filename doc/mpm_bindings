@@ -13,7 +13,7 @@
         j) Stop or quit mpv                       │ v) Create/Add links to the Video list *
         k) Toggle play/pause                      │ x) Quit mpm
         l) Go to next song                        │ z) Clear all tmp lists *
-        m) Manuals & help access                  │ Ctrl+B) change themes, Ctrl+M) mpmrc quick view
+        m) Manuals & help access                  │ Ctrl+B) change theme, Ctrl+M) mpmrc quick view
         ──────────────────────────────────────────────────────────────────────────────────────────────────
     Shortcuts in the "mpm player" if mpvc_tui is set to native (uses fzf).
 
@@ -23,6 +23,6 @@
         Ctrl+N:      play next item.
         Ctrl+P:      play previous item.
         Ctrl+T:      toggle pause.
-        Ctrl+R:      Restart the playlist from the beginning.
+        Ctrl+R:      reload the playlist from the beginning.
         Ctrl+X:      quit mpv (stop) and go back to main menu.
         Escape:      exit mpvc tui interface.

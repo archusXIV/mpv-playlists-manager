@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2044,SC2034
@@ -6,7 +6,7 @@ _LoadPlaylist() {
 
     cd "$playlists_dir" || exit 1
 
-    local list titlesFile action
+    local list titlesFile action LIST
 
     for lst in $(find . -type f -name "*_origin"); do
         mv -f "$lst" "${lst//_origin/}"
@@ -33,39 +33,42 @@ _LoadPlaylist() {
         }
 
         titlesFile="$titles_dir/$list.titles"
+        LIST="${list%%.*/}" LIST="${LIST//_/ }" LIST="${LIST//.m3u}"
         clear
         printf '\n%s\n' \
-        " ${info}Choose an option for: ${list%%.*//_/} ${nc}($(grep -c '^https' "$list") urls)"
+        " ${info}Choose an option for: ${LIST} ${nc}($(_GetLinesList -l) urls)"
         _BlankLine
-        read -rsn 1 -p " ${info}[1] Download/Play, [2] View titles, [${mtitle}C${info}]ancel: ${nc}" \
+        read -rsn 1 -p " ${info}[D]ownload/[P]lay, [V]iew titles, [${mtitle}C${info}]ancel: ${nc}" \
         loadPlaylistOptions
         _BlankLine
         case "$loadPlaylistOptions" in
-            1)
+            [dDpP])
                 clear; _MpvOwnsTmpList --list || _LoadPlaylistMenu
             ;;
-            2)
+            [vV])
                 clear
-
-                if [[ $(grep "" -c "$list") -gt 26 ]]; then
-                    _TitlesListCompare -g
+                # playlists header must be skipped from the total of lines
+                mapfile -t https < "$list"
+                if ((${#https[@]} -1 > 26)); then
+                    _TitlesListCompare --next-page
                 else
-                    _TitlesListCompare -l
+                    _TitlesListCompare --list
                 fi
 
                 read -rsn 1 \
-                -p "${info}"' [1] Download/Play, [2] Back to menu: '"${nc}" loadPlaylistSubmenuOptions
+                -p " ${info}[D]ownload/[P]lay, [B]ack to main menu: ${nc}" \
+                loadPlaylistSubmenuOptions
                 _BlankLine
                 case "$loadPlaylistSubmenuOptions" in
-                    1) clear; _LoadPlaylistMenu ;;
-                    2) break ;;
+                    [dDpP]) clear; _LoadPlaylistMenu ;;
+                    [bB]) break ;;
                     *)
                         _WrongOption "$loadPlaylistSubmenuOptions"
                         return
                     ;;
                 esac
             ;;
-            c|C) break ;;
+            [cC]) break ;;
             *)
                 _WrongOption "$loadPlaylistOptions"
                 return

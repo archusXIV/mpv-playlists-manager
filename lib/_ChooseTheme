@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck source=/dev/null
@@ -8,7 +8,7 @@ _ChooseTheme() {
     clear
     _BlankLine
 
-    chooseThemePrompt=(
+    declare -a chooseThemePrompt=(
         "${info}Change [M]ain or"
         "[N]ative player theme,"
         "[${mtitle}C${info}]ancel: ${nc}"
@@ -17,16 +17,15 @@ _ChooseTheme() {
     read -rsn 1 -p " ${chooseThemePrompt[*]}" changeThemeOptions
     clear
 
-    __cancelTest() (
+    __cancelTest() {
         [[ $REPLY =~ [a-zA-Z] ]] && {
             printf '\n%s\n' " ${critical}Selection aborted...${nc}"
             sleep 2
-            return
         }
-    )
+    }
 
     case "$changeThemeOptions" in
-        m|M)
+        [mM])
             echo -e "\n ${info}Current main theme: ${task}$THEME${nc}\n"
             sed -i "s/THEME=\"${THEME}\"/THEME=${THEME}/" "$MPMRC"
             PS3=""$'\n'" ${info}Please choose a theme, [${mtitle}C${info}]ancel: ${nc}"
@@ -38,7 +37,7 @@ _ChooseTheme() {
                 break
             done
         ;;
-        n|N)
+        [nN])
             local ntc="$native_tui_colors"
             echo -e "\n ${info}Current native player theme: ${task}$ntc${nc}\n"
             sed -i "s/native_tui_colors=\"${ntc}\"/native_tui_colors=${ntc}/" "$MPMRC"

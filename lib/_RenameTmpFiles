@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
 _RenameTmpFiles() {
 
-    tmpFiles=(
+    declare -a tmpFiles=(
         "$AUDIO_URLS" "$AUDIO_TITLES"
         "$VIDEO_URLS" "$VIDEO_TITLES"
         "$DEFAULT_TITLES" "$DEFAULT_LIST"

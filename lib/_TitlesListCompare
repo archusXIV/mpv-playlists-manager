@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
@@ -7,12 +7,13 @@ _TitlesListCompare() {
     cd "$titles_dir" || return
 
     local titlesFile
-    titlesFile="$titles_dir/$list.titles"
+    titlesFile="$list.titles"
     titlesFile="${titlesFile##*/}"
+    mapfile -t titlesLines < "$titlesFile"
 
     if [[ -s $titlesFile ]]; then
 
-        [[ $(grep "" -c "$titlesFile") -ne $(_GetLinesList -l) ]] && {
+        (( ${#titlesLines[@]} != $(_GetLinesList -l) )) && {
             _BlankLine
             printf '%s\n' " ${critical}${titlesFile} is out of date...${nc}" \
             " ${task}${b}Updating $(_GetLinesList -l) titles...please wait.${nb}${nc}"
@@ -21,19 +22,17 @@ _TitlesListCompare() {
         }
 
         case "$1" in
-            -f) _FzfChooseTitles ;;
-            -g)
+            --fzf) _FzfChooseTitles ;;
+            --next-page)
                 echo -e "\n ${info}Titles for $list.${nc}\n"
-                # sed -n '1,25p' "$titlesFile" | nl
                 awk 'NR>=1&&NR<=25' "$titlesFile" | nl
                 _BlankLine
-                read -rsn 1 -p " ${info}[N]ext page, [B]ack to menu.${nc}" nextpage
+                read -rsn 1 -p " ${info}[N]ext page, [B]ack to main menu.${nc}" nextpage
                 case "$nextpage" in
-                    b|B) _Menu ;;
-                    n|N)
+                    [bB]) _Menu ;;
+                    [nN])
                         clear; _BlankLine
-                        # sed -n '26,50' "$titlesFile" | nl
-                        awk 'NR>=26&&NR<=50' "$titlesFile" | nl
+                        awk 'NR>=26&&NR<=50' "$titlesFile" | nl -v 26
                         _BlankLine
                     ;;
                     *)
@@ -42,7 +41,7 @@ _TitlesListCompare() {
                     ;;
                 esac
             ;;
-            -l)
+            --list)
                 echo -e "\n ${info}Titles for $list${nc}\n"
                 nl "$titlesFile"; _BlankLine
             ;;
@@ -52,7 +51,7 @@ _TitlesListCompare() {
         _BlankLine
         printf '%s\n' " ${critical}${titlesFile} does not exist or empty...${nc}" \
         " ${task}${b}Getting $(_GetLinesList -l) titles...please wait.${nb}${nc}"
-        touch "$titlesFile"; sleep 2; _GetMediaTitle --list; clear
+        touch "$titlesFile"; _GetMediaTitle --list; clear
         echo -e "\n ${info}Titles for $list.${nc}\n"
         nl "$titlesFile"
         _BlankLine

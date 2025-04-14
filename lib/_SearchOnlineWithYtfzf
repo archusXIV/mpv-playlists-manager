@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2076
@@ -53,7 +53,7 @@ _SearchOnlineWithYtfzf() {
             echo "$line" >> "$YTSEARCH"
     done < "$tmp_dir"/ytfzf_playlists
 
-    [[ -f $YTSEARCH ]] && _RemoveDuplicateLines "$YTSEARCH"
+    [[ -s $YTSEARCH ]] && _RemoveDuplicateLines "$YTSEARCH"
     _RemoveCrap
     rm {"$YTFZFJSON","$tmp_dir"/ytfzf_playlists}
     printf '\n%s\n' " ${info}Links added to $Type list${nc}"

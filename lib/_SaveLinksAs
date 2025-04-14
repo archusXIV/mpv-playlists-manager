@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
@@ -59,9 +59,9 @@ _SaveLinksAs() {
     saveLinksAsOptions
 
     case "$saveLinksAsOptions" in
-        c|C) return ;;
-        l|L) __saveRange && touch "$tmp_dir"/savedLinks && _SaveCheck ;;
-        w|W) _SaveCheck ;;
+        [cC]) return ;;
+        [lL]) __saveRange && touch "$tmp_dir"/saveLinks && _SaveCheck ;;
+        [wW]) _SaveCheck ;;
         *)   _WrongOption "$saveLinksAsOptions"; return ;;
     esac
 

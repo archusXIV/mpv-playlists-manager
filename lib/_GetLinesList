@@ -1,16 +1,24 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
 _GetLinesList() {
 
+    local minusOne
+
     case "$1" in
         -a) FILE="$AUDIO_URLS" ;;
-        -l) FILE="$playlists_dir"/"$list" ;;
-        -d) FILE="$DEFAULT_LIST" ;;
+        -l) FILE="$playlists_dir"/"$list"; minusOne=yes ;;
+        -d) FILE="$DEFAULT_LIST"; minusOne=yes ;;
         -v) FILE="$VIDEO_URLS" ;;
     esac
 
-    [[ -s $FILE ]] && grep -c '^https' "$FILE"
+    mapfile -t linesCount < "$FILE"
 
-}
+    if [[ $minusOne == "yes" ]]; then
+        echo $(("${#linesCount[@]}" -1))
+    else
+        echo "${#linesCount[@]}"
+    fi
+
+} 2>/dev/null

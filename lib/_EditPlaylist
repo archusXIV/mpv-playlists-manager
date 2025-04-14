@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
@@ -39,7 +39,10 @@ _EditPlaylist() {
                 -p "${info} [E]dit another file, [B]ack to menu.${nc}" editAgainOptions
                 case "$editAgainOptions" in
                     e|E) clear; break ;;
-                    b|B) _Menu ;;
+                    b|B)
+                        rm {"$SELECTED_URLS1","$SELECTED_TITLES"}
+                        _Menu
+                    ;;
                     *  ) _WrongOption "$editAgainOptions"; break ;;
                 esac
                 unset editAgainOptions

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154,SC2034
@@ -9,9 +9,10 @@ _GetCompleted() {
     if [[ -n $(find {"$audios_dir","$videos_dir"} -name "*.part") ]]; then
         _IfPartsExist -t
     else
+        clear
         if [[ $downloadTmpList =~ default|list ]]; then
-            printf '\n%s\n' " ${info}Temporary list preserved...${nc}"
-            downloadTmpList=downloaded
+            printf '\n%s\n' " ${info}Downloads completed, temporary list preserved...${nc}"
+            downloadTmpList="downloaded"
             sleep 2
             _RenameTmpFiles
             _CheckParallelDownloads --after
