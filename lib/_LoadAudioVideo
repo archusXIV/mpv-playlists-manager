@@ -13,13 +13,11 @@ _LoadAudioVideo() {
     }
 
     __testPlayerName() {
-        _TestFzfCommand && [[ $mpvc_tui == native ]] && {
-            _MakeMpvPlaylistIndexes
-            case "${1}" in
-                --audio) _MpvcTest -a ;;
-                --video) _MpvcTest -v ;;
-            esac
-        }
+        _TestFzfCommand && [[ $mpvc_tui == native ]] && _MakeMpvPlaylistIndexes
+        case "${1}" in
+            --audio) _MpvcTest -a ;;
+            --video) _MpvcTest -v ;;
+        esac
     }
 
     case "$1" in
