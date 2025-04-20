@@ -98,14 +98,14 @@ _main() {
 
         channelChoice=$(
             dialog --stdout --backtitle "SOMABOX $VERSION" \
-            --ok-label "$select" --cancel-label "QUIT SOMABOX" \
-            --title "SOMAFM CHANNELS LIST" --no-shadow \
-            --menu "Select a radio station:" 0 90 0 \
-            "${LIST[@]}" \
-            "NOW PLAYING:" "${nowPlaying}" \
-            "" "${BITRATES_MSG}" \
-            "NOW RIPPING:" "${nowRipping}" \
-            "" "${RIPPING_MSG}"
+                --ok-label "$select" --cancel-label "QUIT SOMABOX" \
+                --title "SOMAFM CHANNELS LIST" --no-shadow \
+                --menu "Select a radio station:" 0 90 0 \
+                "${LIST[@]}" \
+                "NOW PLAYING:" "${nowPlaying}" \
+                "" "${BITRATES_MSG}" \
+                "NOW RIPPING:" "${nowRipping}" \
+                "" "${RIPPING_MSG}"
         )
 
         case $? in
@@ -119,19 +119,19 @@ _main() {
 
         bitrates=$(
             dialog --stdout --backtitle "SOMABOX $VERSION" \
-            --title "AUDIO BITRATES" \
-            --menu "Select a bitrate for ${channelChoice}:" 10 50 2 \
-            LOW "(AAC 64k / MP3 128k)" \
-            HIGH "(AAC 128k / MP3 256/320k)"
+                --title "AUDIO BITRATES" \
+                --menu "Select a bitrate for ${channelChoice}:" 10 50 2 \
+                LOW "(AAC 64k / MP3 128k)" \
+                HIGH "(AAC 128k / MP3 256/320k)"
         )
 
         [[ -n $(command -v streamripper) && -n $bitrates ]] && {
             ripping=$(
                 dialog --stdout --backtitle "SOMABOX $VERSION" \
-                --title "STREAMRIPPER OPTIONS" \
-                --menu "Do you want to record ${channelChoice}?" 10 50 2 \
-                YES "Rip in selected quality" \
-                NO "Play selected station instead."
+                    --title "STREAMRIPPER OPTIONS" \
+                    --menu "Do you want to record ${channelChoice}?" 10 50 2 \
+                    YES "Rip in selected quality" \
+                    NO "Play selected station instead."
             )
             [[ ! -d $rip_dir && $ripping == 'YES' ]] && mkdir --parents "$rip_dir"
         }
@@ -168,8 +168,8 @@ _ripStation() {
     _killStreamripper
     sleep 0.2
     streamripper "$*" \
-    -u "FreeAmp/2.x" \
-    -d "$rip_dir" -s >/dev/null 2>&1
+        -u "FreeAmp/2.x" \
+        -d "$rip_dir" -s >/dev/null 2>&1
 }
 
 _killMpv() { kill -SIGTERM "$(pgrep -x mpv)" 2>/dev/null; }
@@ -178,12 +178,12 @@ _mpvOptions() {
     _killMpv
     sleep 0.2
     mpv \
-    --no-config \
-    --idle=no \
-    --cache=no \
-    --no-terminal \
-    --force-window=no \
-    "${MPVSOCKET}" "$*" &
+        --no-config \
+        --idle=no \
+        --cache=no \
+        --no-terminal \
+        --force-window=no \
+        "${MPVSOCKET}" "$*" &
 }
 
 _main "${@}"

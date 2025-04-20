@@ -39,7 +39,7 @@ _SearchYoutubeWithFzf() {
             --preview-window="down:2" \
             -n 1 --with-nth=1 -d '\0' --ansi \
             --border-label "| Results for: $request |" \
-            --header='Select with Tab, Enter to confirm, Escape to cancel' \
+            --header='Tab: select, Enter: confirm, Escape: cancel' \
         | cut -d '' -f2 \
         | jq --raw-output '(.webpage_url, .title)'
     )
@@ -48,9 +48,14 @@ _SearchYoutubeWithFzf() {
         printf '\n%s\n' " ${critical}No ${Type} selected...${nc}"
         sleep 2; clear; return
     else
-        echo "$fzfGrabLinks" \
-        | tee >(grep -v '^https' | tee -a "$TITLES" >> "$DEFAULT_TITLES") \
-        >(grep '^https' | tee -a "$URLS" >> "$DEFAULT_LIST") >/dev/null
+        while read -r line; do
+            if [[ $line =~ ^https ]]; then
+                echo "$line" | tee -a "$URLS" >> "$DEFAULT_LIST"
+            else
+                echo "$line" | tee -a "$TITLES" >> "$DEFAULT_TITLES"
+            fi
+        done <<< "$fzfGrabLinks"
+        unset line
         _RemoveCrap
         _ViewAudioVideoUrlsInfo "$arg"
     fi

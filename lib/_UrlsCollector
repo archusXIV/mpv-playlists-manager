@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_UrlsCollector() {
+
+    _ResizeWindow --main
+    clear
+
+    __isAnUrl() {
+        # Basic URL pattern matching
+        if [[ $1 =~ ^https:\/\/ ]]; then
+            return 0
+        else
+            return 1
+        fi
+    }
+
+    __getClipboard() {
+        read -r mediaUrl < <("${clipboardCmd[@]}")
+        if [[ -n $mediaUrl ]]; then
+            echo "$mediaUrl"
+            return 0
+        else
+            return 1
+        fi
+    }
+
+    echo -e "\n ${info}Watching clipboard for URLs... (Press Ctrl+C to stop)${nc}\n"
+
+    # Store last clipboard content to avoid duplicates
+    local lastContent=""
+    urlNumber=0
+
+    while true; do
+        trap break SIGINT
+        currentContent=$(__getClipboard)
+        # Check if clipboard content has changed
+        if [[ $currentContent != "$lastContent" ]] && [[ -n $currentContent ]]; then
+            if __isAnUrl "$currentContent"; then
+                ((urlNumber++))
+                echo "$currentContent" >> "$clipUrls"
+                printf '%s\n' " ${info}$urlNumber URL(s) saved${nc}"
+            fi
+            lastContent="$currentContent"
+        fi
+        sleep 1
+    done
+
+}

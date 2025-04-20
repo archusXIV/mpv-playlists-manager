@@ -6,7 +6,7 @@ _CreateAddPlaylist() {
 
     local Type TITLES URLS menuTitleType arg file addPlaylistDir
 
-    isInstalled="is installed, first copy a link then press 1)"
+    isInstalled="is installed, press 1) then in the web page copy links."
     clipboadCmdisInstalled="${info}${clipboardCmd[0]} $isInstalled${nc}"
 
     case "$1" in
@@ -42,7 +42,7 @@ _CreateAddPlaylist() {
         _BlankLine
         test -s "$URLS"  && \
         echo -e " ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}\n"
-        __clipboardCmdTest && printf '%s\n' "                                   $clipboadCmdisInstalled"
+        __clipboardCmdTest && printf '%s\n' "                              $clipboadCmdisInstalled"
         _BlankLine
         echo -e "                                                   ${mtitle}::${B}${menuTitleType} OPTIONS${N}::${nc}"
         echo -e "                                          $(_LittleStars)${nc}"
@@ -67,7 +67,7 @@ _CreateAddPlaylist() {
             6) _CreateAddPlaylistActions --view ;;
             7) _CreateAddPlaylistActions --remove ;;
             [bBmM8]) _Menu ;;
-            r|R) continue ;;
+            [rR]) continue ;;
             *)  _WrongOption "$createAddPlaylistOptions" ;;
         esac
 

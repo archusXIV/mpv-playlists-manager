@@ -16,13 +16,13 @@ _WhileMpvIsRunning() {
     mpv_is_running="no"
 
     if [[ $mpvc_tui == native ]]; then
-        _RemoveMpvTmp
-        kill -SIGTERM "$(pidof -x fzf)" 2>/dev/null
+        tui=fzf
     else
-        _RemoveMpvTmp
-        kill -SIGTERM "$(pidof -x "$mpvc_tui")" 2>/dev/null
+        tui="$mpvc_tui"
     fi
 
+    _RemoveMpvTmp
+    kill -SIGTERM "$(pidof -x "$tui")" 2>/dev/null
     _MenuFooter
 
 }

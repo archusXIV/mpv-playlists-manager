@@ -1,5 +1,5 @@
 
-    mpm version 2.3-2
+    mpm version 2.3-3
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -49,7 +49,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.3-2::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.3-3::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -251,6 +251,11 @@
                 │   4) Save/Add current list   8) Back to main menu    │
                 └──────────────────────────────────────────────────────┘
                                     Select an option
+
+        If xclip/wl-clipboard is installed and configured through your mpmrc file, by pressing 1)
+        the script will watch the clipboard and copy your links in a temporary file that will be
+        parsed to check if entered URLs redirect to a valid media/playlist, so just copy links in
+        your browser without focusing the mpm window.
 
         The same menu is also prensented in video section. New since version 1.4-9,
         searching online audio/video is done by using the fzf package if installed,

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2181
+# shellcheck disable=SC2154
 _GetPlaylistUrls() {
 
     local playlist
@@ -12,7 +12,7 @@ _GetPlaylistUrls() {
         _BlankLine
         printf '%s\n' \
         " ${info}Please be patient while extracting urls/titles from:" \
-        " $playlistName playlist...${nc}"; sleep 1
+        " $playlistName playlist...${nc}"
     )
 
     case "$1" in
@@ -20,8 +20,6 @@ _GetPlaylistUrls() {
             playlist="$mediaUrl"
             if _Has parallel && [[ $use_parallel == yes ]]; then
                 _GetPlaylistUrlsMethods --parallel
-            # elif _Has ytfzf && [[ $use_fzf == yes ]]; then
-            #     _GetPlaylistUrlsMethods --ytfzf 2>/dev/null
             else
                 _GetPlaylistUrlsMethods --native
             fi
@@ -35,8 +33,6 @@ _GetPlaylistUrls() {
                 __getPlaylistUrlsInfo
                 if _Has parallel && [[ $use_parallel == yes ]]; then
                     _GetPlaylistUrlsMethods --parallel
-                elif _Has ytfzf && [[ $use_fzf == yes ]]; then
-                    _GetPlaylistUrlsMethods --ytfzf 2>/dev/null
                 else
                     _GetPlaylistUrlsMethods --native
                 fi
@@ -49,8 +45,6 @@ _GetPlaylistUrls() {
 
     rm {"$YTSEARCH","$YTFZFJSON","$tmp_dir"/playlist.{m3u,titles,txt}} 2>/dev/null
     rm -rf "$HOME"/.parallel 2>/dev/null
-
-    _RemoveCrap
-    _IfDuplicatesFiles
+    return
 
 }

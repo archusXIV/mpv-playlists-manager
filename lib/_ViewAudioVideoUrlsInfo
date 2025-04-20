@@ -7,7 +7,7 @@ _ViewAudioVideoUrlsInfo() {
     local stars
 
     declare -a viewUrlInfoPrompt=(
-        "${info}[${mtitle}M${info}]aim menu,"
+        "${info}[${mtitle}M${info}]ain menu,"
         "[A]dd links," "[D]ownload," "[E]dit,"
         "[P]lay," "[R]emove," "[S]ave:"
     )
@@ -16,8 +16,6 @@ _ViewAudioVideoUrlsInfo() {
         "${viewUrlInfoPrompt[0]}"
         "[D]ownload (this list will be preserved after download)"
     )
-
-    # stars=$(printf "%-55s" "*")
 
     __listHeader() {
         clear

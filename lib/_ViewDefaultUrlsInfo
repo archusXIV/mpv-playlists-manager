@@ -61,7 +61,7 @@ _ViewDefaultUrlsInfo() {
                             read -rsn 1 \
                             -p "${info}"' Play [A]udio, [V]ideo?: '"${nc}" play
                             case "$play" in
-                                a|A|v|V)
+                                [aAvV])
                                     cp "$DEFAULT_TITLES" "$DEFAULT_TITLES"_
                                     playerTitlesList="$DEFAULT_TITLES"_
                                     _Has fzf && [[ $mpvc_tui == native ]] \

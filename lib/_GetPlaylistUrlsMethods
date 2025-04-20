@@ -5,7 +5,7 @@
 _GetPlaylistUrlsMethods() {
 
     __teeAppendTitles() ( tee -a "$TITLES" >> "$DEFAULT_TITLES"; )
-    __teeAppendUrls() ( tee -a "$DEFAULT_LIST" >> "$URLS"; )
+    __teeAppendUrls() ( tee -a "$URLS" >> "$DEFAULT_LIST"; )
 
     case "$1" in
         --native)
@@ -33,6 +33,7 @@ _GetPlaylistUrlsMethods() {
             }
         ;;
         --ytfzf)
+            ytfzf -A -I VJ --scrape=youtube-playlist "$playlist" > "$YTFZFJSON" || \
             invidious_instance="https://vid.puffyan.us" \
             ytfzf -A -I VJ --scrape=youtube-playlist "$playlist" > "$YTFZFJSON"
             clear

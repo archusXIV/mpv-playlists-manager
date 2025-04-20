@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_AnalyzeUrls() {
+
+    local mediaUrl
+
+    clear
+    printf '\%s\n' " ${info}Analyzing URLs...Please wait.${nc}"
+    mapfile -t tmpUrls < "$clipUrls"
+
+    for mediaUrl in "${tmpUrls[@]}"; do
+
+        [[ $mediaUrl =~ ^https:\/\/www\.youtube\.com\/@[^\/] ]] && {
+            printf '%s\n' " ${critical}Channels urls are not supported...${nc}"
+            sleep 2
+            continue
+        }
+
+        # Handle playlist URLs
+        if [[ $mediaUrl =~ 'playlist?list='|'odysee.com/$/playlist/' ]]; then
+            printf '\n%s\n' \
+            " ${info}Getting titles & links from playlist: $(\
+            yt-dlp "${ytdlPreset_DW[@]}" -J --flat-playlist "$mediaUrl" \
+            | jq --raw-output .title)..." "${b} Please be patient.${nb}${nc}"
+            _GetPlaylistUrls "$arg"
+            continue
+        fi
+
+        # Clean URL and validate format
+        mediaUrl="${mediaUrl//&list=*}"
+        if [[ ! $mediaUrl =~ ^https ]]; then
+            printf '%s\n' " ${critical}Not a valid url...try again${nc}"
+            sleep 2
+            continue
+        fi
+
+        # Test URL validity
+        printf '\n%s\n' " ${info}Testing $mediaUrl${nc}"
+        yt-dlp --print formats_table "$mediaUrl" > "$urlTest"
+        if grep -qw 'ERROR' "$urlTest" || [[ ! -s $urlTest ]]; then
+            printf '%s\n' " ${critical}${b}Unsupported url!${nb}" \
+            " $mediaUrl removed..." \
+            " ${info}Please visit: $SUPPORTED_SITES${nc}"
+            sleep 7
+            continue
+        fi
+
+        # Check audio format if we are downloading audio.
+        # Odysee for example doesn't have audio format
+        if [[ $arg == '-a' ]] && ! grep -qe 'audio' "$urlTest"; then
+            printf '%s\n' " ${critical}No audio format found...${nc}" \
+            " removing $mediaUrl..."
+            sleep 3
+            continue
+        fi
+
+        # Process valid URL
+        echo "$mediaUrl" | tee -a "$URLS" >> "$DEFAULT_LIST"
+        printf '%s\n' " ${info}Getting ${Type} title...${nc}"
+        yt-dlp --skip-download --get-title "${ytdlPreset_DW[@]}" "$mediaUrl" \
+        | tee -a "$TITLES" >> "$DEFAULT_TITLES"
+
+        clear
+
+    done
+
+    unset mediaUrl
+    rm "$clipUrls"
+
+}

@@ -9,18 +9,36 @@ _CleanTmpDir() {
     mv -f "$DEFAULT_TITLES" "$DEFAULTM3UTITLES"
 
     if _PidOfMpv >/dev/null; then
-        find "$tmp_dir" -type f \
-            -not -name nowPlaying \
-            -not -name defaultTitles_ \
-            -not -name fzfEnqueue.m3u \
-            -not -name singleDirTitles \
-            -not -name playerIndexesList \
-            -not -name playerSelectedFile \
-            -not -name "$SELECTED_TITLES" \
-            -not -name temporarySelection.m3u \
-            -not -name multipleDirsTitles.m3u \
-            -not -name "$(awk -F"/" '{print $NF}' "$NOWPLAYING")" \
-            -exec rm {} \;
+        # List of files to preserve
+        declare -a preserve_files=(
+            "nowPlaying"
+            "defaultTitles_"
+            "fzfEnqueue.m3u"
+            "singleDirTitles"
+            "playerIndexesList"
+            "playerSelectedFile"
+            "$SELECTED_TITLES"
+            "temporarySelection.m3u"
+            "multipleDirsTitles.m3u"
+            "$(awk -F"/" '{print $NF}' "$NOWPLAYING")"
+        )
+
+        # Remove all files except preserved ones
+        for file in "$tmp_dir"/*; do
+
+            [[ -f $file ]] || continue
+            local basename="${file##*/}"
+            local preserve=false
+
+            for keep in "${preserve_files[@]}"; do
+                [[ $basename == "$keep" ]] && {
+                    preserve=true
+                    break
+                }
+            done
+
+            "$preserve" || rm -f "$file"
+        done
     else
         rm "$(readlink -f "$tmp_dir"/"fzfEnqueue.m3u")"
         rm -f "$tmp_dir"/*

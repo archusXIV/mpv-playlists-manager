@@ -60,12 +60,11 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Added _UrlsCollector function that let's you copy multiple links without the need to focus the mpm terminal for that (the clipboard is watched in the background).
+- Added _AnalyzeUrls function to parse what we collected from _UrlsCollector function.
+- Fixed bug in _SearchYoutubeWithFzf function so titles appear when back in list view.
 - Now you can install mpm using the makefile (sudo make install) but you will have review the {mpm,theme}rc files manually before installation or first run.
 - YtFzf is no longer used to get all titles/urls from a Youtube playlist, prefer parallel instead.
-- Fixed bug in _CheckParallelDownloads so we can use xargs instead of GNU parallel. In your mpmrc file settings will be:
-  - use_parallel=no and use_parallel_downloads=yes.
-- Added a test to check if all collection playlists have their titles files before launching the selection menu with fzf.
-- Added a function to remove multiple collection playlists at once.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -135,7 +134,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.3-2.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.3-3.png)
 
 
 ```

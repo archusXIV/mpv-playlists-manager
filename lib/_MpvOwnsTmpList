@@ -33,7 +33,7 @@ _MpvOwnsTmpList() {
                 --default)
                     case "$2" in
                         --download|--edit|--remove|--save)
-                            if [[ -f "$DEFAULT_TITLES"_ ]]; then
+                            if [[ -f defaulTitles_ ]]; then
                                 name="default"
                                 downloadTmpList="default"
                             else
@@ -41,7 +41,7 @@ _MpvOwnsTmpList() {
                             fi
                         ;;
                         --play)
-                            if [[ -f "$DEFAULT_TITLES"_ ]]; then
+                            if [[ -f defaulTitles_ ]]; then
                                 name="default"
                                 downloadTmpList="default"
                             elif [[ -f playerIndexesList ]]; then
@@ -53,7 +53,8 @@ _MpvOwnsTmpList() {
                 --list)
                     case "$2" in
                         --download|--edit|--quit|--remove|--save|--search)
-                            if [[ $playerTitlesList == "$TITLES"_ ]]; then
+                            if [[ $playerTitlesList == "$TITLES"_ \
+                                && "$TITLES"_ != "$DEFAULT_TITLES"_ ]]; then
                                 name="Temporary $Type"
                                 downloadTmpList="list"
                             else

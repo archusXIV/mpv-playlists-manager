@@ -21,7 +21,8 @@ _RemoveCrap() {
         # removing unwanted parts of links, blank lines & duplicates
         sed -i '
             s/&list=.*//;s/&pp=.*//;s/&t=.*//;/^\s*$/d;
-            s|//youtube.com|//www.youtube.com|g
+            s|//youtube.com|//www.youtube.com|g;
+            /playlist?list=.*/d
         ' "$file"
         _RemoveDuplicateLines "$file"
     done

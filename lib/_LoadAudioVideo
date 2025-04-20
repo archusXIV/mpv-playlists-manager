@@ -6,12 +6,6 @@ _LoadAudioVideo() {
 
     local m3uFile
 
-    _PidOfMpv >/dev/null && {
-        _killMpv
-        _RemoveMpvTmp
-        sleep 0.5
-    }
-
     __testPlayerName() {
         _TestFzfCommand && [[ $mpvc_tui == native ]] && _MakeMpvPlaylistIndexes
         case "${1}" in
@@ -22,6 +16,7 @@ _LoadAudioVideo() {
 
     case "$1" in
         -a|-v)
+            _ResizeWindow --main
             if [[ $arg == -a && -s $AUDIO_URLS ]]; then
                 m3uFile="$AUDIO_URLS"
                 playerTitlesList="$AUDIO_TITLES"

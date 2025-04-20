@@ -1,66 +1,29 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2001,SC2034
+# shellcheck disable=SC2154
 _CopyMediaUrl() {
 
-    local mediaUrl urlTest
+    local mediaUrl clipUrls urlTest
+    clipUrls="$tmp_dir/clipboardUrls.txt"
     urlTest="$tmp_dir/urltest"
 
-    rm "$urlTest" 2>/dev/null
+    rm {"$urlTest","$clipUrls"} 2>/dev/null
+    echo -n | xclip -selection primary || wl-copy --clear
 
     # Get URL from clipboard or user input
     if __clipboardCmdTest; then
-        read -r mediaUrl < <("${clipboardCmd[@]}")
+        _UrlsCollector
+        _AnalyzeUrls
+        _RemoveCrap
+        _IfDuplicatesFiles
     else
         echo -e "\n Paste an url to fill the ${info}${Type}${nc} playlist:\n"
         read -r mediaUrl
+        echo "$mediaUrl" >> "$clipUrls"
+        _AnalyzeUrls
+        _RemoveCrap
+        _IfDuplicatesFiles
     fi
-
-    # Handle playlist URLs
-    if [[ $mediaUrl =~ 'playlist?list='|'odysee.com/$/playlist/' ]]; then
-        printf '\n%s\n' \
-        " ${info}Getting titles & links from playlist: $(\
-            yt-dlp "${ytdlPreset_DW[@]}" -J --flat-playlist "$mediaUrl" \
-            | jq --raw-output .title)..." "${b} Please be patient.${nb}${nc}"
-        _GetPlaylistUrls "$arg"
-        return
-    fi
-
-    # Clean URL and validate format
-    mediaUrl=$(echo "$mediaUrl" | sed 's/&list=.*//')
-    if [[ ! $mediaUrl =~ ^https ]]; then
-        printf '%s\n' " ${critical}Not a valid url...try again${nc}"
-        sleep 2
-        return
-    fi
-
-    # Test URL validity
-    printf '\n%s\n' " ${info}Testing url...${nc}"
-    yt-dlp --print formats_table "$mediaUrl" > "$urlTest"
-    if grep -qw 'ERROR' "$urlTest" || [[ ! -s $urlTest ]]; then
-        printf '%s\n' " ${critical}${b}Unsupported url!${nb}" \
-        " $mediaUrl removed..." \
-        " ${info}Please visit: $SUPPORTED_SITES${nc}"
-        sleep 7
-        return
-    fi
-
-    # Check audio format if we are downloading audio.
-    if [[ $arg == '-a' ]] && ! grep -qe 'audio' "$urlTest"; then
-        printf '%s\n' " ${critical}No audio format found...${nc}" \
-        " removing $mediaUrl..."
-        sleep 3
-        return
-    fi
-
-    # Process valid URL
-    echo "$mediaUrl" | tee -a "$URLS" >> "$DEFAULT_LIST"
-    printf '%s\n' " ${info}Getting ${Type} title...${nc}"
-    yt-dlp --skip-download --get-title "${ytdlPreset_DW[@]}" "$mediaUrl" \
-    | tee -a "$TITLES" >> "$DEFAULT_TITLES"
-    _RemoveCrap
-    clear
-    _IfDuplicatesFiles
 
 }
