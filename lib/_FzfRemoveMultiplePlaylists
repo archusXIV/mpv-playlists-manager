@@ -6,25 +6,25 @@ _FzfRemoveMultiplePlaylists() {
 
     cd "$titles_dir" || exit 1
 
-    _TestIfPlaylistsHaveTitltes
+    _TestIfPlaylistsHaveTitles
 
     titleList=$(find . -name "*.titles" | sort -d | sed 's,.*/,,')
     titleList=$(
         printf '%s\n' "${titleList//.titles}" | \
-        fzf \
-        --cycle \
-        --reverse \
-        --multi \
-        --header-first \
-        --scroll-off=5 \
-        --pointer '<>' \
-        --border rounded \
-        --prompt='Select: ' \
-        --border-label "| Remove multiple playlists |" \
-        --preview-window="$fzf_preview_layout:$fzf_preview_size" \
-        --header="${info}${b}"'TAB to select multiple, Enter to confirm, Escape to cancel:'"${nb}${nc}" \
-        --preview='(cat {}.titles)' >> "$FZFSELTITLES"
-	)
+            fzf \
+            --cycle \
+            --reverse \
+            --multi \
+            --header-first \
+            --scroll-off=5 \
+            --pointer '<>' \
+            --border rounded \
+            --prompt='Select: ' \
+            --border-label "| Remove multiple playlists |" \
+            --preview-window="$fzf_preview_layout:$fzf_preview_size" \
+            --header="${info}${b}"'TAB to select multiple, Enter to confirm, Escape to cancel:'"${nb}${nc}" \
+            --preview='(cat {}.titles)' >> "$FZFSELTITLES"
+    )
 
     if [[ ! -s $FZFSELTITLES ]]; then
         rm "$FZFSELTITLES"
@@ -46,5 +46,5 @@ _FzfRemoveMultiplePlaylists() {
         sleep 2
 
     }
-	_Menu
+    _Menu
 }

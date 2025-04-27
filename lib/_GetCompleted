@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2034
+# shellcheck disable=SC2154
 _GetCompleted() {
 
     cd "$main_dir" || exit 1
@@ -16,6 +16,7 @@ _GetCompleted() {
             sleep 2
             _RenameTmpFiles
             _CheckParallelDownloads --after
+            unset downloadTmpList
         else
             _BlankLine
             _Prompt -n " ${info}Downloads completed, KEEP playlist?:${nc}" && {
@@ -26,16 +27,20 @@ _GetCompleted() {
                 _CheckParallelDownloads --after
             }
 
+            printf '%s\n' " ${critical}Removing temporary list...${nc}"
+            sleep 2
             if [[ -f "$DEFAULT_LIST"_origin ]]; then
-                _Remove -d
+                rm {"$DEFAULT_LIST","$DEFAULT_TITLES"}{,_origin}
+                echo "#EXTM3U" > "$DEFAULT_LIST"
             elif [[ -f "$AUDIO_URLS"_origin ]]; then
-                _Remove -a
+                rm {"$AUDIO_URLS","$AUDIO_TITLES"}{,_origin}
             elif [[ -f "$VIDEO_URLS"_origin ]]; then
-                _Remove -v
+                rm {"$VIDEO_URLS","$VIDEO_TITLES"}{,_origin}
             fi
             rm -f "$tmp_dir"/list_tmp 2>/dev/null
         fi
-        _Menu
     fi
+
+    _Menu
 
 }

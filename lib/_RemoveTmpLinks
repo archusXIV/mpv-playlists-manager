@@ -11,7 +11,7 @@ _RemoveTmpLinks() {
         sleep 2
     }
 
-    mapfile -t TmpList < "$tmpList"
+    mapfile -t TmpList < "$current_list"
 
     IFS=", ";
     if [[ -s $FZFSELTITLES ]]; then
@@ -19,9 +19,9 @@ _RemoveTmpLinks() {
     else
         # use_fzf=no
         _ResizeWindow --main; clear
-        printf '\n%s\n' " ${info}Select titles to remove fron ${tmpList##*/}${nc}"
+        printf '\n%s\n' " ${info}Select titles to remove from ${current_list##*/}${nc}"
         _BlankLine
-        nl "$tmpTitles"
+        nl "$current_titles"
         _BlankLine
         read -ra tmpLinks -p "$RANGEPROMPT"
     fi
@@ -32,7 +32,7 @@ _RemoveTmpLinks() {
 
         [[ $range =~ [a-zA-Z] ]] && {
 
-            if [[ $tmpList == "$DEFAULT_LIST" ]]; then
+            if [[ $current_list == "$DEFAULT_LIST" ]]; then
                 if ((${#TmpList[@]} > 25)); then
                     sed -i '1s/^/#EXTM3U\n/' "$DEFAULT_LIST"
                     __abortDeletionMessage
@@ -59,26 +59,29 @@ _RemoveTmpLinks() {
         [[ -z $end ]] && end="$start"
 
         for ((i=start;i<=end;i++)); do
-            sed -n "${i}p" "$tmpList" >> "$tmpList"_tmp
-            sed -n "${i}p" "$tmpTitles" >> "$tmpTitles"_tmp
+            sed -n "${i}p" "$current_list" >> "$current_list"_tmp
+            sed -n "${i}p" "$current_titles" >> "$current_titles"_tmp
             array+=("$i")
         done
 
     done
 
     if (( ${#array[@]} == ${#TmpList[@]} )); then
-        rm {"$tmpList","$tmpTitles"}
-        printf '\n%s\n' " ${critical}All links selected, ${tmpList##*/} removed...${nc}"
+        rm {"$current_list","$current_titles"}
+        printf '\n%s\n' " ${critical}All links selected, ${current_list##*/} removed...${nc}"
     else
-        grep -v "$(grep '^https' "$tmpList"_tmp)" "$tmpList" >> "$tmpList"_tmp2
-        grep -v -F "$(grep '^[[:print:]]' "$tmpTitles"_tmp)" "$tmpTitles" >> "$tmpTitles"_tmp2
-        mv -f "$tmpList"_tmp2 "$tmpList"
-        mv -f "$tmpTitles"_tmp2 "$tmpTitles"
-        _RemoveDuplicateLines "$tmpList" "$tmpTitles"
+        grep -v "$(grep '^https' "$current_list"_tmp)" \
+        "$current_list" >> "$current_list"_tmp2
+        grep -v -F "$(grep '^[[:print:]]' "$current_titles"_tmp)" \
+        "$current_titles" >> "$current_titles"_tmp2
+        mv -f "$current_list"_tmp2 "$current_list"
+        mv -f "$current_titles"_tmp2 "$current_titles"
+        _RemoveDuplicateLines "$current_list" "$current_titles"
         printf '\n%s\n' " ${critical}Selected links removed...${nc}"
     fi
 
-    rm {"$tmpList","$tmpTitles"}_tmp "$FZFSELTITLES" 2>/dev/null
+    rm {"$current_list","$current_titles"}_tmp "$FZFSELTITLES" 2>/dev/null
+
     unset IFS range TmpList array lst
     sleep 2
 

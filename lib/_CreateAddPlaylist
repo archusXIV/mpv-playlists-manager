@@ -43,8 +43,7 @@ _CreateAddPlaylist() {
         test -s "$URLS"  && \
         echo -e " ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}\n"
         __clipboardCmdTest && printf '%s\n' "                              $clipboadCmdisInstalled"
-        _BlankLine
-        echo -e "                                                   ${mtitle}::${B}${menuTitleType} OPTIONS${N}::${nc}"
+        echo -e "\n                                                   ${mtitle}::${B}${menuTitleType} OPTIONS${N}::${nc}"
         echo -e "                                          $(_LittleStars)${nc}"
         echo -e "                                ┌──────────────────────────────────────────────────────┐"
         echo -e "                                │   1) Add ${Type} links         5) Play current list    │"

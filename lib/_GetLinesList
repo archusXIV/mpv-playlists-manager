@@ -15,10 +15,10 @@ _GetLinesList() {
 
     mapfile -t linesCount < "$FILE"
 
-    if [[ $minusOne == "yes" ]]; then
+    if [[ $minusOne == yes ]]; then
         echo $(("${#linesCount[@]}" -1))
     else
         echo "${#linesCount[@]}"
     fi
 
-} 2>/dev/null
+}

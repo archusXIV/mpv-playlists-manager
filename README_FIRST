@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.3-3
+mpm version 2.3-4
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -21,10 +21,12 @@ We can save, remove or edit playlists, mpmrc (the mpm configuration file).
 
 The installation script will create two configuration files (mpmrc,themerc)
 as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
-the directory names and structure is ok for you.
+the directory names and structure are ok for you.
 
 Changelog:
------------------------- NO CHANGES IN THEMERC & MPMRC CONFIG FILES -----------------------
+------------------------ !!! THERE ARE CHANGES IN THEMERC CONFIG FILE !!! -----------------------
+version 2.3-4 - Now we can change the background color, just edit the bg variable in
+                ~/.config/mpm/themerc, section "_Theme" on each options (themes names).
 version 2.3-3 - Added _UrlsCollector function that let's you copy multiple links without the need
                 to focus the mpm terminal for that (the clipboard is watched in the background).
 version 2.3-3 - Added _AnalyzeUrls function to parse what we collected from _UrlsCollector function.

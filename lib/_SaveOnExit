@@ -37,6 +37,11 @@ _SaveOnExit() {
         done
 
         printf '%s\n' " ${critical}TOO BAD...BYE${nc}"
+        sleep 2
+        nc=$'\e[0m';
+        echo "${nc}"
+        echo -e "\033]11;${default_bg}\007"
+        clear
         exit
     }
 

@@ -6,6 +6,7 @@ _EditPlaylist() {
 
     clear
     cd "$playlists_dir" || exit 1
+    _TestIfPlaylistsHaveTitles
 
     if [[ $editoption == yes ]]; then
         _EditPlaylistOptions

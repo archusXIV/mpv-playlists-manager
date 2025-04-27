@@ -8,8 +8,8 @@ _TitlesListCompare() {
 
     local titlesFile
     titlesFile="$list.titles"
-    titlesFile="${titlesFile##*/}"
     mapfile -t titlesLines < "$titlesFile"
+    titlesFile="${titlesFile##*/}"
 
     if [[ -s $titlesFile ]]; then
 
@@ -49,7 +49,7 @@ _TitlesListCompare() {
 
     else
         _BlankLine
-        printf '%s\n' " ${critical}${titlesFile} does not exist or empty...${nc}" \
+        printf '%s\n' " ${critical}${titlesFile} does not exist or is empty...${nc}" \
         " ${task}${b}Getting $(_GetLinesList -l) titles...please wait.${nb}${nc}"
         touch "$titlesFile"; _GetMediaTitle --list; clear
         echo -e "\n ${info}Titles for $list.${nc}\n"

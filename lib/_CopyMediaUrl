@@ -9,21 +9,20 @@ _CopyMediaUrl() {
     urlTest="$tmp_dir/urltest"
 
     rm {"$urlTest","$clipUrls"} 2>/dev/null
+    # to start, the clipboard must be cleared
     echo -n | xclip -selection primary || wl-copy --clear
 
     # Get URL from clipboard or user input
     if __clipboardCmdTest; then
         _UrlsCollector
-        _AnalyzeUrls
-        _RemoveCrap
-        _IfDuplicatesFiles
     else
         echo -e "\n Paste an url to fill the ${info}${Type}${nc} playlist:\n"
         read -r mediaUrl
         echo "$mediaUrl" >> "$clipUrls"
-        _AnalyzeUrls
-        _RemoveCrap
-        _IfDuplicatesFiles
     fi
+
+    _AnalyzeUrls
+    _RemoveCrap
+    _IfDuplicatesFiles
 
 }

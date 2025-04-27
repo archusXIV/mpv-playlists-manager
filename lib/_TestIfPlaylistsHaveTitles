@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_TestIfPlaylistsHaveTitles() {
+
+    clear
+    local tls numtls pls numpls
+    tls=("$titles_dir"/*.titles)
+    numtls="${#tls[@]}"
+    pls=("$playlists_dir"/*.m3u)
+    numpls="${#pls[@]}"
+
+    (( numtls != (numpls - 1) )) && {
+        local pl
+        for pl in "${pls[@]}"; do
+            if [[ $pl =~ default.m3u ]]; then
+                continue
+            elif [[ ! -f "$titles_dir"/${pl##*/}.titles ]]; then
+                _BlankLine
+                printf '%s\n' " ${critical}${pl##*/}.titles does not exist...${nc}" \
+                " ${task}${b}Updating titles...please wait.${nb}${nc}"
+                _GetMediaTitle --pls
+            fi
+        done
+        unset pl
+    }
+
+    clear
+
+}

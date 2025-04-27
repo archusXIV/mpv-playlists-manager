@@ -4,19 +4,35 @@
 # shellcheck disable=SC2154,SC2034
 _SaveLinksAs() {
 
+    local action
+
     __saveRange() {
 
         clear
         cp -f "$current_list" "$current_list"_origin
         cp -f "$current_titles" "$current_titles"_origin
-        printf '\n%s\n' " ${info}Select titles to save fron ${current_list##*/}${nc}"
-        _BlankLine
-        nl "$current_titles"
-        _BlankLine
+
+        if _TestFzfCommand; then
+            action="Save"
+            _FzfSaveRemoveTmpLinks
+        fi
+
+        IFS=", ";
+        if [[ -s $FZFSELTITLES ]]; then
+            mapfile -t tmpLinks < "$FZFSELTITLES"
+            rm "$FZFSELTITLES"
+        else
+            # use_fzf=no
+            clear
+            printf '\n%s\n' " ${info}Select titles to save fron ${current_list##*/}${nc}"
+            _BlankLine
+            nl "$current_titles"
+            _BlankLine
+            read -ra tmpLinks -p "$RANGEPROMPT"
+        fi
 
         [[ $current_list == "$DEFAULT_LIST" ]] && sed -i '1d' "$DEFAULT_LIST"
 
-        IFS=", "; read -ra tmpLinks -p "$RANGEPROMPT"
         for range in "${tmpLinks[@]}"; do
             IFS="-"; read -r start end <<< "$range"
 

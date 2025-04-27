@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2034
 _RemoveDefaultList() {
 
     mapfile -t -s 1 defaultListUrls < "$DEFAULT_LIST"
@@ -15,9 +15,10 @@ _RemoveDefaultList() {
 
     _BlankLine
     read -rsn 1 \
-    -p " ${info}Remove [L]inks or the [W]hole default list?: ${nc}" removeDefaultListOptions
+    -p " ${info}[${mtitle}C${info}]ancel, Remove [L]inks or the [W]hole default list?: ${nc}" removeDefaultListOptions
 
     case "$removeDefaultListOptions" in
+        [cC]) return ;;
         [lL])
             ((${#defaultListUrls[@]} == 1)) && {
                 sed -i '2d' "$DEFAULT_LIST"
@@ -27,7 +28,13 @@ _RemoveDefaultList() {
                 _Menu
             }
             sed -i '1d' "$DEFAULT_LIST"
-            if _TestFzfCommand; then _FzfRemoveTmpLinks; else _RemoveTmpLinks; fi
+            local action
+            if _TestFzfCommand; then
+                action="Remove"
+                _FzfSaveRemoveTmpLinks
+            else
+                _RemoveTmpLinks
+            fi
             if [[ ! -f $DEFAULT_LIST || ! -s $DEFAULT_LIST ]]; then
                 echo "#EXTM3U" > "$DEFAULT_LIST"
                 _Menu

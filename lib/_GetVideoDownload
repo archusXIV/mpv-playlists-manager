@@ -29,7 +29,8 @@ _GetVideoDownload() {
             _ParallelAnimation &
             _ParallelXargsCmd --get-video
         else
-            mapfile -t VIDEOLINKS < <(grep '^https' "$M3UFILE")
+            mapfile -t -s 1 VIDEOLINKS < "$M3UFILE"
+            [[ $M3UFILE == "$VIDEO_URLS" ]] && mapfile -t VIDEOLINKS < "$M3UFILE"
             for url in "${VIDEOLINKS[@]}"; do
                 echo -e "\n ${info}Getting formats...${nc}\n"
                 yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \

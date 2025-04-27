@@ -20,7 +20,6 @@ _UrlsCollector() {
         read -r mediaUrl < <("${clipboardCmd[@]}")
         if [[ -n $mediaUrl ]]; then
             echo "$mediaUrl"
-            return 0
         else
             return 1
         fi

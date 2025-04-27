@@ -4,6 +4,8 @@
 # shellcheck disable=SC2154
 _ParallelDownloadCmd() {
 
+    # unfortunately we can't use _GetLinkTitle here, because adding it to ${ytfmt[@]}
+    # will cause a race condition, and download will fail.
     declare -a ytfmt=(
         "yt-dlp --format bestaudio\/best"
         "yt-dlp --format bestvideo+bestaudio\/best"

@@ -8,7 +8,7 @@ _SearchYoutubeWithFzf() {
 
     _ResizeWindow --main
     _BlankLine
-    read -rp " ${info}Search for ${platform} ${Type} (no quotes): ${nc}" request
+    read -rp " ${info}Search for ${platform} for ${Type} (no quotes): ${nc}" request
     clear
     [[ -z $request ]] && return
 

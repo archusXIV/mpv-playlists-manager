@@ -2,7 +2,7 @@
 ## This is a part of main script: mpm.
 
 # shellcheck source=/dev/null
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2153
 _ChooseTheme() {
 
     clear
@@ -14,7 +14,7 @@ _ChooseTheme() {
         "[${mtitle}C${info}]ancel: ${nc}"
     )
 
-    read -rsn 1 -p " ${chooseThemePrompt[*]}" changeThemeOptions
+    read -rsn 1 -p " ${chooseThemePrompt[*]}" chooseThemeOptions
     clear
 
     __cancelTest() {
@@ -24,7 +24,7 @@ _ChooseTheme() {
         }
     }
 
-    case "$changeThemeOptions" in
+    case "$chooseThemeOptions" in
         [mM])
             echo -e "\n ${info}Current main theme: ${task}$THEME${nc}\n"
             sed -i "s/THEME=\"${THEME}\"/THEME=${THEME}/" "$MPMRC"
@@ -34,6 +34,16 @@ _ChooseTheme() {
                 sed -i "s/THEME=${THEME}/THEME=${main}/" "$MPMRC"
                 . "$MPMRC"
                 _Theme "$main"
+                # Check if the selected main theme exists in nativeThemes
+                for theme in "${nativeThemes[@]}"; do
+                    if [[ $theme == "$main" ]]; then
+                        # Apply the same theme to native_tui_colors
+                        local ntc="$native_tui_colors"
+                        sed -i "s/native_tui_colors=${ntc}/native_tui_colors=${theme}/" "$MPMRC"
+                        . "$MPMRC"
+                        break
+                    fi
+                done
                 break
             done
         ;;
@@ -46,6 +56,15 @@ _ChooseTheme() {
                 __cancelTest && break
                 sed -i "s/native_tui_colors=${ntc}/native_tui_colors=${native}/" "$MPMRC"
                 . "$MPMRC"
+                # Same as above, but reverse.
+                for theme in "${mainThemes[@]}"; do
+                    if [[ $theme == "$native" ]]; then
+                        sed -i "s/THEME=${THEME}/THEME=${theme}/" "$MPMRC"
+                        . "$MPMRC"
+                        _Theme "$native"
+                        break
+                    fi
+                done
                 break
             done
         ;;

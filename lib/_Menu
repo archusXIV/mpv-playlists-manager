@@ -7,7 +7,9 @@ _Menu() {
 
     cd "$main_dir" || exit 1
     _ResizeWindow --main
+
     while [[ -e $DEFAULT_LIST ]]; do
+        echo -e "\033]11;${bg}\007"
         _MenuHeader
         _MenuBobySettings
         _MenuOptions

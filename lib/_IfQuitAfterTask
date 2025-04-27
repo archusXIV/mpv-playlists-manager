@@ -4,34 +4,29 @@
 # shellcheck disable=SC2154,SC2034
 _IfQuitAfterTask() {
 
-    local quit
+     __testListsToSave() {
+        if [[ -s "$AUDIO_URLS" || -s "$VIDEO_URLS" ]]; then
+            _SaveOnExit
+        else
+            nc=$'\e[0m';
+            echo "${nc}"
+            echo -e "\033]11;${default_bg}\007"
+            clear
+            exit 0
+        fi
+    }
+
     case "$1" in
         -d)
             if [[ $quit_after_task == yes ]]; then
-                _BlankLine
-                if [[ -s "$AUDIO_URLS" || -s "$VIDEO_URLS" ]]; then
-                    _SaveOnExit
-                else
-                    nc=$'\e[0m';
-                    echo "${nc}"
-                    clear
-                    exit 0
-                fi
+                __testListsToSave
             else
                 _CheckParallelDownloads --after
                 _Menu
             fi
         ;;
         -x)
-            _MpvOwnsTmpList --list --quit || \
-            if [[ -s "$AUDIO_URLS" || -s "$VIDEO_URLS" ]]; then
-                _SaveOnExit
-            else
-                nc=$'\e[0m';
-                echo "${nc}"
-                clear
-                exit 0
-            fi
+            _MpvOwnsTmpList --list --quit || __testListsToSave
         ;;
     esac
 

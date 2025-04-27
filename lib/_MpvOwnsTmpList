@@ -53,8 +53,7 @@ _MpvOwnsTmpList() {
                 --list)
                     case "$2" in
                         --download|--edit|--quit|--remove|--save|--search)
-                            if [[ $playerTitlesList == "$TITLES"_ \
-                                && "$TITLES"_ != "$DEFAULT_TITLES"_ ]]; then
+                            if [[ $playerTitlesList == "$TITLES"_ && "$TITLES"_ != "$DEFAULT_TITLES"_ ]]; then
                                 name="Temporary $Type"
                                 downloadTmpList="list"
                             else

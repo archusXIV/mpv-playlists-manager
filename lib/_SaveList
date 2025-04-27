@@ -38,6 +38,7 @@ _SaveList() {
         rm saveLinks
     fi
 
+    _ReplaceSpaces -s
     sleep 3
     _Menu
 

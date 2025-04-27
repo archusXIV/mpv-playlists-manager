@@ -15,7 +15,7 @@ _ReplaceSpaces() {
                     n="${d##*/}"
                     mv -nv "$d" "${d%/*}/${n// /_}"
                 done >/dev/null 2>&1
-            ' {} \;
+            ' dummy {} +
         ;;
         -s)
             find {"$playlists_dir","$titles_dir"} -maxdepth 1 \
@@ -25,7 +25,7 @@ _ReplaceSpaces() {
                     n="${f##*/}"
                     mv -nv "$f" "${f%/*}/${n// /_}"
                 done >/dev/null 2>&1
-            ' {} \;
+            ' dummy {} +
         ;;
     esac
 

@@ -6,22 +6,22 @@ _Remove() {
 
     cd "$tmp_dir" || exit 1
 
-    local tmpList tmpTitles
+    local current_list current_titles
 
     case "$1" in
         -a)
-            tmpList="$AUDIO_URLS"
-            tmpTitles="$AUDIO_TITLES"
+            current_list="$AUDIO_URLS"
+            current_titles="$AUDIO_TITLES"
             _RemoveAudioVideoCommon
         ;;
         -d)
-            tmpList="$DEFAULT_LIST"
-            tmpTitles="$DEFAULT_TITLES"
+            current_list="$DEFAULT_LIST"
+            current_titles="$DEFAULT_TITLES"
             _RemoveDefaultList
         ;;
         -v)
-            tmpList="$VIDEO_URLS"
-            tmpTitles="$VIDEO_TITLES"
+            current_list="$VIDEO_URLS"
+            current_titles="$VIDEO_TITLES"
             _RemoveAudioVideoCommon
         ;;
     esac

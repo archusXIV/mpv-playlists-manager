@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2015
+# shellcheck disable=SC2154,SC2034
 _RemoveAudioVideoCommon() {
 
     # test ! -s "$tmpList" && {
@@ -12,17 +12,26 @@ _RemoveAudioVideoCommon() {
     # }
 
     _BlankLine
-    read -rsn 1 -p " ${info}Remove [L]inks or the [W]hole $Type list?: ${nc}"
+    read -rsn 1 -p \
+    " ${info}[${mtitle}C${info}]ancel, Remove [L]inks or the [W]hole $Type list?: ${nc}" \
+    REPLY
 
     case "$REPLY" in
+        [cC]) return ;;
         [lL])
-            mapfile -t audioVideoList < "$tmpList"
+            mapfile -t audioVideoList < "$current_list"
             if ((${#audioVideoList[@]} == 1)); then
-                rm {"$tmpList","$tmpTitles"}
-                printf '\n%s\n' " ${critical}${tmpList##*/} cleared.${nc}"
+                rm {"$current_list","$current_titles"}
+                printf '\n%s\n' " ${critical}${current_list##*/} cleared.${nc}"
                 sleep 2
             else
-                if _TestFzfCommand; then _FzfRemoveTmpLinks; else _RemoveTmpLinks; fi
+                local action
+                if _TestFzfCommand; then
+                    action="Remove"
+                    _FzfSaveRemoveTmpLinks
+                else
+                    _RemoveTmpLinks;
+                fi
                 if [[ -s $TITLES ]]; then
                     _CreateAddPlaylistActions --view
                 else

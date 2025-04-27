@@ -5,7 +5,7 @@
 _EditPlaylistOptions() {
 
     __renameList() {
-        mv -f "$list" "$newname".m3u
+        mv -f "$playlists_dir/$list" "$playlists_dir/$newname".m3u
         mv -f "$titles_dir/$list.titles" "$titles_dir/$newname.m3u.titles"
         _ReplaceSpaces -s
         printf '\n%s\n' " ${critical}${list%%.*} renamed as $newname.${nc}"
@@ -15,8 +15,8 @@ _EditPlaylistOptions() {
     declare -a editPlaylistOptionsPrompt=(
         "[U]rls edition,"
         "[T]itles edition,"
-        "re[N]ame the playlist,"
-        "[R]emove titles,"
+        "[R]ename the playlist,"
+        "[D]elete titles,"
         "[${mtitle}C${info}]ancel:"
     )
 
@@ -35,19 +35,7 @@ _EditPlaylistOptions() {
                 _Menu
             fi
         ;;
-        [nN])
-            _BlankLine
-            read -r -p " ${info}Enter a new name for ${list%%.*}: ${nc}" newname
-            [[ -f $list ]] && {
-                printf '\n%s\n' " ${critical}File $list already exists."
-                _Prompt -n " ${info}Do you want to replace it?: ${nc}" && {
-                    __renameList
-                }
-                _Menu
-            }
-            __renameList
-        ;;
-        [rR])
+        [dD])
             clear
             _MpvOwnsTmpList --collection || \
             if _TestFzfCommand; then
@@ -60,12 +48,23 @@ _EditPlaylistOptions() {
                 _UpdateSelected --edit
             fi
         ;;
+        [rR])
+            _BlankLine
+            read -r -p " ${info}Enter a new name for ${task}${list%%.*}: ${nc}" newname
+            _BlankLine
+            _Prompt -n \
+            " ${critical}Rename ${task}${list%%.*} ${critical}as ${task}$newname?: ${nc}" && {
+                __renameList
+                return
+            }
+            _Menu
+        ;;
         [tT])
             TITLES="$titles_dir"/"$list".titles
             _BlankLine
             _EditListTitles && {
                 clear
-                printf '\n%s\n' " ${info}$list.titles saved${nc}"
+                printf '\n%s\n' " ${info}$list.titles saved.${nc}"
                 sleep 2
             }
         ;;
@@ -79,7 +78,7 @@ _EditPlaylistOptions() {
                 rm {"$list","$titles_dir"/"$list".titles}
                 sleep 2
             else
-                printf '\n%s\n' " ${info}$list saved${nc}"
+                printf '\n%s\n' " ${info}$list saved.${nc}"
                 sleep 2
                 _TitlesListCompare --list
             fi

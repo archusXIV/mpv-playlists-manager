@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 2.3-3)
+# ~/.config/mpm/mpmrc (version 2.3-4)
 
 ########################################################
 #'##::::'##:'########::'##::::'##:'########:::'######::#
@@ -37,7 +37,7 @@ copy_height=16
 # in ~/.config/mpm/themerc (_Theme function)!!!
 mainThemes=(
     default blacksea dracula gotham
-    gruvbox jellybeans monokai pistachio
+    gruvbox jellybeans monokai nord pistachio
     solarized TokyoNight vacuous zenburn
 )
 THEME="default"

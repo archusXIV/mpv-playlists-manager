@@ -60,11 +60,7 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
-- Added _UrlsCollector function that let's you copy multiple links without the need to focus the mpm terminal for that (the clipboard is watched in the background).
-- Added _AnalyzeUrls function to parse what we collected from _UrlsCollector function.
-- Fixed bug in _SearchYoutubeWithFzf function so titles appear when back in list view.
-- Now you can install mpm using the makefile (sudo make install) but you will have review the {mpm,theme}rc files manually before installation or first run.
-- YtFzf is no longer used to get all titles/urls from a Youtube playlist, prefer parallel instead.
+- Now we can change the background color, just edit the bg variable in ~/.config/mpm/themerc, section "_Theme" on each options (themes names).
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -134,8 +130,33 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.3-3.png)
-
+<!-- ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.3-4.png) -->
+<table width="100%">
+  <tr>
+    <th>Nord</th>
+    <th>Solarized</th>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/nord.png" />
+    </td>
+    <td width="50%">
+      <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/solarized.png" />
+    </td>
+  </tr>
+  <tr>
+    <th>TokyoNight</th>
+    <th>C64</th>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/tokyonight.png" />
+    </td>
+    <td width="50%">
+      <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/c64.png" />
+    </td>
+  </tr>
+</table>
 
 ```
 # apply your prefered colorscheme...

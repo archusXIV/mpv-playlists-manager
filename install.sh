@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
-# version 2.3-3
+# version 2.3-4
 
 # shellcheck disable=SC2154
 red=$'\e[38;2;206;34;30m';
@@ -13,6 +13,7 @@ _diffRc() {
     local CONF_DIR MPMRC usergroup
     CONF_DIR="/home/$username/.config/mpm"
     MPMRC="$CONF_DIR/mpmrc"
+    THEMERC="$CONF_DIR/themerc"
     usergroup=$(
         awk -F':' -v user="$username" '$0 ~ user { print $3":"$4 }' < /etc/passwd
     )
@@ -20,16 +21,17 @@ _diffRc() {
     if [[ -f $MPMRC ]]; then
 
         diff -u "$MPMRC" doc/mpmrc > "$MPMRC".diff
-
         patch -b "$MPMRC" < "$MPMRC".diff
+        diff -u "$THEMERC" doc/themerc > "$THEMERC".diff
+        patch -b "$THEMERC" < "$THEMERC".diff
 
         printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
         " original file has been saved as mpmrc.orig.${endColor}"
-        tail -n 6 ./README_FIRST
+        tail -n 7 ./README_FIRST
         printf '\n'
-        read -r -p " ${red}Edit $MPMRC now? [Y/n] enter editor name: ${endColor}" edit editor
+        read -r -p " ${red}Edit $MPMRC now? [Y/n] enter editor name (eg: y vim): ${endColor}" edit editor
         case "$edit" in
-            Y|y)
+            [yY])
                 cd "$CONF_DIR" && {
                     if [[ $editor == vim ]]; then
                         vim -d "$MPMRC" "$MPMRC".orig
@@ -38,9 +40,9 @@ _diffRc() {
                     fi
                 }
             ;;
-            n|N)
+            [nN])
                 # setting ownership back to the user
-                chown -R "$grpuser" "$CONF_DIR" && exit 0
+                chown -R "$usergroup" "$CONF_DIR" && exit 0
             ;;
             *)
                 printf '%s\n' \

@@ -34,6 +34,7 @@ _IfDuplicatesFiles() {
     unset line
 
     mapfile -t efList < "$ef"
+    rm "$ef"
     efCount="${#efList[@]}"
     mapfile -t titlesList < "$TITLES"
     titlesCount="${#titlesList[@]}"
