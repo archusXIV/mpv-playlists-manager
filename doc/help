@@ -15,13 +15,13 @@
     UPGRADE PROCEDURE:
         - git clone https://github.com/archusXIV/mpv-playlists-manager.git
         - cd ./mpv-playlists-manager
-        - sudo ./install.sh or use the makefile (sudo make install).
+        - sudo ./install.sh
         or if you kept the mpv-playlists-manager folder from the previous installation:
         - cd ./mpv-playlists-manager
         - git fetch
         - git reset --hard HEAD
         - git merge '@{u}'
-        - sudo ./install.sh or use the makefile (sudo make install).
+        - sudo ./install.sh
         Do not forget to edit or review your configs after that.
         Video (french spoken): https://www.youtube.com/watch?v=l1CrwYZzcGE
 

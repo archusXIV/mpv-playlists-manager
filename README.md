@@ -28,8 +28,6 @@ git clone https://github.com/archusXIV/mpv-playlists-manager.git
 cd mpv-playlists-manager
 chmod +x install.sh
 sudo ./install.sh
-# or using the make file:
-sudo make install
 ```
 # Dependencies
 - [ffmpeg](https://ffmpeg.org/), [jq](https://stedolan.github.io/jq/), [mpv](https://mpv.io/), [socat](http://www.dest-unreach.org/socat/), [vim](https://www.vim.org/) (or any terminal text editor), [yt-dlp](https://github.com/yt-dlp/yt-dlp)
