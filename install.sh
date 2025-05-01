@@ -5,6 +5,7 @@
 # shellcheck disable=SC2154
 red=$'\e[38;2;206;34;30m';
 endColor=$'\e[0m';
+read -r -p ' Please enter your username: ' username
 CONF_DIR="/home/$username/.config/mpm"
 MPMRC="$CONF_DIR/mpmrc"
 THEMERC="$CONF_DIR/themerc"
@@ -42,7 +43,6 @@ _editConfig() {
 _diffRc() {
     # we execute this file as root so we need to provide the right username
     # to give ownership back to the right user.
-    read -r -p ' Please enter your username: ' username
 
     if [[ -f $MPMRC && -f $THEMERC ]]; then
         diff -u "$MPMRC" doc/mpmrc > "$MPMRC".diff
