@@ -5,9 +5,40 @@
 _CheckUpdate() {
 
     local newVerion
+    newVerion=$(curl -sL "$MPM_VERSION")
+
+    case "$1" in
+        --manually)
+            clear
+            __upgrade() {
+                _Prompt " ${info}Would you like to update ${0##*/} now?: ${nc}" || {
+                    printf '%s\n' " ${info}Update skipped.${nc}"
+                    return
+                }
+                printf '%s\n' " ${info}Checking for new version..." \
+                " ${0##*/} $VERSION -> $newVerion${nc}"
+                sleep 1
+                _BlankLine
+                _Has git || {
+                    printf '%s\n' " ${critical}git is not installed!...exiting.${nc}"
+                    exit 1
+                }
+                git clone https://github.com/archusXIV/mpv-playlists-manager.git
+                cd ./mpv-playlists-manager || exit 1
+                sudo ./install.sh
+                exit 0
+            }
+            if [[ $check_updates == no ]] && [[ $newVerion != "$VERSION" ]]; then
+                __upgrade
+            else
+                [[ $newVerion != "$VERSION" ]] && __upgrade
+                printf '\n%s\n' " ${info}${0##*/} is up to date.${nc}"
+                sleep 1
+            fi
+        ;;
+    esac
 
     [[ $check_updates == yes ]] && {
-        newVerion=$(curl -sL "$MPM_VERSION")
         [[ $newVerion != "$VERSION" ]] && \
             printf '%s\n' " ${critical}${b}$newVerion available${nb}${nc}"
     }

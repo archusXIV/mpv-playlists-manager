@@ -21,7 +21,7 @@
 # shellcheck disable=SC2034,SC2044,SC2154,SC2001,SC2207
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.3-4"
+VERSION="v.2.3-5"
 
 CONF_DIR="$HOME/.config/mpm"
 

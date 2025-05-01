@@ -22,7 +22,6 @@ _MpmOptions() {
         ;;
         --help   |-h) less "$HELP" ;;
         --local  |-f) _LoadLocalMenu ;;
-        --version|-v) echo -e "\n  ${0##*/} $VERSION" ;;
         --load   |-l)
             if [[ -f $playlists_dir/$list ]]; then
                 _LoadPlaylistMenu
@@ -30,12 +29,14 @@ _MpmOptions() {
                 _LoadPlaylist
             fi
         ;;
+        --upgrade|-u) _CheckUpdate --manually ;;
+        --version|-v) echo -e "\n  ${0##*/} $VERSION" ;;
         *)
             if (( $# == 0 )); then
                 _StartUp
             else
                 printf '\n%s\n' " ${critical}invalid option: ${task}$1${nc}"
-                head -n 13 "$HELP"; echo $'\e[0m'
+                head -n 15 "$HELP"; echo $'\e[0m'
                 exit 1
             fi
         ;;

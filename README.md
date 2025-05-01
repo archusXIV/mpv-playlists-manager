@@ -46,6 +46,8 @@ mpm -h|--help     # launches less /usr/local/share/doc/mpm/help
 mpm -l|--load <?> # launches the play/download function; or with an argument:
                     mpm --load <myPlaylistName> (no extension suffix).
 mpm -f|--local    # load local files/folder(s)
+mpm -u|--upgrade  : whatever checking updates is enabled or not,
+                    you can upgrade mpm through this option now.
 mpm -v|--version  # prints mpm version
 ```
 
@@ -58,6 +60,7 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Added an option to check and upgrade mpm version, just type mpm --upgrade
 - Now we can change the background color, just edit the bg variable in ~/.config/mpm/themerc, section "_Theme" on each options (themes names).
 
 ## Mpv interfaces

@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/themerc (version 2.3-4)
+# ~/.config/mpm/themerc (version 2.3-5)
 
 ###########################################################################
 #'########:'##::::'##:'########:'##::::'##:'########:'########:::'######::#
@@ -23,95 +23,98 @@
 ### task=infos like: direct download, audio conversion type etc...
 ### customColors is called from lib/_LittleStars function.
 
+# set your default background color here, it will be used when you quit the app.
+default_bg="#1e1f29"
+# if you use ~/.Xresources, uncomment the line below.
+# default_bg=$(xrdb -query | awk '/background:/{print $NF}')
+# if you want to recall vavriables below, use double quotes.
+
 _NativePlayerColors() {
 
     case "$1" in
         default)
-            export FZF_DEFAULT_OPTS='
+            export FZF_DEFAULT_OPTS="
                 --color=header:bold:#87afaf
-                --color=fg:#af5faa,fg+:#ffffff,bg:#21242b,bg+:#2e3944
+                --color=fg:#af5faa,fg+:#ffffff,bg:$default_bg,bg+:#2e3944
                 --color=hl:#5f87af,hl+:#5fd7ff,info:#afaf87
                 --color=prompt:#af5fff,spinner:#af5fff,pointer:#af5fff
                 --color=border:#554476,label:#5fd7ff,query:#d9d9d9
                 --border-label-pos='102:bottom'
-                --border-label "| theme: default |"
-            '
+                --border-label '| theme: default |'
+            "
         ;;
         c64)
-            export FZF_DEFAULT_OPTS='
+            export FZF_DEFAULT_OPTS="
                 --color=header:bold:#DD8855
                 --color=fg:#0088FF,fg+:#ffffff,bg:#0000AA,bg+:#0000AA
                 --color=hl:#FF7777,hl+:#AAFF66,info:#AAFFEE
                 --color=prompt:#AAFF66,spinner:#880000,pointer:#CC44CC
                 --color=border:#BBBBBB,label:#EEEE77,query:#BBBBBB
                 --border-label-pos='106:bottom'
-                --border-label "| theme: c64 |"
-            '
+                --border-label '| theme: c64 |'
+            "
         ;;
         dark)
-            export FZF_DEFAULT_OPTS='
+            export FZF_DEFAULT_OPTS="
                 --color=header:bold:#87afaf
                 --color=fg:#d0d0d0,fg+:#ffffff,bg:#121212,bg+:#262626
                 --color=hl:#5f87af,hl+:#5fd7ff,info:#afaf87
                 --color=prompt:#d7005f,spinner:#af5fff,pointer:#af5fff
                 --color=border:#262626,label:#aeaeae,query:#d9d9d9
                 --border-label-pos='105:bottom'
-                --border-label "| theme: dark |"
-            '
+                --border-label '| theme: dark |'
+            "
         ;;
         gruvbox)
-            export FZF_DEFAULT_OPTS='
+            export FZF_DEFAULT_OPTS="
                 --color=header:bold:#928374
                 --color=bg+:#3c3836,bg:#32302f,border:#6B6B6B
                 --color=spinner:#fb4934,hl:#928374,fg:#ebdbb2
                 --color=info:#8ec07c,pointer:#fb4934,fg+:#ebdbb2
                 --color=preview-bg:#3c3836,prompt:#fb4934,hl+:#fb4934
                 --border-label-pos='102:bottom'
-                --border-label "| theme: gruvbox |"
-            '
+                --border-label '| theme: gruvbox |'
+            "
         ;;
         molokai)
-            export FZF_DEFAULT_OPTS='
+            export FZF_DEFAULT_OPTS="
                 --color=header:bold:#7E8E91
                 --color=bg+:#293739,bg:#1B1D1E,border:#808080
                 --color=spinner:#E6DB74,hl:#7E8E91,fg:#F8F8F2
                 --color=info:#A6E22E,pointer:#A6E22E,fg+:#F8F8F2
                 --color=prompt:#F92672,hl+:#F92672
                 --border-label-pos='102:bottom'
-                --border-label "| theme: molokai |"
-            '
+                --border-label '| theme: molokai |'
+            "
         ;;
         nord)
-            export FZF_DEFAULT_OPTS='
+            export FZF_DEFAULT_OPTS="
                 --color=header:bold:#616E88
                 --color=bg+:#3B4252,bg:#2E3440,border:#6B6B6B
                 --color=spinner:#81A1C1,hl:#616E88,fg:#D8DEE9
                 --color=info:#81A1C1,pointer:#81A1C1,fg+:#D8DEE9
                 --color=preview-bg:#3B4252,prompt:#81A1C1,hl+:#81A1C1
                 --border-label-pos='105:bottom'
-                --border-label "| theme: nord |"
-            '
+                --border-label '| theme: nord |'
+            "
         ;;
         seoul256)
-            export FZF_DEFAULT_OPTS='
+            export FZF_DEFAULT_OPTS="
                 --color=header:bold:#719872
                 --color=bg+:#3F3F3F,bg:#4B4B4B,border:#6B6B6B
                 --color=spinner:#98BC99,hl:#719872,fg:#D9D9D9
                 --color=info:#BDBB72,pointer:#E12672,fg+:#D9D9D9
                 --color=preview-bg:#3F3F3F,prompt:#98BEDE,hl+:#98BC99
                 --border-label-pos='101:bottom'
-                --border-label "| theme: seoul256 |"
-            '
+                --border-label '| theme: seoul256 |'
+            "
         ;;
     esac
 
 }
 
 _Theme() {
-    # set your default background color here, it will be used when you quit the app.
-    default_bg="#1e1f29"
-    # if you use ~/.Xresources, uncomment the line below.
-    # default_bg=$(xrdb -query | awk '/background:/{print $NF}')
+
     case "$1" in
         default)
             bg="$default_bg"

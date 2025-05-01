@@ -32,11 +32,10 @@ _SelectLocalDir() {
         printf '\n%s\n' " ${info}Scanning $dir for supported formats...${nc}"
         sleep 1
 
-        ! find -L ./"$dir" -maxdepth 1 -type f -exec file --mime-type {} + \
-        | grep -qE '[aA]udio|[vV]ideo' && {
+        file --mime-type "$dir" | grep -qE '[aA]udio|[vV]ideo' && {
             _BlankLine
             printf '%s\n' " ${critical}$dir doesn't contain supported formats by mpv" \
-            " or audio/video files are in a subdirectories.${nc}"
+            " or audio/video files are in a subdirectory.${nc}"
             _BlankLine
             _Prompt " ${info}Do you want to open $dir to fix this issue?${nc}" || {
                 continue

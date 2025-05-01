@@ -1,5 +1,5 @@
 
-    mpm version 2.3-4
+    mpm version 2.3-5
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -10,6 +10,8 @@
         . mpm -l|--load <?> : opens the play/download function,
                               with a playlist name as an argument or not.
         . mpm -f|--local    : opens local files or directory function
+        . mpm -u|--upgrade  : whatever checking updates is enabled or not,
+                              you can upgrade mpm through this option now.
         . mpm -v|--version  : echoes mpm version
 
     UPGRADE PROCEDURE:
@@ -33,7 +35,7 @@
 
     Changing the "theme" in ~/.config/mpm/themerc:
 
-            Variables: nc=normal text, critical=warnings, info=normal prompt
+            Variables: bg=background, nc=normal text, critical=warnings, info=normal prompt
             mtitle=menus title, task=infos like: direct download, audio conversion type etc...
             Colors of warnings, prompts etc... can be changed in your themerc file with
             shell colors syntax and RGB/HEX values. Two methods are provided.
@@ -49,7 +51,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.3-4::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.3-5::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -204,8 +206,8 @@
         Here is the place where by editing our collection we can add or remove links
         manually (titles will be updated online) or by removing titles from a prompt,
         in that case corresponding urls will be removed.
-        Renaming the playlist is also provided (choose option 'n').
-        Type 'e' to edit the titles of the selected playlist.
+        Renaming the playlist is also provided (choose option 'r').
+        Type 't' to edit the titles of the selected playlist.
 
         Since version 2.2-5, if use_fzf is set to yes and fzf is installed, editing
         is done through a fzf menu to select the collection playlist to act on.
