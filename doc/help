@@ -1,5 +1,5 @@
 
-    mpm version 2.3-5
+    mpm version 2.3-6
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -51,7 +51,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.3-5::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.3-6::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -207,7 +207,8 @@
         manually (titles will be updated online) or by removing titles from a prompt,
         in that case corresponding urls will be removed.
         Renaming the playlist is also provided (choose option 'r').
-        Type 't' to edit the titles of the selected playlist.
+        Type 't' to edit the titles of the selected playlist (If you want to keep your changes
+        while downloading set use_parallel_downloads to 'no').
 
         Since version 2.2-5, if use_fzf is set to yes and fzf is installed, editing
         is done through a fzf menu to select the collection playlist to act on.

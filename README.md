@@ -60,6 +60,7 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Fixed bug when removing links/titles from temporary lists.
 - Added an option to check and upgrade mpm version, just type mpm --upgrade
 - Now we can change the background color, just edit the bg variable in ~/.config/mpm/themerc, section "_Theme" on each options (themes names).
 

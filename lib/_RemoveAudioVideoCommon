@@ -40,7 +40,7 @@ _RemoveAudioVideoCommon() {
             fi
         ;;
         [wW])
-            rm {"$tmpList","$tmpTitles"}
+            rm {"$current_list","$current_titles"}
             printf '\n%s\n' " ${critical}$Type list removed...${nc}"
             sleep 2
         ;;

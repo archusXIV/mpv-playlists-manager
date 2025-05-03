@@ -16,7 +16,7 @@ _ManualsMenu() {
     while :; do
         _ResizeWindow --main
         clear
-        echo -e "\n                                                ${mtitle}::MANUALS & HELP OPTIONS::${nc}"
+        echo -e "\n                                                ${mtitle}::${B}MANUALS & HELP OPTIONS::${NB}${nc}"
         echo -e "                                           $(_LittleStars)${nc}"
         printf '%s\n' \
         " ${critical}                                   Some of these options might help to configure mpmrc${nc}"

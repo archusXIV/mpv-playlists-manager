@@ -38,7 +38,7 @@ _MenuHeader() {
     )
 
     clear
-    echo -e "\n                                            ${mtitle}:: MPV-PLAYLISTS-MANAGER $VERSION ::" "$(_CheckUpdate)"
+    echo -e "\n                                            ${mtitle}${B}:: MPV-PLAYLISTS-MANAGER $VERSION ::${NB}" "$(_CheckUpdate)"
     echo -e "                                            $(_LittleStars)${nc}"
     [[ -z $THEME ]] && \
     echo -e "                                                  current theme: ${info}${theme}${nc}" || \
@@ -47,7 +47,7 @@ _MenuHeader() {
     echo -e "                             Collection: $(__col) ${sep} Default list: $(__def) ${sep} Audio list: $(__aud) ${sep} Video list: $(__vid)"
     echo -e "                   └─────────────────────────────────────────────────────────────────────────────────────┘"
     echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
-    echo -e "                   │                      ${info}GENERAL OPTIONS${nc}                       │     ${mtitle}MPMRC SETTINGS${nc}     │"
+    echo -e "                   │                      ${info}${B}GENERAL OPTIONS${NB}${nc}                       │     ${mtitle}${B}MPMRC SETTINGS${NB}${nc}     │"
     echo -e "                   │  ────────────────────────────────────────────────────────  │  ────────────────────  │"
 
 }

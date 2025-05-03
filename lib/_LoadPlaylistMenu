@@ -40,7 +40,7 @@ _LoadPlaylistMenu() {
 
     while :; do
         echo -e "\n ${info}Options for: ${LIST} ${nc}($(_GetLinesList -l) urls)\n\n"
-        echo -e "                                                ${mtitle}::DOWNLOAD/PLAY OPTIONS::${nc}"
+        echo -e "                                                ${mtitle}::${B}DOWNLOAD/PLAY OPTIONS::${NB}${nc}"
         echo -e "                                           $(_LittleStars)${nc}"
         echo -e "                                  ┌───────────────────────────────────────────────────┐"
         echo -e "                                  │     1) Choose playlist titles & download ${info}audio${nc}    │"

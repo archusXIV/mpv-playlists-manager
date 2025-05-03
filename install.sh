@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
-# version 2.3-5
+# version 2.3-6
 
 # shellcheck disable=SC2154
 red=$'\e[38;2;206;34;30m';
@@ -9,6 +9,8 @@ read -r -p ' Please enter your username: ' username
 CONF_DIR="/home/$username/.config/mpm"
 MPMRC="$CONF_DIR/mpmrc"
 THEMERC="$CONF_DIR/themerc"
+# we execute this file as root so we need to provide the right username
+# to give ownership back to the right user.
 usergroup=$(
         awk -F':' -v user="$username" '$0 ~ user { print $3":"$4 }' < /etc/passwd
 )
@@ -16,7 +18,7 @@ usergroup=$(
 _editConfig() {
     printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
     " original file has been saved as mpmrc.orig.${endColor}"
-    tail -n 8 ./README_FIRST
+    tail -n 6 ./README_FIRST
     printf '\n'
     read -r -p " ${red}Edit $MPMRC now? [Y/n] enter an editor name (eg: y vim): ${endColor}" edit editor
     case "$edit" in
@@ -41,8 +43,6 @@ _editConfig() {
 }
 
 _diffRc() {
-    # we execute this file as root so we need to provide the right username
-    # to give ownership back to the right user.
 
     if [[ -f $MPMRC && -f $THEMERC ]]; then
         diff -u "$MPMRC" doc/mpmrc > "$MPMRC".diff

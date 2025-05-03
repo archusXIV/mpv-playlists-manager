@@ -21,7 +21,7 @@
 # shellcheck disable=SC2034,SC2044,SC2154,SC2001,SC2207
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.3-5"
+VERSION="v.2.3-6"
 
 CONF_DIR="$HOME/.config/mpm"
 
@@ -57,6 +57,9 @@ fi
 b=$'\e[5m';
 nb=$'\e[25m';
 lessColor=$'\e[0m';
+# bold/normal
+B=$'\e[1m';
+NB=$'\e[21m';
 
 ## Source our functions.
 if [[ -d /usr/local/lib/mpm ]]; then

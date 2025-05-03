@@ -10,7 +10,7 @@ _LoadLocalMenu() {
     while :; do
         _ResizeWindow --main
         clear
-        echo -e "\n                                                 ${mtitle}::LOAD LOCAL OPTIONS::${nc}"
+        echo -e "\n                                                 ${mtitle}::${B}LOAD LOCAL OPTIONS::${NB}${nc}"
         echo -e "                                           $(_LittleStars)${nc}"
         echo -e "                                  ┌───────────────────────────────────────────────────┐"
         echo -e "                                  │   1) Single Audio dir   6) Explore Videos dir     │"

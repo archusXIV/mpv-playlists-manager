@@ -59,7 +59,7 @@ _ViewDefaultUrlsInfo() {
                         _MpvOwnsTmpList --default --play || {
                             _BlankLine
                             read -rsn 1 \
-                            -p "${info}"' Play [A]udio, [V]ideo?: '"${nc}" play
+                            -p " ${info}Play [A]udio, [V]ideo?: ${nc}" play
                             case "$play" in
                                 [aAvV])
                                     cp "$DEFAULT_TITLES" "$DEFAULT_TITLES"_
