@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.3-6
+mpm version 2.3-7
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -15,17 +15,18 @@ sudo pacman -S yt-dlp (it's just the continuation of youtube-dl).
 
 This script rips video urls from Youtube and so on.
 In our case we use ".m3u" files to store urls in and then be able
-to watch from the site itself or download videos or just the audio.
+to stream from the site itself or download audio/videos.
 Converting .webm files is done using ffmpeg directly or through the parallel program.
 We can save, remove or edit playlists, mpmrc (the mpm configuration file).
 
 The installation script will create two configuration files (mpmrc,themerc)
 as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
-the directory names and structure are ok for you.
+the directory names and structure are correctly set.
 
 Changelog:
--------------------------------- NO CHANGES IN CONFIG FILES -------------------------------
+------------------------ !!! ADDED CHANGES IN CONFIG FILES !!! -----------------------
+version 2.3-7 - Added a function to view/remove download schedules.
+version 2.3-7 - Added a function to create download schedules.
+version 2.3-7 - Provided a new script (mpmsw) in ./extra to check & run your schedules.
+                Put it in your $PATH
 version 2.3-6 - Fixed bug when removing links/titles from temporary lists.
-version 2.3-5 - Added an option to check and upgrade mpm version, just type mpm --upgrade
-version 2.3-4 - Now we can change the background color, just edit the bg variable in
-                ~/.config/mpm/themerc, section "_Theme" on each options (themes names).

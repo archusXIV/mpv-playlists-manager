@@ -30,7 +30,6 @@ _UrlsCollector() {
     # Store last clipboard content to avoid duplicates
     local lastContent=""
     urlNumber=0
-
     while true; do
         trap break SIGINT
         currentContent=$(__getClipboard)

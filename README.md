@@ -18,7 +18,7 @@ and many more options to control mpv, ffmpeg, yt-dlp and download/playlists dire
 
 # Installation
 Run the install.sh script as root, by default /usr/local/bin /usr/local/lib are the
-respective destinations.
+respective destinations. Move scripts located in ./extra to your $PATH.
 The install script will detect if mpm is already installed and in that case the prompt will be: [R]emove or [U]pgrade mpm?
 
 Otherwise the simple install function will run and create ~/.config/mpm/{mpmrc,themerc} files.
@@ -60,10 +60,17 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
-- Fixed bug when removing links/titles from temporary lists.
-- Added an option to check and upgrade mpm version, just type mpm --upgrade
-- Now we can change the background color, just edit the bg variable in ~/.config/mpm/themerc, section "_Theme" on each options (themes names).
+- Provided a new script (mpmsw) in ./extra to check & run your schedules. Put it in your $PATH
+```
+$ ~ mpmsw
+```
 
+- Added a function to view/remove download schedules.
+- Added a function to create download schedules and to check for conflicts.
+- Added an option to check and upgrade mpm version.
+```
+$ ~ mpm --upgrade
+```
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
 

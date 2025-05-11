@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
-# version 2.3-6
+# version 2.3-7
 
 # shellcheck disable=SC2154
 red=$'\e[38;2;206;34;30m';
@@ -18,7 +18,7 @@ usergroup=$(
 _editConfig() {
     printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
     " original file has been saved as mpmrc.orig.${endColor}"
-    tail -n 6 ./README_FIRST
+    tail -n 7 ./README_FIRST
     printf '\n'
     read -r -p " ${red}Edit $MPMRC now? [Y/n] enter an editor name (eg: y vim): ${endColor}" edit editor
     case "$edit" in
@@ -69,9 +69,9 @@ _install() {
     cp --verbose --force ./mpm /usr/local/bin
     mkdir --verbose --parents /usr/local/lib/mpm && \
     cp --verbose --recursive --force ./lib/* /usr/local/lib/mpm/
-    mkdir --verbose --parents /usr/local/share/doc/mpm && {
-        cp --verbose --force doc/* /usr/local/share/doc/mpm/
-        cp --verbose --force README.md /usr/local/share/doc/mpm
+    mkdir --verbose --parents /usr/local/share/doc/mpm/extra && {
+        cp --verbose --force {doc/*,README.md,README_FIRST} /usr/local/share/doc/mpm/
+        cp --verbose --force --recursive extra/* /usr/local/share/doc/mpm/extra/
     }
     mkdir --verbose --parents /usr/share/licenses/mpm && \
     cp --verbose --force ./LICENSE /usr/share/licenses/mpm/LICENSE

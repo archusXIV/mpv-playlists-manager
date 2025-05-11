@@ -48,7 +48,8 @@ _LoadPlaylistMenu() {
         echo -e "                                  │     3) Download whole playlist as ${info}audio${nc} files     │"
         echo -e "                                  │     4) Download whole playlist as ${info}video${nc} files     │"
         echo -e "                                  │     5) Choose playlist titles & play ${info}audio/video${nc}  │"
-        echo -e "                                  │     6) Back to main menu                          │"
+        echo -e "                                  │     6) Schedule download or cancel schedule       │"
+        echo -e "                                  │     7) Back to main menu                          │"
         echo -e "                                  └───────────────────────────────────────────────────┘"
         echo -e "                                                   ${info}${b}Select an option${nb}${nc}\n"
 
@@ -60,7 +61,8 @@ _LoadPlaylistMenu() {
             3) __testList; _GetAudio -l ;;
             4) __testList; _CheckParallelDownloads --before; _DownloadVideoList ;;
             5) _MpvOwnsTmpList --collection || _ChooseFromPlay ;;
-            [bB6]) _Menu ;;
+            6) _ScheduleDownload ;;
+            [bB7]) _Menu ;;
             [rR]) continue ;;
             *) _WrongOption "$loadPlaylistMenuOptions"; _Menu ;;
         esac

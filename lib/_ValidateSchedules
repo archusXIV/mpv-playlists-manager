@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+## This is a part of main script: mpm.
+# shellcheck disable=SC2154
+_ValidateSchedules() {
+
+    declare -a LOCALS=(
+        crdt crsc crtm
+        schd schs scht
+        datetime list tmpf
+    )
+
+    for var in "${LOCALS[@]}"; do
+        local "$var"
+    done
+
+    crdt=$(date '+%Y-%m-%d')
+    crtm=$(date '+%H:%M')
+    tmpf=$(mktemp)
+    cp "$schedules_file" "$tmpf"
+
+    # Update past schedules and check conflicts
+    declare -A schedule_times
+    while IFS='|' read -r datetime _ list; do
+        # Extract date and time from datetime field
+        schd=${datetime%@*} schd=${schd## } schd=${schd%% }
+        scht=${datetime#*@} scht=${scht## } scht=${scht%% }
+
+        # Check for past schedules
+        crsc=$(date -d "${crdt} ${crtm}" +%s)
+        schs=$(date -d "${schd} ${scht}" +%s)
+
+        if ((schs < crsc)); then
+            new_date=$(date -d "tomorrow" '+%Y-%m-%d')
+            printf '\n%s\n' " ${critical}Schedule for playlist $list is in the past.${nc}"
+            printf '%s\n' " ${info}Updating schedule to ${new_date}...${nc}"
+            sed -i "s/${schd} @ ${scht}/${new_date} @ ${scht}/" "$tmpf"
+            schd="$new_date"
+            sleep 2
+        fi
+
+        if [[ -n "${schedule_times[$scht]}" ]]; then
+            printf '\n%s\n' \
+            " ${critical}Conflict detected: Multiple playlists scheduled for ${scht}${nc}"
+            printf '%s\n' " ${info}Resolving conflict...${nc}"
+            new_time=$(date -d "${schd} ${scht} ${schedule_delay} minutes" '+%H:%M')
+            awk -v old="${schd} @ ${scht}" -v new="${schd} @ ${new_time} " -v list="$list" '
+                BEGIN { FS=OFS="|" }
+                $3 ~ list { $1 = new }
+                { print }
+            ' "$tmpf" > "${tmpf}.new" && mv "${tmpf}.new" "$tmpf"
+            scht="$new_time"
+            sleep 2
+        fi
+        schedule_times["$scht"]="$list"
+    done < "$schedules_file"
+
+    mv "$tmpf" "$schedules_file"
+    sort -t'|' -k1 "$schedules_file" -o "$schedules_file"
+
+}

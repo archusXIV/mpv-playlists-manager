@@ -7,6 +7,7 @@ _MenuHeader() {
     local sep
     sep="${task}*${nc}"
 
+    # we need color for this, so we need to use echo.
     __col() (
         if [[ -z $(find "$playlists_dir" -not -name "default.m3u" -name "*.m3u") ]]; then
             echo "0"
@@ -37,15 +38,25 @@ _MenuHeader() {
 
     )
 
+    __sch() (
+        echo "${info}$(grep '.m3u$' -c "$main_dir/schedules/schedules.txt")${nc}"
+    )
+
     clear
     echo -e "\n                                            ${mtitle}${B}:: MPV-PLAYLISTS-MANAGER $VERSION ::${NB}" "$(_CheckUpdate)"
     echo -e "                                            $(_LittleStars)${nc}"
     [[ -z $THEME ]] && \
     echo -e "                                                  current theme: ${info}${theme}${nc}" || \
     echo -e "                                                  current theme: ${info}${THEME}${nc}"
-    echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
-    echo -e "                             Collection: $(__col) ${sep} Default list: $(__def) ${sep} Audio list: $(__aud) ${sep} Video list: $(__vid)"
-    echo -e "                   └─────────────────────────────────────────────────────────────────────────────────────┘"
+    if [[ -f $main_dir/schedules/schedules.txt ]]; then
+        echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
+        echo -e "                      Collection: $(__col) ${sep} Default list: $(__def) ${sep} Audio list: $(__aud) ${sep} Video list: $(__vid) ${sep} Scheduled: $(__sch)"
+        echo -e "                   └─────────────────────────────────────────────────────────────────────────────────────┘"
+    else
+        echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
+        echo -e "                             Collection: $(__col) ${sep} Default list: $(__def) ${sep} Audio list: $(__aud) ${sep} Video list: $(__vid)"
+        echo -e "                   └─────────────────────────────────────────────────────────────────────────────────────┘"
+    fi
     echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
     echo -e "                   │                      ${info}${B}GENERAL OPTIONS${NB}${nc}                       │     ${mtitle}${B}MPMRC SETTINGS${NB}${nc}     │"
     echo -e "                   │  ────────────────────────────────────────────────────────  │  ────────────────────  │"

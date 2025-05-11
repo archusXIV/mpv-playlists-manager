@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 #
+##  Script name: mpm version 2.3-7
 ##  Author: Barret E (2021-25) <archus@protonmail.com>
 ##  https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
 ##  Dependencies: ffmpeg, jq, mpv, yt-dlp.
@@ -21,7 +22,15 @@
 # shellcheck disable=SC2034,SC2044,SC2154,SC2001,SC2207
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.3-6"
+VERSION="v.2.3-7"
+
+# blinking prompts
+b=$'\e[5m';
+nb=$'\e[25m';
+lessColor=$'\e[0m';
+# bold/normal
+B=$'\e[1m';
+NB=$'\e[21m';
 
 CONF_DIR="$HOME/.config/mpm"
 
@@ -40,6 +49,7 @@ for index in "${mpvGenOptions_X[@]}"; do
         break
     fi
 done
+unset index
 
 if [[ ! -f $THEMERC ]]; then
     cp /usr/local/share/doc/mpm/themerc "$CONF_DIR"
@@ -53,15 +63,7 @@ else
     _Theme "$THEME"
 fi
 
-## prompts blinking
-b=$'\e[5m';
-nb=$'\e[25m';
-lessColor=$'\e[0m';
-# bold/normal
-B=$'\e[1m';
-NB=$'\e[21m';
-
-## Source our functions.
+# Source our functions.
 if [[ -d /usr/local/lib/mpm ]]; then
     for func in /usr/local/lib/mpm/*_*; do
         if [[ -x $func ]]; then
@@ -77,11 +79,11 @@ else
 fi
 
 _BlankLine() { printf '\n'; }
-_Has() { command -v "$1" &>/dev/null; }
 _PidOfMpv() { pgrep -x mpv; }
 _killMpv() { kill -SIGTERM "$(_PidOfMpv)"; }
+_Has() { command -v "$1" &>/dev/null; }
 
-# global variables
+# Global variables
 AUDIO_URLS="$tmp_dir/temporaryAudioUrls.m3u"
 AUDIO_TITLES="$tmp_dir/temporaryAudioTitles"
 DEFAULT_LIST="$playlists_dir/default.m3u"
@@ -93,10 +95,15 @@ FZFENQUEUE="$tmp_dir/fzfEnqueue.m3u"
 FZFSELTITLES="$tmp_dir"/fzfSelectedTitles
 HELP="/usr/local/share/doc/mpm/help"
 JOBSLIST="$tmp_dir/parallel_list"
+LOCALDIRS_LIST="$tmp_dir/localdirs_list.m3u"
 MPM_VERSION="https://raw.githubusercontent.com/archusXIV/mpv-playlists-manager/main/version"
 MPVSOCKET=$(sed 's/--input-ipc-server=//' <<< "${mpvGenOptions_SK[*]}")
 [[ ! -S $MPVSOCKET ]] && MPVSOCKET="/tmp/mpvsocket"
 NOWPLAYING="$tmp_dir/nowPlaying"
+RANGEPROMPT=$(
+printf '%s\n' " ${info}Enter numbers separeted by commas or a dash for a range," \
+" for example: ${task}1-4,6 8-11 or 1-4,6-8,10 or 2,3,5,6,1 ${info}[${mtitle}C${info}]ancel: ${nc}"
+)
 SELECTED_TITLES="$tmp_dir/selected.titles"
 SELECTED_URLS1="$tmp_dir/temporarySelection.m3u"
 SELECTED_URLS2="$tmp_dir/temporarySelection2.m3u"
@@ -105,10 +112,6 @@ VIDEO_URLS="$tmp_dir/temporaryVideoUrls.m3u"
 VIDEO_TITLES="$tmp_dir/temporaryVideoTitles"
 YTSEARCH="$tmp_dir/youtubeSearch"
 YTFZFJSON="$tmp_dir/ytfzf.json"
-RANGEPROMPT=$(
-printf '%s\n' " ${info}Enter numbers separeted by commas or a dash for a range," \
-" for example: ${task}1-4,6 8-11 or 1-4,6-8,10 or 2,3,5,6,1 ${info}[${mtitle}C${info}]ancel: ${nc}"
-)
 
 [[ -z $parallel_threads ]] && parallel_threads=4
 

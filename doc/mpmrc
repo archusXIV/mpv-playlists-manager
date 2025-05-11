@@ -1,5 +1,5 @@
 #!/bin/bash
-# ~/.config/mpm/mpmrc (version 2.3-6)
+# ~/.config/mpm/mpmrc (version 2.3-7)
 
 ########################################################
 #'##::::'##:'########::'##::::'##:'########:::'######::#
@@ -29,6 +29,11 @@ height=32
 # on the web page when copying links.
 copy_width=124
 copy_height=16
+
+# When there is a date from the past in your scheduled downloads list,
+# you can set a delay in minutes to resolve it automatically,
+# this way the downloads will be deferred and will not conflict.
+schedule_delay=30
 
 ########################## THEMES ##########################
 # edit your own theme in "$XDG_CONFIG_HOME"/mpm/themerc.
@@ -81,6 +86,7 @@ playlists_dir="$main_dir/playlists"
 audios_dir="$MUSIC_DIR/mpm_audios"
 videos_dir="$VIDEO_DIR/mpm_videos"
 titles_dir="$main_dir/titles"
+schedules_dir="$main_dir/schedules"
 tmp_dir="$main_dir/tmp"
 
 # If you have a specific folder where web radios playlists (.pls,.m3u,etc...),
