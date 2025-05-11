@@ -37,6 +37,7 @@ _ViewScheduledList() {
         ;;
         [eE])
             "$MPMEDITOR" "$schedules_file"
+            _ValidateSchedules
             sort -t'|' -k1 "$schedules_file" -o "$schedules_file"
             clear
             printf '\n%s\n' " ${info}Schedule file edited.${nc}"
