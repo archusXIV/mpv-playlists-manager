@@ -86,6 +86,7 @@ playlists_dir="$main_dir/playlists"
 audios_dir="$MUSIC_DIR/mpm_audios"
 videos_dir="$VIDEO_DIR/mpm_videos"
 titles_dir="$main_dir/titles"
+# this directory is aslo required by the mpmsw script.
 schedules_dir="$main_dir/schedules"
 tmp_dir="$main_dir/tmp"
 

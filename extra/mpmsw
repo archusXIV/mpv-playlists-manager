@@ -10,7 +10,9 @@
 # and it checks if the current date and time match any of the scheduled times
 # in schedules.txt, if a match is found yt-dlp downloads the audio/videos
 # from the corresponding m3u file (make sure that the URLs provide audio files).
-# Please verify the schedules directory, by default: ~/.local/share/mpm/schedules
+# Please verify the schedules directory, by default:
+# ~/.local/share/mpv-playlists-manager/schedules
+#
 # Change the yt-dlp format options if you will:
 # audio = ytdlpAudioCmd=( bestaudio/best )
 # video = ytdytdlpVideoCmd=( bestvideo+bestaudio/best --merge-output-format mp4 )
