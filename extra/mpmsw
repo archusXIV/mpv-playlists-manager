@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-
-# Script name: mpmsw version 1.0.1
+#
+# Script name: mpmsw version 1.0.3
 # Author: Barret E <archus@protonmail>
 # Licensed under the GPLv2
 # Github: https://github.com/archusXIV/mpv-playlists-manager
@@ -18,6 +18,7 @@
 # video = ytdytdlpVideoCmd=( bestvideo+bestaudio/best --merge-output-format mp4 )
 # Run it in your terminal, (it will stay attached): mpmsw
 
+# shellcheck disable=SC2164
 trap _Cleanup SIGINT SIGTERM
 
 for dep in awk sed yt-dlp; do
@@ -27,14 +28,14 @@ for dep in awk sed yt-dlp; do
     }
 done
 
+# Edit your directories and yt-dlp options here.
 : "${XDG_DATA_HOME:-$HOME/.local/share}"
-schedules_dir="$XDG_DATA_HOME/mpm/schedules"
+schedules_dir="$XDG_DATA_HOME/mpv-playlists-manager/schedules"
 schedules_file="$schedules_dir/schedules.txt"
 # yt-dlp format options here
 ytdlpAudioCmd=( bestaudio/best )
 ytdlpVideoCmd=( bestvideo+bestaudio/best --merge-output-format mp4 )
 
-# shellcheck disable=SC2164
 if [[ -d $schedules_dir ]]; then
     command cd "$schedules_dir"
     [[ ! -f $schedules_file ]] && {
@@ -43,15 +44,16 @@ if [[ -d $schedules_dir ]]; then
     }
 else
     printf '%s\n' " Schedule directory does not exist." \
-    " Please check your mpmrc file..."
+        " Please check your mpmrc file or edit this script."
     exit 1
 fi
 
 _Cleanup() {
+    local m3u=(*.m3u)
     rm {ALL,LISTS,TIME,TYPE}.txt
     [[ ! -s $schedules_file ]] && rm "$schedules_file"
-    # putting back the header removed sooner
-    sed -i '1s/^/#EXTM3U\n/' "${LISTS[@]}" >/dev/null 2>&1
+    # putting back the header removed sooner in case we hit Ctrl+C
+    ((${#m3u[@]} >= 1)) && sed -i '1s/^/#EXTM3U\n/' "${LISTS[@]}"
     notify-send 'Scheduled downloads cancelled or finished'
     exit 0
 }
@@ -75,17 +77,24 @@ for line in "${ALL[@]}"; do
     [[ $line =~ audio|video ]] && TYPE+=("$line")
 done
 
+_Message() {
+    printf '%s\n' \
+        " $(date '+%H:%M') - Downloading ${TYPE[${index}]} from ${LISTS[${index}]}"
+}
+
 index=0
 while true; do
     if [[ ${TIME[${index}]} == $(date '+%Y-%m-%d @ %H:%M') ]]; then
         if [[ ${TYPE[${index}]} == audio ]]; then
+            _Message
             yt-dlp \
-            --format "${ytdlpAudioCmd[@]}" \
-            --batch-file "${LISTS[${index}]}" >/dev/null 2>&1
+                --format "${ytdlpAudioCmd[@]}" \
+                --batch-file "${LISTS[${index}]}" >/dev/null 2>&1
         else
+            _Message
             yt-dlp \
-            --format "${ytdlpVideoCmd[@]}" \
-            --batch-file "${LISTS[${index}]}" >/dev/null 2>&1
+                --format "${ytdlpVideoCmd[@]}" \
+                --batch-file "${LISTS[${index}]}" >/dev/null 2>&1
         fi
         # cleaning already downloaded lines & files
         sed -i "/${LISTS[${index}]}/d" "$schedules_file"
@@ -97,4 +106,3 @@ while true; do
 done
 
 _Cleanup
-
