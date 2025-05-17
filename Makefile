@@ -38,6 +38,8 @@ install: check-root config
 	@install -v -m644 LICENSE $(DESTDIR)$(LICENSEDIR)/LICENSE
 	@echo "Installation complete!"
 	@echo "For usage run: mpm --help"
+	@echo "You can now as regular user run: make config"
+	@echo "or make diff-config if you just upgraded mpm."
 
 config:
 	@if [ "$(USERNAME)" != "root" ]; then \
