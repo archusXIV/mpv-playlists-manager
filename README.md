@@ -82,8 +82,8 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
-- mpmsw in ./extra have to be edited according to the advice [below](https://github.com/archusXIV/mpv-playlists-manager/blob/main/README.md#L92):
-  - [brower name](https://github.com/archusXIV/mpv-playlists-manager/blob/main/exra/mpmsw#L34), please read it before you use it.
+- mpmsw in ./extra have to be edited according to the advice below:
+  - [brower name](https://github.com/archusXIV/mpv-playlists-manager/blob/main/extra/mpmsw#L34), please read it before you use it.
   - Put it in your $PATH, video https://www.youtube.com/watch?v=A5hTFAHYOdY
 
 ```
