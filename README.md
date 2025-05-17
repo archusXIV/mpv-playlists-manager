@@ -3,8 +3,8 @@
 
 ## About mpm
 Manage playlists that mpv reads either online or from local files/directories,
-youtube-dl/yt-dlp is used to download videos or just audio and in that case if
-we choose webm links, ffmpeg will (if you want to) convert them in five different formats:
+yt-dlp is used to download videos or just audio and in that case if we choose webm links,
+ffmpeg will (if you want to) convert them in five different formats:
 aac, flac, mp3, ogg, or wav. You can switch encoders by editing the config file (mpmrc),
 and many more options to control mpv, ffmpeg, yt-dlp and download/playlists directories etc...
 
@@ -29,6 +29,28 @@ cd mpv-playlists-manager
 chmod +x install.sh
 sudo ./install.sh
 ```
+Or if you prefer using the Makefile:
+- First time installation:
+```
+sudo make install
+# and the for config files as regular user
+make config
+```
+- Upgrading mpm:
+```
+sudo make upgrade
+# and the for config files as regular user
+make diff-config
+```
+- Uninstalling mpm:
+```
+sudo make uninstall
+```
+- More details for what to do with the Makefile:
+```
+make help
+```
+
 # Dependencies
 - [ffmpeg](https://ffmpeg.org/), [jq](https://stedolan.github.io/jq/), [mpv](https://mpv.io/), [socat](http://www.dest-unreach.org/socat/), [vim](https://www.vim.org/) (or any terminal text editor), [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
@@ -60,17 +82,20 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
-- Provided a new script (mpmsw) in ./extra to check & run your schedules. Put it in your $PATH
+- mpmsw in ./extra have to be edited according to the advice [below](https://github.com/archusXIV/mpv-playlists-manager/blob/main/README.md#L92):
+  - [brower name](https://github.com/archusXIV/mpv-playlists-manager/blob/main/exra/mpmsw#L34), please read it before you use it.
+  - Put it in your $PATH, video https://www.youtube.com/watch?v=A5hTFAHYOdY
+
 ```
 $ ~ mpmsw
 ```
+- Added 2 critical arrays in mpmrc concerning playing/downloading **youtube audio/video** links (youtube changes all the time!!!)
+  - [mpvGenOptions_UC=( --cookies=yes )](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L230)
+  - [ytdlPreset_BC=( --cookies-from-browser=your_browser_name_here )](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L265)
+- Added a Makefile for install/uninstall/upgrade, you can use it instead of the install.sh script:
+  - sudo make install (first mpm install), sudo make upgrade (mpm upgrade)
+  - then as regular user: make config or make diff-config (when upgrading mpm).
 
-- Added a function to view/remove download schedules.
-- Added a function to create download schedules and to check for conflicts.
-- Added an option to check and upgrade mpm version.
-```
-$ ~ mpm --upgrade
-```
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
 
@@ -93,7 +118,7 @@ mpvc_tui="<your_mpv_tui_here>"
 # Colors can be change in ~/.config/mpm/themerc.
 mpvc_tui="native"
 ```
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_player_v1.2.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/mpm_player_v1.2.png)
 
 ## Integrated programs settings in mpmrc file
 - I also provide a new script (somabox) to listen to somafm.com radio stations through option 5). Place it in your $PATH,
@@ -102,10 +127,10 @@ and change mpmrc setting to 'yes'
 use_somabox="yes"
 ```
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/somabox_v0.7.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/somabox_v0.7.png)
 - As mentioned above mpv command line tools and terminal interface.
 - ffmpeg, mpv, ytfzf & yt-dlp options can be set in your mpmrc through their respective bash arrays.
-- Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L63) file (change them according to your locales).
+- Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L77) file (change them according to your locales).
 
 ## Using fzf
 - Two methods are offered here:
@@ -139,7 +164,6 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 - When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
-<!-- ![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/mpm_v2.3-4.png) -->
 <table width="100%">
   <tr>
     <th>Nord</th>
@@ -147,10 +171,10 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
   </tr>
   <tr>
     <td width="50%">
-      <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/nord.png" />
+      <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/nord.png" />
     </td>
     <td width="50%">
-      <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/solarized.png" />
+      <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/solarized.png" />
     </td>
   </tr>
   <tr>
@@ -159,10 +183,10 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
   </tr>
   <tr>
     <td width="50%">
-      <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/tokyonight.png" />
+      <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/tokyonight.png" />
     </td>
     <td width="50%">
-      <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/c64.png" />
+      <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/c64.png" />
     </td>
   </tr>
 </table>
@@ -190,9 +214,9 @@ native_tui_colors=default
 - To find out how to convert hex colors in rgb colors, open your prefered color picker
 and look at "red green blue" fields.
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm_screenshots/color_picker.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/color_picker.png)
 
-More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/mpm_screenshots)
+More screenshots [here](https://github.com/archusXIV/mpv-playlists-manager/tree/main/screenshots)
 
 ## Why ranger file manager?
 (it can be any terminal file manager)

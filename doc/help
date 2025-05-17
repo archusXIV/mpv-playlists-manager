@@ -1,5 +1,5 @@
 
-    mpm version 2.3-7
+    mpm version 2.3-8
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -24,6 +24,8 @@
         - git reset --hard HEAD
         - git merge '@{u}'
         - sudo ./install.sh
+        or if you want to use the Makefile:
+        - sudo make upgrade && make diff-config
         Do not forget to edit or review your configs after that.
         Video (french spoken): https://www.youtube.com/watch?v=l1CrwYZzcGE
 
@@ -51,7 +53,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.3-7::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.3-8::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐

@@ -6,7 +6,7 @@ _MpvSocketCommands() {
 
     case "$1" in
         --title)
-            echo '{ "command": ["get_property", "media-title"] }' \
+            echo '{ "command": ["get_property", "media-title/no-ext"] }' \
             | socat - "${MPVSOCKET}" \
             | awk -F'"' '{ print "\033[32m"" Now playing: " "\033[33m"$4 }'
         ;;

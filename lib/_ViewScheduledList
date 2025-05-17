@@ -18,31 +18,32 @@ _ViewScheduledList() {
     sort -t'|' -k1 "$schedules_file" -o "$schedules_file"
     dash=$(printf "%-72s" "─")
     printf '%s\n' \
-    "  ${info}DATE & TIME          | TYPES | PLAYLISTS${nc}"
+        "  ${info}DATE & TIME          | TYPES | PLAYLISTS${nc}"
     echo " ${info}${dash// /─}${nc}"
     nl -w2 -s') ' "$schedules_file"
+
     _BlankLine
     read -rsn 1 \
-    -p " ${info}[E]dit or to remove a schedule hit its number or [${mtitle}C${info}]ancel.${nc}"
+        -p " ${info}[E]dit or to remove a schedule hit its number or [${mtitle}C${info}]ancel.${nc}"
+
     case "$REPLY" in
         [0-9])
             plst=$(sed 's/.*|\s//g' < <(sed -n "${REPLY}p" "$schedules_file"))
             mv "$schedules_dir"/"$plst" "$playlists_dir"
             mv "$schedules_dir"/"$plst.titles" "$titles_dir"
-            unset plst
             sed -i "${REPLY}d" "$schedules_file"
             [[ ! -s $schedules_file ]] && rm "$schedules_file"
-            printf '\n%s\n' " ${critical}schedule $REPLY removed.${nc}"
-            sleep 2
-        ;;
+            printf '\n%s\n' " ${critical}schedule $REPLY ($plst) removed.${nc}"
+            sleep 3
+            unset plst
+            ;;
         [eE])
             "$MPMEDITOR" "$schedules_file"
             _ValidateSchedules
-            sort -t'|' -k1 "$schedules_file" -o "$schedules_file"
             clear
             printf '\n%s\n' " ${info}Schedule file edited.${nc}"
             sleep 2
-        ;;
+            ;;
         *) _Menu ;;
     esac
 

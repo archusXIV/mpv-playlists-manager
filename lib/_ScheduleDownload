@@ -27,48 +27,6 @@ _ScheduleDownload() {
         [[ ! -s "$schedules_file" ]] && rm "$schedules_file"
         rm "$schedules_lists"
     }
-    __ifScheduleAlreadyExist() {
-        case "$1" in
-            --list)
-                while read -r line; do
-                    [[ $line == "$list" ]] && ((lst_count++))
-                done < "$schedules_lists"
-                if ((lst_count == 1)); then
-                    _BlankLine
-                    __sortSchedulesFile
-                    nl -w2 -s') ' "$schedules_file"
-                    _BlankLine
-                    _Prompt " ${critical}This playlist is already scheduled." \
-                    "Do you want to remove it?${nc} " || {
-                        __removeSchedulesFiles
-                        clear
-                        _LoadPlaylistMenu
-                    }
-                    sed -i "/${list}/d" "$schedules_file"
-                    __removeSchedulesFiles
-                    printf '%s\n' " ${critical}Scheduled $list removed${nc}"
-                    sleep 2
-                    clear
-                    _LoadPlaylistMenu
-                fi
-            ;;
-            --time)
-                while read -r line; do
-                    [[ $line =~ ^$schedule_date && $line =~ $schedule_time ]] && ((lst_count++))
-                done < "$schedules_file"
-                if ((lst_count > 1)); then
-                    sed -i '$d' "$schedules_file"
-                    __removeSchedulesFiles
-                    printf '\n%s\n' \
-                    " ${critical}Scheduled downloads time already exists...Schedule cancelled.${nc}"
-                    sleep 4
-                    clear
-                    _LoadPlaylistMenu
-                fi
-            ;;
-        esac
-
-    }
 
     [[ -n $schedule_date ]] && unset schedule_date
     [[ -n $schedule_time ]] && unset schedule_time
@@ -77,7 +35,6 @@ _ScheduleDownload() {
     # Print existing schedules with line numbers if file exists
     if [[ -f "$schedules_file" ]]; then
         __createSchedulesLists
-        __ifScheduleAlreadyExist --list
         echo -e "\n ${info}${B}Current schedules:${NB}${nc}\n"
         dash=$(printf "%-72s" "─")
         printf '%s\n' \
@@ -95,10 +52,10 @@ _ScheduleDownload() {
     # Validate date format strictly matches YYYY-MM-DD
     if [[ ! "$schedule_date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
         printf '\n%s\n' \
-        " ${critical}Invalid date format or date is in the past.${nc}"
+        " ${critical}Invalid date format, try again.${nc}"
         sleep 3
         clear
-        return 1
+        return
     else
         _BlankLine
         read -rn 5 \
@@ -106,10 +63,10 @@ _ScheduleDownload() {
          # Validate time format
         if [[ ! $schedule_time =~ ^[0-2][0-9]:[0-5][0-9]$ ]]; then
             printf '\n%s\n' \
-            " ${critical}Invalid time format or time is in the past.${nc}"
+            " ${critical}Invalid time format , try again.${nc}"
             sleep 3
             clear
-            return 1
+            return
         else
             schedules_datetime="$schedule_date @ $schedule_time"
             _BlankLine
@@ -119,13 +76,25 @@ _ScheduleDownload() {
                 [vV]) echo "$schedules_datetime | video | $list" >> "$schedules_file" ;;
                 *)
                     _WrongOption "$downloadType"
-                    _LoadPlaylistMenu
+                    return
                 ;;
             esac
 
             _RemoveDuplicateLines "$schedules_file"
             __createSchedulesLists
-            __ifScheduleAlreadyExist --time
+
+            while read -r line; do
+                [[ $line =~ ^$schedule_date && $line =~ $schedule_time ]] && ((lst_count++))
+            done < "$schedules_file"
+            if ((lst_count > 1)); then
+                sed -i '$d' "$schedules_file"
+                __removeSchedulesFiles
+                printf '\n%s\n' \
+                " ${critical}Scheduled downloads time already exists...Schedule cancelled.${nc}"
+                sleep 4
+                clear
+                return
+            fi
 
             _BlankLine
             _Prompt " ${info}Schedule download of $LIST for ${task}$schedule_datetime?${nc}" || {

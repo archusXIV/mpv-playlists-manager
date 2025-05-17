@@ -1,21 +1,20 @@
 #!/usr/bin/env bash
 #
-# Script name: mpmsw version 1.0.3
+# Script name: mpmsw version 1.0.4
 # Author: Barret E <archus@protonmail>
 # Licensed under the GPLv2
 # Github: https://github.com/archusXIV/mpv-playlists-manager
 # Youtube channel: https://www.youtube.com/@mpv-playlists-manager-mv8sh
 #
+# Please verify the schedules directory @ line 32, by default:
+# ~/.local/share/mpv-playlists-manager/schedules
 # This script is designed as a companion for mpv-playlists-manager
 # and it checks if the current date and time match any of the scheduled times
 # in schedules.txt, if a match is found yt-dlp downloads the audio/videos
 # from the corresponding m3u file (make sure that the URLs provide audio files).
-# Please verify the schedules directory, by default:
-# ~/.local/share/mpv-playlists-manager/schedules
 #
-# Change the yt-dlp format options if you will:
-# audio = ytdlpAudioCmd=( bestaudio/best )
-# video = ytdytdlpVideoCmd=( bestvideo+bestaudio/best --merge-output-format mp4 )
+# Change the yt-dlp format options @ line 37 & 38 if you will.
+# Change the browser variable @ line 34, eg: browser=brave
 # Run it in your terminal, (it will stay attached): mpmsw
 
 # shellcheck disable=SC2164
@@ -32,9 +31,11 @@ done
 : "${XDG_DATA_HOME:-$HOME/.local/share}"
 schedules_dir="$XDG_DATA_HOME/mpv-playlists-manager/schedules"
 schedules_file="$schedules_dir/schedules.txt"
-# yt-dlp format options here
-ytdlpAudioCmd=( bestaudio/best )
-ytdlpVideoCmd=( bestvideo+bestaudio/best --merge-output-format mp4 )
+browser=brave
+# yt-dlp cookies & format options here
+ytdlpCookyCmd=( --cookies-from-browser="${browser}" )
+ytdlpAudioCmd=( --format bestaudio/best )
+ytdlpVideoCmd=( --format bestvideo+bestaudio/best --merge-output-format mp4 )
 
 if [[ -d $schedules_dir ]]; then
     command cd "$schedules_dir"
@@ -49,12 +50,11 @@ else
 fi
 
 _Cleanup() {
-    local m3u=(*.m3u)
     rm {ALL,LISTS,TIME,TYPE}.txt
     [[ ! -s $schedules_file ]] && rm "$schedules_file"
     # putting back the header removed sooner in case we hit Ctrl+C
-    ((${#m3u[@]} >= 1)) && sed -i '1s/^/#EXTM3U\n/' "${LISTS[@]}"
-    notify-send 'Scheduled downloads cancelled or finished'
+    sed -i '1s/^/#EXTM3U\n/' "${LISTS[@]}" >/dev/null 2>&1
+    printf '%s\n' "Scheduled downloads cancelled or finished"
     exit 0
 }
 
@@ -82,21 +82,30 @@ _Message() {
         " $(date '+%H:%M') - Downloading ${TYPE[${index}]} from ${LISTS[${index}]}"
 }
 
+# when scheduled time from playlists occures, the download will start
 index=0
 while true; do
     if [[ ${TIME[${index}]} == $(date '+%Y-%m-%d @ %H:%M') ]]; then
+        _Message
         if [[ ${TYPE[${index}]} == audio ]]; then
-            _Message
-            yt-dlp \
-                --format "${ytdlpAudioCmd[@]}" \
-                --batch-file "${LISTS[${index}]}" >/dev/null 2>&1
+            {
+                yt-dlp \
+                    "${ytdlpAudioCmd[@]}" \
+                    --batch-file "${LISTS[${index}]}" || \
+                yt-dlp \
+                    "${ytdlpCookyCmd[@]}" "${ytdlpAudioCmd[@]}" \
+                    --batch-file "${LISTS[${index}]}"
+            } >/dev/null 2>&1
         else
-            _Message
-            yt-dlp \
-                --format "${ytdlpVideoCmd[@]}" \
-                --batch-file "${LISTS[${index}]}" >/dev/null 2>&1
+            {
+                yt-dlp \
+                    "${ytdlpVideoCmd[@]}" \
+                    --batch-file "${LISTS[${index}]}" || \
+                yt-dlp \
+                    "${ytdlpCookyCmd[@]}" "${ytdlpVideoCmd[@]}" \
+                    --batch-file "${LISTS[${index}]}"
+            } >/dev/null 2>&1
         fi
-        # cleaning already downloaded lines & files
         sed -i "/${LISTS[${index}]}/d" "$schedules_file"
         rm {"${LISTS[${index}]}","${LISTS[${index}]}.titles"}
         ((index++))

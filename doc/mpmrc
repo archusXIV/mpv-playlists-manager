@@ -1,5 +1,5 @@
-#!/bin/bash
-# ~/.config/mpm/mpmrc (version 2.3-7)
+#!/usr/bin/env bash
+# ~/.config/mpm/mpmrc (version 2.3-8)
 
 ########################################################
 #'##::::'##:'########::'##::::'##:'########:::'######::#
@@ -227,6 +227,7 @@ mpvGenOptions_MS=( --term-playing-msg='Title: ${media-title}' )
 # LC_ALL=C pactl info | awk -F: '/Server Name:/{print $2}'
 # Add the below option in the mpvGenOption_X array
 mpvGenOptions_AO=( --ao=pulse ) # --ao=alsa
+mpvGenOptions_UC=( --cookies=yes )
 mpvGenOptions_X=(
     "${mpvGenOptions_CA[@]}"
     "${mpvGenOptions_ID[@]}"
@@ -234,6 +235,7 @@ mpvGenOptions_X=(
     "${mpvGenOptions_CF[@]}"
     "${mpvGenOptions_RP[@]}"
     "${mpvGenOptions_MS[@]}"
+    "${mpvGenOptions_UC[@]}"
 )
 
 # audio/video rendering formats
@@ -259,6 +261,8 @@ mpvVideoOptions_X=(
 # (not tested elsewhere)
 # take a look at 'man yt-dlp'
 # !!! do not change the name of the array (ytdlPreset_<*>) !!!
+# CHANGE your browser name in ytdlPreset_BC=( --cookies-from-browser=my_browser_name )
+ytdlPreset_BC=( --cookies-from-browser=brave )
 ytdlPreset_BR=( --break-on-existing ) # related to 'remove_video_ids' option.
 ytdlPreset_DN=( --downloader m3u8:native )
 ytdlPreset_MF=( --merge-output-format mp4 )
@@ -272,6 +276,7 @@ ytdlPreset_NR=( 40 )
 
 # downloader without multiple format codes
 ytdlPreset_NC=(
+    "${ytdlPreset_BC[@]}"
     "${ytdlPreset_BR[@]}"
     "${ytdlPreset_DW[@]}"
     "${ytdlPreset_DP[@]}"
@@ -279,6 +284,7 @@ ytdlPreset_NC=(
 )
 # combined presets
 ytdlPreset_X=(
+    "${ytdlPreset_BC[@]}"
     "${ytdlPreset_MF[@]}"
     "${ytdlPreset_DN[@]}"
     "${ytdlPreset_FS[@]}"

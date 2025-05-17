@@ -24,8 +24,10 @@ _CheckUpdate() {
                     exit 1
                 }
                 git clone https://github.com/archusXIV/mpv-playlists-manager.git
-                cd ./mpv-playlists-manager || exit 1
-                sudo ./install.sh
+                _BlankLine
+                printf '%s\n' " ${info}First cd into mpv-playlists-manager," \
+                " then run the installation script or use the Makefile:" \
+                " sudo ./install.sh or sudo make upgrade && make diff-config${nc}"
                 exit 0
             }
             if [[ $check_updates == no ]] && [[ $newVerion != "$VERSION" ]]; then

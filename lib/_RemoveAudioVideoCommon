@@ -4,13 +4,6 @@
 # shellcheck disable=SC2154,SC2034
 _RemoveAudioVideoCommon() {
 
-    # test ! -s "$tmpList" && {
-    #     printf '%s\n' " ${critical}No more links in the $Type list${nc}"
-    #     sleep 2
-    #     rm {"$tmpList"{,_origin},"$tmpTitles"{,_origin}}
-    #     return
-    # }
-
     _BlankLine
     read -rsn 1 -p \
     " ${info}[${mtitle}C${info}]ancel, Remove [L]inks or the [W]hole $Type list?: ${nc}" \

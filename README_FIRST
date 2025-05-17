@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.3-7
+mpm version 2.3-8
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -24,9 +24,15 @@ as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
 the directory names and structure are correctly set.
 
 Changelog:
------------------------- !!! ADDED CHANGES IN CONFIG FILES !!! -----------------------
-version 2.3-7 - Added a function to view/remove download schedules.
-version 2.3-7 - Added a function to create download schedules.
-version 2.3-7 - Provided a new script (mpmsw) in ./extra to check & run your schedules.
-                Put it in your $PATH
-version 2.3-6 - Fixed bug when removing links/titles from temporary lists.
+-------------------------- !!! ADDED CHANGES IN CONFIG FILES !!! --------------------------
+version 2.3-8 - mpmsw in ./extra have to be edited according to the advice below:
+                (brower name) line 34, please read it before you use it.
+                Put it in your $PATH, video https://www.youtube.com/watch?v=A5hTFAHYOdY
+              - Added 2 critical arrays in mpmrc that concern playing/downloading
+                Youtube audio/video links (youtube changes all the time!!!)
+                mpvGenOptions_UC=( --cookies=yes )
+                ytdlPreset_BC=( --cookies-from-browser=your_browser_name_here )
+              - Added a Makefile for install/uninstall/upgrade, you can use it instead
+                of the install.sh script:
+                sudo make install (first mpm install), sudo make upgrade (mpm upgrade)
+                then as regular user: make config or make diff-config (when upgrading mpm).

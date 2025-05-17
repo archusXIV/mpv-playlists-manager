@@ -9,7 +9,6 @@ _WhileMpvIsRunning() {
     touch "$tmp_dir"/playerSelectedFile
 
     while _PidOfMpv >/dev/null; do
-        # _MpvSocketCommands --title > "$tmp_dir"/playerTitle
         sleep 1
     done
 

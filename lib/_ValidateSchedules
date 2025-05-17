@@ -4,14 +4,14 @@
 # shellcheck disable=SC2154
 _ValidateSchedules() {
 
-    declare -a LOCALS=(
+    declare -a local_vars=(
         crdt crsc crtm
         schd schs scht
         datetime list tmpf
     )
 
-    for var in "${LOCALS[@]}"; do
-        local "$var"
+    for lcv in "${local_vars[@]}"; do
+        local "$lcv"
     done
 
     crdt=$(date '+%Y-%m-%d')
@@ -32,16 +32,17 @@ _ValidateSchedules() {
 
         if ((schs < crsc)); then
             new_date=$(date -d "tomorrow" '+%Y-%m-%d')
-            printf '\n%s\n' " ${critical}Schedule for playlist $list is in the past.${nc}"
-            printf '%s\n' " ${info}Updating schedule to ${new_date}...${nc}"
+            printf '%s\n' " ${critical}Schedule for playlist $list is in the past." \
+            " ${info}Updating schedule to ${new_date}...${nc}"
             sed -i "s/${schd} @ ${scht}/${new_date} @ ${scht}/" "$tmpf"
             schd="$new_date"
-            sleep 2
+            sleep 3
         fi
 
-        if [[ -n "${schedule_times[$scht]}" ]]; then
+        # Check for conflicts using date and time, variable $schedule_delay is set in mpmrc.
+        if [[ -n "${schedule_times[$schd $scht]}" ]]; then
             printf '\n%s\n' \
-            " ${critical}Conflict detected: Multiple playlists scheduled for ${scht}${nc}"
+            " ${critical}Conflict detected: Multiple playlists scheduled for ${schd} at ${scht}${nc}"
             printf '%s\n' " ${info}Resolving conflict...${nc}"
             new_time=$(date -d "${schd} ${scht} ${schedule_delay} minutes" '+%H:%M')
             awk -v old="${schd} @ ${scht}" -v new="${schd} @ ${new_time} " -v list="$list" '
@@ -50,9 +51,9 @@ _ValidateSchedules() {
                 { print }
             ' "$tmpf" > "${tmpf}.new" && mv "${tmpf}.new" "$tmpf"
             scht="$new_time"
-            sleep 2
+            sleep 3
         fi
-        schedule_times["$scht"]="$list"
+        schedule_times["$schd $scht"]="$list"
     done < "$schedules_file"
 
     mv "$tmpf" "$schedules_file"

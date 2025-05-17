@@ -5,13 +5,6 @@
 _RemoveDefaultList() {
 
     mapfile -t -s 1 defaultListUrls < "$DEFAULT_LIST"
-    # the default list, at least contains one line (header #EXTM3U)
-    # ((${#defaultListUrls[@]} == 0)) && {
-    #     printf '\n%s\n' " ${critical}${DEFAULT_LIST##*/} list is empty.${nc}"
-    #     sleep 2
-    #     rm {"$DEFAULT_LIST"_origin,"$DEFAULT_TITLES"{,_origin}}
-    #     _Menu
-    # }
 
     _BlankLine
     read -rsn 1 \

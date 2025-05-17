@@ -38,7 +38,10 @@ _AnalyzeUrls() {
 
         # Test URL validity
         printf '\n%s\n' " ${info}Testing $mediaUrl${nc}"
-        yt-dlp --print formats_table "$mediaUrl" > "$urlTest"
+        yt-dlp \
+            "${ytdlPreset_BC[@]}" \
+            --no-warnings \
+            --print formats_table "$mediaUrl" > "$urlTest"
         if grep -qw 'ERROR' "$urlTest" || [[ ! -s $urlTest ]]; then
             printf '%s\n' " ${critical}${b}Unsupported url!${nb}" \
             " $mediaUrl removed..." \
@@ -59,7 +62,8 @@ _AnalyzeUrls() {
         # Process valid URL
         echo "$mediaUrl" | tee -a "$URLS" >> "$DEFAULT_LIST"
         printf '%s\n' " ${info}Getting ${Type} title...${nc}"
-        yt-dlp --skip-download --get-title "${ytdlPreset_DW[@]}" "$mediaUrl" \
+        yt-dlp --skip-download --get-title \
+        "${ytdlPreset_BC[@]}" "${ytdlPreset_DW[@]}" "$mediaUrl" \
         | tee -a "$TITLES" >> "$DEFAULT_TITLES"
 
         clear

@@ -3,7 +3,7 @@
 
 # shellcheck disable=SC2154
 _CheckDependencies() {
-    ## Checking dependencies: softwares, directories, files & variables.
+    # Checking dependencies: softwares, directories, files & variables.
     declare -a DEPS=(
         "ffmpeg" "jq" "mpv" "yt-dlp"
         "exiftool" "fzf" "mediainfo"
