@@ -29,12 +29,25 @@ _ViewScheduledList() {
     case "$REPLY" in
         [0-9])
             plst=$(sed 's/.*|\s//g' < <(sed -n "${REPLY}p" "$schedules_file"))
-            mv "$schedules_dir"/"$plst" "$playlists_dir"
-            mv "$schedules_dir"/"$plst.titles" "$titles_dir"
             sed -i "${REPLY}d" "$schedules_file"
-            [[ ! -s $schedules_file ]] && rm "$schedules_file"
+            if [[ ! -s $schedules_file ]]; then
+                rm "$schedules_file"
+                pgrep --full mpmsw >/dev/null && {
+                    kill -SIGTERM $(pgrep --full mpmsw)
+                    printf '\n%s\n' " ${info}Stopping mpmsw...${nc}"
+                    sleep 2
+                }
+            elif [[ -s $schedules_file ]]; then
+                pgrep --full mpmsw >/dev/null && {
+                    kill -SIGRTMIN+15 $(pgrep --full mpmsw)
+                    printf '\n%s\n' " ${info}Reloading mpmsw...${nc}"
+                }
+            fi
             printf '\n%s\n' " ${critical}schedule $REPLY ($plst) removed.${nc}"
             sleep 3
+            sed -i '1s/^/#EXTM3U\n/' "$schedules_dir"/"$plst"
+            mv "$schedules_dir"/"$plst" "$playlists_dir"
+            mv "$schedules_dir"/"$plst.titles" "$titles_dir"
             unset plst
             ;;
         [eE])

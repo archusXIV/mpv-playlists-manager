@@ -4,14 +4,6 @@
 # shellcheck disable=SC2154,SC2034
 _EditPlaylistOptions() {
 
-    __renameList() {
-        mv -f "$playlists_dir/$list" "$playlists_dir/$newname".m3u
-        mv -f "$titles_dir/$list.titles" "$titles_dir/$newname.m3u.titles"
-        _ReplaceSpaces -s
-        printf '\n%s\n' " ${critical}${list%%.*} renamed as $newname.${nc}"
-        sleep 2
-    }
-
     declare -a editPlaylistOptionsPrompt=(
         "[U]rls edition,"
         "[T]itles edition,"
@@ -54,7 +46,11 @@ _EditPlaylistOptions() {
             _BlankLine
             _Prompt -n \
             " ${critical}Rename ${task}${list%%.*} ${critical}as ${task}$newname?: ${nc}" && {
-                __renameList
+                mv -f "$playlists_dir/$list" "$playlists_dir/$newname".m3u
+                mv -f "$titles_dir/$list.titles" "$titles_dir/$newname.m3u.titles"
+                _ReplaceSpaces -s
+                printf '\n%s\n' " ${critical}${list%%.*} renamed as $newname.${nc}"
+                sleep 2
                 return
             }
             _Menu

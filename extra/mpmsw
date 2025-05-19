@@ -1,28 +1,30 @@
 #!/usr/bin/env bash
 #
-# Script name: mpmsw version 1.0.4
+# Script name: mpmsw version 1.0.5
 # Author: Barret E <archus@protonmail>
 # Licensed under the GPLv2
 # Github: https://github.com/archusXIV/mpv-playlists-manager
 # Youtube channel: https://www.youtube.com/@mpv-playlists-manager-mv8sh
 #
-# Please verify the schedules directory @ line 32, by default:
+# Please verify the schedules directory @ line 34, by default:
 # ~/.local/share/mpv-playlists-manager/schedules
 # This script is designed as a companion for mpv-playlists-manager
 # and it checks if the current date and time match any of the scheduled times
 # in schedules.txt, if a match is found yt-dlp downloads the audio/videos
 # from the corresponding m3u file (make sure that the URLs provide audio files).
 #
-# Change the yt-dlp format options @ line 37 & 38 if you will.
-# Change the browser variable @ line 34, eg: browser=brave
+# Change the yt-dlp format options @ line 39 & 40 if you will:
+# change browser variable @ line 36, eg: browser=brave
 # Run it in your terminal, (it will stay attached): mpmsw
 
-# shellcheck disable=SC2164
-trap _Cleanup SIGINT SIGTERM
+# shellcheck disable=SC2164,SC2317
+# Do not rename this file, it is handled by mpm.
+trap _Cleanup SIGTERM
+trap _ReloadSchedules SIGRTMIN+15
 
 for dep in awk sed yt-dlp; do
     command -v "$dep" >/dev/null || {
-        echo "$dep is not installed...exiting"
+        echo " $dep is not installed...exiting"
         exit 127
     }
 done
@@ -49,33 +51,53 @@ else
     exit 1
 fi
 
-_Cleanup() {
-    rm {ALL,LISTS,TIME,TYPE}.txt
-    [[ ! -s $schedules_file ]] && rm "$schedules_file"
-    # putting back the header removed sooner in case we hit Ctrl+C
-    sed -i '1s/^/#EXTM3U\n/' "${LISTS[@]}" >/dev/null 2>&1
-    printf '%s\n' "Scheduled downloads cancelled or finished"
-    exit 0
+_LoadSchedules() {
+    # sorting our list and creating needed arrays,
+    # also used when we have remove schedules on the fly.
+    sort -t'|' -k1 "$schedules_file" -o "$schedules_file"
+    sed 's/.*| //g' "$schedules_file" > LISTS.txt
+    sed 's/ |.*$//g' "$schedules_file" > TIME.txt
+    awk '/audio|video/{print $5}' "$schedules_file" > TYPE.txt
+    cat {LISTS,TIME,TYPE}.txt > ALL.txt
+
+    # Clear existing arrays before reloading
+    LISTS=() TIME=() TYPE=()
+
+    mapfile -t ALL < ALL.txt
+    for line in "${ALL[@]}"; do
+        [[ $line =~ .m3u$ ]] && {
+            LISTS+=("$line")
+            # removing the header of playlist for yt-dlp --batch-file option
+            sed -i '/#EXTM3U/d' "$line"
+        }
+        [[ $line =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]] && TIME+=("$line")
+        [[ $line =~ audio|video ]] && TYPE+=("$line")
+    done
 }
 
-# sorting our list and creating needed arrays in the while loop
-sort -t'|' -k1 "$schedules_file" -o "$schedules_file"
-sed 's/.*| //g' "$schedules_file" > LISTS.txt
-sed 's/ |.*$//g' "$schedules_file" > TIME.txt
-awk '/audio|video/{print $5}' "$schedules_file" > TYPE.txt
-cat {LISTS,TIME,TYPE}.txt > ALL.txt
+_ReloadSchedules() {
+    printf '\n%s\n' " Reloading schedules..."
+    _LoadSchedules
+    printf '%s\n' " Schedules reloaded. " \
+    " Now tracking ${#LISTS[@]} scheduled downloads."
+}
 
-declare -a LISTS TIME TYPE
-mapfile -t ALL < ALL.txt
-for line in "${ALL[@]}"; do
-    [[ $line =~ .m3u$ ]] && {
-        LISTS+=("$line")
-        # removing the header of playlist for yt-dlp --batch-file option
-        sed -i '/#EXTM3U/d' "$line"
-    }
-    [[ $line =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]] && TIME+=("$line")
-    [[ $line =~ audio|video ]] && TYPE+=("$line")
-done
+_Cleanup() {
+    rm {ALL,LISTS,TIME,TYPE}.txt >/dev/null 2>&1
+    if [[ ! -f $schedules_file ]]; then
+        # In this case we cancelled the last schedule via mpm.
+        printf '%s\n' " Scheduled download cancelled."
+        exit 0
+    elif [[ ! -s $schedules_file ]]; then
+        rm "$schedules_file"
+        sed -i '1s/^/#EXTM3U\n/' "${LISTS[@]}" >/dev/null 2>&1
+        printf '%s\n' " Scheduled downloads cancelled or finished."
+        exit 0
+    fi
+}
+
+# Load schedules initially
+_LoadSchedules
 
 _Message() {
     printf '%s\n' \
@@ -85,6 +107,7 @@ _Message() {
 # when scheduled time from playlists occures, the download will start
 index=0
 while true; do
+    trap break SIGINT
     if [[ ${TIME[${index}]} == $(date '+%Y-%m-%d @ %H:%M') ]]; then
         _Message
         if [[ ${TYPE[${index}]} == audio ]]; then
@@ -109,7 +132,12 @@ while true; do
         sed -i "/${LISTS[${index}]}/d" "$schedules_file"
         rm {"${LISTS[${index}]}","${LISTS[${index}]}.titles"}
         ((index++))
-        ((index == ${#LISTS[@]})) && break
+        # Exit if we have no more schedules
+        ((index == ${#LISTS[@]})) && {
+            printf '%s\n' " No more scheduled downloads."
+            break
+        }
+
     fi
     sleep 60
 done

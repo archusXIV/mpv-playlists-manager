@@ -11,22 +11,14 @@ _ScheduleDownload() {
         _Menu
     }
 
-    local schedules_file schedules_lists schedules_datetime lst_count dash
+    local schedules_file schedules_datetime lst_count dash
     schedules_file="$schedules_dir/schedules.txt"
-    schedules_lists="$schedules_dir/schedules_lists"
     lst_count=0
 
     [[ ! -d $schedules_dir ]] && mkdir -p "$schedules_dir"
 
     __sortSchedulesFile() { sort -t'|' -k1 "$schedules_file" -o "$schedules_file"; }
-    __createSchedulesLists() {
-        cat "$schedules_file" > "$schedules_lists"
-        sed -i 's/.*| //g' "$schedules_lists"
-    }
-    __removeSchedulesFiles() {
-        [[ ! -s "$schedules_file" ]] && rm "$schedules_file"
-        rm "$schedules_lists"
-    }
+    __removeSchedulesFile() { [[ ! -s "$schedules_file" ]] && rm "$schedules_file"; }
 
     [[ -n $schedule_date ]] && unset schedule_date
     [[ -n $schedule_time ]] && unset schedule_time
@@ -34,7 +26,6 @@ _ScheduleDownload() {
     clear
     # Print existing schedules with line numbers if file exists
     if [[ -f "$schedules_file" ]]; then
-        __createSchedulesLists
         echo -e "\n ${info}${B}Current schedules:${NB}${nc}\n"
         dash=$(printf "%-72s" "─")
         printf '%s\n' \
@@ -81,14 +72,13 @@ _ScheduleDownload() {
             esac
 
             _RemoveDuplicateLines "$schedules_file"
-            __createSchedulesLists
 
             while read -r line; do
                 [[ $line =~ ^$schedule_date && $line =~ $schedule_time ]] && ((lst_count++))
             done < "$schedules_file"
             if ((lst_count > 1)); then
                 sed -i '$d' "$schedules_file"
-                __removeSchedulesFiles
+                __removeSchedulesFile
                 printf '\n%s\n' \
                 " ${critical}Scheduled downloads time already exists...Schedule cancelled.${nc}"
                 sleep 4
@@ -99,7 +89,7 @@ _ScheduleDownload() {
             _BlankLine
             _Prompt " ${info}Schedule download of $LIST for ${task}$schedule_datetime?${nc}" || {
                 sed -i '$d' "$schedules_file"
-                __removeSchedulesFiles
+                __removeSchedulesFile
                 printf '\n%s\n' " ${critical}Schedule cancelled.${nc}"
                 sleep 2
                 clear
@@ -108,7 +98,7 @@ _ScheduleDownload() {
             __sortSchedulesFile
             mv -f "$playlists_dir/$list" "$schedules_dir/$list"
             mv -f "$titles_dir/$list.titles" "$schedules_dir/$list.titles"
-            __removeSchedulesFiles
+            __removeSchedulesFile
             printf '%s\n' " ${info}Playlist '$LIST' download scheduled.${nc}"
             sleep 2
             _ValidateSchedules

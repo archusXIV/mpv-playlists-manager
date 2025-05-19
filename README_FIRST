@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.3-8
+mpm version 2.3-9
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -25,6 +25,8 @@ the directory names and structure are correctly set.
 
 Changelog:
 -------------------------- !!! ADDED CHANGES IN CONFIG FILES !!! --------------------------
+version 2.3-9 - New version of mpmsw, added signals sent to mpmsw to perform different actions.
+version 2.3-9 - Please read comments added in mpmrc for mpv & yt-dlp settings (concerning cookies).
 version 2.3-8 - mpmsw in ./extra have to be edited according to the advice below:
                 (brower name) line 34, please read it before you use it.
                 Put it in your $PATH, video https://www.youtube.com/watch?v=A5hTFAHYOdY
