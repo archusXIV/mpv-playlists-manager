@@ -59,9 +59,9 @@ _ValidateSchedules() {
     mv "$tmpf" "$schedules_file"
     sort -t'|' -k1 "$schedules_file" -o "$schedules_file"
 
-    # Notify mpmsw of new schedule if it's running
     pgrep --full mpmsw >/dev/null && {
         kill -SIGRTMIN+15 $(pgrep --full mpmsw)
+        _BlankLine
         printf '%s\n' " ${info}Notifying mpmsw of new schedule...${nc}"
         sleep 2
     }

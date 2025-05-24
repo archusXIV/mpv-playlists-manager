@@ -23,29 +23,35 @@ _ViewScheduledList() {
     nl -w2 -s') ' "$schedules_file"
 
     _BlankLine
-    read -rsn 1 \
-        -p " ${info}[E]dit or to remove a schedule hit its number or [${mtitle}C${info}]ancel.${nc}"
+    declare -a viewSchedulesPrompt=(
+        "${info} [E]dit or"
+        "to remove a schedule hit its number"
+        "or [${mtitle}C${info}]ancel: ${nc}"
+    )
+    read -rp "${viewSchedulesPrompt[*]}" viewSchedulesOptions
 
-    case "$REPLY" in
+    case "$viewSchedulesOptions" in
         [0-9])
-            plst=$(sed 's/.*|\s//g' < <(sed -n "${REPLY}p" "$schedules_file"))
-            sed -i "${REPLY}d" "$schedules_file"
+            plst=$(sed 's/.*|\s//g' < <(sed -n "${viewSchedulesOptions}p" "$schedules_file"))
+            sed -i "${viewSchedulesOptions}d" "$schedules_file"
             if [[ ! -s $schedules_file ]]; then
                 rm "$schedules_file"
                 pgrep --full mpmsw >/dev/null && {
                     kill -SIGTERM $(pgrep --full mpmsw)
-                    printf '\n%s\n' " ${info}Stopping mpmsw...${nc}"
+                    sed -i '1s/^/#EXTM3U\n/' "$schedules_dir"/"$plst"
+                    _BlankLine
+                    printf '%s\n' " ${info}Stopping mpmsw...${nc}"
                     sleep 2
                 }
             elif [[ -s $schedules_file ]]; then
                 pgrep --full mpmsw >/dev/null && {
                     kill -SIGRTMIN+15 $(pgrep --full mpmsw)
-                    printf '\n%s\n' " ${info}Reloading mpmsw...${nc}"
+                    _BlankLine
+                    printf '%s\n' " ${info}Reloading mpmsw...${nc}"
                 }
             fi
-            printf '\n%s\n' " ${critical}schedule $REPLY ($plst) removed.${nc}"
+            printf '\n%s\n' " ${critical}schedule $viewSchedulesOptions ($plst) removed.${nc}"
             sleep 3
-            sed -i '1s/^/#EXTM3U\n/' "$schedules_dir"/"$plst"
             mv "$schedules_dir"/"$plst" "$playlists_dir"
             mv "$schedules_dir"/"$plst.titles" "$titles_dir"
             unset plst
