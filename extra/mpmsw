@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Script name: mpmsw version 1.0.5
+# Script name: mpmsw version 1.0.6
 # Author: Barret E <archus@protonmail>
 # Licensed under the GPLv2
 # Github: https://github.com/archusXIV/mpv-playlists-manager
@@ -8,18 +8,18 @@
 #
 # Please verify the schedules directory @ line 35, by default:
 # ~/.local/share/mpv-playlists-manager/schedules
-# This script is designed as a companion for mpv-playlists-manager
-# and it checks if the current date and time match any of the scheduled times
-# in schedules.txt, if a match is found yt-dlp downloads the audio/videos
-# from the corresponding m3u file (make sure that the URLs provide audio files).
+# This script is designed as a companion for mpv-playlists-manager and it checks if the
+# current date and time match any of the scheduled times in schedules.txt, if a match is found
+# yt-dlp downloads the audio/videos from the corresponding m3u file
+# (make sure that the URLs provide audio files).
 #
 # Change the yt-dlp format options @ line 40 & 41 if you will:
-# In case the downloads failed because of platform (Youtube) policy,
 # change browser variable @ line 37, eg: browser=brave
 # Run it in your terminal, (it will stay attached): mpmsw
 
 # shellcheck disable=SC2164,SC2317
 # Do not rename this file, it is handled by mpm.
+trap '_Cleanup; echo " Caught Ctrl+C"; exit 0' SIGINT
 trap _Cleanup SIGTERM
 trap _ReloadSchedules SIGRTMIN+15
 
@@ -32,7 +32,7 @@ done
 
 # Edit your directories and yt-dlp options here.
 : "${XDG_DATA_HOME:-$HOME/.local/share}"
-schedules_dir="$XDG_DATA_HOME/mpv-playlists-manager/schedules"
+schedules_dir="$XDG_DATA_HOME/mpm/schedules"
 schedules_file="$schedules_dir/schedules.txt"
 browser=brave
 # yt-dlp cookies & format options here
@@ -112,7 +112,6 @@ _Message() {
 # when scheduled time from playlists occurs, the download will start
 index=0
 while true; do
-    trap break SIGINT
     if [[ ${TIME[${index}]} == $(date '+%Y-%m-%d @ %H:%M') ]]; then
         _Message
         if [[ ${TYPE[${index}]} == audio ]]; then
@@ -142,7 +141,6 @@ while true; do
             printf '%s\n' " No more scheduled downloads."
             break
         }
-
     fi
     # Use 5 seconds intervals for a balance between responsiveness and resource usage
     for _ in {1..12}; do
