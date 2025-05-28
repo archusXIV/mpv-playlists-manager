@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2044,SC2034
+# shellcheck disable=SC2154,SC2034
 _LoadPlaylist() {
 
     cd "$playlists_dir" || exit 1
 
     local list titlesFile action LIST
 
-    for lst in $(find . -type f -name "*_origin"); do
+    origin=(*_origin)
+    for lst in "${origin[@]}"; do
         mv -f "$lst" "${lst//_origin/}"
     done
 

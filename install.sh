@@ -1,10 +1,22 @@
 #!/usr/bin/env bash
+
+# Script name: install.sh version 2.4-0
+# Author: Barret E <https://github.com/archusXIV/mpv-playlists-manager>
+# Licensed under the GPLv2
+#
+# You need root privileges to execute this file.
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
-# version 2.3-9
+# It also will copy/modify files in ~/.config/mpm/{mpmrc,themerc}.
 
 # shellcheck disable=SC2154
 red=$'\e[38;2;206;34;30m';
 endColor=$'\e[0m';
+
+[[ $(whoami) != 'root' ]] && {
+    echo "${red}This script must be run as root.${endColor}"
+    exit 1
+}
+
 read -r -p ' Please enter your username: ' username
 CONF_DIR="/home/$username/.config/mpm"
 MPMRC="$CONF_DIR/mpmrc"
@@ -18,7 +30,7 @@ usergroup=$(
 _editConfig() {
     printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
     " original file has been saved as mpmrc.orig.${endColor}"
-    tail -n 15 ./README_FIRST
+    tail -n 7 ./README_FIRST
     printf '\n'
     read -r -p " ${red}Edit $MPMRC now? [Y/n] enter an editor name (eg: y vim): ${endColor}" edit editor
     case "$edit" in
@@ -92,16 +104,15 @@ _uninstall() {
 
 }
 
-date
 printf '\n'
 if [[ -x /usr/local/bin/mpm ]] && [[ -d /usr/local/lib/mpm ]]; then
     read -rn 1 -p ' [R]emove or [U]pgrade mpm?: '
     case "$REPLY" in
-        r|R)
+        [rR])
             _uninstall
             printf '%s\n' "hope you liked it anyway..."
         ;;
-        u|U)
+        [uU])
             _uninstall
             _install
             printf '%s\n' "for usage run: mpm --help"

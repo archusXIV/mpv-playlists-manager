@@ -41,11 +41,11 @@ _ViewScheduledList() {
                     sed -i '1s/^/#EXTM3U\n/' "$schedules_dir"/"$plst"
                     _BlankLine
                     printf '%s\n' " ${info}Stopping mpmsw...${nc}"
-                    sleep 2
                 }
             elif [[ -s $schedules_file ]]; then
                 pgrep --full mpmsw >/dev/null && {
                     kill -SIGRTMIN+15 $(pgrep --full mpmsw)
+                    sed -i '1s/^/#EXTM3U\n/' "$schedules_dir"/"$plst"
                     _BlankLine
                     printf '%s\n' " ${info}Reloading mpmsw...${nc}"
                 }

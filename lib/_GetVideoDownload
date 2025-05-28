@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2076,SC2034
+# shellcheck disable=SC2154,SC2034
 _GetVideoDownload() {
 
     mkdir --parents "$mediaDir"

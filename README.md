@@ -82,6 +82,8 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Optimized responsiveness of mpmsw and added output in the terminal:
+  - replace your old version with mpmsw version 1.0.5 in ./extra
 - mpmsw new version, added signals sent to mpmsw to perform different actions.
 - Please read comments added in mpmrc for mpv & yt-dlp settings (concerning cookies).
 - mpmsw in ./extra have to be edited according to the advice below:
