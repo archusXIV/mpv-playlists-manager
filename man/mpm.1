@@ -1,0 +1,236 @@
+.TH MPM 1 "Mai 2025" "mpm version 2.4-1" "User Commands"
+.SH NAME
+mpm \- MPV Playlists Manager
+.SH SYNOPSIS
+.B mpm
+[\fIOPTION\fR] [\fIPLAYLIST\fR]
+.SH DESCRIPTION
+MPV Playlists Manager (mpm) is a terminal-based tool for managing media playlists and downloads using mpv and yt-dlp.
+.SH OPTIONS
+.TP
+.BR \-c ", " \-\-config
+Opens ~/.config/mpm/mpmrc configuration file
+.TP
+.BR \-e ", " \-\-edit " [" \fIPLAYLIST\fR ]
+Opens the playlist edition function, with optional playlist name argument
+.TP
+.BR \-h ", " \-\-help
+Displays the /usr/local/share/doc/help file (similar to this man page)
+.TP
+.BR \-l ", " \-\-load " [" \fIPLAYLIST\fR ]
+Opens the play/download function, with optional playlist name argument
+.TP
+.BR \-f ", " \-\-local
+Opens local files or directory function
+.TP
+.BR \-u ", " \-\-upgrade
+Upgrades mpm regardless of update checking settings
+.TP
+.BR \-v ", " \-\-version
+Displays mpm version
+.SH DEPENDENCIES
+.TP
+.B Required:
+ffmpeg, jq, mpv, vim/nano, yt-dlp
+.TP
+.B Optional:
+fzf, mpvc, ncmpvc, parallel, ranger, ueberzug, w3m, ytfzf
+.SH CONFIGURATION
+The configuration file is located at ~/.config/mpm/mpmrc. You can customize:
+.TP
+.B Theme:
+Colors and formatting in ~/.config/mpm/themerc
+.TP
+.B Directories:
+Default media directories and paths
+.TP
+.B Features:
+Enable/disable various features like fzf, mpvc, parallel downloads
+.SH MAIN MENU OPTIONS
+.TP
+.B 1) Create/Add video playlist
+Add video links to temporary playlist
+.TP
+.B 2) Create/Add audio playlist
+Add audio links to temporary playlist
+.TP
+.B 3) Save as/Delete a playlist
+Save temporary lists or delete collection playlists
+.TP
+.B 4) Play/Download a playlist
+Stream, download or schedule download media from the selected playlist
+.TP
+.B 5) Load local folder/files
+Play media from local directories
+.TP
+.B 6) View default playlist
+View contents of the default playlist
+.TP
+.B 7) Clear all tmp lists
+Remove all temporary playlists (default,video,audio)
+.TP
+.B 8) Edit a playlist
+Modify existing playlists:
+Edit URLs/titles, rename the playlist or delete particular titles from the playlist
+.TP
+.B 9) Edit mpm config file
+Modify mpm configuration files (mpmrc,themerc)
+.SH KEYBOARD SHORTCUTS
+.TP
+.B Main Menu:
+.RS
+.TP
+.B a
+Create/Add links to Audio list
+.TP
+.B b
+Show main window bindings
+.TP
+.B c
+Edit mpmrc file
+.TP
+.B d
+Access default playlist
+.TP
+.B e
+Edit collection playlist
+.TP
+.B f
+Load local files
+.TP
+.B h
+Previous song
+.TP
+.B j
+Stop/quit mpv
+.TP
+.B k
+Toggle play/pause
+.TP
+.B l
+Next song
+.TP
+.B m
+Access manuals & help
+.TP
+.B n
+Launch mpv TUI
+.TP
+.B p
+Load/Download collection playlist
+.TP
+.B q
+Quit mpv
+.TP
+.B r
+Refresh main window
+.TP
+.B s
+Save/Remove playlist
+.TP
+.B t
+Display current title
+.TP
+.B u
+Show help screen
+.TP
+.B v
+Create/Add links to Video list
+.TP
+.B x
+Quit mpm
+.TP
+.B y
+View scheduled downloads
+.TP
+.B z
+Clear temporary lists
+.TP
+.B Ctrl+B
+Change themes
+.TP
+.B Ctrl+M
+Quick view mpmrc
+.RE
+.SH NATIVE PLAYER SHORTCUTS
+.TP
+.B Enter
+Play selected item
+.TP
+.B Left arrow
+Seek 30s backward
+.TP
+.B Right arrow
+Seek 30s forward
+.TP
+.B Ctrl+N
+Play next item
+.TP
+.B Ctrl+P
+Play previous item
+.TP
+.B Ctrl+T
+Toggle pause
+.TP
+.B Ctrl+R
+Reload playlist
+.TP
+.B Ctrl+X
+Quit mpv
+.TP
+.B Escape
+Exit interface
+.SH AUDIO CONVERSION
+Audio conversion settings can be configured in mpmrc:
+.TP
+.B automatic_audio_conversion
+Enable/disable automatic conversion
+.TP
+.B default_conversion_format
+Set default format (aac|flac|mp3|ogg|wav)
+.SH UPGRADE PROCEDURE
+.TP
+.B Method 1:
+.RS
+.nf
+git clone https://github.com/archusXIV/mpv-playlists-manager.git
+cd ./mpv-playlists-manager
+sudo ./install.sh
+.fi
+.RE
+.TP
+.B Method 2 (if folder exists):
+.RS
+.nf
+cd ./mpv-playlists-manager
+git fetch
+git reset --hard HEAD
+git merge '@{u}'
+sudo ./install.sh
+.fi
+.RE
+.TP
+.B Method 3 (using Makefile):
+.RS
+.nf
+sudo make upgrade && make diff-config
+.fi
+.RE
+.SH AUTHOR
+Barret E <archus@protonmail.com>
+.SH SEE ALSO
+.BR mpv (1),
+.BR yt-dlp (1),
+.BR ffmpeg (1)
+.SH BUGS
+Report bugs at https://github.com/archusXIV/mpv-playlists-manager/issues
+.SH COPYRIGHT
+Copyright © 2025 Barret E
+.SH LINKS
+.TP
+.B Homepage:
+https://github.com/archusXIV/mpv-playlists-manager
+.TP
+.B YouTube:
+https://www.youtube.com/@mpv-playlists-manager-mv8sh/featured
+https://www.youtube.com/@linuxinfrench9388/featured

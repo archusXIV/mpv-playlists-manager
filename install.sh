@@ -30,7 +30,7 @@ usergroup=$(
 _editConfig() {
     printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
     " original file has been saved as mpmrc.orig.${endColor}"
-    tail -n 7 ./README_FIRST
+    tail -n 8 ./README_FIRST
     printf '\n'
     read -r -p " ${red}Edit $MPMRC now? [Y/n] enter an editor name (eg: y vim): ${endColor}" edit editor
     case "$edit" in
@@ -87,6 +87,9 @@ _install() {
     }
     mkdir --verbose --parents /usr/share/licenses/mpm && \
     cp --verbose --force ./LICENSE /usr/share/licenses/mpm/LICENSE
+    mkdir --verbose --parents /usr/local/man/man1 && \
+    cp --verbose --force ./man/mpm.1 /usr/local/man/man1/mpm.1 && \
+    gzip -f /usr/local/share/man/man1/mpm.1.gz
 
     chmod 755 /usr/local/lib/mpm/*
     chmod 755 /usr/local/bin/mpm
@@ -101,6 +104,7 @@ _uninstall() {
     rm --verbose --recursive --force /usr/local/lib/mpm
     rm --verbose --recursive --force /usr/local/share/doc/mpm
     rm --verbose --recursive --force /usr/share/licenses/mpm
+    rm --verbose --recursive --force /usr/local/man/man1/mpm.1
 
 }
 

@@ -6,6 +6,7 @@ BINDIR ?= $(PREFIX)/bin
 LIBDIR ?= $(PREFIX)/lib/mpm
 DOCDIR ?= $(PREFIX)/share/doc/mpm
 LICENSEDIR ?= /usr/share/licenses/mpm
+MANDIR ?= $(PREFIX)/share/man
 USERNAME ?= $(shell whoami)
 CONF_DIR = $(shell [ "$(USERNAME)" = "root" ] && echo "/etc/mpm" || echo "/home/$(USERNAME)/.config/mpm")
 USERGROUP ?= $(shell id -g $(USERNAME))
@@ -36,6 +37,9 @@ install: check-root config
 	@cp -v -r extra/* $(DESTDIR)$(DOCDIR)/extra/
 	@install -v -dm755 $(DESTDIR)$(LICENSEDIR)
 	@install -v -m644 LICENSE $(DESTDIR)$(LICENSEDIR)/LICENSE
+	@install -v -dm755 $(DESTDIR)$(MANDIR)/man1
+	@install -v -m644 man/mpm.1 $(DESTDIR)$(MANDIR)/man1/mpm.1
+	@gzip -f $(DESTDIR)$(MANDIR)/man1/mpm.1
 	@echo "Installation complete!"
 	@echo "For usage run: mpm --help"
 	@echo "You can now as regular user run: make config"
@@ -79,6 +83,7 @@ uninstall: check-root
 	@rm -v -rf $(DESTDIR)$(LIBDIR)
 	@rm -v -rf $(DESTDIR)$(DOCDIR)
 	@rm -v -rf $(DESTDIR)$(LICENSEDIR)
+	@rm -v -f $(DESTDIR)$(MANDIR)/man1/mpm.1.gz
 	@echo "Uninstallation complete!"
 	@echo "Note: User configuration in $(CONF_DIR) has been preserved"
 
@@ -97,4 +102,5 @@ help:
 	@echo "  LIBDIR     - Library directory (default: \$${PREFIX}/lib/mpm)"
 	@echo "  DOCDIR     - Documentation directory (default: \$${PREFIX}/share/doc/mpm)"
 	@echo "  LICENSEDIR - License directory (default: /usr/share/licenses/mpm)"
+	@echo "  MANDIR     - Manual pages directory (default: \$${PREFIX}/share/man)"
 	@echo "  USERNAME   - User to own config files (default: current user)"

@@ -72,6 +72,10 @@ mpm -u|--upgrade  : whatever checking updates is enabled or not,
                     you can upgrade mpm through this option now.
 mpm -v|--version  # prints mpm version
 ```
+You may also use:
+```
+man mpm
+```
 
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
@@ -82,6 +86,7 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Now mpm has a man page, in you terminal just type: man mpm
 - Added _IfDuplicatesUrls function that parse our collection of playlists and check if we copied URLs already present in that collection, and if so the duplicates aren't saved except in the default list.
 - Optimized responsiveness of mpmsw and added output in the terminal:
   - replace your old version with mpmsw version 1.0.6 in ./extra

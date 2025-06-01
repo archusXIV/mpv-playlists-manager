@@ -22,7 +22,7 @@ _ManualsMenu() {
         " ${critical}                                   Some of these options might help to configure mpmrc${nc}"
         echo -e "                                    ┌─────────────────────────────────────────────────┐"
         echo -e "                                    │     1) Man ffmpeg      6) $mpvTui     │"
-        echo -e "                                    │     2) Man $fzfCmd         7) Mpm help $VERSION      │"
+        echo -e "                                    │     2) Man $fzfCmd         7) Man mpm               │"
         echo -e "                                    │     3) Man mpv         8) Mpm shortcuts         │"
         echo -e "                                    │     4) Man yt-dlp      9) Edit mpm configs      │"
         echo -e "                                    │     5) Man $ytfzfCmd       X) Back to main menu     │"
@@ -38,7 +38,7 @@ _ManualsMenu() {
             4) man yt-dlp ;;
             5) man ytfzf ;;
             6) less "$mpvc_tui_cheatsheet" ;;
-            7) _MpmHelp -u ;;
+            7) man mpm ;;
             8) _MpmHelp -b ;;
             9) _EditMpmConf -m ;;
             [bBxX]) break ;;

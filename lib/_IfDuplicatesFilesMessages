@@ -6,7 +6,7 @@ _IfDuplicatesFilesMessages() {
 
     local  it link
     it="it" link="link"
-
+    
     ((titlesCount > 1)) && { it="them"; link="links"; }
 
     case "$1" in
