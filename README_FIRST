@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.4-0
+mpm version 2.4-1
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -25,8 +25,9 @@ the directory names and structure are correctly set.
 
 Changelog:
 --------------------------------- NO CHANGES IN CONFIG FILES ---------------------------------
+version 2.4-1 - Added _IfDuplicatesUrls function that parse our collection of playlists
+                and check if we copied URLs already present in that collection, and if so
+                the duplicates aren't saved except in the default list.
 version 2.4-0 - Optimized responsiveness of mpmsw and added output in the terminal:
                 replace your old version with mpmsw version 1.0.6 in ./extra
 version 2.4-0 - Fixed bug in _ViewScheduledList function.
-version 2.3-9 - New version of mpmsw, added signals sent to mpmsw to perform different actions.
-version 2.3-9 - Please read comments added in mpmrc for mpv & yt-dlp settings (concerning cookies).

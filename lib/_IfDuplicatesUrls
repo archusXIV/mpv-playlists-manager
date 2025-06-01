@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_IfDuplicatesUrls() {
+
+    [[ ! -s $URLS ]] && return
+
+	local pl pls is_duplicate
+	declare -a collection=()
+	declare -a lines_to_delete=()
+	declare -i linenum=1
+	declare -i has_non_duplicates=0
+
+    pls=("$playlists_dir"/*.m3u)
+	mapfile -t list_links < "$URLS"
+
+    for pl in "${pls[@]}"; do
+        if [[ $pl =~ default.m3u ]]; then
+            continue
+        else
+			collection+=("$pl")
+		fi
+    done
+
+	for line in "${list_links[@]}"; do
+		is_duplicate=0
+		for pls in "${collection[@]}"; do
+			grep -qx "$line" "$pls" && {
+				clear; _BlankLine
+				printf '%s\n' \
+				" ${critical}The below URL is already present in your collection:" \
+				" URL: ${nc}$line" \
+				" ${critical}Found in playlist: ${task}$(basename "${pls}")" \
+				" ${critical}Removing: ${nc}$line"
+				sleep 2
+				lines_to_delete+=("$linenum")
+				is_duplicate=1
+				break
+			}
+		done
+		((is_duplicate == 0)) && has_non_duplicates=1
+		((linenum++))
+	done
+
+	__sedDeleteLines() {
+		for ((idx=${#lines_to_delete[@]}-1; idx>=0; idx--)); do
+			sed -i "${lines_to_delete[idx]}d" "$URLS"
+		done
+	}
+	# Delete lines in reverse order only if all lines are duplicates
+	if ((has_non_duplicates == 0)); then
+		__sedDeleteLines
+		rm -f {"$URLS","$TITLES"}
+	else
+		__sedDeleteLines
+	fi
+
+	((linenum == 0)) && rm -f {"$URLS","$TITLES"}
+	unset pl pls line linenum collection lines_to_delete has_non_duplicates
+	# This may update the titles list
+	_CreateAddPlaylistActions --view
+
+}

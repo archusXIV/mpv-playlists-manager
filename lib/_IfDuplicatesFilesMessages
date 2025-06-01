@@ -4,11 +4,10 @@
 # shellcheck disable=SC2154,SC2001
 _IfDuplicatesFilesMessages() {
 
-    if ((titlesCount > 1)); then
-        it="them"; link="links"
-    else
-        it="it"; link="link"
-    fi
+    local  it link
+    it="it" link="link"
+
+    ((titlesCount > 1)) && { it="them"; link="links"; }
 
     case "$1" in
         --if)

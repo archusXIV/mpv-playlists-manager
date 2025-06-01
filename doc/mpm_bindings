@@ -11,7 +11,7 @@
         f) Load local folder/files *              │ u) Show help screen
         h) Go to previous song                    │ v) Create/Add links to the Video list *
         j) Stop or quit mpv                       │ x) Quit mpm
-        k) Toggle play/pause                      │ y) View or remove schedules
+        k) Toggle play/pause                      │ y) View or remove scheduled downloads
         l) Go to next song                        │ z) Clear all tmp lists *
         m) Manuals & help access                  │ Ctrl+B) change themes
         n) Launch mpv tui                         │ Ctrl+M) mpmrc quick view

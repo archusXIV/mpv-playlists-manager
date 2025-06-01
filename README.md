@@ -82,23 +82,10 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Added _IfDuplicatesUrls function that parse our collection of playlists and check if we copied URLs already present in that collection, and if so the duplicates aren't saved except in the default list.
 - Optimized responsiveness of mpmsw and added output in the terminal:
-  - replace your old version with mpmsw version 1.0.5 in ./extra
-- mpmsw new version, added signals sent to mpmsw to perform different actions.
-- Please read comments added in mpmrc for mpv & yt-dlp settings (concerning cookies).
-- mpmsw in ./extra have to be edited according to the advice below:
-  - [(brower name)](https://github.com/archusXIV/mpv-playlists-manager/blob/main/extra/mpmsw#L36), please read it before you use it.
-  - Put it in your $PATH, video https://www.youtube.com/watch?v=A5hTFAHYOdY
-
-```
-$ ~ mpmsw
-```
-- Added 2 critical arrays in mpmrc concerning playing/downloading **youtube audio/video** links (youtube changes all the time!!!)
-  - [mpvGenOptions_UC=( --cookies=yes )](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L230)
-  - [ytdlPreset_BC=( --cookies-from-browser=your_browser_name_here )](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L265)
-- Added a Makefile for install/uninstall/upgrade, you can use it instead of the install.sh script:
-  - sudo make install (first mpm install), sudo make upgrade (mpm upgrade)
-  - then as regular user: make config or make diff-config (when upgrading mpm).
+  - replace your old version with mpmsw version 1.0.6 in ./extra
+- Fixed bug in _ViewScheduledList function.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.

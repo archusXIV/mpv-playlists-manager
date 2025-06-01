@@ -4,12 +4,29 @@
 # shellcheck disable=SC2154
 _AnalyzeUrls() {
 
-    local mediaUrl
+    local singleUrlsFile playlistUrlsFile
 
     clear
     printf '\%s\n' " ${info}Analyzing URLs...Please wait.${nc}"
-    mapfile -t tmpUrls < "$clipUrls"
 
+    singleUrlsFile="$tmp_dir/single_urls"
+    playlistUrlsFile="$tmp_dir/playlist_urls"
+    : > "$singleUrlsFile"
+    : > "$playlistUrlsFile"
+
+    # Sort URLs: playlists go to playlistUrlsFile, others to singleUrlsFile
+    while IFS= read -r url; do
+        if [[ $url =~ 'playlist?list='|'odysee.com/$/playlist/' ]]; then
+            echo "$url" >> "$playlistUrlsFile"
+        else
+            echo "$url" >> "$singleUrlsFile"
+        fi
+    done < "$clipUrls"
+
+    cat "$singleUrlsFile" "$playlistUrlsFile" > "$clipUrls"
+    rm -f {"$singleUrlsFile","$playlistUrlsFile"}
+
+    mapfile -t tmpUrls < "$clipUrls"
     for mediaUrl in "${tmpUrls[@]}"; do
 
         [[ $mediaUrl =~ ^https:\/\/www\.youtube\.com\/@[^\/] ]] && {
@@ -23,7 +40,7 @@ _AnalyzeUrls() {
             printf '\n%s\n' \
             " ${info}Getting titles & links from playlist: $(\
             yt-dlp "${ytdlPreset_DW[@]}" -J --flat-playlist "$mediaUrl" \
-            | jq --raw-output .title)..." "${b} Please be patient.${nb}${nc}"
+            | jq --raw-output .title)..." "${b} Processing playlist...${nb}${nc}"
             _GetPlaylistUrls "$arg"
             continue
         fi
@@ -50,8 +67,8 @@ _AnalyzeUrls() {
             continue
         fi
 
-        # Check audio format if we are downloading audio.
-        # Odysee for example doesn't have audio format
+        # Check audio format if we are downloading audio
+        # Odysee for example doesn't provide audio formats
         if [[ $arg == '-a' ]] && ! grep -qe 'audio' "$urlTest"; then
             printf '%s\n' " ${critical}No audio format found...${nc}" \
             " removing $mediaUrl..."

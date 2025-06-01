@@ -6,15 +6,15 @@
 # Github: https://github.com/archusXIV/mpv-playlists-manager
 # Youtube channel: https://www.youtube.com/@mpv-playlists-manager-mv8sh
 #
-# Please verify the schedules directory @ line 35, by default:
+# Please verify the schedules directory @ line 36, by default:
 # ~/.local/share/mpv-playlists-manager/schedules
 # This script is designed as a companion for mpv-playlists-manager
 # and it checks if the current date and time match any of the scheduled times
 # in schedules.txt, if a match is found yt-dlp downloads the audio/videos
 # from the corresponding m3u file (make sure that the URLs provide audio files).
 #
-# Change the yt-dlp format options @ line 40 & 41 if you will:
-# change browser variable @ line 37, eg: browser=brave
+# Change the yt-dlp format options @ line 41 & 42 if you will:
+# change browser variable @ line 38, eg: browser=brave
 # Run it in your terminal, (it will stay attached): mpmsw
 
 # shellcheck disable=SC2164,SC2317
@@ -30,6 +30,7 @@ for dep in awk sed yt-dlp; do
     }
 done
 
+############## BEGIN PREFERENCES ##############
 # Edit your directories and yt-dlp options here.
 : "${XDG_DATA_HOME:-$HOME/.local/share}"
 schedules_dir="$XDG_DATA_HOME/mpv-playlists-manager/schedules"
@@ -39,6 +40,7 @@ browser=brave
 ytdlpCookyCmd=( --cookies-from-browser="${browser}" )
 ytdlpAudioCmd=( --format bestaudio/best )
 ytdlpVideoCmd=( --format bestvideo+bestaudio/best --merge-output-format mp4 )
+############### End PREFERENCES ###############
 
 if [[ -d $schedules_dir ]]; then
     command cd "$schedules_dir"
@@ -75,7 +77,7 @@ _LoadSchedules() {
         [[ $line =~ audio|video ]] && TYPE+=("$line")
     done
     if [[ $reload ]]; then
-        printf '%s\n' " Schedules reloaded. " \
+        printf '%s\n' " Schedules reloaded." \
         " Now tracking ${#LISTS[@]} scheduled downloads."
     fi
 }
@@ -104,16 +106,12 @@ _Cleanup() {
 # Load schedules initially
 _LoadSchedules
 
-_Message() {
-    printf '%s\n' \
-        " $(date '+%H:%M') - Downloading ${TYPE[${index}]} from ${LISTS[${index}]}"
-}
-
 # when scheduled time from playlists occurs, the download will start
 index=0
 while true; do
     if [[ ${TIME[${index}]} == $(date '+%Y-%m-%d @ %H:%M') ]]; then
-        _Message
+        printf '%s\n' \
+        " $(date '+%H:%M') - Downloading ${TYPE[${index}]} from ${LISTS[${index}]}"
         if [[ ${TYPE[${index}]} == audio ]]; then
             {
                 yt-dlp \

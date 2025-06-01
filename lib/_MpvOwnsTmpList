@@ -20,12 +20,10 @@ _MpvOwnsTmpList() {
                     fi
                 ;;
                 --collection)
-                    if [[ -f $playerTitlesList || -f list_tmp ]]; then
+                    if [[ -f list_tmp ]]; then
                         name="$playerTitlesList"
                         name="${name##*/}"
                         name="${name//.titles}"
-                    elif [[ -f playerIndexesList ]]; then
-                        name="another"
                     else
                         return
                     fi

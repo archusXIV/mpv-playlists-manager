@@ -23,6 +23,8 @@ _CopyMediaUrl() {
 
     _AnalyzeUrls
     _RemoveCrap
+    _IfDuplicatesUrls
     _IfDuplicatesFiles
+    _CreateAddPlaylist "$arg"
 
 }
