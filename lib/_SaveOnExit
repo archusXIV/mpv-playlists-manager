@@ -36,6 +36,7 @@ _SaveOnExit() {
             sleep 0.05
         done
 
+        _PolybarIpc
         printf '%s\n' " ${critical}TOO BAD...BYE${nc}"
         sleep 2
         nc=$'\e[0m';

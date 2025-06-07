@@ -34,7 +34,7 @@ _MenuOptions() {
             case "$arrowkeys" in "[A|[B|[C|[D") : ;; esac
         ;;
         $'\0d') _MpmrcTasksList ;; # Ctrl+M, space
-        $'\02') _ChooseTheme --main ;; # Ctrl+B
+        $'\02') _ChooseTheme ;; # Ctrl+B
         *) _WrongOption "$mainMenuOptions" ;;
     esac
 

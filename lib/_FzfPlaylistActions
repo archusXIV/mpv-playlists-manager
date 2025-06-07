@@ -48,6 +48,7 @@ _FzfPlaylistActions() {
                     " ${critical}Are you sure you want to remove $list?:${nc}" && {
                         rm {"$playlists_dir"/"$list","$titles_dir"/"$list".titles}
                         printf '\n%s\n' " ${critical}$list removed.${nc}"
+                        _PolybarIpc
                         sleep 3
                         _Menu
                     }

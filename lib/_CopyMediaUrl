@@ -25,6 +25,5 @@ _CopyMediaUrl() {
     _RemoveCrap
     _IfDuplicatesUrls
     _IfDuplicatesFiles
-    _CreateAddPlaylist "$arg"
 
 }

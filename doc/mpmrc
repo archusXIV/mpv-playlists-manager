@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ~/.config/mpm/mpmrc (version 2.4-1)
+# ~/.config/mpm/mpmrc (version 2.4-2)
 
 ########################################################
 #'##::::'##:'########::'##::::'##:'########:::'######::#
@@ -168,6 +168,7 @@ ytfzfOptions_X=(
 )
 
 ################ FFMPEG SPECIFICS (audio conversion) ################
+############# First install all the needed audio codecs #############
 # !!! You can change ffmpeg audio codec command line settings !!!
 # if the parallel package is installed then it will be used to launch
 # multiple conversions at once in the equivalent quality,

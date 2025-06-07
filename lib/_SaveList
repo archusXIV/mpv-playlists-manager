@@ -39,6 +39,7 @@ _SaveList() {
     fi
 
     _ReplaceSpaces -s
+    _PolybarIpc
     sleep 3
     _Menu
 

@@ -8,6 +8,7 @@ _IfQuitAfterTask() {
         if [[ -s "$AUDIO_URLS" || -s "$VIDEO_URLS" ]]; then
             _SaveOnExit
         else
+            _PolybarIpc
             nc=$'\e[0m';
             echo "${nc}"
             echo -e "\033]11;${default_bg}\007"

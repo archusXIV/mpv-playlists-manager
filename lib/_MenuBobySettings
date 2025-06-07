@@ -6,52 +6,50 @@ _MenuBobySettings() {
 
     local varConv varDirect varFmt varFzf varMpvc varParallel varQuit
 
-    if [[ -z $use_mpvc ]]; then
-        varMpvc="${critical}  !!!${nc}"
-    elif [[ $use_mpvc == yes ]]; then
-        varMpvc="${task}  $use_mpvc${nc}"
+    if [[ $use_mpvc == yes ]]; then
+        varMpvc="${task}  yes${nc}"
     elif [[ $use_mpvc == no ]]; then
-        varMpvc="${critical}   $use_mpvc${nc}"
+        varMpvc="${critical}   no${nc}"
     else
-        varMpvc="${task}unset${nc}"
+        varMpvc="${critical}unset${nc}"
     fi
 
-    if [[ -z $use_fzf ]]; then
-        varFzf="${critical}  !!!${nc}"
-    elif [[ $use_fzf == yes ]]; then
-        varFzf="${task}  $use_fzf${nc}"
+    if [[ $use_fzf == yes ]]; then
+        varFzf="${task}  yes${nc}"
+    elif [[ $use_fzf == no ]]; then
+        varFzf="${critical}   no${nc}"
     else
-        varFzf="${critical}   $use_fzf${nc}"
+        varFzf="${critical}unset${nc}"
     fi
 
-    if [[ -z $use_parallel ]]; then
-        varParallel="${critical}  !!!${nc}"
-    elif [[ $use_parallel == yes && $use_parallel_downloads == no ]]; then
+    if [[ $use_parallel == yes && $use_parallel_downloads == no ]]; then
         varParallel="${critical}  yes${nc}"
     elif [[ $use_parallel == yes ]]; then
-        varParallel="${task}  $use_parallel${nc}"
+        varParallel="${task}  yes${nc}"
+    elif [[ $use_parallel == no ]]; then
+        varParallel="${task}   no${nc}"
     else
-        varParallel="${critical}   $use_parallel${nc}"
+        varParallel="${critical}unset${nc}"
     fi
 
-    if [[ -z $direct_download ]]; then
+    if [[ $direct_download == yes ]]; then
+        varDirect="${task} yes${nc}"
+    elif [[ $direct_download == no ]]; then
+        varDirect="${task}  no${nc}"
+    else
         varDirect="${critical} !!!${nc}"
-    elif [[ $direct_download == yes ]]; then
-        varDirect="${task} $direct_download${nc}"
-    else
-        varDirect="${critical}  $direct_download${nc}"
     fi
 
-    if [[ -z $automatic_audio_conversion ]]; then
-        varConv="${critical} !!!${nc}"
-    elif [[ $automatic_audio_conversion == no && -n $default_conversion_format ]]; then
-        varConv="${critical}  $automatic_audio_conversion${nc}"
+    if [[ $automatic_audio_conversion == no && -n $default_conversion_format ]]; then
+        varConv="${critical}  no${nc}"
     elif [[ $automatic_audio_conversion == no && -z $default_conversion_format ]]; then
-        varConv="${critical}  $automatic_audio_conversion${nc}"
+        varConv="${critical}  no${nc}"
     elif [[ $automatic_audio_conversion == yes && -z $default_conversion_format ]]; then
-        varConv="${critical} $automatic_audio_conversion${nc}"
+        varConv="${critical} yes${nc}"
+    elif [[ $automatic_audio_conversion == yes && -n $default_conversion_format ]]; then
+        varConv="${task} yes${nc}"
     else
-        varConv="${task} $automatic_audio_conversion${nc}"
+        varConv="${critical} !!!${nc}"
     fi
 
     if [[ -z $default_conversion_format ]]; then
@@ -63,9 +61,11 @@ _MenuBobySettings() {
     fi
 
     if [[ $quit_after_task == yes ]]; then
-        varQuit="${task}${critical}$quit_after_task${nc}"
+        varQuit="${critical}yes${nc}"
+    elif [[ $quit_after_task == no ]]; then
+        varQuit="${task} no${nc}"
     else
-        varQuit="${task} $quit_after_task${nc}"
+        varQuit="${critical}!!!${nc}"
     fi
 
     _MenuBoby

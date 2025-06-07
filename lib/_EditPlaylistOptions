@@ -73,6 +73,7 @@ _EditPlaylistOptions() {
                 printf '%s\n' " ${critical}${list##*/} is empty...${list##*/} removed.${nc}"
                 rm {"$list","$titles_dir"/"$list".titles}
                 sleep 2
+                _PolybarIpc
             else
                 printf '\n%s\n' " ${info}$list saved.${nc}"
                 sleep 2

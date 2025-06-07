@@ -6,13 +6,13 @@ _ChooseFromPlay() {
 
     __loadSelected() {
         _BlankLine
-        read -rsn 1 -p " ${info}Load selected as [A]udio, [V]ideo: ${nc}" loadOptions
-        if [[ $loadOptions =~ a|A ]]; then
+        read -rsn 1 -p " ${info}Load selected as [A]udio, [V]ideo: ${nc}" loadSelectedOptions
+        if [[ $loadSelectedOptions =~ a|A ]]; then
             _LoadAudioVideo -sa
-        elif [[ $loadOptions =~ v|V ]]; then
+        elif [[ $loadSelectedOptions =~ v|V ]]; then
             _LoadAudioVideo -sv
         else
-            _WrongOption "$loadOptions"
+            _WrongOption "$loadSelectedOptions"
             return
         fi
     }

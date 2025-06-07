@@ -43,6 +43,7 @@ _FzfRemoveMultiplePlaylists() {
         done < "$FZFSELTITLES"
 
         rm "$FZFSELTITLES"
+        _PolybarIpc
         sleep 2
 
     }

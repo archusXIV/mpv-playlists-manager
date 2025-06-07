@@ -8,20 +8,19 @@ _MenuHeader() {
     sep="${task}*${nc}"
 
     # we need color for this, so we need to use echo.
+    # -1 because we don't want to take into account default.m3u
     __col() (
-        if [[ -z $(find "$playlists_dir" -not -name "default.m3u" -name "*.m3u") ]]; then
-            echo "0"
-        else
-            echo "${info}$(find "$playlists_dir" -not -name "default.m3u" \
-            -name "*.m3u" -printf '.' | wc -c)${nc}"
-        fi
+        p=("$playlists_dir"/*.m3u) pc="${#p[@]}"
+        echo "${info}$((pc - 1))${nc}"
     )
 
     __def() (
+        local defCnt
+        defCnt=$(_GetLinesList -d)
         if [[ -f $tmp_dir/1 ]]; then
-            echo "${critical}${b}$(_GetLinesList -d)${nb}${nc}"
-        elif [[ $(_GetLinesList -d) -gt 0 ]]; then
-            echo "${info}$(_GetLinesList -d)${nc}"
+            echo "${critical}${b}$defCnt${nb}${nc}"
+        elif [[ $defCnt -gt 0 ]]; then
+            echo "${info}$defCnt${nc}"
         else
             echo "0"
         fi
@@ -39,16 +38,17 @@ _MenuHeader() {
     )
 
     __sch() (
-        echo "${info}$(grep '.m3u$' -c "$main_dir/schedules/schedules.txt")${nc}"
+        test -f "$schedules_dir/schedules.txt" && \
+        echo "${info}$(grep '.m3u$' -c "$schedules_dir/schedules.txt")${nc}"
     )
 
     clear
-    echo -e "\n                                            ${mtitle}${B}:: MPV-PLAYLISTS-MANAGER $VERSION ::${NB}" "$(_CheckUpdate)"
+    echo -e "\n\n                                            ${mtitle}${B}:: MPV-PLAYLISTS-MANAGER $VERSION ::${NB}" "$(_CheckUpdate)"
     echo -e "                                            $(_LittleStars)${nc}"
     [[ -z $THEME ]] && \
     echo -e "                                                  current theme: ${info}${theme}${nc}" || \
     echo -e "                                                  current theme: ${info}${THEME}${nc}"
-    if [[ -f $main_dir/schedules/schedules.txt ]]; then
+    if [[ -f $schedules_dir/schedules.txt ]]; then
         echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
         echo -e "                      Collection: $(__col) ${sep} Default list: $(__def) ${sep} Audio list: $(__aud) ${sep} Video list: $(__vid) ${sep} Scheduled: $(__sch)"
         echo -e "                   └─────────────────────────────────────────────────────────────────────────────────────┘"

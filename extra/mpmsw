@@ -34,7 +34,7 @@ done
 # Edit your directories and yt-dlp options here.
 : "${XDG_DATA_HOME:-$HOME/.local/share}"
 schedules_dir="$XDG_DATA_HOME/mpv-playlists-manager/schedules"
-schedules_file="$schedules_dir/schedules.txt"
+schedulesFile="$schedules_dir/schedules.txt"
 browser=brave
 # yt-dlp cookies & format options here
 ytdlpCookyCmd=( --cookies-from-browser="${browser}" )
@@ -44,7 +44,7 @@ ytdlpVideoCmd=( --format bestvideo+bestaudio/best --merge-output-format mp4 )
 
 if [[ -d $schedules_dir ]]; then
     command cd "$schedules_dir"
-    [[ ! -f $schedules_file ]] && {
+    [[ ! -f $schedulesFile ]] && {
         printf '%s\n' " No scheduled downloads found."
         exit 1
     }
@@ -57,24 +57,24 @@ fi
 _LoadSchedules() {
     # sorting our list and creating needed arrays,
     # also used when we have remove schedules on the fly.
-    sort -t'|' -k1 "$schedules_file" -o "$schedules_file"
-    sed 's/.*| //g' "$schedules_file" > LISTS.txt
-    sed 's/ |.*$//g' "$schedules_file" > TIME.txt
-    awk '/audio|video/{print $5}' "$schedules_file" > TYPE.txt
-    cat {LISTS,TIME,TYPE}.txt > ALL.txt
+    sort -t'|' -k1 "$schedulesFile" -o "$schedulesFile"
+    sed 's/.*| //g' "$schedulesFile" > LISTS.txt
+    sed 's/ |.*$//g' "$schedulesFile" > TIMES.txt
+    awk '/audio|video/{print $5}' "$schedulesFile" > TYPES.txt
+    cat {LISTS,TIMES,TYPES}.txt > LINES.txt
 
     # Clear existing arrays before reloading
-    LISTS=() TIME=() TYPE=()
+    LISTS=() TIMES=() TYPES=()
 
-    mapfile -t ALL < ALL.txt
-    for line in "${ALL[@]}"; do
+    mapfile -t LINES < LINES.txt
+    for line in "${LINES[@]}"; do
         [[ $line =~ .m3u$ ]] && {
             LISTS+=("$line")
             # removing the header of playlist for yt-dlp --batch-file option
             sed -i '/#EXTM3U/d' "$line"
         }
-        [[ $line =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]] && TIME+=("$line")
-        [[ $line =~ audio|video ]] && TYPE+=("$line")
+        [[ $line =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]] && TIMES+=("$line")
+        [[ $line =~ audio|video ]] && TYPES+=("$line")
     done
     if [[ $reload ]]; then
         printf '%s\n' " Schedules reloaded." \
@@ -90,13 +90,13 @@ _ReloadSchedules() {
 }
 
 _Cleanup() {
-    rm {ALL,LISTS,TIME,TYPE}.txt >/dev/null 2>&1
-    if [[ ! -f $schedules_file ]]; then
+    rm {LINES,LISTS,TIMES,TYPES}.txt >/dev/null 2>&1
+    if [[ ! -f $schedulesFile ]]; then
         # ... we cancelled the last remaining schedule via mpm.
         printf '%s\n' " Scheduled download cancelled."
         exit 0
-    elif [[ ! -s $schedules_file ]]; then
-        rm "$schedules_file"
+    elif [[ ! -s $schedulesFile ]]; then
+        rm "$schedulesFile"
         sed -i '1s/^/#EXTM3U\n/' "${LISTS[@]}" >/dev/null 2>&1
         printf '%s\n' " Scheduled downloads cancelled or finished."
         exit 0
@@ -109,10 +109,20 @@ _LoadSchedules
 # when scheduled time from playlists occurs, the download will start
 index=0
 while true; do
-    if [[ ${TIME[${index}]} == $(date '+%Y-%m-%d @ %H:%M') ]]; then
+    if [[ ! ${TIMES[${index}]} =~ ^$(date -d 'today' '+%Y-%m-%d') ]]; then
+        read -rp " Next schedule is not for today. Do you want to continue waiting? [y/N]: "
+        if [[ ${REPLY,,} != "y" ]]; then
+            printf '%s\n' " Exiting..."
+            break
+        else
+            printf '%s\n' " Continuing with 1 hour sleep intervals..."
+            sleep 3600
+            continue
+        fi
+    elif [[ ${TIMES[${index}]} == $(date '+%Y-%m-%d @ %H:%M') ]]; then
         printf '%s\n' \
-        " $(date '+%H:%M') - Downloading ${TYPE[${index}]} from ${LISTS[${index}]}"
-        if [[ ${TYPE[${index}]} == audio ]]; then
+        " $(date '+%H:%M') - Downloading ${TYPES[${index}]} from ${LISTS[${index}]}"
+        if [[ ${TYPES[${index}]} == audio ]]; then
             {
                 yt-dlp \
                     "${ytdlpAudioCmd[@]}" \
@@ -131,7 +141,7 @@ while true; do
                     --batch-file "${LISTS[${index}]}"
             } >/dev/null 2>&1
         fi
-        sed -i "/${LISTS[${index}]}/d" "$schedules_file"
+        sed -i "/${LISTS[${index}]}/d" "$schedulesFile"
         rm {"${LISTS[${index}]}","${LISTS[${index}]}.titles"}
         ((index++))
         # Exit if we have no more schedules

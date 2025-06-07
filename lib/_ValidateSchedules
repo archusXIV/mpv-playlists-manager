@@ -4,23 +4,23 @@
 # shellcheck disable=SC2154
 _ValidateSchedules() {
 
-    declare -a local_vars=(
+    declare -a localVars=(
         crdt crsc crtm
         schd schs scht
         datetime list tmpf
     )
 
-    for lcv in "${local_vars[@]}"; do
-        local "$lcv"
+    for lv in "${localVars[@]}"; do
+        local "$lv"
     done
 
     crdt=$(date '+%Y-%m-%d')
     crtm=$(date '+%H:%M')
     tmpf=$(mktemp)
-    cp "$schedules_file" "$tmpf"
+    cp "$schedulesFile" "$tmpf"
 
     # Update past schedules and check conflicts
-    declare -A schedule_times
+    declare -A scheduleTimes
     while IFS='|' read -r datetime _ list; do
         # Extract date and time from datetime field
         schd=${datetime%@*} schd=${schd## } schd=${schd%% }
@@ -40,7 +40,7 @@ _ValidateSchedules() {
         fi
 
         # Check for conflicts using date and time, variable $schedule_delay is set in mpmrc.
-        if [[ -n "${schedule_times[$schd $scht]}" ]]; then
+        if [[ -n "${scheduleTimes[$schd $scht]}" ]]; then
             printf '\n%s\n' \
             " ${critical}Conflict detected: Multiple playlists scheduled for ${schd} at ${scht}${nc}"
             printf '%s\n' " ${info}Resolving conflict...${nc}"
@@ -53,11 +53,11 @@ _ValidateSchedules() {
             scht="$new_time"
             sleep 3
         fi
-        schedule_times["$schd $scht"]="$list"
-    done < "$schedules_file"
+        scheduleTimes["$schd $scht"]="$list"
+    done < "$schedulesFile"
 
-    mv "$tmpf" "$schedules_file"
-    sort -t'|' -k1 "$schedules_file" -o "$schedules_file"
+    mv "$tmpf" "$schedulesFile"
+    sort -t'|' -k1 "$schedulesFile" -o "$schedulesFile"
 
     pgrep --full mpmsw >/dev/null && {
         kill -SIGRTMIN+15 $(pgrep --full mpmsw)
@@ -65,5 +65,8 @@ _ValidateSchedules() {
         printf '%s\n' " ${info}Notifying mpmsw of new schedule...${nc}"
         sleep 2
     }
+
+    _PolybarIpc
+    _Menu
 
 }

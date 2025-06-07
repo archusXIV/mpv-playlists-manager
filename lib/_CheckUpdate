@@ -23,11 +23,11 @@ _CheckUpdate() {
                     printf '%s\n' " ${critical}git is not installed!...exiting.${nc}"
                     exit 1
                 }
-                git clone https://github.com/archusXIV/mpv-playlists-manager.git
+                git clone "$MPM_GIT"
                 _BlankLine
-                printf '%s\n' " ${info}First cd into mpv-playlists-manager," \
-                " then run the installation script or use the Makefile:" \
-                " sudo ./install.sh or sudo make upgrade && make diff-config${nc}"
+                printf '%s\n' " ${info}First cd into ./mpv-playlists-manager," \
+                " then run the installation script (sudo ./install.sh)," \
+                " or use the Makefile (sudo make upgrade && make diff-config)${nc}"
                 exit 0
             }
             if [[ $check_updates == no ]] && [[ $newVerion != "$VERSION" ]]; then

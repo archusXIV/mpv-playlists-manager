@@ -10,7 +10,7 @@ _CleanTmpDir() {
 
     if _PidOfMpv >/dev/null; then
         # List of files to preserve
-        declare -a preserve_files=(
+        declare -a preserveFromDeletion=(
             "nowPlaying"
             "defaultTitles_"
             "fzfEnqueue.m3u"
@@ -30,7 +30,7 @@ _CleanTmpDir() {
             local basename="${file##*/}"
             local preserve=false
 
-            for keep in "${preserve_files[@]}"; do
+            for keep in "${preserveFromDeletion[@]}"; do
                 [[ $basename == "$keep" ]] && {
                     preserve=true
                     break

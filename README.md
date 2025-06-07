@@ -86,11 +86,11 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Replace your old version with mpmsw version 1.0.7 in ./extra
+- Added _RestoreSchedules function to fix problems when files are missing
+- Added a test in the _ViewScheduledList function to see if the $schedules_dir contains any .m3u file and if the schedules.txt file exists
 - Now mpm has a man page, in you terminal just type: man mpm
-- Added _IfDuplicatesUrls function that parse our collection of playlists and check if we copied URLs already present in that collection, and if so the duplicates aren't saved except in the default list.
-- Optimized responsiveness of mpmsw and added output in the terminal:
-  - replace your old version with mpmsw version 1.0.6 in ./extra
-- Fixed bug in _ViewScheduledList function.
+- Added _IfDuplicatesUrls function that parse our collection of playlists and check if we copied URLs already present in that collection, and if so the duplicates aren't saved except in the default list
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.

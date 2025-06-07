@@ -21,6 +21,7 @@ _LoadPlaylist() {
 
     _BlankLine
     PS3=""$'\n'" ${info}Select a playlist to load, [${mtitle}C${info}]ancel: ${nc}"
+
     select list in $(find . -type f -not -name "default.m3u" | sort -d | sed 's,.*/,,'); do
 
         [[ $REPLY =~ [a-zA-Z] ]] && break
@@ -49,8 +50,8 @@ _LoadPlaylist() {
             [vV])
                 clear
                 # playlists header must be skipped from the total of lines
-                mapfile -t https < "$list"
-                if ((${#https[@]} -1 > 26)); then
+                mapfile -t -s 1 https < "$list"
+                if ((${#https[@]} > 25)); then
                     _TitlesListCompare --next-page
                 else
                     _TitlesListCompare --list

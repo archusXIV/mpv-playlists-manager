@@ -27,6 +27,7 @@ _DownloadCompleted() {
                 _Prompt \
                 " ${info}Downloads are completed but $list is not empty, do you want to KEEP it?:${nc}" || {
                     rm -f "${FILES[@]}" 2>/dev/null
+                    _PolybarIpc
                     printf '%s\n' " ${critical}$list removed...${nc}"
                     sleep 3
                 }
@@ -39,6 +40,7 @@ _DownloadCompleted() {
             " ${critical}$list is empty... $list removed.${nc}"
             sleep 3
             rm -f "${FILES[@]}" 2>/dev/null
+            _PolybarIpc
         fi
 
     fi

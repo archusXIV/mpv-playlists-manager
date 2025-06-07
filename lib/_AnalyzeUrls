@@ -41,7 +41,8 @@ _AnalyzeUrls() {
             " ${info}Getting titles & links from playlist: $(\
             yt-dlp "${ytdlPreset_DW[@]}" -J --flat-playlist "$mediaUrl" \
             | jq --raw-output .title)..." "${b} Processing playlist...${nb}${nc}"
-            _GetPlaylistUrls "$arg"
+            _GetPlaylistUrls "$arg" &
+            wait
             continue
         fi
 

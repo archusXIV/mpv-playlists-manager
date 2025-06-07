@@ -1,24 +1,45 @@
-.TH MPM 1 "Mai 2025" "mpm version 2.4-1" "User Commands"
+.TH MPM 1 "June 2025" "mpm version 2.4-2" "User Commands"
 .SH NAME
 mpm \- MPV Playlists Manager
 .SH SYNOPSIS
 .B mpm
 [\fIOPTION\fR] [\fIPLAYLIST\fR]
 .SH DESCRIPTION
-MPV Playlists Manager (mpm) is a terminal-based tool for managing media playlists and downloads using mpv and yt-dlp.
+.PP
+Mpm is a tool used in a terminal to manage playlists that will be played by mpv and to download
+online media files provided for example on YouTube using yt-dlp.
+To get started, you will need to collect links from all supported websites listed on the yt-dlp
+GitHub repository <https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md> that provide
+downloadable media URLs. The yt-dlp extractors handle obtaining and negotiating these links.
+Some of these may require cookies.
+.PP
+To be able to provide cookies the only way is to use the mpmsw script that you will find in
+the extra directory (./mpv-playlists-manager/extra/mpmsw), edit options and variables in the
+dedicaded section. To use it, first schedule your downloads via mpm by loading a collection
+playlist, once selected the LOAD/DOWNLOAD menu appears, then use the Schedule download option.
+In a separate terminal run the mpmsw scritp, ensure it is in your $PATH.
+.PP
+URLs are first stored in two categories (audio or video) and merged in the default list which
+will stay even after closing the program, the audio/video temporary lists have to be saved
+before that, you will be prompted when trying to exit. Saved playlists are stored in the
+collection directory whitch you first have to configure via the mpmrc file.
+.PP
+Mpm can use optional dependencies: dialog, fzf, less, mediainfo, parallel, and ytfzf.
+This will provide better results and different ways of handling things.
+This will make the user experience easier. All these tools are configurable in the mpmrc file.
 .SH OPTIONS
 .TP
 .BR \-c ", " \-\-config
-Opens ~/.config/mpm/mpmrc configuration file
+Opens ~/.config/mpm/{mpmrc,themerc} configuration files
 .TP
 .BR \-e ", " \-\-edit " [" \fIPLAYLIST\fR ]
-Opens the playlist edition function, with optional playlist name argument
+Opens the playlist edition function, with optional playlist name argument, the playlist name has to be exact
 .TP
 .BR \-h ", " \-\-help
-Displays the /usr/local/share/doc/help file (similar to this man page)
+Displays the /usr/local/share/doc/help file (more detailed than this man page)
 .TP
 .BR \-l ", " \-\-load " [" \fIPLAYLIST\fR ]
-Opens the play/download function, with optional playlist name argument
+Opens the play/download function, with optional playlist name argument, the playlist name has to be exact
 .TP
 .BR \-f ", " \-\-local
 Opens local files or directory function
@@ -38,14 +59,17 @@ fzf, mpvc, ncmpvc, parallel, ranger, ueberzug, w3m, ytfzf
 .SH CONFIGURATION
 The configuration file is located at ~/.config/mpm/mpmrc. You can customize:
 .TP
-.B Theme:
+.B Themes:
 Colors and formatting in ~/.config/mpm/themerc
 .TP
-.B Directories:
-Default media directories and paths
+.B Default files paths
+~/.local/share/mpv-playlists-manager/{playlists,schedules,titles,tmp}
+.TP
+.B Default downloads paths
+~/.local/share/mpv-playlists-manager/mpm_{audios,videos}
 .TP
 .B Features:
-Enable/disable various features like fzf, mpvc, parallel downloads
+Enable/disable various features like fzf, mpvc, parallel, etc...
 .SH MAIN MENU OPTIONS
 .TP
 .B 1) Create/Add video playlist
@@ -73,8 +97,8 @@ Remove all temporary playlists (default,video,audio)
 Modify existing playlists:
 Edit URLs/titles, rename the playlist or delete particular titles from the playlist
 .TP
-.B 9) Edit mpm config file
-Modify mpm configuration files (mpmrc,themerc)
+.B 9) Edit mpm config files
+Modify mpm configuration files (mpmrc,themerc), changes are effectives right after
 .SH KEYBOARD SHORTCUTS
 .TP
 .B Main Menu:
@@ -87,7 +111,7 @@ Create/Add links to Audio list
 Show main window bindings
 .TP
 .B c
-Edit mpmrc file
+Edit mpm config files
 .TP
 .B d
 Access default playlist
@@ -213,7 +237,9 @@ sudo ./install.sh
 .B Method 3 (using Makefile):
 .RS
 .nf
-sudo make upgrade && make diff-config
+sudo make install && make config (first time installation)
+sudo make upgrade && make diff-config (upgrade installation)
+how to use it?: make help
 .fi
 .RE
 .SH AUTHOR

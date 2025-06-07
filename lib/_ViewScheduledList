@@ -1,26 +1,35 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2034
 _ViewScheduledList() {
 
-    local schedules_file dash plst
-    schedules_file="$schedules_dir/schedules.txt"
+    local foundSchedules schedulesFile dash plst
+    schedulesFile="$schedules_dir/schedules.txt"
+    foundSchedules=$(command ls "$schedules_dir"/*.m3u 2>/dev/null)
 
-    if [[ ! -f "$schedules_file" ]]; then
-        printf '%s\n' " ${critical}No schedule file found.${nc}"
-        sleep 2
+    if [[ -n $foundSchedules && ! -f $schedulesFile ]]; then
+        printf '%s\n' " ${critical}Found m3u file(s) in ${schedules_dir}" \
+        " but in the same time no schedules file found...${nc}"
+        _RestoreSchedules -n
+    elif [[ -f $schedulesFile && -z $foundSchedules ]]; then
+        printf '%s\n' " ${critical}Found schedules file in ${schedules_dir}" \
+        " but in the same time no m3u file found...${nc}"
+        _RestoreSchedules -y
+    elif [[ ! -f "$schedulesFile" ]]; then
+        printf '%s\n' " ${critical}You don't have any scheduled downloads.${nc}"
+        sleep 3
         return
     fi
 
     clear
     echo -e "\n ${info}${B}Scheduled downloads list:${NB}${nc}\n"
-    sort -t'|' -k1 "$schedules_file" -o "$schedules_file"
-    dash=$(printf "%-72s" "─")
-    printf '%s\n' \
-        "  ${info}DATE & TIME          | TYPES | PLAYLISTS${nc}"
+    sort -t'|' -k1 "$schedulesFile" -o "$schedulesFile"
+    maxLength=$(awk -F'|' '{print length($0)}' "$schedulesFile" | sort -nr | head -n1)
+    dash=$(printf "%-${maxLength}s" "─")
+    printf '%s\n' " ${info}N |   DATE    | TIME  | TYPES | PLAYLISTS${nc}"
     echo " ${info}${dash// /─}${nc}"
-    nl -w2 -s') ' "$schedules_file"
+    nl -w2 -s') ' "$schedulesFile"
 
     _BlankLine
     declare -a viewSchedulesPrompt=(
@@ -28,21 +37,22 @@ _ViewScheduledList() {
         "to remove a schedule hit its number"
         "or [${mtitle}C${info}]ancel: ${nc}"
     )
+
     read -rp "${viewSchedulesPrompt[*]}" viewSchedulesOptions
 
     case "$viewSchedulesOptions" in
         [0-9])
-            plst=$(sed 's/.*|\s//g' < <(sed -n "${viewSchedulesOptions}p" "$schedules_file"))
-            sed -i "${viewSchedulesOptions}d" "$schedules_file"
-            if [[ ! -s $schedules_file ]]; then
-                rm "$schedules_file"
+            plst=$(sed 's/.*|\s//g' < <(sed -n "${viewSchedulesOptions}p" "$schedulesFile"))
+            sed -i "${viewSchedulesOptions}d" "$schedulesFile"
+            if [[ ! -s $schedulesFile ]]; then
+                rm "$schedulesFile"
                 pgrep --full mpmsw >/dev/null && {
                     kill -SIGTERM $(pgrep --full mpmsw)
                     sed -i '1s/^/#EXTM3U\n/' "$schedules_dir"/"$plst"
                     _BlankLine
                     printf '%s\n' " ${info}Stopping mpmsw...${nc}"
                 }
-            elif [[ -s $schedules_file ]]; then
+            elif [[ -s $schedulesFile ]]; then
                 pgrep --full mpmsw >/dev/null && {
                     kill -SIGRTMIN+15 $(pgrep --full mpmsw)
                     sed -i '1s/^/#EXTM3U\n/' "$schedules_dir"/"$plst"
@@ -55,15 +65,17 @@ _ViewScheduledList() {
             mv "$schedules_dir"/"$plst" "$playlists_dir"
             mv "$schedules_dir"/"$plst.titles" "$titles_dir"
             unset plst
-            ;;
+        ;;
         [eE])
-            "$MPMEDITOR" "$schedules_file"
+            "$MPMEDITOR" "$schedulesFile"
             _ValidateSchedules
             clear
             printf '\n%s\n' " ${info}Schedule file edited.${nc}"
             sleep 2
-            ;;
+        ;;
         *) _Menu ;;
     esac
+
+    _PolybarIpc
 
 }

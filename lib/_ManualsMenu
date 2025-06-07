@@ -6,10 +6,8 @@ _ManualsMenu() {
 
     local fzfCmd ytfzfCmd mpvTui
 
-    ! _Has fzf && fzfCmd="${critical}fzf${nc}" \
-        || fzfCmd="fzf"
-    ! _Has ytfzf && ytfzfCmd="${critical}ytfzf${nc}" \
-        || ytfzfCmd="ytfzf"
+    ! _Has fzf && fzfCmd="${critical}fzf${nc}" || fzfCmd="fzf"
+    ! _Has ytfzf && ytfzfCmd="${critical}ytfzf${nc}" || ytfzfCmd="ytfzf"
     [[ -z $mpvc_tui_cheatsheet ]] && mpvTui="${critical}Mpv TUI shortcuts${nc}" \
         || mpvTui="Mpv TUI shortcuts"
 

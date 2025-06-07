@@ -69,6 +69,7 @@ _SaveRemove() {
                 " ${critical}Are you sure you want to remove $m3ufile?:${nc}" && {
                     rm {"$playlists_dir"/"$m3ufile","$titles_dir"/"$m3ufile".titles}
                     echo -e "\n ${critical}$m3ufile removed.${nc}"
+                    _PolybarIpc
                     sleep 3
                     break
                 }

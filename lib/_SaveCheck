@@ -29,9 +29,11 @@ _SaveCheck() {
     _ResizeWindow --main; clear
     _BlankLine
     PS3=""$'\n'" ${info}Type ${task}${listTotal} ${info}to create a new playlist, [${mtitle}C${info}]ancel: ${nc}"
+    mapfile -t mapLists < <(
+        find . -not -name "default.m3u" -name "*.m3u" -not -name "*_origin" | sort -d | sed 's,.*/,,'
+    )
 
-    select list in $(find . -not -name "default.m3u" -name "*.m3u" \
-        -not -name "*_origin" | sort -d | sed 's,.*/,,'); do
+    select list in "${mapLists[@]}"; do
 
         if [[ $REPLY =~ [a-zA-Z] ]]; then
             [[ -f "$current_list"_origin ]] && {

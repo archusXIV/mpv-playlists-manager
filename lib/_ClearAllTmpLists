@@ -7,50 +7,31 @@ _ClearAllTmpLists() {
     cd "$tmp_dir" || exit 1
 
     declare -a tmps=(
+        "$DEFAULT_TITLES" "1"
         "$AUDIO_URLS" "$AUDIO_TITLES"
         "$VIDEO_URLS" "$VIDEO_TITLES"
-        "$FFOP" "$DEFAULT_TITLES"
-        "$tmp_dir/1" "$SELECTED_URLS1"
-        "Audio" "Video" "default" "temporarySelection"
     )
 
-    [[ -s "${tmps[0]}" || -s "${tmps[2]}" || -s "${tmps[5]}" ]] && {
+    declare -a fileExists=()
+
+    for tmp in "${tmps[@]}"; do
+        [[ -f $tmp ]] && fileExists+=("$tmp")
+    done
+
+    ((${#fileExists[@]} > 0)) && {
         _Prompt -n " ${critical}Clear all temporary playlists? ${nc}" && {
-            if [[ -f $NOWPLAYING ]]; then
-
-                for w in "${tmps[@]:8:11}"; do
-                    if [[ $(awk -F"/" '{print $NF}' "$NOWPLAYING") =~ $w ]]; then
-                        [[ $w == "${tmps[8]}" ]] && {
-                            unset {tmps[0],tmps[1],tmps[8]}
-                            sed -i '/^[[:alpha:]]/d' "$DEFAULT_LIST"
-                        }
-                        [[ $w == "${tmps[9]}" ]] && {
-                            unset {tmps[2],tmps[3],tmps[9]}
-                            sed -i '/^[[:alpha:]]/d' "$DEFAULT_LIST"
-                        }
-                        [[ $w == "${tmps[10]}" ]] && unset {tmps[5],tmps[10]}
-                        [[ $w == "${tmps[11]}" ]] && {
-                            unset {tmps[7],tmps[11]}
-                            sed -i '/^[[:alpha:]]/d' "$DEFAULT_LIST"
-                        }
-                    else
-                        sed -i '/^[[:alpha:]]/d' "$DEFAULT_LIST"
-                    fi
-                done
-
-                rm "${tmps[@]}" 2>/dev/null
-                printf '\n%s\n' " ${critical}All Temporary lists cleared.${nc}"
-                sleep 2
-
-            else
-                sed -i '/^[[:alpha:]]/d' "$DEFAULT_LIST"
-                rm "${tmps[@]}" 2>/dev/null
-                printf '\n%s\n' " ${critical}All Temporary lists cleared.${nc}"
-                sleep 2
-            fi
+            rm "${fileExists[@]}"
+            echo "#EXTM3U" > "$DEFAULT_LIST"
+            unset file tmp
+            printf '\n%s\n' \
+                " ${critical}All Temporary lists cleared.${nc}"
+            sleep 2
+            return
         }
         return
     }
-    printf '%s\n' " ${critical}No Temporary lists found...${nc}"
+
+    printf '%s\n' " ${critical}No temporary file found${nc}"
     sleep 2
+
 }

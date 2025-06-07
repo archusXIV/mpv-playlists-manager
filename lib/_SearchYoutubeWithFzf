@@ -57,6 +57,7 @@ _SearchYoutubeWithFzf() {
         done <<< "$fzfGrabLinks"
         unset line
         _RemoveCrap
+        _IfDuplicatesUrls
         _ViewAudioVideoUrlsInfo "$arg"
     fi
 
