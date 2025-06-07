@@ -87,6 +87,7 @@ source ~/.config/mpm/themerc
 
 ## Changelog:
 - Replace your old version with mpmsw version 1.0.7 in ./extra
+- Added ./doc/mpm_polybar_module.ini, it will be triggered by mpm when saving/removing playlists or when making/removing schedule downloads.
 - Added _RestoreSchedules function to fix problems when files are missing
 - Added a test in the _ViewScheduledList function to see if the $schedules_dir contains any .m3u file and if the schedules.txt file exists
 - Now mpm has a man page, in you terminal just type: man mpm

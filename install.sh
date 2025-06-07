@@ -30,7 +30,7 @@ usergroup=$(
 _editConfig() {
     printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
     " original file has been saved as mpmrc.orig.${endColor}"
-    tail -n 9 ./README_FIRST
+    tail -n 11 ./README_FIRST
     printf '\n'
     read -r -p " ${red}Edit $MPMRC now? [Y/n] enter an editor name (eg: y vim): ${endColor}" edit editor
     case "$edit" in
