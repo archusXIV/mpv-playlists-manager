@@ -41,7 +41,7 @@ _StartUp() {
         echo -e "                         ${critical}┌────────────────────────────────────────────────────────────────────────────┐"
         echo -e "                         │   MPV IS RUNNING, IN MAIN MENU PRESS N TO ACCESS OR CONTROL THE PLAYLIST   │"
         echo -e "                         └────────────────────────────────────────────────────────────────────────────┘${nc}"
-        read -t 4 -rsn 1
+        read -t 3 -rsn 1
         case "$REPLY" in *) _Menu ;; esac
     else
         rm {"$NOWPLAYING","$tmp_dir"/temporary*} 2>/dev/null

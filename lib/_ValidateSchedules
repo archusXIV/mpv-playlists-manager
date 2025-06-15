@@ -31,11 +31,11 @@ _ValidateSchedules() {
         schs=$(date -d "${schd} ${scht}" +%s)
 
         if ((schs < crsc)); then
-            new_date=$(date -d "tomorrow" '+%Y-%m-%d')
+            newDate=$(date -d "tomorrow" '+%Y-%m-%d')
             printf '%s\n' " ${critical}Schedule for playlist $list is in the past." \
-            " ${info}Updating schedule to ${new_date}...${nc}"
-            sed -i "s/${schd} @ ${scht}/${new_date} @ ${scht}/" "$tmpf"
-            schd="$new_date"
+            " ${info}Updating schedule to ${newDate}...${nc}"
+            sed -i "s/${schd} @ ${scht}/${newDate} @ ${scht}/" "$tmpf"
+            schd="$newDate"
             sleep 3
         fi
 
@@ -44,13 +44,13 @@ _ValidateSchedules() {
             printf '\n%s\n' \
             " ${critical}Conflict detected: Multiple playlists scheduled for ${schd} at ${scht}${nc}"
             printf '%s\n' " ${info}Resolving conflict...${nc}"
-            new_time=$(date -d "${schd} ${scht} ${schedule_delay} minutes" '+%H:%M')
-            awk -v old="${schd} @ ${scht}" -v new="${schd} @ ${new_time} " -v list="$list" '
+            newTime=$(date -d "${schd} ${scht} ${schedule_delay} minutes" '+%H:%M')
+            awk -v old="${schd} @ ${scht}" -v new="${schd} @ ${newTime} " -v list="$list" '
                 BEGIN { FS=OFS="|" }
                 $3 ~ list { $1 = new }
                 { print }
             ' "$tmpf" > "${tmpf}.new" && mv "${tmpf}.new" "$tmpf"
-            scht="$new_time"
+            scht="$newTime"
             sleep 3
         fi
         scheduleTimes["$schd $scht"]="$list"

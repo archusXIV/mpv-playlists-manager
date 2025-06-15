@@ -86,12 +86,11 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Added an option to remove all schedules in _ViewScheduledList function.
 - Replace your old version with mpmsw version 1.0.7 in ./extra
 - Added ./doc/mpm_polybar_module.ini, it will be triggered by mpm when saving/removing playlists or when making/removing schedule downloads.
 - Added _RestoreSchedules function to fix problems when files are missing
 - Added a test in the _ViewScheduledList function to see if the $schedules_dir contains any .m3u file and if the schedules.txt file exists
-- Now mpm has a man page, in you terminal just type: man mpm
-- Added _IfDuplicatesUrls function that parse our collection of playlists and check if we copied URLs already present in that collection, and if so the duplicates aren't saved except in the default list
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.

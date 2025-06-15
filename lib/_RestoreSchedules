@@ -4,27 +4,49 @@
 # shellcheck disable=SC2154
 _RestoreSchedules() {
 
-    local files
-    _Prompt " ${info}Do you want to fix this issue? ${nc}" && {
-        case "$1" in
-            -n)
+    local files pl
+
+    case "$1" in
+        --no)
+            _Prompt " ${info}Do you want to fix this issue? ${nc}" && {
                 printf '%s\n' " ${info}Moving back m3u files in $playlists_dir."
-                mv -f "$schedules_dir"/*.m3u "$playlists_dir"/
-                mv -f "$schedules_dir"/*.titles "$titles_dir"/
-                sleep 4
-            ;;
-            -y)
+                mv -f "$schedules_dir"/*.m3u "$playlists_dir"/ && \
+                mv -f "$schedules_dir"/*.titles "$titles_dir"/ && {
+                    printf '%s\n' " Feel free to schedule ${foundSchedules##*/} again.${nc}"
+                    sleep 5
+                }
+            }
+        ;;
+        --remove)
+            _Prompt -n " ${critical}Do you really want to remove all schedules? ${nc}" && {
+                mapfile -t pls < <(sed 's/.*| //g' "$schedulesFile")
+                rm "$schedulesFile"
+                for pl in "${pls[@]}"; do
+                    [[ $useSed ]] && sed -i '1s/^/#EXTM3U\n/' "$schedules_dir"/"$pl"
+                    mv "$schedules_dir"/"$pl" "$playlists_dir"/
+                    mv "$schedules_dir"/"$pl.titles" "$titles_dir"/
+                done && {
+                    printf '%s\n' " ${critical}All schedules removed.${nc}"
+                    sleep 2
+                }
+            }
+        ;;
+        --yes)
+            _Prompt " ${info}Do you want to fix this issue? ${nc}" && {
                 mapfile -t files < <(sed 's/.*| //g' "$schedulesFile")
-                printf '%s\n' " ${info}Restoring m3u files in $schedules_dir${nc}"
-                sleep 2
                 for file in "${files[@]}"; do
                     mv -f "$playlists_dir/${file}" "$schedules_dir/${file}"
                     mv -f "$titles_dir/${file}".titles "$schedules_dir/${file}".titles
-                done
-            ;;
-        esac
-    }
-    unset files
+                done && {
+                    printf '%s\n' " ${info}Restoring m3u files..." \
+                    " Done, now you can press 'y'.${nc}"
+                    sleep 3
+                }
+            }
+        ;;
+    esac
+
+    unset files pl
     _Menu
 
 }

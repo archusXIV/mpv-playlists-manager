@@ -4,18 +4,18 @@
 # shellcheck disable=SC2154,SC2034
 _ViewScheduledList() {
 
-    local foundSchedules schedulesFile dash plst
+    local foundSchedules schedulesFile dash plst useSed
     schedulesFile="$schedules_dir/schedules.txt"
-    foundSchedules=$(command ls "$schedules_dir"/*.m3u 2>/dev/null)
+    foundM3uFiles=$(command ls "$schedules_dir"/*.m3u 2>/dev/null)
 
-    if [[ -n $foundSchedules && ! -f $schedulesFile ]]; then
+    if [[ -n $foundM3uFiles && ! -f $schedulesFile ]]; then
         printf '%s\n' " ${critical}Found m3u file(s) in ${schedules_dir}" \
         " but in the same time no schedules file found...${nc}"
-        _RestoreSchedules -n
-    elif [[ -f $schedulesFile && -z $foundSchedules ]]; then
+        _RestoreSchedules --no
+    elif [[ -f $schedulesFile && -z $foundM3uFiles ]]; then
         printf '%s\n' " ${critical}Found schedules file in ${schedules_dir}" \
         " but in the same time no m3u file found...${nc}"
-        _RestoreSchedules -y
+        _RestoreSchedules --yes
     elif [[ ! -f "$schedulesFile" ]]; then
         printf '%s\n' " ${critical}You don't have any scheduled downloads.${nc}"
         sleep 3
@@ -32,18 +32,19 @@ _ViewScheduledList() {
     nl -w2 -s') ' "$schedulesFile"
 
     _BlankLine
-    declare -a viewSchedulesPrompt=(
+    declare -a viewScheduledPrompt=(
         "${info} [E]dit or"
-        "to remove a schedule hit its number"
+        "to remove a schedule hit its number,"
+        "[R]emove all,"
         "or [${mtitle}C${info}]ancel: ${nc}"
     )
 
-    read -rp "${viewSchedulesPrompt[*]}" viewSchedulesOptions
+    read -rp "${viewScheduledPrompt[*]}" viewScheduledOptions
 
-    case "$viewSchedulesOptions" in
+    case "$viewScheduledOptions" in
         [0-9])
-            plst=$(sed 's/.*|\s//g' < <(sed -n "${viewSchedulesOptions}p" "$schedulesFile"))
-            sed -i "${viewSchedulesOptions}d" "$schedulesFile"
+            plst=$(sed 's/.*|\s//g' < <(sed -n "${viewScheduledOptions}p" "$schedulesFile"))
+            sed -i "${viewScheduledOptions}d" "$schedulesFile"
             if [[ ! -s $schedulesFile ]]; then
                 rm "$schedulesFile"
                 pgrep --full mpmsw >/dev/null && {
@@ -60,7 +61,7 @@ _ViewScheduledList() {
                     printf '%s\n' " ${info}Reloading mpmsw...${nc}"
                 }
             fi
-            printf '\n%s\n' " ${critical}schedule $viewSchedulesOptions ($plst) removed.${nc}"
+            printf '\n%s\n' " ${critical}schedule $viewScheduledOptions ($plst) removed.${nc}"
             sleep 3
             mv "$schedules_dir"/"$plst" "$playlists_dir"
             mv "$schedules_dir"/"$plst.titles" "$titles_dir"
@@ -73,9 +74,20 @@ _ViewScheduledList() {
             printf '\n%s\n' " ${info}Schedule file edited.${nc}"
             sleep 2
         ;;
+        [rR])
+            pgrep --full mpmsw >/dev/null && {
+                kill -SIGTERM $(pgrep --full mpmsw)
+                useSed=true
+                _BlankLine
+                printf '%s\n' " ${info}Stopping mpmsw...${nc}"
+                sleep 2
+            }
+            _RestoreSchedules --remove
+        ;;
         *) _Menu ;;
     esac
 
+    unset plst
     _PolybarIpc
 
 }
