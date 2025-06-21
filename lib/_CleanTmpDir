@@ -6,7 +6,7 @@
 _CleanTmpDir() {
 
     test -s "$DEFAULT_TITLES" && \
-    mv -f "$DEFAULT_TITLES" "$DEFAULTM3UTITLES"
+        mv -f "$DEFAULT_TITLES" "$DEFAULTM3UTITLES"
 
     if _PidOfMpv >/dev/null; then
         # List of files to preserve

@@ -77,7 +77,7 @@ _AnalyzeUrls() {
             continue
         fi
 
-        # Process valid URL
+        # Process valid single URL
         echo "$mediaUrl" | tee -a "$URLS" >> "$DEFAULT_LIST"
         printf '%s\n' " ${info}Getting ${Type} title...${nc}"
         yt-dlp --skip-download --get-title \

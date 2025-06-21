@@ -5,13 +5,11 @@
 _TestIfPlaylistsHaveTitles() {
 
     clear
-    local tls numtls pls numpls pl
+    local tls pls pl
     tls=("$titles_dir"/*.titles)
-    numtls="${#tls[@]}"
     pls=("$playlists_dir"/*.m3u)
-    numpls="${#pls[@]}"
 
-    (( numtls != (numpls - 1) )) && {
+    ((${#tls[@]} != (${#pls[@]} - 1))) && {
         for pl in "${pls[@]}"; do
             if [[ $pl =~ default.m3u ]]; then
                 continue

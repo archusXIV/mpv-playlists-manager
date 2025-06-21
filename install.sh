@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Script name: install.sh version 2.4-3
+# Script name: install.sh version 2.4-4
 # Author: Barret E <https://github.com/archusXIV/mpv-playlists-manager>
 # Licensed under the GPLv2
 #
@@ -8,7 +8,6 @@
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
 # It also will copy/modify files in ~/.config/mpm/{mpmrc,themerc}.
 
-# shellcheck disable=SC2154
 red=$'\e[38;2;206;34;30m';
 endColor=$'\e[0m';
 
@@ -17,7 +16,7 @@ endColor=$'\e[0m';
     exit 1
 }
 
-read -r -p ' Please enter your username: ' username
+read -rp ' Please enter your username: ' username
 CONF_DIR="/home/$username/.config/mpm"
 MPMRC="$CONF_DIR/mpmrc"
 THEMERC="$CONF_DIR/themerc"
@@ -30,9 +29,10 @@ usergroup=$(
 _editConfig() {
     printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
     " original file has been saved as mpmrc.orig.${endColor}"
-    tail -n 8 ./README_FIRST
+    tail -n 6 ./README_FIRST
     printf '\n'
-    read -r -p " ${red}Edit $MPMRC now? [Y/n] enter an editor name (eg: y vim): ${endColor}" edit editor
+    read -rp " ${red}Edit $MPMRC now? [Y/n] enter an editor name (eg: y vim): ${endColor}" \
+    edit editor
     case "$edit" in
         [yY])
             cd "$CONF_DIR" && {
@@ -118,7 +118,7 @@ if [[ -x /usr/local/bin/mpm ]] && [[ -d /usr/local/lib/mpm ]]; then
         [uU])
             _uninstall
             _install
-            printf '%s\n' "for usage run: mpm --help"
+            printf '%s\n' "for usage run: mpm --help or man mpm"
         ;;
         *)
             printf '%s\n' " Wrong option $REPLY, try again." && exit 1

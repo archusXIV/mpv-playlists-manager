@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-mpm version 2.4-3
+mpm version 2.4-4
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -25,9 +25,7 @@ the directory names and structure are correctly set.
 
 Changelog:
 --------------------------------- NO CHANGES IN CONFIG FILES ---------------------------------
+version 2.4-4 - Added a test in _LoadPlaylist function to check if all collection playlists
+                have their own related titles file, if not or titles are incomplete
+                they will be updated.
 version 2.4-3 - Added an option to remove all schedules in _ViewScheduledList function.
-version 2.4-2 - Added ./doc/mpm_polybar_module.ini, it will be triggered by mpm when
-                saving/removing playlists or when making/removing schedule downloads.
-version 2.4-2 - Added _RestoreSchedules function to fix problems when files are missing.
-version 2.4-2 - Added a test in the _ViewScheduledList function to see if the $schedules_dir
-                contains any .m3u file and if the schedules.txt file exists.

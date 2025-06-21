@@ -13,6 +13,7 @@ _LoadPlaylist() {
         mv -f "$lst" "${lst//_origin/}"
     done
 
+    _TestIfPlaylistsHaveTitles
     clear
     if _TestFzfCommand; then
         action=Load

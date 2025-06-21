@@ -1,5 +1,5 @@
 
-    mpm version 2.4-3
+    mpm version 2.4-4
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -30,7 +30,7 @@
         Video (french spoken): https://www.youtube.com/watch?v=l1CrwYZzcGE
 
     !!! YOU CAN CHANGE MPM DIRECTORIES BY EDITING THE VARIABLES IN THE MPMRC FILE !!!
-    By default "$HOME"/.local/share/
+    By default "$HOME"/.local/share/mpv-playlists-manager
     Dependencies: ffmpeg, jq, mpv, vim/nano etc..., yt-dlp.
     Optionals: fzf, mpvc, ncmpvc (mpv terminal user interface), parallel,
     ranger (can be any terminal file manager), ueberzug, w3m, ytfzf.
@@ -53,7 +53,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.4-3::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.4-4::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
