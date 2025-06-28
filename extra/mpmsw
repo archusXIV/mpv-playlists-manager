@@ -30,7 +30,7 @@ for dep in awk sed yt-dlp; do
     }
 done
 
-############## BEGIN PREFERENCES ##############
+################################## BEGIN PREFERENCES ##################################
 # Edit your directories and yt-dlp options here.
 : "${XDG_DATA_HOME:-$HOME/.local/share}"
 schedules_dir="$XDG_DATA_HOME/mpv-playlists-manager/schedules"
@@ -40,7 +40,7 @@ browser=brave
 ytdlpCookyCmd=( --cookies-from-browser="${browser}" )
 ytdlpAudioCmd=( --format bestaudio/best )
 ytdlpVideoCmd=( --format bestvideo+bestaudio/best --merge-output-format mp4 )
-############### End PREFERENCES ###############
+################################### End PREFERENCES ###################################
 
 if [[ -d $schedules_dir ]]; then
     command cd "$schedules_dir"

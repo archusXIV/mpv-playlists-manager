@@ -86,11 +86,9 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Fixed bug in _DownloadCompleted & _GetCompleted to reset parallel_download preset to its initial value if changed while downloading non-youtube links.
 - Added a test in _LoadPlaylist function to check if all collection playlists have their own related titles file, if not or titles are incomplete they will be updated.
 - Added an option to remove all schedules in _ViewScheduledList function.
-- Replace your old version with mpmsw version 1.0.7 in ./extra
-- Added ./doc/mpm_polybar_module.ini, it will be triggered by mpm when saving/removing playlists or when making/removing schedule downloads.
-- Added _RestoreSchedules function to fix problems when files are missing.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.

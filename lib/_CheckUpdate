@@ -24,10 +24,9 @@ _CheckUpdate() {
                     exit 1
                 }
                 git clone "$MPM_GIT"
-                cd ./mpv-playlists-manager || exit 1
                 _BlankLine
-                printf '%s\n' \
-                " ${info}You can now run the installation script (sudo ./install.sh)," \
+                printf '%s\n' " ${info}First cd into ./mpv-playlists-manager," \
+                " then run the installation script (sudo ./install.sh)," \
                 " or use the Makefile (sudo make upgrade && make diff-config)${nc}"
                 exit 0
             }

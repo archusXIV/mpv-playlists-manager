@@ -15,7 +15,7 @@ _CheckParallelDownloads() {
                 nonYoutube=0
                 regexPatterns="^(https://www.youtube.com|#EXTM3U)"
                 while read -r line; do
-                    [[ $line =~ $regexPatterns ]] || ((nonYoutube++))
+                    [[ ! $line =~ $regexPatterns ]] && ((nonYoutube++))
                 done < "$M3UFILE"
                 if ((nonYoutube > 1)); then
                     _BlankLine

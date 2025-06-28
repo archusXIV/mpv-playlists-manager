@@ -5,8 +5,7 @@
 # This function is executed by the trap command before we exit out.
 _CleanTmpDir() {
 
-    test -s "$DEFAULT_TITLES" && \
-        mv -f "$DEFAULT_TITLES" "$DEFAULTM3UTITLES"
+    test -s "$DEFAULT_TITLES" && mv -f "$DEFAULT_TITLES" "$DEFAULTM3UTITLES"
 
     if _PidOfMpv >/dev/null; then
         # List of files to preserve
