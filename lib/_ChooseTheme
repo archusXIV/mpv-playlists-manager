@@ -36,8 +36,8 @@ _ChooseTheme() {
                 _Theme "$main"
                 # Check if the selected main theme exists in nativeThemes
                 for theme in "${nativeThemes[@]}"; do
+                    # Apply the same theme to native_tui_colors if it exists
                     if [[ $theme == "$main" ]]; then
-                        # Apply the same theme to native_tui_colors
                         local ntc="$native_tui_colors"
                         sed -i "s/native_tui_colors=${ntc}/native_tui_colors=${theme}/" "$MPMRC"
                         . "$MPMRC"

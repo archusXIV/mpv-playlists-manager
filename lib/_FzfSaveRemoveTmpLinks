@@ -6,7 +6,8 @@ _FzfSaveRemoveTmpLinks() {
 
     _ResizeWindow --main
 
-    header="Tab:select items, Ctrl+A:select ALL, Enter:confirm, ESC:cancel:"
+    local fzfHeader
+    fzfHeader="Tab:select items, Ctrl+A:select ALL, Enter:confirm, ESC:cancel:"
 
     nl "$current_titles" | sed 's/\s*//;s/\t/  /' | fzf \
         --cycle \
@@ -19,7 +20,7 @@ _FzfSaveRemoveTmpLinks() {
         --prompt='Search: ' \
         --bind ctrl-a:select-all \
         --border-label "| ${critical}$action ${nc}titles from ${Type//.m3u} tmp list |" \
-        --header "${info}${header}${nc}" | awk '{print $1}' > "$FZFSELTITLES"
+        --header "${info}${fzfHeader}${nc}" | awk '{print $1}' > "$FZFSELTITLES"
 
     if [[ ! -s $FZFSELTITLES ]]; then
         rm "$FZFSELTITLES"

@@ -86,9 +86,9 @@ source ~/.config/mpm/themerc
 ```
 
 ## Changelog:
+- Added removing videos ids in mpmsw when downloads are complete.
+- Rewrite some parts of few functions.
 - Fixed bug in _DownloadCompleted & _GetCompleted to reset parallel_download preset to its initial value if changed while downloading non-youtube links.
-- Added a test in _LoadPlaylist function to check if all collection playlists have their own related titles file, if not or titles are incomplete they will be updated.
-- Added an option to remove all schedules in _ViewScheduledList function.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.

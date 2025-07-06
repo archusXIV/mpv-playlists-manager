@@ -62,7 +62,6 @@ _DownloadMessages() {
                     printf '%s\n' " ${critical}${b}Parallel downloads disabled.${nb}${nc}"
                 fi
             fi
-
         ;;
     esac
 }

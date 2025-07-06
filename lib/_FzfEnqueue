@@ -4,6 +4,9 @@
 # shellcheck disable=SC2154,SC2034,SC2128,SC2207
 _FzfEnqueue() {
 
+    local localDirPath fzfHeader
+    fzfHeader="Tab:select items, Ctrl+A:select ALL, Enter:confirm, ESC:cancel:"
+
     if [[ $localDir == "$radios_dir" ]]; then
         cd "$radios_dir" || return
         fzf_preview=(cat)
@@ -14,13 +17,11 @@ _FzfEnqueue() {
 
     _Has "$fzf_preview" || fzf_preview=(file -N -i --)
 
-    local localDirPath
     localDirPath=$(pwd | sed 's,/,\\/,g')
 
     _ResizeWindow --main
     rm ./fzfEnqueue.m3u 2>/dev/null
 
-    header="Tab:select items, Ctrl+A:select ALL, Enter:confirm, ESC:cancel:"
     find . -type f | sort -d | sed 's,.*/,,;/fzfEnqueue.m3u/d' | \
     fzf \
     --multi \
@@ -34,7 +35,7 @@ _FzfEnqueue() {
     --prompt='Search: ' \
     --bind ctrl-a:select-all \
     --border-label "| ${PWD##*/} |" \
-    --header "${info}${header}${nc}" \
+    --header "${info}${fzfHeader}${nc}" \
     --preview-window="$fzf_preview_layout:$fzf_preview_size" \
     --preview="$fzf_preview {}" >> fzfEnqueue.m3u
 

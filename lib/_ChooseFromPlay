@@ -24,10 +24,13 @@ _ChooseFromPlay() {
         __loadSelected
     else
         _TitlesListCompare --list
-        _BlankLine
-        read -rsn 1 \
-        -p " ${info}[${mtitle}C${info}]ancel, Play all as [A]udio, [V]ideo or ${b}[S]elect items:${nb}${nc}" \
-        chooseFromPlayOptions
+        declare -a chooseFromPlayPrompt=(
+            "${info}[${mtitle}C${info}]ancel,"
+            "Play all as [A]udio," "[V]ideo or"
+            "${b}[S]elect items: ${nb}${nc}"
+        )
+
+        read -rsn 1 -p " ${chooseFromPlayPrompt[*]}" chooseFromPlayOptions
 
         case "$chooseFromPlayOptions" in
             [aA]) _LoadAudioVideo -la ;;

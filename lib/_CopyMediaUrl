@@ -17,8 +17,7 @@ _CopyMediaUrl() {
         _UrlsCollector
     else
         echo -e "\n Paste an url to fill the ${info}${Type}${nc} playlist:\n"
-        read -r mediaUrl
-        echo "$mediaUrl" >> "$clipUrls"
+        read -r mediaUrl && echo "$mediaUrl" >> "$clipUrls"
     fi
 
     _AnalyzeUrls

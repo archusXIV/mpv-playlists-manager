@@ -4,11 +4,11 @@
 # shellcheck disable=SC2154,SC2034
 _FzfEnqueueOptions() {
 
-    read -rsn 1 -p " ${info}[A]dd more files, [N]o thanks: ${nc}" enqueueOptions
+    read -rsn 1 -p " ${info}[A]dd more files, [N]o thanks: ${nc}" fzfEnqueueOptions
     clear
     sed -i "s/^/${localDirPath}\//" fzfEnqueue.m3u
 
-    case "$enqueueOptions" in
+    case "$fzfEnqueueOptions" in
         a|A)
             if [[ ! -f "$FZFENQUEUE" ]]; then
                 mv -f fzfEnqueue.m3u "$FZFENQUEUE"
@@ -49,7 +49,7 @@ _FzfEnqueueOptions() {
         ;;
         *)
             rm {fzfEnqueue.m3u,"$FZFENQUEUE"} 2>/dev/null
-            _WrongOption "$enqueueOptions"; return
+            _WrongOption "$fzfEnqueueOptions"; return
         ;;
     esac
 

@@ -4,7 +4,8 @@
 # shellcheck disable=SC2154
 _FzfChooseTitles() {
 
-    header="Tab:select items, Ctrl+A:select ALL, Enter:confirm, ESC:cancel:"
+    local fzfHeader
+    fzfHeader="Tab:select items, Ctrl+A:select ALL, Enter:confirm, ESC:cancel:"
 
     if [[ $removeCollectionTitles == yes ]]; then
         labelAction="${critical}Remove${nc}"
@@ -23,7 +24,7 @@ _FzfChooseTitles() {
         --prompt='Search: ' \
         --bind ctrl-a:select-all \
         --border-label "| $labelAction titles from: ${LIST} |" \
-        --header "${info}${header}${nc}" | awk '{print $1}' > "$FZFSELTITLES"
+        --header "${info}${fzfHeader}${nc}" | awk '{print $1}' > "$FZFSELTITLES"
 
     if [[ ! -s $FZFSELTITLES ]]; then
         unset removeCollectionTitles

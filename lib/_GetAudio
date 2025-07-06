@@ -4,9 +4,8 @@
 # shellcheck disable=SC2154,SC2034
 _GetAudio() {
 
-    cd "$audios_dir" || exit 1
+    cd "$audios_dir" && _ResizeWindow --main
     local M3UFILE TITLES
-    _ResizeWindow --main
 
     case "$1" in
         -a)

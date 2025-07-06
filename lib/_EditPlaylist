@@ -5,8 +5,7 @@
 _EditPlaylist() {
 
     clear
-    cd "$playlists_dir" || exit 1
-    _TestIfPlaylistsHaveTitles
+    cd "$playlists_dir" && _TestIfPlaylistsHaveTitles
 
     if [[ $editoption == yes ]]; then
         _EditPlaylistOptions
@@ -39,8 +38,8 @@ _EditPlaylist() {
                 read -rsn 1 \
                 -p "${info} [E]dit another file, [B]ack to menu.${nc}" editAgainOptions
                 case "$editAgainOptions" in
-                    e|E) clear; break ;;
-                    b|B)
+                    [eE]) clear; break ;;
+                    [bB])
                         rm {"$SELECTED_URLS1","$SELECTED_TITLES"}
                         _Menu
                     ;;

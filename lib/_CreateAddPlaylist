@@ -31,13 +31,13 @@ _CreateAddPlaylist() {
     file="${URLS##*/}" file="${file%%.*}"
 
     __clipboardCmdTest() {
-        _Has "${clipboardCmd[0]}" && [[ -n "${clipboardCmd[*]}" ]]
+        _Has "${clipboardCmd[0]}" && ((${#clipboardCmd[@]} >= 2)) 
     }
 
     while true; do
         _ResizeWindow --copy
         clear
-        # testing for results from _SearchOnlineWithYtfzf.
+        # testing for results from _SearchOnlineWithYtfzf
         test -s "$YTSEARCH" && _GetPlaylistUrls -s
         _BlankLine
         test -s "$URLS"  && \

@@ -3,7 +3,6 @@
 
 # shellcheck disable=SC2154,SC2034
 _MakeMpvPlaylist() {
-
     # change mpv settings in ~/.config/mpm/mpmrc
     makeMpvPlaylistAudiOptions=(
         "${mpvGenOptions_X[@]}"

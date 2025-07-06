@@ -19,7 +19,7 @@ _MpvTuiTest() {
         elif [[ -z $mpvc_tui || $use_mpvc == no ]]; then
             printf '%s\n' \
             " ${critical}use_mpvc is set to ${task}no" \
-            " ${critical}or mpvc_tui is ${task}empty ${critical}in mpmrc..." \
+            "${critical}or mpvc_tui is ${task}empty ${critical}in mpmrc..." \
             " No interface access. Please check you config (Press C).${nc}"
             sleep 7
         fi

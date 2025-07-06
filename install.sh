@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Script name: install.sh version 2.4-5
+# Script name: install.sh version 2.4-6
 # Author: Barret E <https://github.com/archusXIV/mpv-playlists-manager>
 # Licensed under the GPLv2
 #
@@ -23,13 +23,15 @@ THEMERC="$CONF_DIR/themerc"
 # we execute this file as root so we need to provide the right username
 # to give ownership back to the right user.
 usergroup=$(
-        awk -F':' -v user="$username" '$0 ~ user { print $3":"$4 }' < /etc/passwd
+        awk -F':' -v user="$username" '
+            $0 ~ user { print $3":"$4 }
+        ' < /etc/passwd
 )
 
 _editConfig() {
     printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
     " original file has been saved as mpmrc.orig.${endColor}"
-    tail -n 7 ./README_FIRST
+    tail -n 6 ./README_FIRST
     printf '\n'
     read -rp " ${red}Edit $MPMRC now? [Y/n] enter an editor name (eg: y vim): ${endColor}" \
     edit editor

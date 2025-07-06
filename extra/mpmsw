@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Script name: mpmsw version 1.0.7
+# Script name: mpmsw version 1.1.0
 # Author: Barret E <archus@protonmail>
 # Licensed under the GPLv2
 # Github: https://github.com/archusXIV/mpv-playlists-manager
@@ -17,7 +17,7 @@
 # change browser variable @ line 38, eg: browser=brave
 # Run it in your terminal, (it will stay attached): mpmsw
 
-# shellcheck disable=SC2164,SC2317
+# shellcheck disable=SC2164,SC2317,SC2001
 # Do not rename this file, it is handled by mpm.
 trap '_Cleanup; echo " Caught Ctrl+C"; exit 0' SIGINT
 trap _Cleanup SIGTERM
@@ -90,17 +90,32 @@ _ReloadSchedules() {
 }
 
 _Cleanup() {
+
     rm {LINES,LISTS,TIMES,TYPES}.txt >/dev/null 2>&1
     if [[ ! -f $schedulesFile ]]; then
         # ... we cancelled the last remaining schedule via mpm.
         printf '%s\n' " Scheduled download cancelled."
-        exit 0
     elif [[ ! -s $schedulesFile ]]; then
         rm "$schedulesFile"
         sed -i '1s/^/#EXTM3U\n/' "${LISTS[@]}" >/dev/null 2>&1
         printf '%s\n' " Scheduled downloads cancelled or finished."
-        exit 0
     fi
+    # removing video ids
+    mapfile \
+        -t downloadedFiles < <(
+            find . -maxdepth 1 -type f \
+            -regextype egrep -regex '.*(\[|\]).*' \
+            | sed 's,./,,'
+    )
+
+    for file in "${downloadedFiles[@]}"; do
+        mv "$file" \
+        "$(echo "$file" | sed -e 's/ \[.*\]//')"
+    done 2>/dev/null
+
+    unset file downloadedFiles
+    exit 0
+
 }
 
 # Load schedules initially

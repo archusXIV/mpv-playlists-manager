@@ -4,6 +4,10 @@
 # shellcheck disable=SC2154,SC2034
 _EditPlaylistOptions() {
 
+    local TITLES plst
+    TITLES="$titles_dir"/"$list".titles
+    plst="$playlists_dir/$list"
+
     declare -a editPlaylistOptionsPrompt=(
         "[U]rls edition,"
         "[T]itles edition,"
@@ -46,8 +50,8 @@ _EditPlaylistOptions() {
             _BlankLine
             _Prompt -n \
             " ${critical}Rename ${task}${list%%.*} ${critical}as ${task}$newname?: ${nc}" && {
-                mv -f "$playlists_dir/$list" "$playlists_dir/$newname".m3u
-                mv -f "$titles_dir/$list.titles" "$titles_dir/$newname.m3u.titles"
+                mv -f "$plst" "$playlists_dir/$newname".m3u
+                mv -f "$TITLES" "$titles_dir/$newname.m3u.titles"
                 _ReplaceSpaces -s
                 printf '\n%s\n' " ${critical}${list%%.*} renamed as $newname.${nc}"
                 sleep 2
@@ -56,7 +60,6 @@ _EditPlaylistOptions() {
             _Menu
         ;;
         [tT])
-            TITLES="$titles_dir"/"$list".titles
             _BlankLine
             _EditListTitles && {
                 clear
@@ -65,13 +68,13 @@ _EditPlaylistOptions() {
             }
         ;;
         [uU])
-            "$MPMEDITOR" "$list"
-            mapfile -t listCount < "$list"
+            "$MPMEDITOR" "$plst"
+            mapfile -t -s 1 listCount < "$plst"
             clear
-            if (( ${#listCount[@]} <= 1 )); then
+            if ((${#listCount[@]} == 0)); then
                 _BlankLine
-                printf '%s\n' " ${critical}${list##*/} is empty...${list##*/} removed.${nc}"
-                rm {"$list","$titles_dir"/"$list".titles}
+                printf '%s\n' " ${critical}${plst##*/} is empty...${plst##*/} removed.${nc}"
+                rm {"$plst","$TITLES"}
                 sleep 2
                 _PolybarIpc
             else
