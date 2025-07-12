@@ -24,6 +24,8 @@ _MpvOwnsTmpList() {
                         name="$playerTitlesList"
                         name="${name##*/}"
                         name="${name//.titles}"
+                    elif [[ -f fzfLoadMultiplePlaylists.m3u ]]; then
+                        name="another"
                     else
                         return
                     fi
@@ -81,6 +83,13 @@ _MpvOwnsTmpList() {
                         return
                     fi
                 ;;
+                --multiple)
+                    if [[ -f fzfLoadMultiplePlaylists.m3u ]]; then
+                        name="another"
+                    else
+                        return
+                    fi
+                ;;
             esac
 
             printf '\n%s\n' " ${critical}mpv owns $name playlist..."
@@ -111,7 +120,7 @@ _MpvOwnsTmpList() {
                 ;;
                 [qQ])
                     unset downloadTmpList
-                    _killMpv
+                    _killMpv && _RemoveMpvTmp
                     localPlaylist="no"
                     _Menu
                 ;;

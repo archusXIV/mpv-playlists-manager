@@ -4,8 +4,27 @@
 # shellcheck disable=SC2154
 _IfWebmFiles() {
 
-    if [[ -n $(find "$mediaDir" -iname "*.webm") ]]; then
+    local playlist_checks download_checks multiple_origin
+    playlist_checks=("$AUDIO_URLS" "$DEFAULT_LIST")
+    download_checks=("$playlists_dir/$list" "$SELECTED_URLS1")
+    multiple_origin="$tmp_dir/fzfLoadMultiplePlaylists.m3u_origin"
 
+    __handleChecks() {
+
+        local action_one action_two
+        action_one="$1"
+        action_two="$2"
+        for check in "${playlist_checks[@]}"; do
+            [[ $M3UFILE == "$check" ]] && eval "$action_one"
+        done
+        for check in "${download_checks[@]}"; do
+            [[ $M3UFILE == "$check" ]] && eval "$action_two"
+        done
+        [[ -f $multiple_origin ]] && eval "$action_two"
+
+    }
+
+    if [[ -n $(find "$mediaDir" -iname "*.webm") ]]; then
         _RemoveAudioVideoIds; _ResizeWindow --main; clear
         echo -e "\n ${critical}ADVISORY: if you choose conversion, all downloaded files (.webm)"
         echo -e " will be converted in the chosen format.${nc}\n"
@@ -14,10 +33,7 @@ _IfWebmFiles() {
         if [[ $automatic_audio_conversion = yes ]]; then
             printf '\n%s\n' " ${task}Automatic audio conversion enabled.${nc}"
             sleep 2
-            [[ $M3UFILE == "$AUDIO_URLS" ]] || [[ $M3UFILE == "$DEFAULT_LIST" ]] \
-            && _ConvertAudio && _GetCompleted
-            [[ $M3UFILE == "$playlists_dir"/"$list" ]] || [[ $M3UFILE == "$SELECTED_URLS1" ]] \
-            && _ConvertAudio && _DownloadCompleted
+            __handleChecks '_ConvertAudio && _GetCompleted' '_ConvertAudio && _DownloadCompleted'
         else
             _BlankLine
             _Prompt " ${info}Proceed with conversion?:${nc}" || {
@@ -25,22 +41,13 @@ _IfWebmFiles() {
                 printf '\n%s\n' " ${critical}All .webm files have been moved in ${MUSIC_DIR##*/}.${nc}"
                 sleep 4
                 _BlankLine
-                [[ $M3UFILE == "$AUDIO_URLS" ]] || [[ $M3UFILE == "$DEFAULT_LIST" ]] \
-                && _GetCompleted
-                [[ $M3UFILE = "$playlists_dir"/"$list" ]] || [[ $M3UFILE = "$SELECTED_URLS1" ]] \
-                && _DownloadCompleted
+                __handleChecks '_GetCompleted' '_DownloadCompleted'
+                return
             }
-            [[ $M3UFILE == "$AUDIO_URLS" ]] || [[ $M3UFILE == "$DEFAULT_LIST" ]] \
-            && _ConvertAudio && _GetCompleted
-            [[ $M3UFILE == "$playlists_dir"/"$list" ]] || [[ $M3UFILE == "$SELECTED_URLS1" ]] \
-            && _ConvertAudio && _DownloadCompleted
+            __handleChecks '_ConvertAudio && _GetCompleted' '_ConvertAudio && _DownloadCompleted'
         fi
-
     else
-        [[ $M3UFILE == "$AUDIO_URLS" ]] || [[ $M3UFILE == "$DEFAULT_LIST" ]] \
-        && _GetCompleted
-        [[ $M3UFILE == "$playlists_dir"/"$list" ]] || [[ $M3UFILE == "$SELECTED_URLS1" ]] \
-        && _DownloadCompleted
+        __handleChecks '_GetCompleted' '_DownloadCompleted'
     fi
 
 }

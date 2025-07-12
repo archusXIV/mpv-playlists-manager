@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2034
+_FzfLoadMultiplePlaylists() {
+
+    cd "$titles_dir" || exit 1
+    local playerTitlesList m3uFile list lst M3UFILE TITLES cmd
+
+    rm "$tmp_dir/fzfLoadMultiplePlaylists.m3u" 2>/dev/null
+
+    titleList=$(find . -name "*.titles" | sort -d | sed 's,.*/,,')
+
+    titleList=$(
+        printf '%s\n' "${titleList//.titles}" | \
+            fzf \
+            --cycle \
+            --reverse \
+            --multi \
+            --header-first \
+            --scroll-off=5 \
+            --pointer '<>' \
+            --border rounded \
+            --prompt='Search: ' \
+            --border-label "| $action multiple playlists |" \
+            --preview-window="$fzf_preview_layout:$fzf_preview_size" \
+            --header="${info}${b}"'Press Tab to select, Escape to cancel:'"${nb}${nc}" \
+            --preview='(cat {}.titles)' >> "$FZFSELTITLES"
+    )
+
+    if [[ ! -s $FZFSELTITLES ]]; then
+        rm "$FZFSELTITLES"
+        _Menu
+    else
+
+        list=$(cat "$FZFSELTITLES")
+        cd "$playlists_dir" || exit 1
+        list=${list//.titles/}
+        mapfile -t lstCount < "$FZFSELTITLES"
+        rm "$FZFSELTITLES"
+        mapfile -t all_lists <<< "$list"
+        clear
+        echo -e "\n ${info}${#lstCount[@]} playlists selected.${nc}\n"
+        read -rsn 1 -p " ${info}[D]ownload or [P]lay selected playlists?: ${nc}" \
+            fzfLoadMultiplePlaylistsActions
+
+        declare -a removables=()
+        __makeCombinedLists() {
+            for lst in "${all_lists[@]}"; do
+                "${cmd}" "$lst" "$tmp_dir/$lst"
+                "${cmd}" "$titles_dir/$lst.titles" "$tmp_dir/$lst.titles"
+                sed -i '/#EXTM3U/d' "$tmp_dir/$lst"
+                cat "$tmp_dir/$lst" >> "$tmp_dir/fzfLoadMultiplePlaylists.m3u"
+                cat "$tmp_dir/$lst.titles" >> "$tmp_dir/multipleFilesTitles"
+                removables+=("$tmp_dir/$lst")
+                removables+=("$tmp_dir/$lst.titles")
+            done
+        }
+
+        case "$fzfLoadMultiplePlaylistsActions" in
+            [pP])
+                cmd="cp"
+                __makeCombinedLists
+                playerTitlesList="$tmp_dir/multipleFilesTitles"
+                m3uFile="$tmp_dir/fzfLoadMultiplePlaylists.m3u"
+                _BlankLine
+                read -rsn 1 -p " ${info}Play [A]udio or [V]ideo?: ${nc}" \
+                    fzfLoadMultiplePlaylistsAudioVideo
+                case "$fzfLoadMultiplePlaylistsAudioVideo" in
+                    [aA])
+                        rm "${removables[@]}"
+                        _MpvOwnsTmpList --multiple || _MpvcTest -a
+                    ;;
+                    [vV])
+                        rm "${removables[@]}"
+                        _MpvOwnsTmpList --multiple || _MpvcTest -v
+                    ;;
+                    *) _WrongOption "$fzfLoadMultiplePlaylistsAudioVideo"; _Menu ;;
+                esac
+                ;;
+            [dD])
+                cmd="mv"
+                __makeCombinedLists
+                list="fzfLoadMultiplePlaylists.m3u"
+                _BlankLine
+                read -rsn 1 -p " ${info}Download [A]udio or [V]ideo?: ${nc}" \
+                    fzfLoadMultiplePlaylistsAudioVideo
+                M3UFILE="$playlists_dir/$list"
+                TITLES="$titles_dir/$list.titles"
+                case "$fzfLoadMultiplePlaylistsAudioVideo" in
+                    [aA]) rm "${removables[@]}"; _GetAudio -m ;;
+                    [vV])
+                        rm "${removables[@]}"
+                        sed -i '1s/^/#EXTM3U\n/' "$tmp_dir/$list"
+                        "${cmd}" -f "$tmp_dir/$list" "$playlists_dir/$list"
+                        "${cmd}" -f "$tmp_dir/multipleFilesTitles" "$titles_dir/$list.titles"
+                        _DownloadVideoList
+                    ;;
+                    *) _WrongOption "$fzfLoadMultiplePlaylistsAudioVideo"; _Menu ;;
+                esac
+                ;;
+            *) _WrongOption "$fzfLoadMultiplePlaylistsActions"; _Menu ;;
+        esac
+        _Menu
+    fi
+
+}

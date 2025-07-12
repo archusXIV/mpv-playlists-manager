@@ -99,6 +99,7 @@ _Cleanup() {
         rm "$schedulesFile"
         sed -i '1s/^/#EXTM3U\n/' "${LISTS[@]}" >/dev/null 2>&1
         printf '%s\n' " Scheduled downloads cancelled or finished."
+
     fi
     # removing video ids
     mapfile \

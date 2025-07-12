@@ -18,28 +18,37 @@ _DownloadCompleted() {
             "$tmp_dir/list_tmp"
         )
 
+        [[ -f $tmp_dir/multipleFilesTitles_origin ]] && {
+            FILES+=("$tmp_dir/multipleFilesTitles_origin")
+            FILES+=("$tmp_dir/multipleFilesTitles")
+            FILES+=("$tmp_dir/fzfLoadMultiplePlaylists.m3u_origin")
+            FILES+=("$tmp_dir/fzfLoadMultiplePlaylists.m3u")
+        }
+
         if (($(_GetLinesList -l) > 0)); then
             if [[ $keep_none_empty_playlist == yes ]]; then
                 unset {FILES[0],FILES[2]}
-                rm -f "${FILES[@]}" 2>/dev/null
+                rm -f "${FILES[@]}" >/dev/null 2>&1
             else
                 echo -e " ${critical}keep_none_empty_playlist is set to 'no'.${nc}\n"
                 _Prompt \
                 " ${info}Downloads are completed but $list is not empty, do you want to KEEP it?:${nc}" || {
-                    rm -f "${FILES[@]}" 2>/dev/null
+                    rm -f "${FILES[@]}" >/dev/null 2>&1
                     _PolybarIpc
                     printf '%s\n' " ${critical}$list removed...${nc}"
                     sleep 3
                 }
                 unset {FILES[0],FILES[2]}
-                rm -f "${FILES[@]}" 2>/dev/null
+                rm -f "${FILES[@]}" >/dev/null 2>&1
             fi
         else
             _BlankLine
-            printf '%s\n' " ${info}Downloads completed." \
-            " ${critical}$list is empty... $list removed.${nc}"
-            sleep 3
-            rm -f "${FILES[@]}" 2>/dev/null
+            [[ -f $list ]] && {
+                printf '%s\n' " ${info}Downloads completed." \
+                " ${critical}$list is empty... $list removed.${nc}"
+                sleep 3
+            }
+            rm -f "${FILES[@]}" >/dev/null 2>&1
             _PolybarIpc
         fi
 

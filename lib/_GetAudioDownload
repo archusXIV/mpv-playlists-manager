@@ -7,8 +7,9 @@ _GetAudioDownload() {
     mkdir --parents "$mediaDir"
     cd "$mediaDir" && {
 
-        local animationTitles
+        local animationTitles type
         animationTitles="$TITLES"
+        type="audio"
 
         __testTitles() {
             if [[ $TITLES == "$DEFAULT_TITLES" ]]; then
@@ -17,6 +18,9 @@ _GetAudioDownload() {
             elif [[ $TITLES == "$AUDIO_TITLES" ]]; then
                 yt-dlp --output "$(_GetLinkTitle -a).%(ext)s" \
                 --format bestaudio/best "${ytdlPreset_NC[@]}" "$url"
+            elif [[ $TITLES == "$tmp_dir/multipleFilesTitles" ]]; then
+                yt-dlp --output "$(_GetLinkTitle -m).%(ext)s" \
+                --format bestaudio/best "${ytdlPreset_NC[@]}" "$url"
             else
                 yt-dlp --output "$(_GetLinkTitle -l).%(ext)s" \
                 --format bestaudio/best "${ytdlPreset_NC[@]}" "$url"
@@ -24,11 +28,11 @@ _GetAudioDownload() {
         }
 
         if _TestParallelCommand; then
-            _GetAudioDownloadMessages --parallel
+            _GetAudioVideoDownloadMessages --parallel
             _ParallelDownloadCmd --get-audio
             _ParallelAnimation
         elif _TestXargsCommand; then
-            _GetAudioDownloadMessages --xargs
+            _GetAudioVideoDownloadMessages --xargs
             _ParallelAnimation &
             _ParallelXargsCmd --get-audio
         else
@@ -37,7 +41,7 @@ _GetAudioDownload() {
             [[ $M3UFILE == "$AUDIO_URLS" ]] && mapfile -t AUDIOLINKS < "$M3UFILE"
             for url in "${AUDIOLINKS[@]}"; do
 
-                _GetAudioDownloadMessages --onebyone
+                _GetAudioVideoDownloadMessages --onebyone
 
                 if [[ "$url" =~ 'youtube' ]]; then
                     _BlankLine

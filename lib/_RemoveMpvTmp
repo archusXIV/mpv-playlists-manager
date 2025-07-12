@@ -13,6 +13,7 @@ _RemoveMpvTmp() {
         "playerIndexesList" "playerSelectedFile"
         "multipleDirsTitles.m3u" "multipleFilesTitles"
         "radioDirTitles" "singleDirTitles" "list_tmp"
+        "fzfLoadMultiplePlaylists.m3u"
     )
 
     for file in "${mpvTmpFiles[@]}"; do

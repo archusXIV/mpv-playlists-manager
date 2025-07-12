@@ -7,8 +7,9 @@ _GetVideoDownload() {
     mkdir --parents "$mediaDir"
     cd "$mediaDir" && {
 
-        local animationTitles
+        local animationTitles type
         animationTitles="$TITLES"
+        type="video"
 
         __testTitles() {
             if [[ $TITLES == "$DEFAULT_TITLES" ]]; then
@@ -21,11 +22,11 @@ _GetVideoDownload() {
         }
 
         if _TestParallelCommand; then
-            _GetVideoDownloadMessages --parallel
+            _GetAudioVideoDownloadMessages --parallel
             _ParallelDownloadCmd --get-video
             _ParallelAnimation
         elif _TestXargsCommand; then
-            _GetVideoDownloadMessages --xargs
+            _GetAudioVideoDownloadMessages --xargs
             _ParallelAnimation &
             _ParallelXargsCmd --get-video
         else
@@ -39,7 +40,7 @@ _GetVideoDownload() {
                 __chooseFormatMessages
                 read -r code
                 clear
-                _GetVideoDownloadMessages --onebyone
+                _GetAudioVideoDownloadMessages --onebyone
                 # it seems that only youtube uses merging options
                 if [[ "$url" =~ 'youtube' ]]; then
                     __testTitles

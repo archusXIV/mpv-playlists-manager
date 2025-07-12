@@ -8,12 +8,27 @@ _LoadPlaylist() {
 
     local list titlesFile action LIST
 
+    # renaming potential backup files to original names
     origin=(*_origin)
     for lst in "${origin[@]}"; do
         mv -f "$lst" "${lst//_origin/}"
     done
 
     _TestIfPlaylistsHaveTitles
+
+    echo -e "\n ${critical}Tip: If you don't want the entire playlist elements, press Enter.${nc}\n"
+    _Prompt -n " ${info}Download/Play multiple playlists? ${nc}" && {
+        if _TestFzfCommand; then
+            action=Select
+            _FzfLoadMultiplePlaylists
+        else
+            printf '%s\n' " ${critical}This functionality requires fzf installed" \
+            " and use_fzf must be set to ${task}yes ${critical}in your mpmrc file.${nc}"
+            sleep 5
+            return
+        fi
+    }
+
     clear
     if _TestFzfCommand; then
         action=Load

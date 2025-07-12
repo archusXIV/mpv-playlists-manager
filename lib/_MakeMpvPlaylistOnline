@@ -12,6 +12,8 @@ _MakeMpvPlaylistOnline() {
         playerTitlesList="$titles_dir/$list.titles"
     elif [[ -f $SELECTED_TITLES ]]; then
         playerTitlesList="$SELECTED_TITLES"
+    elif [[ -f $tmp_dir/multipleFilesTitles ]]; then
+        playerTitlesList="$tmp_dir/multipleFilesTitles"
     fi
 
     case "$1" in

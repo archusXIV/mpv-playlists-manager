@@ -31,7 +31,7 @@ export MPVSOCKET="/tmp/mpvsocket"
 soma_url="http://somafm.com/nossl/"
 nowPlaying="NO STATION SELECTED"
 nowRipping="$nowPlaying"
-rip_dir="$HOME/Music/streamripper"
+rip_dir="$HOME/.streamripper"
 low=64 medium=130 high=256 higher=320
 
 if [[ -n $(command -v streamripper) ]]; then

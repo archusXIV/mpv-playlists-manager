@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_GetAudioVideoDownloadMessages() {
+
+    case "$1" in
+        --parallel)
+            [[ $M3UFILE == "$AUDIO_URLS" ]] && {
+                _BlankLine
+                printf '%s\n' " ${info}$(_GetLinesList -a) ${type} file(s) left to download." \
+                " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
+            }
+            [[ $M3UFILE == "$VIDEO_URLS" ]] && {
+                _BlankLine
+                printf '%s\n' " ${info}$(_GetLinesList -v) ${type} file(s) left to download." \
+                " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
+            }
+            [[ $M3UFILE == "$playlists_dir"/"$list" ]] && {
+                _BlankLine
+                printf '%s\n' " ${info}$(_GetLinesList -l) ${type} file(s) left to download." \
+                " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
+            }
+            [[ $M3UFILE == "$DEFAULT_LIST" || $TITLES == "$DEFAULT_TITLES" ]] && {
+                _BlankLine
+                printf '%s\n' " ${info}$(_GetLinesList -d) ${type} file(s) left to download." \
+                " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
+            }
+            [[ -f "$tmp_dir/multipleFilesTitles" ]] && {
+                _BlankLine
+                printf '%s\n' " ${info}$(_GetLinesList -m) ${type} file(s) left to download." \
+                " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
+            }
+        ;;
+        --onebyone)
+            [[ $M3UFILE == "$AUDIO_URLS" ]] && {
+                _BlankLine
+                printf '%s\n' " ${info}$(_GetLinesList -a) ${type} file(s) left to download." \
+                " Downloading:  $(_GetLinkTitle -a)" \
+                " ${task}Searching for webm format...${nc}"
+            }
+            [[ $M3UFILE == "$VIDEO_URLS" ]] && {
+                _BlankLine
+                printf '%s\n' " ${info}$(_GetLinesList -v) ${type} file(s) left to download." \
+                " Downloading:  $(sed -n '1p' "$TITLES")${nc}"
+            }
+            [[ $M3UFILE == "$playlists_dir"/"$list" ]] && {
+                _BlankLine
+                printf '%s\n' " ${info}$(_GetLinesList -l) ${type} file(s) left to download." \
+                " Downloading:  $(_GetLinkTitle -l)" \
+                " ${task}Searching for webm format...${nc}"
+            }
+            [[ $M3UFILE == "$DEFAULT_LIST" ]] && {
+                _BlankLine
+                printf '%s\n' " ${info}$(_GetLinesList -d) ${type} file(s) left to download." \
+                " Downloading:  $(sed -n '1p' "$TITLES")${nc}"
+            }
+            [[ -f "$tmp_dir/multipleFilesTitles" ]] && {
+                _BlankLine
+                printf '%s\n' " ${info}$(_GetLinesList -m) ${type} file(s) left to download." \
+                " Downloading:  $(_GetLinkTitle -m)" \
+                " ${task}Searching for webm format...${nc}"
+            }
+        ;;
+        --xargs)
+            [[ $M3UFILE == "$AUDIO_URLS" ]] && {
+                _BlankLine
+                printf '%s\n' " ${info}$(_GetLinesList -a) ${type} file(s) left to download." \
+                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
+            }
+            [[ $M3UFILE == "$VIDEO_URLS" ]] && {
+                _BlankLine
+                printf '%s\n' " ${info}$(_GetLinesList -v) ${type} file(s) left to download." \
+                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
+            }
+            [[ $M3UFILE == "$playlists_dir"/"$list" ]] && {
+                _BlankLine
+                printf '%s\n' " ${info}$(_GetLinesList -l) ${type} file(s) left to download." \
+                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
+            }
+            [[ $M3UFILE == "$DEFAULT_LIST" ]] && {
+                _BlankLine
+                printf '%s\n' " ${info}$(_GetLinesList -d) ${type} file(s) left to download." \
+                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
+            }
+            [[ -f "$tmp_dir/multipleFilesTitles" ]] && {
+                _BlankLine
+                printf '%s\n' " ${info}$(_GetLinesList -m) ${type} file(s) left to download." \
+                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
+            }
+        ;;
+    esac
+
+}

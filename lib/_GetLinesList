@@ -10,6 +10,7 @@ _GetLinesList() {
         -a) FILE="$AUDIO_URLS" ;;
         -l) FILE="$playlists_dir"/"$list"; minusOne=yes ;;
         -d) FILE="$DEFAULT_LIST"; minusOne=yes ;;
+        -m) FILE="$tmp_dir/fzfLoadMultiplePlaylists.m3u" ;;
         -v) FILE="$VIDEO_URLS" ;;
     esac
 

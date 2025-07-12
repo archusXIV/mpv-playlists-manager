@@ -8,36 +8,34 @@ _GetCompleted() {
 
     if [[ -n $(find {"$audios_dir","$videos_dir"} -name "*.part") ]]; then
         _IfPartsExist -t
-    else
+    elif [[ $downloadTmpList =~ default|list ]]; then
         clear
-        if [[ $downloadTmpList =~ default|list ]]; then
-            printf '\n%s\n' " ${info}Downloads completed, temporary list preserved...${nc}"
-            downloadTmpList="downloaded"
+        printf '\n%s\n' " ${info}Downloads completed, temporary list preserved...${nc}"
+        downloadTmpList="downloaded"
+        sleep 2
+        _RenameTmpFiles
+        unset downloadTmpList
+    else
+        _BlankLine
+        _Prompt -n " ${info}Downloads completed, KEEP playlist?:${nc}" && {
+            printf '\n%s\n' \
+            " ${critical}It was a temporary list, don't forget to save it.${nc}"
             sleep 2
             _RenameTmpFiles
-            unset downloadTmpList
-        else
-            _BlankLine
-            _Prompt -n " ${info}Downloads completed, KEEP playlist?:${nc}" && {
-                printf '\n%s\n' \
-                " ${critical}It was a temporary list, don't forget to save it.${nc}"
-                sleep 2
-                _RenameTmpFiles
-                _CheckParallelDownloads --after
-            }
-
-            printf '%s\n' " ${critical}Removing temporary list...${nc}"
-            sleep 2
-            if [[ -f "$DEFAULT_LIST"_origin ]]; then
-                rm {"$DEFAULT_LIST","$DEFAULT_TITLES"}{,_origin}
-                echo "#EXTM3U" > "$DEFAULT_LIST"
-            elif [[ -f "$AUDIO_URLS"_origin ]]; then
-                rm {"$AUDIO_URLS","$AUDIO_TITLES"}{,_origin}
-            elif [[ -f "$VIDEO_URLS"_origin ]]; then
-                rm {"$VIDEO_URLS","$VIDEO_TITLES"}{,_origin}
-            fi
-            rm -f "$tmp_dir"/list_tmp 2>/dev/null
+            _CheckParallelDownloads --after
+            _Menu
+        }
+        printf '%s\n' " ${critical}Removing temporary list...${nc}"
+        sleep 2
+        if [[ -f "$DEFAULT_LIST"_origin ]]; then
+            rm {"$DEFAULT_LIST","$DEFAULT_TITLES"}{,_origin}
+            echo "#EXTM3U" > "$DEFAULT_LIST"
+        elif [[ -f "$AUDIO_URLS"_origin ]]; then
+            rm {"$AUDIO_URLS","$AUDIO_TITLES"}{,_origin}
+        elif [[ -f "$VIDEO_URLS"_origin ]]; then
+            rm {"$VIDEO_URLS","$VIDEO_TITLES"}{,_origin}
         fi
+        rm -f "$tmp_dir"/list_tmp 2>/dev/null
     fi
 
     _CheckParallelDownloads --after

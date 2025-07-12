@@ -39,6 +39,11 @@ _GetAudio() {
             TITLES="$titles_dir"/"$list".titles
             mediaDir="$audios_dir"/"${list%.*}"
         ;;
+        -m)
+			M3UFILE="$tmp_dir/fzfLoadMultiplePlaylists.m3u"
+			TITLES="$tmp_dir/multipleFilesTitles"
+            mediaDir="$audios_dir/fzfLoadMultiplePlaylists"
+        ;;
     esac
 
     _CheckParallelDownloads --before

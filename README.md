@@ -85,9 +85,9 @@ source ~/.config/mpm/mpmrc
 source ~/.config/mpm/themerc
 ```
 
-## Changelog:
-- Added removing videos ids in mpmsw when downloads are complete.
-- Rewrite some parts of few functions.
+## Changelog: version 2.4-7
+- Refactored _IfWebmFiles function to be more concise.
+- Added _FzfLoadMultiplePlaylists function to play/download several playlists from our collection, but be aware that when using the downloading option, selected playlists are indeed physically removed as they are in single mode.
 - Fixed bug in _DownloadCompleted & _GetCompleted to reset parallel_download preset to its initial value if changed while downloading non-youtube links.
 
 ## Mpv interfaces

@@ -1,5 +1,5 @@
 
-    mpm version 2.4-6
+    mpm version 2.4-7
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -53,7 +53,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.4-6::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.4-7::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -67,7 +67,7 @@
         │  1)  Create/Add video playlist  6)  View default playlist  │  use parallel:     no  │
         │  2)  Create/Add audio playlist  7)  Clear all tmp lists    │  direct download:  no  │
         │  3)  Save as/Delete a playlist  8)  Edit a playlist        │  conversion auto:  no  │
-        │  4)  Play/Download a playlist   9)  Edit mpm config file   │  audio format:    mp3  │
+        │  4)  Play/Download playlists    9)  Edit mpm config file   │  audio format:    mp3  │
         │  5)  Load local folder/files    X)  Exit                   │  quit after task:  no  │
         └─────────────────────────────────────────────────────────────────────────────────────┘
                                             Select an option
@@ -176,6 +176,10 @@
             - Just launch the mpmsw script provided in ./extra directory, put it in your $PATH,
             - check execution permission and launch it in your terminal (it will stay attached).
             - To stop it use Ctrl+C, it will stop automatically if there are no more schedules.
+
+        Since version 2.4-7 we can now download or play multiple playlist from our collection,
+        just answer 'y'es to the related prompt, but be aware that when using the downloading option,
+        selected playlists are indeed physically removed as they are in single mode.
 
     5-f) Load local dir/files:
 
