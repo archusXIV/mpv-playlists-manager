@@ -76,8 +76,10 @@ _FzfLoadMultiplePlaylists() {
                         _MpvOwnsTmpList --multiple || _MpvcTest -v
                     ;;
                     *)
-                        removables+=("$tmp_dir/fzfLoadMultiplePlaylists.m3u")
+                        rm "$tmp_dir/fzfLoadMultiplePlaylists.m3u"
+                        rm "$tmp_dir/multipleFilesTitles"
                         rm "${removables[@]}"
+                        unset playerTitlesList m3uFile
                         _WrongOption "$fzfLoadMultiplePlaylistsAudioVideo"
                         _Menu
                     ;;
@@ -110,8 +112,9 @@ _FzfLoadMultiplePlaylists() {
                                 "${cmd}" "$file" "$playlists_dir"
                             fi
                         done
-                        unset file
+                        unset file M3UFILE TITLES
                         rm "$tmp_dir/fzfLoadMultiplePlaylists.m3u"
+                        rm "$tmp_dir/multipleFilesTitles"
                         _WrongOption "$fzfLoadMultiplePlaylistsAudioVideo"
                         _Menu
                     ;;
