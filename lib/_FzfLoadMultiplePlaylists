@@ -75,7 +75,12 @@ _FzfLoadMultiplePlaylists() {
                         rm "${removables[@]}"
                         _MpvOwnsTmpList --multiple || _MpvcTest -v
                     ;;
-                    *) _WrongOption "$fzfLoadMultiplePlaylistsAudioVideo"; _Menu ;;
+                    *)
+                        removables+=("$tmp_dir/fzfLoadMultiplePlaylists.m3u")
+                        rm "${removables[@]}"
+                        _WrongOption "$fzfLoadMultiplePlaylistsAudioVideo"
+                        _Menu
+                    ;;
                 esac
                 ;;
             [dD])
@@ -96,9 +101,22 @@ _FzfLoadMultiplePlaylists() {
                         "${cmd}" -f "$tmp_dir/multipleFilesTitles" "$titles_dir/$list.titles"
                         _DownloadVideoList
                     ;;
-                    *) _WrongOption "$fzfLoadMultiplePlaylistsAudioVideo"; _Menu ;;
+                    *)
+                        for file in "${removables[@]}"; do
+                            if [[ $file =~ .titles ]]; then
+                                "${cmd}" "$file" "$titles_dir"
+                            else
+                                sed -i '1s/^/#EXTM3U\n/' "$file"
+                                "${cmd}" "$file" "$playlists_dir"
+                            fi
+                        done
+                        unset file
+                        rm "$tmp_dir/fzfLoadMultiplePlaylists.m3u"
+                        _WrongOption "$fzfLoadMultiplePlaylistsAudioVideo"
+                        _Menu
+                    ;;
                 esac
-                ;;
+            ;;
             *) _WrongOption "$fzfLoadMultiplePlaylistsActions"; _Menu ;;
         esac
         _Menu
