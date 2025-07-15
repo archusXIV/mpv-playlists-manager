@@ -29,12 +29,12 @@ _GetAudioDownload() {
 
         if _TestParallelCommand; then
             _GetAudioVideoDownloadMessages --parallel
-            _ParallelDownloadCmd --get-audio
+            _ParallelDownloadCmd parallel --get-audio
             _ParallelAnimation
         elif _TestXargsCommand; then
             _GetAudioVideoDownloadMessages --xargs
             _ParallelAnimation &
-            _ParallelXargsCmd --get-audio
+            _ParallelDownloadCmd xargs --get-audio
         else
             # default.m3u/collection playlist contains '#EXTM3U' header, but not temporaryAudioUrls.m3u
             mapfile -t -s 1 AUDIOLINKS < "$M3UFILE"

@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 <https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm>
-mpm version 2.4-7
+mpm version 2.4-8
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -24,10 +24,9 @@ as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
 the directory names and structure are correctly set.
 
 Changelog:
---------------------------------- NO CHANGES IN CONFIG FILES ---------------------------------
+------------------------------- NO CHANGES IN CONFIG FILES -------------------------------
+version 2.4-8 - Refactored _ParallelDownloadCmd by merging xargs commands
 version 2.4-7 - Refactored _IfWebmFiles function to be more concise.
 version 2.4-7 - Added _FzfLoadMultiplePlaylists function to play/download several playlists
                 from our collection, but be aware that when using the downloading option,
                 selected playlists are indeed physically removed as they are in single mode.
-version 2.4-6 - Added removing videos ids in mpmsw when downloads are complete.
-version 2.4-6 - Rewrite some parts of few functions.

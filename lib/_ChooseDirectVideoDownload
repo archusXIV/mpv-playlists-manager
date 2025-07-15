@@ -31,13 +31,13 @@ _ChooseDirectVideoDownload() {
     animationTitles="$SELECTED_TITLES"
 
     if _TestParallelCommand; then
-        _ParallelDownloadCmd --choose-video
+        _ParallelDownloadCmd parallel --choose-video
         _DownloadMessages --choose-video
         _ParallelAnimation
     elif _TestXargsCommand; then
         _DownloadMessages --choose-video
         _ParallelAnimation &
-        _ParallelXargsCmd --choose-video
+        _ParallelDownloadCmd xargs --choose-video
     else
         while read -r url; do
             _DownloadMessages --choose-video

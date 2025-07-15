@@ -43,13 +43,13 @@ _ChooseDownloadAudio() {
     }
 
     if _TestParallelCommand; then
-        _ParallelDownloadCmd --choose-audio
+        _ParallelDownloadCmd parallel --choose-audio
         _DownloadMessages --choose-audio
         _ParallelAnimation
     elif _TestXargsCommand; then
         _DownloadMessages --choose-audio
         _ParallelAnimation &
-        _ParallelXargsCmd --choose-audio
+        _ParallelDownloadCmd xargs --choose-audio
     else
         for url in "${SELECTEDAUDIO[@]}"; do
 

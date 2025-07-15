@@ -13,19 +13,19 @@ _FzfLoadMultiplePlaylists() {
 
     titleList=$(
         printf '%s\n' "${titleList//.titles}" | \
-            fzf \
-            --cycle \
-            --reverse \
-            --multi \
-            --header-first \
-            --scroll-off=5 \
-            --pointer '<>' \
-            --border rounded \
-            --prompt='Search: ' \
-            --border-label "| $action multiple playlists |" \
-            --preview-window="$fzf_preview_layout:$fzf_preview_size" \
-            --header="${info}${b}"'Press Tab to select, Escape to cancel:'"${nb}${nc}" \
-            --preview='(cat {}.titles)' >> "$FZFSELTITLES"
+        fzf \
+        --cycle \
+        --reverse \
+        --multi \
+        --header-first \
+        --scroll-off=5 \
+        --pointer '<>' \
+        --border rounded \
+        --prompt='Search: ' \
+        --border-label "| $action multiple playlists |" \
+        --preview-window="$fzf_preview_layout:$fzf_preview_size" \
+        --header="${info}${b}"'Press Tab to select, Escape to cancel:'"${nb}${nc}" \
+        --preview='(cat {}.titles)' >> "$FZFSELTITLES"
     )
 
     if [[ ! -s $FZFSELTITLES ]]; then
@@ -101,6 +101,7 @@ _FzfLoadMultiplePlaylists() {
                         sed -i '1s/^/#EXTM3U\n/' "$tmp_dir/$list"
                         "${cmd}" -f "$tmp_dir/$list" "$playlists_dir/$list"
                         "${cmd}" -f "$tmp_dir/multipleFilesTitles" "$titles_dir/$list.titles"
+                        _CheckParallelDownloads --before
                         _DownloadVideoList
                     ;;
                     *)
