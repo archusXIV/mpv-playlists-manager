@@ -16,8 +16,11 @@ _LoadPlaylist() {
 
     _TestIfPlaylistsHaveTitles
 
-    echo -e "\n ${critical}Tip: If you don't want the entire playlist elements, press Enter.${nc}\n"
-    _Prompt -n " ${info}Download/Play multiple playlists? ${nc}" && {
+    echo -e \
+    "\n ${critical}TIP: IN THIS SECTION YOU CAN CHOOSE TO PLAY/DOWNLOAD \n" \
+    "MULTIPLE PLAYLISTS AT A TIME OR JUST ONE AND IN THAT \n" \
+    "CASE BE ABLE TO CHOOSE FEW ITEMS FROM THAT PLAYLIST.${nc}\n"
+    _Prompt -n " ${info}Download/Play multiple playlists at a time?${nc}" && {
         if _TestFzfCommand; then
             action=Select
             _FzfLoadMultiplePlaylists

@@ -30,8 +30,8 @@ _IfDuplicatesUrls() {
                 clear; _BlankLine
                 printf '%s\n' \
                     " ${critical}The below URL is already present in your collection:" \
-                    " ${critical}Found in playlist: ${task}$(basename "${pls}")" \
-                    " ${critical}Removing: ${nc}$line"
+                    " Found in playlist: ${task}$(basename "${pls}")" \
+                    " Removing: ${nc}$line"
                 sleep 2
                 lines_to_delete+=("$linenum")
                 is_duplicate=1

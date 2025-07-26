@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ~/.config/mpm/mpmrc (version 2.4-8)
+# ~/.config/mpm/mpmrc (version 2.4-9)
 
 ########################################################
 #'##::::'##:'########::'##::::'##:'########:::'######::#
@@ -41,7 +41,7 @@ schedule_delay=30
 # !!! Change or add inside the below mainThemes array existent themes
 # in ~/.config/mpm/themerc (_Theme function)!!!
 mainThemes=(
-    default blacksea dracula gotham
+    default blacksea dracula embers gotham
     gruvbox jellybeans monokai nord pistachio
     solarized TokyoNight vacuous zenburn
 )
@@ -207,7 +207,7 @@ mpvc_tui="native"
 
 # !!! Change or add inside the below nativeThemes array existent themes
 # in ~/.config/mpm/themerc (_NativePlayerColors function)!!!
-nativeThemes=( default c64 dark gruvbox molokai nord seoul256 )
+nativeThemes=( default c64 dark embers gruvbox molokai nord seoul256 )
 native_tui_colors="default"
 
 # change this according to your mpv tui cheatsheet location

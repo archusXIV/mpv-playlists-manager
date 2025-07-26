@@ -6,7 +6,7 @@ _ParallelConversion() {
 
     __parallelMethod() (
         printf '%s\n' " ${info}Parallel conversion enabled.${nc}"
-        parallel --delay 2 --jobs "$parallel_threads" --bar \
+        parallel --jobs "$parallel_threads" --bar \
         ffmpeg -hide_banner -loglevel error \
         -y -i {} -qscale:a 0 {.}."$1" ::: ./*.webm
         rm -rf "$HOME"/.parallel

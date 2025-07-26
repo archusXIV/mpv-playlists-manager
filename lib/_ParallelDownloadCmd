@@ -4,94 +4,86 @@
 # shellcheck disable=SC2154
 _ParallelDownloadCmd() {
 
+    local audioJobs videoJobs
+    audioJobs=4 videoJobs=3
+
+    __sedCleanListsAndTitles() {
+        if [[ $M3UFILE == "$DEFAULT_LIST" ]]; then
+            sed -i '1,$d' {"$M3UFILE","$TITLES"}
+            echo "#EXTM3U" > "$DEFAULT_LIST"
+        elif [[ $M3UFILE == "$SELECTED_URLS1" ]]; then
+            sed -i '1,$d' "$SELECTED_TITLES"
+        else
+            sed -i '1,$d' {"$M3UFILE","$TITLES"}
+        fi
+        clear
+    }
+
+    declare -a ytfmt=(
+        "yt-dlp --format"
+        "bestaudio/best"
+        "bestvideo+bestaudio/best"
+    )
+
+    # using commas instead of slashes as separators,
+    # because we need ${ytfmt[@]:1:2} outside of sed too but later down.
+    __sedAudioCmd() (
+        sed -i "s,^,${ytfmt[0]} ${ytfmt[1]} ${ytdlPreset_NC[*]} ," "$1"
+    )
+    __sedVideoCmd() (
+        sed -i "s,^,${ytfmt[0]} ${ytfmt[2]} ${ytdlPreset_X[*]} ," "$1"
+    )
+
     case "$1" in
         parallel)
-            # unfortunately we can't use _GetLinkTitle here, because adding it to ${ytfmt[@]}
-            # will cause a race condition, and download will fail.
-            declare -a ytfmt=(
-                "yt-dlp --format bestaudio\/best"
-                "yt-dlp --format bestvideo+bestaudio\/best"
-            )
-
-            __sedAudioCmd() ( sed -i "s/^/${ytfmt[0]} ${ytdlPreset_NC[*]} /" "$1"; )
-            __sedVideoCmd() ( sed -i "s/^/${ytfmt[1]} ${ytdlPreset_X[*]} /" "$1"; )
-
-            __sedCleanTemporaryFiles() (
-                sed -i '1,$d' {"$M3UFILE","$TITLES"}
-                [[ $M3UFILE == "$DEFAULT_LIST" ]] && echo "#EXTM3U" > "$M3UFILE"
-                clear
-            )
-
             case "$2" in
-                --choose-audio)
+                --choose-audio|--choose-video)
                     cp "$M3UFILE" "$JOBSLIST"
-                    __sedAudioCmd "$JOBSLIST"
+                    if [[ $2 == "--choose-audio" ]]; then
+                        __sedAudioCmd "$JOBSLIST"
+                        Jobs="${audioJobs}"
+                    else
+                        __sedVideoCmd "$JOBSLIST"
+                        Jobs="${videoJobs}"
+                    fi
                     {
-                        parallel --delay 1.75 --jobs 4 < "$JOBSLIST"
-                        sed -i '1,$d' "$SELECTED_TITLES"
+                        parallel --delay 1 --jobs ${Jobs} < "$JOBSLIST"
+                        __sedCleanListsAndTitles
                         clear
                     } &
                 ;;
-                --choose-video)
-                    cp "$M3UFILE" "$JOBSLIST"
-                    __sedVideoCmd "$JOBSLIST"
+                --get-audio|--get-video|--direct-video)
+                    if [[ $2 == '--get-audio' ]]; then
+                        [[ $M3UFILE != "$AUDIO_URLS" ]] && sed -i '1d' "$M3UFILE"
+                        __sedAudioCmd "$M3UFILE"
+                        Jobs="${audioJobs}"
+                    else
+                        [[ $M3UFILE != "$VIDEO_URLS" ]] && sed -i '1d' "$M3UFILE"
+                        __sedVideoCmd "$M3UFILE"
+                        Jobs="${videoJobs}"
+                    fi
                     {
-                        parallel --delay 2.5 --jobs 3 < "$JOBSLIST"
-                        sed -i '1,$d' "$SELECTED_TITLES"
-                        clear
-                    } &
-                ;;
-                --direct-video)
-                    sed -i '1d' "$M3UFILE"
-                    __sedVideoCmd "$M3UFILE"
-                    {
-                        parallel --delay 2.5 --jobs 3 < "$M3UFILE"
-                        sed -i '1,$d' {"$M3UFILE","$TITLES"}
-                        clear
-                    } &
-                ;;
-                --get-audio)
-                    [[ $M3UFILE == "$DEFAULT_LIST" || $M3UFILE == "$playlists_dir/$list" ]] && \
-                    sed -i '1d' "$M3UFILE"
-                    __sedAudioCmd "$M3UFILE"
-                    {
-                        parallel --delay 1.75 --jobs 4 < "$M3UFILE"
-                        __sedCleanTemporaryFiles
-                    } &
-                ;;
-                --get-video)
-                    [[ $M3UFILE == "$DEFAULT_LIST" ]] && sed -i '1d' "$M3UFILE"
-                    __sedVideoCmd "$M3UFILE"
-                    {
-                        parallel --delay 2.5 --jobs 3 < "$M3UFILE"
-                        __sedCleanTemporaryFiles
+                        parallel --delay 1 --jobs ${Jobs} < "$M3UFILE"
+                        __sedCleanListsAndTitles
                     } &
                 ;;
             esac
-
             rm -rf {"$HOME"/.parallel,"$JOBSLIST"}
         ;;
         xargs)
-            __sedRemoveAll() {
-                if [[ $M3UFILE == "$SELECTED_URLS1" ]]; then
-                    sed -i '1,$d' "$SELECTED_TITLES"
-                else
-                    sed -i '1,$d' {"$M3UFILE","$TITLES"}
-                fi
-            }
-
+            while read -r line; do
+                [[ $line =~ ^https ]] && https+=("${line}")
+            done < "${M3UFILE}"
             case "$2" in
                 --choose-audio|--get-audio)
-                    grep '^https' "$M3UFILE" | xargs -I '{}' -P 4 \
-                    yt-dlp --format bestaudio/best "${ytdlPreset_NC[@]}" {}
-                    __sedRemoveAll
-                    [[ $M3UFILE == "$DEFAULT_LIST" ]] && echo "#EXTM3U" > "$DEFAULT_LIST"
+                    printf '%s\n' "${https[@]}" | xargs -I '{}' -P ${audioJobs} \
+                    yt-dlp --format "${ytfmt[1]}" "${ytdlPreset_NC[@]}" {}
+                    __sedCleanListsAndTitles
                 ;;
                 --choose-video|--direct-video|--get-video)
-                    grep '^https' "$M3UFILE" | xargs -I '{}' -P 3 \
-                    yt-dlp --format bestvideo+bestaudio/best "${ytdlPreset_X[@]}" {}
-                    __sedRemoveAll
-                    [[ $M3UFILE == "$DEFAULT_LIST" ]] && echo "#EXTM3U" > "$DEFAULT_LIST"
+                    printf '%s\n' "${https[@]}" | xargs -I '{}' -P ${videoJobs} \
+                    yt-dlp --format "${ytfmt[2]}" "${ytdlPreset_X[@]}" {}
+                    __sedCleanListsAndTitles
                 ;;
             esac
         ;;

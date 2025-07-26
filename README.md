@@ -85,10 +85,10 @@ source ~/.config/mpm/mpmrc
 source ~/.config/mpm/themerc
 ```
 
-## Changelog: version 2.4-8
+## Changelog: version 2.4-9
+- Added embers theme for both main window and native mpv interface.
+- Simplified _ParallelDownloadCmd function even more to handle events more efficiently by sharing nested function between parallel and xargs.
 - Refactored _ParallelDownloadCmd by merging xargs commands
-- Refactored _IfWebmFiles function to be more concise.
-- Added _FzfLoadMultiplePlaylists function to play/download several playlists from our collection, but be aware that when using the downloading option, selected playlists are indeed physically removed as they are in single mode.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -190,7 +190,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 # !!! Change or add inside the below mainThemes array existing themes
 # in ~/.config/mpm/themerc (_Theme function)!!!
 mainThemes=(
-    default blacksea dracula gotham
+    default blacksea dracula embers gotham
     gruvbox jellybeans monokai pistachio
     solarized TokyoNight vacuous zenburn
 )
@@ -201,7 +201,7 @@ Same thing for the native mpv tui.
 ```
 # !!! Change or add inside the below nativeThemes array existing themes
 # in ~/.config/mpm/themerc (_NativePlayerColors function)!!!
-nativeThemes=( default c64 dark gruvbox molokai nord seoul256 )
+nativeThemes=( default c64 dark embers gruvbox molokai nord seoul256 )
 native_tui_colors=default
 ```
 

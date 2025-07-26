@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ~/.config/mpm/themerc (version 2.4-8)
+# ~/.config/mpm/themerc (version 2.4-9)
 
 ###########################################################################
 #'########:'##::::'##:'########:'##::::'##:'########:'########:::'######::#
@@ -63,6 +63,17 @@ _NativePlayerColors() {
                 --color=border:#262626,label:#aeaeae,query:#d9d9d9
                 --border-label-pos='105:bottom'
                 --border-label '| theme: dark |'
+            "
+        ;;
+        embers)
+            export FZF_DEFAULT_OPTS="
+                --color=header:bold:#576d82
+                --color=fg:#998C82,fg+:#787D57,bg:$default_bg,bg+:$default_bg
+                --color=hl:#576d82,hl+:#82576d,info:#afaf87
+                --color=prompt:#82576d,spinner:#af5fff,pointer:#82576d
+                --color=border:#57826d,label:#998C82,query:#d9d9d9
+                --border-label-pos='103:bottom'
+                --border-label '[ theme: embers ]'
             "
         ;;
         gruvbox)
@@ -144,6 +155,16 @@ _Theme() {
             task=$'\e[38;2;191;191;191m';     #BFBFBF "0xbf 0xbf 0xbf"
             customColors=( "0xbd 0x93 0xf9" "0xff 0x55 0x55" "0x50 0xfa 0x7b" \
             "0xf1 0xfa 0x8c" "0xbf 0xbf 0xbf" )
+        ;;
+        embers)
+            bg="$default_bg"
+            nc=$'\e[38;2;153;140;130m';       #998C82 "0x99 0x8c 0x82"
+            critical=$'\e[38;2;130;87;109m';  #82576d "0x82 0x57 0x6d"
+            info=$'\e[38;2;87;130;109m';      #57826d "0x57 0x82 0x6d"
+            mtitle=$'\e[38;2;120;125;87m';    #787D57 "0x78 0x7d 0x57"
+            task=$'\e[38;2;87;109;130m';      #576d82 "0x57 0x6d 0x82"
+            customColors=( "0x99 0x8c 0x82" "0x82 0x57 0x6d" "0x57 0x82 0x6d" \
+            "0x78 0x7d 0x57" "0x57 0x6d 0x82" )
         ;;
         gotham)
             bg="#251930"
