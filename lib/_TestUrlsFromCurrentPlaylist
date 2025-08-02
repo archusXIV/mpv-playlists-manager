@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_TestUrlsFromCurrentPlaylist() {
+
+    clear
+    local line_number urlTest
+    line_number=1
+    urlTest="$tmp_dir/urltest"
+    declare -a okUrls=()
+
+    echo -e "\n ${info}Testing URLs from $M3UFILE...Please wait.${nc}\n"
+    sed -i '1d' "$M3UFILE"
+    mapfile -t urls <"$M3UFILE"
+
+    for url in "${urls[@]}"; do
+        yt-dlp "${ytdlPreset_BC[@]}" --no-warnings \
+            --print formats_table "$url" > "$urlTest"
+        if grep -qw 'ERROR' "$urlTest" || [[ ! -s "$urlTest" ]]; then
+            sed -i "${line_number}d" {"$M3UFILE","$titles_dir/$list.titles"}
+            printf '%s\n' \
+                " ${critical}removing ${nc}$url ${critical}(no longer available).${nc}"
+            sleep 3
+        else
+            printf '%s\n' " ${info}$line_number $url is ${task}ok${nc}"
+            okUrls+=("${url}")
+        fi
+        ((line_number++))
+    done
+
+    ((${#okUrls[@]} == ${#urls[@]})) &&
+        printf '\n%s\n' " ${info}All URLs have been successfully tested!${nc}"
+    sleep 3
+
+    unset line_number url urls okUrls
+    sed -i '1s/^/#EXTM3U\n/' "$M3UFILE"
+    rm "$urlTest"
+    _LoadPlaylistMenu
+
+}

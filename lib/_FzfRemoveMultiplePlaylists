@@ -38,7 +38,7 @@ _FzfRemoveMultiplePlaylists() {
     _Prompt -n " ${critical}Are you sure you want to remove these playlists?:${nc}" && {
 
         while IFS= read -r playlist; do
-            rm -f "$playlists_dir/$playlist" "${playlist}.titles"
+            rm -f {"$playlists_dir/$playlist","${playlist}.titles"}
             printf '%s\n' " ${critical}$playlist removed.${nc}"
         done < "$FZFSELTITLES"
 

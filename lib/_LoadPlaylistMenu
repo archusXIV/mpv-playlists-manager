@@ -43,13 +43,14 @@ _LoadPlaylistMenu() {
         echo -e "                                                ${mtitle}::${B}DOWNLOAD/PLAY OPTIONS::${NB}${nc}"
         echo -e "                                           $(_LittleStars)${nc}"
         echo -e "                                  ┌───────────────────────────────────────────────────┐"
-        echo -e "                                  │     1) Choose playlist titles & download ${info}audio${nc}    │"
-        echo -e "                                  │     2) Choose playlist titles & download ${info}video${nc}    │"
-        echo -e "                                  │     3) Download whole playlist as ${info}audio${nc} files     │"
-        echo -e "                                  │     4) Download whole playlist as ${info}video${nc} files     │"
-        echo -e "                                  │     5) Choose playlist titles & play ${info}audio/video${nc}  │"
-        echo -e "                                  │     6) Schedule download                          │"
-        echo -e "                                  │     7) Back to main menu                          │"
+        echo -e "                                  │    1) Choose playlist titles & download ${info}audio${nc}     │"
+        echo -e "                                  │    2) Choose playlist titles & download ${info}video${nc}     │"
+        echo -e "                                  │    3) Download whole playlist as ${info}audio${nc} files      │"
+        echo -e "                                  │    4) Download whole playlist as ${info}video${nc} files      │"
+        echo -e "                                  │    5) Choose playlist titles & play ${info}audio/video${nc}   │"
+        echo -e "                                  │    6) Schedule download                           │"
+        echo -e "                                  │    7) Test URLs from current playlist             │"
+        echo -e "                                  │    8) Back to main menu                           │"
         echo -e "                                  └───────────────────────────────────────────────────┘"
         echo -e "                                                   ${info}${b}Select an option${nb}${nc}\n"
 
@@ -62,7 +63,8 @@ _LoadPlaylistMenu() {
             4) __testList; _CheckParallelDownloads --before; _DownloadVideoList ;;
             5) _MpvOwnsTmpList --collection || _ChooseFromPlay ;;
             6) _ScheduleDownload ;;
-            [bB7]) _Menu ;;
+            7) _TestUrlsFromCurrentPlaylist ;;
+            [bB8]) _Menu ;;
             [rR]) continue ;;
             *) _WrongOption "$loadPlaylistMenuOptions"; _Menu ;;
         esac

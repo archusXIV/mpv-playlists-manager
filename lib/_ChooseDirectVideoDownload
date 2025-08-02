@@ -13,9 +13,6 @@ _ChooseDirectVideoDownload() {
         _GetRange
     fi
 
-    clear
-    cp -f "$playlists_dir"/"$list" "$playlists_dir"/"$list"_origin
-    cp -f "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
     mkdir --parents "$mediaDir"
     cd "$mediaDir"|| {
         printf '\n%s\n' \
@@ -23,6 +20,10 @@ _ChooseDirectVideoDownload() {
         sleep 3
         _Menu
     }
+
+    clear
+    cp -f "$playlists_dir"/"$list" "$playlists_dir"/"$list"_origin
+    cp -f "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
 
     M3UFILE="$SELECTED_URLS1"
     _CheckParallelDownloads --before

@@ -9,7 +9,7 @@ _FzfEnqueueOptions() {
     sed -i "s/^/${localDirPath}\//" fzfEnqueue.m3u
 
     case "$fzfEnqueueOptions" in
-        a|A)
+        [aA])
             if [[ ! -f "$FZFENQUEUE" ]]; then
                 mv -f fzfEnqueue.m3u "$FZFENQUEUE"
                 _SelectLocalDir -f
@@ -20,7 +20,7 @@ _FzfEnqueueOptions() {
                 _SelectLocalDir -f
             fi
         ;;
-        n|N)
+        [nN])
             use_mpvc_locally=yes
             localPlaylist=yes
             if [[ ! -f "$FZFENQUEUE" ]]; then

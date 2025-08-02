@@ -14,10 +14,6 @@ _ChooseDownloadAudio() {
         _GetRange
     fi
 
-    clear
-    cp -f "$playlists_dir"/"$list" "$playlists_dir"/"$list"_origin
-    cp -f "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
-
     mediaDir="$audios_dir/${list%.*}"
     mkdir --parents "$mediaDir"
     cd "$mediaDir" || {
@@ -26,6 +22,11 @@ _ChooseDownloadAudio() {
         sleep 4
         _Menu
     }
+
+    clear
+    cp -f "$playlists_dir"/"$list" "$playlists_dir"/"$list"_origin
+    cp -f "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
+
 
     M3UFILE="$SELECTED_URLS1"
     _CheckParallelDownloads --before

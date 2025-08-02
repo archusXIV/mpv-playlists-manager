@@ -40,8 +40,8 @@ _GetAudio() {
             mediaDir="$audios_dir"/"${list%.*}"
         ;;
         -m)
-			M3UFILE="$tmp_dir/fzfLoadMultiplePlaylists.m3u"
-			TITLES="$tmp_dir/multipleFilesTitles"
+            M3UFILE="$tmp_dir/fzfLoadMultiplePlaylists.m3u"
+            TITLES="$tmp_dir/multipleFilesTitles"
             mediaDir="$audios_dir/fzfLoadMultiplePlaylists"
         ;;
     esac

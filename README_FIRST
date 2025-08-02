@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 <https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm>
-mpm version 2.4-9
+mpm version 2.5-0
 
 Dependencies: ffmpeg, jq, mpv, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -25,7 +25,7 @@ the directory names and structure are correctly set.
 
 Changelog:
 ------------------------------- NO CHANGES IN CONFIG FILES -------------------------------
+version 2.5-0 - Added an URLs test option in DOWNLOAD/PLAY OPTIONS menu (_LoadPlaylistMenu).
 version 2.4-9 - Added embers theme for both main window and native mpv interface.
 version 2.4-9 - Simplified _ParallelDownloadCmd function even more to handle events more
                 efficiently by sharing nested function between parallel and xargs.
-version 2.4-8 - Refactored _ParallelDownloadCmd by merging xargs commands

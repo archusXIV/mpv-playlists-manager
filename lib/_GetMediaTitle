@@ -10,29 +10,34 @@ _GetMediaTitle() {
         --audio)
             listFile="$AUDIO_URLS"
             titlesFile="$AUDIO_TITLES"
+            mapfile -t urls < "$listFile"
         ;;
         --default)
             listFile="$DEFAULT_LIST"
             titlesFile="$DEFAULT_TITLES"
+            mapfile -t -s 1 urls < "$listFile"
         ;;
         --list)
             listFile="$playlists_dir"/"$list"
             titlesFile="$titles_dir/$list.titles"
+            mapfile -t -s 1 urls < "$listFile"
         ;;
         --pls)
             listFile="$playlists_dir"/"${pl##*/}"
             titlesFile="$titles_dir/${pl##*/}.titles"
+            mapfile -t -s 1 urls < "$listFile"
         ;;
         --video)
             listFile="$VIDEO_URLS"
             titlesFile="$VIDEO_TITLES"
+            mapfile -t urls < "$listFile"
         ;;
     esac
 
     if _Has parallel; then
-        grep '^https' "$listFile" \
+        printf '%s\n' "${urls[@]}" \
         | parallel --tagstring '{#}' --lb -j0 \
-        yt-dlp --get-title --no-warnings --ignore-errors \
+        yt-dlp --get-title --no-warnings \
         | sort -ns \
         | sed 's/^[[:digit:]]*//;s/^\s//;s/^-\s//;s/\//_/g' > "$titlesFile"
         rm -rf "$HOME"/.parallel
@@ -41,7 +46,7 @@ _GetMediaTitle() {
         while read -r line; do
             yt-dlp --skip-download --get-title \
             "${ytdlPreset_DW[@]}" "$line" >> "$titlesFile"
-        done < <(grep '^https' "$listFile")
+        done < <(printf '%s\n' "${urls[@]}")
     fi
 
 }

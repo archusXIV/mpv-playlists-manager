@@ -13,8 +13,8 @@ _EditMpmConf() {
 
     case "$editConfig" in
         [cC]) return ;;
-        [mM]) editConfig=mpmrc; $MPMEDITOR "$MPMRC"; ;;
-        [tT]) editConfig=themerc; $MPMEDITOR "$THEMERC"; ;;
+        [mM]) config=mpmrc; $MPMEDITOR "$MPMRC"; ;;
+        [tT]) config=themerc; $MPMEDITOR "$THEMERC"; ;;
         *   ) _WrongOption "$editConfig"; return ;;
     esac
 
@@ -29,8 +29,9 @@ _EditMpmConf() {
     fi
 
     _BlankLine
-    printf '%s\n' " ${info}$editConfig saved! New changes actives.${nc}"
+    printf '%s\n' " ${info}$config saved! New changes actives.${nc}"
     sleep 2
+    unset config
 
     case "$1" in
         -m) return ;;

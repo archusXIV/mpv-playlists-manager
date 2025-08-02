@@ -61,8 +61,7 @@ _AnalyzeUrls() {
             --no-warnings \
             --print formats_table "$mediaUrl" > "$urlTest"
         if grep -qw 'ERROR' "$urlTest" || [[ ! -s $urlTest ]]; then
-            printf '%s\n' " ${critical}${b}Unsupported url!${nb}" \
-            " $mediaUrl removed..." \
+            printf '%s\n' " $mediaUrl removed..." \
             " ${info}Please visit: $SUPPORTED_SITES${nc}"
             sleep 7
             continue
