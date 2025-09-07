@@ -8,7 +8,7 @@ _FzfRemoveMultiplePlaylists() {
 
     _TestIfPlaylistsHaveTitles
 
-    titleList=$(find . -name "*.titles" | sort -d | sed 's,.*/,,')
+    titleList=$(find . -name "*.titles" -printf '%f\n' | sort -d)
     titleList=$(
         printf '%s\n' "${titleList//.titles}" | \
             fzf \
@@ -23,7 +23,7 @@ _FzfRemoveMultiplePlaylists() {
             --border-label "| Remove multiple playlists |" \
             --preview-window="$fzf_preview_layout:$fzf_preview_size" \
             --header="${info}${b}"'TAB to select multiple, Enter to confirm, Escape to cancel:'"${nb}${nc}" \
-            --preview='(cat {}.titles)' >> "$FZFSELTITLES"
+            --preview='(cat {}.titles)' | tee "$FZFSELTITLES"
     )
 
     if [[ ! -s $FZFSELTITLES ]]; then

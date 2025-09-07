@@ -13,15 +13,15 @@ _EditMpmConf() {
 
     case "$editConfig" in
         [cC]) return ;;
-        [mM]) config=mpmrc; $MPMEDITOR "$MPMRC"; ;;
-        [tT]) config=themerc; $MPMEDITOR "$THEMERC"; ;;
+        [mM]) config="${MPMRC##*/}"; $MPMEDITOR "$MPMRC" ;;
+        [tT]) config="${THEMERC##*/}"; $MPMEDITOR "$THEMERC" ;;
         *   ) _WrongOption "$editConfig"; return ;;
     esac
 
     clear
     if [[ -z $THEME ]]; then
-        theme="default"; nc=$'\e[0m'; critical=$'\e[31m';
-        info=$'\e[32m'; mtitle=$'\e[33m'; task=$'\e[37m';
+        theme="default" nc=$'\e[0m' critical=$'\e[31m'
+        info=$'\e[32m' mtitle=$'\e[33m' task=$'\e[37m'
         . "$THEMERC"
     else
         . "$MPMRC"; . "$THEMERC"

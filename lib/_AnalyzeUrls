@@ -7,7 +7,7 @@ _AnalyzeUrls() {
     local singleUrlsFile playlistUrlsFile
 
     clear
-    printf '\%s\n' " ${info}Analyzing URLs...Please wait.${nc}"
+    printf '\n%s\n' " ${info}Analyzing URLs...Please wait.${nc}"
 
     singleUrlsFile="$tmp_dir/single_urls"
     playlistUrlsFile="$tmp_dir/playlist_urls"

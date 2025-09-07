@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Script name: install.sh version 2.5-0
+# Script name: install.sh version 2.5-1
 # Author: Barret E <https://github.com/archusXIV/mpv-playlists-manager>
 # Licensed under the GPLv2
 #
@@ -12,7 +12,7 @@ red=$'\e[38;2;206;34;30m';
 endColor=$'\e[0m';
 
 [[ $(whoami) != 'root' ]] && {
-    echo "${red}This script must be run as root.${endColor}"
+    echo " ${red}This script must be run as root.${endColor}"
     exit 1
 }
 
@@ -44,6 +44,7 @@ _editConfig() {
                     "$editor" "$MPMRC" "$MPMRC".orig
                 fi
             }
+            chown -R "$usergroup" "$CONF_DIR" && exit 0
         ;;
         [nN])
             # setting ownership back to the user
@@ -105,7 +106,7 @@ _uninstall() {
     rm --verbose --recursive --force /usr/local/lib/mpm
     rm --verbose --recursive --force /usr/local/share/doc/mpm
     rm --verbose --recursive --force /usr/share/licenses/mpm
-    rm --verbose --recursive --force /usr/local/man/man1/mpm.1
+    rm --verbose --force /usr/local/man/man1/{mpm.1,mpm.1.gz}
 
 }
 

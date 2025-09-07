@@ -20,7 +20,7 @@ _MakeMpvPlaylist() {
             if [[ $localDir == "$radios_dir" ]]; then
                 mpv --no-terminal --force-window=no \
                 "${mpvGenOptions_X[@]}" "$m3uFile" &
-                _WhileMpvIsRunning &
+                _WhileMpvIsRunning
                 _Menu
             elif [[ $localMediaType =~ audio|video ]]; then
                 # use-mpvc is set to no or is empty

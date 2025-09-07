@@ -4,39 +4,37 @@
 # shellcheck disable=SC2154
 _MenuFooter() {
 
-    if [[ $mpv_is_running == no ]]; then
-        echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
-        echo -e "                   │              ${info}mpv isn't running anymore, press ${task}R ${info}to refresh the screen${nc}               │"
-        echo -e "                   │                        ${info}Press ${task}Ctrl C ${info}if mpm isn't launched.${nc}                          │"
-        echo -e "                   └─────────────────────────────────────────────────────────────────────────────────────┘"
-    elif [[ $use_mpvc == yes && -z $mpvc_tui ]] || [[ $use_mpvc == no && $use_mpvc_locally == yes ]]; then
-        # # no access to mpvc_tui & playing online
+    __mpvcTuiIsNotSet() {
         echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
         echo -e "                   │            ${info}mpv is running, press ${task}Q ${info}to quit mpv, ${task}T${info} to view current title${nc}             │"
         echo -e "                   │           ${info}controls: ${task}H ${info}previous, ${task}J ${info}stop (same as Q), ${task}K ${info}play/pause, ${task}L ${info}next${nc}            │"
         echo -e "                   └─────────────────────────────────────────────────────────────────────────────────────┘"
+    }
+
+    __mpvcTuiIsSet() {
+        echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
+        echo -e "                   │           ${info}mpv is running, press ${task}N ${info}to launch the mpv tui or ${task}Q ${info}to quit mpv${nc}            │"
+        echo -e "                   └─────────────────────────────────────────────────────────────────────────────────────┘"
+    }
+
+    if [[ $mpv_is_running == no ]]; then
+        echo -e "                              ${info}mpv isn't running anymore, press ${task}R ${info}to refresh the screen${nc}"
+        echo -e "                                        ${info}Press ${task}Ctrl C ${info}if mpm isn't launched.${nc}"
+    elif [[ $use_mpvc == yes && -z $mpvc_tui ]] || [[ $use_mpvc == no && $use_mpvc_locally == yes ]]; then
+        # # no access to mpvc_tui & playing online
+        __mpvcTuiIsNotSet
     elif [[ $use_mpvc == yes && -n $mpvc_tui && $use_mpvc_online == yes ]] \
         || [[ $use_mpvc == yes && -n $mpvc_tui && $use_mpvc_locally == yes ]]; then
         # access to mpvc_tui & playing online
-        echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
-        echo -e "                   │           ${info}mpv is running, press ${task}N ${info}to launch the mpv tui or ${task}Q ${info}to quit mpv${nc}            │"
-        echo -e "                   └─────────────────────────────────────────────────────────────────────────────────────┘"
+        __mpvcTuiIsSet
     elif [[ $use_mpvc == no && $use_mpvc_online == yes ]] || [[ $use_mpvc == no && $use_mpvc_locally == yes ]]; then
         # no access to mpvc_tui & playing online
-        echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
-        echo -e "                   │            ${info}mpv is running, press ${task}Q ${info}to quit mpv, ${task}T${info} to view current title${nc}             │"
-        echo -e "                   │           ${info}controls: ${task}H ${info}previous, ${task}J ${info}stop (same as Q), ${task}K ${info}play/pause, ${task}L ${info}next${nc}            │"
-        echo -e "                   └─────────────────────────────────────────────────────────────────────────────────────┘"
+        __mpvcTuiIsNotSet
     elif [[ $use_mpvc == yes && -n $mpvc_tui && -f $tmp_dir/playerSelectedFile ]]; then
         # showing these outputs when closing and re-opening the program while mpv is running
-        echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
-        echo -e "                   │           ${info}mpv is running, press ${task}N ${info}to launch the mpv tui or ${task}Q ${info}to quit mpv${nc}            │"
-        echo -e "                   └─────────────────────────────────────────────────────────────────────────────────────┘"
+        __mpvcTuiIsSet
     elif [[ $use_mpvc == no && -f $NOWPLAYING ]] || [[ -z $use_mpvc && -f $NOWPLAYING ]]; then
-        echo -e "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐"
-        echo -e "                   │            ${info}mpv is running, press ${task}Q ${info}to quit mpv, ${task}T${info} to view current title${nc}             │"
-        echo -e "                   │           ${info}controls: ${task}H ${info}previous, ${task}J ${info}stop (same as Q), ${task}K ${info}play/pause, ${task}L ${info}next${nc}            │"
-        echo -e "                   └─────────────────────────────────────────────────────────────────────────────────────┘"
+        __mpvcTuiIsNotSet
     fi
 
 }

@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154
 _FzfChooseTitles() {
 
-    local fzfHeader
+    local fzfHeader labelAction
     fzfHeader="Tab:select items, Ctrl+A:select ALL, Enter:confirm, ESC:cancel:"
 
     if [[ $removeCollectionTitles == yes ]]; then

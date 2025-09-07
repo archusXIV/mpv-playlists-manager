@@ -35,7 +35,7 @@ _CreateAddPlaylistActions() {
                 _Prompt " kill previous mpv instance? ${nc}" || {
                     return
                 }
-                _killMpv
+                _KillMpv
                 rm "$pidofMpv"
                 _LoadAudioVideo "$arg"
             else

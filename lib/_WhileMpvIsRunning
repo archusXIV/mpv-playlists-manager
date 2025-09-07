@@ -3,26 +3,30 @@
 
 # shellcheck disable=SC2034,SC2154
 _WhileMpvIsRunning() {
-
-    local mpv_is_running
-    mpv_is_running="yes"
+    local mpv_is_running="yes"
     touch "$tmp_dir"/playerSelectedFile
 
-    while _PidOfMpv >/dev/null; do
-        sleep 1
-    done
+    # Start monitoring mpv in background - this creates one child process
+    (
+        echo "$BASHPID" >> "$MPM_PIDS"
 
-    localPlaylist="no"
-    mpv_is_running="no"
+        while _PidOfMpv >/dev/null; do
+            sleep 1
+        done
 
-    if [[ $mpvc_tui == native ]]; then
-        cmd=fzf
-    else
-        cmd="$mpvc_tui"
-    fi
+        mpv_is_running="no"
+        localPlaylist="no"
 
-    _RemoveMpvTmp
-    kill -SIGTERM "$(pidof -x "$cmd")" 2>/dev/null
-    _MenuFooter
+        if [[ $mpvc_tui == native ]]; then
+            cmd=fzf
+        else
+            cmd="$mpvc_tui"
+        fi
+
+        _RemoveMpvTmp
+        sed -i "/${BASHPID}/d" "$MPM_PIDS"
+        kill -SIGTERM "$(pidof -x "$cmd")" 2>/dev/null
+        _MenuFooter
+    ) &
 
 }

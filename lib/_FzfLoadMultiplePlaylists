@@ -7,8 +7,8 @@ _FzfLoadMultiplePlaylists() {
     cd "$titles_dir" || exit 1
     local playerTitlesList m3uFile list lst M3UFILE TITLES cmd
     rm "$tmp_dir/fzfLoadMultiplePlaylists.m3u" 2>/dev/null
-    titleList=$(find . -name "*.titles" | sort -d | sed 's,.*/,,')
 
+    titleList=$(find . -name "*.titles" -printf '%f\n' | sort -d)
     titleList=$(
         printf '%s\n' "${titleList//.titles}" | \
         fzf \
@@ -23,7 +23,7 @@ _FzfLoadMultiplePlaylists() {
         --border-label "| $action multiple playlists |" \
         --preview-window="$fzf_preview_layout:$fzf_preview_size" \
         --header="${info}${b}"'Press Tab to select, Escape to cancel:'"${nb}${nc}" \
-        --preview='(cat {}.titles)' >> "$FZFSELTITLES"
+        --preview='(cat {}.titles)' | tee "$FZFSELTITLES"
     )
 
     if [[ ! -s $FZFSELTITLES ]]; then

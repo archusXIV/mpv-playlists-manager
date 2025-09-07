@@ -30,11 +30,15 @@ _SaveCheck() {
     _BlankLine
     PS3=""$'\n'" ${info}Type ${task}${listTotal} ${info}to create a new playlist, [${mtitle}C${info}]ancel: ${nc}"
     mapfile -t mapLists < <(
-        find . -not -name "default.m3u" -name "*.m3u" -not -name "*_origin" | sort -d | sed 's,.*/,,'
+        find . \
+        -not -name "default.m3u" \
+        -not -name "*_origin" \
+        -name "*.m3u" \
+        -printf '%f\n' \
+        | sort -d
     )
 
     select list in "${mapLists[@]}"; do
-
         if [[ $REPLY =~ [a-zA-Z] ]]; then
             [[ -f "$current_list"_origin ]] && {
                 mv -f "$current_list"_origin "$current_list"
@@ -44,11 +48,11 @@ _SaveCheck() {
             sleep 3
             return
         elif ((REPLY > $((listTotal)))); then
-            printf '\n%s\n' " ${critical}Number too high. Please enter a number between 1 and $listTotal.${nc}"
+            printf '\n%s\n' \
+            " ${critical}Number too high. Please enter a number between 1 and $listTotal.${nc}"
             sleep 3
             return
         elif ((REPLY < $((listTotal)))); then
-
             if [[ -e ./$list ]]; then
                 _BlankLine
                 _Prompt -n " ${critical}$list already exists! Overwrite it?:${nc}" && {
@@ -82,11 +86,8 @@ _SaveCheck() {
                 _WrongOption "$REPLY"
                 break
             fi
-
         fi
-
         __listAlreadyExists && break
-
     done
 
 }

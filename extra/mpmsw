@@ -17,7 +17,7 @@
 # change browser variable @ line 38, eg: browser=brave
 # Run it in your terminal, (it will stay attached): mpmsw
 
-# shellcheck disable=SC2164,SC2317,SC2001
+# shellcheck disable=SC2164,SC2317,SC2001,SC2329
 # Do not rename this file, it is handled by mpm.
 trap '_Cleanup; echo " Caught Ctrl+C"; exit 0' SIGINT
 trap _Cleanup SIGTERM

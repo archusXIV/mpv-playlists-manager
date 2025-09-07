@@ -23,8 +23,8 @@ _EditPlaylist() {
         _BlankLine
         PS3=""$'\n'" ${info}Choose a playlist to edit, [${mtitle}C${info}]ancel: ${nc}"
 
-        select list in $(find "$playlists_dir" -not -name "default.m3u" -name "*.m3u" \
-            -o -name "*_origin" | sort -d | sed 's,.*/,,'); do
+        select list in $(find "$playlists_dir" \( -not -name "default.m3u" -name "*.m3u" -o -name "*_origin" \) \
+            -printf '%f\n'| sort -d); do
 
             [[ $REPLY =~ [a-zA-Z] ]] && {
                 printf '\n%s\n' " ${critical}Selection aborted.${nc}"

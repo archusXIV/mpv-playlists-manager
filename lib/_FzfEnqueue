@@ -22,7 +22,8 @@ _FzfEnqueue() {
     _ResizeWindow --main
     rm ./fzfEnqueue.m3u 2>/dev/null
 
-    find . -type f | sort -d | sed 's,.*/,,;/fzfEnqueue.m3u/d' | \
+    find . -type f -not -name "fzfEnqueue.m3u" -printf '%f\n' \
+    | sort -d | \
     fzf \
     --multi \
     --cycle \

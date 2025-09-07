@@ -12,7 +12,7 @@ _SelectLocalDir() {
     PS3=""$'\n'" ${info}Select a directory number to queue/parse, [${mtitle}C${info}]ancel: ${nc}"
 
     select dir in $(find -L "$localDir" -maxdepth 1 -type d -not -empty \
-        -not -wholename "$localDir" | sort | sed 's,.*/,,'); do
+        -not -wholename "$localDir" -printf '%f\n' | sort); do
 
             case "$REPLY" in
                 [a-zA-Z])

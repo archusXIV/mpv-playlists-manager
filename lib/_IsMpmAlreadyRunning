@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154
+_IsMpmAlreadyRunning() {
+
+    echo $$ >> "$MPM_PIDS"
+    mapfile -t pids < "$MPM_PIDS"
+
+    __killPids() {
+        case "$1" in
+            greaterThanOne)
+                rm "$MPM_PIDS"
+                kill -KILL "${pids[0]}"
+            ;;
+            greaterThanTwo)
+                _KillMpv && _RemoveMpvTmp && rm "$MPM_PIDS"
+                for ((i=0;i<=2;i++)); do
+                    kill -KILL "${pids[${i}]}"
+                done
+            ;;
+        esac
+        exit
+    }
+
+    __killPrompt() (
+        printf '\n%s\n' " ${critical}${0##*/} is already running..."
+        _Prompt -n " Do you want to kill ${0##*/}?${nc}"
+    )
+
+    # 1 The main pid is the previous instance of mpm.
+    # 2 The _WhileMpvIsRunning function is in the background...
+    # 3 The second instance of mpm will be kill as well.
+    if [[ -e $NOWPLAYING ]] && ((${#pids[@]} >= 3)); then
+        __killPrompt && {
+            if ((${#pids[@]} > 2)); then
+                _Prompt -n " ${critical}Mpv is also running, stop mpv?${nc}" \
+                && __killPids greaterThanTwo
+            fi
+        }
+        sed -i '$d' "$MPM_PIDS"
+        exit
+    elif [[ ! -e $NOWPLAYING ]] && ((${#pids[@]} == 2)); then
+        __killPrompt && __killPids greaterThanOne
+        sed -i '$d' "$MPM_PIDS"
+        exit
+    fi
+
+}

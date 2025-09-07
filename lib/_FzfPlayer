@@ -2,7 +2,7 @@
 ## This is a part of main script: mpm.
 
 # shellcheck source=/dev/null
-# shellcheck disable=SC2154,SC2317
+# shellcheck disable=SC2154,SC2317,SC2329
 _FzfPlayer() {
 
     cd "$tmp_dir" || exit 1
@@ -10,7 +10,7 @@ _FzfPlayer() {
     . "$MPMRC"; . "$THEMERC"
 
     # fixed window size
-    echo -ne '\e[8;32;124t'
+    _ResizeWindow --main
 
     __passPlaylistIndexToMpv() (
         local index length

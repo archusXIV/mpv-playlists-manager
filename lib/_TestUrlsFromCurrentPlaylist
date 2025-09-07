@@ -11,6 +11,7 @@ _TestUrlsFromCurrentPlaylist() {
     declare -a okUrls=()
 
     echo -e "\n ${info}Testing URLs from $M3UFILE...Please wait.${nc}\n"
+    # We could use mapfile -t -s 1, but @line 22, sed removes the same line_number in both files.
     sed -i '1d' "$M3UFILE"
     mapfile -t urls <"$M3UFILE"
 

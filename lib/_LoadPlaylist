@@ -41,7 +41,7 @@ _LoadPlaylist() {
     _BlankLine
     PS3=""$'\n'" ${info}Select a playlist to load, [${mtitle}C${info}]ancel: ${nc}"
 
-    select list in $(find . -type f -not -name "default.m3u" | sort -d | sed 's,.*/,,'); do
+    select list in $(find . -type f -not -name "default.m3u" -printf '%f\n' | sort -d); do
 
         [[ $REPLY =~ [a-zA-Z] ]] && break
 

@@ -7,7 +7,7 @@ _SaveRemove() {
     local collection action
     collection=$(
         find "$playlists_dir" -not -name "default.m3u" \
-        -name "*.m3u" | sort -d | sed 's,.*/,,'
+        -name "*.m3u" -printf '%f\n' | sort -d
     )
 
     declare -a promptLists=(
@@ -57,7 +57,7 @@ _SaveRemove() {
                 _FzfPlaylistActions --remove
             }
 
-            clear; _BlankLine
+            clear
             PS3=""$'\n'" ${info}Choose a playlist to remove, [${mtitle}C${info}]ancel :${nc} "
             _BlankLine
             select m3ufile in ${collection}; do

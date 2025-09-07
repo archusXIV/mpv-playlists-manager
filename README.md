@@ -85,10 +85,9 @@ source ~/.config/mpm/mpmrc
 source ~/.config/mpm/themerc
 ```
 
-## Changelog: version 2.5-0
+## Changelog: version 2.5-1
+- Added _IsMpmAlreadyRunning function to improve handling multiple unwanted mpm or mpv instances.
 - Added an URLs test option in DOWNLOAD/PLAY OPTIONS menu (_LoadPlaylistMenu).
-- Added embers theme for both main window and native mpv interface.
-- Simplified _ParallelDownloadCmd function even more to handle events more efficiently by sharing nested function between parallel and xargs.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.

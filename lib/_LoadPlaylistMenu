@@ -21,7 +21,7 @@ _LoadPlaylistMenu() {
                 [cC]) _Menu ;;
                 [qQ])
                     unset playerTitlesList
-                    _killMpv
+                    _KillMpv
                     _Menu
                 ;;
                 *)

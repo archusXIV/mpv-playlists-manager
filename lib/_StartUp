@@ -4,8 +4,7 @@
 # shellcheck disable=SC2154
 _StartUp() {
 
-    local pidofMpv
-    pidofMpv="$tmp_dir/mpv.pid"
+    local pidofMpv="$tmp_dir/mpv.pid"
     _ResizeWindow --main
     _PolybarIpc
 
@@ -30,7 +29,7 @@ _StartUp() {
         case "$quitmpv" in
             [nN]) _Menu ;;
             y|*)
-                _killMpv
+                _KillMpv
                 rm "$pidofMpv"
                 _Menu
             ;;

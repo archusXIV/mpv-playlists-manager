@@ -37,8 +37,8 @@ _CheckDependencies() {
 
     mkdir --parents {"$main_dir","$playlists_dir","$titles_dir","$tmp_dir","$audios_dir","$videos_dir"}
 
-    cp -f /usr/local/share/doc/mpm/mpm_yt-videos.m3u "$playlists_dir"
-    cp -f /usr/local/share/doc/mpm/mpm_yt-videos.m3u.titles "$titles_dir"
+    cp -f "$DOC_DIR"/mpm_yt-videos.m3u "$playlists_dir"
+    cp -f "$DOC_DIR"/mpm_yt-videos.m3u.titles "$titles_dir"
 
     [[ ! -f $DEFAULT_LIST || ! -s $DEFAULT_LIST  ]] && echo "#EXTM3U" > "$DEFAULT_LIST"
 

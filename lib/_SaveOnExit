@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154
+# shellcheck disable=SC2154,SC2015
 _SaveOnExit() {
 
     _Prompt -n \
@@ -38,7 +38,13 @@ _SaveOnExit() {
 
         _PolybarIpc
         printf '%s\n' " ${critical}TOO BAD...BYE${nc}"
-        sleep 2
+        if [[ -e $NOWPLAYING ]]; then
+            mpmPid=$$
+            sed -i "/${mpmPid}/d" "$MPM_PIDS"
+        else
+            rm "$MPM_PIDS"
+        fi
+        sleep 1
         nc=$'\e[0m';
         echo "${nc}"
         echo -e "\033]11;${default_bg}\007"

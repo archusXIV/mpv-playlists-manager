@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-##  Script name: mpm version 2.5-0
+##  Script name: mpm version 2.5-1
 ##  Author: Barret E (2021-25) <archus@protonmail.com>
 ##  https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
 ##  Dependencies: ffmpeg, jq, mpv, yt-dlp.
@@ -22,7 +22,7 @@
 # shellcheck disable=SC2034,SC2154,SC2001,SC2207
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.5-0"
+VERSION="v.2.5-1"
 
 # blinking prompts
 b=$'\e[5m';
@@ -33,10 +33,11 @@ B=$'\e[1m';
 NB=$'\e[21m';
 
 CONF_DIR="$HOME/.config/mpm"
+DOC_DIR="/usr/local/share/doc/mpm"
 
 [[ ! -d $CONF_DIR ]] && {
     mkdir -p "$CONF_DIR"
-    cp /usr/local/share/doc/mpm/{mpmrc,themerc} "$CONF_DIR"
+    cp "$DOC_DIR"/{mpmrc,themerc} "$CONF_DIR"
 }
 
 MPMRC="$CONF_DIR/mpmrc"
@@ -52,7 +53,7 @@ done
 unset index
 
 if [[ ! -f $THEMERC ]]; then
-    cp /usr/local/share/doc/mpm/themerc "$CONF_DIR"
+    cp "$DOC_DIR"/themerc "$CONF_DIR"
     . "$THEMERC"
     _Theme "$THEME"
 elif [[ -z $THEME ]]; then
@@ -76,7 +77,7 @@ fi
 
 _BlankLine() { printf '\n'; }
 _PidOfMpv() { pgrep -x mpv; }
-_killMpv() { kill -SIGTERM "$(_PidOfMpv)"; }
+_KillMpv() { kill -KILL "$(_PidOfMpv)" || killall --signal KILL mpv; }
 _Has() { command -v "$1" &>/dev/null; }
 
 # Global variables
@@ -93,6 +94,7 @@ HELP="/usr/local/share/doc/mpm/help"
 JOBSLIST="$tmp_dir/parallel_list"
 LOCALDIRS_LIST="$tmp_dir/localdirs_list.m3u"
 MPM_GIT="https://github.com/archusXIV/mpv-playlists-manager.git"
+MPM_PIDS="/tmp/mpm.pid"
 MPM_VERSION="https://raw.githubusercontent.com/archusXIV/mpv-playlists-manager/main/version"
 MPVSOCKET=$(sed 's/--input-ipc-server=//' <<< "${mpvGenOptions_SK[*]}")
 [[ ! -S $MPVSOCKET ]] && MPVSOCKET="/tmp/mpvsocket"
@@ -112,18 +114,7 @@ YTFZFJSON="$tmp_dir/ytfzf.json"
 
 [[ -z $parallel_threads ]] && parallel_threads=4
 
-_CheckPids() {
-    local scriptname pids
-    scriptname=$(basename "$0")
-    pids=($(pidof -x "$scriptname"))
+# Prevent the script from being launched twice
+_IsMpmAlreadyRunning
 
-    if [[ -f $NOWPLAYING && ${#pids[@]} -eq 3 ]] \
-        || [[ ! -f $NOWPLAYING && ${#pids[@]} -eq 2 ]]; then
-        printf '\n%s\n' " ${critical}${scriptname##*/} is already running...${nc}"
-        notify-send -u critical "${0##*/} is already running..."
-        exit 1
-    fi
-}
-
-_CheckPids
 _MpmOptions "${@}"
