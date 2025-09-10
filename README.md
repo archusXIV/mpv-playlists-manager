@@ -56,7 +56,7 @@ make help
 
 ## Optionals
 (recommanded for better experience)
-- [fzf](https://github.com/junegunn/fzf), [ytfzf](https://github.com/pystardust/ytfzf), [mpvc](https://github.com/lwilletts/mpvc), [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc), [parallel](https://www.gnu.org/software/parallel/), [ranger](https://github.com/ranger/ranger) (or any terminal file manager), [ueberzug](https://github.com/ueber-devel/ueberzug), [ffmpegthumbnailer](https://github.com/dirkvdb/ffmpegthumbnailer), [youtube-dl](https://github.com/ytdl-org/youtube-dl)
+- [fzf](https://github.com/junegunn/fzf), [ytfzf](https://github.com/pystardust/ytfzf), [mpvc](https://github.com/lwilletts/mpvc), [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc), [parallel](https://www.gnu.org/software/parallel/), [ranger](https://github.com/ranger/ranger) (file manager), [ueberzug](https://github.com/ueber-devel/ueberzug), [ffmpegthumbnailer](https://github.com/dirkvdb/ffmpegthumbnailer), [youtube-dl](https://github.com/ytdl-org/youtube-dl),[wmctrl](https://github.com/saravanabalagi/wmctrl)
 
 ## mpm can be launched also with these commands:
 
