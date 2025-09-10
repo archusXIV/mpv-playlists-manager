@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Script name: mpmsw version 1.1.1
+# Script name: mpmsw version 1.1.2
 # Author: Barret E <archus@protonmail>
 # Licensed under the GPLv2
 # Github: https://github.com/archusXIV/mpv-playlists-manager
@@ -31,10 +31,11 @@ for dep in awk sed yt-dlp; do
 done
 
 ############################# BEGIN PREFERENCES #############################
-# Edit your directories and yt-dlp options here.
+# Edit your directories and yt-dlp options here etc...
 : "${XDG_DATA_HOME:-$HOME/.local/share}"
 schedules_dir="$XDG_DATA_HOME/mpv-playlists-manager/schedules"
 schedulesFile="$schedules_dir/schedules.txt"
+remove_video_ids=yes
 browser=brave
 # yt-dlp cookies & format options here
 ytdlpCookyCmd=( --cookies-from-browser="${browser}" )
@@ -100,19 +101,21 @@ _Cleanup() {
         sed -i '1s/^/#EXTM3U\n/' "${LISTS[@]}" >/dev/null 2>&1
         printf '%s\n' " Scheduled downloads cancelled or finished."
     fi
-    # removing video ids
-    mapfile \
-        -t downloadedFiles < <(
-            find . -maxdepth 1 -type f \
-            -regextype egrep -regex '.*(\[|\]).*' \
-            | sed 's,./,,'
-    )
 
-    for file in "${downloadedFiles[@]}"; do
-        mv "$file" "$(echo "$file" | sed -e 's/ \[.*\]//')"
-    done 2>/dev/null
+    if [[ $remove_video_ids == "yes" ]]; then
+        mapfile \
+            -t downloadedFiles < <(
+                find . -maxdepth 1 -type f -printf '%f\n' \
+                -regextype egrep -regex '.*(\[|\]).*'
+            )
 
-    unset file downloadedFiles
+        for file in "${downloadedFiles[@]}"; do
+            mv "$file" "$(echo "$file" | sed -e 's/ \[.*\]//')"
+        done 2>/dev/null
+
+        unset file downloadedFiles
+    fi
+
     exit 0
 
 }
@@ -163,7 +166,6 @@ while true; do
             printf '%s\n' " No more scheduled downloads."
             break
         }
-
     fi
     # Use 5 seconds intervals for a balance between responsiveness and resource usage
     for _ in {1..12}; do

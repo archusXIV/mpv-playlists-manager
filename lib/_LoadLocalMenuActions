@@ -24,7 +24,6 @@ _LoadLocalMenuActions() {
         fi
     }
 
-    # test if the player owns the tmp local playlist before going futher.
     case "$1" in
         --explore)
             [[ $loadLocalMenuOptions == 5 ]] && localDir="$MUSIC_DIR"
@@ -32,6 +31,7 @@ _LoadLocalMenuActions() {
             __isFileManagerInstalled
         ;;
         --files)
+            # test if the player owns the tmp local playlist before going futher.
             _MpvOwnsTmpList --local || {
                 if [[ $loadLocalMenuOptions == 2 ]]; then
                     __settingLoadLocalVars -a
@@ -62,7 +62,7 @@ _LoadLocalMenuActions() {
                 if [[ -n $radios_dir ]]; then
                     localDir="$radios_dir"
                     if _TestFzfCommand; then
-                        clear; _BlankLine; _FzfEnqueue
+                        clear; _FzfEnqueue
                     else
                         printf '%s\n' \
                         " ${critical}The fzf package isn't installed, or use_fzf is set to 'no'.${nc}"

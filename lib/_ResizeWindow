@@ -4,20 +4,57 @@
 # shellcheck disable=SC2154
 _ResizeWindow() {
 
+    shopt -s checkwinsize
+
+    # Convert terminal columns/lines to pixels for wmctrl
+    # For terminals that do not support xterm protocols:
+    # 1 column ≈ 10px, 1 line ≈ 22px (rounded)
+    __term2pixels() {
+        local cols=$1 lines=$2
+        # Bash does not support floating point arithmetic natively.
+        local width=$(( (cols * 1016 + 50) / 100 ))
+        local height=$(( (lines * 2232 + 50) / 100 ))
+        echo "$width $height"
+    }
+
+    __wmctrlResize() {
+        local width=$1 height=$2
+        # Gravity,X,Y,Width,Height (gravity 5 = center)
+        wmctrl -r :ACTIVE: -e "5,-1,-1,$width,$height"
+    }
+
     # width & height are defined in ~/.config/mpm/mpmrc
     case "$1" in
         --copy)
             if [[ -n $copy_width && -n $copy_height ]]; then
-                echo -ne "\e[8;${copy_height};${copy_width}t"
+                if _Has wmctrl; then
+                    read -r pixels_width pixels_height < <(__term2pixels "$copy_width" "$copy_height")
+                    __wmctrlResize "$pixels_width" "$pixels_height"
+                else
+                    echo -ne "\e[8;${copy_height};${copy_width}t"
+                fi
             else
-                echo -ne '\e[8;16;124t'
+                if _Has wmctrl; then
+                    __wmctrlResize 1260 362
+                else
+                    echo -ne '\e[8;16;124t'
+                fi
             fi
         ;;
         --main)
             if [[ -n $width && -n $height ]]; then
-                echo -ne "\e[8;${height};${width}t"
+                if _Has wmctrl; then
+                    read -r pixels_width pixels_height < <(__term2pixels "$width" "$height")
+                    __wmctrlResize "$pixels_width" "$pixels_height"
+                else
+                    echo -ne "\e[8;${height};${width}t"
+                fi
             else
-                echo -ne '\e[8;32;124t'
+                if _Has wmctrl; then
+                    __wmctrlResize 1260 724
+                else
+                    echo -ne '\e[8;32;124t'
+                fi
             fi
         ;;
     esac
