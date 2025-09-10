@@ -77,7 +77,7 @@ fi
 
 _BlankLine() { printf '\n'; }
 _PidOfMpv() { pgrep -x mpv; }
-_KillMpv() { kill -KILL "$(_PidOfMpv)" || killall --signal KILL mpv; }
+_KillMpv() { kill -KILL "$(_PidOfMpv)" && wait "$(_PidOfMpv)"; } 2>/dev/null
 _Has() { command -v "$1" &>/dev/null; }
 
 # Global variables
