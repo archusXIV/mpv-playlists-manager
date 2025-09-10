@@ -87,7 +87,7 @@ source ~/.config/mpm/themerc
 
 ## Changelog: version 2.5-2
 - Some terminal won't resize correctly (eg:Alacritty) so if your under X11,
-  - install wmctrl package to get to proper window size for mpm.
+  - install wmctrl package to get the proper window size for mpm.
 - Added an option to remove video ids in the extra/mpmsw script preferences.
 - Added _IsMpmAlreadyRunning function to improve handling multiple unwanted mpm or mpv instances.
 - Added an URLs test option in DOWNLOAD/PLAY OPTIONS menu (_LoadPlaylistMenu).
