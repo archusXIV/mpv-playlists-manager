@@ -6,7 +6,9 @@ _MenuBobySettings() {
 
     local varConv varDirect varFmt varFzf varMpvc varParallel varQuit
 
-    if [[ $use_mpvc == yes ]]; then
+    if [[ $use_mpvc == yes && $use_fzf == no ]]; then
+        varMpvc="${critical}  yes${nc}"
+    elif [[ $use_mpvc == yes ]]; then
         varMpvc="${task}  yes${nc}"
     elif [[ $use_mpvc == no ]]; then
         varMpvc="${critical}   no${nc}"

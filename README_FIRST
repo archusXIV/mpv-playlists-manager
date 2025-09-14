@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 <https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm>
-mpm version 2.5-2
+mpm version 2.5-3
 
 Dependencies: ffmpeg, jq, mpv, socat, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -25,8 +25,7 @@ the directory names and structure are correctly set.
 
 Changelog:
 ------------------------------- NO CHANGES IN CONFIG FILES -------------------------------
+version 2.5-3 - Fixed a bug in _MenuFooter function when use_mpvc=yes and use_fzf=no/empty.
 version 2.5-2 - Some terminal won't resize correctly (eg:Alacritty) so if your under X11,
                 install wmctrl package to get to proper window size for mpm.
 version 2.5-2 - Added an option to remove video ids in the extra/mpmsw script preferences.
-version 2.5-1 - Added _IsMpmAlreadyRunning function to improve handling of multiple unwanted
-                mpm or mpv instances.

@@ -8,8 +8,8 @@ _CheckDependencies() {
         "ffmpeg" "jq" "mpv" "yt-dlp"
         "exiftool" "fzf" "mediainfo"
         "parallel" "socat" "ueberzug"
-        "w3m" "ytfzf" "less" "dialog"
-        "$MPMEDITOR" "$FILEMANAGER"
+        "w3m" "wmctrl" "ytfzf" "less"
+        "dialog" "$MPMEDITOR" "$FILEMANAGER"
     )
 
     for dep in "${DEPS[@]:0:4}"; do
@@ -20,7 +20,7 @@ _CheckDependencies() {
         }
     done
 
-    for opt in "${DEPS[@]:4:15}"; do
+    for opt in "${DEPS[@]:4:16}"; do
         _Has "$opt" || {
             printf '%s\n' " ${critical}For better experience, consider installing $opt." \
             " Some functionalities might be unavailable...${nc}"

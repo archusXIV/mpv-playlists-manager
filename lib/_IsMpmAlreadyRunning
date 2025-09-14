@@ -14,7 +14,7 @@ _IsMpmAlreadyRunning() {
                 kill -KILL "${pids[0]}"
             ;;
             greaterThanTwo)
-                _KillMpv && _RemoveMpvTmp && rm "$MPM_PIDS"
+                _KillMpv && _RemoveMpvTmp
                 for ((i=0;i<=2;i++)); do
                     kill -KILL "${pids[${i}]}"
                 done
@@ -35,7 +35,7 @@ _IsMpmAlreadyRunning() {
         __killPrompt && {
             if ((${#pids[@]} > 2)); then
                 _Prompt -n " ${critical}Mpv is also running, stop mpv?${nc}" \
-                && __killPids greaterThanTwo
+                && rm "$MPM_PIDS" && __killPids greaterThanTwo
             fi
         }
         sed -i '$d' "$MPM_PIDS"

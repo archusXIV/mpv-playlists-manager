@@ -5,9 +5,10 @@
 _ResizeWindow() {
 
     shopt -s checkwinsize
+    local h w
 
-    # Convert terminal columns/lines to pixels for wmctrl
     # For terminals that do not support xterm protocols:
+    # Convert terminal columns/lines to pixels for wmctrl
     # 1 column ≈ 10px, 1 line ≈ 22px (rounded)
     __term2pixels() {
         local cols=$1 lines=$2
@@ -28,8 +29,8 @@ _ResizeWindow() {
         --copy)
             if [[ -n $copy_width && -n $copy_height ]]; then
                 if _Has wmctrl; then
-                    read -r pixels_width pixels_height < <(__term2pixels "$copy_width" "$copy_height")
-                    __wmctrlResize "$pixels_width" "$pixels_height"
+                    read -r w h < <(__term2pixels "$copy_width" "$copy_height")
+                    __wmctrlResize "$w" "$h"
                 else
                     echo -ne "\e[8;${copy_height};${copy_width}t"
                 fi
@@ -44,8 +45,8 @@ _ResizeWindow() {
         --main)
             if [[ -n $width && -n $height ]]; then
                 if _Has wmctrl; then
-                    read -r pixels_width pixels_height < <(__term2pixels "$width" "$height")
-                    __wmctrlResize "$pixels_width" "$pixels_height"
+                    read -r w h < <(__term2pixels "$width" "$height")
+                    __wmctrlResize "$w" "$h"
                 else
                     echo -ne "\e[8;${height};${width}t"
                 fi

@@ -85,12 +85,11 @@ source ~/.config/mpm/mpmrc
 source ~/.config/mpm/themerc
 ```
 
-## Changelog: version 2.5-2
+## Changelog: version 2.5-3
+- Fixed a bug in _MenuFooter function when use_mpvc=yes and use_fzf=no/empty.
 - Some terminal won't resize correctly (eg:Alacritty) so if you are under X11,
   - install wmctrl package to get the proper window size for mpm.
 - Added an option to remove video ids in the extra/mpmsw script preferences.
-- Added _IsMpmAlreadyRunning function to improve handling multiple unwanted mpm or mpv instances.
-- Added an URLs test option in DOWNLOAD/PLAY OPTIONS menu (_LoadPlaylistMenu).
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.

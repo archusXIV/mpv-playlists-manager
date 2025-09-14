@@ -29,7 +29,7 @@ _MpvControl() {
         -l) key=l; __mpvControlTests && _MpvSocketCommands --next ;;
         -n) key=n; __mpvControlTests ;;
         -t) key=t; __mpvControlTests && _MpvSocketCommands --title; sleep 4 ;;
-        -q) key=q; __mpvControlTests && _KillMpv >/dev/null 2>&1; _RemoveMpvTmp ;;
+        -q) key=q; __mpvControlTests && _KillMpv; _RemoveMpvTmp ;;
         -r)
             key=r; __mpvControlTests && \
             if _PidOfMpv >/dev/null; then

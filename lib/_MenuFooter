@@ -23,6 +23,9 @@ _MenuFooter() {
     elif [[ $use_mpvc == yes && -z $mpvc_tui ]] || [[ $use_mpvc == no && $use_mpvc_locally == yes ]]; then
         # # no access to mpvc_tui & playing online
         __mpvcTuiIsNotSet
+    elif [[ $use_mpvc == yes && $use_fzf == no ]] || [[ $use_mpvc == yes && -z $use_fzf ]]; then
+        # # no access to mpvc_tui & playing online
+        __mpvcTuiIsNotSet
     elif [[ $use_mpvc == yes && -n $mpvc_tui && $use_mpvc_online == yes ]] \
         || [[ $use_mpvc == yes && -n $mpvc_tui && $use_mpvc_locally == yes ]]; then
         # access to mpvc_tui & playing online

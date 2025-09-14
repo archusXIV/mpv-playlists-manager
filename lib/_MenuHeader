@@ -4,8 +4,7 @@
 # shellcheck disable=SC2154
 _MenuHeader() {
 
-    local sep
-    sep="${task}*${nc}"
+    local sep="${task}*${nc}"
 
     # we need color for this, so we need to use echo.
     # -1 because we don't want to take into account default.m3u
