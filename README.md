@@ -1,5 +1,5 @@
 # mpv-playlists-manager
-## Manage playlists for mpv from your linux terminal
+## Manage playlists for mpv from your linux terminal.
 
 ## About mpm
 Manage playlists that mpv reads either online or from local files/directories,
