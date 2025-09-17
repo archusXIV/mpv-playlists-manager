@@ -20,7 +20,7 @@ _LoadLocalMenu() {
         "                                  │   4) Video files        9) Launch SomaFm player   │" \
         "                                  │   5) Explore Music dir  X) Back to main menu      │" \
         "                                  └───────────────────────────────────────────────────┘" \
-        "                                                   ${info}${b}Select an option${nb}${nc}\n"
+        "                                                   ${info}${b}Select an option${nb}${nc}"
 
         read -rsn 1 loadLocalMenuOptions
 
