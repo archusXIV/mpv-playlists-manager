@@ -9,7 +9,6 @@ _ParallelConversion() {
         parallel --jobs "$parallel_threads" --bar \
         ffmpeg -hide_banner -loglevel error \
         -y -i {} -qscale:a 0 {.}."$1" ::: ./*.webm
-        rm -rf "$HOME"/.parallel
     )
 
     __xargsMethod() (

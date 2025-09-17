@@ -40,10 +40,10 @@ _CleanTmpDir() {
         done
     else
         rm "$(readlink -f "$tmp_dir"/"fzfEnqueue.m3u")"
-        rm -f "$tmp_dir"/*
+        rm -f {"$tmp_dir"/*,"$MPM_PIDS"}
     fi
 
-    rm -rf {"$HOME"/.parallel,"$playlists_dir"/*_tmp}
+    rm -f "$playlists_dir"/*_tmp
     rmdir {"$audios_dir"/*/,"$videos_dir"/*/}
 
 } 2>/dev/null

@@ -40,7 +40,6 @@ _GetMediaTitle() {
         yt-dlp --get-title --no-warnings \
         | sort -ns \
         | sed 's/^[[:digit:]]*//;s/^\s//;s/^-\s//;s/\//_/g' > "$titlesFile"
-        rm -rf "$HOME"/.parallel
     else
         sed -i '1,$d' "$titlesFile"
         while read -r line; do

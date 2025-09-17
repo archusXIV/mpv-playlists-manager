@@ -5,7 +5,7 @@
 _ParallelDownloadCmd() {
 
     local audioJobs videoJobs
-    audioJobs=4 videoJobs=3
+    audioJobs=8 videoJobs=4
 
     __sedCleanListsAndTitles() {
         if [[ $M3UFILE == "$DEFAULT_LIST" ]]; then
@@ -26,7 +26,7 @@ _ParallelDownloadCmd() {
     )
 
     # using commas instead of slashes as separators,
-    # because we need ${ytfmt[@]:1:2} outside of sed too but later down.
+    # because we need ${ytfmt[@]:1:2} outside of sed too but later in option xargs.
     __sedAudioCmd() (
         sed -i "s,^,${ytfmt[0]} ${ytfmt[1]} ${ytdlPreset_NC[*]} ," "$1"
     )
@@ -47,7 +47,7 @@ _ParallelDownloadCmd() {
                         Jobs="${videoJobs}"
                     fi
                     {
-                        parallel --delay 1 --jobs ${Jobs} < "$JOBSLIST"
+                        parallel --keep-order --jobs ${Jobs} < "$JOBSLIST"
                         __sedCleanListsAndTitles
                         clear
                     } &
@@ -63,12 +63,12 @@ _ParallelDownloadCmd() {
                         Jobs="${videoJobs}"
                     fi
                     {
-                        parallel --delay 1 --jobs ${Jobs} < "$M3UFILE"
+                        parallel --keep-order --jobs ${Jobs} < "$M3UFILE"
                         __sedCleanListsAndTitles
                     } &
                 ;;
             esac
-            rm -rf {"$HOME"/.parallel,"$JOBSLIST"}
+            rm -f "$JOBSLIST"
         ;;
         xargs)
             while read -r line; do

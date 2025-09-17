@@ -15,14 +15,12 @@ _GetPlaylistUrls() {
         " $playlistName playlist...${nc}"
     )
 
+    # It turns out that the native method is now faster than the parallel method,
+    # so let's disable parallel for now and we'll see
     case "$1" in
         -a|-v)
             playlist="$mediaUrl"
-            if _Has parallel && [[ $use_parallel == yes ]]; then
-                _GetPlaylistUrlsMethods --parallel
-            else
-                _GetPlaylistUrlsMethods --native
-            fi
+            _GetPlaylistUrlsMethods --native
         ;;
         -s)
             mapfile -t ytSearchList < "$YTSEARCH"
@@ -31,11 +29,7 @@ _GetPlaylistUrls() {
             for url in "${ytSearchList[@]}"; do
                 playlist="$url"
                 __getPlaylistUrlsInfo
-                if _Has parallel && [[ $use_parallel == yes ]]; then
-                    _GetPlaylistUrlsMethods --parallel
-                else
-                    _GetPlaylistUrlsMethods --native
-                fi
+                _GetPlaylistUrlsMethods --native
             done
 
             unset url
@@ -44,7 +38,6 @@ _GetPlaylistUrls() {
     esac
 
     rm {"$YTSEARCH","$YTFZFJSON","$tmp_dir"/playlist.{m3u,titles,txt}} 2>/dev/null
-    rm -rf "$HOME"/.parallel 2>/dev/null
     return
 
 }

@@ -1,5 +1,5 @@
 # Makefile for mpm
-# Version 2.5-3
+# Version 2.5-4
 
 PREFIX ?= /usr/local
 BINDIR ?= $(PREFIX)/bin

@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 <https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm>
-mpm version 2.5-3
+mpm version 2.5-4
 
 Dependencies: ffmpeg, jq, mpv, socat, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -24,8 +24,7 @@ as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
 the directory names and structure are correctly set.
 
 Changelog:
-------------------------------- NO CHANGES IN CONFIG FILES -------------------------------
+------------------------------ ADDED CHANGES IN CONFIG FILES ------------------------------
+version 2.5-4 - Added and option to determine where does parallel creates its temporary
+                folder using export PARALLEL_HOME="/tmp/parallel", change it if you will.
 version 2.5-3 - Fixed a bug in _MenuFooter function when use_mpvc=yes and use_fzf=no/empty.
-version 2.5-2 - Some terminal won't resize correctly (eg:Alacritty) so if your under X11,
-                install wmctrl package to get to proper window size for mpm.
-version 2.5-2 - Added an option to remove video ids in the extra/mpmsw script preferences.

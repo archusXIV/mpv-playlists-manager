@@ -85,7 +85,12 @@ source ~/.config/mpm/mpmrc
 source ~/.config/mpm/themerc
 ```
 
-## Changelog: version 2.5-3
+## Changelog: version 2.5-4
+- Added an option in ~/.config/mpm/mpmrc to determine where parallel creates its temporary folder using:
+```
+export PARALLEL_HOME="/tmp/parallel"
+```
+
 - Fixed a bug in _MenuFooter function when use_mpvc=yes and use_fzf=no/empty.
 - Some terminal won't resize correctly (eg:Alacritty) so if you are under X11,
   - install wmctrl package to get the proper window size for mpm.

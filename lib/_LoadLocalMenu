@@ -10,16 +10,17 @@ _LoadLocalMenu() {
     while :; do
         _ResizeWindow --main
         clear
-        echo -e "\n                                                 ${mtitle}::${B}LOAD LOCAL OPTIONS::${NB}${nc}"
-        echo -e "                                           $(_LittleStars)${nc}"
-        echo -e "                                  ┌───────────────────────────────────────────────────┐"
-        echo -e "                                  │   1) Single Audio dir   6) Explore Videos dir     │"
-        echo -e "                                  │   2) Audio files        7) Load multiple dirs     │"
-        echo -e "                                  │   3) Single Video dir   8) Load radio playlists   │"
-        echo -e "                                  │   4) Video files        9) Launch SomaFm player   │"
-        echo -e "                                  │   5) Explore Music dir  X) Back to main menu      │"
-        echo -e "                                  └───────────────────────────────────────────────────┘"
-        echo -e "                                                   ${info}${b}Select an option${nb}${nc}\n"
+        _BlankLine
+        printf '%s\n' "                                                 ${mtitle}::${B}LOAD LOCAL OPTIONS::${NB}${nc}" \
+        "                                           $(_LittleStars)${nc}" \
+        "                                  ┌───────────────────────────────────────────────────┐" \
+        "                                  │   1) Single Audio dir   6) Explore Videos dir     │" \
+        "                                  │   2) Audio files        7) Load multiple dirs     │" \
+        "                                  │   3) Single Video dir   8) Load radio playlists   │" \
+        "                                  │   4) Video files        9) Launch SomaFm player   │" \
+        "                                  │   5) Explore Music dir  X) Back to main menu      │" \
+        "                                  └───────────────────────────────────────────────────┘" \
+        "                                                   ${info}${b}Select an option${nb}${nc}\n"
 
         read -rsn 1 loadLocalMenuOptions
 

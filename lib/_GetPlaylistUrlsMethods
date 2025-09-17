@@ -9,9 +9,10 @@ _GetPlaylistUrlsMethods() {
 
     case "$1" in
         --native)
-            yt-dlp "${ytdlPreset_DW[@]}" -j "$playlist" \
-            | jq --raw-output '(.webpage_url, .title)' \
-            | tee >(grep -v '^https' | __teeAppendTitles) >(grep '^https' | __teeAppendUrls)
+            yt-dlp "${ytdlPreset_DW[@]}" --get-title --flat-playlist "$playlist" \
+            | __teeAppendTitles
+            yt-dlp "${ytdlPreset_DW[@]}" --get-url --flat-playlist "$playlist" \
+            | __teeAppendUrls
         ;;
         --parallel)
             cd "$tmp_dir" && {

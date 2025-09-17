@@ -1,5 +1,5 @@
 
-    mpm version 2.5-3
+    mpm version 2.5-4
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -53,7 +53,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.5-3::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.5-4::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -177,9 +177,9 @@
             - check execution permission and launch it in your terminal (it will stay attached).
             - To stop it use Ctrl+C, it will stop automatically if there are no more schedules.
 
-        Since version 2.4-7 we can now download or play multiple playlist from our collection,
+        Since version 2.4-7 we can now download or play multiple playlists from our collection,
         just answer 'y'es to the related prompt, but be aware that when using the downloading option,
-        selected playlists are indeed physically removed as they are in the single mode.
+        selected playlists are indeed physically removed as they are in the "single" mode.
 
     5-f) Load local dir/files:
 
