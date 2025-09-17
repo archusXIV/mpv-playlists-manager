@@ -4,7 +4,8 @@
 # Author: Barret E <https://github.com/archusXIV/mpv-playlists-manager>
 # Licensed under the GPLv2
 #
-# You need root privileges to execute this file.
+# You need root privileges to execute this file, ownership will be given back
+# to the user at the end of the installation.
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
 # It also will copy/modify files in ~/.config/mpm/{mpmrc,themerc}.
 

@@ -5,7 +5,7 @@
 ##  https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
 ##  Dependencies: ffmpeg, jq, mpv, yt-dlp.
 ##  Optionals: dialog, exiftool, fzf, less, mediainfo, parallel,
-##             ueberzug, ranger, socat, w3m, ytfzf.
+##             ueberzug, ranger, socat, wmctrl, w3m, ytfzf.
 ##
 ##  Youtube-dl is for now kind of unmaintained so install yt-dlp
 ##  https://github.com/yt-dlp/yt-dlp/releases
