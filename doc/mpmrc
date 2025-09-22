@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ~/.config/mpm/mpmrc (version 2.5-4)
+# ~/.config/mpm/mpmrc (version 2.5-5)
 
 ########################################################
 #'##::::'##:'########::'##::::'##:'########:::'######::#
@@ -133,7 +133,7 @@ parallel_animation="progress"
 # parallel_threads=""
 parallel_threads="$(nproc)" # total number of cpu cores.
 
-# Where parallel creates its config and parameters (temporary files).
+# Where parallel creates its config and parameters (temporary files)
 export PARALLEL_HOME="/tmp/parallel"
 
 ######################### FZF FUNCTIONALITY #########################

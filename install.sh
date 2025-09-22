@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 
-# Script name: install.sh version 2.5-4
+# Script name: install.sh version 2.5-5
 # Author: Barret E <https://github.com/archusXIV/mpv-playlists-manager>
 # Licensed under the GPLv2
 #
-# You need root privileges to execute this file, ownership will be given back
-# to the user at the end of the installation.
+# You need root privileges to execute this file.
 # This script will install/upgrade/remove mpm (mpv-playlists-manager).
 # It also will copy/modify files in ~/.config/mpm/{mpmrc,themerc}.
 
@@ -32,7 +31,7 @@ usergroup=$(
 _editConfig() {
     printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
     " original file has been saved as mpmrc.orig.${endColor}"
-    tail -n 5 ./README_FIRST
+    tail -n 6 ./README_FIRST
     printf '\n'
     read -rp " ${red}Edit $MPMRC now? [Y/n] enter an editor name (eg: y vim): ${endColor}" \
     edit editor
@@ -117,12 +116,12 @@ if [[ -x /usr/local/bin/mpm ]] && [[ -d /usr/local/lib/mpm ]]; then
     case "$REPLY" in
         [rR])
             _uninstall
-            printf '%s\n' "hope you liked it anyway..."
+            printf '%s\n' " hope you liked it anyway..."
         ;;
         [uU])
             _uninstall
             _install
-            printf '%s\n' "for usage run: mpm --help or man mpm"
+            printf '%s\n' " for usage run: mpm --help or man mpm"
         ;;
         *)
             printf '%s\n' " Wrong option $REPLY, try again." && exit 1

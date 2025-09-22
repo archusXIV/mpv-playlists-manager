@@ -1,5 +1,4 @@
-# Makefile for mpm.
-# Version 2.5-4.
+# Makefile for mpm
 
 PREFIX ?= /usr/local
 BINDIR ?= $(PREFIX)/bin
@@ -10,6 +9,8 @@ MANDIR ?= $(PREFIX)/share/man
 USERNAME ?= $(shell whoami)
 CONF_DIR = $(shell [ "$(USERNAME)" = "root" ] && echo "/etc/mpm" || echo "/home/$(USERNAME)/.config/mpm")
 USERGROUP ?= $(shell id -g $(USERNAME))
+
+VERSION = 2.5-5
 
 .PHONY: all install uninstall upgrade config diff-config check-root
 

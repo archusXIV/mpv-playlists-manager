@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ~/.config/mpm/themerc (version 2.5-4)
+# ~/.config/mpm/themerc (version 2.5-5)
 
 ###########################################################################
 #'########:'##::::'##:'########:'##::::'##:'########:'########:::'######::#
@@ -27,7 +27,7 @@
 default_bg="#1e1f29"
 # if you use ~/.Xresources with colors, uncomment the line below.
 # default_bg=$(xrdb -query | awk '/background:/{print $NF}')
-# if you want to recall variables in _NativePlayerColors, use double quotes.
+# if you want to recall variables below, use double quotes.
 
 _NativePlayerColors() {
 

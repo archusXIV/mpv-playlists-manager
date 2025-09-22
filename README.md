@@ -1,5 +1,5 @@
 # mpv-playlists-manager
-## Manage playlists for mpv from your linux terminal.
+## Manage playlists for mpv from your linux terminal
 
 ## About mpm
 Manage playlists that mpv reads either online or from local files/directories,
@@ -85,7 +85,8 @@ source ~/.config/mpm/mpmrc
 source ~/.config/mpm/themerc
 ```
 
-## Changelog: version 2.5-4
+## Changelog: version 2.5-5
+- Fixed bug when pressing 'Q' to stop mpv in _KillMpv function.
 - Added an option in ~/.config/mpm/mpmrc to determine where parallel creates its temporary folder using:
 ```
 export PARALLEL_HOME="/tmp/parallel"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-##  Script name: mpm version 2.5-4
+##  Script name: mpm version 2.5-5
 ##  Author: Barret E (2021-25) <archus@protonmail.com>
 ##  https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
 ##  Dependencies: ffmpeg, jq, mpv, yt-dlp.
@@ -22,7 +22,7 @@
 # shellcheck disable=SC2034,SC2154,SC2001,SC2207
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.5-4"
+VERSION="v.2.5-5"
 
 # blinking prompts
 b=$'\e[5m';
@@ -77,7 +77,7 @@ fi
 
 _BlankLine() { printf '\n'; }
 _PidOfMpv() { pgrep -x mpv; }
-_KillMpv() { kill -KILL "$(_PidOfMpv)" && wait "$(_PidOfMpv)"; } 2>/dev/null
+_KillMpv() { kill -KILL "$(_PidOfMpv)"; } 2>/dev/null
 _Has() { command -v "$1" &>/dev/null; }
 
 # Global variables

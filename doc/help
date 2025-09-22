@@ -1,5 +1,5 @@
 
-    mpm version 2.5-4
+    mpm version 2.5-5
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -53,9 +53,9 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.5-4::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.5-5::
                                    ***********************************
-                                        current theme: gruvbox
+                                        current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
                   Collection: 37 * Default list: 4 * Audio list: 3 * Video list: 1
         └─────────────────────────────────────────────────────────────────────────────────────┘

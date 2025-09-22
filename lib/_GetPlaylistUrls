@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-## This is a part of main script: mpm
+## This is a part of main script: mpm.
 
 # shellcheck disable=SC2154
 _GetPlaylistUrls() {

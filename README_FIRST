@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 <https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm>
-mpm version 2.5-4
+mpm version 2.5-5
 
 Dependencies: ffmpeg, jq, mpv, socat, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -24,7 +24,8 @@ as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
 the directory names and structure are correctly set.
 
 Changelog:
------------------------------- ADDED CHANGES IN CONFIG MPMRC ------------------------------
+------------------------------ ADDED CHANGES IN CONFIG FILES ------------------------------
+version 2.5-5 - Fixed bug when pressing 'Q' to stop mpv in _KillMpv function.
 version 2.5-4 - Added and option to determine where does parallel creates its temporary
                 folder using export PARALLEL_HOME="/tmp/parallel", change it if you will.
 version 2.5-3 - Fixed a bug in _MenuFooter function when use_mpvc=yes and use_fzf=no/empty.
