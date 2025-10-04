@@ -94,11 +94,6 @@ source ~/.config/mpm/themerc
 export PARALLEL_HOME="/tmp/parallel"
 ```
 
-- Fixed a bug in _MenuFooter function when use_mpvc=yes and use_fzf=no/empty.
-- Some terminal won't resize correctly (eg:Alacritty) so if you are under X11,
-  - install wmctrl package to get the proper window size for mpm.
-- Added an option to remove video ids in the extra/mpmsw script preferences.
-
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
 
