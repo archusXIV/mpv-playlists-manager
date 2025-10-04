@@ -1,5 +1,5 @@
 
-    mpm version 2.5-5
+    mpm version 2.5-6
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -53,7 +53,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.5-5::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.5-6::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -96,8 +96,9 @@
         Ctrl+P:      play previous item.
         Ctrl+T:      toggle pause.
         Ctrl+R:      reload the playlist from the beginning.
+        Ctrl+V:      launch pulsemixer or ncpamixer.
         Ctrl+X:      quit mpv (stop) and go back to main menu.
-        Escape:      exit mpvc tui interface.
+        Escape:      exit mpv tui interface.
 
     1-v) Create/Add video playlist:
 

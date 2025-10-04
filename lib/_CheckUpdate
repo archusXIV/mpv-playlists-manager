@@ -27,7 +27,7 @@ _CheckUpdate() {
                 _BlankLine
                 printf '%s\n' " ${info}First cd into ./mpv-playlists-manager," \
                 " then run the installation script (sudo ./install.sh)," \
-                " or use the Makefile (sudo make upgrade && make diff-config)${nc}"
+                " or use: sudo make upgrade && make diff-config${nc}"
                 exit 0
             }
             if [[ $check_updates == no ]] && [[ $newVerion != "$VERSION" ]]; then

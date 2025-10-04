@@ -3,16 +3,19 @@
 
 # shellcheck disable=SC2154
 _CheckDependencies() {
+
+    local optionals
+
     # Checking dependencies: softwares, directories, files & variables.
     declare -a DEPS=(
-        "ffmpeg" "jq" "mpv" "yt-dlp"
-        "exiftool" "fzf" "mediainfo"
-        "parallel" "socat" "ueberzug"
-        "w3m" "wmctrl" "ytfzf" "less"
-        "dialog" "$MPMEDITOR" "$FILEMANAGER"
+        "ffmpeg" "jq" "mpv" "socat" "yt-dlp"
+        "dialog" "exiftool" "fzf" "less"
+        "mediainfo" "parallel" "ueberzug"
+        "w3m" "wmctrl" "ytfzf"
+        "$MPMEDITOR" "$FILEMANAGER"
     )
 
-    for dep in "${DEPS[@]:0:4}"; do
+    for dep in "${DEPS[@]:0:5}"; do
         _Has "$dep" || {
             printf '%s\n' " $dep isn 't installed,...exiting!"
             notify-send -t 0 -u critical "$dep isn 't installed,...exiting!"
@@ -20,22 +23,43 @@ _CheckDependencies() {
         }
     done
 
-    for opt in "${DEPS[@]:4:16}"; do
-        _Has "$opt" || {
-            printf '%s\n' " ${critical}For better experience, consider installing $opt." \
-            " Some functionalities might be unavailable...${nc}"
-            sleep 5
-        }
-    done
+    optionals="$CONF_DIR/missing_dependencies.txt"
 
-    unset dep opt
+    if [[ ! -f $optionals ]]; then
+        for opt in "${DEPS[@]:5:17}"; do
+            _Has "$opt" || {
+                echo "$(date): missing $opt" >> "$optionals"
+                printf '%s\n' " ${critical}For better experience, consider installing $opt." \
+                " Some functionalities might be unavailable..." \
+                " Please check $optionals.${nc}"
+                sleep 6
+            }
+        done
+        unset dep opt optionals
+    fi
 
     [[ -z $main_dir ]] && {
-        printf '%s\n' " Variable main_dir in mpmrc is not defined...exiting!!!"
+        printf '%s\n' " ${critical}Variable main_dir in mpmrc is not defined...exiting!!!${nc}"
         exit 1
     }
 
-    mkdir --parents {"$main_dir","$playlists_dir","$titles_dir","$tmp_dir","$audios_dir","$videos_dir"}
+    # Defaults directories if not set (empty values)
+    : "${audios_dir:=$main_dir/audios}"
+    : "${playlists_dir:=$main_dir/playlists}"
+    : "${schedules_dir:=$main_dir/schedules}"
+    : "${titles_dir:=$main_dir/titles}"
+    : "${tmp_dir:=$main_dir/tmp}"
+    : "${videos_dir:=$main_dir/videos}"
+
+    # main_dir has to be index 0
+    declare -a dirs=(
+        "$main_dir" "$audios_dir" "$playlists_dir" "$schedules_dir"
+        "$titles_dir" "$tmp_dir" "$videos_dir"
+    )
+
+    for dir in "${dirs[@]}"; do
+        mkdir --parents "$dir"
+    done
 
     cp -f "$DOC_DIR"/mpm_yt-videos.m3u "$playlists_dir"
     cp -f "$DOC_DIR"/mpm_yt-videos.m3u.titles "$titles_dir"

@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck source=/dev/null
-# shellcheck disable=SC2154,SC2317,SC2329
+# shellcheck disable=SC2154,SC2317,SC2329,SC1090
 _FzfPlayer() {
 
     cd "$tmp_dir" || exit 1
@@ -14,9 +13,10 @@ _FzfPlayer() {
 
     __passPlaylistIndexToMpv() (
         local index length
+        # There is only one line in this file
         index=$(awk '{print $1}' playerSelectedFile)
+        # And $1 should be digit(s)
         length="${#index}"
-
         if (( length == 1 )); then
             index="${index:0:1}"
         elif (( length == 2 )); then
@@ -28,6 +28,20 @@ _FzfPlayer() {
     )
 
     export -f __passPlaylistIndexToMpv
+
+    __volume() {
+        if command -v pulsemixer &>/dev/null; then
+            pulsemixer
+        elif command -v ncpamixer &>/dev/null; then
+            ncpamixer
+        else
+            clear
+            printf '\n%s\n' " Please install pulsemixer or ncpamixer."
+            sleep 3
+        fi
+    }
+
+    export -f __volume
 
     # this function is in ~/.config/mpm/themerc
     _NativePlayerColors "$native_tui_colors"
@@ -46,16 +60,17 @@ _FzfPlayer() {
         --preview-window=down:1 \
         --preview="(_MpvSocketCommands --title)" \
         --header-first \
-        --header '  Enter:play, Left:-30s, Right:+30s, ^N:next, ^P:prev, ^T:toggle pause, ^R:reload, ESC:quit player, ^X:quit mpv:
-  ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        --header 'Enter:play, Left:-30s, Right:+30s, ^N:next, ^P:prev, ^T:toggle pause, ^R:reload, ^V:volume, ESC:exit, ^X:quit mpv:
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
         ' \
         --bind "enter:become(echo {} > playerSelectedFile; __passPlaylistIndexToMpv)" \
+        --bind "left:become(_MpvSocketCommands --backward)" \
+        --bind "right:become(_MpvSocketCommands --forward)" \
         --bind "ctrl-n:become(_MpvSocketCommands --next)" \
         --bind "ctrl-p:become(_MpvSocketCommands --prev)" \
         --bind "ctrl-t:become(_MpvSocketCommands --pause)" \
         --bind "ctrl-r:become(_MpvSocketCommands --begin)" \
-        --bind "left:become(_MpvSocketCommands --backward)" \
-        --bind "right:become(_MpvSocketCommands --forward)" \
+        --bind "ctrl-v:become(__volume)" \
         --bind "ctrl-x:become(_MpvSocketCommands --stop; rm ./playerSelectedFile)" \
         --bind "esc:become(sed -i '1d' ./playerSelectedFile)" < playerIndexesList
     done

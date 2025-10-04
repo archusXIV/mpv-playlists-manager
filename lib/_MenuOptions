@@ -7,7 +7,7 @@ _MenuOptions() {
     read -rsn 1 mainMenuOptions
 
     case "$mainMenuOptions" in
-        [vV1]) _CreateAddPlaylist -v ;;
+        [v1] ) _CreateAddPlaylist -v ;;
         [aA2]) _CreateAddPlaylist -a ;;
         [sS3]) _SaveRemove ;;
         [pP4]) _LoadPlaylist ;;
@@ -26,6 +26,7 @@ _MenuOptions() {
         [rR] ) _MpvControl -r ;;
         [tT] ) _MpvControl -t ;;
         [uU] ) _MpmHelp -u ;;
+        V    ) pulsemixer || ncpamixer ;;
         [xX] ) _IfQuitAfterTask -x ;;
         [yY] ) _ViewScheduledList ;;
         [nN] ) _MpvTuiTest ;;

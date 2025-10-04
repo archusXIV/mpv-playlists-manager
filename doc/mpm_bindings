@@ -25,5 +25,6 @@
         Ctrl+P:      play previous item.
         Ctrl+T:      toggle pause.
         Ctrl+R:      reload the playlist from the beginning.
+        Ctrl+V:      launch pulsemixer or ncpamixer.
         Ctrl+X:      quit mpv (stop) and go back to main menu.
-        Escape:      exit mpvc tui interface.
+        Escape:      exit mpv tui interface.
