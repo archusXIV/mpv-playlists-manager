@@ -25,7 +25,7 @@ _WhileMpvIsRunning() {
 
         _RemoveMpvTmp
         sed -i "/${BASHPID}/d" "$MPM_PIDS"
-        kill -SIGTERM "$(pidof -x "$cmd")" 2>/dev/null
+        kill -SIGTERM "$(pidof -x "$cmd")" >/dev/null 2>&1
         _MenuFooter
     ) &
 

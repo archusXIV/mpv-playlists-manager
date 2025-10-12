@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 <https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm>
-mpm version 2.5-6
+mpm version 2.5-7
 
 Dependencies: ffmpeg, jq, mpv, socat, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -25,10 +25,8 @@ the directory names and structure are correctly set.
 
 Changelog:
 ------------------------------ ADDED CHANGES IN CONFIG FILES ------------------------------
+version 2.5-7 - Bugs fixed here and there, simplified code.
 version 2.5-6 - Missing optional dependencies will be prompted only once and
                 ~/.config/mpm/missing_dependencies.txt will be created.
 version 2.5-6 - Added shortcuts in native mpv interface and in main window to launch
                 pulsemixer or ncpamixer (terminal volume control).
-version 2.5-5 - Fixed bug when pressing 'Q' to stop mpv in _KillMpv function.
-version 2.5-4 - Added and option to determine where does parallel creates its temporary
-                folder using export PARALLEL_HOME="/tmp/parallel", change it if you will.

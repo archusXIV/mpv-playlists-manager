@@ -85,14 +85,10 @@ source ~/.config/mpm/mpmrc
 source ~/.config/mpm/themerc
 ```
 
-## Changelog: version 2.5-6
+## Changelog: version 2.5-7
+- Bugs fixed here and there, simplified code.
 - Missing optional dependencies will now be prompted only once.
 - Added shortcuts in native mpv interface and in main window to launch pulsemixer or ncpamixer (terminal volume control).
-- Fixed bug when pressing 'Q' to stop mpv in _KillMpv function.
-- Added an option in ~/.config/mpm/mpmrc to determine where parallel creates its temporary folder using:
-```
-export PARALLEL_HOME="/tmp/parallel"
-```
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
