@@ -20,11 +20,6 @@ and many more options to control mpv, ffmpeg, yt-dlp and download/playlists dire
 
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
-To launch mpm **faster**, in your ~/.{bashrc,zshrc} add:
-```
-source ~/.config/mpm/mpmrc
-source ~/.config/mpm/themerc
-```
 
 ## Changelog: version 2.5-7
 - Bugs fixed here and there, simplified code.
@@ -39,7 +34,7 @@ source ~/.config/mpm/themerc
   - [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc) (available in the AUR) ([cheatsheet](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/ncmpvc_cheatsheet))
 
   as usual set it in your mpmrc file.
-```
+```bash
 # experimental
 # can be yes (mpvc tui) no (control mpv using shortcuts, press B for details),
 # or empty (mpv infos in the terminal).
@@ -49,7 +44,7 @@ use_mpvc="no"
 mpvc_tui="<your_mpv_tui_here>"
 ```
   - Or...
-```
+```bash
 # Colors can be change in ~/.config/mpm/themerc.
 mpvc_tui="native"
 ```
@@ -58,7 +53,7 @@ mpvc_tui="native"
 ## Integrated programs settings in mpmrc file
 - I also provide a new script (somabox) to listen to somafm.com radio stations through option 5). Place it in your $PATH,
 and change mpmrc setting to 'yes'
-```
+```bash
 use_somabox="yes"
 ```
 
@@ -66,31 +61,6 @@ use_somabox="yes"
 - As mentioned above mpv command line tools and terminal interface.
 - ffmpeg, mpv, ytfzf & yt-dlp options can be set in your mpmrc through their respective bash arrays.
 - Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L77) file (change them according to your locales).
-
-## Using fzf
-- Two methods are offered here:
-  - If the **fzf** package is installed it will be used to search and copy audio/video urls from youtube,
-  and to queue up local files.
-  - In addition you can also use the **ytfzf** script (no longer maintained...)
-  if it is in your $PATH, options are available in the mpmrc file.
-
-- In your mpmrc file activate it.
-
-```
-use_fzf="yes"
-```
-
-## Audio conversion done faster with parallel
-- If installed, **parallel** will launch multiple ffmpeg instances to speed up audio conversion.
-- Just enable it in your mpmrc file
-
-```
-use_parallel="yes"
-```
-- If not installed then we'll use xargs -P (number of process) {} ffmpeg....which is also fast, otherwise ffmpeg treat files one by one. Make sure parallel_conversion is set to yes in your mpmrc file.
-```
-parallel_conversion="yes"
-```
 
 ## Themes
 - A [themerc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/themerc) file is available to insert as many as you want "themes" instead of bloating up your mpmrc.
@@ -126,7 +96,7 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
   </tr>
 </table>
 
-```
+```bash
 # apply your prefered colorscheme...
 # !!! Change or add inside the below mainThemes array existing themes
 # in ~/.config/mpm/themerc (_Theme function)!!!
@@ -135,11 +105,11 @@ mainThemes=(
     gruvbox jellybeans monokai pistachio
     solarized TokyoNight vacuous zenburn
 )
-THEME="default"
+THEME=default
 ```
 Same thing for the native mpv tui.
 
-```
+```bash
 # !!! Change or add inside the below nativeThemes array existing themes
 # in ~/.config/mpm/themerc (_NativePlayerColors function)!!!
 nativeThemes=( default c64 dark embers gruvbox molokai nord seoul256 )
