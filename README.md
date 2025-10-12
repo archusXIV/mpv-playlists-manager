@@ -16,66 +16,7 @@ and many more options to control mpv, ffmpeg, yt-dlp and download/playlists dire
 
 [Youtube dedicated channel](https://www.youtube.com/@mpv-playlists-manager-mv8sh/featured)
 
-# Installation
-Run the install.sh script as root, by default /usr/local/bin /usr/local/lib are the
-respective destinations. Move scripts located in ./extra to your $PATH.
-The install script will detect if mpm is already installed and in that case the prompt will be: [R]emove or [U]pgrade mpm?
-
-Otherwise the simple install function will run and create ~/.config/mpm/{mpmrc,themerc} files.
-- Please check the [README_FIRST](https://github.com/archusXIV/mpv-playlists-manager/blob/main/README_FIRST) before first run.
-```
-git clone https://github.com/archusXIV/mpv-playlists-manager.git
-cd mpv-playlists-manager
-chmod +x install.sh
-sudo ./install.sh
-```
-Or if you prefer using the Makefile:
-- First installation:
-```
-sudo make install
-# and the for config files as regular user
-make config
-```
-- Upgrading mpm:
-```
-sudo make upgrade
-# and the for config files as regular user
-make diff-config
-```
-- Uninstall mpm:
-```
-sudo make uninstall
-```
-- More details for the Makefile:
-```
-make help
-```
-
-# Dependencies
-- [ffmpeg](https://ffmpeg.org/), [jq](https://stedolan.github.io/jq/), [mpv](https://mpv.io/), [socat](http://www.dest-unreach.org/socat/), [vim](https://www.vim.org/) (or any terminal text editor), [yt-dlp](https://github.com/yt-dlp/yt-dlp)
-
-## Optionals
-(recommanded for better experience)
-- [fzf](https://github.com/junegunn/fzf), [ytfzf](https://github.com/pystardust/ytfzf), [mpvc](https://github.com/lwilletts/mpvc), [ncmpvc](https://gitlab.com/mpv-ipc/ncmpvc), [parallel](https://www.gnu.org/software/parallel/), [ranger](https://github.com/ranger/ranger) (file manager), [ueberzug](https://github.com/ueber-devel/ueberzug), [ffmpegthumbnailer](https://github.com/dirkvdb/ffmpegthumbnailer), [youtube-dl](https://github.com/ytdl-org/youtube-dl),[wmctrl](https://github.com/saravanabalagi/wmctrl)
-
-## mpm can be launched also with these commands:
-
-```
-mpm -c|--config   # edit mpm config
-mpm -e|--edit <?> # edit a playlist from a list; or with an argument:
-                    mpm --edit <myPlaylistName> (no extension suffix).
-mpm -h|--help     # launches less /usr/local/share/doc/mpm/help
-mpm -l|--load <?> # launches the play/download function; or with an argument:
-                    mpm --load <myPlaylistName> (no extension suffix).
-mpm -f|--local    # load local files/folder(s)
-mpm -u|--upgrade  : whatever checking updates is enabled or not,
-                    you can upgrade mpm through this option now.
-mpm -v|--version  # prints mpm version
-```
-You may also use:
-```
-man mpm
-```
+For installation, configuration and more please see the [wiki page](https://github.com/archusXIV/mpv-playlists-manager/wiki)
 
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
