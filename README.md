@@ -16,7 +16,7 @@ and many more options to control mpv, ffmpeg, yt-dlp and download/playlists dire
 
 [Youtube dedicated channel](https://www.youtube.com/@mpv-playlists-manager-mv8sh/featured)
 
-For installation, configuration and more please see the [wiki page](https://github.com/archusXIV/mpv-playlists-manager/wiki)
+**For installation, configuration and more please see the** [wiki page](https://github.com/archusXIV/mpv-playlists-manager/wiki)
 
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
