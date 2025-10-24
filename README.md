@@ -22,10 +22,9 @@ and many more options to control mpv, ffmpeg, yt-dlp and download/playlists dire
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
 ## Changelog: version 2.5-8
-- Added an option in mpmrc (line 301: ytdlPreset_MR) to download specific video resolution, see help option section IV.
+- Added an option in [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L301) (line 301: ytdlPreset_MR) to download specific video resolution, see help option section IV.
 - More Bugs fixed here and there (especially in _ParallelDownloadCmd), and more simplified code.
 - Bugs fixed here and there, simplified code.
-- Missing optional dependencies will now be prompted only once.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
