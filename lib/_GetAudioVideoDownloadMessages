@@ -4,90 +4,30 @@
 # shellcheck disable=SC2154
 _GetAudioVideoDownloadMessages() {
 
+    [[ $M3UFILE == "$AUDIO_URLS" ]] && flag='-a'
+    [[ $M3UFILE == "$VIDEO_URLS" ]] && { flag='-v'; sed=yes; }
+    [[ $M3UFILE == "$playlists_dir"/"$list" ]] && flag='-l'
+    [[ -f "$tmp_dir/multipleFilesTitles" ]] && flag='-m'
+    [[ $M3UFILE == "$DEFAULT_LIST" || $TITLES == "$DEFAULT_TITLES" ]] && { flag='-d'; sed=yes; }
+    _BlankLine
     case "$1" in
         --parallel)
-            [[ $M3UFILE == "$AUDIO_URLS" ]] && {
-                _BlankLine
-                printf '%s\n' " ${info}$(_GetLinesList -a) ${type} file(s) left to download." \
-                " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
-            }
-            [[ $M3UFILE == "$VIDEO_URLS" ]] && {
-                _BlankLine
-                printf '%s\n' " ${info}$(_GetLinesList -v) ${type} file(s) left to download." \
-                " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
-            }
-            [[ $M3UFILE == "$playlists_dir"/"$list" ]] && {
-                _BlankLine
-                printf '%s\n' " ${info}$(_GetLinesList -l) ${type} file(s) left to download." \
-                " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
-            }
-            [[ $M3UFILE == "$DEFAULT_LIST" || $TITLES == "$DEFAULT_TITLES" ]] && {
-                _BlankLine
-                printf '%s\n' " ${info}$(_GetLinesList -d) ${type} file(s) left to download." \
-                " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
-            }
-            [[ -f "$tmp_dir/multipleFilesTitles" ]] && {
-                _BlankLine
-                printf '%s\n' " ${info}$(_GetLinesList -m) ${type} file(s) left to download." \
-                " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
-            }
+            printf '%s\n' " ${info}$(_GetLinesList "$flag") ${type} file(s) left to download." \
+            " ${task}Parallel downloads enabled, ${info}please be patient${b}...${nb}${nc}"
         ;;
         --onebyone)
-            [[ $M3UFILE == "$AUDIO_URLS" ]] && {
-                _BlankLine
-                printf '%s\n' " ${info}$(_GetLinesList -a) ${type} file(s) left to download." \
-                " Downloading:  $(_GetLinkTitle -a)" \
-                " ${task}Searching for webm format...${nc}"
-            }
-            [[ $M3UFILE == "$VIDEO_URLS" ]] && {
-                _BlankLine
-                printf '%s\n' " ${info}$(_GetLinesList -v) ${type} file(s) left to download." \
+            if [[ $sed == "yes" ]]; then
+                printf '%s\n' " ${info}$(_GetLinesList "$flag") ${type} file(s) left to download." \
                 " Downloading:  $(sed -n '1p' "$TITLES")${nc}"
-            }
-            [[ $M3UFILE == "$playlists_dir"/"$list" ]] && {
-                _BlankLine
-                printf '%s\n' " ${info}$(_GetLinesList -l) ${type} file(s) left to download." \
-                " Downloading:  $(_GetLinkTitle -l)" \
+            else
+                printf '%s\n' " ${info}$(_GetLinesList "$flag") ${type} file(s) left to download." \
+                " Downloading:  $(_GetLinkTitle "$flag")" \
                 " ${task}Searching for webm format...${nc}"
-            }
-            [[ $M3UFILE == "$DEFAULT_LIST" ]] && {
-                _BlankLine
-                printf '%s\n' " ${info}$(_GetLinesList -d) ${type} file(s) left to download." \
-                " Downloading:  $(sed -n '1p' "$TITLES")${nc}"
-            }
-            [[ -f "$tmp_dir/multipleFilesTitles" ]] && {
-                _BlankLine
-                printf '%s\n' " ${info}$(_GetLinesList -m) ${type} file(s) left to download." \
-                " Downloading:  $(_GetLinkTitle -m)" \
-                " ${task}Searching for webm format...${nc}"
-            }
+            fi
         ;;
         --xargs)
-            [[ $M3UFILE == "$AUDIO_URLS" ]] && {
-                _BlankLine
-                printf '%s\n' " ${info}$(_GetLinesList -a) ${type} file(s) left to download." \
-                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
-            }
-            [[ $M3UFILE == "$VIDEO_URLS" ]] && {
-                _BlankLine
-                printf '%s\n' " ${info}$(_GetLinesList -v) ${type} file(s) left to download." \
-                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
-            }
-            [[ $M3UFILE == "$playlists_dir"/"$list" ]] && {
-                _BlankLine
-                printf '%s\n' " ${info}$(_GetLinesList -l) ${type} file(s) left to download." \
-                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
-            }
-            [[ $M3UFILE == "$DEFAULT_LIST" ]] && {
-                _BlankLine
-                printf '%s\n' " ${info}$(_GetLinesList -d) ${type} file(s) left to download." \
-                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
-            }
-            [[ -f "$tmp_dir/multipleFilesTitles" ]] && {
-                _BlankLine
-                printf '%s\n' " ${info}$(_GetLinesList -m) ${type} file(s) left to download." \
-                " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
-            }
+            printf '%s\n' " ${info}$(_GetLinesList "$flag") ${type} file(s) left to download." \
+            " ${task}Parallel downloads using xargs, ${info}please be patient${b}...${nb}${nc}"
         ;;
     esac
 

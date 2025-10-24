@@ -31,7 +31,7 @@ _CreateAddPlaylist() {
     file="${URLS##*/}" file="${file%%.*}"
 
     __clipboardCmdTest() {
-        _Has "${clipboardCmd[0]}" && ((${#clipboardCmd[@]} >= 2)) 
+        _Has "${clipboardCmd[0]}" && ((${#clipboardCmd[@]} >= 2))
     }
 
     while true; do
@@ -44,13 +44,13 @@ _CreateAddPlaylist() {
         echo -e " ${info}${Type} list: $(_GetLinesList $arg) url(s)${nc}\n"
         __clipboardCmdTest && printf '%s\n' "                              $clipboadCmdisInstalled"
         echo -e "\n                                                   ${mtitle}::${B}${menuTitleType} OPTIONS${NB}::${nc}"
-        echo -e "                                          $(_LittleStars)${nc}"
-        echo -e "                                ┌──────────────────────────────────────────────────────┐"
-        echo -e "                                │   1) Add ${Type} links         5) Play current list    │"
-        echo -e "                                │   2) Online search           6) View current list    │"
-        echo -e "                                │   3) Download current list   7) Clear current list   │"
-        echo -e "                                │   4) Save/Add current list   8) Back to main menu    │"
-        echo -e "                                └──────────────────────────────────────────────────────┘"
+        printf '%s\n' "                                          $(_LittleStars)${nc}" \
+        "                                ┌──────────────────────────────────────────────────────┐" \
+        "                                │   1) Add ${Type} links         5) Play current list    │" \
+        "                                │   2) Online search           6) View current list    │" \
+        "                                │   3) Download current list   7) Clear current list   │" \
+        "                                │   4) Save/Add current list   8) Back to main menu    │" \
+        "                                └──────────────────────────────────────────────────────┘"
         test -s "$URLS"  \
         && echo -e "                                                   ${info}Select an option${nc}\n" \
         || echo -e "                                                   ${info}${b}Select an option${nb}${nc}\n"

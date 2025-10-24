@@ -16,12 +16,12 @@ _StartUp() {
     if  [[ -n $(_PidOfMpv) && ! -e $tmp_dir/playerSelectedFile ]]; then
         clear
         _BlankLine
-        echo -e "                               ${critical}┌───────────────────────────────────────────────────────────┐"
-        echo -e "                               │   MPV IS RUNNING OR IS IDLE, YOU WON'T BE ABLE TO PLAY    │"
-        echo -e "                               │   ANY PLAYLISTS OR LOCAL MEDIA FILES UNLESS YOU STOP IT,  │"
-        echo -e "                               │   EDITING AND MAKING PLAYLISTS WILL STILL BE POSSIBLE.    │"
-        echo -e "                               │            DO YOU WISH MPV TO QUIT NOW [Y/n]:             │"
-        echo -e "                               └───────────────────────────────────────────────────────────┘${nc}"
+        printf '%s\n' "                               ${critical}┌───────────────────────────────────────────────────────────┐" \
+        "                               │   MPV IS RUNNING OR IS IDLE, YOU WON'T BE ABLE TO PLAY    │" \
+        "                               │   ANY PLAYLISTS OR LOCAL MEDIA FILES UNLESS YOU STOP IT,  │" \
+        "                               │   EDITING AND MAKING PLAYLISTS WILL STILL BE POSSIBLE.    │" \
+        "                               │            DO YOU WISH MPV TO QUIT NOW [Y/n]:             │" \
+        "                               └───────────────────────────────────────────────────────────┘${nc}"
         _PidOfMpv > "$pidofMpv"
 
         read -rsn 1 quitmpv
@@ -38,9 +38,9 @@ _StartUp() {
     elif _PidOfMpv >/dev/null && [[ -e $tmp_dir/playerSelectedFile ]]; then
         clear
         _BlankLine
-        echo -e "                         ${critical}┌────────────────────────────────────────────────────────────────────────────┐"
-        echo -e "                         │   MPV IS RUNNING, IN MAIN MENU PRESS N TO ACCESS OR CONTROL THE PLAYLIST   │"
-        echo -e "                         └────────────────────────────────────────────────────────────────────────────┘${nc}"
+        printf '%s\n' "                        ${critical}┌────────────────────────────────────────────────────────────────────────────┐" \
+        "                        │   MPV IS RUNNING, IN MAIN MENU PRESS N TO ACCESS OR CONTROL THE PLAYLIST   │" \
+        "                        └────────────────────────────────────────────────────────────────────────────┘${nc}"
         read -t 3 -rsn 1
         case "$REPLY" in *) _Menu ;; esac
     else

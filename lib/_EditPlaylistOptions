@@ -23,7 +23,7 @@ _EditPlaylistOptions() {
 
     case "$editPlaylistOptions" in
         [cC])
-            if [[ $editoption == yes ]]; then
+            if [[ $editoption == "yes" ]]; then
                 editoption=no
                 clear
                 _LaunchMpm "${@}"

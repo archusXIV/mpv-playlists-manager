@@ -68,7 +68,7 @@ _ChooseTheme() {
                 break
             done
         ;;
-        * ) _Menu ;;
+        * ) _WrongOption "$chooseThemeOptions"; _Menu ;;
     esac
 
 }

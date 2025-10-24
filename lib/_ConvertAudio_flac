@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154
 _ConvertAudio_flac() {
     for f in "${webmFiles[@]}"; do
-        ffmpeg -i "${f}" \
+        ffmpeg -hide_banner -loglevel quiet -i "${f}" \
         "${ffmpegFlacCodecOptions[@]}" \
         -y "${f%.webm}.flac" 2>"$FFOP"
     done

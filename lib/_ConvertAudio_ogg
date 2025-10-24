@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154
 _ConvertAudio_ogg() {
     for o in "${webmFiles[@]}"; do
-        ffmpeg -i "${o}" \
+        ffmpeg -hide_banner -loglevel quiet -i "${o}" \
         "${ffmpegOggCodecOptions[@]}" \
         -y "${o%.webm}.ogg" 2>"$FFOP"
     done

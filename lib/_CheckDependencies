@@ -35,7 +35,7 @@ _CheckDependencies() {
                 sleep 6
             }
         done
-        unset dep opt optionals
+        unset dep opt
     fi
 
     [[ -z $main_dir ]] && {

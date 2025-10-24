@@ -7,22 +7,21 @@ _FzfPlaylistActions() {
     cd "$titles_dir" || exit 1
 
     titleList=$(find . -name "*.titles" -printf '%f\n' | sort -d)
-    titleList=$(
-        printf '%s\n' "${titleList//.titles}" | \
-        fzf \
-        --cycle \
-        --reverse \
-        --no-multi \
-        --header-first \
-        --scroll-off=5 \
-        --pointer '<>' \
-        --border rounded \
-        --prompt='Search: ' \
-        --border-label "| $action a playlist |" \
-        --preview-window="$fzf_preview_layout:$fzf_preview_size" \
-        --header="${info}${b}"'Press Enter to select, Escape to cancel:'"${nb}${nc}" \
-        --preview='(cat {}.titles)' | tee "$FZFSELTITLES"
-    )
+
+    printf '%s\n' "${titleList//.titles}" | \
+    fzf \
+    --cycle \
+    --reverse \
+    --no-multi \
+    --header-first \
+    --scroll-off=5 \
+    --pointer '<>' \
+    --border rounded \
+    --prompt='Search: ' \
+    --border-label "| $action a playlist |" \
+    --preview-window="$fzf_preview_layout:$fzf_preview_size" \
+    --header="${info}${b}"'Press Enter to select, Escape to cancel:'"${nb}${nc}" \
+    --preview='(cat {}.titles)' | tee "$FZFSELTITLES"
 
     if [[ ! -s $FZFSELTITLES ]]; then
         rm "$FZFSELTITLES"

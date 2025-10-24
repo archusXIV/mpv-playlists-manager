@@ -17,14 +17,14 @@ _ManualsMenu() {
         echo -e "\n                                                ${mtitle}::${B}MANUALS & HELP OPTIONS::${NB}${nc}"
         echo -e "                                           $(_LittleStars)${nc}"
         printf '%s\n' \
-        " ${critical}                                   Some of these options might help to configure mpmrc${nc}"
-        echo -e "                                    ┌─────────────────────────────────────────────────┐"
-        echo -e "                                    │     1) Man ffmpeg      6) $mpvTui     │"
-        echo -e "                                    │     2) Man $fzfCmd         7) Man mpm               │"
-        echo -e "                                    │     3) Man mpv         8) Mpm shortcuts         │"
-        echo -e "                                    │     4) Man yt-dlp      9) Edit mpm configs      │"
-        echo -e "                                    │     5) Man $ytfzfCmd       X) Back to main menu     │"
-        echo -e "                                    └─────────────────────────────────────────────────┘"
+        " ${critical}                                   Some of these options might help to configure mpmrc${nc}" \
+        "                                    ┌─────────────────────────────────────────────────┐" \
+        "                                    │     1) Man ffmpeg      6) $mpvTui     │" \
+        "                                    │     2) Man $fzfCmd         7) Man mpm               │" \
+        "                                    │     3) Man mpv         8) Mpm shortcuts         │" \
+        "                                    │     4) Man yt-dlp      9) Edit mpm configs      │" \
+        "                                    │     5) Man $ytfzfCmd       X) Back to main menu     │" \
+        "                                    └─────────────────────────────────────────────────┘"
         echo -e "                                                     ${info}${b}Select an option${nb}${nc}\n"
 
         read -rsn 1 manualsMenuOptions

@@ -31,14 +31,14 @@ _SearchOnline() {
         test -s "$URLS"  && \
         echo -e "\n ${info}${Type} list: $(_GetLinesList "$arg") url(s)${nc}\n"
         _BlankLine
-        echo -e "                                            ${mtitle}::SEARCH ONLINE $menuTitleType OPTIONS::${nc}"
-        echo -e "                                          $(_LittleStars)${nc}"
-        echo -e "                                  ┌─────────────────────────────────────────────────┐"
-        echo -e "                                  │   1) Fzf Youtube only   4) Ytfzf PeerTube       │"
-        echo -e "                                  │   2) ${critical}Ytfzf Youtube${nc}      5) Back to ${Type} menu   │"
-        echo -e "                                  │   3) Ytfzf Odysee       6) Back to Main menu    │"
-        echo -e "                                  └─────────────────────────────────────────────────┘"
-        echo -e "                                                  ${info}Select an option${nc}"
+        printf '%s\n' "                                            ${mtitle}::SEARCH ONLINE $menuTitleType OPTIONS::${nc}" \
+        "                                          $(_LittleStars)${nc}" \
+        "                                  ┌─────────────────────────────────────────────────┐" \
+        "                                  │   1) Fzf Youtube only   4) Ytfzf PeerTube       │" \
+        "                                  │   2) ${critical}Ytfzf Youtube${nc}      5) Back to ${Type} menu   │" \
+        "                                  │   3) Ytfzf Odysee       6) Back to Main menu    │" \
+        "                                  └─────────────────────────────────────────────────┘" \
+        "                                                  ${info}Select an option${nc}"
 
         read -rsn 1 searchOnlineOptions
 

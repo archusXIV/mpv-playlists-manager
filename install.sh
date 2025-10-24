@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Script name: install.sh version 2.5-7
+# Script name: install.sh version 2.5-8
 # Author: Barret E <https://github.com/archusXIV/mpv-playlists-manager>
 # Licensed under the GPLv2
 #

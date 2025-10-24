@@ -7,14 +7,14 @@ _ParallelConversion() {
     __parallelMethod() (
         printf '%s\n' " ${info}Parallel conversion enabled.${nc}"
         parallel --jobs "$parallel_threads" --bar \
-        ffmpeg -hide_banner -loglevel error \
+        ffmpeg -hide_banner -loglevel quiet \
         -y -i {} -qscale:a 0 {.}."$1" ::: ./*.webm
     )
 
     __xargsMethod() (
         printf '%s\n' " ${info}use_parallel is set to no... using xargs.${nc}"
         find . -iname "*.webm" | xargs -I % -P "$parallel_threads" \
-        ffmpeg -hide_banner -loglevel error -y -i % %."$1"
+        ffmpeg -hide_banner -loglevel quiet -y -i % %."$1"
     )
 
     case "$1" in

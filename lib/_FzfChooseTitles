@@ -7,7 +7,7 @@ _FzfChooseTitles() {
     local fzfHeader labelAction
     fzfHeader="Tab:select items, Ctrl+A:select ALL, Enter:confirm, ESC:cancel:"
 
-    if [[ $removeCollectionTitles == yes ]]; then
+    if [[ $removeCollectionTitles == "yes" ]]; then
         labelAction="${critical}Remove${nc}"
     else
         labelAction="Choose"

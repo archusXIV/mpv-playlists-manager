@@ -17,7 +17,7 @@ _DownloadVideoList() {
         _Menu
     }
 
-    if [[ $direct_download = yes ]]; then
+    if [[ $direct_download = "yes" ]]; then
         clear
         _DirectVideoDownload
     else

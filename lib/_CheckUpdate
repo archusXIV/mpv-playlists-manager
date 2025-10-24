@@ -30,7 +30,7 @@ _CheckUpdate() {
                 " or use: sudo make upgrade && make diff-config${nc}"
                 exit 0
             }
-            if [[ $check_updates == no ]] && [[ $newVerion != "$VERSION" ]]; then
+            if [[ $check_updates == "no" ]] && [[ $newVerion != "$VERSION" ]]; then
                 __upgrade
             else
                 [[ $newVerion != "$VERSION" ]] && __upgrade
@@ -40,7 +40,7 @@ _CheckUpdate() {
         ;;
     esac
 
-    [[ $check_updates == yes ]] && {
+    [[ $check_updates == "yes" ]] && {
         [[ $newVerion != "$VERSION" ]] &&
             printf '%s\n' " ${critical}${b}$newVerion available${nb}${nc}"
     }

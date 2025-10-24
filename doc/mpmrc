@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ~/.config/mpm/mpmrc (version 2.5-7)
+# ~/.config/mpm/mpmrc (version 2.5-8)
 
 ########################################################
 #'##::::'##:'########::'##::::'##:'########:::'######::#
@@ -124,6 +124,7 @@ use_parallel="no"
 # or if use_parallel="no" and use_parallel_downloads="yes",
 # we will use 'xargs' as multiple yt-dlp instances launcher.
 use_parallel_downloads="yes"
+
 # fancy animations while downloading.
 parallel_animation="progress"
 #parallel_animation="spinners"
@@ -136,7 +137,11 @@ parallel_threads="$(nproc)" # total number of cpu cores.
 # Where parallel creates its config and parameters (temporary files)
 export PARALLEL_HOME="/tmp/parallel"
 
-######################### FZF FUNCTIONALITY #########################
+# launch multiple conversions at once in the equivalent quality,
+# else files will be converted one by one.
+parallel_conversion="yes"
+
+######################## YT{FZF} FUNCTIONALITY ########################
 # Two methods are offered here:
 # If the fzf package is installed it will be used to search and copy
 # audio/video urls from youtube in a simple but limited way.
@@ -159,7 +164,7 @@ ytfzfOptions_PG=( --pages=5 )
 ytfzfOptions_VD=( --video-duration=long )
 ytfzfOptions_SB=( --sort-by=relevance )
 ytfzfOptions_TY=( --type=all )
-# add this in the below array in case your ytfzf thumbnail preview in broken.
+# add this in the below array in case your ytfzf thumbnail preview is broken.
 # ytfzfOptions_TV=( --thumb-viewer=mpv )
 # add your options in this array
 ytfzfOptions_X=(
@@ -173,10 +178,6 @@ ytfzfOptions_X=(
 ################ FFMPEG SPECIFICS (audio conversion) ################
 ############# First install all the needed audio codecs #############
 # !!! You can change ffmpeg audio codec command line settings !!!
-# if the parallel package is installed then it will be used to launch
-# multiple conversions at once in the equivalent quality,
-# else files will be converted one by one.
-parallel_conversion="yes"
 
 # audio files (.webm) conversion.
 # (will appear in main menu)
@@ -197,7 +198,7 @@ ffmpegOggCodecOptions=( -acodec libvorbis -ar 48000 -ab 320k )
 ffmpegWavCodecOptions=( -acodec pcm_s32le -ar 48000 )
 
 ############################ MPV SPECIFICS ############################
-# can be yes (mpvc tui) no (stop mpv by typing Q etc...see help option),
+# can be yes (mpvc tui), no (stop mpv by typing Q etc...see help option),
 # or empty (mpv infos in the terminal).
 # for the native interface to work, this must be set to yes.
 # (will appear in main menu)
@@ -232,6 +233,7 @@ mpvGenOptions_MS=( --term-playing-msg='Title: ${media-title}' )
 # Add the below option in the mpvGenOption_X array
 mpvGenOptions_AO=( --ao=pulse ) # --ao=alsa
 mpvGenOptions_UC=( --cookies=no ) # switch to yes if you get an error from YouTube
+
 mpvGenOptions_X=(
     "${mpvGenOptions_CA[@]}"
     "${mpvGenOptions_ID[@]}"
@@ -243,7 +245,7 @@ mpvGenOptions_X=(
 )
 
 # audio/video rendering formats
-mpvAudioFormatOptions=( --ytdl-format='bestaudio/best' )
+mpvAudioFormatOptions=( --ytdl-format='bestaudio' )
 # mpvVideoFormatOptions=( --ytdl-format='299+251/298+251/137+251/136+251/best' )
 # should run smoothly
 mpvVideoFormatOptions=( --ytdl-format='bestvideo+bestaudio/best' )
@@ -265,19 +267,16 @@ mpvVideoOptions_X=(
 # (not tested elsewhere)
 # take a look at 'man yt-dlp'
 # !!! do not change the name of the array (ytdlPreset_<*>) !!!
-# CHANGE your browser name in ytdlPreset_BC=( --cookies-from-browser my_browser_name )
-# Add ytdlPreset_BC in ytdlPreset_X if YouTube blocks your downloads
-ytdlPreset_BC=( --cookies-from-browser brave )
+
+# CHANGE your browser name in ytdlPreset_BC=( --cookies-from-browser firefox )
+# Add ytdlPreset_BC in ytdlPreset_X if YouTube requires cookies.
+ytdlPreset_BC=( --cookies-from-browser "$BROWSER" )
 ytdlPreset_BR=( --break-on-existing ) # related to 'remove_video_ids' option.
 ytdlPreset_DN=( --downloader m3u8:native )
-ytdlPreset_MF=( --merge-output-format mp4 )
-ytdlPreset_DW=( --no-warnings )
 ytdlPreset_DP=( --progress )
+ytdlPreset_DW=( --no-warnings )
 ytdlPreset_FS=( --compat-options filename-sanitization )
-# Number of Results to display in fzf when searching youtube.
-# don't be greedy, queries between 30 and 50 are recommended.
-# !!! don't include this preset in ytdlPreset_NC or ytdlPreset_X arrays !!!
-ytdlPreset_NR=( 40 )
+ytdlPreset_MF=( --merge-output-format mp4 )
 
 # downloader without multiple format codes
 ytdlPreset_NC=(
@@ -292,3 +291,18 @@ ytdlPreset_X=(
     "${ytdlPreset_MF[@]}"
     "${ytdlPreset_DN[@]}"
 )
+
+# Change the maximum video height to what your video card can handle
+# defaut = 1080 (please respect single & double quotes).
+# When use_parallel_downloads=yes and if you always want the best video
+# resolution, leave it empty or comment the line below.
+# !!! don't include this preset in ytdlPreset_NC or ytdlPreset_X arrays !!!
+# ytdlPreset_MR=()
+ytdlPreset_MR=( '"bestvideo[height<=?1080][vcodec!=vp9]+bestaudio/best"' )
+
+# Number of Results to display in fzf when searching youtube.
+# don't be greedy, queries between 30 and 50 are recommended.
+# !!! don't include this preset in ytdlPreset_NC or ytdlPreset_X arrays !!!
+ytdlPreset_NR=( 40 )
+
+######################## END OF CONFIGURATION ########################

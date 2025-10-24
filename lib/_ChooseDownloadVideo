@@ -9,7 +9,7 @@ _ChooseDownloadVideo() {
 
     mediaDir="$videos_dir/${list%.*}"
 
-    if [[ $direct_download == yes ]]; then
+    if [[ $direct_download == "yes" ]]; then
         _ChooseDirectVideoDownload
     else
         _DownloadMessages --choice
@@ -48,8 +48,7 @@ _ChooseDownloadVideo() {
                 if [[ $url =~ 'youtube.com' ]]; then
                     youtube="yes"
                     _BlankLine
-                    yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
-                    | awk '$0 !~ /sb|youtube/{print $0}'
+                    yt-dlp -F "${ytdlPreset_DW[@]}" "$url" | awk '$0 !~ /sb|youtube/{print $0}'
                 else
                     yt-dlp -F "${ytdlPreset_DW[@]}" "$url"
                 fi

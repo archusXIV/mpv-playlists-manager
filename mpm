@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-##  Script name: mpm version 2.5-7
+##  Script name: mpm version 2.5-8
 ##  Author: Barret E (2021-25) <archus@protonmail.com>
 ##  https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
 ##  Dependencies: ffmpeg, jq, mpv, yt-dlp.
@@ -15,22 +15,22 @@
 ##  In our case we use ".m3u" files to store urls in and then be able
 ##  to watch from the site itself or download videos or just the audio.
 ##  We can save, remove or edit playlists & mpm config files {mpmrc,themerc}.
-##  It is recommanded to disable mpv cache for better results on direct streaming,
+##  It is recommended to disable mpv cache for better results on direct streaming,
 ##  or find a better cache parameter.
 
 # shellcheck source=/dev/null
 # shellcheck disable=SC2034,SC2154,SC2001,SC2207
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.5-7"
+VERSION="v.2.5-8"
 
 # blinking prompts
-b=$'\e[5m';
-nb=$'\e[25m';
-lessColor=$'\e[0m';
+b=$'\e[5m'
+nb=$'\e[25m'
+lessColor=$'\e[0m'
 # bold/normal
-B=$'\e[1m';
-NB=$'\e[21m';
+B=$'\e[1m'
+NB=$'\e[21m'
 
 CONF_DIR="$HOME/.config/mpm"
 DOC_DIR="/usr/local/share/doc/mpm"

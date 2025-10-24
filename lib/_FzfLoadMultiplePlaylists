@@ -9,22 +9,21 @@ _FzfLoadMultiplePlaylists() {
     rm "$tmp_dir/fzfLoadMultiplePlaylists.m3u" 2>/dev/null
 
     titleList=$(find . -name "*.titles" -printf '%f\n' | sort -d)
-    titleList=$(
-        printf '%s\n' "${titleList//.titles}" | \
-        fzf \
-        --cycle \
-        --reverse \
-        --multi \
-        --header-first \
-        --scroll-off=5 \
-        --pointer '<>' \
-        --border rounded \
-        --prompt='Search: ' \
-        --border-label "| $action multiple playlists |" \
-        --preview-window="$fzf_preview_layout:$fzf_preview_size" \
-        --header="${info}${b}"'Press Tab to select, Escape to cancel:'"${nb}${nc}" \
-        --preview='(cat {}.titles)' | tee "$FZFSELTITLES"
-    )
+
+    printf '%s\n' "${titleList//.titles}" | \
+    fzf \
+    --cycle \
+    --reverse \
+    --multi \
+    --header-first \
+    --scroll-off=5 \
+    --pointer '<>' \
+    --border rounded \
+    --prompt='Search: ' \
+    --border-label "| $action multiple playlists |" \
+    --preview-window="$fzf_preview_layout:$fzf_preview_size" \
+    --header="${info}${b}"'Press Tab to select, Escape to cancel:'"${nb}${nc}" \
+    --preview='(cat {}.titles)' | tee "$FZFSELTITLES"
 
     if [[ ! -s $FZFSELTITLES ]]; then
         rm "$FZFSELTITLES"
@@ -74,8 +73,7 @@ _FzfLoadMultiplePlaylists() {
                         _MpvOwnsTmpList --multiple || _MpvcTest -v
                     ;;
                     *)
-                        rm "$tmp_dir/fzfLoadMultiplePlaylists.m3u"
-                        rm "$tmp_dir/multipleFilesTitles"
+                        rm "$tmp_dir"/{fzfLoadMultiplePlaylists.m3u,multipleFilesTitles}
                         rm "${removables[@]}"
                         unset playerTitlesList m3uFile
                         _WrongOption "$fzfLoadMultiplePlaylistsPlay"
@@ -112,8 +110,7 @@ _FzfLoadMultiplePlaylists() {
                             fi
                         done
                         unset file M3UFILE TITLES
-                        rm "$tmp_dir/fzfLoadMultiplePlaylists.m3u"
-                        rm "$tmp_dir/multipleFilesTitles"
+                        rm "$tmp_dir"/{fzfLoadMultiplePlaylists.m3u,multipleFilesTitles}
                         _WrongOption "$fzfLoadMultiplePlaylistsDownload"
                         _Menu
                     ;;

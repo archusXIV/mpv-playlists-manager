@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ~/.config/mpm/themerc (version 2.5-7)
+# ~/.config/mpm/themerc (version 2.5-8)
 
 ###########################################################################
 #'########:'##::::'##:'########:'##::::'##:'########:'########:::'######::#
@@ -29,6 +29,7 @@ default_bg="#1e1f29"
 # default_bg=$(xrdb -query | awk '/background:/{print $NF}')
 # if you want to recall variables below, use double quotes.
 
+# NATIVE PLAYER THEMES
 _NativePlayerColors() {
 
     case "$1" in
@@ -124,6 +125,7 @@ _NativePlayerColors() {
 
 }
 
+# MAIN MENU THEMES
 _Theme() {
 
     case "$1" in

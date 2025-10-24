@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154
 _ConvertAudio_mp3() {
     for m in "${webmFiles[@]}"; do
-        ffmpeg -i "${m}" \
+        ffmpeg -hide_banner -loglevel quiet -i "${m}" \
         "${ffmpegMp3CodecOptions[@]}" \
         -y "${m%.webm}.mp3" 2>"$FFOP"
     done

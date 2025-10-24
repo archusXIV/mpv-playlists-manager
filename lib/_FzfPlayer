@@ -46,6 +46,11 @@ _FzfPlayer() {
     # this function is in ~/.config/mpm/themerc
     _NativePlayerColors "$native_tui_colors"
 
+    declare -a header=(
+        "Enter:play," "Left:-30s," "Right:+30s," "^N:next," "^P:prev,"
+        "^T:toggle pause," "^R:reload," "^V:volume," "ESC:exit," "^X:quit mpv:"
+    )
+
     while [[ -s playerSelectedFile ]]; do
         fzf \
         --cycle \
@@ -60,9 +65,9 @@ _FzfPlayer() {
         --preview-window=down:1 \
         --preview="(_MpvSocketCommands --title)" \
         --header-first \
-        --header 'Enter:play, Left:-30s, Right:+30s, ^N:next, ^P:prev, ^T:toggle pause, ^R:reload, ^V:volume, ESC:exit, ^X:quit mpv:
+        --header "${header[*]}
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        ' \
+        " \
         --bind "enter:become(echo {} > playerSelectedFile; __passPlaylistIndexToMpv)" \
         --bind "left:become(_MpvSocketCommands --backward)" \
         --bind "right:become(_MpvSocketCommands --forward)" \

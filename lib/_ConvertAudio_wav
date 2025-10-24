@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154
 _ConvertAudio_wav() {
     for w in "${webmFiles[@]}"; do
-        ffmpeg -i "${w}" \
+        ffmpeg -hide_banner -loglevel quiet -i "${w}" \
         "${ffmpegWavCodecOptions[@]}" \
         -y "${w%.webm}.wav" 2>"$FFOP"
     done
