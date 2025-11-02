@@ -35,8 +35,8 @@ _LoadPlaylistMenu() {
     }
 
     __testMultiple() (
-        [[ -f LoadMultiplePlaylists.m3u ]] && {
-            rm {LoadMultiplePlaylists.m3u,"$titles_dir"/loadMultiplePlaylists.m3u.titles}
+        [[ -f loadMultiplePlaylists.m3u ]] && {
+            rm {loadMultiplePlaylists.m3u,"$titles_dir"/loadMultiplePlaylists.m3u.titles}
         }
     )
 
