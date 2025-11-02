@@ -1,6 +1,6 @@
 Author: Barret E (2021-25) <archus@protonmail.com>
 <https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm>
-mpm version 2.5-8
+mpm version 2.5-9
 
 Dependencies: ffmpeg, jq, mpv, socat, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -24,9 +24,10 @@ as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
 the directory names and structure are correctly set.
 
 Changelog:
------------------------- !!! ADDED CHANGES IN CONFIG FILES !!! ------------------------
+--------------------------- !!! ADDED CHANGES IN CONFIG FILES !!! ---------------------------
+version 2.5-9 - Fixed bug in _FzfLoadMultiplePlaylists while downloading a playlist as audio.
+version 2.5-9 - Added _LoadMultiplePlaylists function used when use_fzf is set to no.
 version 2.5-8 - Added a yt-dlp option in mpmrc to change the Maximum Resolution to what
                 your video card can handle (line 301: ytdlPreset_MR) See help option section IV.
 version 2.5-8 - More Bugs fixed here and there (especially in _ParallelDownloadCmd),
                 and more simplified code.
-version 2.5-7 - Bugs fixed here and there, simplified code.

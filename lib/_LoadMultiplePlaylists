@@ -1,0 +1,142 @@
+#!/usr/bin/env bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2034,SC2164
+_LoadMultiplePlaylists() {
+    # We are still in the playlists directory
+    local end file selection displayName temp_m3u temp_titles playerTitlesList list
+    temp_m3u="$tmp_dir/loadMultiplePlaylists.m3u"
+    temp_titles="$tmp_dir/multipleFilesTitles"
+    rm {"$temp_m3u","$temp_titles"} 2>/dev/null
+
+    mapfile -t pls < <(
+        find . -maxdepth 1 -type f -not -name 'default.m3u' -printf '%f\n' | sort -d
+    )
+
+    local size=25
+    declare -a chosen=()
+    declare -A seen
+
+    local start=0
+    while (( start < ${#pls[@]} )); do
+
+        end=$(( start + size > ${#pls[@]} ? ${#pls[@]} : start + size ))
+        clear
+        underline=$(printf '%*s' 60 '' | tr ' ' '-')
+        printf '\n %s\n\n %s\n%s\n' \
+        "${info}Available playlists (page $((start / size + 1))/$(( (${#pls[@]} + size - 1) / size ))):" "N° | PLAYLIST NAME" "$underline${nc}"
+
+        for (( i=start; i<end; i++ )); do
+            file="${pls[$i]}"
+            displayName=${file%.m3u} displayName=${displayName//_/ }
+            printf '%-5s %-30s\n' " $((i+1))" "$displayName"
+        done
+
+        printf '\n %s' "${info}Enter numbers (e.g. 1 3 5), [S]kip page, or [D]one: ${nc}"
+        read -r selection
+        [[ $selection =~ ^[Dd]$ ]] && break
+        [[ $selection =~ ^[Ss]$ ]] && { start=$end; continue; }
+        [[ $selection =~ [^0-9[:space:]] ]] && {
+            printf '\n %s\n' "${critical}Only numbers/spaces allowed.${nc}"
+            sleep 2
+            continue
+        }
+
+        for sel in $selection; do
+            if [[ $sel =~ ^[0-9]+$ ]] && (( sel>=1 && sel<=${#pls[@]} )); then
+                file="${pls[$((sel-1))]}"
+                [[ -z ${seen[$file]} ]] && { chosen+=("$file"); seen[$file]=1; }
+            fi
+        done
+
+        (( end < ${#pls[@]} )) || break
+        start=$end
+
+    done
+
+    if ((${#chosen[@]}==0)); then
+        printf '\n %s\n' "${critical}No playlists selected.${nc}"
+        sleep 3
+        _Menu
+    fi
+
+    declare -a removables=()
+    {
+        echo "#EXTM3U"
+        for file in "${chosen[@]}"; do
+            while IFS= read -r line || [[ -n $line ]]; do
+                [[ $line == '#EXTM3U' ]] && continue
+                printf '%s\n' "$line"
+            done < "$file"
+            removables+=("$file")
+        done
+    } > "$temp_m3u"
+
+    for file in "${chosen[@]}"; do
+        cat "$titles_dir/$file.titles" >> "$temp_titles"
+        removables+=("$titles_dir/$file.titles")
+    done
+
+    declare -a loadMultiplePlaylistsOptions=(
+        "${info}[D]ownload,"
+        "[P]lay selected playlists or"
+        "[${mtitle}C${info}]ancel?: ${nc}"
+    )
+
+    clear
+    echo -e "\n ${info}${#chosen[@]} playlists selected.${nc}\n"
+    read -rsn 1 -p " ${loadMultiplePlaylistsOptions[*]}" options
+
+    case "$options" in
+        [pP])
+            playerTitlesList="$temp_titles"
+            m3uFile="$temp_m3u"
+            _BlankLine
+            read -rsn 1 -p " ${info}Play [A]udio or [V]ideo?: ${nc}" play
+            case "$play" in
+                [aA])
+                    _MpvOwnsTmpList --multiple || _MpvcTest -a && _Menu
+                ;;
+                [vV])
+                    _MpvOwnsTmpList --multiple || _MpvcTest -v && _Menu
+                ;;
+                *)
+                    rm {"$temp_m3u","$temp_titles"}
+                    unset playerTitlesList m3uFile
+                    _WrongOption "$play"
+                    _Menu
+                ;;
+            esac
+        ;;
+        [dD])
+            _BlankLine
+            read -rsn 1 -p " ${info}Download [A]udio or [V]ideo?: ${nc}" download
+            case "$download" in
+                [aA])
+                    rm "${removables[@]}"
+                    _CheckParallelDownloads --before
+                    _GetAudio -m
+                ;;
+                [vV])
+                    list="loadMultiplePlaylists.m3u"
+                    rm "${removables[@]}"
+                    mv -f "$temp_m3u" "$playlists_dir/$list"
+                    mv -f "$temp_titles" "$titles_dir/$list.titles"
+                    _CheckParallelDownloads --before
+                    _DownloadVideoList
+                ;;
+                *)
+                    unset file playerTitlesList
+                    rm {"$temp_m3u","$temp_titles"}
+                    _WrongOption "$download"
+                    _Menu
+                ;;
+            esac
+        ;;
+        *)
+            rm {"$temp_m3u","$temp_titles"}
+            _Menu
+        ;;
+    esac
+
+}

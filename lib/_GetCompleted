@@ -25,8 +25,10 @@ _GetCompleted() {
             _CheckParallelDownloads --after
             _Menu
         }
+
         printf '%s\n' " ${critical}Removing temporary list...${nc}"
         sleep 2
+
         if [[ -f "$DEFAULT_LIST"_origin ]]; then
             rm {"$DEFAULT_LIST","$DEFAULT_TITLES"}{,_origin}
             echo "#EXTM3U" > "$DEFAULT_LIST"
@@ -35,6 +37,12 @@ _GetCompleted() {
         elif [[ -f "$VIDEO_URLS"_origin ]]; then
             rm {"$VIDEO_URLS","$VIDEO_TITLES"}{,_origin}
         fi
+
+        [[ -f $tmp_dir/loadMultiplePlaylists.m3u_origin ]] && {
+            rm "$tmp_dir/loadMultiplePlaylists.m3u{,_origin}"
+            rm "$tmp_dir/multipleFilesTitles{,_origin}"
+        }
+
         rm -f "$tmp_dir"/list_tmp 2>/dev/null
     fi
 

@@ -11,12 +11,12 @@ _IsMpmAlreadyRunning() {
         case "$1" in
             greaterThanOne)
                 rm "$MPM_PIDS"
-                kill -KILL "${pids[0]}"
+                kill -TERM "${pids[0]}"
             ;;
             greaterThanTwo)
                 _KillMpv && _RemoveMpvTmp
                 for ((i=0;i<=2;i++)); do
-                    kill -KILL "${pids[${i}]}"
+                    kill -TERM "${pids[${i}]}"
                 done
             ;;
         esac

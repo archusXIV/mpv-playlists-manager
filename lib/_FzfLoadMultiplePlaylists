@@ -5,8 +5,10 @@
 _FzfLoadMultiplePlaylists() {
 
     cd "$titles_dir" || exit 1
-    local playerTitlesList m3uFile list lst M3UFILE TITLES cmd
-    rm "$tmp_dir/fzfLoadMultiplePlaylists.m3u" 2>/dev/null
+    local playerTitlesList m3uFile list lst cmd temp_m3u temp_titles
+    temp_m3u="$tmp_dir/loadMultiplePlaylists.m3u"
+    temp_titles="$tmp_dir/multipleFilesTitles"
+    rm {"$temp_m3u","$temp_titles"} 2>/dev/null
 
     titleList=$(find . -name "*.titles" -printf '%f\n' | sort -d)
 
@@ -37,9 +39,15 @@ _FzfLoadMultiplePlaylists() {
         rm "$FZFSELTITLES"
         mapfile -t all_lists <<< "$list"
         clear
+
+        declare -a loadMultiplePlaylistsOptions=(
+            "${info}[D]ownload,"
+            "[P]lay selected playlists or"
+            "[${mtitle}C${info}]ancel?: ${nc}"
+        )
+
         echo -e "\n ${info}${#lstCount[@]} playlists selected.${nc}\n"
-        read -rsn 1 -p " ${info}[D]ownload or [P]lay selected playlists?: ${nc}" \
-            fzfLoadMultiplePlaylistsActions
+        read -rsn 1 -p " ${loadMultiplePlaylistsOptions[*]}" options
 
         declare -a removables=()
         __makeCombinedLists() {
@@ -47,56 +55,56 @@ _FzfLoadMultiplePlaylists() {
                 "${cmd}" "$lst" "$tmp_dir/$lst"
                 "${cmd}" "$titles_dir/$lst.titles" "$tmp_dir/$lst.titles"
                 sed -i '/#EXTM3U/d' "$tmp_dir/$lst"
-                cat "$tmp_dir/$lst" >> "$tmp_dir/fzfLoadMultiplePlaylists.m3u"
-                cat "$tmp_dir/$lst.titles" >> "$tmp_dir/multipleFilesTitles"
+                cat "$tmp_dir/$lst" >> "$temp_m3u"
+                cat "$tmp_dir/$lst.titles" >> "$temp_titles"
                 removables+=("$tmp_dir/$lst")
                 removables+=("$tmp_dir/$lst.titles")
             done
+            sed -i '1s/^/#EXTM3U\n/' "$temp_m3u"
         }
 
-        case "$fzfLoadMultiplePlaylistsActions" in
+        case "$options" in
             [pP])
                 cmd="cp"
                 __makeCombinedLists
-                playerTitlesList="$tmp_dir/multipleFilesTitles"
-                m3uFile="$tmp_dir/fzfLoadMultiplePlaylists.m3u"
+                playerTitlesList="$temp_titles"
+                m3uFile="$temp_m3u"
                 _BlankLine
-                read -rsn 1 -p " ${info}Play [A]udio or [V]ideo?: ${nc}" \
-                    fzfLoadMultiplePlaylistsPlay
-                case "$fzfLoadMultiplePlaylistsPlay" in
+                read -rsn 1 -p " ${info}Play [A]udio or [V]ideo?: ${nc}" play
+                case "$play" in
                     [aA])
                         rm "${removables[@]}"
-                        _MpvOwnsTmpList --multiple || _MpvcTest -a
+                        _MpvOwnsTmpList --multiple || _MpvcTest -a && _Menu
                     ;;
                     [vV])
                         rm "${removables[@]}"
-                        _MpvOwnsTmpList --multiple || _MpvcTest -v
+                        _MpvOwnsTmpList --multiple || _MpvcTest -v && _Menu
                     ;;
                     *)
-                        rm "$tmp_dir"/{fzfLoadMultiplePlaylists.m3u,multipleFilesTitles}
+                        rm {"$temp_m3u","$temp_titles"}
                         rm "${removables[@]}"
                         unset playerTitlesList m3uFile
-                        _WrongOption "$fzfLoadMultiplePlaylistsPlay"
+                        _WrongOption "$play"
                         _Menu
                     ;;
                 esac
-                ;;
+            ;;
             [dD])
                 cmd="mv"
                 __makeCombinedLists
-                list="fzfLoadMultiplePlaylists.m3u"
                 _BlankLine
-                read -rsn 1 -p " ${info}Download [A]udio or [V]ideo?: ${nc}" \
-                    fzfLoadMultiplePlaylistsDownload
-                M3UFILE="$playlists_dir/$list"
-                TITLES="$titles_dir/$list.titles"
-                case "$fzfLoadMultiplePlaylistsDownload" in
-                    [aA]) rm "${removables[@]}"; _GetAudio -m ;;
-                    [vV])
+                read -rsn 1 -p " ${info}Download [A]udio or [V]ideo?: ${nc}" download
+                case "$download" in
+                    [aA])
                         rm "${removables[@]}"
-                        sed -i '1s/^/#EXTM3U\n/' "$tmp_dir/$list"
-                        "${cmd}" -f "$tmp_dir/$list" "$playlists_dir/$list"
-                        "${cmd}" -f "$tmp_dir/multipleFilesTitles" "$titles_dir/$list.titles"
+                        _CheckParallelDownloads --before
+                        _GetAudio -m
+                    ;;
+                    [vV])
+                        list="loadMultiplePlaylists.m3u"
+                        rm "${removables[@]}"
+                        "${cmd}" -f "$temp_m3u" "$playlists_dir/$list"
+                        "${cmd}" -f "$temp_titles" "$titles_dir/$list.titles"
                         _CheckParallelDownloads --before
                         _DownloadVideoList
                     ;;
@@ -105,20 +113,18 @@ _FzfLoadMultiplePlaylists() {
                             if [[ $file =~ .titles ]]; then
                                 "${cmd}" "$file" "$titles_dir/"
                             else
-                                sed -i '1s/^/#EXTM3U\n/' "$file"
                                 "${cmd}" "$file" "$playlists_dir/"
                             fi
                         done
-                        unset file M3UFILE TITLES
-                        rm "$tmp_dir"/{fzfLoadMultiplePlaylists.m3u,multipleFilesTitles}
-                        _WrongOption "$fzfLoadMultiplePlaylistsDownload"
+                        unset file playerTitlesList
+                        rm {"$temp_m3u","$temp_titles"}
+                        _WrongOption "$download"
                         _Menu
                     ;;
                 esac
             ;;
-            *) _WrongOption "$fzfLoadMultiplePlaylistsActions"; _Menu ;;
+            *) _Menu ;;
         esac
-        _Menu
     fi
 
 }

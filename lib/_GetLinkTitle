@@ -9,6 +9,7 @@ _GetLinkTitle() {
         -d) sed -n '1p' "$DEFAULT_TITLES" ;;
         -l) sed -n '1p' "$titles_dir"/"$list".titles ;;
         -m) sed -n '1p' "$tmp_dir/multipleFilesTitles" ;;
+        -q) sed -n '1p' "$titles_dir/loadMultiplePlaylists.m3u.titles" ;;
         -s) sed -n '1p' "$SELECTED_TITLES" ;;
         -v) sed -n '1p' "$VIDEO_TITLES" ;;
     esac

@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2034
+# shellcheck disable=SC2154,SC2034,SC2164
 _LoadPlaylist() {
 
-    cd "$playlists_dir" || exit 1
+    if [[ -z $(echo "$playlists_dir"/*.m3u) ]]; then
+        printf '\n%s\n' " ${critical}$playlists_dir is empty!!!${nc}"
+        sleep 2
+        exit 1
+    else
+        cd "$playlists_dir"
+    fi
 
     local list titlesFile action LIST
 
@@ -17,18 +23,22 @@ _LoadPlaylist() {
     _TestIfPlaylistsHaveTitles
 
     echo -e \
-    "\n ${critical}TIP: IN THIS SECTION YOU CAN CHOOSE TO PLAY/DOWNLOAD \n" \
-    "MULTIPLE PLAYLISTS AT A TIME OR JUST ONE AND IN THAT \n" \
-    "CASE BE ABLE TO CHOOSE FEW ITEMS FROM THAT PLAYLIST.${nc}\n"
-    _Prompt -n " ${info}Download/Play multiple playlists at a time?${nc}" && {
+    "\n ${critical}TIP: IN THIS SECTION YOU CAN CHOOSE BETWEEN:\n" \
+    "${task}YES: ${critical}PLAYING/DOWNLOADING SEVERAL PLAYLISTS AT ONCE.\n" \
+    "${task}NO:  ${critical}ONLY ONE PLAYLIST SELECTION WILL BE POSSIBLE.\n"
+    _Prompt -n " ${info}Download/Play multiple playlists?${nc}" && {
+        [[ -f $tmp_dir/loadMultiplePlaylists.m3u ]] && {
+            clear; _BlankLine
+            printf '%s\n' \
+            " ${critical}You're probably watching/listening previously selected playlists," \
+            " answering YES will remove the actual mpv playlist and also cause errors."
+            _Prompt -n " Do you really want to continue? ${nc}" || return
+        }
         if _TestFzfCommand; then
             action=Select
             _FzfLoadMultiplePlaylists
         else
-            printf '%s\n' " ${critical}This functionality requires fzf installed" \
-            " and use_fzf must be set to ${task}yes ${critical}in your mpmrc file.${nc}"
-            sleep 5
-            return
+            _LoadMultiplePlaylists
         fi
     }
 

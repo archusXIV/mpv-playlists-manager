@@ -21,8 +21,8 @@ _DownloadCompleted() {
         [[ -f $tmp_dir/multipleFilesTitles_origin ]] && {
             FILES+=("$tmp_dir/multipleFilesTitles_origin")
             FILES+=("$tmp_dir/multipleFilesTitles")
-            FILES+=("$tmp_dir/fzfLoadMultiplePlaylists.m3u_origin")
-            FILES+=("$tmp_dir/fzfLoadMultiplePlaylists.m3u")
+            FILES+=("$tmp_dir/loadMultiplePlaylists.m3u_origin")
+            FILES+=("$tmp_dir/loadMultiplePlaylists.m3u")
         }
 
         if (($(_GetLinesList -l) > 0)); then

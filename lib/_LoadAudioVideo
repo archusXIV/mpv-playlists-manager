@@ -34,6 +34,8 @@ _LoadAudioVideo() {
         -dv) m3uFile="$DEFAULT_LIST"; _MpvcTest -v ;;
         -la) m3uFile="$playlists_dir/$list"; _MpvcTest -a ;;
         -lv) m3uFile="$playlists_dir/$list"; _MpvcTest -v ;;
+        -ma) m3uFile="$playlists_dir/loadMultiplePlaylists.m3u"; _MpvcTest -a ;;
+        -mv) m3uFile="$playlists_dir/loadMultiplePlaylists.m3u"; _MpvcTest -v ;;
         -sa) m3uFile="$SELECTED_URLS1"; _MpvcTest -a ;;
         -sv) m3uFile="$SELECTED_URLS1"; _MpvcTest -v ;;
         -xa) m3uFile="$LOCALDIRS_LIST"; _MpvcTest -a ;;

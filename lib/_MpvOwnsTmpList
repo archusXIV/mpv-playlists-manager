@@ -84,7 +84,7 @@ _MpvOwnsTmpList() {
                     fi
                 ;;
                 --multiple)
-                    if [[ -f fzfLoadMultiplePlaylists.m3u ]]; then
+                    if [[ -f loadMultiplePlaylists.m3u ]]; then
                         name="another"
                     else
                         return

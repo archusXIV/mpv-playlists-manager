@@ -87,7 +87,7 @@ _AnalyzeUrls() {
 
     done
 
-    unset mediaUrl
+    unset mediaUrl url tmpUrls
     rm "$clipUrls"
     # if we break whithout any URL we send the returned error in the black hole.
 } 2>/dev/null

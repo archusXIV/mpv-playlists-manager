@@ -14,6 +14,8 @@ _RemoveMpvTmp() {
         "multipleDirsTitles.m3u" "multipleFilesTitles"
         "radioDirTitles" "singleDirTitles" "list_tmp"
         "fzfLoadMultiplePlaylists.m3u"
+        "loadMultiplePlaylists.m3u.titles"
+        "loadMultiplePlaylists.m3u"
     )
 
     for file in "${mpvTmpFiles[@]}"; do

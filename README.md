@@ -21,10 +21,11 @@ and many more options to control mpv, ffmpeg, yt-dlp and download/playlists dire
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
-## Changelog: version 2.5-8
-- Added an option in [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L301) (line 301: ytdlPreset_MR) to download specific video resolution, see help option section IV.
+## Changelog: version 2.5-9
+- Fixed bug in _FzfLoadMultiplePlaylists while downloading a playlist as audio.
+- Added _LoadMultiplePlaylists function used when use_fzf is set to no in our config.
+- Added an option in [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L301) 0to download specific video resolution, see help option section IV.
 - More Bugs fixed here and there (especially in _ParallelDownloadCmd), and more simplified code.
-- Bugs fixed here and there, simplified code.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.

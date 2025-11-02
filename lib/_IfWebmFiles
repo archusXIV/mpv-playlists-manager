@@ -7,7 +7,7 @@ _IfWebmFiles() {
     local playlist_checks download_checks multiple_origin
     playlist_checks=("$AUDIO_URLS" "$DEFAULT_LIST")
     download_checks=("$playlists_dir/$list" "$SELECTED_URLS1")
-    multiple_origin="$tmp_dir/fzfLoadMultiplePlaylists.m3u_origin"
+    multiple_origin="$tmp_dir/loadMultiplePlaylists.m3u_origin"
 
     __handleChecks() {
 
@@ -42,7 +42,7 @@ _IfWebmFiles() {
                 sleep 4
                 _BlankLine
                 __handleChecks '_GetCompleted' '_DownloadCompleted'
-                return
+                _Menu
             }
             __handleChecks '_ConvertAudio && _GetCompleted' '_ConvertAudio && _DownloadCompleted'
         fi

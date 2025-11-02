@@ -30,7 +30,7 @@ _TestUrlsFromCurrentPlaylist() {
         ((line_number++))
     done
 
-    ((${#okUrls[@]} == ${#urls[@]})) &&
+    ((${#okUrls[@]} == ${#urls[@]})) && \
         printf '\n%s\n' " ${info}All URLs have been successfully tested!${nc}"
     sleep 3
 
