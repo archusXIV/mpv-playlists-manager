@@ -26,6 +26,7 @@ _ChooseDirectVideoDownload() {
     cp -f "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
 
     M3UFILE="$SELECTED_URLS1"
+    # The function below needs the M3UFILE variable
     _CheckParallelDownloads --before
     mapfile -t urlsCount < "$M3UFILE"
     counter="${#urlsCount[@]}"

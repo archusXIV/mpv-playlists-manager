@@ -4,6 +4,7 @@
 # shellcheck disable=SC2154
 _GetAudioVideoDownloadMessages() {
 
+    local flag
     [[ $M3UFILE == "$AUDIO_URLS" ]] && flag='-a'
     [[ $M3UFILE == "$VIDEO_URLS" ]] && { flag='-v'; sed=yes; }
     [[ $M3UFILE == "$playlists_dir"/"$list" ]] && flag='-l'

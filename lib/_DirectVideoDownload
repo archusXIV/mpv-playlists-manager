@@ -10,6 +10,7 @@ _DirectVideoDownload() {
     cp -f "$titles_dir"/"$list".titles "$titles_dir"/"$list".titles_origin
 
     M3UFILE="$playlists_dir/$list"
+    _CheckParallelDownloads --before
     TITLES="$titles_dir/$list.titles"
     animationTitles="$titles_dir"/"$list".titles
     mapfile -t tls < "$titles_dir"/"$list".titles_origin

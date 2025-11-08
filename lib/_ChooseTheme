@@ -7,6 +7,7 @@ _ChooseTheme() {
 
     clear
     _BlankLine
+    local ntc="$native_tui_colors"
 
     declare -a chooseThemePrompt=(
         "${info}Change [M]ain or"
@@ -38,7 +39,6 @@ _ChooseTheme() {
                 for theme in "${nativeThemes[@]}"; do
                     # Apply the same theme to native_tui_colors if it exists
                     if [[ $theme == "$main" ]]; then
-                        local ntc="$native_tui_colors"
                         sed -i "s/native_tui_colors=${ntc}/native_tui_colors=${theme}/" "$MPMRC"
                         . "$MPMRC"
                         break
@@ -48,7 +48,6 @@ _ChooseTheme() {
             done
         ;;
         [nN])
-            local ntc="$native_tui_colors"
             echo -e "\n ${info}Current native player theme: ${task}$ntc${nc}\n"
             sed -i "s/native_tui_colors=\"${ntc}\"/native_tui_colors=${ntc}/" "$MPMRC"
             PS3=""$'\n'" ${info}Please choose a theme, [${mtitle}C${info}]ancel: ${nc}"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2034,SC2164
+# shellcheck disable=SC2154,SC2034
 _LoadMultiplePlaylists() {
     # We are still in the playlists directory
     local end file selection displayName temp_m3u temp_titles playerTitlesList list
@@ -94,12 +94,8 @@ _LoadMultiplePlaylists() {
             _BlankLine
             read -rsn 1 -p " ${info}Play [A]udio or [V]ideo?: ${nc}" play
             case "$play" in
-                [aA])
-                    _MpvOwnsTmpList --multiple || _MpvcTest -a && _Menu
-                ;;
-                [vV])
-                    _MpvOwnsTmpList --multiple || _MpvcTest -v && _Menu
-                ;;
+                [aA]) _MpvOwnsTmpList --multiple || _MpvcTest -a && _Menu ;;
+                [vV]) _MpvOwnsTmpList --multiple || _MpvcTest -v && _Menu ;;
                 *)
                     rm {"$temp_m3u","$temp_titles"}
                     unset playerTitlesList m3uFile

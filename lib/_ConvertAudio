@@ -51,9 +51,9 @@ _ConvertAudio() {
                 printf '\n%s\n' \
                 " ${info}Converting files in ${task}${b}${formats[${REPLY}]}...${nb}"
                 _BlankLine
-                if _Has parallel && [[ $use_parallel == yes && $parallel_conversion == yes ]]; then
+                if _Has parallel && [[ $use_parallel == "yes" && $parallel_conversion == "yes" ]]; then
                     _ParallelConversion --parallel-chosen
-                elif _Has xargs && [[ $parallel_conversion == yes ]]; then
+                elif _Has xargs && [[ $parallel_conversion == "yes" ]]; then
                     _ParallelConversion --xargs-chosen
                 else
                     printf '%s\n' " Parallel conversion disabled, please be patient.${nc}"

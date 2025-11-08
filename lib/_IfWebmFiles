@@ -28,7 +28,7 @@ _IfWebmFiles() {
         _RemoveAudioVideoIds; _ResizeWindow --main; clear
         echo -e "\n ${critical}ADVISORY: if you choose conversion, all downloaded files (.webm)"
         echo -e " will be converted in the chosen format.${nc}\n"
-        find "$mediaDir" -iname "*.webm" | sed 's,.*/,,' | sort | nl
+        find "$mediaDir" -iname "*.webm" -printf '%f\n' | sort | nl
 
         if [[ $automatic_audio_conversion = yes ]]; then
             printf '\n%s\n' " ${task}Automatic audio conversion enabled.${nc}"

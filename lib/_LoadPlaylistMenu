@@ -34,11 +34,11 @@ _LoadPlaylistMenu() {
 
     }
 
-    __testMultiple() (
+    __testMultiple() {
         [[ -f loadMultiplePlaylists.m3u ]] && {
             rm {loadMultiplePlaylists.m3u,"$titles_dir"/loadMultiplePlaylists.m3u.titles}
         }
-    )
+    }
 
     _ResizeWindow --main
     clear
@@ -66,7 +66,7 @@ _LoadPlaylistMenu() {
             1) __testList; _ChooseDownloadAudio ;;
             2) __testList; _ChooseDownloadVideo ;;
             3) __testList; _GetAudio -l ;;
-            4) __testList; _CheckParallelDownloads --before; _DownloadVideoList ;;
+            4) __testList; _DownloadVideoList ;;
             5) _MpvOwnsTmpList --collection || _ChooseFromPlay ;;
             6) _ScheduleDownload ;;
             7) _TestUrlsFromCurrentPlaylist ;;

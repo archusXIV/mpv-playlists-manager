@@ -4,6 +4,8 @@
 # shellcheck disable=SC2154,SC2034
 _LoadLocalMenuActions() {
 
+    local localDir localMediaType
+
     __isFileManagerInstalled() (
         if ! _Has "$FILEMANAGER"; then
             printf '%s\n' " ${critical}$FILEMANAGER is not installed...!${nc}"
@@ -31,7 +33,6 @@ _LoadLocalMenuActions() {
             __isFileManagerInstalled
         ;;
         --files)
-            # test if the player owns the tmp local playlist before going futher.
             _MpvOwnsTmpList --local || {
                 if [[ $loadLocalMenuOptions == 2 ]]; then
                     __settingLoadLocalVars -a
@@ -41,18 +42,24 @@ _LoadLocalMenuActions() {
                 if _TestFzfCommand; then
                     clear; _BlankLine; _SelectLocalDir -f; _Menu
                 else
-                    __isFileManagerInstalled
+                    clear; _BlankLine; _SelectLocalDir -n; _Menu
                 fi
             }
         ;;
         --multiple-dirs)
             _MpvOwnsTmpList --local || {
-                read -rsn 1 \
-                -p " ${info}Queue multiple [A]udio or [V]ideo directories: ${nc}" diranswer
+                _BlankLine
+                declare -a multipleDirsOptions=(
+                    "${info}[${mtitle}C${info}]ancel,"
+                    "Queue multiple [A]udio or"
+                    "[V]ideo directories: ${nc}"
+                )
+                read -rsn 1 -p " ${multipleDirsOptions[*]}" diranswer
                 case "$diranswer" in
-                    a|A) __settingLoadLocalVars -a ;;
-                    v|V) __settingLoadLocalVars -v ;;
-                    *  ) _BlankLine; _WrongOption "$diranswer"; return ;;
+                    [aA]) __settingLoadLocalVars -a ;;
+                    [vV]) __settingLoadLocalVars -v ;;
+                    [cC]) return ;;
+                    *   ) _BlankLine; _WrongOption "$diranswer"; return ;;
                 esac
                 _QueueMultipleDirs
             }
@@ -64,9 +71,8 @@ _LoadLocalMenuActions() {
                     if _TestFzfCommand; then
                         clear; _FzfEnqueue
                     else
-                        printf '%s\n' \
-                        " ${critical}The fzf package isn't installed, or use_fzf is set to 'no'.${nc}"
-                        sleep 4; return
+                        localMediaType=radio
+                        _SelectLocalFiles "$radios_dir"
                     fi
                 else
                     printf '%s\n' " ${critical}radios_dir isn't defined in mpmrc.${nc}"

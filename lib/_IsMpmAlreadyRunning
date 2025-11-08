@@ -23,10 +23,10 @@ _IsMpmAlreadyRunning() {
         exit
     }
 
-    __killPrompt() (
+    __killPrompt() {
         printf '\n%s\n' " ${critical}${0##*/} is already running..."
         _Prompt -n " Do you want to kill ${0##*/}?${nc}"
-    )
+    }
 
     # 1 The main pid is the previous instance of mpm.
     # 2 The _WhileMpvIsRunning function is in the background...

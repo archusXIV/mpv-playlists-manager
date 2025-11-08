@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+## This is a part of main script: mpm.
+
+# shellcheck disable=SC2154,SC2034
+_SelectLocalFilesOptions() {
+
+    read -rsn 1 -p " ${info}[A]dd more files, [N]o thanks: ${nc}" selectLocalFilesOptions
+    clear
+    sed -i "s/^/${localDirPath}\//" manualEnqueue.m3u
+
+    case "$selectLocalFilesOptions" in
+        [aA])
+            if [[ ! -f "$MANUALENQUEUE" ]]; then
+                mv -f manualEnqueue.m3u "$MANUALENQUEUE"
+                _SelectLocalDir -n
+            else
+                cat "$MANUALENQUEUE" manualEnqueue.m3u > ./tmpfile
+                mv -f ./tmpfile "$MANUALENQUEUE"
+                rm manualEnqueue.m3u
+                _SelectLocalDir -n
+            fi
+        ;;
+        [nN])
+            use_mpvc_locally=yes
+            localPlaylist=yes
+            if [[ ! -f "$MANUALENQUEUE" ]]; then
+                if [[ $localDir == "$radios_dir" ]]; then
+                    m3uFile="$radios_dir/manualEnqueue.m3u"
+                    ln -sfr "$m3uFile" "$NOWPLAYING"
+                    playerTitlesList="$m3uFile"
+                    _MakeMpvPlaylistIndexes
+                else
+                    m3uFile="$dir/manualEnqueue.m3u"
+                    ln -sfr "$m3uFile" "$NOWPLAYING"
+                fi
+                # we use the same option as if use_fzf=yes
+                _MakeMpvPlaylist --fzf
+            else
+                cat "$MANUALENQUEUE" manualEnqueue.m3u > ./tmpfile
+                mv -f ./tmpfile "$MANUALENQUEUE"
+                rm manualEnqueue.m3u
+                m3uFile="$MANUALENQUEUE"
+                ln -sfr "$m3uFile" "$NOWPLAYING"
+                if [[ $localDir == "$radios_dir" ]]; then
+                    playerTitlesList="$m3uFile"
+                    _MakeMpvPlaylistIndexes
+                fi
+                _MakeMpvPlaylist --fzf
+            fi
+        ;;
+        *)
+            rm {manualEnqueue.m3u,"$MANUALENQUEUE"} 2>/dev/null
+            _WrongOption "$selectLocalFilesOptions"; return
+        ;;
+    esac
+
+}

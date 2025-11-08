@@ -32,9 +32,7 @@ _CreateAddPlaylistActions() {
         --play)
             if [[ -f $pidofMpv ]]; then
                 printf '\n%s\n' " ${critical}mpv wasn't launched from mpm..."
-                _Prompt " kill previous mpv instance? ${nc}" || {
-                    return
-                }
+                _Prompt " kill previous mpv instance? ${nc}" || return
                 _MpvControl -q
                 rm "$pidofMpv"
                 _LoadAudioVideo "$arg"

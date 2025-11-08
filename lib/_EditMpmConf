@@ -5,7 +5,7 @@
 # shellcheck source=/dev/null
 _EditMpmConf() {
 
-    local theme
+    local theme config
 
     _BlankLine
     read -rsn 1 -p \

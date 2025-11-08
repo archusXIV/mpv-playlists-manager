@@ -5,7 +5,7 @@
 _CheckParallelDownloads() {
 
     __parallelDownloadsEqualsYes() {
-        [[ $(awk -F'["=]' '/use_parallel_downloads/{print $2}' "$MPMRC") == yes ]]
+        [[ $(awk -F'["=]' '/use_parallel_downloads/{print $2}' "$MPMRC") == "yes" ]]
     }
     clear
 
@@ -26,9 +26,8 @@ _CheckParallelDownloads() {
                     " ${critical}Some platforms do not support this feature." \
                     " ${info}(answering NO will download files one by one)."
                     _BlankLine
-                    _Prompt -n " Continue with parallel downloads?${nc}" || {
-                        use_parallel_downloads="no"
-                    }
+                    _Prompt -n " Continue with parallel downloads?${nc}" \
+                    || use_parallel_downloads="no"
                 fi
             fi
         ;;

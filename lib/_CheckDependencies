@@ -4,8 +4,6 @@
 # shellcheck disable=SC2154
 _CheckDependencies() {
 
-    local optionals
-
     # Checking dependencies: softwares, directories, files & variables.
     declare -a DEPS=(
         "ffmpeg" "jq" "mpv" "socat" "yt-dlp"
@@ -23,7 +21,7 @@ _CheckDependencies() {
         }
     done
 
-    optionals="$CONF_DIR/missing_dependencies.txt"
+     local optionals="$CONF_DIR/missing_dependencies.txt"
 
     if [[ ! -f $optionals ]]; then
         for opt in "${DEPS[@]:5:17}"; do
@@ -51,7 +49,7 @@ _CheckDependencies() {
     : "${tmp_dir:=$main_dir/tmp}"
     : "${videos_dir:=$main_dir/videos}"
 
-    # main_dir has to be index 0
+    # main_dir must be index 0
     declare -a dirs=(
         "$main_dir" "$audios_dir" "$playlists_dir" "$schedules_dir"
         "$titles_dir" "$tmp_dir" "$videos_dir"

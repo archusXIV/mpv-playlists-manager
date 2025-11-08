@@ -4,23 +4,21 @@
 # shellcheck disable=SC2154
 _IfPartsExist() {
 
-    __ifPartsExistInfo() (
+    __ifPartsExistInfo() {
         clear
         echo -e " ${critical}Incomplete files in audio/video directories:\n${nc}"
-        find "$mediaDir" -name "*.part" 2>/dev/null \
-        | sort -d | sed 's,.*/,,' | nl
+        find "$mediaDir" -name "*.part" -printf '%f\n' 2>/dev/null \
+        | sort -d | nl
         echo -e "\n ${info}Try again now or later, choose an option.${nc}"
         sleep 3
         _BlankLine
         return
-    )
+    }
 
     case "$1" in
         -l)
-            mv "$playlists_dir"/"$list"_origin \
-            "$playlists_dir"/"$list"
-            mv "$titles_dir"/"$list".titles_origin \
-            "$titles_dir"/"$list".titles
+            mv "$playlists_dir"/"$list"_origin "$playlists_dir"/"$list"
+            mv "$titles_dir"/"$list".titles_origin "$titles_dir"/"$list".titles
             __ifPartsExistInfo
         ;;
         -t)

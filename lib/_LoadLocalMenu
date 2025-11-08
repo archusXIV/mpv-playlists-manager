@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2034
 _LoadLocalMenu() {
 
-    local localDir file localMediaType loadLocalMenuOptions
+    local file loadLocalMenuOptions
     file="${m3uFile##*/}" file="${file%%.*}"
 
     while :; do
@@ -32,9 +32,7 @@ _LoadLocalMenu() {
             [rR8]) _LoadLocalMenuActions --radio-dir ;;
             [sS9]) _LoadLocalMenuActions --somabox ;;
             [bBxX]) _Menu ;;
-            *  ) _WrongOption "$loadLocalMenuOptions"
-                 continue
-            ;;
+            *) _WrongOption "$loadLocalMenuOptions"; continue ;;
         esac
 
     done

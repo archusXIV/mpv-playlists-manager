@@ -49,7 +49,7 @@ _AnalyzeUrls() {
         # Clean URL and validate format
         mediaUrl="${mediaUrl//&list=*}"
         if [[ ! $mediaUrl =~ ^https ]]; then
-            printf '%s\n' " ${critical}Not a valid url...try again${nc}"
+            printf '%s\n' " ${critical}Not a valid URL...try again${nc}"
             sleep 2
             continue
         fi
@@ -65,11 +65,7 @@ _AnalyzeUrls() {
             " ${info}Please visit: $SUPPORTED_SITES${nc}"
             sleep 7
             continue
-        fi
-
-        # Check audio format if we are downloading audio
-        # Odysee for example doesn't provide audio formats
-        if [[ $arg == '-a' ]] && ! grep -qe 'audio' "$urlTest"; then
+        elif [[ $arg == '-a' ]] && ! grep -qe 'audio' "$urlTest"; then
             printf '%s\n' " ${critical}No audio format found...${nc}" \
             " removing $mediaUrl..."
             sleep 3

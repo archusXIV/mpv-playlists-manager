@@ -13,6 +13,7 @@ _CleanTmpDir() {
             "nowPlaying"
             "defaultTitles_"
             "fzfEnqueue.m3u"
+            "manualEnqueue.m3u"
             "singleDirTitles"
             "playerIndexesList"
             "playerSelectedFile"
@@ -26,22 +27,20 @@ _CleanTmpDir() {
 
         # Remove all files except preserved ones
         for file in "$tmp_dir"/*; do
-
             [[ -f $file ]] || continue
             local basename="${file##*/}"
             local preserve=false
-
             for keep in "${preserveFromDeletion[@]}"; do
                 [[ $basename == "$keep" ]] && {
                     preserve=true
                     break
                 }
             done
-
             "$preserve" || rm -f "$file"
         done
     else
         rm "$(readlink -f "$tmp_dir"/"fzfEnqueue.m3u")"
+        rm "$(readlink -f "$tmp_dir"/"manualEnqueue.m3u")"
         rm -f {"$tmp_dir"/*,"$MPM_PIDS"}
         rm "$playlists_dir/loadMultiplePlaylists.m3u"
         rm "$titles_dir/loadMultiplePlaylists.m3u.titles"

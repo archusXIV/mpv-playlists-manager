@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-##  Script name: mpm version 2.5-9
+##  Script name: mpm version 2.6-0
 ##  Author: Barret E (2021-25) <archus@protonmail.com>
 ##  https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
 ##  Dependencies: ffmpeg, jq, mpv, yt-dlp.
@@ -22,7 +22,7 @@
 # shellcheck disable=SC2034,SC2154,SC2001,SC2207
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.5-9"
+VERSION="v.2.6-0"
 
 # blinking prompts
 b=$'\e[5m'
@@ -93,6 +93,7 @@ FZFSELTITLES="$tmp_dir"/fzfSelectedTitles
 HELP="/usr/local/share/doc/mpm/help"
 JOBSLIST="$tmp_dir/parallel_list"
 LOCALDIRS_LIST="$tmp_dir/localdirs_list.m3u"
+MANUALENQUEUE="$tmp_dir/manualEnqueue.m3u"
 MPM_GIT="https://github.com/archusXIV/mpv-playlists-manager.git"
 MPM_PIDS="/tmp/mpm.pid"
 MPM_VERSION="https://raw.githubusercontent.com/archusXIV/mpv-playlists-manager/main/version"

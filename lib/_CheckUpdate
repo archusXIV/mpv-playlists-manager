@@ -41,7 +41,7 @@ _CheckUpdate() {
     esac
 
     [[ $check_updates == "yes" ]] && {
-        [[ $newVerion != "$VERSION" ]] &&
+        [[ $newVerion != "$VERSION" ]] && \
             printf '%s\n' " ${critical}${b}$newVerion available${nb}${nc}"
     }
 

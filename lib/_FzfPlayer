@@ -1,21 +1,20 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2317,SC2329,SC1090
+# shellcheck disable=SC2154,SC2329,SC1090
 _FzfPlayer() {
 
     cd "$tmp_dir" || exit 1
 
     . "$MPMRC"; . "$THEMERC"
 
-    # fixed window size
     _ResizeWindow --main
 
-    __passPlaylistIndexToMpv() (
-        local index length
+    __passPlaylistIndexToMpv() {
+        local line index length
         # There is only one line in this file
-        index=$(awk '{print $1}' playerSelectedFile)
-        # And $1 should be digit(s)
+        read -r line < playerSelectedFile
+        index=${line%% *}
         length="${#index}"
         if (( length == 1 )); then
             index="${index:0:1}"
@@ -25,9 +24,7 @@ _FzfPlayer() {
             index="${index:0:3}"
         fi
         echo playlist-play-index "$index" | socat - "${MPVSOCKET}"
-    )
-
-    export -f __passPlaylistIndexToMpv
+    }
 
     __volume() {
         if command -v pulsemixer &>/dev/null; then
@@ -36,49 +33,67 @@ _FzfPlayer() {
             ncpamixer
         else
             clear
-            printf '\n%s\n' " Please install pulsemixer or ncpamixer."
+            printf '\n%s\n' " ${critical}Please install pulsemixer or ncpamixer.${nc}"
             sleep 3
         fi
     }
 
+    __getCurrentIndex() {
+        if [[ -S "${MPVSOCKET}" ]]; then
+            response=$(
+                echo '{ "command": ["get_property", "playlist-pos"] }' \
+                | socat - "${MPVSOCKET}" 2>/dev/null
+            )
+            if [[ -n "$response" ]]; then
+                current_index=$(echo "$response" | grep -oP '(?<="data":)\d+')
+            fi
+        fi
+        if [[ -z "$current_index" || "$current_index" == "null" ]]; then
+            current_index=0
+        fi
+    }
+
+    export -f __passPlaylistIndexToMpv
     export -f __volume
+    export -f __getCurrentIndex
+    __getCurrentIndex
 
     # this function is in ~/.config/mpm/themerc
     _NativePlayerColors "$native_tui_colors"
 
     declare -a header=(
-        "Enter:play," "Left:-30s," "Right:+30s," "^N:next," "^P:prev,"
-        "^T:toggle pause," "^R:reload," "^V:volume," "ESC:exit," "^X:quit mpv:"
+        "Enter:play," "Left:-30s," "Right:+30s,"
+        "^N:next," "^P:prev," "^T:toggle pause,"
+        "^R:reload," "^V:volume," "ESC:exit," "^X:quit mpv:"
     )
 
-    while [[ -s playerSelectedFile ]]; do
-        fzf \
-        --cycle \
-        --track \
-        --reverse \
-        --no-multi \
-        --pointer '|>' \
-        --scroll-off=5 \
-        --no-scrollbar \
-        --border rounded \
-        --prompt='Search: ' \
-        --preview-window=down:1 \
-        --preview="(_MpvSocketCommands --title)" \
-        --header-first \
-        --header "${header[*]}
+    fzf \
+    --cycle \
+    --track \
+    --reverse \
+    --no-multi \
+    --pointer '|>' \
+    --scroll-off=5 \
+    --no-scrollbar \
+    --border rounded \
+    --prompt='Search: ' \
+    --preview-window=down:1 \
+    --preview="(_MpvSocketCommands --title)" \
+    --header-first \
+    --header "${header[*]}
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        " \
-        --bind "enter:become(echo {} > playerSelectedFile; __passPlaylistIndexToMpv)" \
-        --bind "left:become(_MpvSocketCommands --backward)" \
-        --bind "right:become(_MpvSocketCommands --forward)" \
-        --bind "ctrl-n:become(_MpvSocketCommands --next)" \
-        --bind "ctrl-p:become(_MpvSocketCommands --prev)" \
-        --bind "ctrl-t:become(_MpvSocketCommands --pause)" \
-        --bind "ctrl-r:become(_MpvSocketCommands --begin)" \
-        --bind "ctrl-v:become(__volume)" \
-        --bind "ctrl-x:become(_MpvSocketCommands --stop; rm ./playerSelectedFile)" \
-        --bind "esc:become(sed -i '1d' ./playerSelectedFile)" < playerIndexesList
-    done
+    " \
+    --bind "load:pos($((current_index + 1)))" \
+    --bind "enter:execute(echo {} > playerSelectedFile; __passPlaylistIndexToMpv)+refresh-preview" \
+    --bind "left:execute(_MpvSocketCommands --backward)" \
+    --bind "right:execute(_MpvSocketCommands --forward)" \
+    --bind "ctrl-n:execute(_MpvSocketCommands --next)" \
+    --bind "ctrl-p:execute(_MpvSocketCommands --prev)" \
+    --bind "ctrl-t:execute(_MpvSocketCommands --pause)" \
+    --bind "ctrl-r:execute(_MpvSocketCommands --begin)" \
+    --bind "ctrl-v:execute(__volume)" \
+    --bind "ctrl-x:execute(_MpvSocketCommands --stop; rm ./playerSelectedFile)+abort" \
+    --bind "esc:execute(sed -i '1d' ./playerSelectedFile)+abort" < playerIndexesList
 
     export FZF_DEFAULT_OPTS=
 

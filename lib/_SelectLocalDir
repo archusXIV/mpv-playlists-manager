@@ -5,11 +5,10 @@
 _SelectLocalDir() {
 
     cd "$localDir" || exit 1
-    [[ $localDir == "$radios_dir" ]] && _FzfEnqueue
 
     echo -e " ${info}Directories in ${localDir##*/}: ${nc}\n"
 
-    PS3=""$'\n'" ${info}Select a directory number to queue/parse, [${mtitle}C${info}]ancel: ${nc}"
+    PS3=""$'\n'" ${info}Select a directory to queue up or parse, [${mtitle}C${info}]ancel: ${nc}"
 
     select dir in $(find -L "$localDir" -maxdepth 1 -type d -not -empty \
         -not -wholename "$localDir" -printf '%f\n' | sort); do
@@ -37,9 +36,7 @@ _SelectLocalDir() {
             printf '%s\n' " ${critical}$dir doesn't contain supported formats by mpv" \
             " or audio/video files are in a subdirectory.${nc}"
             _BlankLine
-            _Prompt " ${info}Do you want to open $dir to fix this issue?${nc}" || {
-                continue
-            }
+            _Prompt " ${info}Do you want to open $dir to fix this issue?${nc}" || continue
             "$FILEMANAGER" "$dir"
         }
 
@@ -52,6 +49,11 @@ _SelectLocalDir() {
             ;;
             -f)
                 _FzfEnqueue
+                clear; break
+            ;;
+            -n)
+                cd "$dir" || return
+                _SelectLocalFiles "$localDir/$dir"
                 clear; break
             ;;
         esac
