@@ -8,7 +8,6 @@ _ParallelAnimation() {
         spinners)
             local spinners
             spinners="|/-\\"
-
             while [[ -s $animationTitles ]]; do
                 local temp=${spinners#?}
                 printf " [${task}%c${nc}]  " "$spinners"
@@ -19,13 +18,29 @@ _ParallelAnimation() {
             clear
         ;;
         progress)
-            printf "["
-
+            local total downloaded percent bar_width
+            bar_width=50
+            # Calculate total from initial animationTitles
+            total=0
+            while read -r _; do ((total++)); done < "$animationTitles"
             while [[ -s $animationTitles ]]; do
-                printf  "▓"
-                sleep 0.50
+                downloaded=0
+                for file in "$mediaDir"/*; do
+                    if [[ -f $file && $file != *.part ]]; then
+                        case "${file##*.}" in
+                            mp4|webm|mkv) ((downloaded++)) ;;
+                        esac
+                    fi
+                done
+                percent=$(( (downloaded * 100) / total ))
+                local blocks=$((downloaded * bar_width / total))
+                local empty=$((bar_width - blocks))
+                local bar=""
+                for ((i=0; i<blocks; i++)); do bar+="█"; done
+                for ((i=0;i<empty;i++)); do bar+="."; done
+                printf "\r [%s] %3d%%" "$bar" "$percent"
+                sleep 0.4
             done
-            clear
         ;;
     esac
 

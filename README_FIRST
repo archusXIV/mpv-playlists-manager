@@ -1,6 +1,6 @@
-Author: Barret E (2021-25) <archus@protonmail.com>
+Author: Barret E <archus@protonmail.com>
 <https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm>
-mpm version 2.6-0
+mpm version 2.6-0 (2021-25)
 
 Dependencies: ffmpeg, jq, mpv, socat, vim (any terminal text editor), yt-dlp.
 Optionals but recommanded: (
@@ -25,6 +25,7 @@ the directory names and structure are correctly set.
 
 Changelog:
 -------------------------------- NO CHANGES IN CONFIG FILES --------------------------------
+version 2.6-0 - Change the parallel_animation=progress to be more accurate.
 version 2.6-0 - Added _SelectLocalFiles{,Options} functions in case use_fzf=no.
 version 2.6-0 - Now in native (fzf)player the cursor stays on the selected song, the preview
                 window (title) is instantly updated for local files too.
