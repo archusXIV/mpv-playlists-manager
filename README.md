@@ -26,7 +26,7 @@ When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with y
 - Added _SelectLocalFiles{,Options} functions in case use_fzf=no.
 - Fixed bug in _FzfLoadMultiplePlaylists while downloading a playlist as audio.
 - Added _LoadMultiplePlaylists function used when use_fzf is set to no in our config.
-- Added an option in [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L301) 0to download specific video resolution, see help option section IV.
+- Added an option in [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L301) to download specific video resolution, see help option section IV.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
