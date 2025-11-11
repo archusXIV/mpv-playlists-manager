@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2076,SC2034
 _ChooseDownloadAudio() {
 
-    local counter M3UFILE animationTitles mediaDir
+    local counter M3UFILE animationTitles mediaDir type
     clear
 
     if _TestFzfCommand; then
@@ -33,6 +33,7 @@ _ChooseDownloadAudio() {
     readarray -t SELECTEDAUDIO < "$M3UFILE"
     counter="${#SELECTEDAUDIO[@]}"
     animationTitles="$SELECTED_TITLES"
+    type=audio
 
     __chooseDownloadAudioFormat() {
         _BlankLine

@@ -7,9 +7,12 @@ _GetAudioDownload() {
     mkdir --parents "$mediaDir"
     cd "$mediaDir" && {
 
+        cp -f "$M3UFILE" "$M3UFILE"_origin
+        cp -f "$TITLES" "$TITLES"_origin
+
         local animationTitles type
         animationTitles="$TITLES"
-        type="audio"
+        type=audio
 
         __testTitles() {
             if [[ $TITLES == "$DEFAULT_TITLES" ]]; then

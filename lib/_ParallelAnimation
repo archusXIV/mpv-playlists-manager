@@ -18,29 +18,49 @@ _ParallelAnimation() {
             clear
         ;;
         progress)
-            local total downloaded percent bar_width
-            bar_width=50
-            # Calculate total from initial animationTitles
+
+            local bar bar_width blocks downloaded empty percent total
+
+            if [[ $type == "audio" ]]; then
+                extensions=( "webm" "m4a" )
+            else
+                extensions=( "mp4" "mkv" )
+            fi
+
             total=0
             while read -r _; do ((total++)); done < "$animationTitles"
-            while [[ -s $animationTitles ]]; do
+            bar_width=64
+
+            until ((downloaded == total)); do
                 downloaded=0
                 for file in "$mediaDir"/*; do
-                    if [[ -f $file && $file != *.part ]]; then
-                        case "${file##*.}" in
-                            mp4|webm|mkv) ((downloaded++)) ;;
-                        esac
-                    fi
+                    [[ -f $file && $file != *.part ]] && {
+                        ext_name="${file##*.}"
+                        for ext in "${extensions[@]}"; do
+                            [[ $ext_name == "$ext" ]] && {
+                                ((downloaded++))
+                                break
+                            }
+                        done
+                    }
                 done
-                percent=$(( (downloaded * 100) / total ))
-                local blocks=$((downloaded * bar_width / total))
-                local empty=$((bar_width - blocks))
-                local bar=""
-                for ((i=0; i<blocks; i++)); do bar+="█"; done
+                # Calculate percentage and blocks with ceiling division
+                percent=$(((downloaded * 100 + total - 1) / total))
+                blocks=$(((downloaded * bar_width + total - 1) / total))
+                # Cap at 100% and full bar width
+                ((percent > 100)) && percent=100
+                ((blocks > bar_width)) && blocks=$bar_width
+                # Build and display progress bar
+                empty=$((bar_width - blocks))
+                bar=""
+                for ((i=0;i<blocks;i++)); do bar+="█"; done
                 for ((i=0;i<empty;i++)); do bar+="."; done
                 printf "\r [%s] %3d%%" "$bar" "$percent"
-                sleep 0.4
+
+                sleep 0.5
+
             done
+            clear
         ;;
     esac
 

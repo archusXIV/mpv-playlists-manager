@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2076,SC2034
 _DirectVideoDownload() {
 
-    local counter animationTitles M3UFILE TITLES
+    local counter animationTitles M3UFILE TITLES type
 
     cp -f "$playlists_dir"/"$list" "$playlists_dir"/"$list"_origin
     cp -f "$titles_dir"/"$list".titles "$titles_dir"/"$list".titles_origin
@@ -15,6 +15,7 @@ _DirectVideoDownload() {
     animationTitles="$titles_dir"/"$list".titles
     mapfile -t tls < "$titles_dir"/"$list".titles_origin
     counter=$((${#tls[@]}))
+    type=video
 
     if _TestParallelCommand; then
         _ParallelDownloadCmd parallel --direct-video

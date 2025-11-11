@@ -10,7 +10,7 @@ USERNAME ?= $(shell whoami)
 CONF_DIR = $(shell [ "$(USERNAME)" = "root" ] && echo "/etc/mpm" || echo "/home/$(USERNAME)/.config/mpm")
 USERGROUP ?= $(shell id -g $(USERNAME))
 
-VERSION = 2.6-0
+VERSION = 2.6-1
 
 .PHONY: all install uninstall upgrade config diff-config check-root
 

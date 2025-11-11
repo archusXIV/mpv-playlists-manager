@@ -9,7 +9,7 @@ _GetVideoDownload() {
 
         local animationTitles type
         animationTitles="$TITLES"
-        type="video"
+        type=video
 
         __testTitles() {
             if [[ $TITLES == "$DEFAULT_TITLES" ]]; then

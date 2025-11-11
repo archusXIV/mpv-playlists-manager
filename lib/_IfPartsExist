@@ -4,26 +4,44 @@
 # shellcheck disable=SC2154
 _IfPartsExist() {
 
+    local file
     __ifPartsExistInfo() {
         clear
-        echo -e " ${critical}Incomplete files in audio/video directories:\n${nc}"
-        find "$mediaDir" -name "*.part" -printf '%f\n' 2>/dev/null \
-        | sort -d | nl
-        echo -e "\n ${info}Try again now or later, choose an option.${nc}"
-        sleep 3
-        _BlankLine
+        echo -e "\n ${critical}Incomplete files in $mediaDir directory:${nc}\n"
+        find "$mediaDir" -name "*.part" -printf '%f\n' | sort -d | nl
+        echo -e "\n ${critical}${file##*/} failed, try again now or later.${nc}"
+        unset file
+        read -rsn 1 -p " ${info}Press any key to continue...${nc}"
         return
     }
 
+    parts=("$mediaDir"/*.part)
+
     case "$1" in
-        -l)
-            mv "$playlists_dir"/"$list"_origin "$playlists_dir"/"$list"
-            mv "$titles_dir"/"$list".titles_origin "$titles_dir"/"$list".titles
-            __ifPartsExistInfo
+        --list)
+            if ((${#parts[@]} >= 1)); then
+                mv -f "$playlists_dir"/"$list"_origin "$playlists_dir"/"$list"
+                mv -f "$titles_dir"/"$list".titles_origin "$titles_dir"/"$list".titles
+                file="$playlists_dir/$list"
+                __ifPartsExistInfo
+            fi
         ;;
-        -t)
-            _RenameTmpFiles
-            __ifPartsExistInfo
+        --tmp)
+            if ((${#parts[@]} >= 1)); then
+                declare -a files=(
+                    "$AUDIO_URLS" "$AUDIO_TITLES"
+                    "$VIDEO_URLS" "$VIDEO_TITLES"
+                    "$DEFAULT_LIST" "$DEFAULT_TITLES"
+                    "$playlists_dir/$list"
+                    "$titles_dir/$list.titles"
+                    "$playlists_dir/loadMultiplePlaylists.m3u"
+                    "$titles_dir/loadMultiplePlaylists.m3u.titles"
+                )
+                for f in "${files[@]}"; do
+                    mv -f "$f"_origin "$f" && file="$f"
+                done 2>/dev/null
+                __ifPartsExistInfo
+            fi
         ;;
     esac
 

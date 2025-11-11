@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Script name: install.sh version 2.6-0
+# Script name: install.sh version 2.6-1
 # Author: Barret E <https://github.com/archusXIV/mpv-playlists-manager>
 # Licensed under the GPLv2
 #
@@ -31,7 +31,7 @@ usergroup=$(
 _editConfig() {
     printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
     " original file has been saved as mpmrc.orig.${endColor}"
-    tail -n 8 ./README_FIRST
+    tail -n 9 ./README_FIRST
     printf '\n'
     read -rp " ${red}Edit $MPMRC now? [Y/n] enter an editor name (eg: y vim): ${endColor}" \
     edit editor

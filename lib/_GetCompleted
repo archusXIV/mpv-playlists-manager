@@ -5,15 +5,13 @@
 _GetCompleted() {
 
     cd "$main_dir" || exit 1
+    _IfPartsExist --tmp
 
-    if [[ -n $(find {"$audios_dir","$videos_dir"} -name "*.part") ]]; then
-        _IfPartsExist -t
-    elif [[ $downloadTmpList =~ default|list ]]; then
+    if [[ $downloadTmpList =~ default|list ]]; then
         clear
         printf '\n%s\n' " ${info}Downloads completed, temporary list preserved...${nc}"
         downloadTmpList="downloaded"
         sleep 2
-        _RenameTmpFiles
         unset downloadTmpList
     else
         _BlankLine
@@ -21,7 +19,6 @@ _GetCompleted() {
             printf '\n%s\n' \
             " ${critical}It was a temporary list, don't forget to save it.${nc}"
             sleep 2
-            _RenameTmpFiles
             _CheckParallelDownloads --after
             _Menu
         }
@@ -36,6 +33,9 @@ _GetCompleted() {
             rm {"$AUDIO_URLS","$AUDIO_TITLES"}{,_origin}
         elif [[ -f "$VIDEO_URLS"_origin ]]; then
             rm {"$VIDEO_URLS","$VIDEO_TITLES"}{,_origin}
+        elif [[ -f "$playlists_dir"/"$list"_origin ]]; then
+            rm "$playlists_dir"/"$list"{,_origin}
+            rm "$titles_dir"/"$list".titles{,_origin}
         fi
 
         [[ -f $tmp_dir/loadMultiplePlaylists.m3u_origin ]] && {

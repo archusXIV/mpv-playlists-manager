@@ -30,7 +30,7 @@ _IfWebmFiles() {
         echo -e " will be converted in the chosen format.${nc}\n"
         find "$mediaDir" -iname "*.webm" -printf '%f\n' | sort | nl
 
-        if [[ $automatic_audio_conversion = yes ]]; then
+        if [[ $automatic_audio_conversion == yes ]]; then
             printf '\n%s\n' " ${task}Automatic audio conversion enabled.${nc}"
             sleep 2
             __handleChecks '_ConvertAudio && _GetCompleted' '_ConvertAudio && _DownloadCompleted'

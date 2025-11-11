@@ -5,53 +5,49 @@
 _DownloadCompleted() {
 
     cd "$playlists_dir" || exit 1
+    _IfPartsExist --list
     clear
 
-    if [[ -n $(find {"$audios_dir","$videos_dir"} -name "*.part") ]]; then
-        _IfPartsExist -l
-    else
-        declare -a FILES=(
-            "$list" "$list"_origin
-            "$titles_dir/$list.titles" "$titles_dir/$list.titles_origin"
-            "$SELECTED_URLS1" "$SELECTED_URLS2"
-            "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
-            "$tmp_dir/list_tmp"
-        )
+    declare -a FILES=(
+        "$list" "$list"_origin
+        "$titles_dir/$list.titles" "$titles_dir/$list.titles_origin"
+        "$SELECTED_URLS1" "$SELECTED_URLS2"
+        "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
+        "$tmp_dir/list_tmp"
+    )
 
-        [[ -f $tmp_dir/multipleFilesTitles_origin ]] && {
-            FILES+=("$tmp_dir/multipleFilesTitles_origin")
-            FILES+=("$tmp_dir/multipleFilesTitles")
-            FILES+=("$tmp_dir/loadMultiplePlaylists.m3u_origin")
-            FILES+=("$tmp_dir/loadMultiplePlaylists.m3u")
-        }
+    [[ -f $tmp_dir/multipleFilesTitles_origin ]] && {
+        FILES+=("$tmp_dir/multipleFilesTitles_origin")
+        FILES+=("$tmp_dir/multipleFilesTitles")
+        FILES+=("$tmp_dir/loadMultiplePlaylists.m3u_origin")
+        FILES+=("$tmp_dir/loadMultiplePlaylists.m3u")
+    }
 
-        if (($(_GetLinesList -l) > 0)); then
-            if [[ $keep_none_empty_playlist == yes ]]; then
-                unset {FILES[0],FILES[2]}
-                rm -f "${FILES[@]}" >/dev/null 2>&1
-            else
-                echo -e " ${critical}keep_none_empty_playlist is set to 'no'.${nc}\n"
-                _Prompt \
-                " ${info}Downloads are completed but $list is not empty, do you want to KEEP it?:${nc}" || {
-                    rm -f "${FILES[@]}" >/dev/null 2>&1
-                    _PolybarIpc
-                    printf '%s\n' " ${critical}$list removed...${nc}"
-                    sleep 3
-                }
-                unset {FILES[0],FILES[2]}
-                rm -f "${FILES[@]}" >/dev/null 2>&1
-            fi
+    if (($(_GetLinesList -l) > 0)); then
+        if [[ $keep_none_empty_playlist == yes ]]; then
+            unset {FILES[0],FILES[2]}
+            rm -f "${FILES[@]}" >/dev/null 2>&1
         else
-            _BlankLine
-            [[ -f $list ]] && {
-                printf '%s\n' " ${info}Downloads completed." \
-                " ${critical}$list is empty... $list removed.${nc}"
+            echo -e " ${critical}keep_none_empty_playlist is set to 'no'.${nc}\n"
+            _Prompt \
+            " ${info}Downloads are completed but $list is not empty, do you want to KEEP it?:${nc}" || {
+                rm -f "${FILES[@]}" >/dev/null 2>&1
+                _PolybarIpc
+                printf '%s\n' " ${critical}$list removed...${nc}"
                 sleep 3
             }
+            unset {FILES[0],FILES[2]}
             rm -f "${FILES[@]}" >/dev/null 2>&1
-            _PolybarIpc
         fi
-
+    else
+        _BlankLine
+        [[ -f $list ]] && {
+            printf '%s\n' " ${info}Downloads completed." \
+            " ${critical}$list is empty... $list removed.${nc}"
+            sleep 3
+        }
+        rm -f "${FILES[@]}" >/dev/null 2>&1
+        _PolybarIpc
     fi
 
     _CheckParallelDownloads --after
