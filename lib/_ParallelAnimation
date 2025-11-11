@@ -19,13 +19,17 @@ _ParallelAnimation() {
         ;;
         progress)
 
-            local bar bar_width blocks downloaded empty percent total
+            local bar bar_width blocks downloaded empty percent total allowed_ext
 
             if [[ $type == "audio" ]]; then
                 extensions=( "webm" "m4a" )
             else
                 extensions=( "mp4" "mkv" )
             fi
+
+            # Build regex pattern from extensions array (e.g., "webm|m4a")
+            allowed_ext="${extensions[*]}"
+            allowed_ext="${allowed_ext// /|}"
 
             total=0
             while read -r _; do ((total++)); done < "$animationTitles"
@@ -34,15 +38,10 @@ _ParallelAnimation() {
             until ((downloaded == total)); do
                 downloaded=0
                 for file in "$mediaDir"/*; do
-                    [[ -f $file && $file != *.part ]] && {
-                        ext_name="${file##*.}"
-                        for ext in "${extensions[@]}"; do
-                            [[ $ext_name == "$ext" ]] && {
-                                ((downloaded++))
-                                break
-                            }
-                        done
-                    }
+                    ext_name="${file##*.}"
+                    if [[ -f $file && $ext_name =~ ^($allowed_ext)$ ]]; then
+                        ((downloaded++))
+                    fi
                 done
                 # Calculate percentage and blocks with ceiling division
                 percent=$(((downloaded * 100 + total - 1) / total))

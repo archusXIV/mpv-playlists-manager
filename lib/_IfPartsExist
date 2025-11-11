@@ -15,7 +15,7 @@ _IfPartsExist() {
         return
     }
 
-    parts=("$mediaDir"/*.part)
+    mapfile -t parts < <(find "$mediaDir" -name "*.part")
 
     case "$1" in
         --list)
