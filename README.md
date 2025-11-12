@@ -18,6 +18,11 @@ and many more options to control mpv, ffmpeg, yt-dlp and download/playlists dire
 
 **For installation, configuration and more please see the** [wiki page](https://github.com/archusXIV/mpv-playlists-manager/wiki)
 
+# Important yt-dlp and dependencies update
+Follow these steps described in this [issue thread](https://github.com/yt-dlp/yt-dlp/issues/15031) regarding yt-dlp failing to get all available formats on YouTube particularly
+- AUR package to install [yt-dlp-ejs](https://aur.archlinux.org/packages/yt-dlp-ejs)
+- or build from [sources](https://github.com/yt-dlp/ejs)
+
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
