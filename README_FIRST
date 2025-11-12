@@ -25,6 +25,7 @@ the directory names and structure are correctly set.
 
 Changelog:
 -------------------------------- NO CHANGES IN CONFIG FILES --------------------------------
+        IMPORTANT YT-DLP & DEPENDENCY UPDATE PLEASE CHECK THE TOPIC ON THE GITHUB PAGE
 version 2.6-1 - Fixed bug in _ParallelAnimation function not showing 100% when it's reached.
 version 2.6-1 - Fixed bug in _IfPartsExist function when downloading audio from a collection
                 playlist, our original files are now restored.
