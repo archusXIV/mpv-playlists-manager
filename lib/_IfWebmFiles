@@ -5,7 +5,7 @@
 _IfWebmFiles() {
 
     local playlist_checks download_checks multiple_origin
-    playlist_checks=("$AUDIO_URLS" "$DEFAULT_LIST")
+    playlist_checks=("$AUDIO_URLS" "$DEFAULT_LIST" "$playlists_dir/$list")
     download_checks=("$playlists_dir/$list" "$SELECTED_URLS1")
     multiple_origin="$tmp_dir/loadMultiplePlaylists.m3u_origin"
 
@@ -17,9 +17,11 @@ _IfWebmFiles() {
         for check in "${playlist_checks[@]}"; do
             [[ $M3UFILE == "$check" ]] && eval "$action_one"
         done
+        unset check
         for check in "${download_checks[@]}"; do
             [[ $M3UFILE == "$check" ]] && eval "$action_two"
         done
+        unset check
         [[ -f $multiple_origin ]] && eval "$action_two"
 
     }
@@ -42,7 +44,7 @@ _IfWebmFiles() {
                 sleep 4
                 _BlankLine
                 __handleChecks '_GetCompleted' '_DownloadCompleted'
-                _Menu
+                # _Menu
             }
             __handleChecks '_ConvertAudio && _GetCompleted' '_ConvertAudio && _DownloadCompleted'
         fi

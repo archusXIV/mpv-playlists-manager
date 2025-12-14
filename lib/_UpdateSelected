@@ -4,6 +4,8 @@
 # shellcheck disable=SC2154
 _UpdateSelected() {
 
+    _IfPartsExist
+
     cd "$playlists_dir" || exit 1
     # testing if we removed all titles in the list when we chose the edit playlist option.
     mapfile -t selectedCount < "$SELECTED_URLS1"

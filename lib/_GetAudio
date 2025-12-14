@@ -36,7 +36,7 @@ _GetAudio() {
         -l)
             _TitlesListCompare --list
             M3UFILE="$playlists_dir"/"$list"
-            TITLES="$titles_dir"/"$list".titles
+            TITLES="$titles_dir/$list.titles"
             mediaDir="$audios_dir"/"${list%.*}"
         ;;
         -m)

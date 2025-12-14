@@ -6,6 +6,7 @@ _LoadPlaylistMenu() {
 
     cd "$playlists_dir" || return
     local playlistMenuOptions LIST
+    unset M3UFILE TITLES
     M3UFILE="$list"
     LIST="${list%.*/}" LIST="${LIST//_/ }" LIST="${LIST//.m3u}"
 

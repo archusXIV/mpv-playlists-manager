@@ -8,7 +8,7 @@ _GetAudioVideoDownloadMessages() {
     [[ $M3UFILE == "$AUDIO_URLS" ]] && flag='-a'
     [[ $M3UFILE == "$VIDEO_URLS" ]] && { flag='-v'; sed=yes; }
     [[ $M3UFILE == "$playlists_dir"/"$list" ]] && flag='-l'
-    [[ -f "$tmp_dir/multipleFilesTitles" ]] && flag='-m'
+    [[ -f $tmp_dir/loadMultiplePlaylists.m3u ]] && flag='-m'
     [[ $M3UFILE == "$DEFAULT_LIST" || $TITLES == "$DEFAULT_TITLES" ]] && { flag='-d'; sed=yes; }
     _BlankLine
     case "$1" in

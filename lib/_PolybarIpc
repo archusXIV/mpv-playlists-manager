@@ -3,6 +3,8 @@
 
 _PolybarIpc() {
     _Has polybar && pgrep --full polybar >/dev/null && {
-        polybar-msg action "#mpm-ipc.hook.0" >/dev/null 2>&1
+        for pid in $(pgrep --full polybar); do
+            polybar-msg -p "$pid" action "#mpm-ipc.hook.0" >/dev/null 2>&1
+        done
     }
 }

@@ -29,8 +29,8 @@ _CheckDependencies() {
                 echo "$(date): missing $opt" >> "$optionals"
                 printf '%s\n' " ${critical}For better experience, consider installing $opt." \
                 " Some functionalities might be unavailable..." \
-                " Please check $optionals.${nc}"
-                sleep 6
+                " Please check $optionals."
+                read -rsn 1 -p " ${info}Press any key to continue...${nc}"
             }
         done
         unset dep opt

@@ -1,6 +1,6 @@
 Author: Barret E <archus@protonmail.com>
 <https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm>
-mpm version 2.6-1 (2021-25)
+mpm version 2.6-2 (2021-25)
 
 Dependencies: ffmpeg, jq, mpv, socat, vim (any terminal text editor), yt-dlp.
 Optionals but recommended: (
@@ -25,11 +25,10 @@ the directory names and structure are correctly set.
 
 Changelog:
 -------------------------------- NO CHANGES IN CONFIG FILES --------------------------------
-        IMPORTANT YT-DLP & DEPENDENCY UPDATE PLEASE CHECK THE TOPIC ON THE GITHUB PAGE
+IMPORTANT YT-DLP & DEPENDENCY UPDATE PLEASE CHECK THE GITHUB PAGE OR INSTALL yt-dlp-ejs
+version 2.6-2 - Refactored _GetCompleted/_DownloadCompleted
+version 2.6-2 - Fixed bug in _GetAudioVideoDownloadMessages when trying to display the total
+                number of URLs in the current downloaded playlist.
 version 2.6-1 - Fixed bug in _ParallelAnimation function not showing 100% when it's reached.
 version 2.6-1 - Fixed bug in _IfPartsExist function when downloading audio from a collection
                 playlist, our original files are now restored.
-version 2.6-0 - Change the parallel_animation=progress to be more accurate.
-version 2.6-0 - Added _SelectLocalFiles{,Options} functions in case use_fzf=no.
-version 2.6-0 - Now in native (fzf)player the cursor stays on the selected song, the preview
-                window (title) is instantly updated for local files too.

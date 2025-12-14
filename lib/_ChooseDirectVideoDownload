@@ -25,6 +25,7 @@ _ChooseDirectVideoDownload() {
     cp -f "$playlists_dir"/"$list" "$playlists_dir"/"$list"_origin
     cp -f "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
 
+    TITLES="$SELECTED_TITLES"
     M3UFILE="$SELECTED_URLS1"
     # The function below needs the M3UFILE variable
     _CheckParallelDownloads --before

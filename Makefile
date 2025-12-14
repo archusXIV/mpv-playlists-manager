@@ -10,7 +10,7 @@ USERNAME ?= $(shell whoami)
 CONF_DIR = $(shell [ "$(USERNAME)" = "root" ] && echo "/etc/mpm" || echo "/home/$(USERNAME)/.config/mpm")
 USERGROUP ?= $(shell id -g $(USERNAME))
 
-VERSION = 2.6-1
+VERSION = 2.6-2
 
 .PHONY: all install uninstall upgrade config diff-config check-root
 
@@ -56,6 +56,7 @@ config:
 			chown -R $(USERNAME):$(USERGROUP) $(CONF_DIR); \
 			echo "Created new config files in $(CONF_DIR)"; \
 			echo "Please edit your mpmrc file before first run."; \
+			echo "IMPORTANT YT-DLP & DEPENDENCY UPDATE PLEASE CHECK THE GITHUB PAGE OR INSTALL yt-dlp-ejs"; \
 		fi \
 	fi
 
@@ -71,6 +72,7 @@ diff-config:
 		patch $(CONF_DIR)/themerc < $(CONF_DIR)/themerc.diff || true; \
 	fi
 	@if [ "$(USERNAME)" != "root" ]; then \
+		echo "IMPORTANT YT-DLP & DEPENDENCY UPDATE PLEASE CHECK THE GITHUB PAGE OR INSTALL yt-dlp-ejs"; \
 		echo "Configuration files have been updated."; \
 		echo "Original files saved as *.orig"; \
 		echo "Check $(CONF_DIR)/mpmrc.diff for changes"; \
