@@ -4,8 +4,8 @@
 # shellcheck disable=SC2154
 _DownloadCompleted() {
 
-    cd "$playlists_dir" || exit 1
     _IfPartsExist
+    cd "$playlists_dir" || exit 1
     [[ -f $SELECTED_TITLES ]] && _UpdateSelected --selection
 
     clear

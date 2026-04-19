@@ -77,14 +77,17 @@ _FzfPlayer() {
     --no-scrollbar \
     --border rounded \
     --prompt='Search: ' \
-    --preview-window=down:1 \
+    --preview-window=down:1:noinfo \
     --preview="(_MpvSocketCommands --title)" \
     --header-first \
     --header "${header[*]}
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     " \
     --bind "load:pos($((current_index + 1)))" \
-    --bind "enter:execute(echo {} > playerSelectedFile; __passPlaylistIndexToMpv)+refresh-preview" \
+    --bind "enter:execute(
+            echo {} > playerSelectedFile; __passPlaylistIndexToMpv \
+            && _MpvSocketCommands --title
+        )+refresh-preview" \
     --bind "left:execute(_MpvSocketCommands --backward)" \
     --bind "right:execute(_MpvSocketCommands --forward)" \
     --bind "ctrl-n:execute(_MpvSocketCommands --next)" \

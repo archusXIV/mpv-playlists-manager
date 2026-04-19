@@ -15,15 +15,15 @@ _QueueMultipleDirs() {
     localDirPath=$(pwd | sed 's,/,\\/,g')
     localPlaylist=yes
 
-    find "$localDir" -maxdepth 1 -type d -empty -printf '%f\n' | sort >> "$tmp_dir"/empty.tmp
+    find "$localDir" -mindepth 1 -maxdepth 1 -type d -empty -printf '%f\n' | sort >> "$tmp_dir"/empty.tmp
 
     if [[ -s $tmp_dir/empty.tmp ]]; then
         # empty dirs will be banned from our list through grep filter
-        find "$localDir" -maxdepth 1 -type d -not -empty -printf '%f\n' \
+        find "$localDir" -mindepth 1 -maxdepth 1 -type d -not -empty -printf '%f\n' \
         | sort | sed '/^\s*$/d' \
         | grep -vF "$(grep '^[[:print:]]' "$tmp_dir"/empty.tmp)" > "$dirlist"
     else
-        find "$localDir" -maxdepth 1 -type d -printf '%f\n' \
+        find "$localDir" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' \
         | sort | sed '/^\s*$/d' > "$dirlist"
     fi
 

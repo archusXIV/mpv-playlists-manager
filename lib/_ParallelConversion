@@ -15,6 +15,13 @@ _ParallelConversion() {
         printf '%s\n' " ${info}use_parallel is set to no... using xargs.${nc}"
         find . -iname "*.webm" | xargs -I % -P "$parallel_threads" \
         ffmpeg -hide_banner -loglevel quiet -y -i % %."$1"
+        # removing the primary suffix from our converted_files.webm.{aac,mp3,flac,ogg,wav}
+        mapfile -t files < <(find "$mediaDir" -type f -name "*.webm.*")
+        for ext in "${files[@]}"; do
+            n="${ext##*/}"
+            mv -n "$ext" "${ext%/*}/${n//.webm/}"
+        done
+        unset ext files
     )
 
     case "$1" in
@@ -23,14 +30,5 @@ _ParallelConversion() {
         --xargs-default   ) __xargsMethod "$default_conversion_format" ;;
         --xargs-chosen    ) __xargsMethod "${formats[${REPLY}]}" ;;
     esac
-
-    # removing the primary suffix from our converted files (.webm.{aac,mp3,flac,ogg,wav})
-    find . -maxdepth 1 -type f -name "*.webm.*" -exec \
-    bash -c '
-        for ext in "$@"; do
-            n="${ext##*/}"
-            mv -n "$ext" "${ext%/*}/${n//.webm/}"
-        done >/dev/null 2>&1
-    ' {} \;
 
 }

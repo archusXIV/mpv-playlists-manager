@@ -37,7 +37,15 @@ _SelectLocalDir() {
             " or audio/video files are in a subdirectory.${nc}"
             _BlankLine
             _Prompt " ${info}Do you want to open $dir to fix this issue?${nc}" || continue
-            "$FILEMANAGER" "$dir"
+            if [[ $use_fzf == "yes" && $FILEMANAGER == "fzfm" ]]; then
+                cd "$dir" && fzfm
+            elif [[ $use_fzf == "no" && $FILEMANAGER == "fzfm" ]]; then
+                printf '%s\n' " ${critical}FILEMANAGER is set to fzfm," \
+                " but use_fzf is set to NO, unable to open ${dir##*/}."
+                sleep 4; return 1
+            else
+                "$FILEMANAGER" "$dir"
+            fi
         }
 
         clear

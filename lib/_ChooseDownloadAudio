@@ -77,8 +77,8 @@ _ChooseDownloadAudio() {
     fi
 
     unset url
-
-    _UpdateSelected --selection
     clear
+    _UpdateSelected --selection
     _IfWebmFiles
+
 }

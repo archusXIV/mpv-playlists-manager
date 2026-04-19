@@ -67,7 +67,8 @@ _ChooseTheme() {
                 break
             done
         ;;
-        * ) _WrongOption "$chooseThemeOptions"; _Menu ;;
+        [cC]) printf '\n%s\n' " ${critical}Selection aborted...${nc}"; sleep 2 ;;
+        * ) _WrongOption "$chooseThemeOptions" ;;
     esac
 
 }

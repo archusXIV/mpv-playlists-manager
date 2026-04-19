@@ -12,7 +12,15 @@ _LoadLocalMenuActions() {
             sleep 3
         else
             clear
-            "$FILEMANAGER" "$localDir"
+            if [[ $use_fzf == "yes" && $FILEMANAGER == "fzfm" ]]; then
+                cd "$localDir" && fzfm
+            elif [[ $use_fzf == "no" && $FILEMANAGER == "fzfm" ]]; then
+                printf '%s\n' " ${critical}FILEMANAGER is set to fzfm," \
+                " but use_fzf is set to NO, unable to open ${localDir##*/}."
+                sleep 4; return 1
+            else
+                "$FILEMANAGER" "$localDir"
+            fi
         fi
     )
 

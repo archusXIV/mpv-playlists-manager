@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ~/.config/mpm/mpmrc (version 2.6-2)
+# ~/.config/mpm/mpmrc (version 2.6-3)
 
 ########################################################
 #'##::::'##:'########::'##::::'##:'########:::'######::#
@@ -48,11 +48,13 @@ mainThemes=(
 THEME="default"
 
 ########################## SYSTEM TOOLS #########################
-## default editor used to edit this file and playlist titles/urls.
+# default editor used to edit this file and playlist titles/urls.
 MPMEDITOR="vim"
 
-## default file manager (can be any terminal file manager)
-## used in option 5) Load local dir/files
+# default file manager (can be any terminal file manager)
+# used in option 5) Load local dir/files
+# mpm comes with fzfm, you can use it if use_fzf is set to yes.
+# FILEMANAGER="fzfm"
 FILEMANAGER="ranger"
 
 # the clipboard command to use to paste links in option 1) or 2)

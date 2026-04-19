@@ -4,15 +4,15 @@
 # shellcheck disable=SC2154
 _GetCompleted() {
 
-    cd "$main_dir" || exit 1
     _IfPartsExist
+    cd "$main_dir" || exit 1
 
     if [[ $downloadTmpList =~ default|list ]]; then
         clear
         printf '\n%s\n' " ${info}Downloads completed, temporary list preserved...${nc}"
-        downloadTmpList="downloaded"
+        # downloadTmpList="downloaded"
         sleep 2
-        # unset downloadTmpList
+        unset downloadTmpList
     else
         _BlankLine
         _Prompt -n " ${info}Downloads completed, KEEP playlist?:${nc}" && {

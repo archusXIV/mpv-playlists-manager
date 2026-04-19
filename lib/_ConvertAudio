@@ -76,7 +76,7 @@ _ConvertAudio() {
 
     fi
 
-    find . -iname "*.webm" -exec rm {} \; 2>/dev/null
+    find . -iname "*.webm" -exec rm {} \; >/dev/null 2>&1
     clear
 
 }
