@@ -6,7 +6,6 @@ _GetVideo() {
 
     local M3UFILE TITLES mediaDir
     mediaDir="$videos_dir"
-    _ResizeWindow --main
 
     case "$1" in
         -d)
@@ -35,7 +34,7 @@ _GetVideo() {
     esac
 
     _CheckParallelDownloads --before
-
+    _ResizeWindow --main
     cp -f "$M3UFILE" "$M3UFILE"_origin
     cp -f "$TITLES" "$TITLES"_origin
     clear

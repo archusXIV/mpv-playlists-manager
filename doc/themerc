@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ~/.config/mpm/themerc (version 2.6-3)
+# ~/.config/mpm/themerc (version 2.6-4)
 
 ###########################################################################
 #'########:'##::::'##:'########:'##::::'##:'########:'########:::'######::#
@@ -86,6 +86,17 @@ _NativePlayerColors() {
                 --color=preview-bg:#3c3836,prompt:#fb4934,hl+:#fb4934
                 --border-label-pos='102:bottom'
                 --border-label '| theme: gruvbox |'
+            "
+        ;;
+        jellybeans)
+            export FZF_DEFAULT_OPTS="
+                --color=header:bold:#89CFF0
+                --color=bg+:#151511,bg:#121212,border:#5778c1
+                --color=spinner:#ca674a,hl:#87dd32,fg:#5778c1
+                --color=info:#96a967,pointer:#ea2828,fg+:#32dddd
+                --color=prompt:#9c35ac,hl+:#a97ca4
+                --border-label-pos='100:bottom'
+                --border-label '| theme: jellybeans |'
             "
         ;;
         molokai)

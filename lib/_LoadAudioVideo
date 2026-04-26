@@ -14,6 +14,11 @@ _LoadAudioVideo() {
         esac
     }
 
+    [[ ! -s $AUDIO_URLS || ! -s $VIDEO_URLS ]] && {
+        echo " ${critical}No links in the $Type list${nc}"
+        sleep 2 && return
+    }
+
     case "$1" in
         -a|-v)
             _ResizeWindow --main
@@ -25,9 +30,6 @@ _LoadAudioVideo() {
                 m3uFile="$VIDEO_URLS"
                 playerTitlesList="$VIDEO_TITLES"
                 __testPlayerName --video
-            else
-                echo " ${critical}No links in the $Type list${nc}"
-                sleep 2 && return
             fi
         ;;
         -da) m3uFile="$DEFAULT_LIST"; _MpvcTest -a ;;

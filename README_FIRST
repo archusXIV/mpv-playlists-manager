@@ -1,6 +1,6 @@
 Author: Barret E <archus@protonmail.com>
 <https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm>
-mpm version 2.6-3 (2021-26)
+mpm version 2.6-4 (2021-26)
 
 Dependencies: ffmpeg, jq, mpv, socat, vim (any terminal text editor), yt-dlp.
 Optionals but recommended: (
@@ -26,6 +26,7 @@ the directory names and structure are correctly set.
 Changelog:
 -------------------------------- NO CHANGES IN CONFIG FILES --------------------------------
 IMPORTANT YT-DLP & DEPENDENCY UPDATE PLEASE CHECK THE GITHUB PAGE OR INSTALL yt-dlp-ejs
+version 2.6-4 - Fixed bug when trying options in the {audio,video} list if the list is empty.
 version 2.6-3 - Fixed bug in _QueueMultipleDirs, now the parent directory does not appear
                 in the list.
               - Fixed bug in _FzfPlayer function not showing the selected title in the
@@ -33,6 +34,3 @@ version 2.6-3 - Fixed bug in _QueueMultipleDirs, now the parent directory does n
               - fzfm can now be used as FILEMANAGER, use_fzf must be set to "yes".
               - Fixed bug in _ChooseTheme function when typing "c" to cancel the theme selection,
                 it now  properly exits the function instead of showing the wrong option message.
-version 2.6-2 - Refactored _GetCompleted/_DownloadCompleted
-              - Fixed bug in _GetAudioVideoDownloadMessages when trying to display the total
-                number of URLs in the current downloaded playlist.
