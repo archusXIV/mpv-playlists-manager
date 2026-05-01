@@ -26,12 +26,11 @@ Follow these steps described in this [issue thread](https://github.com/yt-dlp/yt
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
-## Changelog: version 2.6-4
+## Changelog: version 2.6-5
+- Fixed bud in _LoadAudioVideo function when loading {audio,video} playlist
 - Fixed bug when trying options in the {audio,video} list if the list is empty.
 - [fzfm](https://github.com/archusXIV/fzfm) can now be used as FILEMANAGER, use_fzf must be set to "yes".
-- Fixed bug in _QueueMultipleDirs, now the parent directory does not appear in the list.
 - Fixed bug in _FzfPlayer function not showing the selected title in the preview window.
-- Fixed bug in _ChooseTheme function when typing "c" to cancel the theme selection, it now  properly exits the function instead of showing the wrong option message.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
