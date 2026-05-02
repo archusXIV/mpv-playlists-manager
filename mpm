@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 #
-##  Script name: mpm version 2.6-5
+##  Script name: mpm version 2.6-6
 ##  Author: Barret E (2021-26) <archus@protonmail.com>
 ##  https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
-##  Dependencies: ffmpeg, jq, mpv, yt-dlp.
+##  Dependencies: ffmpeg, jq, mpv, socat, yt-dlp.
 ##  Optionals: dialog, exiftool, fzf, less, mediainfo, parallel,
-##             ueberzug, ranger, socat, wmctrl, w3m, ytfzf.
+##             ueberzug, ranger, wmctrl, w3m, ytfzf.
 ##
 ##  Youtube-dl is for now kind of unmaintained so install yt-dlp
 ##  https://github.com/yt-dlp/yt-dlp/releases
-##  sudo pacman -S yt-dlp
+##  sudo pacman -S yt-dlp yt-dlp-ejs
 ##
 ##  This script rips video urls from Youtube and so on.
 ##  In our case we use ".m3u" files to store urls in and then be able
@@ -22,7 +22,7 @@
 # shellcheck disable=SC2034,SC2154,SC2001,SC2207
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.6-5"
+VERSION="v.2.6-6"
 
 # blinking prompts
 b=$'\e[5m'
@@ -81,10 +81,10 @@ _KillMpv() { kill -KILL "$(_PidOfMpv)"; } 2>/dev/null
 _Has() { command -v "$1" &>/dev/null; }
 
 # Global variables
-AUDIO_URLS="$tmp_dir/temporaryAudioUrls.m3u"
-AUDIO_TITLES="$tmp_dir/temporaryAudioTitles"
+AUDIO_URLS="$tmp_dir/temporaryAudio.m3u"
+AUDIO_TITLES="$tmp_dir/temporaryAudio.titles"
 DEFAULT_LIST="$playlists_dir/default.m3u"
-DEFAULT_TITLES="$tmp_dir/defaultTitles"
+DEFAULT_TITLES="$tmp_dir/default.titles"
 DEFAULTM3UTITLES="$titles_dir/default.m3u.titles"
 EXTENSIONS="(.aac|.flac|.m4a|.mp3|.mp4|.ogg|.wav|.webm)"
 FFOP="$tmp_dir/ffmpeg_output"
@@ -108,8 +108,8 @@ SELECTED_TITLES="$tmp_dir/selected.titles"
 SELECTED_URLS1="$tmp_dir/temporarySelection.m3u"
 SELECTED_URLS2="$tmp_dir/temporarySelection2.m3u"
 SUPPORTED_SITES="https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md"
-VIDEO_URLS="$tmp_dir/temporaryVideoUrls.m3u"
-VIDEO_TITLES="$tmp_dir/temporaryVideoTitles"
+VIDEO_URLS="$tmp_dir/temporaryVideo.m3u"
+VIDEO_TITLES="$tmp_dir/temporaryVideo.titles"
 YTSEARCH="$tmp_dir/youtubeSearch"
 YTFZFJSON="$tmp_dir/ytfzf.json"
 

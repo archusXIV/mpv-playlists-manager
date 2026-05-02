@@ -4,8 +4,11 @@
 # shellcheck disable=SC2154
 _ParallelDownloadCmd() {
 
-    local audioJobs videoJobs
-    audioJobs=6 videoJobs=3
+    : "${parallel_audio_jobs:=6}"
+    : "${parallel_video_jobs:=3}"
+    
+    # local parallel_audio_jobs parallel_video_jobs
+    # parallel_audio_jobs=6 parallel_video_jobs=3
 
     __sedCleanListsAndTitles() {
         if [[ $M3UFILE == "$DEFAULT_LIST" ]]; then
@@ -47,13 +50,13 @@ _ParallelDownloadCmd() {
                     cp "$M3UFILE" "$JOBSLIST"
                     if [[ $2 == "--choose-audio" ]]; then
                         __sedAudioCmd "$JOBSLIST"
-                        Jobs="${audioJobs}"
+                        Jobs="${parallel_audio_jobs}"
                     else
                         __sedVideoCmd "$JOBSLIST"
-                        Jobs="${videoJobs}"
+                        Jobs="${parallel_video_jobs}"
                     fi
                     {
-                        parallel --jobs ${Jobs} < "$JOBSLIST"
+                        parallel --jobs "${Jobs}" < "$JOBSLIST"
                         __sedCleanListsAndTitles
                         clear
                     } &
@@ -62,11 +65,11 @@ _ParallelDownloadCmd() {
                     if [[ $2 == '--get-audio' ]]; then
                         [[ $M3UFILE != "$AUDIO_URLS" ]] && sed -i '1d' "$M3UFILE"
                         __sedAudioCmd "$M3UFILE"
-                        Jobs="${audioJobs}"
+                        Jobs="${parallel_audio_jobs}"
                     else
                         [[ $M3UFILE != "$VIDEO_URLS" ]] && sed -i '1d' "$M3UFILE"
                         __sedVideoCmd "$M3UFILE"
-                        Jobs="${videoJobs}"
+                        Jobs="${parallel_video_jobs}"
                     fi
                     {
                         parallel --jobs "${Jobs}" < "$M3UFILE"
@@ -95,14 +98,14 @@ _ParallelDownloadCmd() {
 
             case "$2" in
                 --choose-audio|--get-audio)
-                    printf '%s\n' "${https[@]}" | xargs -I '{}' -P ${audioJobs} \
+                    printf '%s\n' "${https[@]}" | xargs -I '{}' -P "${parallel_audio_jobs}" \
                     yt-dlp --format "${ytfmt[1]}" "${ytdlPreset_NC[@]}" {}
                     __sedCleanListsAndTitles
                 ;;
                 --choose-video|--direct-video|--get-video)
                     local maxHeight
                     maxHeight=$(__getVideoResolution)
-                    printf '%s\n' "${https[@]}" | xargs -I '{}' -P ${videoJobs} \
+                    printf '%s\n' "${https[@]}" | xargs -I '{}' -P "${parallel_video_jobs}" \
                     yt-dlp --format "bestvideo[height${maxHeight}][vcodec!=vp9]+bestaudio/best" \
                     "${ytdlPreset_X[@]}" {}
                     __sedCleanListsAndTitles

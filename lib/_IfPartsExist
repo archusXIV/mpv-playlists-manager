@@ -4,7 +4,13 @@
 # shellcheck disable=SC2154,SC2034
 _IfPartsExist() {
 
-    mapfile -t parts < <(find "$mediaDir" -maxdepth 1 -name "*.part")
+    cd "$mediaDir" || {
+        printf '%s\n' " ${critical}$mediaDir does not exist..."
+        sleep 2
+        _Menu
+    }
+
+    mapfile -t parts < <(find . -mindepth 1 -maxdepth 1 -name "*.part" -o -name "*.temp.*")
 
     declare -a pairs=(
         "$AUDIO_URLS:$AUDIO_TITLES"
@@ -17,11 +23,11 @@ _IfPartsExist() {
     if ((${#parts[@]} > 0)); then
 
         for pair in "${pairs[@]}"; do
-            IFS=':' read -r urls titles <<< "$pair"
+            IFS=':'; read -r urls titles <<< "$pair"
             local origin="${urls}_origin"
             if [[ -f $origin ]]; then
-                mv -f "$origin" "$urls"
-                mv -f "${titles}_origin" "$titles"
+                mv --force "$origin" "$urls"
+                mv --force "${titles}_origin" "$titles"
                 break
             fi
         done

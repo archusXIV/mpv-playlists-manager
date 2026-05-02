@@ -10,12 +10,13 @@ _MpmrcTasksList() {
         "copy_height" "copy_width" "default_conversion_format"
         "direct_download" "fzf_preview" "fzf_preview_layout"
         "fzf_preview_size" "keep_none_empty_playlist" "mpvc_tui"
-        "parallel_animation" "parallel_conversion" "parallel_threads"
+        "parallel_animation" "parallel_audio_jobs" "parallel_conversion"
+        "parallel_threads" "parallel_video_jobs"
         "quit_after_task" "remove_video_ids" "schedule_delay"
         "use_fzf" "use_mpvc" "use_parallel" "use_parallel_downloads" "use_somabox"
     )
 
-    echo -e "\n ${info}MPMRC SETTINGS QUICK VIEW:${nc}\n"
+    printf '\n%s\n\n' " ${info}MPMRC SETTINGS QUICK VIEW:${nc}"
 
     for setting in "${mpmrc_settings[@]}"; do
         grep -w "^$setting" "$MPMRC" \

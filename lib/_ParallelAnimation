@@ -19,7 +19,7 @@ _ParallelAnimation() {
         ;;
         progress)
 
-            local bar bar_width blocks downloaded empty percent total allowed_ext
+            local bar bar_width blocks downloaded empty percent total expected_ext
 
             if [[ $type == "audio" ]]; then
                 extensions=( "webm" "m4a" )
@@ -28,8 +28,8 @@ _ParallelAnimation() {
             fi
 
             # Build regex pattern from extensions array (e.g., "webm|m4a")
-            allowed_ext="${extensions[*]}"
-            allowed_ext="${allowed_ext// /|}"
+            expected_ext="${extensions[*]}"
+            expected_ext="${expected_ext// /|}"
 
             total=0
             while read -r _; do ((total++)); done < "$animationTitles"
@@ -38,8 +38,8 @@ _ParallelAnimation() {
             until ((downloaded == total)); do
                 downloaded=0
                 for file in "$mediaDir"/*; do
-                    ext_name="${file##*.}"
-                    if [[ -f $file && $ext_name =~ ^($allowed_ext)$ ]]; then
+                    file_ext="${file##*.}"
+                    if [[ -f $file && $file_ext =~ ^($expected_ext)$ ]]; then
                         ((downloaded++))
                     fi
                 done

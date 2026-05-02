@@ -26,11 +26,13 @@ Follow these steps described in this [issue thread](https://github.com/yt-dlp/yt
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
-## Changelog: version 2.6-5
+## Changelog: version 2.6-6
+!!! ADDED CHANGES IN CONFIG FILES !!!
+- Added parallel_{audio,video}_jobs in mpmrc, this allow the user to control the number of parallel jobs for downloads when use_parallel=yes, if not set then the defaults are applied (audio:6,video:3).
+- Fixed bug in _IfPartsExist function when downloads appear to be incompete, the concerned playlist will be preserved.
 - Fixed bud in _LoadAudioVideo function when loading {audio,video} playlist
 - Fixed bug when trying options in the {audio,video} list if the list is empty.
 - [fzfm](https://github.com/archusXIV/fzfm) can now be used as FILEMANAGER, use_fzf must be set to "yes".
-- Fixed bug in _FzfPlayer function not showing the selected title in the preview window.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
