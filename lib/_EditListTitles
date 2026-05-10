@@ -41,6 +41,7 @@ _EditListTitles() {
     if ((${#current_titles[@]} != ${#original_titles[@]})); then
         mv -f "$tmp_dir"/titles.bak "$TITLES"
         mv -f "$tmp_dir"/playlist.bak "$plst"
+        rm "$editable"
         unset IFS
         _BlankLine
         printf '%s\n' " ${critical}Deleting titles is not allowed..." \
