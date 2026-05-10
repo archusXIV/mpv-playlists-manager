@@ -4,6 +4,7 @@
 # shellcheck disable=SC2154,SC2034
 _FzfEnqueueOptions() {
 
+    clear; _BlankLine
     read -rsn 1 -p " ${info}[A]dd more files, [N]o thanks: ${nc}" fzfEnqueueOptions
     clear
     sed -i "s/^/${localDirPath}\//" fzfEnqueue.m3u
@@ -14,8 +15,7 @@ _FzfEnqueueOptions() {
                 mv -f fzfEnqueue.m3u "$FZFENQUEUE"
                 _SelectLocalDir -f
             else
-                cat "$FZFENQUEUE" fzfEnqueue.m3u > ./tmpfile
-                mv -f ./tmpfile "$FZFENQUEUE"
+                cat fzfEnqueue.m3u >> "$FZFENQUEUE"
                 rm fzfEnqueue.m3u
                 _SelectLocalDir -f
             fi
@@ -35,8 +35,7 @@ _FzfEnqueueOptions() {
                 fi
                 _MakeMpvPlaylist --fzf
             else
-                cat "$FZFENQUEUE" fzfEnqueue.m3u > ./tmpfile
-                mv -f ./tmpfile "$FZFENQUEUE"
+                cat fzfEnqueue.m3u >> "$FZFENQUEUE"
                 rm fzfEnqueue.m3u
                 m3uFile="$FZFENQUEUE"
                 ln -sfr "$m3uFile" "$NOWPLAYING"

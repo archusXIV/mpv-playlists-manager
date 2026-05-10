@@ -1,21 +1,25 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2034
+# shellcheck disable=SC2154,SC2034,SC2164
 _IfPartsExist() {
 
-    cd "$mediaDir" || {
-        printf '%s\n' " ${critical}$mediaDir does not exist..."
-        sleep 2
-        _Menu
-    }
-
-    mapfile -t parts < <(find . -mindepth 1 -maxdepth 1 -name "*.part" -o -name "*.temp.*")
+    cd "$mediaDir"
+    # waiting for downloads to complete and ensure that parts can exist.
+    sleep 1
+    mapfile -t parts < <(
+        find . \
+        -mindepth 1 \
+        -maxdepth 1 \
+        -name "*.part" \
+        -o -name "*.temp.*"
+    )
 
     declare -a pairs=(
         "$AUDIO_URLS:$AUDIO_TITLES"
         "$VIDEO_URLS:$VIDEO_TITLES"
         "$DEFAULT_LIST:$DEFAULT_TITLES"
+        "$SELECTED_URLS1:$SELECTED_TITLES"
         "$playlists_dir/$list:$titles_dir/$list.titles"
         "$playlists_dir/loadMultiplePlaylists.m3u:$titles_dir/loadMultiplePlaylists.m3u.titles"
     )
@@ -44,7 +48,7 @@ _IfPartsExist() {
         clear
         _PolybarIpc
         _CheckParallelDownloads --after
-        _Menu
+        return 1
 
     fi
 

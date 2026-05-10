@@ -15,7 +15,7 @@ _FzfPlaylistActions() {
     --no-multi \
     --header-first \
     --scroll-off=5 \
-    --pointer '<>' \
+    --pointer '|>' \
     --border rounded \
     --prompt='Search: ' \
     --border-label "| $action a playlist |" \
@@ -25,6 +25,8 @@ _FzfPlaylistActions() {
 
     if [[ ! -s $FZFSELTITLES ]]; then
         rm "$FZFSELTITLES"
+        printf '\n%s\n' " ${critical}Selection aborted.${nc}"
+        sleep 2
         _Menu
     else
         list=$(cat "$FZFSELTITLES")

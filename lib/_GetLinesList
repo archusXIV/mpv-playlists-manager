@@ -15,12 +15,12 @@ _GetLinesList() {
     esac
 
     [[ ! -s $FILE ]] && return
-    
-    mapfile -t linesCount < "$FILE"
 
-    if [[ $minusOne == yes ]]; then
-        echo $(("${#linesCount[@]}" -1))
+    if [[ $minusOne == "yes" ]]; then
+        mapfile -t -s 1 linesCount < "$FILE"
+        echo "${#linesCount[@]}"
     else
+        mapfile -t linesCount < "$FILE"
         echo "${#linesCount[@]}"
     fi
 

@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2034
 _GetAudio() {
 
-    local M3UFILE TITLES
+    local M3UFILE TITLES mediaDir
 
     case "$1" in
         -a)
@@ -45,7 +45,7 @@ _GetAudio() {
         ;;
     esac
 
-    cd "$audios_dir" && _ResizeWindow --main
+    _ResizeWindow --main
     _CheckParallelDownloads --before
     clear
     _GetAudioDownload

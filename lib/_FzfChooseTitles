@@ -19,7 +19,7 @@ _FzfChooseTitles() {
         --reverse \
         --header-first \
         --scroll-off=5 \
-        --pointer '<>' \
+        --pointer '|>' \
         --border rounded \
         --prompt='Search: ' \
         --bind ctrl-a:select-all \
@@ -34,7 +34,7 @@ _FzfChooseTitles() {
         _Menu
     else
         rm {"$SELECTED_URLS1","$SELECTED_TITLES"} 2>/dev/null
-        if [[ $removeCollectionTitles == yes ]]; then
+        if [[ $removeCollectionTitles == "yes" ]]; then
             _GetRange
             _UpdateSelected --edit
             rm {"$SELECTED_URLS1","$SELECTED_TITLES","$tmp_dir"/list_tmp}

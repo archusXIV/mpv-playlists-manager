@@ -4,8 +4,10 @@
 # shellcheck disable=SC2154,SC2034
 _GetVideoDownload() {
 
-    mkdir --parents "$mediaDir"
     cd "$mediaDir" && {
+
+        cp -f "$M3UFILE" "$M3UFILE"_origin
+        cp -f "$TITLES" "$TITLES"_origin
 
         local animationTitles type
         animationTitles="$TITLES"
@@ -33,11 +35,12 @@ _GetVideoDownload() {
             mapfile -t -s 1 VIDEOLINKS < "$M3UFILE"
             [[ $M3UFILE == "$VIDEO_URLS" ]] && mapfile -t VIDEOLINKS < "$M3UFILE"
             for url in "${VIDEOLINKS[@]}"; do
+
                 echo -e "\n ${info}Getting formats...${nc}\n"
-                yt-dlp -F "${ytdlPreset_DW[@]}" "$url" \
-                | awk '$0 !~ /sb|youtube|info/{print $0}'
+                yt-dlp -F "${ytdlPreset_DW[@]}" "$url" | awk '$0 !~ /sb|youtube|info/{print $0}'
                 _BlankLine
-                __chooseFormatMessages
+                printf '%s\n' " ${info}Choose a format code for: $(sed -n '1p' "$TITLES")." \
+                " eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
                 read -r code
                 clear
                 _GetAudioVideoDownloadMessages --onebyone
@@ -62,7 +65,11 @@ _GetVideoDownload() {
         fi
     }
 
-    _RemoveAudioVideoIds
-    _GetCompleted
+    echo -e " ${info}Done\n${nc}"
+    sleep 2
+    _IfPartsExist && {
+        _RemoveAudioVideoIds
+        _GetCompleted
+    }
 
 }

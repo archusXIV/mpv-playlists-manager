@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2076,SC2034
 _ChooseDownloadAudio() {
 
-    local counter M3UFILE animationTitles mediaDir type
+    local counter M3UFILE animationTitles mediaDir type selectedList
     clear
 
     if _TestFzfCommand; then
@@ -27,13 +27,15 @@ _ChooseDownloadAudio() {
     cp -f "$playlists_dir"/"$list" "$playlists_dir"/"$list"_origin
     cp -f "$SELECTED_TITLES" "$SELECTED_TITLES"_orgin
 
+    TITLES="$SELECTED_TITLES"
     M3UFILE="$SELECTED_URLS1"
     # The function below needs the M3UFILE variable
     _CheckParallelDownloads --before
     readarray -t SELECTEDAUDIO < "$M3UFILE"
     counter="${#SELECTEDAUDIO[@]}"
-    animationTitles="$SELECTED_TITLES"
+    animationTitles="$TITLES"
     type=audio
+    selectedList=true
 
     __chooseDownloadAudioFormat() {
         _BlankLine
@@ -45,8 +47,8 @@ _ChooseDownloadAudio() {
     }
 
     if _TestParallelCommand; then
-        _ParallelDownloadCmd parallel --choose-audio
         _DownloadMessages --choose-audio
+        _ParallelDownloadCmd parallel --choose-audio
         _ParallelAnimation
     elif _TestXargsCommand; then
         _DownloadMessages --choose-audio
@@ -69,7 +71,7 @@ _ChooseDownloadAudio() {
                 __chooseDownloadAudioFormat
             fi
 
-            sed -i '1d' "$SELECTED_TITLES"
+            sed -i '1d' "$TITLES"
             ((counter--))
             clear
 
@@ -78,7 +80,10 @@ _ChooseDownloadAudio() {
 
     unset url
     clear
-    _UpdateSelected --selection
-    _IfWebmFiles
+    _IfPartsExist && {
+        _UpdateSelected --selection
+        _RemoveAudioVideoIds
+        _IfWebmFiles
+    }
 
 }

@@ -4,8 +4,6 @@
 # shellcheck disable=SC2154
 _UpdateSelected() {
 
-    _IfPartsExist
-
     cd "$playlists_dir" || exit 1
     # testing if we removed all titles in the list when we chose the edit playlist option.
     mapfile -t selectedCount < "$SELECTED_URLS1"
@@ -16,18 +14,20 @@ _UpdateSelected() {
         _PolybarIpc
         sleep 2; clear
     else
-        # let's remove downloaded links from the original file
-        # and sending the other ones in a second temporary file...
-        grep -v "$(grep '^https' "$SELECTED_URLS1")" "$list" >> "$SELECTED_URLS2"
-        _RemoveDuplicateLines "$SELECTED_URLS2"
-
-        # ...that we now rename with the original file name.
-        mv -f "$SELECTED_URLS2" "$list"
-
-        cd "$titles_dir" || exit 1
+        __updateList() {
+            # removing downloaded links from the original file
+            # and sending the other ones in a second temporary file...
+            grep -v "$(grep '^https' "$SELECTED_URLS1")" "$list" >> "$SELECTED_URLS2"
+            _RemoveDuplicateLines "$SELECTED_URLS2"
+            # ...that we now rename with the original file name.
+            mv -f "$SELECTED_URLS2" "$list"
+            rm -f "$list"_origin
+        }
         # same operation for the titles.
         case "$1" in
             --edit)
+                __updateList
+                cd "$titles_dir" || exit 1
                 grep -v -F "$(grep '^[[:print:]]' "$SELECTED_TITLES")" \
                 "$list".titles >> "$SELECTED_TITLES"_tmp
                 _RemoveDuplicateLines "$SELECTED_TITLES"_tmp
@@ -36,15 +36,16 @@ _UpdateSelected() {
                 sleep 3
             ;;
             --selection)
+                __updateList
+                cd "$titles_dir" || exit 1
                 grep -v -F "$(grep '^[[:print:]]' "$SELECTED_TITLES"_orgin)" \
                 "$list".titles >> "$SELECTED_TITLES"_tmp
                 _RemoveDuplicateLines "$SELECTED_TITLES"_tmp
                 mv -f "$SELECTED_TITLES"_tmp "$list".titles
+                rm -f "$SELECTED_TITLES"_orgin
             ;;
         esac
-
         clear
-
     fi
 
 }

@@ -1,17 +1,16 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2001
+# shellcheck disable=SC2154,SC2164
 _RemoveAudioVideoIds() {
 
-    if [[ $remove_video_ids == "no" ]]; then
-        return
-    else
-        cd "$mediaDir" && \
+    [[ $remove_video_ids == "no" ]] && return
+    [[ -d "$mediaDir" ]] && cd "$mediaDir"
         printf '%s\n' " ${info}renaming files in ${mediaDir##*/}${nc}"
 
         mapfile -t downloadedFiles < <(
             find . \
+            -mindepth 1 \
             -maxdepth 1 \
             -type f \
             -regextype egrep \
@@ -26,6 +25,6 @@ _RemoveAudioVideoIds() {
 
         unset file new_name
         sleep 2; clear
-    fi
+
 
 }

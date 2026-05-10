@@ -27,7 +27,7 @@ _FzfEnqueue() {
     --multi \
     --cycle \
     --reverse \
-    --pointer '<>' \
+    --pointer '|>' \
     --scroll-off=5 \
     --no-scrollbar \
     --header-first \
@@ -41,9 +41,10 @@ _FzfEnqueue() {
 
     if [[ ! -s ./fzfEnqueue.m3u ]]; then
         rm ./fzfEnqueue.m3u
+        printf '\n%s\n' " ${critical}Selection aborted.${nc}"
+        sleep 2
         _LoadLocalMenu
     else
-        clear; _BlankLine
         _FzfEnqueueOptions
     fi
 

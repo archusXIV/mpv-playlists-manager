@@ -19,12 +19,12 @@ _ParallelAnimation() {
         ;;
         progress)
 
-            local bar bar_width blocks downloaded empty percent total expected_ext
+            local bar bar_width blocks downloaded empty max_downloaded percent total expected_ext
 
             if [[ $type == "audio" ]]; then
                 extensions=( "webm" "m4a" )
-            else
-                extensions=( "mp4" "mkv" )
+            elif [[ $type == "video" ]]; then
+                extensions=( "mp4" "mkv" "webm" )
             fi
 
             # Build regex pattern from extensions array (e.g., "webm|m4a")
@@ -34,8 +34,9 @@ _ParallelAnimation() {
             total=0
             while read -r _; do ((total++)); done < "$animationTitles"
             bar_width=64
+            max_downloaded=0
 
-            until ((downloaded == total)); do
+            until ((max_downloaded == total)); do
                 downloaded=0
                 for file in "$mediaDir"/*; do
                     file_ext="${file##*.}"
@@ -43,9 +44,13 @@ _ParallelAnimation() {
                         ((downloaded++))
                     fi
                 done
+                # Update max_downloaded to prevent backward progress
+                if ((downloaded > max_downloaded)); then
+                    max_downloaded=$downloaded
+                fi
                 # Calculate percentage and blocks with ceiling division
-                percent=$(((downloaded * 100 + total - 1) / total))
-                blocks=$(((downloaded * bar_width + total - 1) / total))
+                percent=$(((max_downloaded * 100 + total - 1) / total))
+                blocks=$(((max_downloaded * bar_width + total - 1) / total))
                 # Cap at 100% and full bar width
                 ((percent > 100)) && percent=100
                 ((blocks > bar_width)) && blocks=$bar_width
@@ -55,12 +60,12 @@ _ParallelAnimation() {
                 for ((i=0;i<blocks;i++)); do bar+="█"; done
                 for ((i=0;i<empty;i++)); do bar+="."; done
                 printf "\r [%s] %3d%%" "$bar" "$percent"
-
-                sleep 0.5
+                ((percent == 100)) && sleep 1
 
             done
             clear
         ;;
     esac
+    # sleep 0.5
 
 }

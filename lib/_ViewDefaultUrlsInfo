@@ -4,9 +4,10 @@
 # shellcheck disable=SC2154,SC2034
 _ViewDefaultUrlsInfo() {
 
-    local file Type playerTitlesList
+    local file Type plst playerTitlesList
     file="${DEFAULT_LIST##*/}" file="${file%%.*}"
     Type=default
+    # plst="$DEFAULT_LIST"
 
     _ResizeWindow --main
 
@@ -18,6 +19,10 @@ _ViewDefaultUrlsInfo() {
         case "$get" in
             [aA]) _BlankLine; _GetAudio -d ;;
             [vV]) _BlankLine; _GetVideo -d ;;
+            $'\033')
+                read -rsn 2 arrowkeys # Arrow keys are disabled.
+                case $arrowkeys in "[A|[B|[C|[D") : ;; esac
+            ;;
             *   ) return 1 ;;
         esac
 
@@ -50,7 +55,7 @@ _ViewDefaultUrlsInfo() {
                         _MpvOwnsTmpList --default --download || __getAudioVideo || continue
                     fi
                 ;;
-                [eE]) _MpvOwnsTmpList --default --edit || _EditListTitles ;;
+                [eE]) _MpvOwnsTmpList --default --edit || plst="$DEFAULT_LIST"; _EditListTitles ;;
                 [mM]) break ;;
                 [pP])
                     if [[ -f $pidofMpv ]]; then
@@ -99,6 +104,10 @@ _ViewDefaultUrlsInfo() {
                         nl "$DEFAULT_TITLES"
                         _Save -d
                     fi
+                ;;
+                $'\033')
+                    read -rsn 2 arrowkeys
+                    case $arrowkeys in "[A|[B|[C|[D") : ;; esac
                 ;;
                 *)
                     _WrongOption "$viewDefaultUrlsInfOptions"

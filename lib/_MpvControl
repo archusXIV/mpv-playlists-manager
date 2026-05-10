@@ -4,12 +4,6 @@
 # shellcheck disable=SC2154
 _MpvControl() {
 
-    __uselessPrompt() {
-        printf '\n%s\n' \
-        " ${critical}mpv isn't running...${task}${key^}${critical} is useless.${nc}"
-        sleep 2
-    }
-
     __mpvControlTests() {
         if ! _Has socat; then
             printf '%s\n' \
@@ -18,7 +12,9 @@ _MpvControl() {
         elif ! _PidOfMpv >/dev/null; then
             case "$key" in
                 h|j|k|l|n|q|t)
-                    __uselessPrompt
+                    printf '\n%s\n' \
+                    " ${critical}mpv isn't running...${task}${key^}${critical} is useless.${nc}"
+                    sleep 2
                 ;;
                 r) _BlankLine ;;
             esac
@@ -37,7 +33,8 @@ _MpvControl() {
         -r)
             key=r; __mpvControlTests && \
             if _PidOfMpv >/dev/null; then
-                __uselessPrompt
+                printf '%s\n' " ${critical}mpv is still running... ${task}${key^}${critical} is useless.${nc}"
+                sleep 2
             else
                 _RemoveMpvTmp
             fi

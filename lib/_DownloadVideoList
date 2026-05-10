@@ -71,9 +71,11 @@ _DownloadVideoList() {
                 _LoadPlaylistMenu
             ;;
         esac
-        _RemoveAudioVideoIds
     fi
 
-    _DownloadCompleted
+    _IfPartsExist && {
+        _RemoveAudioVideoIds
+        _DownloadCompleted
+    }
 
 }

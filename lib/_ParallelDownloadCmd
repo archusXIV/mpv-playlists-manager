@@ -6,19 +6,19 @@ _ParallelDownloadCmd() {
 
     : "${parallel_audio_jobs:=6}"
     : "${parallel_video_jobs:=3}"
-    
-    # local parallel_audio_jobs parallel_video_jobs
-    # parallel_audio_jobs=6 parallel_video_jobs=3
 
-    __sedCleanListsAndTitles() {
-        if [[ $M3UFILE == "$DEFAULT_LIST" ]]; then
-            sed -i '1,$d' {"$M3UFILE","$TITLES"}
-            echo "#EXTM3U" > "$DEFAULT_LIST"
-        elif [[ $M3UFILE == "$SELECTED_URLS1" ]]; then
-            sed -i '1,$d' "$SELECTED_TITLES"
+    local pid
+
+    __cleanListsAndTitles() {
+        if [[ $selectedList == 'true' ]]; then
+            # we must preserve $SELECTED_URLS1 & $SELECTED_TITLES from being erased
+            # because they are parsed in the _UpdateSelected function later on.
+            :
         else
             sed -i '1,$d' {"$M3UFILE","$TITLES"}
+            [[ $M3UFILE == "$DEFAULT_LIST" ]] && echo "#EXTM3U" > "$DEFAULT_LIST"            
         fi
+        rm -f {"$JOBSLIST","$tmp_dir"/parallel.log}
         clear
     }
 
@@ -29,55 +29,64 @@ _ParallelDownloadCmd() {
         "${ytdlPreset_MR[@]}"
     )
 
-    # using commas instead of slashes as separators,
-    # because we need ${ytfmt[@]:1:2} outside of sed too but later in option xargs.
-    __sedAudioCmd() (
-        sed -i "s,^,${ytfmt[0]} ${ytfmt[1]} ${ytdlPreset_NC[*]} ," "$1"
-    )
+    __sedAudioVideoCmd() {
+        # we use commas instead of slashes as fields separators,
+        # because we need ${ytfmt[@]:1:2} outside of sed too but later in option xargs.
+        case $1 in
+            audio) sed -i "s,^,${ytfmt[0]} ${ytfmt[1]} ${ytdlPreset_NC[*]} ," "$2" ;;
+            video)
+                if [[ ${ytdlPreset_MR[*]} ]]; then
+                    sed -i "s,^,${ytfmt[0]} ${ytfmt[3]} ${ytdlPreset_X[*]} ," "$2"
+                else
+                    sed -i "s,^,${ytfmt[0]} ${ytfmt[2]} ${ytdlPreset_X[*]} ," "$2"
+                fi
+            ;;
+        esac
+    }
 
-    __sedVideoCmd() (
-        if [[ ${ytdlPreset_MR[*]} ]]; then
-            sed -i "s,^,${ytfmt[0]} ${ytfmt[3]} ${ytdlPreset_X[*]} ," "$1"
-        else
-            sed -i "s,^,${ytfmt[0]} ${ytfmt[2]} ${ytdlPreset_X[*]} ," "$1"
-        fi
-    )
+    __waitForPidToFinish() { pid=$!; wait "$pid"; }
 
-    case "$1" in
+    case $1 in
         parallel)
             case "$2" in
                 --choose-audio|--choose-video)
                     cp "$M3UFILE" "$JOBSLIST"
                     if [[ $2 == "--choose-audio" ]]; then
-                        __sedAudioCmd "$JOBSLIST"
+                        __sedAudioVideoCmd audio "$JOBSLIST"
                         Jobs="${parallel_audio_jobs}"
                     else
-                        __sedVideoCmd "$JOBSLIST"
+                        __sedAudioVideoCmd video "$JOBSLIST"
                         Jobs="${parallel_video_jobs}"
                     fi
                     {
-                        parallel --jobs "${Jobs}" < "$JOBSLIST"
-                        __sedCleanListsAndTitles
-                        clear
+                        parallel \
+                        --retry-failed \
+                        --joblog "$tmp_dir"/parallel.log \
+                        --jobs "${Jobs}" < "$JOBSLIST"
+                        __waitForPidToFinish "$@"
+                        __cleanListsAndTitles
                     } &
                 ;;
                 --get-audio|--get-video|--direct-video)
                     if [[ $2 == '--get-audio' ]]; then
                         [[ $M3UFILE != "$AUDIO_URLS" ]] && sed -i '1d' "$M3UFILE"
-                        __sedAudioCmd "$M3UFILE"
+                        __sedAudioVideoCmd audio "$M3UFILE"
                         Jobs="${parallel_audio_jobs}"
                     else
                         [[ $M3UFILE != "$VIDEO_URLS" ]] && sed -i '1d' "$M3UFILE"
-                        __sedVideoCmd "$M3UFILE"
+                        __sedAudioVideoCmd video "$M3UFILE"
                         Jobs="${parallel_video_jobs}"
                     fi
                     {
-                        parallel --jobs "${Jobs}" < "$M3UFILE"
-                        __sedCleanListsAndTitles
+                        parallel \
+                        --retry-failed \
+                        --joblog "$tmp_dir"/parallel.log \
+                        --jobs "${Jobs}" < "$M3UFILE"
+                        __waitForPidToFinish "$@"
+                        __cleanListsAndTitles
                     } &
                 ;;
             esac
-            rm -f "$JOBSLIST"
         ;;
         xargs)
 
@@ -96,19 +105,23 @@ _ParallelDownloadCmd() {
                 fi
             }
 
-            case "$2" in
+            case $2 in
                 --choose-audio|--get-audio)
-                    printf '%s\n' "${https[@]}" | xargs -I '{}' -P "${parallel_audio_jobs}" \
+                    printf '%s\n' "${https[@]}" \
+                    | xargs -I '{}' -P "${parallel_audio_jobs}" \
                     yt-dlp --format "${ytfmt[1]}" "${ytdlPreset_NC[@]}" {}
-                    __sedCleanListsAndTitles
+                    __waitForPidToFinish "$@"
+                    __cleanListsAndTitles
                 ;;
                 --choose-video|--direct-video|--get-video)
                     local maxHeight
                     maxHeight=$(__getVideoResolution)
-                    printf '%s\n' "${https[@]}" | xargs -I '{}' -P "${parallel_video_jobs}" \
+                    printf '%s\n' "${https[@]}" \
+                    | xargs -I '{}' -P "${parallel_video_jobs}" \
                     yt-dlp --format "bestvideo[height${maxHeight}][vcodec!=vp9]+bestaudio/best" \
                     "${ytdlPreset_X[@]}" {}
-                    __sedCleanListsAndTitles
+                    __waitForPidToFinish "$@"
+                    __cleanListsAndTitles
                 ;;
             esac
 

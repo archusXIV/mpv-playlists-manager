@@ -17,7 +17,7 @@ _FzfRemoveMultiplePlaylists() {
     --multi \
     --header-first \
     --scroll-off=5 \
-    --pointer '<>' \
+    --pointer '|>' \
     --border rounded \
     --prompt='Select: ' \
     --border-label "| Remove multiple playlists |" \
@@ -27,6 +27,8 @@ _FzfRemoveMultiplePlaylists() {
 
     if [[ ! -s $FZFSELTITLES ]]; then
         rm "$FZFSELTITLES"
+        printf '\n%s\n' " ${critical}Selection aborted.${nc}"
+        sleep 2
         return
     fi
 

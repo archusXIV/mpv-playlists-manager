@@ -10,7 +10,7 @@ _MenuBoby() {
     "                   │  2)  Create/Add audio playlist  7)  Clear all tmp lists    │  direct download:${varDirect}  │" \
     "                   │  3)  Save as/Remove a playlist  8)  Edit a playlist        │  conversion auto:${varConv}  │" \
     "                   │  4)  Play/Download playlist(s)  ${mtitle}9)${nc}  Edit mpm config files  │  audio format:${varFmt}  │" \
-    "                   │  5)  Load local folder/files    X)  Exit                   │  quit after task: ${varQuit}  │" \
+    "                   │  5)  Load local folder/files    ${task}X)  Exit${nc}                   │  quit after task: ${varQuit}  │" \
     "                   └─────────────────────────────────────────────────────────────────────────────────────┘"
     _PidOfMpv >/dev/null 2>&1 && _MenuFooter
     test -f "$tmp_dir"/1 \

@@ -4,20 +4,69 @@
 # shellcheck disable=SC2154
 _EditListTitles() {
 
-    cp "$TITLES" "$tmp_dir"/tmp_titles
-    mapfile -t copyOfTitles < "$tmp_dir"/tmp_titles
-    "$MPMEDITOR" "$TITLES"
-    mapfile -t currentTitles < "$TITLES"
+    local header line editable
+    local -a original_titles=()
+    local -a original_urls=()
+    local -a current_titles=()
 
-    if ((${#currentTitles[@]} != ${#copyOfTitles[@]})); then
-        mv -f "$tmp_dir"/tmp_titles "$TITLES"
+    cp "$TITLES" "$tmp_dir"/titles.bak
+    cp "$plst" "$tmp_dir"/playlist.bak
+
+    while IFS= read -r line; do
+        if [[ $line == '#EXTM3U' && -z $header ]]; then
+            header="$line"
+            continue
+        fi
+        original_urls+=("$line")
+    done < "$plst"
+
+    # Load original data
+    mapfile -t original_titles < "$TITLES"
+    # Create editable file with hidden IDs
+    editable="$tmp_dir/temporary_titles"
+
+    : > "$editable"
+    for id in "${!original_titles[@]}"; do
+        printf 'ID:%d\t%s\n' "$id" "${original_titles[id]}" >> "$editable"
+    done
+
+    "$MPMEDITOR" "$editable"
+    # Parse back the edited file
+    current_titles=()
+    while IFS=$'\t' read -r id title || [[ -n $title ]]; do
+        [[ -z "$title" ]] && continue
+        current_titles+=("$title")
+    done < "$editable"
+
+    if ((${#current_titles[@]} != ${#original_titles[@]})); then
+        mv -f "$tmp_dir"/titles.bak "$TITLES"
+        mv -f "$tmp_dir"/playlist.bak "$plst"
+        unset IFS
         _BlankLine
-        printf '%s\n' " ${critical}Deleting titles is not considered editing..." \
-        " for that use the [R]emove option instead.${nc}"
-        sleep 6
+        printf '%s\n' " ${critical}Deleting titles is not allowed..." \
+        " Use the [R]emove option instead.${nc}"
+        sleep 3
         return 1
-    else
-        rm "$tmp_dir"/tmp_titles
     fi
+
+    # Rebuild playlist based on ID order (supports rename + reorder)
+    : > "$plst"
+    [[ -n $header ]] && printf '%s\n' "$header" >> "$plst"
+
+    while IFS=$'\t' read -r id title || [[ -n $title ]]; do
+        [[ -z "$title" ]] && continue
+        if [[ $id =~ ^ID:([0-9]+)$ ]]; then
+            local idx=${BASH_REMATCH[1]}
+            if (( idx >= 0 && idx < ${#original_urls[@]} )); then
+                printf '%s\n' "${original_urls[idx]}" >> "$plst"
+            fi
+        fi
+    done < "$editable"
+
+    # Update the clean titles file (without IDs)
+    printf '%s\n' "${current_titles[@]}" > "$TITLES"
+
+    unset IFS
+    rm -f "$tmp_dir"/{temporary_titles,{titles,playlist}.bak}
 
 }

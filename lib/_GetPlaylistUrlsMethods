@@ -17,7 +17,7 @@ _GetPlaylistUrlsMethods() {
         --parallel)
             cd "$tmp_dir" && {
                 yt-dlp "${ytdlPreset_DW[@]}" --flat-playlist "$playlist" \
-                | parallel --tagstring '{#}' --lb -j8 \
+                | parallel --tagstring '{#}' --lb --jobs "$parallel_threads" \
                 yt-dlp "${ytdlPreset_DW[@]}" --get-title --get-id \
                 --playlist-start '{#}' --playlist-end '{#}' "$playlist" \
                 > playlist.txt

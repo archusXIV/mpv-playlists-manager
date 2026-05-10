@@ -4,7 +4,7 @@
 # shellcheck disable=SC2154,SC2034
 _CreateAddPlaylist() {
 
-    local Type TITLES URLS menuTitleType arg file addPlaylistDir
+    local Type TITLES URLS menuTitleType arg file plst addPlaylistDir
 
     isInstalled="is installed, press 1) then in the web page copy links."
     clipboadCmdisInstalled="${info}${clipboardCmd[0]} $isInstalled${nc}"
@@ -17,6 +17,7 @@ _CreateAddPlaylist() {
             menuTitleType=AUDIO
             arg="-a"
             addPlaylistDir="$audios_dir"
+            plst="$AUDIO_URLS"
         ;;
         -v)
             Type=Video
@@ -25,6 +26,7 @@ _CreateAddPlaylist() {
             menuTitleType=VIDEO
             arg="-v"
             addPlaylistDir="$videos_dir"
+            plst="$VIDEO_URLS"
         ;;
     esac
 

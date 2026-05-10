@@ -73,7 +73,7 @@ _LoadPlaylistMenu() {
             7) _TestUrlsFromCurrentPlaylist ;;
             [bB8]) __testMultiple; _Menu ;;
             [rR]) continue ;;
-            *) _WrongOption "$loadPlaylistMenuOptions"; __testMultiple; _Menu ;;
+            *) _WrongOption "$loadPlaylistMenuOptions"; __testMultiple ;;
         esac
 
     done

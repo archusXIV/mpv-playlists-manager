@@ -12,8 +12,8 @@ _GetRange() {
         SELECTED_URLS1="$tmp_dir/temporarySelection3.m3u"
     }
 
-    # remove #EXTM3U header from playlist
     IFS=$'\n'
+    # remove #EXTM3U header from playlist
     mapfile -t -s 1 playlist_array < "$playlists_dir"/"$list"
     echo "${playlist_array[*]}" > "$tmp_dir"/list_tmp
 

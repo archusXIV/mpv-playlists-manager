@@ -35,15 +35,7 @@ _GetVideo() {
 
     _CheckParallelDownloads --before
     _ResizeWindow --main
-    cp -f "$M3UFILE" "$M3UFILE"_origin
-    cp -f "$TITLES" "$TITLES"_origin
     clear
-
-    __chooseFormatMessages() (
-        printf '%s\n' " ${info}Choose a format code for: $(sed -n '1p' "$TITLES")." \
-        " eg: 137+251 (video+audio), hls-1080p, 22 for single:${nc}"
-    )
-
     _GetVideoDownload
 
 }

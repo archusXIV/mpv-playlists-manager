@@ -67,36 +67,38 @@ _FzfPlayer() {
         "^R:reload," "^V:volume," "ESC:exit," "^X:quit mpv:"
     )
 
-    fzf \
-    --cycle \
-    --track \
-    --reverse \
-    --no-multi \
-    --pointer '|>' \
-    --scroll-off=5 \
-    --no-scrollbar \
-    --border rounded \
-    --prompt='Search: ' \
-    --preview-window=down:1:noinfo \
-    --preview="(_MpvSocketCommands --title)" \
-    --header-first \
-    --header "${header[*]}
+    # Even though this works without a while loop, we get better rendering with it.
+    while [[ -s playerSelectedFile ]]; do
+        fzf \
+        --cycle \
+        --track \
+        --reverse \
+        --no-multi \
+        --pointer '|>' \
+        --scroll-off=5 \
+        --no-scrollbar \
+        --border rounded \
+        --prompt='Search: ' \
+        --preview-window=down:1:noinfo \
+        --preview="(_MpvSocketCommands --title)" \
+        --header-first \
+        --header "${header[*]}
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    " \
-    --bind "load:pos($((current_index + 1)))" \
-    --bind "enter:execute(
-            echo {} > playerSelectedFile; __passPlaylistIndexToMpv \
-            && _MpvSocketCommands --title
-        )+refresh-preview" \
-    --bind "left:execute(_MpvSocketCommands --backward)" \
-    --bind "right:execute(_MpvSocketCommands --forward)" \
-    --bind "ctrl-n:execute(_MpvSocketCommands --next)" \
-    --bind "ctrl-p:execute(_MpvSocketCommands --prev)" \
-    --bind "ctrl-t:execute(_MpvSocketCommands --pause)" \
-    --bind "ctrl-r:execute(_MpvSocketCommands --begin)" \
-    --bind "ctrl-v:execute(__volume)" \
-    --bind "ctrl-x:execute(_MpvSocketCommands --stop; rm ./playerSelectedFile)+abort" \
-    --bind "esc:execute(sed -i '1d' ./playerSelectedFile)+abort" < playerIndexesList
+        " \
+        --bind "load:pos($((current_index + 1)))" \
+        --bind "enter:execute(
+                echo {} > playerSelectedFile; __passPlaylistIndexToMpv \
+            )+refresh-preview" \
+        --bind "left:execute(_MpvSocketCommands --backward)" \
+        --bind "right:execute(_MpvSocketCommands --forward)" \
+        --bind "ctrl-n:execute(_MpvSocketCommands --next)" \
+        --bind "ctrl-p:execute(_MpvSocketCommands --prev)" \
+        --bind "ctrl-t:execute(_MpvSocketCommands --pause)" \
+        --bind "ctrl-r:execute(_MpvSocketCommands --begin)" \
+        --bind "ctrl-v:execute(__volume)" \
+        --bind "ctrl-x:execute(_MpvSocketCommands --stop; rm ./playerSelectedFile)+abort" \
+        --bind "esc:execute(sed -i '1d' ./playerSelectedFile)+abort" < playerIndexesList
+    done
 
     export FZF_DEFAULT_OPTS=
 

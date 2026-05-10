@@ -1,6 +1,6 @@
 Author: Barret E <archus@protonmail.com>
 <https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm>
-mpm version 2.6-6 (2021-26)
+mpm version 2.6-7 (2021-26)
 
 Dependencies: ffmpeg, jq, mpv, socat, vim (any terminal text editor), yt-dlp.
 Optionals but recommended: (
@@ -24,11 +24,15 @@ as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
 the directory names and structure are correctly set.
 
 Changelog:
---------------------------!!! ADDED CHANGES IN CONFIG FILES !!!---------------------------
+------------------------------- NO CHANGES IN CONFIG FILES --------------------------------
 IMPORTANT YT-DLP & DEPENDENCY UPDATE PLEASE CHECK THE GITHUB PAGE OR INSTALL yt-dlp-ejs
+version 2.6-7 - Editing titles can be done in two ways, renaming or moving up/down titles
+                in a temporary file. Corresponding URLs will be moved up/down the same way.
+version 2.6-7 - Fixed bug in _ParallelDownloadCmd function using the wait builtin command,
+                in some cases downloads where incomplete which caused a false positive in
+                other subsequent functions.
+version 2.6-7 - If audio downloads failed then audio conversion is now skipped.
+version 2.6-7 - Fixed bug in _UpdateSelected function, $list_origin is now properly removed.
 version 2.6-6 - Added parallel_{audio,video}_jobs in mpmrc, this allow the user to control
                 the number of parallel jobs for downloads when use_parallel=yes, if not set
                 then the defaults are applied (audio:6,video:3).
-version 2.6-6 - Fixed bug in _IfPartsExist function when downloads appear to be incompete,
-                the concerbed playlist will be preserved.
-version 2.6-5 - Fixed bug in _LoadAudioVideo function when loading {audio,video} playlist.

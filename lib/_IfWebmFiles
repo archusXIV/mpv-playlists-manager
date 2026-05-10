@@ -8,7 +8,6 @@ _IfWebmFiles() {
     playlist_checks=("$AUDIO_URLS" "$DEFAULT_LIST" "$playlists_dir/$list")
     download_checks=("$playlists_dir/$list" "$SELECTED_URLS1")
     multiple_origin="$tmp_dir/loadMultiplePlaylists.m3u_origin"
-
     __handleChecks() {
 
         local action_one action_two
@@ -35,20 +34,17 @@ _IfWebmFiles() {
         if [[ $automatic_audio_conversion == yes ]]; then
             printf '\n%s\n' " ${task}Automatic audio conversion enabled.${nc}"
             sleep 2
-            __handleChecks '_ConvertAudio && \
-            _GetCompleted' '_ConvertAudio && _DownloadCompleted'
+            __handleChecks '_ConvertAudio && _GetCompleted' '_ConvertAudio && _DownloadCompleted'
         else
             _BlankLine
             _Prompt " ${info}Proceed with conversion?:${nc}" || {
                 mv ./*.webm "$MUSIC_DIR"
                 printf '\n%s\n' " ${critical}All .webm files have been moved in ${MUSIC_DIR##*/}.${nc}"
-                sleep 4
+                sleep 2
                 _BlankLine
                 __handleChecks '_GetCompleted' '_DownloadCompleted'
-                # _Menu
             }
-            __handleChecks '_ConvertAudio && \
-            _GetCompleted' '_ConvertAudio && _DownloadCompleted'
+            __handleChecks '_ConvertAudio && _GetCompleted' '_ConvertAudio && _DownloadCompleted'
         fi
     else
         __handleChecks '_GetCompleted' '_DownloadCompleted'

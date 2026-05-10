@@ -32,7 +32,7 @@ _MenuOptions() {
         [nN] ) _MpvTuiTest ;;
         $'\033')
             read -rsn 2 arrowkeys # Arrow keys are disabled.
-            case "$arrowkeys" in "[A|[B|[C|[D") : ;; esac
+            case $arrowkeys in "[A|[B|[C|[D") : ;; esac
         ;;
         $'\0d') _MpmrcTasksList ;; # Ctrl+M, space
         $'\02') _ChooseTheme ;; # Ctrl+B

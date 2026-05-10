@@ -4,7 +4,7 @@
 # shellcheck disable=SC2076,SC2154,SC2034
 _ChooseDirectVideoDownload() {
 
-    local counter animationTitles type
+    local counter animationTitles type selectedList
 
     if _TestFzfCommand; then
         _TitlesListCompare --fzf
@@ -31,12 +31,13 @@ _ChooseDirectVideoDownload() {
     _CheckParallelDownloads --before
     mapfile -t urlsCount < "$M3UFILE"
     counter="${#urlsCount[@]}"
-    animationTitles="$SELECTED_TITLES"
+    animationTitles="$TITLES"
     type=video
+    selectedList=true
 
     if _TestParallelCommand; then
-        _ParallelDownloadCmd parallel --choose-video
         _DownloadMessages --choose-video
+        _ParallelDownloadCmd parallel --choose-video
         _ParallelAnimation
     elif _TestXargsCommand; then
         _DownloadMessages --choose-video
@@ -60,8 +61,10 @@ _ChooseDirectVideoDownload() {
     fi
 
     unset url
-    _RemoveAudioVideoIds
-    _UpdateSelected --selection
-    _DownloadCompleted
+    _IfPartsExist && {
+        _UpdateSelected --selection
+        _RemoveAudioVideoIds
+        _DownloadCompleted
+    }
 
 }

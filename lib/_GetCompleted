@@ -4,7 +4,6 @@
 # shellcheck disable=SC2154
 _GetCompleted() {
 
-    _IfPartsExist
     cd "$main_dir" || exit 1
 
     if [[ $downloadTmpList =~ default|list ]]; then
@@ -29,7 +28,7 @@ _GetCompleted() {
         sleep 2
 
         rm {"$M3UFILE"{,_origin},"$TITLES"{,_origin}}
-        rm -f "$tmp_dir"/list_tmp 2>/dev/null
+        rm -f "$tmp_dir"/{list_tmp,parallel.log} 2>/dev/null
     fi
 
     _PolybarIpc

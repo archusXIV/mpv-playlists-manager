@@ -18,8 +18,8 @@ _DirectVideoDownload() {
     type=video
 
     if _TestParallelCommand; then
-        _ParallelDownloadCmd parallel --direct-video
         _DownloadMessages --direct-video
+        _ParallelDownloadCmd parallel --direct-video
         _ParallelAnimation
     elif _TestXargsCommand; then
         _DownloadMessages --direct-video
@@ -45,7 +45,9 @@ _DirectVideoDownload() {
         unset url
     fi
 
-    _RemoveAudioVideoIds
-    _DownloadCompleted
+    _IfPartsExist && {
+        _RemoveAudioVideoIds
+        _DownloadCompleted
+    }
 
 }
