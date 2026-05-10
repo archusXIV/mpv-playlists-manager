@@ -24,6 +24,7 @@ sudo make install && make config
 Essential dependencies:
 - mpv
 - yt-dlp
+- yt-dlp-ejs
 - ffmpeg
 - socat
 - a terminal text editor
@@ -72,6 +73,7 @@ The configuration file is located at `~/.config/mpm/mpmrc`. Key configuration op
 ### Directory Structure
 - Main Directory: `~/.local/share/mpm`
 - Playlists: `~/local/share/mpm/playlists`
+- Titles: `~/local/share/mpm/titles`
 - Schedules: `~/local/share/mpm/schedules`
 - Temporary Files: `~/local/share/mpm/tmp`
 
