@@ -34,6 +34,13 @@ _EditListTitles() {
     # Parse back the edited file
     current_titles=()
     while IFS=$'\t' read -r id title || [[ -n $title ]]; do
+        [[ ! $id =~ ^ID ]] && {
+            _BlankLine
+            printf '%s\n' " ${critical}Do not remove ID stuff at the beginning of the lines," \
+                          " this is needed for later operations, please try again.${nc}"
+            sleep 4
+            return 1
+        }
         [[ -z "$title" ]] && continue
         current_titles+=("$title")
     done < "$editable"
