@@ -240,7 +240,8 @@
         Since version 2.2-5, if use_fzf is set to yes and fzf is installed, editing
         is done through a fzf menu to select the collection playlist to act on.
 
-        Since version 2.6-7, changing the order of titles in the list will also change the order of the links in the .m3u file, so you can easily reorder your playlists by editing the titles.
+        Since version 2.6-7, changing the order of titles in the list will also change the order
+        of the links in the .m3u file, so you can easily reorder your playlists by editing the titles.
 
     9-c) Edit mpm config files (mpmrc/themerc):
 
