@@ -31,13 +31,17 @@ _EditListTitles() {
     done
 
     "$MPMEDITOR" "$editable"
+
+    __cleanup() { unset IFS; rm -f "$tmp_dir"/{temporary_titles,{titles,playlist}.bak}; }
+
     # Parse back the edited file
     current_titles=()
     while IFS=$'\t' read -r id title || [[ -n $title ]]; do
         [[ ! $id =~ ^ID ]] && {
+            __cleanup
             _BlankLine
             printf '%s\n' " ${critical}Do not remove ID stuff at the beginning of the lines," \
-                          " this is needed for later operations, please try again.${nc}"
+            " this is needed for later operations, please try again.${nc}"
             sleep 4
             return 1
         }
@@ -46,10 +50,7 @@ _EditListTitles() {
     done < "$editable"
 
     if ((${#current_titles[@]} != ${#original_titles[@]})); then
-        mv -f "$tmp_dir"/titles.bak "$TITLES"
-        mv -f "$tmp_dir"/playlist.bak "$plst"
-        rm "$editable"
-        unset IFS
+        __cleanup
         _BlankLine
         printf '%s\n' " ${critical}Deleting titles is not allowed..." \
         " Use the [R]emove option instead.${nc}"
@@ -74,7 +75,6 @@ _EditListTitles() {
     # Update the clean titles file (without IDs)
     printf '%s\n' "${current_titles[@]}" > "$TITLES"
 
-    unset IFS
-    rm -f "$tmp_dir"/{temporary_titles,{titles,playlist}.bak}
+    __cleanup
 
 }
