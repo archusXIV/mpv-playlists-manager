@@ -1,10 +1,10 @@
 Author: Barret E <archus@protonmail.com>
 <https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm>
-mpm version 2.6-7 (2021-26)
+mpm version 2.6-8 (2021-26)
 
 Dependencies: ffmpeg, jq, mpv, socat, vim (any terminal text editor), yt-dlp.
 Optionals but recommended: (
-    dialog, fzf, mpvc, ncmpvc (may use socat), GNU parallel,
+    dialog, fzf, mpvc, ncmpvc (use socat), GNU parallel,
     ranger (terminal file manager), ueberzug/ffmpegthumbnailer,
     w3m, ytfzf.
 )
@@ -13,19 +13,22 @@ Youtube-dl is for now kind of unmaintained so install yt-dlp
 https://github.com/yt-dlp/yt-dlp/releases
 sudo pacman -S yt-dlp (it's just the continuation of youtube-dl).
 
-This script rips video urls from Youtube and so on.
-In our case we use ".m3u" files to store urls in and then be able
-to stream from the site itself or download audio/videos.
+This script reaps video urls from Youtube and so on. In our case we use ".m3u" files
+to store urls and then be able to stream/download audio/videos from the site itself.
 Converting .webm files is done using ffmpeg directly or through the parallel program.
-We can save, remove or edit playlists, mpmrc (the mpm configuration file).
+We can save, remove, edit and schedule playlists. The mpm configuration file can also
+be parse and edit during the session and changes will take effect immediately.
 
 The installation script will create two configuration files (mpmrc,themerc)
 as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
-the directory names and structure are correctly set.
+the directory names and structure are correctly set. The syntax is shell scripting.
 
 Changelog:
 ------------------------------- NO CHANGES IN CONFIG FILES --------------------------------
 IMPORTANT YT-DLP & DEPENDENCY UPDATE PLEASE CHECK THE GITHUB PAGE OR INSTALL yt-dlp-ejs
+version 2.6-8 - Updated shellcheck codes at the top of some files, and added some comments in the code.
+version 2.6-8 - Updated the wiki page and the README.md file.
+version 2.6-8 - Updated extra/somabox script to version 0.8.
 version 2.6-7 - Editing titles can be done in two ways, renaming or moving up/down titles
                 in a temporary file. Corresponding URLs will be moved up/down the same way.
 version 2.6-7 - Fixed bug in _ParallelDownloadCmd function using the wait builtin command,
@@ -33,6 +36,3 @@ version 2.6-7 - Fixed bug in _ParallelDownloadCmd function using the wait builti
                 other subsequent functions.
 version 2.6-7 - If audio downloads failed then audio conversion is now skipped.
 version 2.6-7 - Fixed bug in _UpdateSelected function, $list_origin is now properly removed.
-version 2.6-6 - Added parallel_{audio,video}_jobs in mpmrc, this allow the user to control
-                the number of parallel jobs for downloads when use_parallel=yes, if not set
-                then the defaults are applied (audio:6,video:3).

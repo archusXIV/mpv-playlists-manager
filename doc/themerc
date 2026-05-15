@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ~/.config/mpm/themerc (version 2.6-7)
+# ~/.config/mpm/themerc (version 2.6-8)
 
 ###########################################################################
 #'########:'##::::'##:'########:'##::::'##:'########:'########:::'######::#
@@ -121,6 +121,17 @@ _NativePlayerColors() {
                 --border-label '| theme: nord |'
             "
         ;;
+        retro)
+            export FZF_DEFAULT_OPTS="
+                --color=header:bold:#389844
+                --color=bg+:#000000,bg:#000000,border:#6b946c
+                --color=spinner:#b8ffc5,hl:#6b946c,fg:#48b854
+                --color=info:#98E5A5,pointer:#6b946c,fg+:#55E667
+                --color=preview-bg:#000000,prompt:#389844,hl+:#98E5A5
+                --border-label-pos='105:bottom'
+                --border-label '[ theme: retro ]'
+            "
+        ;;
         seoul256)
             export FZF_DEFAULT_OPTS="
                 --color=header:bold:#719872
@@ -130,6 +141,17 @@ _NativePlayerColors() {
                 --color=preview-bg:#3F3F3F,prompt:#98BEDE,hl+:#98BC99
                 --border-label-pos='101:bottom'
                 --border-label '| theme: seoul256 |'
+            "
+        ;;
+        solarized)
+            export FZF_DEFAULT_OPTS="
+                --color=header:bold:#859900
+                --color=bg+:#002b36,bg:#002b36,border:#859900
+                --color=spinner:#98BC99,hl:#719872,fg:#839496
+                --color=info:#2AA198,pointer:#DC322F,fg+:#B58900
+                --color=preview-bg:#003340,prompt:#DC322F,hl+:#2AA198
+                --border-label-pos='101:bottom'
+                --border-label '[ theme: solarized ]'
             "
         ;;
     esac
@@ -158,6 +180,16 @@ _Theme() {
             task=$'\e[38;2;248;248;240m';     #f8f8f0 "0xf8 0xf8 0xf0"
             customColors=( "0x76 0x72 0xe8" "0xa0 0x6d 0x4e" "0x69 0xb0 0xbf" \
             "0x81 0x7c 0x5c" "0xf8 0xf8 0xf0" )
+        ;;
+        c64)
+            bg="#0000AA"
+            nc=$'\e[38;2;0;136;255m';         #0088ff "0x00 0x88 0xff"
+            critical=$'\e[38;2;255;119;119m'; #FF7777 "0xff 0x77 0x77"
+            info=$'\e[38;2;170;255;102m';     #AAFF66 "0xaa 0xff 0x66"
+            mtitle=$'\e[38;2;170;255;238m';   #AAFFEE "0xaa 0xff 0xee"
+            task=$'\e[38;2;255;255;255m';     #ffffff "0xff 0xff 0xff"
+            customColors=( "0x00 0x88 0xff" "0xff 0x77 0x77" "0xaa 0xff 0x66" \
+            "0xaa 0xff 0xee" "0xff 0xff 0xff" )
         ;;
         dracula)
             bg="#282a36"
@@ -245,6 +277,16 @@ _Theme() {
             task=$'\e[38;2;249;230;176m';     #F9E6B0 "0xf9 0xe6 0xb0"
             customColors=( "0x92 0xc4 0x71" "0xd7 0x5f 0x41" "0x92 0xc4 0x71" \
             "0xf2 0xcb 0x57" "0xf9 0xe6 0xb0" )
+        ;;
+        retro)
+            bg="#000000"
+            nc=$'\e[38;2;56;152;68m';         #389844 "0x38 0x98 0x44"
+            critical=$'\e[38;2;107;148;108m'; #6b946c "0x6b 0x94 0x6c"
+            info=$'\e[38;2;152;229;165m';     #98E5A5 "0x98 0xe5 0xa5"
+            mtitle=$'\e[38;2;56;152;68m';     #389844 "0x38 0x98 0x44"
+            task=$'\e[38;2;107;148;108m';     #6b946c "0x6b 0x94 0x6c"
+            customColors=( "0x38 0x98 0x44" "0x6b 0x94 0x6c" "0x98 0xe5 0xa5" \
+            "0x38 0x98 0x44" "0x6b 0x94 0x6c" )
         ;;
         solarized)
             bg="#002b36"

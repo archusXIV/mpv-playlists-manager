@@ -32,7 +32,7 @@ _SearchYoutubeWithFzf() {
             --cycle \
             --reverse \
             --scroll-off=5 \
-            --pointer '<>' \
+            --pointer '|>' \
             --border rounded \
             --prompt='Search: ' \
             --preview="$jqPreviewCmd" \

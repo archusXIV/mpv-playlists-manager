@@ -20,19 +20,22 @@ and many more options to control mpv, ffmpeg, yt-dlp and download/playlists dire
 
 # Important yt-dlp and dependencies update
 Follow these steps described in this [issue thread](https://github.com/yt-dlp/yt-dlp/issues/15031) regarding yt-dlp failing to get all available formats on YouTube particularly
-- AUR package to install [yt-dlp-ejs](https://aur.archlinux.org/packages/yt-dlp-ejs)
+- Install [yt-dlp-ejs](https://archlinux.org/packages/extra/any/yt-dlp-ejs/) from the Arch Linux repositories.
 - or build from [sources](https://github.com/yt-dlp/ejs)
 
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
-## Changelog: version 2.6-7
-!!! ADDED CHANGES IN CONFIG FILES !!!
+## Changelog: version 2.6-8
+- Added few more themes in the themerc file.
+- Updated shellcheck codes at the top of some files, and added some comments in the code.
+- Updated the wiki page and the README.md file.
+- Updated extra/somabox script to version 0.8.
+- !!! ADDED CHANGES IN CONFIG FILES !!! (version 2.6-7)
 - Editing titles can be done in two ways, renaming or moving up/down titles in a temporary file. Corresponding URLs will be moved up/down the same way.
 - Fixed bug in _ParallelDownloadCmd function using the wait builtin command, in some cases downloads where incomplete which caused a false positive in other subsequent functions.
 - If audio downloads failed then audio conversion is now skipped.
 - Fixed bug in _UpdateSelected function, $list_origin is now properly removed.
-- Added parallel_{audio,video}_jobs in mpmrc, this allow the user to control the number of parallel jobs for downloads when use_parallel=yes, if not set then the defaults are applied (audio:6,video:3).
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -109,8 +112,8 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 # !!! Change or add inside the below mainThemes array existing themes
 # in ~/.config/mpm/themerc (_Theme function)!!!
 mainThemes=(
-    default blacksea dracula embers gotham
-    gruvbox jellybeans monokai pistachio
+    default blacksea c64 dracula embers gotham
+    gruvbox jellybeans monokai pistachio retro
     solarized TokyoNight vacuous zenburn
 )
 THEME=default
@@ -120,7 +123,7 @@ Same thing for the native mpv tui.
 ```bash
 # !!! Change or add inside the below nativeThemes array existing themes
 # in ~/.config/mpm/themerc (_NativePlayerColors function)!!!
-nativeThemes=( default c64 dark embers gruvbox molokai nord seoul256 )
+nativeThemes=( default c64 dark embers gruvbox molokai nord retro seoul256 )
 native_tui_colors=default
 ```
 

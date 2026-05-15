@@ -15,26 +15,31 @@
 
 for pkg in dialog mpv; do
     ! command -v "$pkg" && {
-        notify-send -u critical "$pkg isn't installed, exiting!"
+        notify-send -t 0 -u critical "$pkg isn't installed, exiting!"
         printf '%s\n' " $pkg isn't installed, exiting!"
         exit 127
     }
 done
 
-# resize the window according to the amount of channels
+# Resize the window according to the amount of channels
 # height = 29 lines, whidth = 96 columns
-echo -ne '\e[8;29;96t'
+# Using wmctl with pixels if terminal does not support xterm protocols
+if command -v wmctrl &> /dev/null; then
+    wmctrl -r :ACTIVE: -e "5,-1,-1,980,660"
+else
+    echo -ne '\e[8;29;96t'
+fi
 
-VERSION="v.0.7"
+VERSION="v.0.8"
 
 export MPVSOCKET="/tmp/mpvsocket"
 soma_url="http://somafm.com/nossl/"
 nowPlaying="NO STATION SELECTED"
 nowRipping="$nowPlaying"
-rip_dir="$HOME/.streamripper"
 low=64 medium=130 high=256 higher=320
 
-if [[ -n $(command -v streamripper) ]]; then
+if command -v streamripper &> /dev/null; then
+    rip_dir="$HOME/.streamripper"
     select="PLAY/RIP SELECTED"
 else
     select="PLAY SELECTED"
@@ -98,40 +103,33 @@ _main() {
 
         channelChoice=$(
             dialog --stdout --backtitle "SOMABOX $VERSION" \
-                --ok-label "$select" --cancel-label "QUIT SOMABOX" \
-                --title "SOMAFM CHANNELS LIST" --no-shadow \
-                --menu "Select a radio station:" 0 90 0 \
-                "${LIST[@]}" \
-                "NOW PLAYING:" "${nowPlaying}" \
-                "" "${BITRATES_MSG}" \
-                "NOW RIPPING:" "${nowRipping}" \
-                "" "${RIPPING_MSG}"
+            --ok-label "$select" --cancel-label "QUIT SOMABOX" \
+            --title "SOMAFM CHANNELS LIST" --no-shadow \
+            --menu "Select a radio station:" 0 90 0 \
+            "${LIST[@]}" \
+            "NOW PLAYING:" "${nowPlaying}" \
+            "" "${BITRATES_MSG}" \
+            "NOW RIPPING:" "${nowRipping}" \
+            "" "${RIPPING_MSG}"
         )
 
-        case $? in
-            1|255)
-                clear
-                _killMpv
-                _killStreamripper
-                exit 0
-            ;;
-        esac
+        case $? in 1) clear; _killMpv; _killStreamripper; exit 0 ;; esac
 
         bitrates=$(
             dialog --stdout --backtitle "SOMABOX $VERSION" \
-                --title "AUDIO BITRATES" \
-                --menu "Select a bitrate for ${channelChoice}:" 10 50 2 \
-                LOW "(AAC 64k / MP3 128k)" \
-                HIGH "(AAC 128k / MP3 256/320k)"
+            --title "AUDIO BITRATES" \
+            --menu "Select a bitrate for ${channelChoice}:" 10 50 2 \
+            LOW  "(AAC 64k / MP3 128k)" \
+            HIGH "(AAC 128k / MP3 256/320k)"
         )
 
-        [[ -n $(command -v streamripper) && -n $bitrates ]] && {
+        [[ $select == "PLAY/RIP SELECTED" && -n $bitrates ]] && {
             ripping=$(
                 dialog --stdout --backtitle "SOMABOX $VERSION" \
-                    --title "STREAMRIPPER OPTIONS" \
-                    --menu "Do you want to record ${channelChoice}?" 10 50 2 \
-                    YES "Rip in selected quality" \
-                    NO "Play selected station instead."
+                --title "STREAMRIPPER OPTIONS" \
+                --menu "Do you want to record ${channelChoice}?" 10 50 2 \
+                YES  "Rip in selected quality" \
+                NO   "Play selected station instead."
             )
             [[ ! -d $rip_dir && $ripping == 'YES' ]] && mkdir --parents "$rip_dir"
         }
@@ -165,25 +163,24 @@ _killStreamripper() {
 } 2>/dev/null
 
 _ripStation() {
-    _killStreamripper
-    sleep 0.2
+    _killStreamripper; sleep 0.2
     streamripper "$*" \
-        -u "FreeAmp/2.x" \
-        -d "$rip_dir" -s >/dev/null 2>&1
+    -u "FreeAmp/2.x" \
+    -d "$rip_dir" -s >/dev/null 2>&1
 }
 
 _killMpv() { kill -SIGTERM "$(pgrep -x mpv)" 2>/dev/null; }
 
 _mpvOptions() {
-    _killMpv
-    sleep 0.2
+    _killMpv; sleep 0.2
     mpv \
-        --no-config \
-        --idle=no \
-        --cache=no \
-        --no-terminal \
-        --force-window=no \
-        "${MPVSOCKET}" "$*" &
+    --no-config \
+    --idle=no \
+    --cache=no \
+    --no-terminal \
+    --force-window=no \
+    "${MPVSOCKET}" "$*" &
 }
 
 _main "${@}"
+

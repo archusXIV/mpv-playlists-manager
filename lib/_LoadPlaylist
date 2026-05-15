@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2034,SC2164
+# shellcheck disable=SC2154,SC2034
 _LoadPlaylist() {
 
     if [[ -z $(echo "$playlists_dir"/*.m3u) ]]; then
@@ -9,7 +9,7 @@ _LoadPlaylist() {
         sleep 2
         exit 1
     else
-        cd "$playlists_dir"
+        cd "$playlists_dir" || return
     fi
 
     local list titlesFile action LIST

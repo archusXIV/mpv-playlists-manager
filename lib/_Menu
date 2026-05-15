@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck source=/dev/null
 # shellcheck disable=SC2154
 _Menu() {
 

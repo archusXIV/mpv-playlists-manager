@@ -4,18 +4,9 @@
 # shellcheck disable=SC2154
 _ScheduleDownload() {
 
-    [[ -z $schedules_dir ]] && {
-        printf '%s\n' " ${critical}schedule_dir isn't defined..." \
-        " Please check your mpmrc file${nc}"
-        sleep 4
-        _Menu
-    }
-
     local schedulesFile schedulesDateTime lstCount dash
     schedulesFile="$schedules_dir/schedules.txt"
     lstCount=0
-
-    [[ ! -d $schedules_dir ]] && mkdir -p "$schedules_dir"
 
     __sortSchedulesFile() { sort -t'|' -k1 "$schedulesFile" -o "$schedulesFile"; }
     __removeSchedulesFile() { [[ ! -s "$schedulesFile" ]] && rm "$schedulesFile"; }
@@ -88,6 +79,7 @@ _ScheduleDownload() {
             fi
 
             _BlankLine
+            # Ask for confirmation
             _Prompt " ${info}Schedule download of $LIST for ${task}$schedulesDateTime?${nc}" || {
                 sed -i '$d' "$schedulesFile"
                 __removeSchedulesFile

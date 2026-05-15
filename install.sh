@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Script name: install.sh version 2.6-7
+# Script name: install.sh version 2.6-8
 # Author: Barret E <https://github.com/archusXIV/mpv-playlists-manager>
 # Licensed under the GPLv2
 #
@@ -9,10 +9,10 @@
 # It also will copy/modify files in ~/.config/mpm/{mpmrc,themerc}.
 
 red=$'\e[38;2;206;34;30m';
-endColor=$'\e[0m';
+noc=$'\e[0m';
 
 [[ $(whoami) != 'root' ]] && {
-    echo " ${red}This script must be run as root.${endColor}"
+    echo " ${red}This script must be run as root.${noc}"
     exit 1
 }
 
@@ -30,10 +30,10 @@ usergroup=$(
 
 _editConfig() {
     printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
-    " original file has been saved as mpmrc.orig.${endColor}"
-    tail -n 9 ./README_FIRST
+    " original file has been saved as mpmrc.orig.${noc}"
+    tail -n 13 ./README_FIRST
     printf '\n'
-    read -rp " ${red}Edit $MPMRC now? [Y/n] enter an editor name (eg: y vim): ${endColor}" \
+    read -rp " ${red}Edit $MPMRC now? [Y/n] enter an editor name (eg: y vim): ${noc}" \
     edit editor
     case "$edit" in
         [yY])
@@ -44,15 +44,15 @@ _editConfig() {
                     "$editor" "$MPMRC" "$MPMRC".orig
                 fi
             }
+            # giving ownership back to the user
             chown -R "$usergroup" "$CONF_DIR" && exit 0
         ;;
         [nN])
-            # setting ownership back to the user
             chown -R "$usergroup" "$CONF_DIR" && exit 0
         ;;
         *)
             printf '%s\n' \
-            " ${red}Ok don't forget to update it before first run.${endColor}"
+            " ${red}Ok don't forget to update it before first run.${noc}"
         ;;
     esac
 }
@@ -60,20 +60,17 @@ _editConfig() {
 _diffRc() {
 
     if [[ -f $MPMRC && -f $THEMERC ]]; then
-        diff -u "$MPMRC" doc/mpmrc > "$MPMRC".diff
-        patch -b "$MPMRC" < "$MPMRC".diff
-        diff -u "$THEMERC" doc/themerc > "$THEMERC".diff
-        patch -b "$THEMERC" < "$THEMERC".diff
+        patch -b "$MPMRC" < <(diff -u "$MPMRC" doc/mpmrc)
+        patch -b "$THEMERC" < <(diff -u "$THEMERC" doc/themerc)
         _editConfig
     elif [[ -f $MPMRC ]]; then
-        diff -u "$MPMRC" doc/mpmrc > "$MPMRC".diff
-        patch -b "$MPMRC" < "$MPMRC".diff
+        patch -b "$MPMRC" < <(diff -u "$MPMRC" doc/mpmrc)
         _editConfig
     else
         mkdir --parents "$CONF_DIR"
         cp doc/{mpmrc,themerc} "$CONF_DIR"
         printf '%s\n' " ${red}~/.config/mpm/mpmrc created." \
-        " Please edit your mpmrc file before first run.${endColor}"
+        " Please edit your mpmrc file before first run.${noc}"
         chown -R "$usergroup" "$CONF_DIR"
     fi
 

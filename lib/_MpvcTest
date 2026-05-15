@@ -7,21 +7,21 @@ _MpvcTest() {
     # else use_mpvc=""
     case "$1" in
         -a)
-            if [[ $use_mpvc == yes || $use_mpvc == no ]]; then
+            if [[ $use_mpvc =~ yes|no ]]; then
                 _MakeMpvPlaylist --online-audio
             else
                 _MakeMpvPlaylist --terminal-audio
             fi
         ;;
         -d)
-            if [[ $use_mpvc == yes || $use_mpvc == no ]]; then
+            if [[ $use_mpvc =~ yes|no ]]; then
                 _MakeMpvPlaylist --local-background
             else
                 _MakeMpvPlaylist --local-foreground
             fi
         ;;
         -v)
-            if [[ $use_mpvc == yes || $use_mpvc == no ]]; then
+            if [[ $use_mpvc =~ yes|no ]]; then
                 _MakeMpvPlaylist --online-video
             else
                 _MakeMpvPlaylist --terminal-video

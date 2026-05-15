@@ -15,7 +15,8 @@ _QueueMultipleDirs() {
     localDirPath=$(pwd | sed 's,/,\\/,g')
     localPlaylist=yes
 
-    find "$localDir" -mindepth 1 -maxdepth 1 -type d -empty -printf '%f\n' | sort >> "$tmp_dir"/empty.tmp
+    find "$localDir" -mindepth 1 -maxdepth 1 -type d -empty -printf '%f\n' \
+    | sort >> "$tmp_dir"/empty.tmp
 
     if [[ -s $tmp_dir/empty.tmp ]]; then
         # empty dirs will be banned from our list through grep filter

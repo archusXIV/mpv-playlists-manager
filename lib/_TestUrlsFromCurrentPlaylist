@@ -10,10 +10,10 @@ _TestUrlsFromCurrentPlaylist() {
     urlTest="$tmp_dir/urltest"
     declare -a okUrls=()
 
-    echo -e "\n ${info}Testing URLs from $M3UFILE...Please wait.${nc}\n"
+    echo -e "\n ${info}Testing $(_GetLinesList -l) URLs from $M3UFILE...Please wait.${nc}\n"
     # We could use mapfile -t -s 1, but @line 22, sed removes the same line_number in both files.
     sed -i '1d' "$M3UFILE"
-    mapfile -t urls <"$M3UFILE"
+    mapfile -t urls < "$M3UFILE"
 
     for url in "${urls[@]}"; do
         yt-dlp "${ytdlPreset_BC[@]}" --no-warnings \
@@ -22,7 +22,7 @@ _TestUrlsFromCurrentPlaylist() {
             sed -i "${line_number}d" {"$M3UFILE","$titles_dir/$list.titles"}
             printf '%s\n' \
                 " ${critical}removing ${nc}$url ${critical}(no longer available).${nc}"
-            sleep 3
+            sleep 2
         else
             printf '%s\n' " ${info}$line_number $url is ${task}ok${nc}"
             okUrls+=("${url}")
@@ -35,6 +35,7 @@ _TestUrlsFromCurrentPlaylist() {
     sleep 3
 
     unset line_number url urls okUrls
+    # Restoring the playlist header
     sed -i '1s/^/#EXTM3U\n/' "$M3UFILE"
     rm "$urlTest"
     _LoadPlaylistMenu
