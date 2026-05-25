@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Script name: install.sh version 2.6-8
+# Script name: install.sh version 2.6-9
 # Author: Barret E <https://github.com/archusXIV/mpv-playlists-manager>
 # Licensed under the GPLv2
 #
@@ -31,7 +31,7 @@ usergroup=$(
 _editConfig() {
     printf '%s\n' " ${red}~/.config/mpm/mpmrc.diff created," \
     " original file has been saved as mpmrc.orig.${noc}"
-    tail -n 13 ./README_FIRST
+    tail -n 8 ./README_FIRST
     printf '\n'
     read -rp " ${red}Edit $MPMRC now? [Y/n] enter an editor name (eg: y vim): ${noc}" \
     edit editor
@@ -93,8 +93,6 @@ _install() {
     chmod 755 /usr/local/lib/mpm/*
     chmod 755 /usr/local/bin/mpm
 
-    _diffRc
-
 }
 
 _uninstall() {
@@ -117,7 +115,7 @@ if [[ -x /usr/local/bin/mpm ]] && [[ -d /usr/local/lib/mpm ]]; then
         ;;
         [uU])
             _uninstall
-            _install
+            _install && _diffRc
             printf '%s\n' " for usage run: mpm --help or man mpm"
         ;;
         *)
@@ -125,5 +123,5 @@ if [[ -x /usr/local/bin/mpm ]] && [[ -d /usr/local/lib/mpm ]]; then
         ;;
     esac
 else
-    _install
+    _install && _diffRc
 fi

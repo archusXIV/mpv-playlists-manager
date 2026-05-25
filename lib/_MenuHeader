@@ -49,7 +49,7 @@ _MenuHeader() {
     echo -e "                                                  current theme: ${info}${THEME}${nc}"
     if [[ -f $schedules_dir/schedules.txt ]]; then
         printf '%s\n' "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐" \
-        "                      Collection: $(__col) ${sep} Default list: $(__def) ${sep} Audio list: $(__aud) ${sep} Video list: $(__vid) ${sep} Scheduled: $(__sch)" \
+        "                      Collection: $(__col) ${sep} Default list: $(__def) ${sep} Audio list: $(__aud) ${sep} Video list: $(__vid) ${sep} Schedules: $(__sch)" \
         "                   └─────────────────────────────────────────────────────────────────────────────────────┘"
     else
         printf '%s\n' "                   ┌─────────────────────────────────────────────────────────────────────────────────────┐" \

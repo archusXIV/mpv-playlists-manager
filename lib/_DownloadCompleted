@@ -8,10 +8,10 @@ _DownloadCompleted() {
 
     clear
     declare -a FILES=(
-        "$list" "$list"_origin
+        "$list" "$list_origin"
         "$titles_dir/$list.titles" "$titles_dir/$list.titles_origin"
         "$SELECTED_URLS1" "$SELECTED_URLS2"
-        "$SELECTED_TITLES" "$SELECTED_TITLES"_origin
+        "$SELECTED_TITLES" "$SELECTED_TITLES_origin"
         "$tmp_dir/list_tmp" "$tmp_dir/list_tmp_origin"
     )
 
@@ -22,7 +22,7 @@ _DownloadCompleted() {
         FILES+=("$tmp_dir/loadMultiplePlaylists.m3u")
     }
 
-    if [[ $(_GetLinesList -l) -ne 0 ]]; then
+    if [[ $(_GetLinesList -l) -ne 0 || $(_GetLinesList -m) -ne 0 ]]; then
         if [[ $keep_none_empty_playlist == "yes" ]]; then
             unset {FILES[0],FILES[2]}
             rm -f "${FILES[@]}" >/dev/null 2>&1

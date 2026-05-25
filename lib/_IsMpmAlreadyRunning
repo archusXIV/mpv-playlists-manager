@@ -10,7 +10,7 @@ _IsMpmAlreadyRunning() {
     __killPids() {
         case "$1" in
             greaterThanOne)
-                rm "$MPM_PIDS"
+                # rm "$MPM_PIDS"
                 kill -TERM "${pids[0]}"
             ;;
             greaterThanTwo)
@@ -35,7 +35,7 @@ _IsMpmAlreadyRunning() {
         __killPrompt && {
             if ((${#pids[@]} > 2)); then
                 _Prompt -n " ${critical}Mpv is also running, stop mpv?${nc}" \
-                && rm "$MPM_PIDS" && __killPids greaterThanTwo
+                && __killPids greaterThanTwo
             fi
         }
         sed -i '$d' "$MPM_PIDS"

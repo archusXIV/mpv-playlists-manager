@@ -1,6 +1,6 @@
 Author: Barret E <archus@protonmail.com>
 <https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm>
-mpm version 2.6-8 (2021-26)
+mpm version 2.6-9 (2021-26)
 
 Dependencies: ffmpeg, jq, mpv, socat, vim (any terminal text editor), yt-dlp.
 Optionals but recommended: (
@@ -26,13 +26,8 @@ the directory names and structure are correctly set. The syntax is shell scripti
 Changelog:
 ------------------------------- NO CHANGES IN CONFIG FILES --------------------------------
 IMPORTANT YT-DLP & DEPENDENCY UPDATE PLEASE CHECK THE GITHUB PAGE OR INSTALL yt-dlp-ejs
+version 2.6-9 - Add an awk block to rename duplicate titles in _RemoveCrap function.
+version 2.6-9 - Updated doc/{mpmrc,themerc}
 version 2.6-8 - Updated shellcheck codes at the top of some files, and added some comments in the code.
 version 2.6-8 - Updated the wiki page and the README.md file.
 version 2.6-8 - Updated extra/somabox script to version 0.8.
-version 2.6-7 - Editing titles can be done in two ways, renaming or moving up/down titles
-                in a temporary file. Corresponding URLs will be moved up/down the same way.
-version 2.6-7 - Fixed bug in _ParallelDownloadCmd function using the wait builtin command,
-                in some cases downloads where incomplete which caused a false positive in
-                other subsequent functions.
-version 2.6-7 - If audio downloads failed then audio conversion is now skipped.
-version 2.6-7 - Fixed bug in _UpdateSelected function, $list_origin is now properly removed.

@@ -41,7 +41,7 @@ _CleanTmpDir() {
     else
         rm "$(readlink -f "$tmp_dir"/"fzfEnqueue.m3u")"
         rm "$(readlink -f "$tmp_dir"/"manualEnqueue.m3u")"
-        rm -f {"$tmp_dir"/*,"$MPM_PIDS"}
+        rm -f "$tmp_dir"/*
         rm "$playlists_dir/loadMultiplePlaylists.m3u"
         rm "$titles_dir/loadMultiplePlaylists.m3u.titles"
     fi

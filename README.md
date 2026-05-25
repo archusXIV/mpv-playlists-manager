@@ -26,16 +26,13 @@ Follow these steps described in this [issue thread](https://github.com/yt-dlp/yt
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
-## Changelog: version 2.6-8
+## Changelog: version 2.6-9
+- Updated doc/{mpmrc,themerc}
+- Add an awk block to rename duplicate titles in _RemoveCrap function.
 - Added few more themes in the themerc file.
 - Updated shellcheck codes at the top of some files, and added some comments in the code.
 - Updated the wiki page and the README.md file.
 - Updated extra/somabox script to version 0.8.
-- !!! ADDED CHANGES IN CONFIG FILES !!! (version 2.6-7)
-- Editing titles can be done in two ways, renaming or moving up/down titles in a temporary file. Corresponding URLs will be moved up/down the same way.
-- Fixed bug in _ParallelDownloadCmd function using the wait builtin command, in some cases downloads where incomplete which caused a false positive in other subsequent functions.
-- If audio downloads failed then audio conversion is now skipped.
-- Fixed bug in _UpdateSelected function, $list_origin is now properly removed.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -68,7 +65,7 @@ and change mpmrc setting to 'yes'
 use_somabox="yes"
 ```
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/somabox_v0.8.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/somabox_v0.7.png)
 - As mentioned above mpv command line tools and terminal interface.
 - ffmpeg, mpv, ytfzf & yt-dlp options can be set in your mpmrc through their respective bash arrays.
 - Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L77) file (change them according to your locales).
@@ -77,8 +74,6 @@ use_somabox="yes"
 - A [themerc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/themerc) file is available to insert as many as you want "themes" instead of bloating up your mpmrc.
 
 default theme will use your ~/.Xresources colors or your terminal preferences.
-
-- When in mpmrc $mpvc_tui is empty, we can use hjkl keys in the main window for mpv control.
 
 <table width="100%">
   <tr>
@@ -123,7 +118,10 @@ Same thing for the native mpv tui.
 ```bash
 # !!! Change or add inside the below nativeThemes array existing themes
 # in ~/.config/mpm/themerc (_NativePlayerColors function)!!!
-nativeThemes=( default c64 dark embers gruvbox molokai nord retro seoul256 )
+nativeThemes=(
+    default c64 dark embers gruvbox molokai
+    nord retro solarized seoul256
+)
 native_tui_colors=default
 ```
 
@@ -147,3 +145,4 @@ Requests and contributions? Why not, have fun.
 
 ## Credits
 I would like to thanks all the devs that put their great work in the softwares I use and that I have implemented in this project and especially mister Brian Jhan Fox the father of the Bourne-Again SHell, even if I don't always use it the right way.
+

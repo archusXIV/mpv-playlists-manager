@@ -58,7 +58,5 @@ _IfDuplicatesUrls() {
 
     ((linenum == 0)) && rm -f {"$URLS","$TITLES"}
     unset pl pls line linenum collection lines_to_delete has_non_duplicates
-    # This may call the _GetMediaTitle function to update the titles list
-    _CreateAddPlaylistActions --view
 
 }

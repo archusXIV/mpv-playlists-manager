@@ -14,7 +14,7 @@ _GetLinesList() {
         -v) FILE="$VIDEO_URLS" ;;
     esac
 
-    [[ ! -s $FILE ]] && return
+    [[ ! -s $FILE ]] && return 1
 
     if [[ $minusOne == "yes" ]]; then
         mapfile -t -s 1 linesCount < "$FILE"

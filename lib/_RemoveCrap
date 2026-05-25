@@ -7,18 +7,28 @@ _RemoveCrap() {
     # causes the download of the entire playlist (youtube-dl/yt-dlp bug).
     # So we cleanup the link to get the direct link to the desired video.
     # Note that this behavior does not occure while streaming online.
-
-    declare -a LISTS=(
-        "$URLS"
-        "$DEFAULT_LIST"
-        "$TITLES"
-        "$DEFAULT_TITLES"
+    local file
+    local -a tmp_lists=(
+        "$URLS" "$DEFAULT_LIST"
+        "$TITLES" "$DEFAULT_TITLES"
     )
 
-    sed -i 's/:/ -/;s/\//_/g' "${LISTS[@]:2:3}"
+    # check duplicate titles and rename them as <title_1> <title_2> etc...
+    # this is done for downloading convinience if ytdlPreset_BR (break-on-existing)
+    for file in "${tmp_lists[@]:2:3}"; do
+        awk '
+        {
+            if (seen[$0]++) {
+                print $0 "_" seen[$0]
+            } else {
+                print $0
+            }
+        }' "$file" > "$file"_tmp && mv "$file"_tmp "$file"
+        sed -i 's/:/ -/;s/\//_/g;/^\s*$/d' "$file"
+    done >/dev/null 2>&1
 
-    for file in "${LISTS[@]}"; do
-        # removing unwanted parts of links, blank lines & duplicates
+    for file in "${tmp_lists[@]:0:2}"; do
+        # removing unwanted parts of links, blank lines & duplicates urls
         sed -i '
             s/&list=.*//;s/&pp=.*//;s/&t=.*//;/^\s*$/d;
             s|//youtube.com|//www.youtube.com|g;
@@ -26,7 +36,6 @@ _RemoveCrap() {
         ' "$file"
         _RemoveDuplicateLines "$file"
     done
-
     unset file
 
 } 2>/dev/null
