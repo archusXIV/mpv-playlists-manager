@@ -26,13 +26,11 @@ Follow these steps described in this [issue thread](https://github.com/yt-dlp/yt
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
-## Changelog: version 2.6-9
+## Changelog: version 2.7-0
+- Added the same awk block from _RemoveCrap function in _EditListTitles function and fixed bug when renaming titles is done in temporary files.
 - Updated doc/{mpmrc,themerc}
-- Add an awk block to rename duplicate titles in _RemoveCrap function.
+- Added an awk block to rename duplicate titles in _RemoveCrap function.
 - Added few more themes in the themerc file.
-- Updated shellcheck codes at the top of some files, and added some comments in the code.
-- Updated the wiki page and the README.md file.
-- Updated extra/somabox script to version 0.8.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -108,8 +106,8 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 # in ~/.config/mpm/themerc (_Theme function)!!!
 mainThemes=(
     default blacksea c64 dracula embers gotham
-    gruvbox jellybeans monokai pistachio retro
-    solarized TokyoNight vacuous zenburn
+    gruvbox jellybeans monokai nord pistachio
+    retro solarized TokyoNight vacuous zenburn
 )
 THEME=default
 ```
@@ -119,8 +117,8 @@ Same thing for the native mpv tui.
 # !!! Change or add inside the below nativeThemes array existing themes
 # in ~/.config/mpm/themerc (_NativePlayerColors function)!!!
 nativeThemes=(
-    default c64 dark embers gruvbox molokai
-    nord retro solarized seoul256
+    default c64 dark embers gruvbox jellybeans
+    molokai nord retro seoul256 solarized
 )
 native_tui_colors=default
 ```

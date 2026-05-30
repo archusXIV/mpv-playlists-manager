@@ -13,8 +13,8 @@ _RemoveCrap() {
         "$TITLES" "$DEFAULT_TITLES"
     )
 
-    # check duplicate titles and rename them as <title_1> <title_2> etc...
-    # this is done for downloading convinience if ytdlPreset_BR (break-on-existing)
+    # check duplicate titles and rename them as <title_2> <title_3> etc...
+    # this is done for downloading convenience if ytdlPreset_BR (break-on-existing)
     for file in "${tmp_lists[@]:2:3}"; do
         awk '
         {

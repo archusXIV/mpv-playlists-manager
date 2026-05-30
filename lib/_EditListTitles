@@ -75,6 +75,19 @@ _EditListTitles() {
     # Update the clean titles file (without IDs)
     printf '%s\n' "${current_titles[@]}" > "$TITLES"
 
+    awk '
+    {
+        if (seen[$0]++) {
+            print $0 "_" seen[$0]
+        } else {
+            print $0
+        }
+    }' "$TITLES" > "$TITLES"_tmp && mv "$TITLES"_tmp "$TITLES"
+
     __cleanup
+
+    if [[ $TITLES == "$AUDIO_TITLES" || $TITLES == "$VIDEO_TITLES" ]]; then
+        _ViewAudioVideoUrlsInfo "$arg"
+    fi
 
 }
