@@ -58,5 +58,7 @@ _IfDuplicatesUrls() {
 
     ((linenum == 0)) && rm -f {"$URLS","$TITLES"}
     unset pl pls line linenum collection lines_to_delete has_non_duplicates
+    # This may update our files if the number of lines is different.
+    _CreateAddPlaylistActions --view
 
 }
