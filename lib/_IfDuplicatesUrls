@@ -45,20 +45,18 @@ _IfDuplicatesUrls() {
     # Delete lines in reverse order only if all lines are duplicates
     __sedDeleteLines() {
         for ((idx=${#lines_to_delete[@]}-1; idx>=0; idx--)); do
-            sed -i "${lines_to_delete[idx]}d" "$URLS"
+            sed -i "${lines_to_delete[idx]}d" {"$TITLES","$URLS"}
         done
     }
 
     if ((has_non_duplicates == 0)); then
         __sedDeleteLines
-        rm -f {"$URLS","$TITLES"}
+        rm -f {"$TITLES","$URLS"}
     else
         __sedDeleteLines
     fi
 
-    ((linenum == 0)) && rm -f {"$URLS","$TITLES"}
-    unset pl pls line linenum collection lines_to_delete has_non_duplicates
-    # This may update our files if the number of lines is different.
-    _CreateAddPlaylistActions --view
+    ((linenum == 0)) && rm -f {"$TITLES","$URLS"}
+    unset pl pls line linenum collection lines_to_delete has_non_duplicates is_duplicate
 
 }

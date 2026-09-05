@@ -1,6 +1,6 @@
 Author: Barret E <archus@protonmail.com>
 <https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm>
-mpm version 2.7-1 (2021-26)
+mpm version 2.7-2 (2021-26)
 
 Dependencies: ffmpeg, jq, mpv, socat, vim (any terminal text editor), yt-dlp.
 Optionals but recommended: (
@@ -26,7 +26,7 @@ the directory names and structure are correctly set. The syntax is shell scripti
 Changelog:
 ------------------------------- NO CHANGES IN CONFIG FILES --------------------------------
 IMPORTANT YT-DLP & DEPENDENCY UPDATE PLEASE CHECK THE GITHUB PAGE OR INSTALL yt-dlp-ejs
+version 2.7-2 - Duplicate titles are now trimed as the duplicate URLs, no need to call
+                _GetMediaTitle function again.
 version 2.7-1 - Fixed a bug in _IfDuplicatesUrls function after handling duplicate titles
                 in temporary files.
-version 2.7-0 - Add the same awk block from _RemoveCrap function in _EditListTitles function
-                and fixed bug when renaming titles is done in temporary files.

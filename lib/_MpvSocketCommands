@@ -4,11 +4,11 @@
 # shellcheck disable=SC2154
 _MpvSocketCommands() {
 
-    case "$1" in
+    case $1 in
         --title)
             echo '{ "command": ["get_property", "media-title"] }' \
             | socat - "${MPVSOCKET}" \
-            | jq -r '"\\033[32mNow playing: \\033[33m" + .data' \
+            | jq --raw-output '"\\033[32mNow playing: \\033[33m" + .data' \
             | echo -e "$(cat -)"
         ;;
         --playlist)
@@ -17,14 +17,17 @@ _MpvSocketCommands() {
             | socat - "$MPVSOCKET" \
             | jq --raw-output '.data | .[] | .filename' > "$playerTitlesList"
         ;;
-        --next) echo playlist-next | socat - "${MPVSOCKET}" ;;
-        --prev) echo playlist-prev | socat - "${MPVSOCKET}" ;;
-        --forward) echo seek 30 | socat - "${MPVSOCKET}" ;;
-        --backward) echo seek -30 | socat - "${MPVSOCKET}" ;;
-        --pause) echo cycle pause | socat - "${MPVSOCKET}" ;;
-        --begin) echo playlist-play-index 0 | socat - "${MPVSOCKET}" ;;
-        --stop) echo stop | socat - "${MPVSOCKET}" ;;
     esac
+
+    case $1 in
+        --next) echo playlist-next ;;
+        --prev) echo playlist-prev ;;
+        --forward) echo seek 30 ;;
+        --backward) echo seek -30 ;;
+        --pause) echo cycle pause ;;
+        --begin) echo playlist-play-index 0 ;;
+        --stop) echo stop ;;
+    esac | socat - "${MPVSOCKET}"
 
 }
 # needed for native mpv TUI

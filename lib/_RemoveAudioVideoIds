@@ -6,25 +6,24 @@ _RemoveAudioVideoIds() {
 
     [[ $remove_video_ids == "no" ]] && return
     [[ -d "$mediaDir" ]] && cd "$mediaDir"
-        printf '%s\n' " ${info}renaming files in ${mediaDir##*/}${nc}"
+    printf '%s\n' " ${info}renaming files in ${mediaDir##*/}${nc}"
 
-        mapfile -t downloadedFiles < <(
-            find . \
-            -mindepth 1 \
-            -maxdepth 1 \
-            -type f \
-            -regextype egrep \
-            -regex '.*(\[|\]).*' \
-            -printf '%f\n'
-        )
+    mapfile -t downloadedFiles < <(
+        find . \
+        -mindepth 1 \
+        -maxdepth 1 \
+        -type f \
+        -regextype egrep \
+        -regex '.*(\[|\]).*' \
+        -printf '%f\n'
+    )
 
-        for file in "${downloadedFiles[@]}"; do
-            local new_name="${file/ \[*\]/}"
-            mv --force "$file" "$new_name"
-        done 2>/dev/null
+    for file in "${downloadedFiles[@]}"; do
+        local new_name="${file/ \[*\]/}"
+        mv --force "$file" "$new_name"
+    done 2>/dev/null
 
-        unset file new_name
-        sleep 2; clear
-
+    unset file new_name
+    sleep 2; clear
 
 }

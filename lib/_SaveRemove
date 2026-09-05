@@ -23,7 +23,7 @@ _SaveRemove() {
 
     index=1
     for lst in "${lsts[@]}"; do
-        [[ ! -f "$lst" ]] && unset 'promptLists["${index}"]'
+        [[ ! -e "$lst" ]] && unset 'promptLists["${index}"]'
         ((index++))
     done
 

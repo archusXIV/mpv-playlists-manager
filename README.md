@@ -26,7 +26,8 @@ Follow these steps described in this [issue thread](https://github.com/yt-dlp/yt
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
-## Changelog: version 2.7-1
+## Changelog: version 2.7-2
+- Duplicate titles are now trimed as the duplicate URLs, no need to call _GetMediaTitle function again.
 - Fixed a bug in _IfDuplicatesUrls function after handling duplicate titles in temporary files.
 - Added the same awk block from _RemoveCrap function in _EditListTitles function and fixed bug when renaming titles is done in temporary files.
 - Updated doc/{mpmrc,themerc}

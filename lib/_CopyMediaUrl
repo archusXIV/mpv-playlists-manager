@@ -22,9 +22,7 @@ _CopyMediaUrl() {
 
     _AnalyzeUrls
     _RemoveCrap
-    _IfDuplicatesUrls
     _IfDuplicatesFiles
-    # This may call the _GetMediaTitle function to update the titles list
-    _CreateAddPlaylistActions --view
+    _IfDuplicatesUrls
 
 }

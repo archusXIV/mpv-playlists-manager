@@ -75,6 +75,7 @@ _EditListTitles() {
     # Update the clean titles file (without IDs)
     printf '%s\n' "${current_titles[@]}" > "$TITLES"
 
+    # check for duplicate titles and rename titles if so
     awk '
     {
         if (seen[$0]++) {
