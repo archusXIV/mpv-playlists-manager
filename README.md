@@ -26,13 +26,11 @@ Follow these steps described in this [issue thread](https://github.com/yt-dlp/yt
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
-## Changelog: version 2.7-2
+## Changelog: version 2.7-3
+- Fixed bug in _IsMpmAlreadyRunning function causing mpm to launch a second instance.
+- Added .mkv files to the $EXTENSIONS list checked while trying to store links in temporary lists if files already exist in the destination folder.
+- Removed unecessary code in _IfDuplicatesUrls & _IfDuplicatesFiles functions.
 - Duplicate titles are now trimed as the duplicate URLs, no need to call _GetMediaTitle function again.
-- Fixed a bug in _IfDuplicatesUrls function after handling duplicate titles in temporary files.
-- Added the same awk block from _RemoveCrap function in _EditListTitles function and fixed bug when renaming titles is done in temporary files.
-- Updated doc/{mpmrc,themerc}
-- Added an awk block to rename duplicate titles in _RemoveCrap function.
-- Added few more themes in the themerc file.
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.

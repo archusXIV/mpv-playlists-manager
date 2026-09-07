@@ -13,8 +13,18 @@ _RemoveCrap() {
         "$TITLES" "$DEFAULT_TITLES"
     )
 
+    for file in "${tmp_lists[@]:0:2}"; do
+        # removing unwanted parts of links, blank lines & duplicates urls
+        sed -i '
+            s/&list=.*//;s/&pp=.*//;s/&t=.*//;/^\s*$/d;
+            s|//youtube.com|//www.youtube.com|g;
+            /playlist?list=.*/d
+        ' "$file"
+        _RemoveDuplicateLines "$file"
+    done
+
     # check duplicate titles and rename them as <title_2> <title_3> etc...
-    # this is done for downloading convenience if ytdlPreset_BR (break-on-existing)
+    # this is done for downloading convenience if ytdlPreset_BR=( --break-on-existing )
     for file in "${tmp_lists[@]:2:3}"; do
         awk '
         {
@@ -25,17 +35,8 @@ _RemoveCrap() {
             }
         }' "$file" > "$file"_tmp && mv "$file"_tmp "$file"
         sed -i 's/:/ -/;s/\//_/g;/^\s*$/d' "$file"
-    done >/dev/null 2>&1
-
-    for file in "${tmp_lists[@]:0:2}"; do
-        # removing unwanted parts of links, blank lines & duplicates urls
-        sed -i '
-            s/&list=.*//;s/&pp=.*//;s/&t=.*//;/^\s*$/d;
-            s|//youtube.com|//www.youtube.com|g;
-            /playlist?list=.*/d
-        ' "$file"
         _RemoveDuplicateLines "$file"
     done
     unset file
 
-} 2>/dev/null
+} >/dev/null 2>&1

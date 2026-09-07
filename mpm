@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-##  Script name: mpm version 2.7-2
+##  Script name: mpm version 2.7-3
 ##  Author: Barret E (2021-26) <archus@protonmail.com>
 ##  https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm
 ##  Dependencies: ffmpeg, jq, mpv, socat, yt-dlp.
@@ -22,7 +22,7 @@
 # shellcheck disable=SC2034,SC2154,SC2001,SC2207
 trap _CleanTmpDir SIGTERM EXIT
 
-VERSION="v.2.7-2"
+VERSION="v.2.7-3"
 
 # blinking prompts
 b=$'\e[5m'
@@ -86,7 +86,7 @@ AUDIO_TITLES="$tmp_dir/temporaryAudio.titles"
 DEFAULT_LIST="$playlists_dir/default.m3u"
 DEFAULT_TITLES="$tmp_dir/default.titles"
 DEFAULTM3UTITLES="$titles_dir/default.m3u.titles"
-EXTENSIONS="(.aac|.flac|.m4a|.mp3|.mp4|.ogg|.wav|.webm)"
+EXTENSIONS="(.aac|.flac|.m4a|.mkv|.mp3|.mp4|.ogg|.wav|.webm)"
 FFOP="$tmp_dir/ffmpeg_output"
 FZFENQUEUE="$tmp_dir/fzfEnqueue.m3u"
 FZFSELTITLES="$tmp_dir"/fzfSelectedTitles

@@ -7,13 +7,13 @@ _IfDuplicatesFilesMessages() {
     local  it link
     it="it" link="link"
 
-    ((titlesCount > 1)) && { it="them"; link="links"; }
+    ((${#titles_list[@]} > 1)) && { it="them"; link="links"; }
 
     case "$1" in
         --if)
             _BlankLine
             printf '%s\n' \
-            " ${info}At least ${titlesCount} ${link} seem to have been downloaded already," \
+            " ${info}At least ${#titles_list[@]} ${link} seem to have been downloaded already," \
             " (this means that there are also other files in ${addPlaylistDir##*/})."
             _Prompt " do you want to remove ${it} from the ${Type} list?${nc}" || {
                 printf '\n%s\n' " ${info}Downloading duplicates is useless...${nc}"

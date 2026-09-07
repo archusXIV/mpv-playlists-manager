@@ -6,12 +6,12 @@ _IfDuplicatesFiles() {
 
     cd "$addPlaylistDir" || return 1
 
-    local ef efCount titlesCount linenumbers attr match
+    local ef ef_count titles_count linenumbers attr match
     ef="$tmp_dir/existingFiles"
 
     # Removing the '.extension', to compare
     # "$ef" file against the list of titles,
-    # that do not contains extensions themself.
+    # that do not contains extensions itself.
     command ls -N | sed -r "s/${EXTENSIONS}//" > "$ef"
     [[ ! -s $ef ]] && { rm "$ef"; return; }
 
@@ -30,30 +30,27 @@ _IfDuplicatesFiles() {
             ((match++))
         fi
     done < "$ef"
-
     unset line
 
-    mapfile -t efList < "$ef"
+    mapfile -t ef_list < "$ef"
     rm "$ef"
-    efCount="${#efList[@]}"
-    mapfile -t titlesList < "$TITLES"
-    titlesCount="${#titlesList[@]}"
+    mapfile -t titles_list < "$TITLES"
 
     if ((match > 0)); then
-        if ((titlesCount == match)) && ((efCount > titlesCount)); then
+        if ((${#titles_list[@]} == match)) \
+        && ((${#ef_list[@]} > ${#titles_list[@]})); then
             # All playlist items have been downloaded already and
             # there are ALSO other files in the destination folder.
             _IfDuplicatesFilesMessages --if
             _IfDuplicatesFilesActions --if
-        elif ((titlesCount == match)); then
+        elif ((${#titles_list[@]} == match)); then
             # All playlist items have been downloaded already and
             # there are NO other files in the destination folder.
             _IfDuplicatesFilesMessages --elif
             _IfDuplicatesFilesActions --elif
         else
             # Some of the titles match the filenames in the destination folder.
-            # _IfDuplicatesFilesMessages --else,
-            # is called from _IfDuplicatesFilesActions --else.
+            # _IfDuplicatesFilesMessages --else, is called from the function below.
             _IfDuplicatesFilesActions --else
         fi
     else

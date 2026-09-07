@@ -6,14 +6,9 @@ _IfDuplicatesUrls() {
 
     [[ ! -s $URLS ]] && return
 
-    local pl pls is_duplicate
+    local pl pls linenum
     declare -a collection=()
-    declare -a lines_to_delete=()
-    declare -i linenum=1
-    declare -i has_non_duplicates=0
-
     pls=("$playlists_dir"/*.m3u)
-    mapfile -t list_links < "$URLS"
 
     for pl in "${pls[@]}"; do
         if [[ $pl =~ default.m3u ]]; then
@@ -23,8 +18,11 @@ _IfDuplicatesUrls() {
         fi
     done
 
+    mapfile -t list_links < "$URLS"
+    linenum=1
+    declare -a lines_to_delete=()
+
     for line in "${list_links[@]}"; do
-        is_duplicate=0
         for pls in "${collection[@]}"; do
             grep -qx "$line" "$pls" && {
                 clear; _BlankLine
@@ -34,29 +32,22 @@ _IfDuplicatesUrls() {
                     " Removing: ${nc}$line"
                 sleep 2
                 lines_to_delete+=("$linenum")
-                is_duplicate=1
                 break
             }
         done
-        ((is_duplicate == 0)) && has_non_duplicates=1
         ((linenum++))
     done
 
-    # Delete lines in reverse order only if all lines are duplicates
-    __sedDeleteLines() {
+    # Delete lines in reverse order because of potential already existing lines.
+    (( ${#lines_to_delete[@]} > 0 )) && {
         for ((idx=${#lines_to_delete[@]}-1; idx>=0; idx--)); do
             sed -i "${lines_to_delete[idx]}d" {"$TITLES","$URLS"}
         done
+        printf '\n%s\n' " ${task}Removed ${#lines_to_delete[@]} duplicate URLs.${nc}"
+        sleep 2
     }
+    [[ ! -s $TITLES && ! -s $URLS ]] && rm {"$TITLES","$URLS"}
 
-    if ((has_non_duplicates == 0)); then
-        __sedDeleteLines
-        rm -f {"$TITLES","$URLS"}
-    else
-        __sedDeleteLines
-    fi
-
-    ((linenum == 0)) && rm -f {"$TITLES","$URLS"}
-    unset pl pls line linenum collection lines_to_delete has_non_duplicates is_duplicate
+    unset pl pls line linenum collection lines_to_delete
 
 }

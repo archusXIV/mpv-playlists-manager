@@ -41,12 +41,12 @@ _LoadPlaylistMenu() {
         }
     }
 
-    _ResizeWindow --main
-    clear
-    _DownloadMessages --menu
-
     while :; do
-        echo -e "\n ${info}Options for: ${LIST} ${nc}($(_GetLinesList -l) urls)\n\n"
+
+        _ResizeWindow --main
+        clear
+        _DownloadMessages --menu
+        echo -e "\n ${info}Options for: ${LIST} ${nc}($(_GetLinesList -l) URLs)\n\n"
         printf '%s\n' "                                                ${mtitle}::${B}DOWNLOAD/PLAY OPTIONS::${NB}${nc}" \
         "                                           $(_LittleStars)${nc}" \
         "                                  ┌───────────────────────────────────────────────────┐" \
@@ -71,9 +71,13 @@ _LoadPlaylistMenu() {
             5) _MpvOwnsTmpList --collection || _ChooseFromPlay ;;
             6) _ScheduleDownload ;;
             7) _TestUrlsFromCurrentPlaylist ;;
-            [bB8]) __testMultiple; _Menu ;;
+            [bBmM8]) __testMultiple; _Menu ;;
             [rR]) continue ;;
-            *) _WrongOption "$loadPlaylistMenuOptions"; __testMultiple ;;
+            *)
+                _WrongOption "$loadPlaylistMenuOptions"
+                __testMultiple
+                clear; continue
+            ;;
         esac
 
     done

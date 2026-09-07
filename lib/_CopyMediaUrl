@@ -22,7 +22,9 @@ _CopyMediaUrl() {
 
     _AnalyzeUrls
     _RemoveCrap
+    # Checking if desired files are still (already downloaded) in our destination folder.
     _IfDuplicatesFiles
+    # Checking if links are already present in our collection of playlists.
     _IfDuplicatesUrls
 
 }
