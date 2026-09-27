@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
+# This function is used for all kind of playlist, temporary or not,
+# so we only display the temporary urls/titles again at the end
+# if we want to saved the list as a collection playlist with clean titles.
+# Moving around lines in the list is also supported.
+
 # shellcheck disable=SC2154
 _EditListTitles() {
 
@@ -72,18 +77,17 @@ _EditListTitles() {
         fi
     done < "$editable"
 
-    # Update the clean titles file (without IDs)
-    printf '%s\n' "${current_titles[@]}" > "$TITLES"
-
-    # check for duplicate titles and rename titles if so
-    awk '
-    {
-        if (seen[$0]++) {
-            print $0 "_" seen[$0]
-        } else {
-            print $0
+    # Update the clean titles file (without IDs) and check for duplicates,
+    # if yes then rename them with an underscore suffix.(_2, _3, etc...).
+    printf '%s\n' "${current_titles[@]}" | awk '
+        {
+            if (seen[$0]++) {
+                print $0 "_" seen[$0]
+            } else {
+                print $0
+            }
         }
-    }' "$TITLES" > "$TITLES"_tmp && mv "$TITLES"_tmp "$TITLES"
+    ' > "$TITLES"_tmp && mv "$TITLES"_tmp "$TITLES"
 
     __cleanup
 

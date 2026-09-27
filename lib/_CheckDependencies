@@ -13,28 +13,30 @@ _CheckDependencies() {
         "$MPMEDITOR" "$FILEMANAGER"
     )
 
-    for dep in "${DEPS[@]:0:5}"; do
-        _Has "$dep" || {
-            printf '%s\n' " $dep isn 't installed,...exiting!"
-            notify-send -t 0 -u critical "$dep isn 't installed,...exiting!"
-            exit 127
-        }
-    done
+    pkgs=("${DEPS[@]:0:5}")
+    n=1
 
-     local optionals="$CONF_DIR/missing_dependencies.txt"
-
-    if [[ ! -f $optionals ]]; then
-        for opt in "${DEPS[@]:5:17}"; do
-            _Has "$opt" || {
-                echo "$(date): missing $opt" >> "$optionals"
-                printf '%s\n' " ${critical}For better experience, consider installing $opt." \
-                " Some functionalities might be unavailable..." \
-                " Please check $optionals."
+    for dep in "${DEPS[@]}"; do
+        if (( n <= ${#pkgs} )); then
+            _Has "$dep" || {
+                printf '%s\n' " ${critical}$dep isn 't installed,...exiting!${nc}"
+                notify-send -t 0 -u critical "mpm error 127...exiting!"
+                exit 127
+            }
+        elif (( n > ${#pkgs} )); then
+            _Has "$dep" || {
+                optionals+=("$dep")
+                printf '%s\n' " ${critical}For better experience, consider installing ${dep}." \
+                " Some functionalities might not be available..." \
+                " Please check $CONF_DIR/missing_dependencies.txt."
                 read -rsn 1 -p " ${info}Press any key to continue...${nc}"
             }
-        done
-        unset dep opt
-    fi
+        fi
+        ((n++))
+    done
+
+    (( ${#optionals[@]} )) && \
+        printf '%s\n' "${optionals[@]}" > "$CONF_DIR/missing_dependencies.txt"
 
     [[ -z $main_dir ]] && {
         printf '%s\n' " ${critical}Variable main_dir in mpmrc is not defined...exiting!!!${nc}"

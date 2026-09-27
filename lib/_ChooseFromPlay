@@ -5,16 +5,18 @@
 _ChooseFromPlay() {
 
     __loadSelected() {
+
         _BlankLine
-        read -rsn 1 -p " ${info}Load selected as [A]udio, [V]ideo: ${nc}" loadSelectedOptions
-        if [[ $loadSelectedOptions =~ a|A ]]; then
-            _LoadAudioVideo -sa
-        elif [[ $loadSelectedOptions =~ v|V ]]; then
-            _LoadAudioVideo -sv
-        else
-            _WrongOption "$loadSelectedOptions"
-            return
-        fi
+        read -rsn 1 -p " ${info}Play [A]udio or [V]ideo from $list?: ${nc}" loadSelectedOptions
+        case "$loadSelectedOptions" in
+            [aA]) _LoadAudioVideo -sa ;;
+            [vV]) _LoadAudioVideo -sv ;;
+            *)
+                _WrongOption "$loadSelectedOptions"
+                return
+            ;;
+        esac
+
     }
 
     clear

@@ -10,8 +10,9 @@ _IsMpmAlreadyRunning() {
     __killPids() {
         case "$1" in
             greaterThanOne)
+                # kill mpm first instance
+                kill -KILL "$(sed -n '1p' "$MPM_PIDS")"
                 rm "$MPM_PIDS"
-                kill -KILL "${pids[0]}"
             ;;
             greaterThanTwo)
                 _KillMpv && _RemoveMpvTmp
@@ -20,7 +21,6 @@ _IsMpmAlreadyRunning() {
                 done
             ;;
         esac
-        # exit
     }
 
     __killPrompt() (
