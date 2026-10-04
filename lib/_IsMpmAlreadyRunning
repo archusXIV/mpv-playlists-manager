@@ -15,7 +15,7 @@ _IsMpmAlreadyRunning() {
                 rm "$MPM_PIDS"
             ;;
             greaterThanTwo)
-                _KillMpv && _RemoveMpvTmp
+                rm "$MPM_PIDS"
                 for ((i=0;i<=2;i++)); do
                     kill -KILL "${pids[${i}]}"
                 done
@@ -23,30 +23,31 @@ _IsMpmAlreadyRunning() {
         esac
     }
 
-    __killPrompt() (
+    __killPrompt() {
         # If the received string is 'n' or 'enter' then relaunching mpm will be aborded,
         # if the received string is 'y' then we kill mpm.
         # Same thing if we've launched mpv from mpm.
         printf '\n%s\n' " ${critical}${0##*/} is already running..."
-        _Prompt -n " Do you want to kill ${0##*/}?${nc}"
-    )
+        _Prompt -n " Do you want to terminate ${0##*/}?${nc}" || return 1
+    }
 
     # We only want ONE mpm running instance.
     if [[ -e $NOWPLAYING ]] && ((${#pids[@]} >= 3)); then
-        # This test means that mpm is running, it also launched an mpv process
+        # mpm is running, it also launched an mpv process
         # and the _WhileMpvIsRunning function which is in the background so we get
         # the right main menu options access.
         __killPrompt && {
-            if ((${#pids[@]} > 2)); then
-                _Prompt -n " ${critical}Mpv is also running, stop mpv?${nc}" \
-                && rm "$MPM_PIDS" && __killPids greaterThanTwo
-            fi
+            _Prompt -n \
+            " ${critical}Mpv is also running, stop mpv?${nc}" && {
+                _KillMpv && _RemoveMpvTmp
+                __killPids greaterThanTwo
+            }
+            __killPids greaterThanTwo
         }
         sed -i '$d' "$MPM_PIDS" 2>/dev/null
         exit
     elif [[ ! -e $NOWPLAYING ]] && ((${#pids[@]} == 2)); then
-        # This test means that a mpm instance is running
-        # and we're trying to launch another one, which we don't want to.
+        # A mpm instance is running and we're trying to launch another one.
         __killPrompt && __killPids greaterThanOne
         sed -i '$d' "$MPM_PIDS" 2>/dev/null
         exit

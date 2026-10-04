@@ -24,19 +24,21 @@ _CheckDependencies() {
                 exit 127
             }
         elif (( n > ${#pkgs} )); then
+            local message="$CONF_DIR/missing_dependencies.txt"
+            # we aren't prompted again for optionals if $message exists
+            [[ -f $message ]] && break
             _Has "$dep" || {
                 optionals+=("$dep")
                 printf '%s\n' " ${critical}For better experience, consider installing ${dep}." \
                 " Some functionalities might not be available..." \
-                " Please check $CONF_DIR/missing_dependencies.txt."
+                " Please check $message."
                 read -rsn 1 -p " ${info}Press any key to continue...${nc}"
             }
         fi
         ((n++))
     done
 
-    (( ${#optionals[@]} )) && \
-        printf '%s\n' "${optionals[@]}" > "$CONF_DIR/missing_dependencies.txt"
+    (( ${#optionals[@]} )) && printf '%s\n' "${optionals[@]}" > "$message"
 
     [[ -z $main_dir ]] && {
         printf '%s\n' " ${critical}Variable main_dir in mpmrc is not defined...exiting!!!${nc}"

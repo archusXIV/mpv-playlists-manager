@@ -10,6 +10,8 @@ _GetCompleted() {
         clear
         printf '\n%s\n' " ${info}Downloads completed, temporary list preserved...${nc}"
         # downloadTmpList="downloaded"
+        mv -f "$M3UFILE"_origin "$M3UFILE"
+        mv -f "$TITLES"_origin "$TITLES"
         sleep 2
         unset downloadTmpList
     else

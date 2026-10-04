@@ -1,5 +1,5 @@
 
-    mpm version 2.7-4
+    mpm version 2.7-5
 
     MPV-PLAYLISTS-MANAGER usage:
 
@@ -53,7 +53,7 @@
 
     I) Main menu:
 
-                                    ::MPV-PLAYLISTS-MANAGER v.2.7-4::
+                                    ::MPV-PLAYLISTS-MANAGER v.2.7-5::
                                    ***********************************
                                         current theme: gruvbox.
         ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -311,6 +311,7 @@
         listening/watching content or quit mpv and do stuff on the list (remove,save,download etc...)
 
         See section 4-p) Play/Download a playlist: for parallel downloads.
+        Note that after downloading a temporary playlist you will be prompted to keep it or not.
 
     III) Audio conversion settings in mpmrc:
 

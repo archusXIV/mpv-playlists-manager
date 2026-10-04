@@ -26,7 +26,8 @@ Follow these steps described in this [issue thread](https://github.com/yt-dlp/yt
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
-## Changelog: version 2.7-4
+## Changelog: version 2.7-5
+- Fixed bug in _GetCompleted function when downloaded temporary playlist is also owned by mpv.
 - Refactored _CheckDependencies function.
 - Fixed bug in _IsMpmAlreadyRunning function, now sed sends mpm's pid to the kill command if we try to run mpm twice.
 - Removed a step to check/fix duplicate titles in _EditListTitles function.

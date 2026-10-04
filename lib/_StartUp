@@ -13,7 +13,7 @@ _StartUp() {
         mv -f "$DEFAULTM3UTITLES" "$DEFAULT_TITLES"
     }
 
-    if  [[ -n $(_PidOfMpv) && ! -e $tmp_dir/playerSelectedFile ]]; then
+    if _PidOfMpv >/dev/null && [[ ! -e $tmp_dir/playerSelectedFile ]]; then
         clear
         _BlankLine
         printf '%s\n' "                               ${critical}┌───────────────────────────────────────────────────────────┐" \
@@ -28,7 +28,7 @@ _StartUp() {
 
         case "$quitmpv" in
             [nN]) _Menu ;;
-            y|*)
+            [yY]|"")
                 _KillMpv
                 rm "$pidofMpv"
                 _Menu
@@ -44,7 +44,11 @@ _StartUp() {
         read -t 3 -rsn 1
         case "$REPLY" in *) _Menu ;; esac
     else
-        rm {"$NOWPLAYING","$tmp_dir"/temporary*} 2>/dev/null
+        {
+            rm {"$NOWPLAYING","$tmp_dir"/temporary*}
+            _KillMpv && _RemoveMpvTmp
+            sed -i '2,$d' "$MPM_PIDS"
+        } 2>/dev/null
         _Menu
     fi
 

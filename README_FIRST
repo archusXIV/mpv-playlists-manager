@@ -1,6 +1,6 @@
 Author: Barret E <archus@protonmail.com>
 <https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm>
-mpm version 2.7-4 (2021-26)
+mpm version 2.7-5 (2021-26)
 
 Dependencies: ffmpeg, jq, mpv, socat, vim (any terminal text editor), yt-dlp.
 Optionals but recommended: (
@@ -13,11 +13,13 @@ Youtube-dl is for now kind of unmaintained so install yt-dlp
 https://github.com/yt-dlp/yt-dlp/releases
 sudo pacman -S yt-dlp (it's just the continuation of youtube-dl).
 
-This script reaps video urls from Youtube and so on. In our case we use ".m3u" files
-to store urls and then be able to stream/download audio/videos from the site itself.
-Converting .webm files is done using ffmpeg directly or through the parallel program.
-We can save, remove, edit and schedule playlists. The mpm configuration file can also
-be parse and edit during the session and changes will take effect immediately.
+This script rips video urls from YouTube and so on, take a look at this URL:
+https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md.
+mpm uses ".m3u" files to store urls that the user is able to stream/download audio/videos.
+Converting .webm files is done using ffmpeg directly or the parallel program.
+We can save, remove, edit and schedule playlists.
+The mpm configuration file can also be parse and edit during the session.
+(changes will take effect immediately)
 
 The installation script will create two configuration files (mpmrc,themerc)
 as ~/.config/mpm/{mpmrc,themerc}, so please edit those files first and make sure
@@ -26,11 +28,9 @@ the directory names and structure are correctly set. The syntax is shell scripti
 Changelog:
 ------------------------------- NO CHANGES IN CONFIG FILES --------------------------------
 IMPORTANT YT-DLP & DEPENDENCY UPDATE PLEASE CHECK THE GITHUB PAGE OR INSTALL yt-dlp-ejs
+version 2.7-5 - Fixed bug in _GetCompleted function when downloaded temporary playlist
+                is also owned by mpv.
 version 2.7-4 - Refactored _CheckDependencies function.
 version 2.7-4 - Fixed bug in _IsMpmAlreadyRunning function, now sed sends mpm's pid to the
                 kill command if we try to run mpm twice.
 version 2.7-4 - Removed a step to check/fix duplicate titles in _EditListTitles function.
-version 2.7-3 - Fixed bug in _IsMpmAlreadyRunning function causing mpm to launch a second instance.
-version 2.7-3 - Added .mkv files to the $EXTENSIONS list checked while trying to store
-                links in temporary lists if files already exist in the destination folder.
-version 2.7-3 - Removed unecessary code in _IfDuplicatesUrls & _IfDuplicatesFiles functions.

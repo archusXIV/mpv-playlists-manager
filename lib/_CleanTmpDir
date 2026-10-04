@@ -8,7 +8,7 @@ _CleanTmpDir() {
     test -s "$DEFAULT_TITLES" && mv -f "$DEFAULT_TITLES" "$DEFAULTM3UTITLES"
 
     if _PidOfMpv >/dev/null; then
-        # List of files to preserve
+        # List of files to preserve if in use
         declare -a preserveFromDeletion=(
             "nowPlaying"
             "defaultTitles_"
