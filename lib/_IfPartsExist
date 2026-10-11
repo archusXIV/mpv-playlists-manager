@@ -54,10 +54,6 @@ _IfPartsExist() {
                 mv --force "$origin" "$urls"
                 mv --force "${titles}_origin" "$titles"
                 break
-            else
-                # this is just a debug test
-                echo -e "$origin\n$urls"
-                sleep 2
             fi
         done
 
