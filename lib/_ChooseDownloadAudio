@@ -80,10 +80,9 @@ _ChooseDownloadAudio() {
 
     unset url
     clear
-    _IfPartsExist && {
-        _UpdateSelected --selection
-        _RemoveAudioVideoIds
-        _IfWebmFiles
-    }
+    _IfPartsExist || _Menu
+    _UpdateSelected --selection
+    _RemoveAudioVideoIds
+    _IfWebmFiles
 
 }

@@ -9,7 +9,6 @@ _GetCompleted() {
     if [[ $downloadTmpList =~ default|list ]]; then
         clear
         printf '\n%s\n' " ${info}Downloads completed, temporary list preserved...${nc}"
-        # downloadTmpList="downloaded"
         mv -f "$M3UFILE"_origin "$M3UFILE"
         mv -f "$TITLES"_origin "$TITLES"
         sleep 2
@@ -30,7 +29,7 @@ _GetCompleted() {
         sleep 2
 
         rm {"$M3UFILE"{,_origin},"$TITLES"{,_origin}}
-        rm -f "$tmp_dir"/{list_tmp,parallel.log} 2>/dev/null
+        rm -f "$tmp_dir"/list_tmp 2>/dev/null
     fi
 
     _PolybarIpc

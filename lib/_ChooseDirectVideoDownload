@@ -61,10 +61,9 @@ _ChooseDirectVideoDownload() {
     fi
 
     unset url
-    _IfPartsExist && {
-        _UpdateSelected --selection
-        _RemoveAudioVideoIds
-        _DownloadCompleted
-    }
+    _IfPartsExist || _Menu
+    _UpdateSelected --selection
+    _RemoveAudioVideoIds
+    _DownloadCompleted
 
 }

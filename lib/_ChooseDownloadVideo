@@ -81,10 +81,9 @@ _ChooseDownloadVideo() {
         ;;
     esac
 
-    _IfPartsExist && {
-        _UpdateSelected --selection
-        _RemoveAudioVideoIds
-        _DownloadCompleted
-    }
+    _IfPartsExist || _Menuw
+    _UpdateSelected --selection
+    _RemoveAudioVideoIds
+    _DownloadCompleted
 
 }

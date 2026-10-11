@@ -73,9 +73,9 @@ _DownloadVideoList() {
         esac
     fi
 
-    _IfPartsExist && {
-        _RemoveAudioVideoIds
-        _DownloadCompleted
-    }
+    _IfPartsExist || _Menu
+    _RemoveAudioVideoIds
+    _DownloadCompleted
+
 
 }

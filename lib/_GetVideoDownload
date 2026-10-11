@@ -64,12 +64,10 @@ _GetVideoDownload() {
             unset url
         fi
     }
-
+    _IfPartsExist || _Menu
     echo -e " ${info}Done\n${nc}"
     sleep 2
-    _IfPartsExist && {
-        _RemoveAudioVideoIds
-        _GetCompleted
-    }
+    _RemoveAudioVideoIds
+    _GetCompleted
 
 }

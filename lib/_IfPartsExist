@@ -5,8 +5,29 @@
 _IfPartsExist() {
 
     cd "$mediaDir" || return
-    # waiting for downloads to complete and ensure that parts can exist.
-    sleep 1
+
+    # Wait for downloads to actually finish before checking for leftovers.
+    # A fixed 'sleep 1' is a race: yt-dlp writes to .part/.temp files and
+    # renames them to their final extension only at the very end of each job.
+    # In progress-animation mode the loop exits as soon as the FILE COUNT
+    # reaches the expected total, which can happen while other in-flight jobs
+    # still have .part files being finalized. We therefore wait until no
+    # yt-dlp process is running anymore.
+    #
+    # We must ALSO wait for ffmpeg: with '--merge-output-format mp4', yt-dlp
+    # spawns ffmpeg to merge/mux the audio+video streams. ffmpeg is a SEPARATE
+    # child process, so yt-dlp can be gone while ffmpeg is still writing the
+    # final .mp4 and the partial streams still exist. Both must be idle before
+    # we scan for leftovers. Bounded, so we never hang forever.
+    local -i wait_cycles=0
+    local -r max_wait_cycles=120  # ~120 x 0.5s = 60s safety cap
+    while pgrep -x yt-dlp >/dev/null 2>&1 \
+       || pgrep -x ffmpeg >/dev/null 2>&1; do
+        sleep 0.5
+        ((wait_cycles++))
+        ((wait_cycles >= max_wait_cycles)) && break
+    done
+
     mapfile -t parts < <(
         find . \
         -mindepth 1 \
@@ -33,6 +54,10 @@ _IfPartsExist() {
                 mv --force "$origin" "$urls"
                 mv --force "${titles}_origin" "$titles"
                 break
+            else
+                # this is just a debug test
+                echo -e "$origin\n$urls"
+                sleep 2
             fi
         done
 

@@ -16,7 +16,7 @@ _ParallelDownloadCmd() {
             :
         else
             sed -i '1,$d' {"$M3UFILE","$TITLES"}
-            [[ $M3UFILE == "$DEFAULT_LIST" ]] && echo "#EXTM3U" > "$DEFAULT_LIST"            
+            [[ $M3UFILE == "$DEFAULT_LIST" ]] && echo "#EXTM3U" > "$DEFAULT_LIST"
         fi
         rm -f {"$JOBSLIST","$tmp_dir"/parallel.log}
         clear
@@ -29,40 +29,58 @@ _ParallelDownloadCmd() {
         "${ytdlPreset_MR[@]}"
     )
 
-    __sedAudioVideoCmd() {
-        # we use commas instead of slashes as fields separators,
-        # because we need ${ytfmt[@]:1:2} outside of sed too but later in option xargs.
-        case $1 in
-            audio) sed -i "s,^,${ytfmt[0]} ${ytfmt[1]} ${ytdlPreset_NC[*]} ," "$2" ;;
-            video)
-                if [[ ${ytdlPreset_MR[*]} ]]; then
-                    sed -i "s,^,${ytfmt[0]} ${ytfmt[3]} ${ytdlPreset_X[*]} ," "$2"
-                else
-                    sed -i "s,^,${ytfmt[0]} ${ytfmt[2]} ${ytdlPreset_X[*]} ," "$2"
-                fi
-            ;;
-        esac
+    __waitForPidToFinish() { pid=$!; wait "$pid"; }
+
+    # Extract only the media URLs (lines starting with https) from a list file
+    # into parallel's argument file. We do NOT build shell command lines here:
+    # the URLs are passed to parallel as ARGUMENTS, and the yt-dlp command is
+    # given once on parallel's own command line with {} as the placeholder.
+    # GNU parallel then quotes each argument for the sub-shell, so characters
+    # like & ? = ( ) in URLs can never be re-parsed as shell syntax.
+    __makeArgFile() {
+        # Args:
+        #   $1: source list file (m3u)
+        #   $2: destination argument file (one URL per line)
+        while read -r line; do
+            [[ $line =~ ^https ]] && printf '%s\n' "$line"
+        done < "$1" > "$2"
     }
 
-    __waitForPidToFinish() { pid=$!; wait "$pid"; }
+    # Build the yt-dlp argument set for audio or video as a global array that
+    # the parallel command line will expand. Using arrays (not a flat string)
+    # preserves each option as a single word for parallel to quote.
+    __setDlArgs() {
+        # Args:
+        #   $1: 'audio' or 'video'
+        if [[ $1 == audio ]]; then
+            dlArgs=(--format "${ytfmt[1]}" "${ytdlPreset_NC[@]}")
+        else
+            if [[ ${ytdlPreset_MR[*]} ]]; then
+                dlArgs=(--format "${ytdlPreset_MR[@]}" "${ytdlPreset_X[@]}")
+            else
+                dlArgs=(--format "${ytfmt[2]}" "${ytdlPreset_X[@]}")
+            fi
+        fi
+    }
 
     case $1 in
         parallel)
             case "$2" in
                 --choose-audio|--choose-video)
-                    cp "$M3UFILE" "$JOBSLIST"
+                    __makeArgFile "$M3UFILE" "$JOBSLIST"
                     if [[ $2 == "--choose-audio" ]]; then
-                        __sedAudioVideoCmd audio "$JOBSLIST"
+                        __setDlArgs audio
                         Jobs="${parallel_audio_jobs}"
                     else
-                        __sedAudioVideoCmd video "$JOBSLIST"
+                        __setDlArgs video
                         Jobs="${parallel_video_jobs}"
                     fi
                     {
                         parallel \
-                        --retry-failed \
+                        --retries 2 \
                         --joblog "$tmp_dir"/parallel.log \
-                        --jobs "${Jobs}" < "$JOBSLIST"
+                        --jobs "${Jobs}" \
+                        yt-dlp "${dlArgs[@]}" {} :::: "$JOBSLIST"
                         __waitForPidToFinish "$@"
                         __cleanListsAndTitles
                     } &
@@ -70,18 +88,20 @@ _ParallelDownloadCmd() {
                 --get-audio|--get-video|--direct-video)
                     if [[ $2 == '--get-audio' ]]; then
                         [[ $M3UFILE != "$AUDIO_URLS" ]] && sed -i '1d' "$M3UFILE"
-                        __sedAudioVideoCmd audio "$M3UFILE"
+                        __setDlArgs audio
                         Jobs="${parallel_audio_jobs}"
                     else
                         [[ $M3UFILE != "$VIDEO_URLS" ]] && sed -i '1d' "$M3UFILE"
-                        __sedAudioVideoCmd video "$M3UFILE"
+                        __setDlArgs video
                         Jobs="${parallel_video_jobs}"
                     fi
+                    __makeArgFile "$M3UFILE" "$JOBSLIST"
                     {
                         parallel \
-                        --retry-failed \
+                        --retries 2 \
                         --joblog "$tmp_dir"/parallel.log \
-                        --jobs "${Jobs}" < "$M3UFILE"
+                        --jobs "${Jobs}" \
+                        yt-dlp "${dlArgs[@]}" {} :::: "$JOBSLIST"
                         __waitForPidToFinish "$@"
                         __cleanListsAndTitles
                     } &

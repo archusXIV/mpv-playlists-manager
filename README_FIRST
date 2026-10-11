@@ -28,6 +28,8 @@ the directory names and structure are correctly set. The syntax is shell scripti
 Changelog:
 ------------------------------- NO CHANGES IN CONFIG FILES --------------------------------
 IMPORTANT YT-DLP & DEPENDENCY UPDATE PLEASE CHECK THE GITHUB PAGE OR INSTALL yt-dlp-ejs
+version 2.7-5 - Refactored _DownloadCompleted function.
+version 2.7-5 - Fixed bug in _IfPartsExist function as yt-dlp is still processing merged files.
 version 2.7-5 - Fixed bug in _GetCompleted function when downloaded temporary playlist
                 is also owned by mpv.
 version 2.7-4 - Refactored _CheckDependencies function.

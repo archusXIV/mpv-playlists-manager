@@ -76,9 +76,8 @@ _GetAudioDownload() {
 
     echo -e " ${info}Done\n${nc}"
     sleep 2
-    _IfPartsExist && {
-        _RemoveAudioVideoIds
-        _IfWebmFiles
-    }
+    _IfPartsExist || _Menu
+    _RemoveAudioVideoIds
+    _IfWebmFiles
 
 }

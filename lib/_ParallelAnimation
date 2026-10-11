@@ -37,6 +37,7 @@ _ParallelAnimation() {
             max_downloaded=0
 
             until ((max_downloaded == total)); do
+
                 downloaded=0
                 for file in "$mediaDir"/*; do
                     file_ext="${file##*.}"
@@ -44,16 +45,20 @@ _ParallelAnimation() {
                         ((downloaded++))
                     fi
                 done
+
                 # Update max_downloaded to prevent backward progress
                 if ((downloaded > max_downloaded)); then
                     max_downloaded=$downloaded
                 fi
+
                 # Calculate percentage and blocks with ceiling division
                 percent=$(((max_downloaded * 100 + total - 1) / total))
                 blocks=$(((max_downloaded * bar_width + total - 1) / total))
+
                 # Cap at 100% and full bar width
                 ((percent > 100)) && percent=100
                 ((blocks > bar_width)) && blocks=$bar_width
+
                 # Build and display progress bar
                 empty=$((bar_width - blocks))
                 bar=""
@@ -62,10 +67,17 @@ _ParallelAnimation() {
                 printf "\r [%s] %3d%%" "$bar" "$percent"
                 ((percent == 100)) && sleep 1
 
+                # Downloads are over: __cleanListsAndTitles has wiped the
+                # titles file. Some jobs failed, don't loop forever below
+                # 100%; the bar itself never moves backward.
+                [[ ! -s $animationTitles ]] && {
+                    printf '\n'
+                    break
+                }
+
             done
-            clear
+            tput clear
         ;;
     esac
-    # sleep 0.5
 
 }
