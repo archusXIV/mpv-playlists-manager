@@ -1,6 +1,6 @@
 Author: Barret E <archus@protonmail.com>
 <https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm>
-mpm version 2.7-5 (2021-26)
+mpm version 2.7-6 (2021-26)
 
 Dependencies: ffmpeg, jq, mpv, socat, vim (any terminal text editor), yt-dlp.
 Optionals but recommended: (
@@ -28,11 +28,10 @@ the directory names and structure are correctly set. The syntax is shell scripti
 Changelog:
 ------------------------------- NO CHANGES IN CONFIG FILES --------------------------------
 IMPORTANT YT-DLP & DEPENDENCY UPDATE PLEASE CHECK THE GITHUB PAGE OR INSTALL yt-dlp-ejs
+version 2.7-6 - fixed _RemoveDuplicateLines function that could create a new line.
+version 2.7-6 - Removed keybindinds from the 'native player' header and added ctrl-k to
+                display them all in a separate view (much cleaner).
 version 2.7-5 - Refactored _DownloadCompleted function.
 version 2.7-5 - Fixed bug in _IfPartsExist function as yt-dlp is still processing merged files.
 version 2.7-5 - Fixed bug in _GetCompleted function when downloaded temporary playlist
                 is also owned by mpv.
-version 2.7-4 - Refactored _CheckDependencies function.
-version 2.7-4 - Fixed bug in _IsMpmAlreadyRunning function, now sed sends mpm's pid to the
-                kill command if we try to run mpm twice.
-version 2.7-4 - Removed a step to check/fix duplicate titles in _EditListTitles function.

@@ -19,8 +19,8 @@ _DownloadCompleted() {
         "$SELECTED_TITLES" "$SELECTED_TITLES"_origin
         "$tmp_dir/list_tmp" "$tmp_dir/list_tmp_origin"
     )
-    local backup
 
+    local backup
     for backup in "${backups[@]}"; do
         # when no backup exists the glob remains literal
         [[ -e $backup ]] || continue

@@ -26,10 +26,9 @@ Follow these steps described in this [issue thread](https://github.com/yt-dlp/yt
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
-## Changelog: version 2.7-5
-- Refactored _DownloadCompleted function.
-- Fixed bug in _IfPartsExist function as yt-dlp is still processing merged files.
-- Fixed bug in _GetCompleted function when downloaded temporary playlist is also owned by mpv.
+## Changelog: version 2.7-6
+- fixed _RemoveDuplicateLines function that could create a new line.
+- Removed keybindinds from the 'native player' header and added ctrl-k to display them all in a separate view (much cleaner).
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -53,7 +52,7 @@ mpvc_tui="<your_mpv_tui_here>"
 # Colors can be change in ~/.config/mpm/themerc.
 mpvc_tui="native"
 ```
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/mpm_player_v1.2.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/mpm_player_v1.5.png)
 
 ## Integrated programs settings in mpmrc file
 - I also provide a new script (somabox) to listen to somafm.com radio stations through option 5). Place it in your $PATH,

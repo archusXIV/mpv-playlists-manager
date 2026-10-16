@@ -53,38 +53,24 @@ _FzfPlayer() {
         fi
     }
 
+    __bindings() {
+        clear
+        echo -e "\n ${info}Press Ctrl-C to quit this menu.${nc}"
+        tail -f -n 11 "$DOC_DIR"/mpm_bindings
+    }
+
     export -f __passPlaylistIndexToMpv
     export -f __volume
     export -f __getCurrentIndex
+    export -f __bindings
     __getCurrentIndex
 
     # this function is in ~/.config/mpm/themerc
     _NativePlayerColors "$native_tui_colors"
 
-    declare -a header=(
-        "Enter:play," "Left:-30s," "Right:+30s,"
-        "^N:next," "^P:prev," "^T:toggle pause,"
-        "^R:reload," "^V:volume," "ESC:exit," "^X:quit mpv:"
-    )
-
     # Even though this works without a while loop, we get better rendering with it.
     while [[ -s playerSelectedFile ]]; do
         fzf \
-        --cycle \
-        --track \
-        --reverse \
-        --no-multi \
-        --pointer '|>' \
-        --scroll-off=5 \
-        --no-scrollbar \
-        --border rounded \
-        --prompt='Search: ' \
-        --preview-window=down:1:noinfo \
-        --preview="(_MpvSocketCommands --title)" \
-        --header-first \
-        --header "${header[*]}
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        " \
         --bind "load:pos($((current_index + 1)))" \
         --bind "enter:execute(
                 echo {} > playerSelectedFile; __passPlaylistIndexToMpv \
@@ -95,9 +81,29 @@ _FzfPlayer() {
         --bind "ctrl-p:execute(_MpvSocketCommands --prev)" \
         --bind "ctrl-t:execute(_MpvSocketCommands --pause)" \
         --bind "ctrl-r:execute(_MpvSocketCommands --begin)" \
+        --bind "ctrl-k:execute(__bindings)" \
         --bind "ctrl-v:execute(__volume)" \
         --bind "ctrl-x:execute(_MpvSocketCommands --stop; rm ./playerSelectedFile)+abort" \
-        --bind "esc:execute(sed -i '1d' ./playerSelectedFile)+abort" < playerIndexesList
+        --bind "esc:execute(sed -i '1d' ./playerSelectedFile)+abort" < playerIndexesList \
+        --border rounded \
+        --color 'input-label:bold:red' \
+        --cycle \
+        --header-first \
+        --header 'Press Ctrl-K for keybindings.' \
+        --info inline-right \
+        --input-border rounded \
+        --input-label-pos top \
+        --input-label ' search ' \
+        --list-border rounded \
+        --no-multi \
+        --no-scrollbar \
+        --padding 2% \
+        --pointer '|>' \
+        --preview-window=down:1:noinfo \
+        --preview="(_MpvSocketCommands --title)" \
+        --reverse \
+        --scroll-off=5 \
+        --track
     done
 
     export FZF_DEFAULT_OPTS=
