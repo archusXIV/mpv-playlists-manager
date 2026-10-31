@@ -26,9 +26,11 @@ Follow these steps described in this [issue thread](https://github.com/yt-dlp/yt
 ## Please update your mpmrc file on each release
 When upgrading mpm, a ~/.config/mpm/mpmrc.diff will be created and merged with your mpmrc file, of course a backup will be generated under mpmrc.orig. Remember some of the changes are **crucial**...
 
-## Changelog: version 2.7-6
-- fixed _RemoveDuplicateLines function that could create a new line.
-- Removed keybindinds from the 'native player' header and added ctrl-k to display them all in a separate view (much cleaner).
+## Changelog: version 2.7-7
+- The somabox script was refactored and is now in version 0.9
+- Added a vim like theme (vim-like) for the main window & native mpv interface
+- Added colors name used by fzf in the default & native mpv interface theme
+- Change the way audio conversion uses xargs, the loop is no longer necessary
 
 ## Mpv interfaces
 - Mpv terminal user interface can be used to pick & choose playlist items while mpv is running.
@@ -52,7 +54,7 @@ mpvc_tui="<your_mpv_tui_here>"
 # Colors can be change in ~/.config/mpm/themerc.
 mpvc_tui="native"
 ```
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/mpm_player_v1.5.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/mpm_player_v1.3.png)
 
 ## Integrated programs settings in mpmrc file
 - I also provide a new script (somabox) to listen to somafm.com radio stations through option 5). Place it in your $PATH,
@@ -61,7 +63,7 @@ and change mpmrc setting to 'yes'
 use_somabox="yes"
 ```
 
-![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/somabox_v0.8.png)
+![screenshot](https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/somabox_v0.9.png)
 - As mentioned above mpv command line tools and terminal interface.
 - ffmpeg, mpv, ytfzf & yt-dlp options can be set in your mpmrc through their respective bash arrays.
 - Audio & Videos directories are defined in your [mpmrc](https://github.com/archusXIV/mpv-playlists-manager/blob/main/doc/mpmrc#L77) file (change them according to your locales).
@@ -73,12 +75,12 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
 
 <table width="100%">
   <tr>
-    <th>Retro</th>
+    <th>Vim-like</th>
     <th>Solarized</th>
   </tr>
   <tr>
     <td width="50%">
-      <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/retro.png" />
+      <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/vim-like.png" />
     </td>
     <td width="50%">
       <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/solarized.png" />
@@ -86,14 +88,14 @@ default theme will use your ~/.Xresources colors or your terminal preferences.
   </tr>
   <tr>
     <th>TokyoNight</th>
-    <th>C64</th>
+    <th>Nord</th>
   </tr>
   <tr>
     <td width="50%">
       <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/tokyonight.png" />
     </td>
     <td width="50%">
-      <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/c64.png" />
+      <img src="https://github.com/archusXIV/mpv-playlists-manager/blob/main/screenshots/nord.png" />
     </td>
   </tr>
 </table>

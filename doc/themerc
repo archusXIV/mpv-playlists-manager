@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ~/.config/mpm/themerc (version 2.7-6)
+# ~/.config/mpm/themerc (version 2.7-7)
 
 ###########################################################################
 #'########:'##::::'##:'########:'##::::'##:'########:'########:::'######::#
@@ -23,10 +23,15 @@
 ### task=infos like: direct download, audio conversion type etc...
 ### customColors is called from lib/_LittleStars function.
 
-# set your default background color here, it will be used when you quit the app.
-default_bg="#1e1f29"
-# if you use ~/.Xresources with colors, uncomment the line below.
-# default_bg=$(xrdb -query | awk '/background:/{print $NF}')
+# set your default background/foreground color here, it will be used when you quit the app.
+if [[ -f ~/.Xresources ]]; then
+    default_bg=$(xrdb -query | awk '/background:/{print $NF}')
+    default_fg=$(xrdb -query | awk '/foreground:/{print $NF}')
+else
+    default_bg="#1e1f29"
+    default_fg="#fff999"
+fi
+
 # if you want to recall variables below, use double quotes.
 
 # NATIVE PLAYER THEMES
@@ -35,19 +40,22 @@ _NativePlayerColors() {
     case "$1" in
         default)
             export FZF_DEFAULT_OPTS="
-                --color=header:bold:#87afaf
-                --color=fg:#af5faa,fg+:#ffffff,bg:$default_bg,bg+:#2e3944
-                --color=hl:#5f87af,hl+:#5fd7ff,info:#afaf87
-                --color=prompt:#af5fff,spinner:#af5fff,pointer:#af5fff
-                --color=border:#554476,label:#5fd7ff,query:#d9d9d9
+                --color=header:bold:cyan
+                --color=fg:$default_fg,fg+:white
+                --color=bg:$default_bg,bg+:$default_bg
+                --color=hl:magenta,hl+:cyan
+                --color=info:blue,prompt:yellow
+                --color=pointer:red,query:$default_fg
+                --color=border:$default_fg,label:green
+                --color=input-label:red
                 --border-label-pos='102:bottom'
-                --border-label '| theme: default |'
+                --border-label '[ theme: default ]'
             "
         ;;
         c64)
             export FZF_DEFAULT_OPTS="
                 --color=header:bold:#DD8855
-                --color=fg:#0088FF,fg+:#ffffff,bg:#0000AA,bg+:#0000AA
+                --color=fg:#0000AA,fg+:#ffffff,bg:#0088ff,bg+:#0000AA
                 --color=hl:#FF7777,hl+:#AAFF66,info:#AAFFEE
                 --color=prompt:#AAFF66,spinner:#880000,pointer:#CC44CC
                 --color=border:#BBBBBB,label:#EEEE77,query:#BBBBBB
@@ -154,6 +162,17 @@ _NativePlayerColors() {
                 --border-label '[ theme: solarized ]'
             "
         ;;
+        vim-like)
+            export FZF_DEFAULT_OPTS="
+                --color=header:bold:#596366
+                --color=bg+:#000000,bg:#000000,border:#ffffff
+                --color=spinner:#bf4505,hl:#bf4505,fg:#ffffff
+                --color=info:#18a0d2,pointer:#b33891,fg+:#a4771a
+                --color=preview-bg:#171717,prompt:#b33891,hl+:#18a0d2
+                --border-label-pos='101:bottom'
+                --border-label '[ theme: vim-like ]'
+            "
+        ;;
     esac
 
 }
@@ -182,13 +201,13 @@ _Theme() {
             "0x81 0x7c 0x5c" "0xf8 0xf8 0xf0" )
         ;;
         c64)
-            bg="#0000AA"
-            nc=$'\e[38;2;0;136;255m';         #0088ff "0x00 0x88 0xff"
+            bg="#0088ff"
+            nc=$'\e[38;2;0;136;255m';         #0000AA "0x00 0x00 0xaa"
             critical=$'\e[38;2;255;119;119m'; #FF7777 "0xff 0x77 0x77"
             info=$'\e[38;2;170;255;102m';     #AAFF66 "0xaa 0xff 0x66"
             mtitle=$'\e[38;2;170;255;238m';   #AAFFEE "0xaa 0xff 0xee"
             task=$'\e[38;2;255;255;255m';     #ffffff "0xff 0xff 0xff"
-            customColors=( "0x00 0x88 0xff" "0xff 0x77 0x77" "0xaa 0xff 0x66" \
+            customColors=( "0x00 0x88 0xaa" "0xff 0x77 0x77" "0xaa 0xff 0x66" \
             "0xaa 0xff 0xee" "0xff 0xff 0xff" )
         ;;
         dracula)
@@ -317,6 +336,16 @@ _Theme() {
             task=$'\e[38;2;15;130;157m';      #0F829D "0x0f 0x82 0x9d"
             customColors=( "0x74 0x91 0xa1" "0xd1 0x45 0x48" "0xa7 0xb7 0x9a" \
             "0xf9 0xbb 0x80" "0x0f 0x82 0x9d" )
+        ;;
+        vim-like)
+            bg="#000000"
+            nc=$'\e[38;2;255;255;255m';       #ffffff "0xff 0xff 0xff"
+            critical=$'\e[38;2;189;24;4m';    #bd1804 "0xbd 0x18 0x04"
+            info=$'\e[38;2;179;56;145m';      #b33891 "0xb3 0x38 0x91"
+            mtitle=$'\e[38;2;164;119;26m';    #a4771a "0xa4 0x77 0x1a"
+            task=$'\e[38;2;24;160;210m';      #18a0d2 "0x18 0xa0 0xd2"
+            customColors=( "0xff 0xff 0xff" "0xbd 0x18 0x04" "0xb3 0x38 0x91" \
+            "0xa4 0x77 0x1a" "0x18 0xa0 0xd2" )
         ;;
         zenburn)
             bg="#1f1f1f"

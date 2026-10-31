@@ -11,8 +11,7 @@ _ConvertAudio() {
         _Menu
     }
 
-    local webmFiles
-
+    local -a webmFiles=()
     mapfile -t webmFiles < <(find . -iname "*.webm")
 
     if [[ -n $default_conversion_format ]]; then
@@ -63,20 +62,21 @@ _ConvertAudio() {
                 sleep 2
             ;;
             *)
-                find "$audios_dir" -maxdepth 2 -name "*.webm" >/dev/null && {
-                    mv --force ./*.webm "$MUSIC_DIR"
-                    _BlankLine
-                    printf '%s\n' " ${critical}Conversion aborted or wrong option," \
-                    " All .webm files have been moved in ${MUSIC_DIR##*/}.${nc}"
-                    sleep 4
-                    _BlankLine
-                }
+                for webmFile in "${webmFiles[@]}"; do
+                    mv -f "$webmFile" "$MUSIC_DIR"
+                done >/dev/null 2>&1
+                _BlankLine
+                printf '%s\n' " ${critical}Conversion aborted or wrong option," \
+                " All .webm files have been moved in ${MUSIC_DIR##*/}.${nc}"
+                sleep 4
+                _BlankLine
             ;;
         esac
 
     fi
 
-    find . -iname "*.webm" -exec rm {} \; >/dev/null 2>&1
+    for webmFile in "${webmFiles[@]}"; do rm "$webmFile"; done >/dev/null 2>&1
+    # find . -iname "*.webm" -exec rm {} \; >/dev/null 2>&1
     clear
 
 }

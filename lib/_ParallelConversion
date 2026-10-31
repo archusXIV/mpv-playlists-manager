@@ -1,28 +1,24 @@
 #!/usr/bin/env bash
 ## This is a part of main script: mpm.
 
-# shellcheck disable=SC2154,SC2038,SC1083
+# shellcheck disable=SC2154,SC2038,SC1083,SC2016
 _ParallelConversion() {
 
-    __parallelMethod() (
+    __parallelMethod() {
         printf '%s\n' " ${info}Parallel conversion enabled.${nc}"
         parallel --jobs "$parallel_threads" --bar \
         ffmpeg -hide_banner -loglevel quiet \
         -y -i {} -qscale:a 0 {.}."$1" ::: ./*.webm
-    )
+    }
 
-    __xargsMethod() (
+    __xargsMethod() {
+        local -a webmFiles=()
+        mapfile -t webmFiles < <(find "$mediaDir" -iname "*.webm")
         printf '%s\n' " ${info}use_parallel is set to no... using xargs.${nc}"
-        find . -iname "*.webm" | xargs -I % -P "$parallel_threads" \
-        ffmpeg -hide_banner -loglevel quiet -y -i % %."$1"
-        # removing the primary suffix from our converted_files.webm.{aac,mp3,flac,ogg,wav}
-        mapfile -t files < <(find "$mediaDir" -type f -name "*.webm.*")
-        for ext in "${files[@]}"; do
-            n="${ext##*/}"
-            mv -n "$ext" "${ext%/*}/${n//.webm/}"
-        done
-        unset ext files
-    )
+        # stripping the .webm suffix in a child shell so ffmpeg writes the final name directly
+        printf '%s\0' "${webmFiles[@]}" | xargs -0 -I {} -P "$parallel_threads" \
+            sh -c 'ffmpeg -hide_banner -loglevel quiet -y -i "$1" "${1%.webm}.$2"' _ {} "$1"
+    }
 
     case "$1" in
         --parallel-default) __parallelMethod "$default_conversion_format" ;;

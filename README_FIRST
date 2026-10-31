@@ -1,6 +1,6 @@
 Author: Barret E <archus@protonmail.com>
 <https://github.com/archusXIV/mpv-playlists-manager/blob/main/mpm>
-mpm version 2.7-6 (2021-26)
+mpm version 2.7-7 (2021-26)
 
 Dependencies: ffmpeg, jq, mpv, socat, vim (any terminal text editor), yt-dlp.
 Optionals but recommended: (
@@ -28,10 +28,10 @@ the directory names and structure are correctly set. The syntax is shell scripti
 Changelog:
 ------------------------------- NO CHANGES IN CONFIG FILES --------------------------------
 IMPORTANT YT-DLP & DEPENDENCY UPDATE PLEASE CHECK THE GITHUB PAGE OR INSTALL yt-dlp-ejs
+version 2.7-7 - The somabox script was refactored and is now in version 0.9.
+version 2.7-7 - Added a vim like theme (vim-like) for the main window & native mpv interface.
+version 2.7-7 - Added colors name used by fzf in the default & native mpv interface theme.
+version 2.7-7 - Change the way audio conversion uses xargs, the loop is no longer necessary.
 version 2.7-6 - fixed _RemoveDuplicateLines function that could create a new line.
 version 2.7-6 - Removed keybindinds from the 'native player' header and added ctrl-k to
                 display them all in a separate view (much cleaner).
-version 2.7-5 - Refactored _DownloadCompleted function.
-version 2.7-5 - Fixed bug in _IfPartsExist function as yt-dlp is still processing merged files.
-version 2.7-5 - Fixed bug in _GetCompleted function when downloaded temporary playlist
-                is also owned by mpv.

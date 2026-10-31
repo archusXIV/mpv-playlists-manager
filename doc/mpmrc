@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ~/.config/mpm/mpmrc (version 2.7-6)
+# ~/.config/mpm/mpmrc (version 2.7-7)
 
 ########################################################
 #'##::::'##:'########::'##::::'##:'########:::'######::#
@@ -43,7 +43,7 @@ schedule_delay=30
 mainThemes=(
     default blacksea c64 dracula embers gotham
     gruvbox jellybeans monokai nord pistachio
-    retro solarized TokyoNight vacuous zenburn
+    retro solarized TokyoNight vacuous vim-like zenburn
 )
 THEME="default"
 
@@ -220,7 +220,7 @@ mpvc_tui="native"
 # in ~/.config/mpm/themerc (_NativePlayerColors function)!!!
 nativeThemes=(
     default c64 dark embers gruvbox jellybeans
-    molokai nord retro seoul256 solarized
+    molokai nord retro seoul256 solarized vim-like
 )
 
 native_tui_colors="default"
